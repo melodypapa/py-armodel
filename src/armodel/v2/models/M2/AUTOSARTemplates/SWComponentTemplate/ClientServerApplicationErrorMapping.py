@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ClientServerApplicationErrorMapping(ARObject):
     """
     This meta-class represents the ability to map ApplicationErrors onto each
     other.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerApplicationErrorMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 129, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def first_application(self, value: Optional["ApplicationError"]) -> None:
         """
         Set firstApplication with validation.
-        
+
         Args:
             value: The firstApplication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def second(self, value: Optional["ApplicationError"]) -> None:
         """
         Set second with validation.
-        
+
         Args:
             value: The second to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def getFirstApplication(self) -> "ApplicationError":
         """
         AUTOSAR-compliant getter for firstApplication.
-        
+
         Returns:
             The firstApplication value
-        
+
         Note:
             Delegates to first_application property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def setFirstApplication(self, value: "ApplicationError") -> "ClientServerApplicationErrorMapping":
         """
         AUTOSAR-compliant setter for firstApplication with method chaining.
-        
+
         Args:
             value: The firstApplication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_application property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class ClientServerApplicationErrorMapping(ARObject):
     def getSecond(self) -> "ApplicationError":
         """
         AUTOSAR-compliant getter for second.
-        
+
         Returns:
             The second value
-        
+
         Note:
             Delegates to second property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def setSecond(self, value: "ApplicationError") -> "ClientServerApplicationErrorMapping":
         """
         AUTOSAR-compliant setter for second with method chaining.
-        
+
         Args:
             value: The second to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def with_first_application(self, value: Optional["ApplicationError"]) -> "ClientServerApplicationErrorMapping":
         """
         Set firstApplication and return self for chaining.
-        
+
         Args:
             value: The firstApplication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_application("value")
         """
@@ -155,13 +158,13 @@ class ClientServerApplicationErrorMapping(ARObject):
     def with_second(self, value: Optional["ApplicationError"]) -> "ClientServerApplicationErrorMapping":
         """
         Set second and return self for chaining.
-        
+
         Args:
             value: The second to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second("value")
         """

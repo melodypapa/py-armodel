@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AliasNameAssignment(ARObject):
     """
     that flatInstance and identifiable are mutually exclusive.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::AliasNameAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 175, Classic
       Platform R23-11)
@@ -29,10 +32,10 @@ class AliasNameAssignment(ARObject):
     def flat_instance(self, value: Optional["FlatInstanceDescriptor"]) -> None:
         """
         Set flatInstance with validation.
-        
+
         Args:
             value: The flatInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class AliasNameAssignment(ARObject):
     def identifiable(self, value: Optional["Identifiable"]) -> None:
         """
         Set identifiable with validation.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class AliasNameAssignment(ARObject):
     def label(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set label with validation.
-        
+
         Args:
             value: The label to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class AliasNameAssignment(ARObject):
     def short_label(self, value: Optional["String"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +142,10 @@ class AliasNameAssignment(ARObject):
     def getFlatInstance(self) -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant getter for flatInstance.
-        
+
         Returns:
             The flatInstance value
-        
+
         Note:
             Delegates to flat_instance property (CODING_RULE_V2_00017)
         """
@@ -151,13 +154,13 @@ class AliasNameAssignment(ARObject):
     def setFlatInstance(self, value: "FlatInstanceDescriptor") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for flatInstance with method chaining.
-        
+
         Args:
             value: The flatInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flat_instance property setter (gets validation automatically)
         """
@@ -167,10 +170,10 @@ class AliasNameAssignment(ARObject):
     def getIdentifiable(self) -> "Identifiable":
         """
         AUTOSAR-compliant getter for identifiable.
-        
+
         Returns:
             The identifiable value
-        
+
         Note:
             Delegates to identifiable property (CODING_RULE_V2_00017)
         """
@@ -179,13 +182,13 @@ class AliasNameAssignment(ARObject):
     def setIdentifiable(self, value: "Identifiable") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for identifiable with method chaining.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identifiable property setter (gets validation automatically)
         """
@@ -195,10 +198,10 @@ class AliasNameAssignment(ARObject):
     def getLabel(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for label.
-        
+
         Returns:
             The label value
-        
+
         Note:
             Delegates to label property (CODING_RULE_V2_00017)
         """
@@ -207,13 +210,13 @@ class AliasNameAssignment(ARObject):
     def setLabel(self, value: "MultilanguageLong") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for label with method chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label property setter (gets validation automatically)
         """
@@ -223,10 +226,10 @@ class AliasNameAssignment(ARObject):
     def getShortLabel(self) -> "String":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -235,13 +238,13 @@ class AliasNameAssignment(ARObject):
     def setShortLabel(self, value: "String") -> "AliasNameAssignment":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -253,13 +256,13 @@ class AliasNameAssignment(ARObject):
     def with_flat_instance(self, value: Optional["FlatInstanceDescriptor"]) -> "AliasNameAssignment":
         """
         Set flatInstance and return self for chaining.
-        
+
         Args:
             value: The flatInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flat_instance("value")
         """
@@ -269,13 +272,13 @@ class AliasNameAssignment(ARObject):
     def with_identifiable(self, value: Optional["Identifiable"]) -> "AliasNameAssignment":
         """
         Set identifiable and return self for chaining.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identifiable("value")
         """
@@ -285,13 +288,13 @@ class AliasNameAssignment(ARObject):
     def with_label(self, value: Optional["MultilanguageLong"]) -> "AliasNameAssignment":
         """
         Set label and return self for chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label("value")
         """
@@ -301,13 +304,13 @@ class AliasNameAssignment(ARObject):
     def with_short_label(self, value: Optional["String"]) -> "AliasNameAssignment":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

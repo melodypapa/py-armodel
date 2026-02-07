@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class SdgClass(SdgElementWithGid):
     """
     An SdgClass specifies the name and structure of the SDG that may be used to
     store proprietary data in an AUTOSAR model. The SdgClass is similar to an
     UML stereotype.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgClass
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 207, Foundation R23-11)
@@ -38,10 +38,10 @@ class SdgClass(SdgElementWithGid):
     def caption(self, value: Optional["Boolean"]) -> None:
         """
         Set caption with validation.
-        
+
         Args:
             value: The caption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class SdgClass(SdgElementWithGid):
     def extends_meta(self, value: Optional["MetaClassName"]) -> None:
         """
         Set extendsMeta with validation.
-        
+
         Args:
             value: The extendsMeta to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class SdgClass(SdgElementWithGid):
     def getAttribute(self) -> List["SdgAttribute"]:
         """
         AUTOSAR-compliant getter for attribute.
-        
+
         Returns:
             The attribute value
-        
+
         Note:
             Delegates to attribute property (CODING_RULE_V2_00017)
         """
@@ -107,10 +107,10 @@ class SdgClass(SdgElementWithGid):
     def getCaption(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for caption.
-        
+
         Returns:
             The caption value
-        
+
         Note:
             Delegates to caption property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class SdgClass(SdgElementWithGid):
     def setCaption(self, value: "Boolean") -> "SdgClass":
         """
         AUTOSAR-compliant setter for caption with method chaining.
-        
+
         Args:
             value: The caption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to caption property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class SdgClass(SdgElementWithGid):
     def getExtendsMeta(self) -> "MetaClassName":
         """
         AUTOSAR-compliant getter for extendsMeta.
-        
+
         Returns:
             The extendsMeta value
-        
+
         Note:
             Delegates to extends_meta property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class SdgClass(SdgElementWithGid):
     def setExtendsMeta(self, value: "MetaClassName") -> "SdgClass":
         """
         AUTOSAR-compliant setter for extendsMeta with method chaining.
-        
+
         Args:
             value: The extendsMeta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to extends_meta property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class SdgClass(SdgElementWithGid):
     def getSdgConstraint(self) -> List["TraceableText"]:
         """
         AUTOSAR-compliant getter for sdgConstraint.
-        
+
         Returns:
             The sdgConstraint value
-        
+
         Note:
             Delegates to sdg_constraint property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class SdgClass(SdgElementWithGid):
     def with_caption(self, value: Optional["Boolean"]) -> "SdgClass":
         """
         Set caption and return self for chaining.
-        
+
         Args:
             value: The caption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_caption("value")
         """
@@ -193,13 +193,13 @@ class SdgClass(SdgElementWithGid):
     def with_extends_meta(self, value: Optional["MetaClassName"]) -> "SdgClass":
         """
         Set extendsMeta and return self for chaining.
-        
+
         Args:
             value: The extendsMeta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_extends_meta("value")
         """

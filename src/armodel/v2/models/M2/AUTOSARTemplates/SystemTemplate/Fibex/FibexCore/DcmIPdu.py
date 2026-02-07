@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DcmIPdu(IPdu):
     """
     Represents the IPdus handled by Dcm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::DcmIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 343, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class DcmIPdu(IPdu):
     def diag_pdu_type(self, value: Optional["DiagPduType"]) -> None:
         """
         Set diagPduType with validation.
-        
+
         Args:
             value: The diagPduType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class DcmIPdu(IPdu):
     def getDiagPduType(self) -> "DiagPduType":
         """
         AUTOSAR-compliant getter for diagPduType.
-        
+
         Returns:
             The diagPduType value
-        
+
         Note:
             Delegates to diag_pdu_type property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class DcmIPdu(IPdu):
     def setDiagPduType(self, value: "DiagPduType") -> "DcmIPdu":
         """
         AUTOSAR-compliant setter for diagPduType with method chaining.
-        
+
         Args:
             value: The diagPduType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_pdu_type property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class DcmIPdu(IPdu):
     def with_diag_pdu_type(self, value: Optional["DiagPduType"]) -> "DcmIPdu":
         """
         Set diagPduType and return self for chaining.
-        
+
         Args:
             value: The diagPduType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_pdu_type("value")
         """

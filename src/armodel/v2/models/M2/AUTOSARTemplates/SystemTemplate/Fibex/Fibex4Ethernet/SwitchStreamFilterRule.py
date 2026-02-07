@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwitchStreamFilterRule(Identifiable):
     """
     SwitchStreamIdentification
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterRule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 136, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class SwitchStreamFilterRule(Identifiable):
     def data_link_layer(self, value: Optional["StreamFilterRuleData"]) -> None:
         """
         Set dataLinkLayer with validation.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class SwitchStreamFilterRule(Identifiable):
     def ieee1722_tp(self, value: Optional["StreamFilterIEEE1722"]) -> None:
         """
         Set ieee1722Tp with validation.
-        
+
         Args:
             value: The ieee1722Tp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +90,10 @@ class SwitchStreamFilterRule(Identifiable):
     def ip_tp_rule(self, value: Optional["StreamFilterRuleIpTp"]) -> None:
         """
         Set ipTpRule with validation.
-        
+
         Args:
             value: The ipTpRule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +112,10 @@ class SwitchStreamFilterRule(Identifiable):
     def getDataLinkLayer(self) -> "StreamFilterRuleData":
         """
         AUTOSAR-compliant getter for dataLinkLayer.
-        
+
         Returns:
             The dataLinkLayer value
-        
+
         Note:
             Delegates to data_link_layer property (CODING_RULE_V2_00017)
         """
@@ -122,13 +124,13 @@ class SwitchStreamFilterRule(Identifiable):
     def setDataLinkLayer(self, value: "StreamFilterRuleData") -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant setter for dataLinkLayer with method chaining.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_link_layer property setter (gets validation automatically)
         """
@@ -138,10 +140,10 @@ class SwitchStreamFilterRule(Identifiable):
     def getIeee1722Tp(self) -> "StreamFilterIEEE1722":
         """
         AUTOSAR-compliant getter for ieee1722Tp.
-        
+
         Returns:
             The ieee1722Tp value
-        
+
         Note:
             Delegates to ieee1722_tp property (CODING_RULE_V2_00017)
         """
@@ -150,13 +152,13 @@ class SwitchStreamFilterRule(Identifiable):
     def setIeee1722Tp(self, value: "StreamFilterIEEE1722") -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant setter for ieee1722Tp with method chaining.
-        
+
         Args:
             value: The ieee1722Tp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ieee1722_tp property setter (gets validation automatically)
         """
@@ -166,10 +168,10 @@ class SwitchStreamFilterRule(Identifiable):
     def getIpTpRule(self) -> "StreamFilterRuleIpTp":
         """
         AUTOSAR-compliant getter for ipTpRule.
-        
+
         Returns:
             The ipTpRule value
-        
+
         Note:
             Delegates to ip_tp_rule property (CODING_RULE_V2_00017)
         """
@@ -178,13 +180,13 @@ class SwitchStreamFilterRule(Identifiable):
     def setIpTpRule(self, value: "StreamFilterRuleIpTp") -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant setter for ipTpRule with method chaining.
-        
+
         Args:
             value: The ipTpRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_tp_rule property setter (gets validation automatically)
         """
@@ -196,13 +198,13 @@ class SwitchStreamFilterRule(Identifiable):
     def with_data_link_layer(self, value: Optional["StreamFilterRuleData"]) -> "SwitchStreamFilterRule":
         """
         Set dataLinkLayer and return self for chaining.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_link_layer("value")
         """
@@ -212,13 +214,13 @@ class SwitchStreamFilterRule(Identifiable):
     def with_ieee1722_tp(self, value: Optional["StreamFilterIEEE1722"]) -> "SwitchStreamFilterRule":
         """
         Set ieee1722Tp and return self for chaining.
-        
+
         Args:
             value: The ieee1722Tp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ieee1722_tp("value")
         """
@@ -228,13 +230,13 @@ class SwitchStreamFilterRule(Identifiable):
     def with_ip_tp_rule(self, value: Optional["StreamFilterRuleIpTp"]) -> "SwitchStreamFilterRule":
         """
         Set ipTpRule and return self for chaining.
-        
+
         Args:
             value: The ipTpRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_tp_rule("value")
         """

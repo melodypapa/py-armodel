@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class PRPortPrototype(AbstractRequiredPortPrototype):
     """
     This kind of PortPrototype can take the role of both a required and a
     provided PortPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PRPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)
@@ -32,10 +32,10 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def provided(self, value: Optional["PortInterface"]) -> None:
         """
         Set provided with validation.
-        
+
         Args:
             value: The provided to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def getProvided(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for provided.
-        
+
         Returns:
             The provided value
-        
+
         Note:
             Delegates to provided property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def setProvided(self, value: "PortInterface") -> "PRPortPrototype":
         """
         AUTOSAR-compliant setter for provided with method chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     def with_provided(self, value: Optional["PortInterface"]) -> "PRPortPrototype":
         """
         Set provided and return self for chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided("value")
         """

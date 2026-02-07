@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     """
     Defines which EnableConditionGroup is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToEnableConditionGroupMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 247, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def enable_condition(self, value: Optional["DiagnosticEnable"]) -> None:
         """
         Set enableCondition with validation.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def getEnableCondition(self) -> "DiagnosticEnable":
         """
         AUTOSAR-compliant getter for enableCondition.
-        
+
         Returns:
             The enableCondition value
-        
+
         Note:
             Delegates to enable_condition property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def setEnableCondition(self, value: "DiagnosticEnable") -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         AUTOSAR-compliant setter for enableCondition with method chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_condition property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -151,13 +151,13 @@ class DiagnosticEventToEnableConditionGroupMapping(DiagnosticMapping):
     def with_enable_condition(self, value: Optional["DiagnosticEnable"]) -> "DiagnosticEventToEnableConditionGroupMapping":
         """
         Set enableCondition and return self for chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_condition("value")
         """

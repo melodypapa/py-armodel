@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     """
     This meta-class acts as a target for references to the
     DoIpLogicTesterAddress and collects DoIpLogic TesterAddress specific
     settings.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpLogicTesterAddressProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 556, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     def getDoIpTester(self) -> List["DoIpRoutingActivation"]:
         """
         AUTOSAR-compliant getter for doIpTester.
-        
+
         Returns:
             The doIpTester value
-        
+
         Note:
             Delegates to do_ip_tester property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CalibrationParameterValueSet(ARElement):
     """
     Specification of a constant that can be part of a package, i.e. it can be
     defined stand-alone.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter::CalibrationParameterValueSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 477, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class CalibrationParameterValueSet(ARElement):
     def getCalibration(self) -> List["CalibrationParameter"]:
         """
         AUTOSAR-compliant getter for calibration.
-        
+
         Returns:
             The calibration value
-        
+
         Note:
             Delegates to calibration property (CODING_RULE_V2_00017)
         """

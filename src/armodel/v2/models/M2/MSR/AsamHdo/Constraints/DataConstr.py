@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DataConstr(ARElement):
     """
     This meta-class represents the ability to specify constraints on data.
-    
+
     Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::DataConstr
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 310, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class DataConstr(ARElement):
     def getDataConstrRule(self) -> List["DataConstrRule"]:
         """
         AUTOSAR-compliant getter for dataConstrRule.
-        
+
         Returns:
             The dataConstrRule value
-        
+
         Note:
             Delegates to data_constr_rule property (CODING_RULE_V2_00017)
         """

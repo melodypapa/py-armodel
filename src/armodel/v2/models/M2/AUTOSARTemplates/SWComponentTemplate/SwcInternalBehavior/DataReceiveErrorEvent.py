@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataReceiveErrorEvent(RTEEvent):
     """
     This event is raised when the Com layer detects and notifies an error
     concerning the reception of the referenced VariableDataPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataReceiveErrorEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 543, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class DataReceiveErrorEvent(RTEEvent):
     def data(self, value: RefType) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +50,10 @@ class DataReceiveErrorEvent(RTEEvent):
     def getData(self) -> RefType:
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -59,13 +62,13 @@ class DataReceiveErrorEvent(RTEEvent):
     def setData(self, value: RefType) -> "DataReceiveErrorEvent":
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -77,13 +80,13 @@ class DataReceiveErrorEvent(RTEEvent):
     def with_data(self, value: Optional[RefType]) -> "DataReceiveErrorEvent":
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """

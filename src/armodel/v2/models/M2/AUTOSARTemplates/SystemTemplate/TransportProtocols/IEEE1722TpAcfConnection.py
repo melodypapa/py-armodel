@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     """
     ACF IEEE1722Tp connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcfConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 656, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def collection(self, value: Optional["TimeValue"]) -> None:
         """
         Set collection with validation.
-        
+
         Args:
             value: The collection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +64,10 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def mixed_bus_type(self, value: Optional["Boolean"]) -> None:
         """
         Set mixedBusType with validation.
-        
+
         Args:
             value: The mixedBusType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def getAcfTransported(self) -> List["IEEE1722TpAcfBus"]:
         """
         AUTOSAR-compliant getter for acfTransported.
-        
+
         Returns:
             The acfTransported value
-        
+
         Note:
             Delegates to acf_transported property (CODING_RULE_V2_00017)
         """
@@ -98,10 +98,10 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def getCollection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for collection.
-        
+
         Returns:
             The collection value
-        
+
         Note:
             Delegates to collection property (CODING_RULE_V2_00017)
         """
@@ -110,13 +110,13 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def setCollection(self, value: "TimeValue") -> "IEEE1722TpAcfConnection":
         """
         AUTOSAR-compliant setter for collection with method chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection property setter (gets validation automatically)
         """
@@ -126,10 +126,10 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def getMixedBusType(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for mixedBusType.
-        
+
         Returns:
             The mixedBusType value
-        
+
         Note:
             Delegates to mixed_bus_type property (CODING_RULE_V2_00017)
         """
@@ -138,13 +138,13 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def setMixedBusType(self, value: "Boolean") -> "IEEE1722TpAcfConnection":
         """
         AUTOSAR-compliant setter for mixedBusType with method chaining.
-        
+
         Args:
             value: The mixedBusType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mixed_bus_type property setter (gets validation automatically)
         """
@@ -156,13 +156,13 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def with_collection(self, value: Optional["TimeValue"]) -> "IEEE1722TpAcfConnection":
         """
         Set collection and return self for chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection("value")
         """
@@ -172,13 +172,13 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     def with_mixed_bus_type(self, value: Optional["Boolean"]) -> "IEEE1722TpAcfConnection":
         """
         Set mixedBusType and return self for chaining.
-        
+
         Args:
             value: The mixedBusType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mixed_bus_type("value")
         """

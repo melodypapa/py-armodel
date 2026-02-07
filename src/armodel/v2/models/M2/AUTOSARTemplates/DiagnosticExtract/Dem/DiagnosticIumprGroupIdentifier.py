@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticIumprGroupIdentifier(ARObject):
     """
     This meta-class provides the ability to the define the group identifier for
     an IumprGroup.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticIumprGroupIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 211, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class DiagnosticIumprGroupIdentifier(ARObject):
     def group_id(self, value: Optional["NameToken"]) -> None:
         """
         Set groupId with validation.
-        
+
         Args:
             value: The groupId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +56,10 @@ class DiagnosticIumprGroupIdentifier(ARObject):
     def getGroupId(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for groupId.
-        
+
         Returns:
             The groupId value
-        
+
         Note:
             Delegates to group_id property (CODING_RULE_V2_00017)
         """
@@ -65,13 +68,13 @@ class DiagnosticIumprGroupIdentifier(ARObject):
     def setGroupId(self, value: "NameToken") -> "DiagnosticIumprGroupIdentifier":
         """
         AUTOSAR-compliant setter for groupId with method chaining.
-        
+
         Args:
             value: The groupId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to group_id property setter (gets validation automatically)
         """
@@ -83,13 +86,13 @@ class DiagnosticIumprGroupIdentifier(ARObject):
     def with_group_id(self, value: Optional["NameToken"]) -> "DiagnosticIumprGroupIdentifier":
         """
         Set groupId and return self for chaining.
-        
+
         Args:
             value: The groupId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_group_id("value")
         """

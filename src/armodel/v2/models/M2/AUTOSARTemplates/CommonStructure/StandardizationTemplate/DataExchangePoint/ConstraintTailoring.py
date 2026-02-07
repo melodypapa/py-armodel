@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ConstraintTailoring(RestrictionWithSeverity):
     """
     Tailoring of constraints. If a constraint is in scope, then the severity
     defines its Error Severity Level. If it is not in scope, then the constraint
     is disabled.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ConstraintTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 117, Foundation R23-11)
     """
@@ -28,10 +28,10 @@ class ConstraintTailoring(RestrictionWithSeverity):
     def constraint(self, value: Optional["TraceableText"]) -> None:
         """
         Set constraint with validation.
-        
+
         Args:
             value: The constraint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class ConstraintTailoring(RestrictionWithSeverity):
     def getConstraint(self) -> "TraceableText":
         """
         AUTOSAR-compliant getter for constraint.
-        
+
         Returns:
             The constraint value
-        
+
         Note:
             Delegates to constraint property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class ConstraintTailoring(RestrictionWithSeverity):
     def setConstraint(self, value: "TraceableText") -> "ConstraintTailoring":
         """
         AUTOSAR-compliant setter for constraint with method chaining.
-        
+
         Args:
             value: The constraint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to constraint property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class ConstraintTailoring(RestrictionWithSeverity):
     def with_constraint(self, value: Optional["TraceableText"]) -> "ConstraintTailoring":
         """
         Set constraint and return self for chaining.
-        
+
         Args:
             value: The constraint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_constraint("value")
         """

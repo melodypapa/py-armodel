@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BuildActionIoElement(ARObject):
     """
@@ -13,9 +16,9 @@ class BuildActionIoElement(ARObject):
     should also be able to refer also to non AUTOSAR models. (cid:53) 368 of 535
     Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure
     Template AUTOSAR FO R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionIoElement
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 368, Foundation
       R23-11)
@@ -39,10 +42,10 @@ class BuildActionIoElement(ARObject):
     def category(self, value: "NameToken") -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +67,10 @@ class BuildActionIoElement(ARObject):
     def ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> None:
         """
         Set ecucDefinition with validation.
-        
+
         Args:
             value: The ecucDefinition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +96,10 @@ class BuildActionIoElement(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +126,10 @@ class BuildActionIoElement(ARObject):
     def getCategory(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -135,13 +138,13 @@ class BuildActionIoElement(ARObject):
     def setCategory(self, value: "NameToken") -> "BuildActionIoElement":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -151,10 +154,10 @@ class BuildActionIoElement(ARObject):
     def getEcucDefinition(self) -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant getter for ecucDefinition.
-        
+
         Returns:
             The ecucDefinition value
-        
+
         Note:
             Delegates to ecuc_definition property (CODING_RULE_V2_00017)
         """
@@ -163,13 +166,13 @@ class BuildActionIoElement(ARObject):
     def setEcucDefinition(self, value: "EcucDefinitionElement") -> "BuildActionIoElement":
         """
         AUTOSAR-compliant setter for ecucDefinition with method chaining.
-        
+
         Args:
             value: The ecucDefinition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_definition property setter (gets validation automatically)
         """
@@ -179,10 +182,10 @@ class BuildActionIoElement(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -191,13 +194,13 @@ class BuildActionIoElement(ARObject):
     def setRole(self, value: "Identifier") -> "BuildActionIoElement":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -207,10 +210,10 @@ class BuildActionIoElement(ARObject):
     def getSdg(self) -> List["Sdg"]:
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -221,13 +224,13 @@ class BuildActionIoElement(ARObject):
     def with_category(self, value: "NameToken") -> "BuildActionIoElement":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -237,13 +240,13 @@ class BuildActionIoElement(ARObject):
     def with_ecuc_definition(self, value: Optional["EcucDefinitionElement"]) -> "BuildActionIoElement":
         """
         Set ecucDefinition and return self for chaining.
-        
+
         Args:
             value: The ecucDefinition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_definition("value")
         """
@@ -253,13 +256,13 @@ class BuildActionIoElement(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "BuildActionIoElement":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """

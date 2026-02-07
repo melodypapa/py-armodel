@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class InterpolationRoutine(ARObject):
     """
     This represents an interpolation routine taken to evaluate the contents of a
     curve or map against a specific input value.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine::InterpolationRoutine
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 430, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class InterpolationRoutine(ARObject):
     def interpolation(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set interpolation with validation.
-        
+
         Args:
             value: The interpolation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class InterpolationRoutine(ARObject):
     def is_default(self, value: Optional["Boolean"]) -> None:
         """
         Set isDefault with validation.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class InterpolationRoutine(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class InterpolationRoutine(ARObject):
     def getInterpolation(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for interpolation.
-        
+
         Returns:
             The interpolation value
-        
+
         Note:
             Delegates to interpolation property (CODING_RULE_V2_00017)
         """
@@ -125,13 +128,13 @@ class InterpolationRoutine(ARObject):
     def setInterpolation(self, value: "BswModuleEntry") -> "InterpolationRoutine":
         """
         AUTOSAR-compliant setter for interpolation with method chaining.
-        
+
         Args:
             value: The interpolation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interpolation property setter (gets validation automatically)
         """
@@ -141,10 +144,10 @@ class InterpolationRoutine(ARObject):
     def getIsDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isDefault.
-        
+
         Returns:
             The isDefault value
-        
+
         Note:
             Delegates to is_default property (CODING_RULE_V2_00017)
         """
@@ -153,13 +156,13 @@ class InterpolationRoutine(ARObject):
     def setIsDefault(self, value: "Boolean") -> "InterpolationRoutine":
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_default property setter (gets validation automatically)
         """
@@ -169,10 +172,10 @@ class InterpolationRoutine(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -181,13 +184,13 @@ class InterpolationRoutine(ARObject):
     def setShortLabel(self, value: "Identifier") -> "InterpolationRoutine":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -199,13 +202,13 @@ class InterpolationRoutine(ARObject):
     def with_interpolation(self, value: Optional["BswModuleEntry"]) -> "InterpolationRoutine":
         """
         Set interpolation and return self for chaining.
-        
+
         Args:
             value: The interpolation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interpolation("value")
         """
@@ -215,13 +218,13 @@ class InterpolationRoutine(ARObject):
     def with_is_default(self, value: Optional["Boolean"]) -> "InterpolationRoutine":
         """
         Set isDefault and return self for chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_default("value")
         """
@@ -231,13 +234,13 @@ class InterpolationRoutine(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "InterpolationRoutine":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

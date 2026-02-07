@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwcBswSynchronizedModeGroupPrototype(ARObject):
     """
     Synchronizes a mode group provided by a component via a port with a mode
     group provided by a BSW module or cluster.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswSynchronizedModeGroupPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 111, Classic
       Platform R23-11)
@@ -30,10 +35,10 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def bsw_mode_group_prototype(self, value: RefType) -> None:
         """
         Set bswModeGroupPrototype with validation.
-        
+
         Args:
             value: The bswModeGroupPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +59,10 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def swc_mode_group_swc_instance_ref(self, value: RefType) -> None:
         """
         Set swcModeGroupSwcInstanceRef with validation.
-        
+
         Args:
             value: The swcModeGroupSwcInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +77,10 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def getBswModeGroupPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for bswModeGroupPrototype.
-        
+
         Returns:
             The bswModeGroupPrototype value
-        
+
         Note:
             Delegates to bsw_mode_group_prototype property (CODING_RULE_V2_00017)
         """
@@ -84,13 +89,13 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def setBswModeGroupPrototype(self, value: RefType) -> "SwcBswSynchronizedModeGroupPrototype":
         """
         AUTOSAR-compliant setter for bswModeGroupPrototype with method chaining.
-        
+
         Args:
             value: The bswModeGroupPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_mode_group_prototype property setter (gets validation automatically)
         """
@@ -100,10 +105,10 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def getSwcModeGroupSwcInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for swcModeGroupSwcInstanceRef.
-        
+
         Returns:
             The swcModeGroupSwcInstanceRef value
-        
+
         Note:
             Delegates to swc_mode_group_swc_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -112,13 +117,13 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def setSwcModeGroupSwcInstanceRef(self, value: RefType) -> "SwcBswSynchronizedModeGroupPrototype":
         """
         AUTOSAR-compliant setter for swcModeGroupSwcInstanceRef with method chaining.
-        
+
         Args:
             value: The swcModeGroupSwcInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_mode_group_swc_instance_ref property setter (gets validation automatically)
         """
@@ -130,13 +135,13 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def with_bsw_mode_group_prototype(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
         """
         Set bswModeGroupPrototype and return self for chaining.
-        
+
         Args:
             value: The bswModeGroupPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_mode_group_prototype("value")
         """
@@ -146,13 +151,13 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     def with_swc_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
         """
         Set swcModeGroupSwcInstanceRef and return self for chaining.
-        
+
         Args:
             value: The swcModeGroupSwcInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_mode_group_swc_instance_ref("value")
         """

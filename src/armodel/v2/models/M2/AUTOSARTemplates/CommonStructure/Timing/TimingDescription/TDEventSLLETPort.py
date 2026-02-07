@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventSLLETPort(TDEventSLLET):
     """
     Used to describe SL-LET timing events on the level of a SWC port.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventSLLETPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 79, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class TDEventSLLETPort(TDEventSLLET):
     def port(self, value: RefType) -> None:
         """
         Set port with validation.
-        
+
         Args:
             value: The port to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -45,10 +48,10 @@ class TDEventSLLETPort(TDEventSLLET):
     def getPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for port.
-        
+
         Returns:
             The port value
-        
+
         Note:
             Delegates to port property (CODING_RULE_V2_00017)
         """
@@ -57,13 +60,13 @@ class TDEventSLLETPort(TDEventSLLET):
     def setPort(self, value: RefType) -> "TDEventSLLETPort":
         """
         AUTOSAR-compliant setter for port with method chaining.
-        
+
         Args:
             value: The port to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port property setter (gets validation automatically)
         """
@@ -75,13 +78,13 @@ class TDEventSLLETPort(TDEventSLLET):
     def with_port(self, value: Optional[RefType]) -> "TDEventSLLETPort":
         """
         Set port and return self for chaining.
-        
+
         Args:
             value: The port to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port("value")
         """

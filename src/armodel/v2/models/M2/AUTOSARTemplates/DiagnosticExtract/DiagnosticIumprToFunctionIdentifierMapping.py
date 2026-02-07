@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to associate a
     DiagnosticFunctionIdentifier with a DiagnosticIumpr.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticIumprToFunctionIdentifierMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 265, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def function(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def iumpr(self, value: Optional["DiagnosticIumpr"]) -> None:
         """
         Set iumpr with validation.
-        
+
         Args:
             value: The iumpr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def getFunction(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def setFunction(self, value: "DiagnosticFunction") -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def getIumpr(self) -> "DiagnosticIumpr":
         """
         AUTOSAR-compliant getter for iumpr.
-        
+
         Returns:
             The iumpr value
-        
+
         Note:
             Delegates to iumpr property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def setIumpr(self, value: "DiagnosticIumpr") -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         AUTOSAR-compliant setter for iumpr with method chaining.
-        
+
         Args:
             value: The iumpr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iumpr property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def with_function(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """
@@ -152,13 +152,13 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     def with_iumpr(self, value: Optional["DiagnosticIumpr"]) -> "DiagnosticIumprToFunctionIdentifierMapping":
         """
         Set iumpr and return self for chaining.
-        
+
         Args:
             value: The iumpr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iumpr("value")
         """

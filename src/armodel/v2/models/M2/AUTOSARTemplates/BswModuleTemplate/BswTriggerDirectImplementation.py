@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswTriggerDirectImplementation(ARObject):
     """
     Specifies a released trigger to be directly implemented via OS calls, for
     example in a Complex Driver module.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswTriggerDirectImplementation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 102, Classic
       Platform R23-11)
@@ -36,10 +41,10 @@ class BswTriggerDirectImplementation(ARObject):
     def cat2_isr(self, value: Optional["Identifier"]) -> None:
         """
         Set cat2Isr with validation.
-        
+
         Args:
             value: The cat2Isr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +73,10 @@ class BswTriggerDirectImplementation(ARObject):
     def mastered_trigger(self, value: RefType) -> None:
         """
         Set masteredTrigger with validation.
-        
+
         Args:
             value: The masteredTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +101,10 @@ class BswTriggerDirectImplementation(ARObject):
     def task(self, value: Optional["Identifier"]) -> None:
         """
         Set task with validation.
-        
+
         Args:
             value: The task to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +123,10 @@ class BswTriggerDirectImplementation(ARObject):
     def getCat2Isr(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for cat2Isr.
-        
+
         Returns:
             The cat2Isr value
-        
+
         Note:
             Delegates to cat2_isr property (CODING_RULE_V2_00017)
         """
@@ -130,13 +135,13 @@ class BswTriggerDirectImplementation(ARObject):
     def setCat2Isr(self, value: "Identifier") -> "BswTriggerDirectImplementation":
         """
         AUTOSAR-compliant setter for cat2Isr with method chaining.
-        
+
         Args:
             value: The cat2Isr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cat2_isr property setter (gets validation automatically)
         """
@@ -146,10 +151,10 @@ class BswTriggerDirectImplementation(ARObject):
     def getMasteredTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for masteredTrigger.
-        
+
         Returns:
             The masteredTrigger value
-        
+
         Note:
             Delegates to mastered_trigger property (CODING_RULE_V2_00017)
         """
@@ -158,13 +163,13 @@ class BswTriggerDirectImplementation(ARObject):
     def setMasteredTrigger(self, value: RefType) -> "BswTriggerDirectImplementation":
         """
         AUTOSAR-compliant setter for masteredTrigger with method chaining.
-        
+
         Args:
             value: The masteredTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mastered_trigger property setter (gets validation automatically)
         """
@@ -174,10 +179,10 @@ class BswTriggerDirectImplementation(ARObject):
     def getTask(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for task.
-        
+
         Returns:
             The task value
-        
+
         Note:
             Delegates to task property (CODING_RULE_V2_00017)
         """
@@ -186,13 +191,13 @@ class BswTriggerDirectImplementation(ARObject):
     def setTask(self, value: "Identifier") -> "BswTriggerDirectImplementation":
         """
         AUTOSAR-compliant setter for task with method chaining.
-        
+
         Args:
             value: The task to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to task property setter (gets validation automatically)
         """
@@ -204,13 +209,13 @@ class BswTriggerDirectImplementation(ARObject):
     def with_cat2_isr(self, value: Optional["Identifier"]) -> "BswTriggerDirectImplementation":
         """
         Set cat2Isr and return self for chaining.
-        
+
         Args:
             value: The cat2Isr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cat2_isr("value")
         """
@@ -220,13 +225,13 @@ class BswTriggerDirectImplementation(ARObject):
     def with_mastered_trigger(self, value: Optional[RefType]) -> "BswTriggerDirectImplementation":
         """
         Set masteredTrigger and return self for chaining.
-        
+
         Args:
             value: The masteredTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mastered_trigger("value")
         """
@@ -236,13 +241,13 @@ class BswTriggerDirectImplementation(ARObject):
     def with_task(self, value: Optional["Identifier"]) -> "BswTriggerDirectImplementation":
         """
         Set task and return self for chaining.
-        
+
         Args:
             value: The task to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_task("value")
         """

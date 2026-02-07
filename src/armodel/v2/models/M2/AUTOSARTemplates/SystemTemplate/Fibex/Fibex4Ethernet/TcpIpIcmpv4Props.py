@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TcpIpIcmpv4Props(ARObject):
     """
     This meta-class specifies the configuration options for ICMPv4 (Internet
     Control Message Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpIpIcmpv4Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 156, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class TcpIpIcmpv4Props(ARObject):
     def tcp_ip_icmp(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpIcmp with validation.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class TcpIpIcmpv4Props(ARObject):
     def tcp_ip_icmp_v4_ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIcmpV4Ttl with validation.
-        
+
         Args:
             value: The tcpIpIcmpV4Ttl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class TcpIpIcmpv4Props(ARObject):
     def getTcpIpIcmp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpIcmp.
-        
+
         Returns:
             The tcpIpIcmp value
-        
+
         Note:
             Delegates to tcp_ip_icmp property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class TcpIpIcmpv4Props(ARObject):
     def setTcpIpIcmp(self, value: "Boolean") -> "TcpIpIcmpv4Props":
         """
         AUTOSAR-compliant setter for tcpIpIcmp with method chaining.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_icmp property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class TcpIpIcmpv4Props(ARObject):
     def getTcpIpIcmpV4Ttl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIcmpV4Ttl.
-        
+
         Returns:
             The tcpIpIcmpV4Ttl value
-        
+
         Note:
             Delegates to tcp_ip_icmp_v4_ttl property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class TcpIpIcmpv4Props(ARObject):
     def setTcpIpIcmpV4Ttl(self, value: "PositiveInteger") -> "TcpIpIcmpv4Props":
         """
         AUTOSAR-compliant setter for tcpIpIcmpV4Ttl with method chaining.
-        
+
         Args:
             value: The tcpIpIcmpV4Ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_icmp_v4_ttl property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class TcpIpIcmpv4Props(ARObject):
     def with_tcp_ip_icmp(self, value: Optional["Boolean"]) -> "TcpIpIcmpv4Props":
         """
         Set tcpIpIcmp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIcmp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_icmp("value")
         """
@@ -155,13 +158,13 @@ class TcpIpIcmpv4Props(ARObject):
     def with_tcp_ip_icmp_v4_ttl(self, value: Optional["PositiveInteger"]) -> "TcpIpIcmpv4Props":
         """
         Set tcpIpIcmpV4Ttl and return self for chaining.
-        
+
         Args:
             value: The tcpIpIcmpV4Ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_icmp_v4_ttl("value")
         """

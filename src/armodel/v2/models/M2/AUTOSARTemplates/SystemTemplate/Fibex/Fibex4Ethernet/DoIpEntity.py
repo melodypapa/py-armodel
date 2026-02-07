@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DoIpEntity(ARObject):
     """
     ECU providing this infrastructure service is a DoIP-Entity.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::DoIpEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 471, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class DoIpEntity(ARObject):
     def do_ip_entity_role(self, value: Optional["DoIpEntityRoleEnum"]) -> None:
         """
         Set doIpEntityRole with validation.
-        
+
         Args:
             value: The doIpEntityRole to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class DoIpEntity(ARObject):
     def getDoIpEntityRole(self) -> "DoIpEntityRoleEnum":
         """
         AUTOSAR-compliant getter for doIpEntityRole.
-        
+
         Returns:
             The doIpEntityRole value
-        
+
         Note:
             Delegates to do_ip_entity_role property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class DoIpEntity(ARObject):
     def setDoIpEntityRole(self, value: "DoIpEntityRoleEnum") -> "DoIpEntity":
         """
         AUTOSAR-compliant setter for doIpEntityRole with method chaining.
-        
+
         Args:
             value: The doIpEntityRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_entity_role property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class DoIpEntity(ARObject):
     def with_do_ip_entity_role(self, value: Optional["DoIpEntityRoleEnum"]) -> "DoIpEntity":
         """
         Set doIpEntityRole and return self for chaining.
-        
+
         Args:
             value: The doIpEntityRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_entity_role("value")
         """

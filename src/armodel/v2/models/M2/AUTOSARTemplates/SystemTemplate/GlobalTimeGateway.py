@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class GlobalTimeGateway(Identifiable):
     """
     This represents the ability to define a time gateway for establishing a
     global time domain over several communication clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeGateway
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 861, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class GlobalTimeGateway(Identifiable):
     def host(self, value: Optional["EcuInstance"]) -> None:
         """
         Set host with validation.
-        
+
         Args:
             value: The host to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +59,10 @@ class GlobalTimeGateway(Identifiable):
     def master(self, value: Optional["GlobalTimeMaster"]) -> None:
         """
         Set master with validation.
-        
+
         Args:
             value: The master to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +87,10 @@ class GlobalTimeGateway(Identifiable):
     def slave(self, value: Optional["GlobalTimeSlave"]) -> None:
         """
         Set slave with validation.
-        
+
         Args:
             value: The slave to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +109,10 @@ class GlobalTimeGateway(Identifiable):
     def getHost(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for host.
-        
+
         Returns:
             The host value
-        
+
         Note:
             Delegates to host property (CODING_RULE_V2_00017)
         """
@@ -119,13 +121,13 @@ class GlobalTimeGateway(Identifiable):
     def setHost(self, value: "EcuInstance") -> "GlobalTimeGateway":
         """
         AUTOSAR-compliant setter for host with method chaining.
-        
+
         Args:
             value: The host to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to host property setter (gets validation automatically)
         """
@@ -135,10 +137,10 @@ class GlobalTimeGateway(Identifiable):
     def getMaster(self) -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant getter for master.
-        
+
         Returns:
             The master value
-        
+
         Note:
             Delegates to master property (CODING_RULE_V2_00017)
         """
@@ -147,13 +149,13 @@ class GlobalTimeGateway(Identifiable):
     def setMaster(self, value: "GlobalTimeMaster") -> "GlobalTimeGateway":
         """
         AUTOSAR-compliant setter for master with method chaining.
-        
+
         Args:
             value: The master to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to master property setter (gets validation automatically)
         """
@@ -163,10 +165,10 @@ class GlobalTimeGateway(Identifiable):
     def getSlave(self) -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant getter for slave.
-        
+
         Returns:
             The slave value
-        
+
         Note:
             Delegates to slave property (CODING_RULE_V2_00017)
         """
@@ -175,13 +177,13 @@ class GlobalTimeGateway(Identifiable):
     def setSlave(self, value: "GlobalTimeSlave") -> "GlobalTimeGateway":
         """
         AUTOSAR-compliant setter for slave with method chaining.
-        
+
         Args:
             value: The slave to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slave property setter (gets validation automatically)
         """
@@ -193,13 +195,13 @@ class GlobalTimeGateway(Identifiable):
     def with_host(self, value: Optional["EcuInstance"]) -> "GlobalTimeGateway":
         """
         Set host and return self for chaining.
-        
+
         Args:
             value: The host to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_host("value")
         """
@@ -209,13 +211,13 @@ class GlobalTimeGateway(Identifiable):
     def with_master(self, value: Optional["GlobalTimeMaster"]) -> "GlobalTimeGateway":
         """
         Set master and return self for chaining.
-        
+
         Args:
             value: The master to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_master("value")
         """
@@ -225,13 +227,13 @@ class GlobalTimeGateway(Identifiable):
     def with_slave(self, value: Optional["GlobalTimeSlave"]) -> "GlobalTimeGateway":
         """
         Set slave and return self for chaining.
-        
+
         Args:
             value: The slave to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slave("value")
         """

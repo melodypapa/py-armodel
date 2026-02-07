@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Baseline(ARObject):
     """
@@ -10,9 +13,9 @@ class Baseline(ARObject):
     standard can be provided as well. All references to specification elements
     in this Data Exchange Point refer to specification elements that are part of
     this specification baseline.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Baseline
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 79, Foundation R23-11)
     """
@@ -50,10 +53,10 @@ class Baseline(ARObject):
     def getCustomSdgDef(self) -> List["SdgDef"]:
         """
         AUTOSAR-compliant getter for customSdgDef.
-        
+
         Returns:
             The customSdgDef value
-        
+
         Note:
             Delegates to custom_sdg_def property (CODING_RULE_V2_00017)
         """
@@ -62,10 +65,10 @@ class Baseline(ARObject):
     def getCustom(self) -> List["Documentation"]:
         """
         AUTOSAR-compliant getter for custom.
-        
+
         Returns:
             The custom value
-        
+
         Note:
             Delegates to custom property (CODING_RULE_V2_00017)
         """
@@ -74,10 +77,10 @@ class Baseline(ARObject):
     def getStandard(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for standard.
-        
+
         Returns:
             The standard value
-        
+
         Note:
             Delegates to standard property (CODING_RULE_V2_00017)
         """

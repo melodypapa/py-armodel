@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TagWithOptionalValue(ARObject):
     """
     A tagged value is a combination of a tag (key) and a value that gives
     supplementary information that is attached to a model element. Please note
     that keys without a value are allowed.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::TagWithOptionalValue::TagWithOptionalValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 477, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 166, Foundation
@@ -32,10 +35,10 @@ class TagWithOptionalValue(ARObject):
     def key(self, value: Optional["String"]) -> None:
         """
         Set key with validation.
-        
+
         Args:
             value: The key to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +70,10 @@ class TagWithOptionalValue(ARObject):
     def sequence_offset(self, value: Optional["Integer"]) -> None:
         """
         Set sequenceOffset with validation.
-        
+
         Args:
             value: The sequenceOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class TagWithOptionalValue(ARObject):
     def value(self, value: Optional["String"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class TagWithOptionalValue(ARObject):
     def getKey(self) -> "String":
         """
         AUTOSAR-compliant getter for key.
-        
+
         Returns:
             The key value
-        
+
         Note:
             Delegates to key property (CODING_RULE_V2_00017)
         """
@@ -129,13 +132,13 @@ class TagWithOptionalValue(ARObject):
     def setKey(self, value: "String") -> "TagWithOptionalValue":
         """
         AUTOSAR-compliant setter for key with method chaining.
-        
+
         Args:
             value: The key to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key property setter (gets validation automatically)
         """
@@ -145,10 +148,10 @@ class TagWithOptionalValue(ARObject):
     def getSequenceOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for sequenceOffset.
-        
+
         Returns:
             The sequenceOffset value
-        
+
         Note:
             Delegates to sequence_offset property (CODING_RULE_V2_00017)
         """
@@ -157,13 +160,13 @@ class TagWithOptionalValue(ARObject):
     def setSequenceOffset(self, value: "Integer") -> "TagWithOptionalValue":
         """
         AUTOSAR-compliant setter for sequenceOffset with method chaining.
-        
+
         Args:
             value: The sequenceOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sequence_offset property setter (gets validation automatically)
         """
@@ -173,10 +176,10 @@ class TagWithOptionalValue(ARObject):
     def getValue(self) -> "String":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -185,13 +188,13 @@ class TagWithOptionalValue(ARObject):
     def setValue(self, value: "String") -> "TagWithOptionalValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -203,13 +206,13 @@ class TagWithOptionalValue(ARObject):
     def with_key(self, value: Optional["String"]) -> "TagWithOptionalValue":
         """
         Set key and return self for chaining.
-        
+
         Args:
             value: The key to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key("value")
         """
@@ -219,13 +222,13 @@ class TagWithOptionalValue(ARObject):
     def with_sequence_offset(self, value: Optional["Integer"]) -> "TagWithOptionalValue":
         """
         Set sequenceOffset and return self for chaining.
-        
+
         Args:
             value: The sequenceOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sequence_offset("value")
         """
@@ -235,13 +238,13 @@ class TagWithOptionalValue(ARObject):
     def with_value(self, value: Optional["String"]) -> "TagWithOptionalValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

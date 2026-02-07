@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class BswDistinguishedPartition(Referrable):
     """
@@ -9,9 +10,9 @@ class BswDistinguishedPartition(Referrable):
     intended use case is to distinguish between several partitions in order to
     implement different behavior per partition, for example to behave either as
     a master or satellite in a multicore ECU with shared BSW code.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswDistinguishedPartition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 118, Classic
       Platform R23-11)

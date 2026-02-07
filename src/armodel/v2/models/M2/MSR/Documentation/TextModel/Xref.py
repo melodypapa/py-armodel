@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class Xref(ARObject):
     """
     This represents a cross-reference within documentation.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xref
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 320, Foundation
       R23-11)
@@ -30,10 +35,10 @@ class Xref(ARObject):
     def label1(self, value: Optional["SingleLanguageLong"]) -> None:
         """
         Set label1 with validation.
-        
+
         Args:
             value: The label1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +63,10 @@ class Xref(ARObject):
     def referrable(self, value: RefType) -> None:
         """
         Set referrable with validation.
-        
+
         Args:
             value: The referrable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class Xref(ARObject):
     def resolution_policy(self, value: Optional["ResolutionPolicyEnum"]) -> None:
         """
         Set resolutionPolicy with validation.
-        
+
         Args:
             value: The resolutionPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +118,10 @@ class Xref(ARObject):
     def show_content(self, value: Optional["ShowContentEnum"]) -> None:
         """
         Set showContent with validation.
-        
+
         Args:
             value: The showContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +147,10 @@ class Xref(ARObject):
     def show_resource(self, value: Optional["ShowResourceType"]) -> None:
         """
         Set showResource with validation.
-        
+
         Args:
             value: The showResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -171,10 +176,10 @@ class Xref(ARObject):
     def show_see(self, value: Optional["ShowSeeEnum"]) -> None:
         """
         Set showSee with validation.
-        
+
         Args:
             value: The showSee to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -193,10 +198,10 @@ class Xref(ARObject):
     def getLabel1(self) -> "SingleLanguageLong":
         """
         AUTOSAR-compliant getter for label1.
-        
+
         Returns:
             The label1 value
-        
+
         Note:
             Delegates to label1 property (CODING_RULE_V2_00017)
         """
@@ -205,13 +210,13 @@ class Xref(ARObject):
     def setLabel1(self, value: "SingleLanguageLong") -> "Xref":
         """
         AUTOSAR-compliant setter for label1 with method chaining.
-        
+
         Args:
             value: The label1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label1 property setter (gets validation automatically)
         """
@@ -221,10 +226,10 @@ class Xref(ARObject):
     def getReferrable(self) -> RefType:
         """
         AUTOSAR-compliant getter for referrable.
-        
+
         Returns:
             The referrable value
-        
+
         Note:
             Delegates to referrable property (CODING_RULE_V2_00017)
         """
@@ -233,13 +238,13 @@ class Xref(ARObject):
     def setReferrable(self, value: RefType) -> "Xref":
         """
         AUTOSAR-compliant setter for referrable with method chaining.
-        
+
         Args:
             value: The referrable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to referrable property setter (gets validation automatically)
         """
@@ -249,10 +254,10 @@ class Xref(ARObject):
     def getResolutionPolicy(self) -> "ResolutionPolicyEnum":
         """
         AUTOSAR-compliant getter for resolutionPolicy.
-        
+
         Returns:
             The resolutionPolicy value
-        
+
         Note:
             Delegates to resolution_policy property (CODING_RULE_V2_00017)
         """
@@ -261,13 +266,13 @@ class Xref(ARObject):
     def setResolutionPolicy(self, value: "ResolutionPolicyEnum") -> "Xref":
         """
         AUTOSAR-compliant setter for resolutionPolicy with method chaining.
-        
+
         Args:
             value: The resolutionPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resolution_policy property setter (gets validation automatically)
         """
@@ -277,10 +282,10 @@ class Xref(ARObject):
     def getShowContent(self) -> "ShowContentEnum":
         """
         AUTOSAR-compliant getter for showContent.
-        
+
         Returns:
             The showContent value
-        
+
         Note:
             Delegates to show_content property (CODING_RULE_V2_00017)
         """
@@ -289,13 +294,13 @@ class Xref(ARObject):
     def setShowContent(self, value: "ShowContentEnum") -> "Xref":
         """
         AUTOSAR-compliant setter for showContent with method chaining.
-        
+
         Args:
             value: The showContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to show_content property setter (gets validation automatically)
         """
@@ -305,10 +310,10 @@ class Xref(ARObject):
     def getShowResource(self) -> "ShowResourceType":
         """
         AUTOSAR-compliant getter for showResource.
-        
+
         Returns:
             The showResource value
-        
+
         Note:
             Delegates to show_resource property (CODING_RULE_V2_00017)
         """
@@ -317,13 +322,13 @@ class Xref(ARObject):
     def setShowResource(self, value: "ShowResourceType") -> "Xref":
         """
         AUTOSAR-compliant setter for showResource with method chaining.
-        
+
         Args:
             value: The showResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to show_resource property setter (gets validation automatically)
         """
@@ -333,10 +338,10 @@ class Xref(ARObject):
     def getShowSee(self) -> "ShowSeeEnum":
         """
         AUTOSAR-compliant getter for showSee.
-        
+
         Returns:
             The showSee value
-        
+
         Note:
             Delegates to show_see property (CODING_RULE_V2_00017)
         """
@@ -345,13 +350,13 @@ class Xref(ARObject):
     def setShowSee(self, value: "ShowSeeEnum") -> "Xref":
         """
         AUTOSAR-compliant setter for showSee with method chaining.
-        
+
         Args:
             value: The showSee to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to show_see property setter (gets validation automatically)
         """
@@ -363,13 +368,13 @@ class Xref(ARObject):
     def with_label1(self, value: Optional["SingleLanguageLong"]) -> "Xref":
         """
         Set label1 and return self for chaining.
-        
+
         Args:
             value: The label1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label1("value")
         """
@@ -379,13 +384,13 @@ class Xref(ARObject):
     def with_referrable(self, value: Optional[RefType]) -> "Xref":
         """
         Set referrable and return self for chaining.
-        
+
         Args:
             value: The referrable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_referrable("value")
         """
@@ -395,13 +400,13 @@ class Xref(ARObject):
     def with_resolution_policy(self, value: Optional["ResolutionPolicyEnum"]) -> "Xref":
         """
         Set resolutionPolicy and return self for chaining.
-        
+
         Args:
             value: The resolutionPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resolution_policy("value")
         """
@@ -411,13 +416,13 @@ class Xref(ARObject):
     def with_show_content(self, value: Optional["ShowContentEnum"]) -> "Xref":
         """
         Set showContent and return self for chaining.
-        
+
         Args:
             value: The showContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_show_content("value")
         """
@@ -427,13 +432,13 @@ class Xref(ARObject):
     def with_show_resource(self, value: Optional["ShowResourceType"]) -> "Xref":
         """
         Set showResource and return self for chaining.
-        
+
         Args:
             value: The showResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_show_resource("value")
         """
@@ -443,13 +448,13 @@ class Xref(ARObject):
     def with_show_see(self, value: Optional["ShowSeeEnum"]) -> "Xref":
         """
         Set showSee and return self for chaining.
-        
+
         Args:
             value: The showSee to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_show_see("value")
         """

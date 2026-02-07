@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class MacMulticastGroup(Identifiable):
     """
@@ -9,9 +11,9 @@ class MacMulticastGroup(Identifiable):
     handle many receivers simultaneously if the receivers have all the same
     macMulticastAddress. The addresses need to be unique for the particular
     EthernetCluster.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::MacMulticastGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 103, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class MacMulticastGroup(Identifiable):
     def mac_multicast(self, value: Optional["MacAddressString"]) -> None:
         """
         Set macMulticast with validation.
-        
+
         Args:
             value: The macMulticast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +56,10 @@ class MacMulticastGroup(Identifiable):
     def getMacMulticast(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for macMulticast.
-        
+
         Returns:
             The macMulticast value
-        
+
         Note:
             Delegates to mac_multicast property (CODING_RULE_V2_00017)
         """
@@ -66,13 +68,13 @@ class MacMulticastGroup(Identifiable):
     def setMacMulticast(self, value: "MacAddressString") -> "MacMulticastGroup":
         """
         AUTOSAR-compliant setter for macMulticast with method chaining.
-        
+
         Args:
             value: The macMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_multicast property setter (gets validation automatically)
         """
@@ -84,13 +86,13 @@ class MacMulticastGroup(Identifiable):
     def with_mac_multicast(self, value: Optional["MacAddressString"]) -> "MacMulticastGroup":
         """
         Set macMulticast and return self for chaining.
-        
+
         Args:
             value: The macMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_multicast("value")
         """

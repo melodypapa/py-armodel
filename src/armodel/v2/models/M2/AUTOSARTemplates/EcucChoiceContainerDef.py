@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EcucChoiceContainerDef(EcucContainerDef):
     """
     Used to define configuration containers that provide a choice between
     several EcucParamConfContainer Def. But in the actual ECU Configuration
     Values only one instance from the choice list will be present.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucChoiceContainerDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 41, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class EcucChoiceContainerDef(EcucContainerDef):
     def getChoice(self) -> List["EcucParamConf"]:
         """
         AUTOSAR-compliant getter for choice.
-        
+
         Returns:
             The choice value
-        
+
         Note:
             Delegates to choice property (CODING_RULE_V2_00017)
         """

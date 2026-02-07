@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SystemSignal(ARElement):
     """
@@ -8,9 +8,9 @@ class SystemSignal(ARElement):
     signals allow to represent this communication in a flattened structure, with
     exactly one system signal defined for each data element prototype sent and
     received by connected SW component instances.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SystemSignal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 332, Classic Platform
       R23-11)
@@ -35,10 +35,10 @@ class SystemSignal(ARElement):
     def dynamic_length(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamicLength with validation.
-        
+
         Args:
             value: The dynamicLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class SystemSignal(ARElement):
     def physical_props(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set physicalProps with validation.
-        
+
         Args:
             value: The physicalProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class SystemSignal(ARElement):
     def getDynamicLength(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamicLength.
-        
+
         Returns:
             The dynamicLength value
-        
+
         Note:
             Delegates to dynamic_length property (CODING_RULE_V2_00017)
         """
@@ -97,13 +97,13 @@ class SystemSignal(ARElement):
     def setDynamicLength(self, value: "Boolean") -> "SystemSignal":
         """
         AUTOSAR-compliant setter for dynamicLength with method chaining.
-        
+
         Args:
             value: The dynamicLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_length property setter (gets validation automatically)
         """
@@ -113,10 +113,10 @@ class SystemSignal(ARElement):
     def getPhysicalProps(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for physicalProps.
-        
+
         Returns:
             The physicalProps value
-        
+
         Note:
             Delegates to physical_props property (CODING_RULE_V2_00017)
         """
@@ -125,13 +125,13 @@ class SystemSignal(ARElement):
     def setPhysicalProps(self, value: "SwDataDefProps") -> "SystemSignal":
         """
         AUTOSAR-compliant setter for physicalProps with method chaining.
-        
+
         Args:
             value: The physicalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical_props property setter (gets validation automatically)
         """
@@ -143,13 +143,13 @@ class SystemSignal(ARElement):
     def with_dynamic_length(self, value: Optional["Boolean"]) -> "SystemSignal":
         """
         Set dynamicLength and return self for chaining.
-        
+
         Args:
             value: The dynamicLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_length("value")
         """
@@ -159,13 +159,13 @@ class SystemSignal(ARElement):
     def with_physical_props(self, value: Optional["SwDataDefProps"]) -> "SystemSignal":
         """
         Set physicalProps and return self for chaining.
-        
+
         Args:
             value: The physicalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical_props("value")
         """

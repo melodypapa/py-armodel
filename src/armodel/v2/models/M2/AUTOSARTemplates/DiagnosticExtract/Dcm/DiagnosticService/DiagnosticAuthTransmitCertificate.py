@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
     """
     This meta-class represents the sub-function to transmit a certificate
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthTransmitCertificate
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
     def getCertificate(self) -> List["DiagnosticAuthTransmit"]:
         """
         AUTOSAR-compliant getter for certificate.
-        
+
         Returns:
             The certificate value
-        
+
         Note:
             Delegates to certificate property (CODING_RULE_V2_00017)
         """

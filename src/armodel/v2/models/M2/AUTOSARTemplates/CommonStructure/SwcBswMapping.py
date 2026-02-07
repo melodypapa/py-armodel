@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class SwcBswMapping(ARElement):
     """
@@ -7,9 +7,9 @@ class SwcBswMapping(ARElement):
     coordinate the API generation and the scheduling for AUTOSAR Service
     Components, ECU Abstraction Components and Complex Driver Components by the
     RTE and the BSW scheduling mechanisms.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 110, Classic
       Platform R23-11)
@@ -33,10 +33,10 @@ class SwcBswMapping(ARElement):
     def bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> None:
         """
         Set bswBehavior with validation.
-        
+
         Args:
             value: The bswBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class SwcBswMapping(ARElement):
     def swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set swcBehavior with validation.
-        
+
         Args:
             value: The swcBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +99,10 @@ class SwcBswMapping(ARElement):
     def getBswBehavior(self) -> "BswInternalBehavior":
         """
         AUTOSAR-compliant getter for bswBehavior.
-        
+
         Returns:
             The bswBehavior value
-        
+
         Note:
             Delegates to bsw_behavior property (CODING_RULE_V2_00017)
         """
@@ -111,13 +111,13 @@ class SwcBswMapping(ARElement):
     def setBswBehavior(self, value: "BswInternalBehavior") -> "SwcBswMapping":
         """
         AUTOSAR-compliant setter for bswBehavior with method chaining.
-        
+
         Args:
             value: The bswBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_behavior property setter (gets validation automatically)
         """
@@ -127,10 +127,10 @@ class SwcBswMapping(ARElement):
     def getRunnable(self) -> List["SwcBswRunnable"]:
         """
         AUTOSAR-compliant getter for runnable.
-        
+
         Returns:
             The runnable value
-        
+
         Note:
             Delegates to runnable property (CODING_RULE_V2_00017)
         """
@@ -139,10 +139,10 @@ class SwcBswMapping(ARElement):
     def getSwcBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for swcBehavior.
-        
+
         Returns:
             The swcBehavior value
-        
+
         Note:
             Delegates to swc_behavior property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class SwcBswMapping(ARElement):
     def setSwcBehavior(self, value: "SwcInternalBehavior") -> "SwcBswMapping":
         """
         AUTOSAR-compliant setter for swcBehavior with method chaining.
-        
+
         Args:
             value: The swcBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_behavior property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class SwcBswMapping(ARElement):
     def getSynchronized(self) -> List["SwcBswSynchronized"]:
         """
         AUTOSAR-compliant getter for synchronized.
-        
+
         Returns:
             The synchronized value
-        
+
         Note:
             Delegates to synchronized property (CODING_RULE_V2_00017)
         """
@@ -181,13 +181,13 @@ class SwcBswMapping(ARElement):
     def with_bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> "SwcBswMapping":
         """
         Set bswBehavior and return self for chaining.
-        
+
         Args:
             value: The bswBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_behavior("value")
         """
@@ -197,13 +197,13 @@ class SwcBswMapping(ARElement):
     def with_swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcBswMapping":
         """
         Set swcBehavior and return self for chaining.
-        
+
         Args:
             value: The swcBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_behavior("value")
         """

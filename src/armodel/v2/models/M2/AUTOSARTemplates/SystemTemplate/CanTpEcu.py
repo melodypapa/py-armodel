@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanTpEcu(ARObject):
     """
     ECU specific TP configuration parameters. Each TpEcu element has a reference
     to exactly one ECUInstance in the topology.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 610, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class CanTpEcu(ARObject):
     def cycle_time_main(self, value: Optional["TimeValue"]) -> None:
         """
         Set cycleTimeMain with validation.
-        
+
         Args:
             value: The cycleTimeMain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class CanTpEcu(ARObject):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class CanTpEcu(ARObject):
     def getCycleTimeMain(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for cycleTimeMain.
-        
+
         Returns:
             The cycleTimeMain value
-        
+
         Note:
             Delegates to cycle_time_main property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class CanTpEcu(ARObject):
     def setCycleTimeMain(self, value: "TimeValue") -> "CanTpEcu":
         """
         AUTOSAR-compliant setter for cycleTimeMain with method chaining.
-        
+
         Args:
             value: The cycleTimeMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_time_main property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class CanTpEcu(ARObject):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class CanTpEcu(ARObject):
     def setEcuInstance(self, value: "EcuInstance") -> "CanTpEcu":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class CanTpEcu(ARObject):
     def with_cycle_time_main(self, value: Optional["TimeValue"]) -> "CanTpEcu":
         """
         Set cycleTimeMain and return self for chaining.
-        
+
         Args:
             value: The cycleTimeMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_time_main("value")
         """
@@ -153,13 +156,13 @@ class CanTpEcu(ARObject):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "CanTpEcu":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """

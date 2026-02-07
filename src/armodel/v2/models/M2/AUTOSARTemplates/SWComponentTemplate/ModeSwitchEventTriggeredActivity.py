@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ModeSwitchEventTriggeredActivity(ARObject):
     """
     This meta-class defines an activity of the NvBlockSwComponentType for a
     specific NvBlock which is triggered by a ModeSwitchEvent.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::ModeSwitchEventTriggeredActivity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 675, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def swc_mode_switch(self, value: Optional["SwcModeSwitchEvent"]) -> None:
         """
         Set swcModeSwitch with validation.
-        
+
         Args:
             value: The swcModeSwitch to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def setRole(self, value: "Identifier") -> "ModeSwitchEventTriggeredActivity":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def getSwcModeSwitch(self) -> "SwcModeSwitchEvent":
         """
         AUTOSAR-compliant getter for swcModeSwitch.
-        
+
         Returns:
             The swcModeSwitch value
-        
+
         Note:
             Delegates to swc_mode_switch property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def setSwcModeSwitch(self, value: "SwcModeSwitchEvent") -> "ModeSwitchEventTriggeredActivity":
         """
         AUTOSAR-compliant setter for swcModeSwitch with method chaining.
-        
+
         Args:
             value: The swcModeSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_mode_switch property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "ModeSwitchEventTriggeredActivity":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -153,13 +156,13 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     def with_swc_mode_switch(self, value: Optional["SwcModeSwitchEvent"]) -> "ModeSwitchEventTriggeredActivity":
         """
         Set swcModeSwitch and return self for chaining.
-        
+
         Args:
             value: The swcModeSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_mode_switch("value")
         """

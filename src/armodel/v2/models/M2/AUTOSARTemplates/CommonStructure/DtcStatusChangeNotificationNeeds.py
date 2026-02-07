@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component interested to
     get information regarding any DTC status change.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DtcStatusChangeNotificationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 776, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def notification_time(self, value: Optional["DiagnosticClearDtc"]) -> None:
         """
         Set notificationTime with validation.
-        
+
         Args:
             value: The notificationTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def getNotificationTime(self) -> "DiagnosticClearDtc":
         """
         AUTOSAR-compliant getter for notificationTime.
-        
+
         Returns:
             The notificationTime value
-        
+
         Note:
             Delegates to notification_time property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def setNotificationTime(self, value: "DiagnosticClearDtc") -> "DtcStatusChangeNotificationNeeds":
         """
         AUTOSAR-compliant setter for notificationTime with method chaining.
-        
+
         Args:
             value: The notificationTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to notification_time property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def with_notification_time(self, value: Optional["DiagnosticClearDtc"]) -> "DtcStatusChangeNotificationNeeds":
         """
         Set notificationTime and return self for chaining.
-        
+
         Args:
             value: The notificationTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_notification_time("value")
         """

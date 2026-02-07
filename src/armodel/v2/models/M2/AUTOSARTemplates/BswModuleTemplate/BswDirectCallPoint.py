@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswDirectCallPoint(BswModuleCallPoint):
     """
@@ -7,9 +7,9 @@ class BswDirectCallPoint(BswModuleCallPoint):
     called directly, i.e. not via the BSW Scheduler. This information can be
     used to analyze call tree and resource locking scenarios. It is not needed
     to configure the BSW Scheduler.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswDirectCallPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 78, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def called_entry(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set calledEntry with validation.
-        
+
         Args:
             value: The calledEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def called_from(self, value: Optional["ExclusiveAreaNesting"]) -> None:
         """
         Set calledFrom with validation.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def getCalledEntry(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for calledEntry.
-        
+
         Returns:
             The calledEntry value
-        
+
         Note:
             Delegates to called_entry property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def setCalledEntry(self, value: "BswModuleEntry") -> "BswDirectCallPoint":
         """
         AUTOSAR-compliant setter for calledEntry with method chaining.
-        
+
         Args:
             value: The calledEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to called_entry property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def getCalledFrom(self) -> "ExclusiveAreaNesting":
         """
         AUTOSAR-compliant getter for calledFrom.
-        
+
         Returns:
             The calledFrom value
-        
+
         Note:
             Delegates to called_from property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def setCalledFrom(self, value: "ExclusiveAreaNesting") -> "BswDirectCallPoint":
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to called_from property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def with_called_entry(self, value: Optional["BswModuleEntry"]) -> "BswDirectCallPoint":
         """
         Set calledEntry and return self for chaining.
-        
+
         Args:
             value: The calledEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_called_entry("value")
         """
@@ -155,13 +155,13 @@ class BswDirectCallPoint(BswModuleCallPoint):
     def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> "BswDirectCallPoint":
         """
         Set calledFrom and return self for chaining.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_called_from("value")
         """

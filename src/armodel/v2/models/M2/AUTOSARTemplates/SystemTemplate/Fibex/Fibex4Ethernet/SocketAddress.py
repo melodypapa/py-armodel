@@ -1,17 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SocketAddress(Identifiable):
     """
     This meta-class represents a socket address towards the rest of the
     meta-model. The actual semantics of the represented socket address, however,
     is contributed by aggregation of an ApplicationEndpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SocketAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 452, Classic Platform R23-11)
     """
@@ -32,10 +36,10 @@ class SocketAddress(Identifiable):
     def allowed_i_pv6_ext(self, value: RefType) -> None:
         """
         Set allowedIPv6Ext with validation.
-        
+
         Args:
             value: The allowedIPv6Ext to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +60,10 @@ class SocketAddress(Identifiable):
     def allowed_tcp(self, value: RefType) -> None:
         """
         Set allowedTcp with validation.
-        
+
         Args:
             value: The allowedTcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +84,10 @@ class SocketAddress(Identifiable):
     def application_endpoint(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set applicationEndpoint with validation.
-        
+
         Args:
             value: The applicationEndpoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +114,10 @@ class SocketAddress(Identifiable):
     def connector(self, value: Optional["EthernetCommunication"]) -> None:
         """
         Set connector with validation.
-        
+
         Args:
             value: The connector to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +144,10 @@ class SocketAddress(Identifiable):
     def differentiated(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set differentiated with validation.
-        
+
         Args:
             value: The differentiated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +176,10 @@ class SocketAddress(Identifiable):
     def flow_label(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set flowLabel with validation.
-        
+
         Args:
             value: The flowLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -213,10 +217,10 @@ class SocketAddress(Identifiable):
     def path_mtu(self, value: Optional["Boolean"]) -> None:
         """
         Set pathMtu with validation.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -243,10 +247,10 @@ class SocketAddress(Identifiable):
     def pdu_collection(self, value: Optional["TimeValue"]) -> None:
         """
         Set pduCollection with validation.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -280,10 +284,10 @@ class SocketAddress(Identifiable):
     def udp_checksum(self, value: Optional["UdpChecksum"]) -> None:
         """
         Set udpChecksum with validation.
-        
+
         Args:
             value: The udpChecksum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -302,10 +306,10 @@ class SocketAddress(Identifiable):
     def getAllowedIPv6Ext(self) -> RefType:
         """
         AUTOSAR-compliant getter for allowedIPv6Ext.
-        
+
         Returns:
             The allowedIPv6Ext value
-        
+
         Note:
             Delegates to allowed_i_pv6_ext property (CODING_RULE_V2_00017)
         """
@@ -314,13 +318,13 @@ class SocketAddress(Identifiable):
     def setAllowedIPv6Ext(self, value: RefType) -> "SocketAddress":
         """
         AUTOSAR-compliant setter for allowedIPv6Ext with method chaining.
-        
+
         Args:
             value: The allowedIPv6Ext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allowed_i_pv6_ext property setter (gets validation automatically)
         """
@@ -330,10 +334,10 @@ class SocketAddress(Identifiable):
     def getAllowedTcp(self) -> RefType:
         """
         AUTOSAR-compliant getter for allowedTcp.
-        
+
         Returns:
             The allowedTcp value
-        
+
         Note:
             Delegates to allowed_tcp property (CODING_RULE_V2_00017)
         """
@@ -342,13 +346,13 @@ class SocketAddress(Identifiable):
     def setAllowedTcp(self, value: RefType) -> "SocketAddress":
         """
         AUTOSAR-compliant setter for allowedTcp with method chaining.
-        
+
         Args:
             value: The allowedTcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allowed_tcp property setter (gets validation automatically)
         """
@@ -358,10 +362,10 @@ class SocketAddress(Identifiable):
     def getApplicationEndpoint(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for applicationEndpoint.
-        
+
         Returns:
             The applicationEndpoint value
-        
+
         Note:
             Delegates to application_endpoint property (CODING_RULE_V2_00017)
         """
@@ -370,13 +374,13 @@ class SocketAddress(Identifiable):
     def setApplicationEndpoint(self, value: "ApplicationEndpoint") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for applicationEndpoint with method chaining.
-        
+
         Args:
             value: The applicationEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_endpoint property setter (gets validation automatically)
         """
@@ -386,10 +390,10 @@ class SocketAddress(Identifiable):
     def getConnector(self) -> "EthernetCommunication":
         """
         AUTOSAR-compliant getter for connector.
-        
+
         Returns:
             The connector value
-        
+
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -398,13 +402,13 @@ class SocketAddress(Identifiable):
     def setConnector(self, value: "EthernetCommunication") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for connector with method chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connector property setter (gets validation automatically)
         """
@@ -414,10 +418,10 @@ class SocketAddress(Identifiable):
     def getDifferentiated(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for differentiated.
-        
+
         Returns:
             The differentiated value
-        
+
         Note:
             Delegates to differentiated property (CODING_RULE_V2_00017)
         """
@@ -426,13 +430,13 @@ class SocketAddress(Identifiable):
     def setDifferentiated(self, value: "PositiveInteger") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for differentiated with method chaining.
-        
+
         Args:
             value: The differentiated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to differentiated property setter (gets validation automatically)
         """
@@ -442,10 +446,10 @@ class SocketAddress(Identifiable):
     def getFlowLabel(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for flowLabel.
-        
+
         Returns:
             The flowLabel value
-        
+
         Note:
             Delegates to flow_label property (CODING_RULE_V2_00017)
         """
@@ -454,13 +458,13 @@ class SocketAddress(Identifiable):
     def setFlowLabel(self, value: "PositiveInteger") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for flowLabel with method chaining.
-        
+
         Args:
             value: The flowLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_label property setter (gets validation automatically)
         """
@@ -470,10 +474,10 @@ class SocketAddress(Identifiable):
     def getMulticast(self) -> List["EthernetCommunication"]:
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -482,10 +486,10 @@ class SocketAddress(Identifiable):
     def getPathMtu(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pathMtu.
-        
+
         Returns:
             The pathMtu value
-        
+
         Note:
             Delegates to path_mtu property (CODING_RULE_V2_00017)
         """
@@ -494,13 +498,13 @@ class SocketAddress(Identifiable):
     def setPathMtu(self, value: "Boolean") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for pathMtu with method chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to path_mtu property setter (gets validation automatically)
         """
@@ -510,10 +514,10 @@ class SocketAddress(Identifiable):
     def getPduCollection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pduCollection.
-        
+
         Returns:
             The pduCollection value
-        
+
         Note:
             Delegates to pdu_collection property (CODING_RULE_V2_00017)
         """
@@ -522,13 +526,13 @@ class SocketAddress(Identifiable):
     def setPduCollection(self, value: "TimeValue") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_collection property setter (gets validation automatically)
         """
@@ -538,10 +542,10 @@ class SocketAddress(Identifiable):
     def getStaticSocket(self) -> List["StaticSocketConnection"]:
         """
         AUTOSAR-compliant getter for staticSocket.
-        
+
         Returns:
             The staticSocket value
-        
+
         Note:
             Delegates to static_socket property (CODING_RULE_V2_00017)
         """
@@ -550,10 +554,10 @@ class SocketAddress(Identifiable):
     def getUdpChecksum(self) -> "UdpChecksum":
         """
         AUTOSAR-compliant getter for udpChecksum.
-        
+
         Returns:
             The udpChecksum value
-        
+
         Note:
             Delegates to udp_checksum property (CODING_RULE_V2_00017)
         """
@@ -562,13 +566,13 @@ class SocketAddress(Identifiable):
     def setUdpChecksum(self, value: "UdpChecksum") -> "SocketAddress":
         """
         AUTOSAR-compliant setter for udpChecksum with method chaining.
-        
+
         Args:
             value: The udpChecksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_checksum property setter (gets validation automatically)
         """
@@ -580,13 +584,13 @@ class SocketAddress(Identifiable):
     def with_allowed_i_pv6_ext(self, value: Optional[RefType]) -> "SocketAddress":
         """
         Set allowedIPv6Ext and return self for chaining.
-        
+
         Args:
             value: The allowedIPv6Ext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allowed_i_pv6_ext("value")
         """
@@ -596,13 +600,13 @@ class SocketAddress(Identifiable):
     def with_allowed_tcp(self, value: Optional[RefType]) -> "SocketAddress":
         """
         Set allowedTcp and return self for chaining.
-        
+
         Args:
             value: The allowedTcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allowed_tcp("value")
         """
@@ -612,13 +616,13 @@ class SocketAddress(Identifiable):
     def with_application_endpoint(self, value: Optional["ApplicationEndpoint"]) -> "SocketAddress":
         """
         Set applicationEndpoint and return self for chaining.
-        
+
         Args:
             value: The applicationEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_endpoint("value")
         """
@@ -628,13 +632,13 @@ class SocketAddress(Identifiable):
     def with_connector(self, value: Optional["EthernetCommunication"]) -> "SocketAddress":
         """
         Set connector and return self for chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connector("value")
         """
@@ -644,13 +648,13 @@ class SocketAddress(Identifiable):
     def with_differentiated(self, value: Optional["PositiveInteger"]) -> "SocketAddress":
         """
         Set differentiated and return self for chaining.
-        
+
         Args:
             value: The differentiated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_differentiated("value")
         """
@@ -660,13 +664,13 @@ class SocketAddress(Identifiable):
     def with_flow_label(self, value: Optional["PositiveInteger"]) -> "SocketAddress":
         """
         Set flowLabel and return self for chaining.
-        
+
         Args:
             value: The flowLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_label("value")
         """
@@ -676,13 +680,13 @@ class SocketAddress(Identifiable):
     def with_path_mtu(self, value: Optional["Boolean"]) -> "SocketAddress":
         """
         Set pathMtu and return self for chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_path_mtu("value")
         """
@@ -692,13 +696,13 @@ class SocketAddress(Identifiable):
     def with_pdu_collection(self, value: Optional["TimeValue"]) -> "SocketAddress":
         """
         Set pduCollection and return self for chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_collection("value")
         """
@@ -708,13 +712,13 @@ class SocketAddress(Identifiable):
     def with_udp_checksum(self, value: Optional["UdpChecksum"]) -> "SocketAddress":
         """
         Set udpChecksum and return self for chaining.
-        
+
         Args:
             value: The udpChecksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_checksum("value")
         """

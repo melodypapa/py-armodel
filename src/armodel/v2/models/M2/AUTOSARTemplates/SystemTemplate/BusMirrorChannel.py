@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BusMirrorChannel(ARObject):
     """
     This element assigns a busMirrorNetworkId to the referenced channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 698, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class BusMirrorChannel(ARObject):
     def bus_mirror(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set busMirror with validation.
-        
+
         Args:
             value: The busMirror to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class BusMirrorChannel(ARObject):
     def channel(self, value: Optional["PhysicalChannel"]) -> None:
         """
         Set channel with validation.
-        
+
         Args:
             value: The channel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class BusMirrorChannel(ARObject):
     def getBusMirror(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for busMirror.
-        
+
         Returns:
             The busMirror value
-        
+
         Note:
             Delegates to bus_mirror property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class BusMirrorChannel(ARObject):
     def setBusMirror(self, value: "PositiveInteger") -> "BusMirrorChannel":
         """
         AUTOSAR-compliant setter for busMirror with method chaining.
-        
+
         Args:
             value: The busMirror to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bus_mirror property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class BusMirrorChannel(ARObject):
     def getChannel(self) -> "PhysicalChannel":
         """
         AUTOSAR-compliant getter for channel.
-        
+
         Returns:
             The channel value
-        
+
         Note:
             Delegates to channel property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class BusMirrorChannel(ARObject):
     def setChannel(self, value: "PhysicalChannel") -> "BusMirrorChannel":
         """
         AUTOSAR-compliant setter for channel with method chaining.
-        
+
         Args:
             value: The channel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to channel property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class BusMirrorChannel(ARObject):
     def with_bus_mirror(self, value: Optional["PositiveInteger"]) -> "BusMirrorChannel":
         """
         Set busMirror and return self for chaining.
-        
+
         Args:
             value: The busMirror to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bus_mirror("value")
         """
@@ -153,13 +156,13 @@ class BusMirrorChannel(ARObject):
     def with_channel(self, value: Optional["PhysicalChannel"]) -> "BusMirrorChannel":
         """
         Set channel and return self for chaining.
-        
+
         Args:
             value: The channel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_channel("value")
         """

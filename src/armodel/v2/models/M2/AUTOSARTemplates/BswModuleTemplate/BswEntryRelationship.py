@@ -6,9 +6,9 @@ class BswEntryRelationship(ARObject):
     """
     Describes a relationship between two BswModuleEntrys and the type of
     relationship.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswEntryRelationship
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 51, Classic
       Platform R23-11)
@@ -32,10 +32,10 @@ class BswEntryRelationship(ARObject):
     def bsw_entry(self, value: Optional["BswEntryRelationship"]) -> None:
         """
         Set bswEntry with validation.
-        
+
         Args:
             value: The bswEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class BswEntryRelationship(ARObject):
     def from(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set from with validation.
-        
+
         Args:
             value: The from to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class BswEntryRelationship(ARObject):
     def to(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set to with validation.
-        
+
         Args:
             value: The to to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +111,10 @@ class BswEntryRelationship(ARObject):
     def getBswEntry(self) -> "BswEntryRelationship":
         """
         AUTOSAR-compliant getter for bswEntry.
-        
+
         Returns:
             The bswEntry value
-        
+
         Note:
             Delegates to bsw_entry property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class BswEntryRelationship(ARObject):
     def setBswEntry(self, value: "BswEntryRelationship") -> "BswEntryRelationship":
         """
         AUTOSAR-compliant setter for bswEntry with method chaining.
-        
+
         Args:
             value: The bswEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_entry property setter (gets validation automatically)
         """
@@ -139,10 +139,10 @@ class BswEntryRelationship(ARObject):
     def getFrom(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for from.
-        
+
         Returns:
             The from value
-        
+
         Note:
             Delegates to from property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class BswEntryRelationship(ARObject):
     def setFrom(self, value: "BswModuleEntry") -> "BswEntryRelationship":
         """
         AUTOSAR-compliant setter for from with method chaining.
-        
+
         Args:
             value: The from to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to from property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class BswEntryRelationship(ARObject):
     def getTo(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for to.
-        
+
         Returns:
             The to value
-        
+
         Note:
             Delegates to to property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class BswEntryRelationship(ARObject):
     def setTo(self, value: "BswModuleEntry") -> "BswEntryRelationship":
         """
         AUTOSAR-compliant setter for to with method chaining.
-        
+
         Args:
             value: The to to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to to property setter (gets validation automatically)
         """
@@ -197,13 +197,13 @@ class BswEntryRelationship(ARObject):
     def with_bsw_entry(self, value: Optional["BswEntryRelationship"]) -> "BswEntryRelationship":
         """
         Set bswEntry and return self for chaining.
-        
+
         Args:
             value: The bswEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_entry("value")
         """
@@ -213,13 +213,13 @@ class BswEntryRelationship(ARObject):
     def with_from(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
         """
         Set from and return self for chaining.
-        
+
         Args:
             value: The from to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_from("value")
         """
@@ -229,13 +229,13 @@ class BswEntryRelationship(ARObject):
     def with_to(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
         """
         Set to and return self for chaining.
-        
+
         Args:
             value: The to to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_to("value")
         """

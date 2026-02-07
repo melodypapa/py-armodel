@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CryptoServiceQueue(ARElement):
     """
     This meta-class has the ability to represent a crypto queue.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServiceQueue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 381, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class CryptoServiceQueue(ARElement):
     def queue_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueSize with validation.
-        
+
         Args:
             value: The queueSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class CryptoServiceQueue(ARElement):
     def getQueueSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueSize.
-        
+
         Returns:
             The queueSize value
-        
+
         Note:
             Delegates to queue_size property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class CryptoServiceQueue(ARElement):
     def setQueueSize(self, value: "PositiveInteger") -> "CryptoServiceQueue":
         """
         AUTOSAR-compliant setter for queueSize with method chaining.
-        
+
         Args:
             value: The queueSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_size property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class CryptoServiceQueue(ARElement):
     def with_queue_size(self, value: Optional["PositiveInteger"]) -> "CryptoServiceQueue":
         """
         Set queueSize and return self for chaining.
-        
+
         Args:
             value: The queueSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_size("value")
         """

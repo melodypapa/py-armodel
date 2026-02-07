@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MultiLanguageOverviewParagraph(ARObject):
     """
     This is the content of a multilingual paragraph in an overview item.
-    
+
     Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguageOverviewParagraph
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 53, Classic Platform
       R23-11)
@@ -32,10 +33,10 @@ class MultiLanguageOverviewParagraph(ARObject):
     def l2(self, value: "LOverviewParagraph") -> None:
         """
         Set l2 with validation.
-        
+
         Args:
             value: The l2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +51,10 @@ class MultiLanguageOverviewParagraph(ARObject):
     def getL2(self) -> "LOverviewParagraph":
         """
         AUTOSAR-compliant getter for l2.
-        
+
         Returns:
             The l2 value
-        
+
         Note:
             Delegates to l2 property (CODING_RULE_V2_00017)
         """
@@ -62,13 +63,13 @@ class MultiLanguageOverviewParagraph(ARObject):
     def setL2(self, value: "LOverviewParagraph") -> "MultiLanguageOverviewParagraph":
         """
         AUTOSAR-compliant setter for l2 with method chaining.
-        
+
         Args:
             value: The l2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l2 property setter (gets validation automatically)
         """
@@ -80,13 +81,13 @@ class MultiLanguageOverviewParagraph(ARObject):
     def with_l2(self, value: "LOverviewParagraph") -> "MultiLanguageOverviewParagraph":
         """
         Set l2 and return self for chaining.
-        
+
         Args:
             value: The l2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l2("value")
         """

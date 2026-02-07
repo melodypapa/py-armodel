@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TransmissionModeCondition(ARObject):
     """
@@ -9,9 +14,9 @@ class TransmissionModeCondition(ARObject):
     least one condition evaluates to true, TRANSMISSION MODE True shall be used
     for this I-Pdu. In all other cases, the TRANSMISSION MODE FALSE shall be
     used.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TransmissionModeCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 392, Classic Platform R23-11)
     """
@@ -31,10 +36,10 @@ class TransmissionModeCondition(ARObject):
     def data_filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set dataFilter with validation.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +64,10 @@ class TransmissionModeCondition(ARObject):
     def i_signal_in_i_pdu(self, value: RefType) -> None:
         """
         Set iSignalInIPdu with validation.
-        
+
         Args:
             value: The iSignalInIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +82,10 @@ class TransmissionModeCondition(ARObject):
     def getDataFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for dataFilter.
-        
+
         Returns:
             The dataFilter value
-        
+
         Note:
             Delegates to data_filter property (CODING_RULE_V2_00017)
         """
@@ -89,13 +94,13 @@ class TransmissionModeCondition(ARObject):
     def setDataFilter(self, value: "DataFilter") -> "TransmissionModeCondition":
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_filter property setter (gets validation automatically)
         """
@@ -105,10 +110,10 @@ class TransmissionModeCondition(ARObject):
     def getISignalInIPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for iSignalInIPdu.
-        
+
         Returns:
             The iSignalInIPdu value
-        
+
         Note:
             Delegates to i_signal_in_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -117,13 +122,13 @@ class TransmissionModeCondition(ARObject):
     def setISignalInIPdu(self, value: RefType) -> "TransmissionModeCondition":
         """
         AUTOSAR-compliant setter for iSignalInIPdu with method chaining.
-        
+
         Args:
             value: The iSignalInIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_in_i_pdu property setter (gets validation automatically)
         """
@@ -135,13 +140,13 @@ class TransmissionModeCondition(ARObject):
     def with_data_filter(self, value: Optional["DataFilter"]) -> "TransmissionModeCondition":
         """
         Set dataFilter and return self for chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_filter("value")
         """
@@ -151,13 +156,13 @@ class TransmissionModeCondition(ARObject):
     def with_i_signal_in_i_pdu(self, value: Optional[RefType]) -> "TransmissionModeCondition":
         """
         Set iSignalInIPdu and return self for chaining.
-        
+
         Args:
             value: The iSignalInIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_in_i_pdu("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ChapterModel(ARObject):
     """
@@ -8,9 +11,9 @@ class ChapterModel(ARObject):
     can be utilized in general chapters as well as in predefined chapters. A
     chapter has content on three levels: 1. chapter content 2. topics 3.
     subchapters
-    
+
     Package: M2::MSR::Documentation::Chapters::ChapterModel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 699, Classic Platform
       R23-11)
@@ -33,10 +36,10 @@ class ChapterModel(ARObject):
     def chapter(self, value: Optional["ChapterOrMsrQuery"]) -> None:
         """
         Set chapter with validation.
-        
+
         Args:
             value: The chapter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class ChapterModel(ARObject):
     def chapter_content(self, value: Optional["ChapterContent"]) -> None:
         """
         Set chapterContent with validation.
-        
+
         Args:
             value: The chapterContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class ChapterModel(ARObject):
     def topic1(self, value: Optional["TopicOrMsrQuery"]) -> None:
         """
         Set topic1 with validation.
-        
+
         Args:
             value: The topic1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class ChapterModel(ARObject):
     def getChapter(self) -> "ChapterOrMsrQuery":
         """
         AUTOSAR-compliant getter for chapter.
-        
+
         Returns:
             The chapter value
-        
+
         Note:
             Delegates to chapter property (CODING_RULE_V2_00017)
         """
@@ -124,13 +127,13 @@ class ChapterModel(ARObject):
     def setChapter(self, value: "ChapterOrMsrQuery") -> "ChapterModel":
         """
         AUTOSAR-compliant setter for chapter with method chaining.
-        
+
         Args:
             value: The chapter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to chapter property setter (gets validation automatically)
         """
@@ -140,10 +143,10 @@ class ChapterModel(ARObject):
     def getChapterContent(self) -> "ChapterContent":
         """
         AUTOSAR-compliant getter for chapterContent.
-        
+
         Returns:
             The chapterContent value
-        
+
         Note:
             Delegates to chapter_content property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class ChapterModel(ARObject):
     def setChapterContent(self, value: "ChapterContent") -> "ChapterModel":
         """
         AUTOSAR-compliant setter for chapterContent with method chaining.
-        
+
         Args:
             value: The chapterContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to chapter_content property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class ChapterModel(ARObject):
     def getTopic1(self) -> "TopicOrMsrQuery":
         """
         AUTOSAR-compliant getter for topic1.
-        
+
         Returns:
             The topic1 value
-        
+
         Note:
             Delegates to topic1 property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class ChapterModel(ARObject):
     def setTopic1(self, value: "TopicOrMsrQuery") -> "ChapterModel":
         """
         AUTOSAR-compliant setter for topic1 with method chaining.
-        
+
         Args:
             value: The topic1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic1 property setter (gets validation automatically)
         """
@@ -198,13 +201,13 @@ class ChapterModel(ARObject):
     def with_chapter(self, value: Optional["ChapterOrMsrQuery"]) -> "ChapterModel":
         """
         Set chapter and return self for chaining.
-        
+
         Args:
             value: The chapter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_chapter("value")
         """
@@ -214,13 +217,13 @@ class ChapterModel(ARObject):
     def with_chapter_content(self, value: Optional["ChapterContent"]) -> "ChapterModel":
         """
         Set chapterContent and return self for chaining.
-        
+
         Args:
             value: The chapterContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_chapter_content("value")
         """
@@ -230,13 +233,13 @@ class ChapterModel(ARObject):
     def with_topic1(self, value: Optional["TopicOrMsrQuery"]) -> "ChapterModel":
         """
         Set topic1 and return self for chaining.
-        
+
         Args:
             value: The topic1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic1("value")
         """

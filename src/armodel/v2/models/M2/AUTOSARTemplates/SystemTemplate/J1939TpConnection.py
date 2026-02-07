@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class J1939TpConnection(TpConnection):
     """
@@ -7,9 +7,9 @@ class J1939TpConnection(TpConnection):
     reception of a Pdu via J1939Tp and describes the sender and the receiver of
     this particular communication. The J1939Tp module routes a Pdu (J1939 PGN)
     through the connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::J1939TpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 624, Classic Platform R23-11)
     """
@@ -31,10 +31,10 @@ class J1939TpConnection(TpConnection):
     def broadcast(self, value: Optional["Boolean"]) -> None:
         """
         Set broadcast with validation.
-        
+
         Args:
             value: The broadcast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class J1939TpConnection(TpConnection):
     def buffer_ratio(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bufferRatio with validation.
-        
+
         Args:
             value: The bufferRatio to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class J1939TpConnection(TpConnection):
     def cancellation(self, value: Optional["Boolean"]) -> None:
         """
         Set cancellation with validation.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class J1939TpConnection(TpConnection):
     def data_pdu(self, value: Optional["NPdu"]) -> None:
         """
         Set dataPdu with validation.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -148,10 +148,10 @@ class J1939TpConnection(TpConnection):
     def dynamic_bs(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamicBs with validation.
-        
+
         Args:
             value: The dynamicBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -180,10 +180,10 @@ class J1939TpConnection(TpConnection):
     def flow_control_pdu(self, value: "NPdu") -> None:
         """
         Set flowControlPdu with validation.
-        
+
         Args:
             value: The flowControlPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +205,10 @@ class J1939TpConnection(TpConnection):
     def max_bs(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxBs with validation.
-        
+
         Args:
             value: The maxBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +234,10 @@ class J1939TpConnection(TpConnection):
     def max_exp_bs(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxExpBs with validation.
-        
+
         Args:
             value: The maxExpBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -269,10 +269,10 @@ class J1939TpConnection(TpConnection):
     def retry(self, value: Optional["Boolean"]) -> None:
         """
         Set retry with validation.
-        
+
         Args:
             value: The retry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -304,10 +304,10 @@ class J1939TpConnection(TpConnection):
     def transmitter(self, value: Optional["J1939TpNode"]) -> None:
         """
         Set transmitter with validation.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -326,10 +326,10 @@ class J1939TpConnection(TpConnection):
     def getBroadcast(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for broadcast.
-        
+
         Returns:
             The broadcast value
-        
+
         Note:
             Delegates to broadcast property (CODING_RULE_V2_00017)
         """
@@ -338,13 +338,13 @@ class J1939TpConnection(TpConnection):
     def setBroadcast(self, value: "Boolean") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for broadcast with method chaining.
-        
+
         Args:
             value: The broadcast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to broadcast property setter (gets validation automatically)
         """
@@ -354,10 +354,10 @@ class J1939TpConnection(TpConnection):
     def getBufferRatio(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bufferRatio.
-        
+
         Returns:
             The bufferRatio value
-        
+
         Note:
             Delegates to buffer_ratio property (CODING_RULE_V2_00017)
         """
@@ -366,13 +366,13 @@ class J1939TpConnection(TpConnection):
     def setBufferRatio(self, value: "PositiveInteger") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for bufferRatio with method chaining.
-        
+
         Args:
             value: The bufferRatio to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to buffer_ratio property setter (gets validation automatically)
         """
@@ -382,10 +382,10 @@ class J1939TpConnection(TpConnection):
     def getCancellation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for cancellation.
-        
+
         Returns:
             The cancellation value
-        
+
         Note:
             Delegates to cancellation property (CODING_RULE_V2_00017)
         """
@@ -394,13 +394,13 @@ class J1939TpConnection(TpConnection):
     def setCancellation(self, value: "Boolean") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cancellation property setter (gets validation automatically)
         """
@@ -410,10 +410,10 @@ class J1939TpConnection(TpConnection):
     def getDataPdu(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for dataPdu.
-        
+
         Returns:
             The dataPdu value
-        
+
         Note:
             Delegates to data_pdu property (CODING_RULE_V2_00017)
         """
@@ -422,13 +422,13 @@ class J1939TpConnection(TpConnection):
     def setDataPdu(self, value: "NPdu") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for dataPdu with method chaining.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_pdu property setter (gets validation automatically)
         """
@@ -438,10 +438,10 @@ class J1939TpConnection(TpConnection):
     def getDynamicBs(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamicBs.
-        
+
         Returns:
             The dynamicBs value
-        
+
         Note:
             Delegates to dynamic_bs property (CODING_RULE_V2_00017)
         """
@@ -450,13 +450,13 @@ class J1939TpConnection(TpConnection):
     def setDynamicBs(self, value: "Boolean") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for dynamicBs with method chaining.
-        
+
         Args:
             value: The dynamicBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_bs property setter (gets validation automatically)
         """
@@ -466,10 +466,10 @@ class J1939TpConnection(TpConnection):
     def getFlowControlPdu(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for flowControlPdu.
-        
+
         Returns:
             The flowControlPdu value
-        
+
         Note:
             Delegates to flow_control_pdu property (CODING_RULE_V2_00017)
         """
@@ -478,13 +478,13 @@ class J1939TpConnection(TpConnection):
     def setFlowControlPdu(self, value: "NPdu") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for flowControlPdu with method chaining.
-        
+
         Args:
             value: The flowControlPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_control_pdu property setter (gets validation automatically)
         """
@@ -494,10 +494,10 @@ class J1939TpConnection(TpConnection):
     def getMaxBs(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxBs.
-        
+
         Returns:
             The maxBs value
-        
+
         Note:
             Delegates to max_bs property (CODING_RULE_V2_00017)
         """
@@ -506,13 +506,13 @@ class J1939TpConnection(TpConnection):
     def setMaxBs(self, value: "PositiveInteger") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for maxBs with method chaining.
-        
+
         Args:
             value: The maxBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_bs property setter (gets validation automatically)
         """
@@ -522,10 +522,10 @@ class J1939TpConnection(TpConnection):
     def getMaxExpBs(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxExpBs.
-        
+
         Returns:
             The maxExpBs value
-        
+
         Note:
             Delegates to max_exp_bs property (CODING_RULE_V2_00017)
         """
@@ -534,13 +534,13 @@ class J1939TpConnection(TpConnection):
     def setMaxExpBs(self, value: "PositiveInteger") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for maxExpBs with method chaining.
-        
+
         Args:
             value: The maxExpBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_exp_bs property setter (gets validation automatically)
         """
@@ -550,10 +550,10 @@ class J1939TpConnection(TpConnection):
     def getReceiver(self) -> List["J1939TpNode"]:
         """
         AUTOSAR-compliant getter for receiver.
-        
+
         Returns:
             The receiver value
-        
+
         Note:
             Delegates to receiver property (CODING_RULE_V2_00017)
         """
@@ -562,10 +562,10 @@ class J1939TpConnection(TpConnection):
     def getRetry(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for retry.
-        
+
         Returns:
             The retry value
-        
+
         Note:
             Delegates to retry property (CODING_RULE_V2_00017)
         """
@@ -574,13 +574,13 @@ class J1939TpConnection(TpConnection):
     def setRetry(self, value: "Boolean") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for retry with method chaining.
-        
+
         Args:
             value: The retry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to retry property setter (gets validation automatically)
         """
@@ -590,10 +590,10 @@ class J1939TpConnection(TpConnection):
     def getTpPg(self) -> List["J1939TpPg"]:
         """
         AUTOSAR-compliant getter for tpPg.
-        
+
         Returns:
             The tpPg value
-        
+
         Note:
             Delegates to tp_pg property (CODING_RULE_V2_00017)
         """
@@ -602,10 +602,10 @@ class J1939TpConnection(TpConnection):
     def getTransmitter(self) -> "J1939TpNode":
         """
         AUTOSAR-compliant getter for transmitter.
-        
+
         Returns:
             The transmitter value
-        
+
         Note:
             Delegates to transmitter property (CODING_RULE_V2_00017)
         """
@@ -614,13 +614,13 @@ class J1939TpConnection(TpConnection):
     def setTransmitter(self, value: "J1939TpNode") -> "J1939TpConnection":
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmitter property setter (gets validation automatically)
         """
@@ -632,13 +632,13 @@ class J1939TpConnection(TpConnection):
     def with_broadcast(self, value: Optional["Boolean"]) -> "J1939TpConnection":
         """
         Set broadcast and return self for chaining.
-        
+
         Args:
             value: The broadcast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_broadcast("value")
         """
@@ -648,13 +648,13 @@ class J1939TpConnection(TpConnection):
     def with_buffer_ratio(self, value: Optional["PositiveInteger"]) -> "J1939TpConnection":
         """
         Set bufferRatio and return self for chaining.
-        
+
         Args:
             value: The bufferRatio to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_buffer_ratio("value")
         """
@@ -664,13 +664,13 @@ class J1939TpConnection(TpConnection):
     def with_cancellation(self, value: Optional["Boolean"]) -> "J1939TpConnection":
         """
         Set cancellation and return self for chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cancellation("value")
         """
@@ -680,13 +680,13 @@ class J1939TpConnection(TpConnection):
     def with_data_pdu(self, value: Optional["NPdu"]) -> "J1939TpConnection":
         """
         Set dataPdu and return self for chaining.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_pdu("value")
         """
@@ -696,13 +696,13 @@ class J1939TpConnection(TpConnection):
     def with_dynamic_bs(self, value: Optional["Boolean"]) -> "J1939TpConnection":
         """
         Set dynamicBs and return self for chaining.
-        
+
         Args:
             value: The dynamicBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_bs("value")
         """
@@ -712,13 +712,13 @@ class J1939TpConnection(TpConnection):
     def with_flow_control_pdu(self, value: "NPdu") -> "J1939TpConnection":
         """
         Set flowControlPdu and return self for chaining.
-        
+
         Args:
             value: The flowControlPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_control_pdu("value")
         """
@@ -728,13 +728,13 @@ class J1939TpConnection(TpConnection):
     def with_max_bs(self, value: Optional["PositiveInteger"]) -> "J1939TpConnection":
         """
         Set maxBs and return self for chaining.
-        
+
         Args:
             value: The maxBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_bs("value")
         """
@@ -744,13 +744,13 @@ class J1939TpConnection(TpConnection):
     def with_max_exp_bs(self, value: Optional["PositiveInteger"]) -> "J1939TpConnection":
         """
         Set maxExpBs and return self for chaining.
-        
+
         Args:
             value: The maxExpBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_exp_bs("value")
         """
@@ -760,13 +760,13 @@ class J1939TpConnection(TpConnection):
     def with_retry(self, value: Optional["Boolean"]) -> "J1939TpConnection":
         """
         Set retry and return self for chaining.
-        
+
         Args:
             value: The retry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_retry("value")
         """
@@ -776,13 +776,13 @@ class J1939TpConnection(TpConnection):
     def with_transmitter(self, value: Optional["J1939TpNode"]) -> "J1939TpConnection":
         """
         Set transmitter and return self for chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmitter("value")
         """

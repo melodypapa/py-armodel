@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     """
     This meta-class represents the ability to define the result of a diagnostic
     routine execution.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRequestRoutineResults
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform
       R23-11)
@@ -36,10 +36,10 @@ class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     def getRequest(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -48,10 +48,10 @@ class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     def getResponse(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """

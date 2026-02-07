@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     """
     The class EndToEndTransformationIComSpecProps specifies port specific
     configuration properties for EndToEnd transformer attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 200, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def clear_from_valid(self, value: Optional["Boolean"]) -> None:
         """
         Set clearFromValid with validation.
-        
+
         Args:
             value: The clearFromValid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def disable_end_to(self, value: Optional["Boolean"]) -> None:
         """
         Set disableEndTo with validation.
-        
+
         Args:
             value: The disableEndTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> None:
         """
         Set e2eProfile with validation.
-        
+
         Args:
             value: The e2eProfile to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def max_delta(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDelta with validation.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +146,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def max_error_state(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxErrorState with validation.
-        
+
         Args:
             value: The maxErrorState to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +175,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def max_no_new_or(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNoNewOr with validation.
-        
+
         Args:
             value: The maxNoNewOr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +205,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def min_ok_state_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minOkStateInit with validation.
-        
+
         Args:
             value: The minOkStateInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -235,10 +235,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def min_ok_state(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minOkState with validation.
-        
+
         Args:
             value: The minOkState to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -264,10 +264,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def sync_counter_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set syncCounterInit with validation.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -292,10 +292,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def window_size_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set windowSizeInit with validation.
-        
+
         Args:
             value: The windowSizeInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -320,10 +320,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def window_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set windowSize with validation.
-        
+
         Args:
             value: The windowSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -342,10 +342,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getClearFromValid(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for clearFromValid.
-        
+
         Returns:
             The clearFromValid value
-        
+
         Note:
             Delegates to clear_from_valid property (CODING_RULE_V2_00017)
         """
@@ -354,13 +354,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setClearFromValid(self, value: "Boolean") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for clearFromValid with method chaining.
-        
+
         Args:
             value: The clearFromValid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clear_from_valid property setter (gets validation automatically)
         """
@@ -370,10 +370,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getDisableEndTo(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for disableEndTo.
-        
+
         Returns:
             The disableEndTo value
-        
+
         Note:
             Delegates to disable_end_to property (CODING_RULE_V2_00017)
         """
@@ -382,13 +382,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setDisableEndTo(self, value: "Boolean") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for disableEndTo with method chaining.
-        
+
         Args:
             value: The disableEndTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to disable_end_to property setter (gets validation automatically)
         """
@@ -398,10 +398,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getE2eProfile(self) -> "E2EProfileCompatibility":
         """
         AUTOSAR-compliant getter for e2eProfile.
-        
+
         Returns:
             The e2eProfile value
-        
+
         Note:
             Delegates to e2e_profile property (CODING_RULE_V2_00017)
         """
@@ -410,13 +410,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setE2eProfile(self, value: "E2EProfileCompatibility") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for e2eProfile with method chaining.
-        
+
         Args:
             value: The e2eProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to e2e_profile property setter (gets validation automatically)
         """
@@ -426,10 +426,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getMaxDelta(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDelta.
-        
+
         Returns:
             The maxDelta value
-        
+
         Note:
             Delegates to max_delta property (CODING_RULE_V2_00017)
         """
@@ -438,13 +438,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setMaxDelta(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_delta property setter (gets validation automatically)
         """
@@ -454,10 +454,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getMaxErrorState(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxErrorState.
-        
+
         Returns:
             The maxErrorState value
-        
+
         Note:
             Delegates to max_error_state property (CODING_RULE_V2_00017)
         """
@@ -466,13 +466,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setMaxErrorState(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for maxErrorState with method chaining.
-        
+
         Args:
             value: The maxErrorState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_error_state property setter (gets validation automatically)
         """
@@ -482,10 +482,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getMaxNoNewOr(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNoNewOr.
-        
+
         Returns:
             The maxNoNewOr value
-        
+
         Note:
             Delegates to max_no_new_or property (CODING_RULE_V2_00017)
         """
@@ -494,13 +494,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setMaxNoNewOr(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for maxNoNewOr with method chaining.
-        
+
         Args:
             value: The maxNoNewOr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_no_new_or property setter (gets validation automatically)
         """
@@ -510,10 +510,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getMinOkStateInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minOkStateInit.
-        
+
         Returns:
             The minOkStateInit value
-        
+
         Note:
             Delegates to min_ok_state_init property (CODING_RULE_V2_00017)
         """
@@ -522,13 +522,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setMinOkStateInit(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for minOkStateInit with method chaining.
-        
+
         Args:
             value: The minOkStateInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_ok_state_init property setter (gets validation automatically)
         """
@@ -538,10 +538,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getMinOkState(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minOkState.
-        
+
         Returns:
             The minOkState value
-        
+
         Note:
             Delegates to min_ok_state property (CODING_RULE_V2_00017)
         """
@@ -550,13 +550,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setMinOkState(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for minOkState with method chaining.
-        
+
         Args:
             value: The minOkState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_ok_state property setter (gets validation automatically)
         """
@@ -566,10 +566,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getSyncCounterInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncCounterInit.
-        
+
         Returns:
             The syncCounterInit value
-        
+
         Note:
             Delegates to sync_counter_init property (CODING_RULE_V2_00017)
         """
@@ -578,13 +578,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setSyncCounterInit(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_counter_init property setter (gets validation automatically)
         """
@@ -594,10 +594,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getWindowSizeInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for windowSizeInit.
-        
+
         Returns:
             The windowSizeInit value
-        
+
         Note:
             Delegates to window_size_init property (CODING_RULE_V2_00017)
         """
@@ -606,13 +606,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setWindowSizeInit(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for windowSizeInit with method chaining.
-        
+
         Args:
             value: The windowSizeInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to window_size_init property setter (gets validation automatically)
         """
@@ -622,10 +622,10 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def getWindowSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for windowSize.
-        
+
         Returns:
             The windowSize value
-        
+
         Note:
             Delegates to window_size property (CODING_RULE_V2_00017)
         """
@@ -634,13 +634,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def setWindowSize(self, value: "PositiveInteger") -> "EndToEndTransformationComSpecProps":
         """
         AUTOSAR-compliant setter for windowSize with method chaining.
-        
+
         Args:
             value: The windowSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to window_size property setter (gets validation automatically)
         """
@@ -652,13 +652,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_clear_from_valid(self, value: Optional["Boolean"]) -> "EndToEndTransformationComSpecProps":
         """
         Set clearFromValid and return self for chaining.
-        
+
         Args:
             value: The clearFromValid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clear_from_valid("value")
         """
@@ -668,13 +668,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_disable_end_to(self, value: Optional["Boolean"]) -> "EndToEndTransformationComSpecProps":
         """
         Set disableEndTo and return self for chaining.
-        
+
         Args:
             value: The disableEndTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_disable_end_to("value")
         """
@@ -684,13 +684,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> "EndToEndTransformationComSpecProps":
         """
         Set e2eProfile and return self for chaining.
-        
+
         Args:
             value: The e2eProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_e2e_profile("value")
         """
@@ -700,13 +700,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_max_delta(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set maxDelta and return self for chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_delta("value")
         """
@@ -716,13 +716,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_max_error_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set maxErrorState and return self for chaining.
-        
+
         Args:
             value: The maxErrorState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_error_state("value")
         """
@@ -732,13 +732,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set maxNoNewOr and return self for chaining.
-        
+
         Args:
             value: The maxNoNewOr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_no_new_or("value")
         """
@@ -748,13 +748,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set minOkStateInit and return self for chaining.
-        
+
         Args:
             value: The minOkStateInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_ok_state_init("value")
         """
@@ -764,13 +764,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set minOkState and return self for chaining.
-        
+
         Args:
             value: The minOkState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_ok_state("value")
         """
@@ -780,13 +780,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set syncCounterInit and return self for chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_counter_init("value")
         """
@@ -796,13 +796,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_window_size_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set windowSizeInit and return self for chaining.
-        
+
         Args:
             value: The windowSizeInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_window_size_init("value")
         """
@@ -812,13 +812,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     def with_window_size(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationComSpecProps":
         """
         Set windowSize and return self for chaining.
-        
+
         Args:
             value: The windowSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_window_size("value")
         """

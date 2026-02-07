@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CpSoftwareClusterResourcePool(ARElement):
     """
     Represents the pool of resources which can be provided or required by CP
     Software Clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResourcePool
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 901, Classic Platform R23-11)
     """
@@ -36,10 +36,10 @@ class CpSoftwareClusterResourcePool(ARElement):
     def getEcuScope(self) -> List["EcuInstance"]:
         """
         AUTOSAR-compliant getter for ecuScope.
-        
+
         Returns:
             The ecuScope value
-        
+
         Note:
             Delegates to ecu_scope property (CODING_RULE_V2_00017)
         """
@@ -48,10 +48,10 @@ class CpSoftwareClusterResourcePool(ARElement):
     def getResource(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """

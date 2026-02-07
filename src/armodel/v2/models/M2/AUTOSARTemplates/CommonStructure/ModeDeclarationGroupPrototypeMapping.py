@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeDeclarationGroupPrototypeMapping(ARObject):
     """
@@ -9,9 +14,9 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     given context) that are unequally named and/or require a reference to a
     ModeDeclarationMappingSet in order to become compatible by definition of
     ModeDeclarationMappings.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeDeclarationGroupPrototypeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 130, Classic Platform
       R23-11)
@@ -32,10 +37,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def first_mode_group_prototype(self, value: RefType) -> None:
         """
         Set firstModeGroupPrototype with validation.
-        
+
         Args:
             value: The firstModeGroupPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +62,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +90,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def second_mode(self, value: RefType) -> None:
         """
         Set secondMode with validation.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +108,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def getFirstModeGroupPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for firstModeGroupPrototype.
-        
+
         Returns:
             The firstModeGroupPrototype value
-        
+
         Note:
             Delegates to first_mode_group_prototype property (CODING_RULE_V2_00017)
         """
@@ -115,13 +120,13 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def setFirstModeGroupPrototype(self, value: RefType) -> "ModeDeclarationGroupPrototypeMapping":
         """
         AUTOSAR-compliant setter for firstModeGroupPrototype with method chaining.
-        
+
         Args:
             value: The firstModeGroupPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_mode_group_prototype property setter (gets validation automatically)
         """
@@ -131,10 +136,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def getMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -143,13 +148,13 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def setMode(self, value: "ModeDeclaration") -> "ModeDeclarationGroupPrototypeMapping":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -159,10 +164,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def getSecondMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for secondMode.
-        
+
         Returns:
             The secondMode value
-        
+
         Note:
             Delegates to second_mode property (CODING_RULE_V2_00017)
         """
@@ -171,13 +176,13 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def setSecondMode(self, value: RefType) -> "ModeDeclarationGroupPrototypeMapping":
         """
         AUTOSAR-compliant setter for secondMode with method chaining.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_mode property setter (gets validation automatically)
         """
@@ -189,13 +194,13 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def with_first_mode_group_prototype(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
         """
         Set firstModeGroupPrototype and return self for chaining.
-        
+
         Args:
             value: The firstModeGroupPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_mode_group_prototype("value")
         """
@@ -205,13 +210,13 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def with_mode(self, value: Optional["ModeDeclaration"]) -> "ModeDeclarationGroupPrototypeMapping":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -221,13 +226,13 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def with_second_mode(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototypeMapping":
         """
         Set secondMode and return self for chaining.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_mode("value")
         """

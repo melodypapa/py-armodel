@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ModeSwitchedAckRequest(ARObject):
     """
     Requests acknowledgements that a mode switch has been proceeded successfully
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchedAckRequest
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 190, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class ModeSwitchedAckRequest(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class ModeSwitchedAckRequest(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class ModeSwitchedAckRequest(ARObject):
     def setTimeout(self, value: "TimeValue") -> "ModeSwitchedAckRequest":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class ModeSwitchedAckRequest(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ModeSwitchedAckRequest":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DiagnosticMemoryByAddress(DiagnosticServiceInstance, ABC):
     """
     This represents an abstract base class for diagnostic services that deal
     with accessing memory by address.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticMemoryByAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 139, Classic Platform
       R23-11)

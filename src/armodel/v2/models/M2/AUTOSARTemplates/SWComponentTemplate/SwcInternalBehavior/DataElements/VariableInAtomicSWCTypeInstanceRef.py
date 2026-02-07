@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class VariableInAtomicSWCTypeInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs::VariableInAtomicSWCTypeInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 953, Classic Platform
       R23-11)
@@ -29,10 +34,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +72,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def port_prototype(self, value: RefType) -> None:
         """
         Set portPrototype with validation.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +98,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def root_variable_data_prototype(self, value: RefType) -> None:
         """
         Set rootVariableDataPrototype with validation.
-        
+
         Args:
             value: The rootVariableDataPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +123,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def target_data(self, value: RefType) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +141,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -148,13 +153,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setBase(self, value: "AtomicSwComponent") -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -164,10 +169,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -176,10 +181,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
-        
+
         Returns:
             The portPrototype value
-        
+
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
@@ -188,13 +193,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setPortPrototype(self, value: RefType) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -204,10 +209,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getRootVariableDataPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootVariableDataPrototype.
-        
+
         Returns:
             The rootVariableDataPrototype value
-        
+
         Note:
             Delegates to root_variable_data_prototype property (CODING_RULE_V2_00017)
         """
@@ -216,13 +221,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setRootVariableDataPrototype(self, value: RefType) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for rootVariableDataPrototype with method chaining.
-        
+
         Args:
             value: The rootVariableDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_variable_data_prototype property setter (gets validation automatically)
         """
@@ -232,10 +237,10 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -244,13 +249,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def setTargetData(self, value: RefType) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -262,13 +267,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_base(self, value: Optional["AtomicSwComponent"]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -278,13 +283,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_port_prototype(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set portPrototype and return self for chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_prototype("value")
         """
@@ -294,13 +299,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_root_variable_data_prototype(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set rootVariableDataPrototype and return self for chaining.
-        
+
         Args:
             value: The rootVariableDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_variable_data_prototype("value")
         """
@@ -310,13 +315,13 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

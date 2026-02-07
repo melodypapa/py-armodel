@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AbstractServiceInstance(Identifiable, ABC):
     """
     Provided and Consumed Ethernet Service Instances that are available at the
     ApplicationEndpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::AbstractServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 476, Classic Platform R23-11)
     """
@@ -41,10 +46,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def major_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set majorVersion with validation.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +76,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def method(self, value: Optional["PduActivationRouting"]) -> None:
         """
         Set method with validation.
-        
+
         Args:
             value: The method to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +106,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getCapability(self) -> List["TagWithOptionalValue"]:
         """
         AUTOSAR-compliant getter for capability.
-        
+
         Returns:
             The capability value
-        
+
         Note:
             Delegates to capability property (CODING_RULE_V2_00017)
         """
@@ -113,10 +118,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getMajorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for majorVersion.
-        
+
         Returns:
             The majorVersion value
-        
+
         Note:
             Delegates to major_version property (CODING_RULE_V2_00017)
         """
@@ -125,13 +130,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def setMajorVersion(self, value: "PositiveInteger") -> "AbstractServiceInstance":
         """
         AUTOSAR-compliant setter for majorVersion with method chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to major_version property setter (gets validation automatically)
         """
@@ -141,10 +146,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getMethod(self) -> "PduActivationRouting":
         """
         AUTOSAR-compliant getter for method.
-        
+
         Returns:
             The method value
-        
+
         Note:
             Delegates to method property (CODING_RULE_V2_00017)
         """
@@ -153,13 +158,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def setMethod(self, value: "PduActivationRouting") -> "AbstractServiceInstance":
         """
         AUTOSAR-compliant setter for method with method chaining.
-        
+
         Args:
             value: The method to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to method property setter (gets validation automatically)
         """
@@ -169,10 +174,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     def getRoutingGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for routingGroup.
-        
+
         Returns:
             The routingGroup value
-        
+
         Note:
             Delegates to routing_group property (CODING_RULE_V2_00017)
         """
@@ -183,13 +188,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def with_major_version(self, value: Optional["PositiveInteger"]) -> "AbstractServiceInstance":
         """
         Set majorVersion and return self for chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_major_version("value")
         """
@@ -199,13 +204,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def with_method(self, value: Optional["PduActivationRouting"]) -> "AbstractServiceInstance":
         """
         Set method and return self for chaining.
-        
+
         Args:
             value: The method to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_method("value")
         """

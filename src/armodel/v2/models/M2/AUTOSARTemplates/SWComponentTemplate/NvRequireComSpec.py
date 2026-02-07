@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class NvRequireComSpec(RPortComSpec):
     """
     Communication attributes of RPortPrototypes with respect to Nv data
     communication on the required side.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NvRequireComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 194, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class NvRequireComSpec(RPortComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class NvRequireComSpec(RPortComSpec):
     def variable(self, value: RefType) -> None:
         """
         Set variable with validation.
-        
+
         Args:
             value: The variable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class NvRequireComSpec(RPortComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -87,13 +90,13 @@ class NvRequireComSpec(RPortComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "NvRequireComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -103,10 +106,10 @@ class NvRequireComSpec(RPortComSpec):
     def getVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for variable.
-        
+
         Returns:
             The variable value
-        
+
         Note:
             Delegates to variable property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class NvRequireComSpec(RPortComSpec):
     def setVariable(self, value: RefType) -> "NvRequireComSpec":
         """
         AUTOSAR-compliant setter for variable with method chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable property setter (gets validation automatically)
         """
@@ -133,13 +136,13 @@ class NvRequireComSpec(RPortComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "NvRequireComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -149,13 +152,13 @@ class NvRequireComSpec(RPortComSpec):
     def with_variable(self, value: Optional[RefType]) -> "NvRequireComSpec":
         """
         Set variable and return self for chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable("value")
         """

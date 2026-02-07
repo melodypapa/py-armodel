@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticAging(DiagnosticCommonElement):
     """
     Defines the aging algorithm.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticAging::DiagnosticAging
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 202, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticAging(DiagnosticCommonElement):
     def aging_cycle(self, value: Optional["DiagnosticOperation"]) -> None:
         """
         Set agingCycle with validation.
-        
+
         Args:
             value: The agingCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticAging(DiagnosticCommonElement):
     def threshold(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set threshold with validation.
-        
+
         Args:
             value: The threshold to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class DiagnosticAging(DiagnosticCommonElement):
     def getAgingCycle(self) -> "DiagnosticOperation":
         """
         AUTOSAR-compliant getter for agingCycle.
-        
+
         Returns:
             The agingCycle value
-        
+
         Note:
             Delegates to aging_cycle property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class DiagnosticAging(DiagnosticCommonElement):
     def setAgingCycle(self, value: "DiagnosticOperation") -> "DiagnosticAging":
         """
         AUTOSAR-compliant setter for agingCycle with method chaining.
-        
+
         Args:
             value: The agingCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to aging_cycle property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class DiagnosticAging(DiagnosticCommonElement):
     def getThreshold(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for threshold.
-        
+
         Returns:
             The threshold value
-        
+
         Note:
             Delegates to threshold property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class DiagnosticAging(DiagnosticCommonElement):
     def setThreshold(self, value: "PositiveInteger") -> "DiagnosticAging":
         """
         AUTOSAR-compliant setter for threshold with method chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class DiagnosticAging(DiagnosticCommonElement):
     def with_aging_cycle(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticAging":
         """
         Set agingCycle and return self for chaining.
-        
+
         Args:
             value: The agingCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_aging_cycle("value")
         """
@@ -152,13 +152,13 @@ class DiagnosticAging(DiagnosticCommonElement):
     def with_threshold(self, value: Optional["PositiveInteger"]) -> "DiagnosticAging":
         """
         Set threshold and return self for chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold("value")
         """

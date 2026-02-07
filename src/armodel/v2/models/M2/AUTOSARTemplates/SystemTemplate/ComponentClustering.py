@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ComponentClustering(MappingConstraint):
     """
@@ -8,9 +11,9 @@ class ComponentClustering(MappingConstraint):
     to the same ECU, Core, Partition depending on the defined mappingScope
     attribute. If mappingScope is not specified then mappingScopeEcu shall be
     assumed.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ComponentClustering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 203, Classic Platform R23-11)
     """
@@ -40,10 +43,10 @@ class ComponentClustering(MappingConstraint):
     def mapping_scope(self, value: RefType) -> None:
         """
         Set mappingScope with validation.
-        
+
         Args:
             value: The mappingScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class ComponentClustering(MappingConstraint):
     def getClusteredInstanceRef(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for clusteredInstanceRef.
-        
+
         Returns:
             The clusteredInstanceRef value
-        
+
         Note:
             Delegates to clustered_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -70,10 +73,10 @@ class ComponentClustering(MappingConstraint):
     def getMappingScope(self) -> RefType:
         """
         AUTOSAR-compliant getter for mappingScope.
-        
+
         Returns:
             The mappingScope value
-        
+
         Note:
             Delegates to mapping_scope property (CODING_RULE_V2_00017)
         """
@@ -82,13 +85,13 @@ class ComponentClustering(MappingConstraint):
     def setMappingScope(self, value: RefType) -> "ComponentClustering":
         """
         AUTOSAR-compliant setter for mappingScope with method chaining.
-        
+
         Args:
             value: The mappingScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapping_scope property setter (gets validation automatically)
         """
@@ -100,13 +103,13 @@ class ComponentClustering(MappingConstraint):
     def with_mapping_scope(self, value: Optional[RefType]) -> "ComponentClustering":
         """
         Set mappingScope and return self for chaining.
-        
+
         Args:
             value: The mappingScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapping_scope("value")
         """

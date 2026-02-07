@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class McFunctionDataRefSet(ARObject):
     """
@@ -11,9 +14,9 @@ class McFunctionDataRefSet(ARObject):
     environment. The set is subject to variability because the same functional
     model may be used with various representation of the data. Tags:
     vh.latestBindingTime=preCompileTime
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::McFunctionDataRefSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 187, Classic
       Platform R23-11)
@@ -50,10 +53,10 @@ class McFunctionDataRefSet(ARObject):
     def getFlatMapEntry(self) -> List["FlatInstanceDescriptor"]:
         """
         AUTOSAR-compliant getter for flatMapEntry.
-        
+
         Returns:
             The flatMapEntry value
-        
+
         Note:
             Delegates to flat_map_entry property (CODING_RULE_V2_00017)
         """
@@ -62,10 +65,10 @@ class McFunctionDataRefSet(ARObject):
     def getMcDataInstance(self) -> List["McDataInstance"]:
         """
         AUTOSAR-compliant getter for mcDataInstance.
-        
+
         Returns:
             The mcDataInstance value
-        
+
         Note:
             Delegates to mc_data_instance property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataPrototypeInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::DataPrototypeInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 368, Classic Platform
       R23-11)
@@ -28,10 +33,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +77,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +102,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def context_root(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set contextRoot with validation.
-        
+
         Args:
             value: The contextRoot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +131,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def root_data_prototype(self, value: RefType) -> None:
         """
         Set rootDataPrototype with validation.
-        
+
         Args:
             value: The rootDataPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +156,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def target_data(self, value: RefType) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +174,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -181,13 +186,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setBase(self, value: "System") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -197,10 +202,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContext(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -209,10 +214,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -221,10 +226,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -233,13 +238,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setContextPort(self, value: RefType) -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -249,10 +254,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getContextRoot(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for contextRoot.
-        
+
         Returns:
             The contextRoot value
-        
+
         Note:
             Delegates to context_root property (CODING_RULE_V2_00017)
         """
@@ -261,13 +266,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setContextRoot(self, value: "RootSwComposition") -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextRoot with method chaining.
-        
+
         Args:
             value: The contextRoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_root property setter (gets validation automatically)
         """
@@ -277,10 +282,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getRootDataPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootDataPrototype.
-        
+
         Returns:
             The rootDataPrototype value
-        
+
         Note:
             Delegates to root_data_prototype property (CODING_RULE_V2_00017)
         """
@@ -289,13 +294,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setRootDataPrototype(self, value: RefType) -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for rootDataPrototype with method chaining.
-        
+
         Args:
             value: The rootDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data_prototype property setter (gets validation automatically)
         """
@@ -305,10 +310,10 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -317,13 +322,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def setTargetData(self, value: RefType) -> "DataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -335,13 +340,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_base(self, value: Optional["System"]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -351,13 +356,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_context_port(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -367,13 +372,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_context_root(self, value: Optional["RootSwComposition"]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set contextRoot and return self for chaining.
-        
+
         Args:
             value: The contextRoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_root("value")
         """
@@ -383,13 +388,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_root_data_prototype(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set rootDataPrototype and return self for chaining.
-        
+
         Args:
             value: The rootDataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data_prototype("value")
         """
@@ -399,13 +404,13 @@ class DataPrototypeInSystemInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "DataPrototypeInSystemInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

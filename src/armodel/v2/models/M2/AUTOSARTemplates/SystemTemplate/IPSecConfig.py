@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class IPSecConfig(ARObject):
     """
     IPsec is a protocol that is designed to provide "end-to-end"
     cryptographically-based security for IP network connections.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 571, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class IPSecConfig(ARObject):
     def ip_sec_config(self, value: Optional["IPSecConfigProps"]) -> None:
         """
         Set ipSecConfig with validation.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class IPSecConfig(ARObject):
     def getIpSecConfig(self) -> "IPSecConfigProps":
         """
         AUTOSAR-compliant getter for ipSecConfig.
-        
+
         Returns:
             The ipSecConfig value
-        
+
         Note:
             Delegates to ip_sec_config property (CODING_RULE_V2_00017)
         """
@@ -71,13 +74,13 @@ class IPSecConfig(ARObject):
     def setIpSecConfig(self, value: "IPSecConfigProps") -> "IPSecConfig":
         """
         AUTOSAR-compliant setter for ipSecConfig with method chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_sec_config property setter (gets validation automatically)
         """
@@ -87,10 +90,10 @@ class IPSecConfig(ARObject):
     def getIpSecRule(self) -> List["IPSecRule"]:
         """
         AUTOSAR-compliant getter for ipSecRule.
-        
+
         Returns:
             The ipSecRule value
-        
+
         Note:
             Delegates to ip_sec_rule property (CODING_RULE_V2_00017)
         """
@@ -101,13 +104,13 @@ class IPSecConfig(ARObject):
     def with_ip_sec_config(self, value: Optional["IPSecConfigProps"]) -> "IPSecConfig":
         """
         Set ipSecConfig and return self for chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_sec_config("value")
         """

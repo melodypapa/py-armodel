@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TlvDataIdDefinition(ARObject):
     """
     This meta-class represents the ability to define the tlvDataId.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TlvDataIdDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 830, Classic Platform R23-11)
     """
@@ -28,10 +33,10 @@ class TlvDataIdDefinition(ARObject):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class TlvDataIdDefinition(ARObject):
     def tlv_argument(self, value: RefType) -> None:
         """
         Set tlvArgument with validation.
-        
+
         Args:
             value: The tlvArgument to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +86,10 @@ class TlvDataIdDefinition(ARObject):
     def tlv(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set tlv with validation.
-        
+
         Args:
             value: The tlv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +115,10 @@ class TlvDataIdDefinition(ARObject):
     def tlv_record(self, value: Optional["ApplicationRecord"]) -> None:
         """
         Set tlvRecord with validation.
-        
+
         Args:
             value: The tlvRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -132,10 +137,10 @@ class TlvDataIdDefinition(ARObject):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -144,13 +149,13 @@ class TlvDataIdDefinition(ARObject):
     def setId(self, value: "PositiveInteger") -> "TlvDataIdDefinition":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -160,10 +165,10 @@ class TlvDataIdDefinition(ARObject):
     def getTlvArgument(self) -> RefType:
         """
         AUTOSAR-compliant getter for tlvArgument.
-        
+
         Returns:
             The tlvArgument value
-        
+
         Note:
             Delegates to tlv_argument property (CODING_RULE_V2_00017)
         """
@@ -172,13 +177,13 @@ class TlvDataIdDefinition(ARObject):
     def setTlvArgument(self, value: RefType) -> "TlvDataIdDefinition":
         """
         AUTOSAR-compliant setter for tlvArgument with method chaining.
-        
+
         Args:
             value: The tlvArgument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tlv_argument property setter (gets validation automatically)
         """
@@ -188,10 +193,10 @@ class TlvDataIdDefinition(ARObject):
     def getTlv(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for tlv.
-        
+
         Returns:
             The tlv value
-        
+
         Note:
             Delegates to tlv property (CODING_RULE_V2_00017)
         """
@@ -200,13 +205,13 @@ class TlvDataIdDefinition(ARObject):
     def setTlv(self, value: "AbstractImplementation") -> "TlvDataIdDefinition":
         """
         AUTOSAR-compliant setter for tlv with method chaining.
-        
+
         Args:
             value: The tlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tlv property setter (gets validation automatically)
         """
@@ -216,10 +221,10 @@ class TlvDataIdDefinition(ARObject):
     def getTlvRecord(self) -> "ApplicationRecord":
         """
         AUTOSAR-compliant getter for tlvRecord.
-        
+
         Returns:
             The tlvRecord value
-        
+
         Note:
             Delegates to tlv_record property (CODING_RULE_V2_00017)
         """
@@ -228,13 +233,13 @@ class TlvDataIdDefinition(ARObject):
     def setTlvRecord(self, value: "ApplicationRecord") -> "TlvDataIdDefinition":
         """
         AUTOSAR-compliant setter for tlvRecord with method chaining.
-        
+
         Args:
             value: The tlvRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tlv_record property setter (gets validation automatically)
         """
@@ -246,13 +251,13 @@ class TlvDataIdDefinition(ARObject):
     def with_id(self, value: Optional["PositiveInteger"]) -> "TlvDataIdDefinition":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -262,13 +267,13 @@ class TlvDataIdDefinition(ARObject):
     def with_tlv_argument(self, value: Optional[RefType]) -> "TlvDataIdDefinition":
         """
         Set tlvArgument and return self for chaining.
-        
+
         Args:
             value: The tlvArgument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tlv_argument("value")
         """
@@ -278,13 +283,13 @@ class TlvDataIdDefinition(ARObject):
     def with_tlv(self, value: Optional["AbstractImplementation"]) -> "TlvDataIdDefinition":
         """
         Set tlv and return self for chaining.
-        
+
         Args:
             value: The tlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tlv("value")
         """
@@ -294,13 +299,13 @@ class TlvDataIdDefinition(ARObject):
     def with_tlv_record(self, value: Optional["ApplicationRecord"]) -> "TlvDataIdDefinition":
         """
         Set tlvRecord and return self for chaining.
-        
+
         Args:
             value: The tlvRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tlv_record("value")
         """

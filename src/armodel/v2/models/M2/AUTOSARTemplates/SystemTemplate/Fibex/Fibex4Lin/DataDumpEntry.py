@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DataDumpEntry(LinConfigurationEntry):
     """
     This service is reserved for initial configuration of a slave node by the
     slave node supplier and the format of this message is supplier specific.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::DataDumpEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 439, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class DataDumpEntry(LinConfigurationEntry):
     def getByteValue(self) -> List["Integer"]:
         """
         AUTOSAR-compliant getter for byteValue.
-        
+
         Returns:
             The byteValue value
-        
+
         Note:
             Delegates to byte_value property (CODING_RULE_V2_00017)
         """

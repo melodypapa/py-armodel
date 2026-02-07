@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RunnableEntity(ExecutableEntity):
     """
@@ -8,9 +11,9 @@ class RunnableEntity(ExecutableEntity):
     an AtomicSwComponent Type and are executed under control of the RTE.
     RunnableEntities are for instance set up to respond to data reception or
     operation invocation on a server.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 331, Classic
       Platform R23-11)
@@ -61,10 +64,10 @@ class RunnableEntity(ExecutableEntity):
     def can_be_invoked(self, value: Optional["Boolean"]) -> None:
         """
         Set canBeInvoked with validation.
-        
+
         Args:
             value: The canBeInvoked to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -210,10 +213,10 @@ class RunnableEntity(ExecutableEntity):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -253,10 +256,10 @@ class RunnableEntity(ExecutableEntity):
     def getArgument(self) -> List["RunnableEntity"]:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -265,10 +268,10 @@ class RunnableEntity(ExecutableEntity):
     def getAsynchronous(self) -> List["AsynchronousServer"]:
         """
         AUTOSAR-compliant getter for asynchronous.
-        
+
         Returns:
             The asynchronous value
-        
+
         Note:
             Delegates to asynchronous property (CODING_RULE_V2_00017)
         """
@@ -277,10 +280,10 @@ class RunnableEntity(ExecutableEntity):
     def getCanBeInvoked(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for canBeInvoked.
-        
+
         Returns:
             The canBeInvoked value
-        
+
         Note:
             Delegates to can_be_invoked property (CODING_RULE_V2_00017)
         """
@@ -289,13 +292,13 @@ class RunnableEntity(ExecutableEntity):
     def setCanBeInvoked(self, value: "Boolean") -> "RunnableEntity":
         """
         AUTOSAR-compliant setter for canBeInvoked with method chaining.
-        
+
         Args:
             value: The canBeInvoked to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_be_invoked property setter (gets validation automatically)
         """
@@ -305,10 +308,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataRead(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataRead.
-        
+
         Returns:
             The dataRead value
-        
+
         Note:
             Delegates to data_read property (CODING_RULE_V2_00017)
         """
@@ -317,10 +320,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataReceive(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataReceive.
-        
+
         Returns:
             The dataReceive value
-        
+
         Note:
             Delegates to data_receive property (CODING_RULE_V2_00017)
         """
@@ -329,10 +332,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataSendPoint(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataSendPoint.
-        
+
         Returns:
             The dataSendPoint value
-        
+
         Note:
             Delegates to data_send_point property (CODING_RULE_V2_00017)
         """
@@ -341,10 +344,10 @@ class RunnableEntity(ExecutableEntity):
     def getDataWrite(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for dataWrite.
-        
+
         Returns:
             The dataWrite value
-        
+
         Note:
             Delegates to data_write property (CODING_RULE_V2_00017)
         """
@@ -353,10 +356,10 @@ class RunnableEntity(ExecutableEntity):
     def getExternal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for external.
-        
+
         Returns:
             The external value
-        
+
         Note:
             Delegates to external property (CODING_RULE_V2_00017)
         """
@@ -365,10 +368,10 @@ class RunnableEntity(ExecutableEntity):
     def getInternal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for internal.
-        
+
         Returns:
             The internal value
-        
+
         Note:
             Delegates to internal property (CODING_RULE_V2_00017)
         """
@@ -377,10 +380,10 @@ class RunnableEntity(ExecutableEntity):
     def getModeAccess(self) -> List["ModeAccessPoint"]:
         """
         AUTOSAR-compliant getter for modeAccess.
-        
+
         Returns:
             The modeAccess value
-        
+
         Note:
             Delegates to mode_access property (CODING_RULE_V2_00017)
         """
@@ -389,10 +392,10 @@ class RunnableEntity(ExecutableEntity):
     def getModeSwitch(self) -> List["ModeSwitchPoint"]:
         """
         AUTOSAR-compliant getter for modeSwitch.
-        
+
         Returns:
             The modeSwitch value
-        
+
         Note:
             Delegates to mode_switch property (CODING_RULE_V2_00017)
         """
@@ -401,10 +404,10 @@ class RunnableEntity(ExecutableEntity):
     def getParameter(self) -> List["ParameterAccess"]:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -413,10 +416,10 @@ class RunnableEntity(ExecutableEntity):
     def getReadLocal(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for readLocal.
-        
+
         Returns:
             The readLocal value
-        
+
         Note:
             Delegates to read_local property (CODING_RULE_V2_00017)
         """
@@ -425,10 +428,10 @@ class RunnableEntity(ExecutableEntity):
     def getServerCallPoint(self) -> List["ServerCallPoint"]:
         """
         AUTOSAR-compliant getter for serverCallPoint.
-        
+
         Returns:
             The serverCallPoint value
-        
+
         Note:
             Delegates to server_call_point property (CODING_RULE_V2_00017)
         """
@@ -437,10 +440,10 @@ class RunnableEntity(ExecutableEntity):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -449,13 +452,13 @@ class RunnableEntity(ExecutableEntity):
     def setSymbol(self, value: "CIdentifier") -> "RunnableEntity":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -465,10 +468,10 @@ class RunnableEntity(ExecutableEntity):
     def getWaitPoint(self) -> List["WaitPoint"]:
         """
         AUTOSAR-compliant getter for waitPoint.
-        
+
         Returns:
             The waitPoint value
-        
+
         Note:
             Delegates to wait_point property (CODING_RULE_V2_00017)
         """
@@ -477,10 +480,10 @@ class RunnableEntity(ExecutableEntity):
     def getWrittenLocal(self) -> List["VariableAccess"]:
         """
         AUTOSAR-compliant getter for writtenLocal.
-        
+
         Returns:
             The writtenLocal value
-        
+
         Note:
             Delegates to written_local property (CODING_RULE_V2_00017)
         """
@@ -491,13 +494,13 @@ class RunnableEntity(ExecutableEntity):
     def with_can_be_invoked(self, value: Optional["Boolean"]) -> "RunnableEntity":
         """
         Set canBeInvoked and return self for chaining.
-        
+
         Args:
             value: The canBeInvoked to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_be_invoked("value")
         """
@@ -507,13 +510,13 @@ class RunnableEntity(ExecutableEntity):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "RunnableEntity":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

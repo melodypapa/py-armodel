@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SecureCommunicationPropsSet(FibexElement):
     """
     Collection of properties used to configure SecuredIPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationPropsSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 370, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class SecureCommunicationPropsSet(FibexElement):
     def getAuthentication(self) -> List["SecureCommunication"]:
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -46,10 +46,10 @@ class SecureCommunicationPropsSet(FibexElement):
     def getFreshnessProps(self) -> List["SecureCommunication"]:
         """
         AUTOSAR-compliant getter for freshnessProps.
-        
+
         Returns:
             The freshnessProps value
-        
+
         Note:
             Delegates to freshness_props property (CODING_RULE_V2_00017)
         """

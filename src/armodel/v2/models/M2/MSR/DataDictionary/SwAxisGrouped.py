@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwAxisGrouped(SwCalprmAxisTypeProps):
     """
     An SwAxisGrouped is an axis which is shared between multiple calibration
     parameters.
-    
+
     Package: M2::MSR::DataDictionary::Axis::SwAxisGrouped
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 357, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def shared_axis_type(self, value: Optional["ApplicationPrimitive"]) -> None:
         """
         Set sharedAxisType with validation.
-        
+
         Args:
             value: The sharedAxisType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +66,10 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def sw_axis_index(self, value: Optional["AxisIndexType"]) -> None:
         """
         Set swAxisIndex with validation.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +101,10 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def sw_calprm_ref(self, value: RefType) -> None:
         """
         Set swCalprmRef with validation.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def getSharedAxisType(self) -> "ApplicationPrimitive":
         """
         AUTOSAR-compliant getter for sharedAxisType.
-        
+
         Returns:
             The sharedAxisType value
-        
+
         Note:
             Delegates to shared_axis_type property (CODING_RULE_V2_00017)
         """
@@ -124,13 +127,13 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def setSharedAxisType(self, value: "ApplicationPrimitive") -> "SwAxisGrouped":
         """
         AUTOSAR-compliant setter for sharedAxisType with method chaining.
-        
+
         Args:
             value: The sharedAxisType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to shared_axis_type property setter (gets validation automatically)
         """
@@ -140,10 +143,10 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def getSwAxisIndex(self) -> "AxisIndexType":
         """
         AUTOSAR-compliant getter for swAxisIndex.
-        
+
         Returns:
             The swAxisIndex value
-        
+
         Note:
             Delegates to sw_axis_index property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def setSwAxisIndex(self, value: "AxisIndexType") -> "SwAxisGrouped":
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_axis_index property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def getSwCalprmRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for swCalprmRef.
-        
+
         Returns:
             The swCalprmRef value
-        
+
         Note:
             Delegates to sw_calprm_ref property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def setSwCalprmRef(self, value: RefType) -> "SwAxisGrouped":
         """
         AUTOSAR-compliant setter for swCalprmRef with method chaining.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calprm_ref property setter (gets validation automatically)
         """
@@ -198,13 +201,13 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def with_shared_axis_type(self, value: Optional["ApplicationPrimitive"]) -> "SwAxisGrouped":
         """
         Set sharedAxisType and return self for chaining.
-        
+
         Args:
             value: The sharedAxisType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_shared_axis_type("value")
         """
@@ -214,13 +217,13 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "SwAxisGrouped":
         """
         Set swAxisIndex and return self for chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_axis_index("value")
         """
@@ -230,13 +233,13 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def with_sw_calprm_ref(self, value: RefType) -> "SwAxisGrouped":
         """
         Set swCalprmRef and return self for chaining.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calprm_ref("value")
         """

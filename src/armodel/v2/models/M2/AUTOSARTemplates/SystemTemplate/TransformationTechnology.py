@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TransformationTechnology(Identifiable):
     """
     A TransformationTechnology is a transformer inside a transformer chain.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationTechnology
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 198, Classic Platform
       R23-11)
@@ -32,10 +34,10 @@ class TransformationTechnology(Identifiable):
     def buffer_properties(self, value: Optional["BufferProperties"]) -> None:
         """
         Set bufferProperties with validation.
-        
+
         Args:
             value: The bufferProperties to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class TransformationTechnology(Identifiable):
     def has_internal(self, value: Optional["Boolean"]) -> None:
         """
         Set hasInternal with validation.
-        
+
         Args:
             value: The hasInternal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +90,10 @@ class TransformationTechnology(Identifiable):
     def needs_original(self, value: Optional["Boolean"]) -> None:
         """
         Set needsOriginal with validation.
-        
+
         Args:
             value: The needsOriginal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +118,10 @@ class TransformationTechnology(Identifiable):
     def protocol(self, value: Optional["String"]) -> None:
         """
         Set protocol with validation.
-        
+
         Args:
             value: The protocol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +147,10 @@ class TransformationTechnology(Identifiable):
     def transformation(self, value: Optional["Transformation"]) -> None:
         """
         Set transformation with validation.
-        
+
         Args:
             value: The transformation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +175,10 @@ class TransformationTechnology(Identifiable):
     def transformer(self, value: Optional["TransformerClassEnum"]) -> None:
         """
         Set transformer with validation.
-        
+
         Args:
             value: The transformer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +203,10 @@ class TransformationTechnology(Identifiable):
     def version(self, value: Optional["String"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +225,10 @@ class TransformationTechnology(Identifiable):
     def getBufferProperties(self) -> "BufferProperties":
         """
         AUTOSAR-compliant getter for bufferProperties.
-        
+
         Returns:
             The bufferProperties value
-        
+
         Note:
             Delegates to buffer_properties property (CODING_RULE_V2_00017)
         """
@@ -235,13 +237,13 @@ class TransformationTechnology(Identifiable):
     def setBufferProperties(self, value: "BufferProperties") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for bufferProperties with method chaining.
-        
+
         Args:
             value: The bufferProperties to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to buffer_properties property setter (gets validation automatically)
         """
@@ -251,10 +253,10 @@ class TransformationTechnology(Identifiable):
     def getHasInternal(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for hasInternal.
-        
+
         Returns:
             The hasInternal value
-        
+
         Note:
             Delegates to has_internal property (CODING_RULE_V2_00017)
         """
@@ -263,13 +265,13 @@ class TransformationTechnology(Identifiable):
     def setHasInternal(self, value: "Boolean") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for hasInternal with method chaining.
-        
+
         Args:
             value: The hasInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to has_internal property setter (gets validation automatically)
         """
@@ -279,10 +281,10 @@ class TransformationTechnology(Identifiable):
     def getNeedsOriginal(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for needsOriginal.
-        
+
         Returns:
             The needsOriginal value
-        
+
         Note:
             Delegates to needs_original property (CODING_RULE_V2_00017)
         """
@@ -291,13 +293,13 @@ class TransformationTechnology(Identifiable):
     def setNeedsOriginal(self, value: "Boolean") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for needsOriginal with method chaining.
-        
+
         Args:
             value: The needsOriginal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to needs_original property setter (gets validation automatically)
         """
@@ -307,10 +309,10 @@ class TransformationTechnology(Identifiable):
     def getProtocol(self) -> "String":
         """
         AUTOSAR-compliant getter for protocol.
-        
+
         Returns:
             The protocol value
-        
+
         Note:
             Delegates to protocol property (CODING_RULE_V2_00017)
         """
@@ -319,13 +321,13 @@ class TransformationTechnology(Identifiable):
     def setProtocol(self, value: "String") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for protocol with method chaining.
-        
+
         Args:
             value: The protocol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol property setter (gets validation automatically)
         """
@@ -335,10 +337,10 @@ class TransformationTechnology(Identifiable):
     def getTransformation(self) -> "Transformation":
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -347,13 +349,13 @@ class TransformationTechnology(Identifiable):
     def setTransformation(self, value: "Transformation") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for transformation with method chaining.
-        
+
         Args:
             value: The transformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transformation property setter (gets validation automatically)
         """
@@ -363,10 +365,10 @@ class TransformationTechnology(Identifiable):
     def getTransformer(self) -> "TransformerClassEnum":
         """
         AUTOSAR-compliant getter for transformer.
-        
+
         Returns:
             The transformer value
-        
+
         Note:
             Delegates to transformer property (CODING_RULE_V2_00017)
         """
@@ -375,13 +377,13 @@ class TransformationTechnology(Identifiable):
     def setTransformer(self, value: "TransformerClassEnum") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for transformer with method chaining.
-        
+
         Args:
             value: The transformer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transformer property setter (gets validation automatically)
         """
@@ -391,10 +393,10 @@ class TransformationTechnology(Identifiable):
     def getVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -403,13 +405,13 @@ class TransformationTechnology(Identifiable):
     def setVersion(self, value: "String") -> "TransformationTechnology":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -421,13 +423,13 @@ class TransformationTechnology(Identifiable):
     def with_buffer_properties(self, value: Optional["BufferProperties"]) -> "TransformationTechnology":
         """
         Set bufferProperties and return self for chaining.
-        
+
         Args:
             value: The bufferProperties to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_buffer_properties("value")
         """
@@ -437,13 +439,13 @@ class TransformationTechnology(Identifiable):
     def with_has_internal(self, value: Optional["Boolean"]) -> "TransformationTechnology":
         """
         Set hasInternal and return self for chaining.
-        
+
         Args:
             value: The hasInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_has_internal("value")
         """
@@ -453,13 +455,13 @@ class TransformationTechnology(Identifiable):
     def with_needs_original(self, value: Optional["Boolean"]) -> "TransformationTechnology":
         """
         Set needsOriginal and return self for chaining.
-        
+
         Args:
             value: The needsOriginal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_needs_original("value")
         """
@@ -469,13 +471,13 @@ class TransformationTechnology(Identifiable):
     def with_protocol(self, value: Optional["String"]) -> "TransformationTechnology":
         """
         Set protocol and return self for chaining.
-        
+
         Args:
             value: The protocol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol("value")
         """
@@ -485,13 +487,13 @@ class TransformationTechnology(Identifiable):
     def with_transformation(self, value: Optional["Transformation"]) -> "TransformationTechnology":
         """
         Set transformation and return self for chaining.
-        
+
         Args:
             value: The transformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transformation("value")
         """
@@ -501,13 +503,13 @@ class TransformationTechnology(Identifiable):
     def with_transformer(self, value: Optional["TransformerClassEnum"]) -> "TransformationTechnology":
         """
         Set transformer and return self for chaining.
-        
+
         Args:
             value: The transformer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transformer("value")
         """
@@ -517,13 +519,13 @@ class TransformationTechnology(Identifiable):
     def with_version(self, value: Optional["String"]) -> "TransformationTechnology":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """

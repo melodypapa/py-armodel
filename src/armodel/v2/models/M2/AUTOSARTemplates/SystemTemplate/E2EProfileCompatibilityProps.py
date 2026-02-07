@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class E2EProfileCompatibilityProps(ARElement):
     """
     This meta-class collects settings for configuration of the E2E state
     machine.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::E2EProfileCompatibilityProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 202, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class E2EProfileCompatibilityProps(ARElement):
     def transit_to_invalid(self, value: Optional["Boolean"]) -> None:
         """
         Set transitToInvalid with validation.
-        
+
         Args:
             value: The transitToInvalid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class E2EProfileCompatibilityProps(ARElement):
     def getTransitToInvalid(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for transitToInvalid.
-        
+
         Returns:
             The transitToInvalid value
-        
+
         Note:
             Delegates to transit_to_invalid property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class E2EProfileCompatibilityProps(ARElement):
     def setTransitToInvalid(self, value: "Boolean") -> "E2EProfileCompatibilityProps":
         """
         AUTOSAR-compliant setter for transitToInvalid with method chaining.
-        
+
         Args:
             value: The transitToInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transit_to_invalid property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class E2EProfileCompatibilityProps(ARElement):
     def with_transit_to_invalid(self, value: Optional["Boolean"]) -> "E2EProfileCompatibilityProps":
         """
         Set transitToInvalid and return self for chaining.
-        
+
         Args:
             value: The transitToInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transit_to_invalid("value")
         """

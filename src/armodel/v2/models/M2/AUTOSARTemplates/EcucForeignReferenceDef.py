@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
     Specify a reference to an XML description of an entity described in another
     AUTOSAR template.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucForeignReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 75, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     def destination_type(self, value: Optional["String"]) -> None:
         """
         Set destinationType with validation.
-        
+
         Args:
             value: The destinationType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     def getDestinationType(self) -> "String":
         """
         AUTOSAR-compliant getter for destinationType.
-        
+
         Returns:
             The destinationType value
-        
+
         Note:
             Delegates to destination_type property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     def setDestinationType(self, value: "String") -> "EcucForeignReferenceDef":
         """
         AUTOSAR-compliant setter for destinationType with method chaining.
-        
+
         Args:
             value: The destinationType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_type property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     def with_destination_type(self, value: Optional["String"]) -> "EcucForeignReferenceDef":
         """
         Set destinationType and return self for chaining.
-        
+
         Args:
             value: The destinationType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_type("value")
         """

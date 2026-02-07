@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EthernetCluster(ARObject):
     """
     Ethernet-specific cluster attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 103, Classic Platform R23-11)
     """
@@ -33,10 +38,10 @@ class EthernetCluster(ARObject):
     def coupling_port(self, value: Optional["TimeValue"]) -> None:
         """
         Set couplingPort with validation.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +67,10 @@ class EthernetCluster(ARObject):
     def getCouplingPort(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -74,13 +79,13 @@ class EthernetCluster(ARObject):
     def setCouplingPort(self, value: "TimeValue") -> "EthernetCluster":
         """
         AUTOSAR-compliant setter for couplingPort with method chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_port property setter (gets validation automatically)
         """
@@ -90,10 +95,10 @@ class EthernetCluster(ARObject):
     def getMacMulticast(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for macMulticast.
-        
+
         Returns:
             The macMulticast value
-        
+
         Note:
             Delegates to mac_multicast property (CODING_RULE_V2_00017)
         """
@@ -104,13 +109,13 @@ class EthernetCluster(ARObject):
     def with_coupling_port(self, value: Optional["TimeValue"]) -> "EthernetCluster":
         """
         Set couplingPort and return self for chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_port("value")
         """

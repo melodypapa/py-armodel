@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ResourceConsumption(Identifiable):
     """
     Description of consumed resources by one implementation of a software.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ResourceConsumption
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 137, Classic
       Platform R23-11)
@@ -76,10 +80,10 @@ class ResourceConsumption(Identifiable):
     def getAccessCount(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for accessCount.
-        
+
         Returns:
             The accessCount value
-        
+
         Note:
             Delegates to access_count property (CODING_RULE_V2_00017)
         """
@@ -88,10 +92,10 @@ class ResourceConsumption(Identifiable):
     def getExecutionTime(self) -> List["ExecutionTime"]:
         """
         AUTOSAR-compliant getter for executionTime.
-        
+
         Returns:
             The executionTime value
-        
+
         Note:
             Delegates to execution_time property (CODING_RULE_V2_00017)
         """
@@ -100,10 +104,10 @@ class ResourceConsumption(Identifiable):
     def getHeapUsage(self) -> List["HeapUsage"]:
         """
         AUTOSAR-compliant getter for heapUsage.
-        
+
         Returns:
             The heapUsage value
-        
+
         Note:
             Delegates to heap_usage property (CODING_RULE_V2_00017)
         """
@@ -112,10 +116,10 @@ class ResourceConsumption(Identifiable):
     def getMemorySection(self) -> List["MemorySection"]:
         """
         AUTOSAR-compliant getter for memorySection.
-        
+
         Returns:
             The memorySection value
-        
+
         Note:
             Delegates to memory_section property (CODING_RULE_V2_00017)
         """
@@ -124,10 +128,10 @@ class ResourceConsumption(Identifiable):
     def getSectionName(self) -> List["SectionNamePrefix"]:
         """
         AUTOSAR-compliant getter for sectionName.
-        
+
         Returns:
             The sectionName value
-        
+
         Note:
             Delegates to section_name property (CODING_RULE_V2_00017)
         """
@@ -136,10 +140,10 @@ class ResourceConsumption(Identifiable):
     def getStackUsage(self) -> List["StackUsage"]:
         """
         AUTOSAR-compliant getter for stackUsage.
-        
+
         Returns:
             The stackUsage value
-        
+
         Note:
             Delegates to stack_usage property (CODING_RULE_V2_00017)
         """

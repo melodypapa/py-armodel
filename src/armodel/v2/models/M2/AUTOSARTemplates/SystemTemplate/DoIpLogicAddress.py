@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DoIpLogicAddress(Identifiable):
     """
     The logical DoIP address.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::DoIpLogicAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class DoIpLogicAddress(Identifiable):
     def address(self, value: Optional["Integer"]) -> None:
         """
         Set address with validation.
-        
+
         Args:
             value: The address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class DoIpLogicAddress(Identifiable):
     def do_ip_logic(self, value: Optional["AbstractDoIpLogic"]) -> None:
         """
         Set doIpLogic with validation.
-        
+
         Args:
             value: The doIpLogic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +80,10 @@ class DoIpLogicAddress(Identifiable):
     def getAddress(self) -> "Integer":
         """
         AUTOSAR-compliant getter for address.
-        
+
         Returns:
             The address value
-        
+
         Note:
             Delegates to address property (CODING_RULE_V2_00017)
         """
@@ -90,13 +92,13 @@ class DoIpLogicAddress(Identifiable):
     def setAddress(self, value: "Integer") -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant setter for address with method chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address property setter (gets validation automatically)
         """
@@ -106,10 +108,10 @@ class DoIpLogicAddress(Identifiable):
     def getDoIpLogic(self) -> "AbstractDoIpLogic":
         """
         AUTOSAR-compliant getter for doIpLogic.
-        
+
         Returns:
             The doIpLogic value
-        
+
         Note:
             Delegates to do_ip_logic property (CODING_RULE_V2_00017)
         """
@@ -118,13 +120,13 @@ class DoIpLogicAddress(Identifiable):
     def setDoIpLogic(self, value: "AbstractDoIpLogic") -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant setter for doIpLogic with method chaining.
-        
+
         Args:
             value: The doIpLogic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_logic property setter (gets validation automatically)
         """
@@ -136,13 +138,13 @@ class DoIpLogicAddress(Identifiable):
     def with_address(self, value: Optional["Integer"]) -> "DoIpLogicAddress":
         """
         Set address and return self for chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address("value")
         """
@@ -152,13 +154,13 @@ class DoIpLogicAddress(Identifiable):
     def with_do_ip_logic(self, value: Optional["AbstractDoIpLogic"]) -> "DoIpLogicAddress":
         """
         Set doIpLogic and return self for chaining.
-        
+
         Args:
             value: The doIpLogic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_logic("value")
         """

@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class XrefTarget(SingleLanguageReferrable):
     """
     This element specifies a reference target which can be scattered throughout
     the text.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::XrefTarget
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 321, Foundation
       R23-11)

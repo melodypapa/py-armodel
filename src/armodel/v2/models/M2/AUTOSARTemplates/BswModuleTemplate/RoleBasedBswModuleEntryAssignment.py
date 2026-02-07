@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RoleBasedBswModuleEntryAssignment(ARObject):
     """
@@ -9,9 +12,9 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     callback is mapped to a specific ServiceNeeds element, so that a tool is
     able to create appropriate configuration values for the module that
     implements the AUTOSAR Service.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::RoleBasedBswModuleEntryAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 226, Classic
       Platform R23-11)
@@ -33,10 +36,10 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def assigned_entry(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set assignedEntry with validation.
-        
+
         Args:
             value: The assignedEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +70,10 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +92,10 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def getAssignedEntry(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for assignedEntry.
-        
+
         Returns:
             The assignedEntry value
-        
+
         Note:
             Delegates to assigned_entry property (CODING_RULE_V2_00017)
         """
@@ -101,13 +104,13 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def setAssignedEntry(self, value: "BswModuleEntry") -> "RoleBasedBswModuleEntryAssignment":
         """
         AUTOSAR-compliant setter for assignedEntry with method chaining.
-        
+
         Args:
             value: The assignedEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_entry property setter (gets validation automatically)
         """
@@ -117,10 +120,10 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -129,13 +132,13 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedBswModuleEntryAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -147,13 +150,13 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def with_assigned_entry(self, value: Optional["BswModuleEntry"]) -> "RoleBasedBswModuleEntryAssignment":
         """
         Set assignedEntry and return self for chaining.
-        
+
         Args:
             value: The assignedEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_entry("value")
         """
@@ -163,13 +166,13 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedBswModuleEntryAssignment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """

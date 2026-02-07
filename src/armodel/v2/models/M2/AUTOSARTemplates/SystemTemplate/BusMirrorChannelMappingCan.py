@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     """
     This element defines the bus mirroring between a CAN or LIN sourceChannel
     and a CAN targetChannel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannelMappingCan
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 700, Classic Platform R23-11)
     """
@@ -51,10 +51,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def mirror_source_lin(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set mirrorSourceLin with validation.
-        
+
         Args:
             value: The mirrorSourceLin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def mirror_status(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set mirrorStatus with validation.
-        
+
         Args:
             value: The mirrorStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +103,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def getCanIdRange(self) -> List["BusMirrorCanIdRange"]:
         """
         AUTOSAR-compliant getter for canIdRange.
-        
+
         Returns:
             The canIdRange value
-        
+
         Note:
             Delegates to can_id_range property (CODING_RULE_V2_00017)
         """
@@ -115,10 +115,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def getCanIdToCanId(self) -> List["BusMirrorCanIdToCanId"]:
         """
         AUTOSAR-compliant getter for canIdToCanId.
-        
+
         Returns:
             The canIdToCanId value
-        
+
         Note:
             Delegates to can_id_to_can_id property (CODING_RULE_V2_00017)
         """
@@ -127,10 +127,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def getLinPidToCanId(self) -> List["BusMirrorLinPidToCan"]:
         """
         AUTOSAR-compliant getter for linPidToCanId.
-        
+
         Returns:
             The linPidToCanId value
-        
+
         Note:
             Delegates to lin_pid_to_can_id property (CODING_RULE_V2_00017)
         """
@@ -139,10 +139,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def getMirrorSourceLin(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for mirrorSourceLin.
-        
+
         Returns:
             The mirrorSourceLin value
-        
+
         Note:
             Delegates to mirror_source_lin property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def setMirrorSourceLin(self, value: "PositiveInteger") -> "BusMirrorChannelMappingCan":
         """
         AUTOSAR-compliant setter for mirrorSourceLin with method chaining.
-        
+
         Args:
             value: The mirrorSourceLin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mirror_source_lin property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def getMirrorStatus(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for mirrorStatus.
-        
+
         Returns:
             The mirrorStatus value
-        
+
         Note:
             Delegates to mirror_status property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def setMirrorStatus(self, value: "PositiveInteger") -> "BusMirrorChannelMappingCan":
         """
         AUTOSAR-compliant setter for mirrorStatus with method chaining.
-        
+
         Args:
             value: The mirrorStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mirror_status property setter (gets validation automatically)
         """
@@ -197,13 +197,13 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def with_mirror_source_lin(self, value: Optional["PositiveInteger"]) -> "BusMirrorChannelMappingCan":
         """
         Set mirrorSourceLin and return self for chaining.
-        
+
         Args:
             value: The mirrorSourceLin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mirror_source_lin("value")
         """
@@ -213,13 +213,13 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     def with_mirror_status(self, value: Optional["PositiveInteger"]) -> "BusMirrorChannelMappingCan":
         """
         Set mirrorStatus and return self for chaining.
-        
+
         Args:
             value: The mirrorStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mirror_status("value")
         """

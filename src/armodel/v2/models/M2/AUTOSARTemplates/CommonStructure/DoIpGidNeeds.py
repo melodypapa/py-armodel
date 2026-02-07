@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DoIpGidNeeds(DoIpServiceNeeds):
     """
@@ -8,9 +6,9 @@ class DoIpGidNeeds(DoIpServiceNeeds):
     or by other means like e.g. flashed EEPROM parameter. This need can be used
     independent from DoIpGidSynchronizationNeeds and is necessary if the GID can
     not be provided out of the DoIP configuration options.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpGidNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 805, Classic Platform
       R23-11)

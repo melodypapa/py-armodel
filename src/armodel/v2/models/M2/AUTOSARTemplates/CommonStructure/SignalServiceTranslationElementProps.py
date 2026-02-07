@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SignalServiceTranslationElementProps(Identifiable):
     """
     Defined translation properties for individual mapped elements.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationElementProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 735, Classic Platform R23-11)
     """
@@ -29,10 +33,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def element(self, value: RefType) -> None:
         """
         Set element with validation.
-        
+
         Args:
             value: The element to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +57,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set filter with validation.
-        
+
         Args:
             value: The filter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +86,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def transmission(self, value: Optional["Boolean"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +108,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def getElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -116,13 +120,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def setElement(self, value: RefType) -> "SignalServiceTranslationElementProps":
         """
         AUTOSAR-compliant setter for element with method chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element property setter (gets validation automatically)
         """
@@ -132,10 +136,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def getFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for filter.
-        
+
         Returns:
             The filter value
-        
+
         Note:
             Delegates to filter property (CODING_RULE_V2_00017)
         """
@@ -144,13 +148,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def setFilter(self, value: "DataFilter") -> "SignalServiceTranslationElementProps":
         """
         AUTOSAR-compliant setter for filter with method chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter property setter (gets validation automatically)
         """
@@ -160,10 +164,10 @@ class SignalServiceTranslationElementProps(Identifiable):
     def getTransmission(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -172,13 +176,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def setTransmission(self, value: "Boolean") -> "SignalServiceTranslationElementProps":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -190,13 +194,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def with_element(self, value: Optional[RefType]) -> "SignalServiceTranslationElementProps":
         """
         Set element and return self for chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element("value")
         """
@@ -206,13 +210,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def with_filter(self, value: Optional["DataFilter"]) -> "SignalServiceTranslationElementProps":
         """
         Set filter and return self for chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter("value")
         """
@@ -222,13 +226,13 @@ class SignalServiceTranslationElementProps(Identifiable):
     def with_transmission(self, value: Optional["Boolean"]) -> "SignalServiceTranslationElementProps":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """

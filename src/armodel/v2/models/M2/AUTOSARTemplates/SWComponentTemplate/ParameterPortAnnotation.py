@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ParameterPortAnnotation(GeneralAnnotation):
     """
     Annotation to a port used for calibration regarding a certain
     ParameterDataPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ParameterPortAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 158, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class ParameterPortAnnotation(GeneralAnnotation):
     def parameter_prototype(self, value: Optional["ParameterData"]) -> None:
         """
         Set parameterPrototype with validation.
-        
+
         Args:
             value: The parameterPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class ParameterPortAnnotation(GeneralAnnotation):
     def getParameterPrototype(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for parameterPrototype.
-        
+
         Returns:
             The parameterPrototype value
-        
+
         Note:
             Delegates to parameter_prototype property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class ParameterPortAnnotation(GeneralAnnotation):
     def setParameterPrototype(self, value: "ParameterData") -> "ParameterPortAnnotation":
         """
         AUTOSAR-compliant setter for parameterPrototype with method chaining.
-        
+
         Args:
             value: The parameterPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter_prototype property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class ParameterPortAnnotation(GeneralAnnotation):
     def with_parameter_prototype(self, value: Optional["ParameterData"]) -> "ParameterPortAnnotation":
         """
         Set parameterPrototype and return self for chaining.
-        
+
         Args:
             value: The parameterPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter_prototype("value")
         """

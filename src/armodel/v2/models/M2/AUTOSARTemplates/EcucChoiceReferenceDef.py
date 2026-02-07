@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Specify alternative references where in the ECU Configuration description
     only one of the specified references will actually be used.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucChoiceReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 74, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 184, Foundation R23-11)
@@ -29,10 +29,10 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     def getDestination(self) -> List["EcucContainerDef"]:
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """

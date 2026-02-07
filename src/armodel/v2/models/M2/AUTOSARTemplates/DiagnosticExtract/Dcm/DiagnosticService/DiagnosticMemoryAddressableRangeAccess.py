@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List
+
 
 class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
     """
     This abstract base class
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticMemoryAddressableRangeAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 140, Classic Platform
       R23-11)
@@ -31,10 +32,10 @@ class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
     def getMemoryRange(self) -> List["DiagnosticMemory"]:
         """
         AUTOSAR-compliant getter for memoryRange.
-        
+
         Returns:
             The memoryRange value
-        
+
         Note:
             Delegates to memory_range property (CODING_RULE_V2_00017)
         """

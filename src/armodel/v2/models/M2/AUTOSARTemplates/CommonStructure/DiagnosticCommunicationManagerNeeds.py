@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     """
@@ -7,9 +7,9 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     Communication Manager (Dcm) which are not related to a particular item (e.g.
     a PID or DiagnosticRoutineNeeds). The main use case is the mapping of
     service ports to the Dcm which are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticCommunicationManagerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 248, Classic
       Platform R23-11)
@@ -34,10 +34,10 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def service_request(self, value: Optional["DiagnosticService"]) -> None:
         """
         Set serviceRequest with validation.
-        
+
         Args:
             value: The serviceRequest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def getServiceRequest(self) -> "DiagnosticService":
         """
         AUTOSAR-compliant getter for serviceRequest.
-        
+
         Returns:
             The serviceRequest value
-        
+
         Note:
             Delegates to service_request property (CODING_RULE_V2_00017)
         """
@@ -68,13 +68,13 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def setServiceRequest(self, value: "DiagnosticService") -> "DiagnosticCommunicationManagerNeeds":
         """
         AUTOSAR-compliant setter for serviceRequest with method chaining.
-        
+
         Args:
             value: The serviceRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_request property setter (gets validation automatically)
         """
@@ -86,13 +86,13 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def with_service_request(self, value: Optional["DiagnosticService"]) -> "DiagnosticCommunicationManagerNeeds":
         """
         Set serviceRequest and return self for chaining.
-        
+
         Args:
             value: The serviceRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_request("value")
         """

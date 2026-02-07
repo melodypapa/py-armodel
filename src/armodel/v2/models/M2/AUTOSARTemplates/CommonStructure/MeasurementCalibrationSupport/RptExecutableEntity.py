@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class RptExecutableEntity(Identifiable):
     """
     This describes a ExecutableEntity instance which can be bypassed.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptExecutableEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 200, Classic
       Platform R23-11)
@@ -51,10 +53,10 @@ class RptExecutableEntity(Identifiable):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +75,10 @@ class RptExecutableEntity(Identifiable):
     def getRptExecutable(self) -> List["RptExecutableEntity"]:
         """
         AUTOSAR-compliant getter for rptExecutable.
-        
+
         Returns:
             The rptExecutable value
-        
+
         Note:
             Delegates to rpt_executable property (CODING_RULE_V2_00017)
         """
@@ -85,10 +87,10 @@ class RptExecutableEntity(Identifiable):
     def getRptRead(self) -> List["RoleBasedMcData"]:
         """
         AUTOSAR-compliant getter for rptRead.
-        
+
         Returns:
             The rptRead value
-        
+
         Note:
             Delegates to rpt_read property (CODING_RULE_V2_00017)
         """
@@ -97,10 +99,10 @@ class RptExecutableEntity(Identifiable):
     def getRptWrite(self) -> List["RoleBasedMcData"]:
         """
         AUTOSAR-compliant getter for rptWrite.
-        
+
         Returns:
             The rptWrite value
-        
+
         Note:
             Delegates to rpt_write property (CODING_RULE_V2_00017)
         """
@@ -109,10 +111,10 @@ class RptExecutableEntity(Identifiable):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -121,13 +123,13 @@ class RptExecutableEntity(Identifiable):
     def setSymbol(self, value: "CIdentifier") -> "RptExecutableEntity":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -139,13 +141,13 @@ class RptExecutableEntity(Identifiable):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "RptExecutableEntity":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

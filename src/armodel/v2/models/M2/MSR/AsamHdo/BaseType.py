@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class BaseType(ARElement, ABC):
     """
     This abstract meta-class represents the ability to specify a platform
     dependent base type.
-    
+
     Package: M2::MSR::AsamHdo::BaseTypes::BaseType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 302, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class BaseType(ARElement, ABC):
     def base_type(self, value: "BaseTypeDefinition") -> None:
         """
         Set baseType with validation.
-        
+
         Args:
             value: The baseType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class BaseType(ARElement, ABC):
     def getBaseType(self) -> "BaseTypeDefinition":
         """
         AUTOSAR-compliant getter for baseType.
-        
+
         Returns:
             The baseType value
-        
+
         Note:
             Delegates to base_type property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class BaseType(ARElement, ABC):
     def setBaseType(self, value: "BaseTypeDefinition") -> "BaseType":
         """
         AUTOSAR-compliant setter for baseType with method chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class BaseType(ARElement, ABC):
     def with_base_type(self, value: "BaseTypeDefinition") -> "BaseType":
         """
         Set baseType and return self for chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type("value")
         """

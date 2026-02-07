@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class PermissibleSignalPath(SignalPathConstraint):
     """
@@ -11,9 +11,9 @@ class PermissibleSignalPath(SignalPathConstraint):
     one data element should take path A (e.g. 1. CAN channel, 2. LIN channel)
     and not path B (1. CAN channel, FlexRay channel A). This has an effect on
     the frame generation and the frame path.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::PermissibleSignalPath
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 256, Classic Platform R23-11)
     """
@@ -48,10 +48,10 @@ class PermissibleSignalPath(SignalPathConstraint):
     def getOperation(self) -> List["SwcToSwcOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -60,10 +60,10 @@ class PermissibleSignalPath(SignalPathConstraint):
     def getPhysical(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -72,10 +72,10 @@ class PermissibleSignalPath(SignalPathConstraint):
     def getSignal(self) -> List["SwcToSwcSignal"]:
         """
         AUTOSAR-compliant getter for signal.
-        
+
         Returns:
             The signal value
-        
+
         Note:
             Delegates to signal property (CODING_RULE_V2_00017)
         """

@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class PostBuildVariantCriterion(ARElement):
     """
     This class specifies one particular PostBuildVariantSelector.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterion
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 304, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 614, Classic Platform
@@ -33,10 +31,10 @@ class PostBuildVariantCriterion(ARElement):
     def compu_method(self, value: "CompuMethod") -> None:
         """
         Set compuMethod with validation.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +49,10 @@ class PostBuildVariantCriterion(ARElement):
     def getCompuMethod(self) -> "CompuMethod":
         """
         AUTOSAR-compliant getter for compuMethod.
-        
+
         Returns:
             The compuMethod value
-        
+
         Note:
             Delegates to compu_method property (CODING_RULE_V2_00017)
         """
@@ -63,13 +61,13 @@ class PostBuildVariantCriterion(ARElement):
     def setCompuMethod(self, value: "CompuMethod") -> "PostBuildVariantCriterion":
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_method property setter (gets validation automatically)
         """
@@ -81,13 +79,13 @@ class PostBuildVariantCriterion(ARElement):
     def with_compu_method(self, value: "CompuMethod") -> "PostBuildVariantCriterion":
         """
         Set compuMethod and return self for chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_method("value")
         """

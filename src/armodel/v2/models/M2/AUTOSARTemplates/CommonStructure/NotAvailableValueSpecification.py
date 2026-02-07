@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class NotAvailableValueSpecification(ValueSpecification):
     """
@@ -7,9 +7,9 @@ class NotAvailableValueSpecification(ValueSpecification):
     state that the respective element is not available. This ability is needed
     to support the existence of ApplicationRecordElements where attribute
     isOptional ist set to the value true.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::NotAvailableValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 440, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class NotAvailableValueSpecification(ValueSpecification):
     def default_pattern(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set defaultPattern with validation.
-        
+
         Args:
             value: The defaultPattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class NotAvailableValueSpecification(ValueSpecification):
     def getDefaultPattern(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for defaultPattern.
-        
+
         Returns:
             The defaultPattern value
-        
+
         Note:
             Delegates to default_pattern property (CODING_RULE_V2_00017)
         """
@@ -67,13 +67,13 @@ class NotAvailableValueSpecification(ValueSpecification):
     def setDefaultPattern(self, value: "PositiveInteger") -> "NotAvailableValueSpecification":
         """
         AUTOSAR-compliant setter for defaultPattern with method chaining.
-        
+
         Args:
             value: The defaultPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_pattern property setter (gets validation automatically)
         """
@@ -85,13 +85,13 @@ class NotAvailableValueSpecification(ValueSpecification):
     def with_default_pattern(self, value: Optional["PositiveInteger"]) -> "NotAvailableValueSpecification":
         """
         Set defaultPattern and return self for chaining.
-        
+
         Args:
             value: The defaultPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_pattern("value")
         """

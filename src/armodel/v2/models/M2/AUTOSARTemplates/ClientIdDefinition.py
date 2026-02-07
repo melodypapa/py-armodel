@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ClientIdDefinition(Identifiable):
     """
@@ -10,9 +12,9 @@ class ClientIdDefinition(Identifiable):
     identifier is used to distinguish the different clients. The Client
     Identifier of the transaction handle that is used by the RTE can be defined
     by this element.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::ClientIdDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 45, Classic Platform R23-11)
     """
@@ -34,10 +36,10 @@ class ClientIdDefinition(Identifiable):
     def client_id(self, value: Optional["Numerical"]) -> None:
         """
         Set clientId with validation.
-        
+
         Args:
             value: The clientId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class ClientIdDefinition(Identifiable):
     def client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set clientServerInstanceRef with validation.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +87,10 @@ class ClientIdDefinition(Identifiable):
     def getClientId(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for clientId.
-        
+
         Returns:
             The clientId value
-        
+
         Note:
             Delegates to client_id property (CODING_RULE_V2_00017)
         """
@@ -97,13 +99,13 @@ class ClientIdDefinition(Identifiable):
     def setClientId(self, value: "Numerical") -> "ClientIdDefinition":
         """
         AUTOSAR-compliant setter for clientId with method chaining.
-        
+
         Args:
             value: The clientId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_id property setter (gets validation automatically)
         """
@@ -113,10 +115,10 @@ class ClientIdDefinition(Identifiable):
     def getClientServerInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for clientServerInstanceRef.
-        
+
         Returns:
             The clientServerInstanceRef value
-        
+
         Note:
             Delegates to client_server_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -125,13 +127,13 @@ class ClientIdDefinition(Identifiable):
     def setClientServerInstanceRef(self, value: "ClientServerOperation") -> "ClientIdDefinition":
         """
         AUTOSAR-compliant setter for clientServerInstanceRef with method chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server_instance_ref property setter (gets validation automatically)
         """
@@ -143,13 +145,13 @@ class ClientIdDefinition(Identifiable):
     def with_client_id(self, value: Optional["Numerical"]) -> "ClientIdDefinition":
         """
         Set clientId and return self for chaining.
-        
+
         Args:
             value: The clientId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_id("value")
         """
@@ -159,13 +161,13 @@ class ClientIdDefinition(Identifiable):
     def with_client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> "ClientIdDefinition":
         """
         Set clientServerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server_instance_ref("value")
         """

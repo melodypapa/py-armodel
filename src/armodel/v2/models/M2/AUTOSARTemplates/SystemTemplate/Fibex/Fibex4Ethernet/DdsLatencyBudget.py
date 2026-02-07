@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsLatencyBudget(ARObject):
     """
     Describes the DDS LATENCY_BUDGET QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsLatencyBudget
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 532, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DdsLatencyBudget(ARObject):
     def latency_budget(self, value: Optional["Float"]) -> None:
         """
         Set latencyBudget with validation.
-        
+
         Args:
             value: The latencyBudget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +53,10 @@ class DdsLatencyBudget(ARObject):
     def getLatencyBudget(self) -> "Float":
         """
         AUTOSAR-compliant getter for latencyBudget.
-        
+
         Returns:
             The latencyBudget value
-        
+
         Note:
             Delegates to latency_budget property (CODING_RULE_V2_00017)
         """
@@ -62,13 +65,13 @@ class DdsLatencyBudget(ARObject):
     def setLatencyBudget(self, value: "Float") -> "DdsLatencyBudget":
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
-        
+
         Args:
             value: The latencyBudget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to latency_budget property setter (gets validation automatically)
         """
@@ -80,13 +83,13 @@ class DdsLatencyBudget(ARObject):
     def with_latency_budget(self, value: Optional["Float"]) -> "DdsLatencyBudget":
         """
         Set latencyBudget and return self for chaining.
-        
+
         Args:
             value: The latencyBudget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_latency_budget("value")
         """

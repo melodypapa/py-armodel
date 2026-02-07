@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class LinTpConnection(TpConnection):
     """
@@ -9,9 +9,9 @@ class LinTpConnection(TpConnection):
     configuration of one Rx Tp-SDU and one Tx Tp-SDU per NAD the LinMaster uses
     to address one or more of its Lin Slaves. To support this an arbitrary
     number of LinTp Connections shall be described.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::LinTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 615, Classic Platform R23-11)
     """
@@ -44,10 +44,10 @@ class LinTpConnection(TpConnection):
     def data_pdu(self, value: Optional["NPdu"]) -> None:
         """
         Set dataPdu with validation.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class LinTpConnection(TpConnection):
     def flow_control(self, value: Optional["NPdu"]) -> None:
         """
         Set flowControl with validation.
-        
+
         Args:
             value: The flowControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class LinTpConnection(TpConnection):
     def lin_tp_n_sdu(self, value: Optional["IPdu"]) -> None:
         """
         Set linTpNSdu with validation.
-        
+
         Args:
             value: The linTpNSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +137,10 @@ class LinTpConnection(TpConnection):
     def multicast(self, value: Optional["TpAddress"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class LinTpConnection(TpConnection):
     def timeout_as(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAs with validation.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +203,10 @@ class LinTpConnection(TpConnection):
     def timeout_cr(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutCr with validation.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +232,10 @@ class LinTpConnection(TpConnection):
     def timeout_cs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutCs with validation.
-        
+
         Args:
             value: The timeoutCs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -260,10 +260,10 @@ class LinTpConnection(TpConnection):
     def transmitter(self, value: Optional["LinTpNode"]) -> None:
         """
         Set transmitter with validation.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -282,10 +282,10 @@ class LinTpConnection(TpConnection):
     def getDataPdu(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for dataPdu.
-        
+
         Returns:
             The dataPdu value
-        
+
         Note:
             Delegates to data_pdu property (CODING_RULE_V2_00017)
         """
@@ -294,13 +294,13 @@ class LinTpConnection(TpConnection):
     def setDataPdu(self, value: "NPdu") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for dataPdu with method chaining.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_pdu property setter (gets validation automatically)
         """
@@ -310,10 +310,10 @@ class LinTpConnection(TpConnection):
     def getFlowControl(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for flowControl.
-        
+
         Returns:
             The flowControl value
-        
+
         Note:
             Delegates to flow_control property (CODING_RULE_V2_00017)
         """
@@ -322,13 +322,13 @@ class LinTpConnection(TpConnection):
     def setFlowControl(self, value: "NPdu") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for flowControl with method chaining.
-        
+
         Args:
             value: The flowControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_control property setter (gets validation automatically)
         """
@@ -338,10 +338,10 @@ class LinTpConnection(TpConnection):
     def getLinTpNSdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for linTpNSdu.
-        
+
         Returns:
             The linTpNSdu value
-        
+
         Note:
             Delegates to lin_tp_n_sdu property (CODING_RULE_V2_00017)
         """
@@ -350,13 +350,13 @@ class LinTpConnection(TpConnection):
     def setLinTpNSdu(self, value: "IPdu") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for linTpNSdu with method chaining.
-        
+
         Args:
             value: The linTpNSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lin_tp_n_sdu property setter (gets validation automatically)
         """
@@ -366,10 +366,10 @@ class LinTpConnection(TpConnection):
     def getMulticast(self) -> "TpAddress":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -378,13 +378,13 @@ class LinTpConnection(TpConnection):
     def setMulticast(self, value: "TpAddress") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -394,10 +394,10 @@ class LinTpConnection(TpConnection):
     def getReceiver(self) -> List["LinTpNode"]:
         """
         AUTOSAR-compliant getter for receiver.
-        
+
         Returns:
             The receiver value
-        
+
         Note:
             Delegates to receiver property (CODING_RULE_V2_00017)
         """
@@ -406,10 +406,10 @@ class LinTpConnection(TpConnection):
     def getTimeoutAs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAs.
-        
+
         Returns:
             The timeoutAs value
-        
+
         Note:
             Delegates to timeout_as property (CODING_RULE_V2_00017)
         """
@@ -418,13 +418,13 @@ class LinTpConnection(TpConnection):
     def setTimeoutAs(self, value: "TimeValue") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_as property setter (gets validation automatically)
         """
@@ -434,10 +434,10 @@ class LinTpConnection(TpConnection):
     def getTimeoutCr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutCr.
-        
+
         Returns:
             The timeoutCr value
-        
+
         Note:
             Delegates to timeout_cr property (CODING_RULE_V2_00017)
         """
@@ -446,13 +446,13 @@ class LinTpConnection(TpConnection):
     def setTimeoutCr(self, value: "TimeValue") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_cr property setter (gets validation automatically)
         """
@@ -462,10 +462,10 @@ class LinTpConnection(TpConnection):
     def getTimeoutCs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutCs.
-        
+
         Returns:
             The timeoutCs value
-        
+
         Note:
             Delegates to timeout_cs property (CODING_RULE_V2_00017)
         """
@@ -474,13 +474,13 @@ class LinTpConnection(TpConnection):
     def setTimeoutCs(self, value: "TimeValue") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for timeoutCs with method chaining.
-        
+
         Args:
             value: The timeoutCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_cs property setter (gets validation automatically)
         """
@@ -490,10 +490,10 @@ class LinTpConnection(TpConnection):
     def getTransmitter(self) -> "LinTpNode":
         """
         AUTOSAR-compliant getter for transmitter.
-        
+
         Returns:
             The transmitter value
-        
+
         Note:
             Delegates to transmitter property (CODING_RULE_V2_00017)
         """
@@ -502,13 +502,13 @@ class LinTpConnection(TpConnection):
     def setTransmitter(self, value: "LinTpNode") -> "LinTpConnection":
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmitter property setter (gets validation automatically)
         """
@@ -520,13 +520,13 @@ class LinTpConnection(TpConnection):
     def with_data_pdu(self, value: Optional["NPdu"]) -> "LinTpConnection":
         """
         Set dataPdu and return self for chaining.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_pdu("value")
         """
@@ -536,13 +536,13 @@ class LinTpConnection(TpConnection):
     def with_flow_control(self, value: Optional["NPdu"]) -> "LinTpConnection":
         """
         Set flowControl and return self for chaining.
-        
+
         Args:
             value: The flowControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_control("value")
         """
@@ -552,13 +552,13 @@ class LinTpConnection(TpConnection):
     def with_lin_tp_n_sdu(self, value: Optional["IPdu"]) -> "LinTpConnection":
         """
         Set linTpNSdu and return self for chaining.
-        
+
         Args:
             value: The linTpNSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lin_tp_n_sdu("value")
         """
@@ -568,13 +568,13 @@ class LinTpConnection(TpConnection):
     def with_multicast(self, value: Optional["TpAddress"]) -> "LinTpConnection":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -584,13 +584,13 @@ class LinTpConnection(TpConnection):
     def with_timeout_as(self, value: Optional["TimeValue"]) -> "LinTpConnection":
         """
         Set timeoutAs and return self for chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_as("value")
         """
@@ -600,13 +600,13 @@ class LinTpConnection(TpConnection):
     def with_timeout_cr(self, value: Optional["TimeValue"]) -> "LinTpConnection":
         """
         Set timeoutCr and return self for chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_cr("value")
         """
@@ -616,13 +616,13 @@ class LinTpConnection(TpConnection):
     def with_timeout_cs(self, value: Optional["TimeValue"]) -> "LinTpConnection":
         """
         Set timeoutCs and return self for chaining.
-        
+
         Args:
             value: The timeoutCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_cs("value")
         """
@@ -632,13 +632,13 @@ class LinTpConnection(TpConnection):
     def with_transmitter(self, value: Optional["LinTpNode"]) -> "LinTpConnection":
         """
         Set transmitter and return self for chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmitter("value")
         """

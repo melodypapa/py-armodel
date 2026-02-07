@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticIoControlClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "IO
     Control" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl::DiagnosticIoControlClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 118, Classic Platform
       R23-11)

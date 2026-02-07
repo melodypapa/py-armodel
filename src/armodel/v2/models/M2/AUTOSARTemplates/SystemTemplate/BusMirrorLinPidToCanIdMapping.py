@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BusMirrorLinPidToCanIdMapping(ARObject):
     """
     This element defines a rule for remapping a single LIN Frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorLinPidToCanIdMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 702, Classic Platform R23-11)
     """
@@ -28,10 +33,10 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def remapped_can_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set remappedCanId with validation.
-        
+
         Args:
             value: The remappedCanId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def source_lin_pid(self, value: RefType) -> None:
         """
         Set sourceLinPid with validation.
-        
+
         Args:
             value: The sourceLinPid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +79,10 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def getRemappedCanId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for remappedCanId.
-        
+
         Returns:
             The remappedCanId value
-        
+
         Note:
             Delegates to remapped_can_id property (CODING_RULE_V2_00017)
         """
@@ -86,13 +91,13 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def setRemappedCanId(self, value: "PositiveInteger") -> "BusMirrorLinPidToCanIdMapping":
         """
         AUTOSAR-compliant setter for remappedCanId with method chaining.
-        
+
         Args:
             value: The remappedCanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remapped_can_id property setter (gets validation automatically)
         """
@@ -102,10 +107,10 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def getSourceLinPid(self) -> RefType:
         """
         AUTOSAR-compliant getter for sourceLinPid.
-        
+
         Returns:
             The sourceLinPid value
-        
+
         Note:
             Delegates to source_lin_pid property (CODING_RULE_V2_00017)
         """
@@ -114,13 +119,13 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def setSourceLinPid(self, value: RefType) -> "BusMirrorLinPidToCanIdMapping":
         """
         AUTOSAR-compliant setter for sourceLinPid with method chaining.
-        
+
         Args:
             value: The sourceLinPid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_lin_pid property setter (gets validation automatically)
         """
@@ -132,13 +137,13 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def with_remapped_can_id(self, value: Optional["PositiveInteger"]) -> "BusMirrorLinPidToCanIdMapping":
         """
         Set remappedCanId and return self for chaining.
-        
+
         Args:
             value: The remappedCanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remapped_can_id("value")
         """
@@ -148,13 +153,13 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     def with_source_lin_pid(self, value: Optional[RefType]) -> "BusMirrorLinPidToCanIdMapping":
         """
         Set sourceLinPid and return self for chaining.
-        
+
         Args:
             value: The sourceLinPid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_lin_pid("value")
         """

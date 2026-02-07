@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp IIDC connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv::IEEE1722TpIidcConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 648, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_channel(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcChannel with validation.
-        
+
         Args:
             value: The iidcChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_data_block(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcDataBlock with validation.
-        
+
         Args:
             value: The iidcDataBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_fraction(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcFraction with validation.
-        
+
         Args:
             value: The iidcFraction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_source(self, value: Optional["Boolean"]) -> None:
         """
         Set iidcSource with validation.
-        
+
         Args:
             value: The iidcSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +146,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_stream(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcStream with validation.
-        
+
         Args:
             value: The iidcStream to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +174,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_sy(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcSy with validation.
-        
+
         Args:
             value: The iidcSy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +202,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_tag(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcTag with validation.
-        
+
         Args:
             value: The iidcTag to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +230,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def iidc_t_code(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set iidcTCode with validation.
-        
+
         Args:
             value: The iidcTCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -252,10 +252,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcChannel(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcChannel.
-        
+
         Returns:
             The iidcChannel value
-        
+
         Note:
             Delegates to iidc_channel property (CODING_RULE_V2_00017)
         """
@@ -264,13 +264,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcChannel(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcChannel with method chaining.
-        
+
         Args:
             value: The iidcChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_channel property setter (gets validation automatically)
         """
@@ -280,10 +280,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcDataBlock(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcDataBlock.
-        
+
         Returns:
             The iidcDataBlock value
-        
+
         Note:
             Delegates to iidc_data_block property (CODING_RULE_V2_00017)
         """
@@ -292,13 +292,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcDataBlock(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcDataBlock with method chaining.
-        
+
         Args:
             value: The iidcDataBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_data_block property setter (gets validation automatically)
         """
@@ -308,10 +308,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcFraction(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcFraction.
-        
+
         Returns:
             The iidcFraction value
-        
+
         Note:
             Delegates to iidc_fraction property (CODING_RULE_V2_00017)
         """
@@ -320,13 +320,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcFraction(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcFraction with method chaining.
-        
+
         Args:
             value: The iidcFraction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_fraction property setter (gets validation automatically)
         """
@@ -336,10 +336,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcSource(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for iidcSource.
-        
+
         Returns:
             The iidcSource value
-        
+
         Note:
             Delegates to iidc_source property (CODING_RULE_V2_00017)
         """
@@ -348,13 +348,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcSource(self, value: "Boolean") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcSource with method chaining.
-        
+
         Args:
             value: The iidcSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_source property setter (gets validation automatically)
         """
@@ -364,10 +364,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcStream(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcStream.
-        
+
         Returns:
             The iidcStream value
-        
+
         Note:
             Delegates to iidc_stream property (CODING_RULE_V2_00017)
         """
@@ -376,13 +376,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcStream(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcStream with method chaining.
-        
+
         Args:
             value: The iidcStream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_stream property setter (gets validation automatically)
         """
@@ -392,10 +392,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcSy(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcSy.
-        
+
         Returns:
             The iidcSy value
-        
+
         Note:
             Delegates to iidc_sy property (CODING_RULE_V2_00017)
         """
@@ -404,13 +404,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcSy(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcSy with method chaining.
-        
+
         Args:
             value: The iidcSy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_sy property setter (gets validation automatically)
         """
@@ -420,10 +420,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcTag(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcTag.
-        
+
         Returns:
             The iidcTag value
-        
+
         Note:
             Delegates to iidc_tag property (CODING_RULE_V2_00017)
         """
@@ -432,13 +432,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcTag(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcTag with method chaining.
-        
+
         Args:
             value: The iidcTag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_tag property setter (gets validation automatically)
         """
@@ -448,10 +448,10 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def getIidcTCode(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for iidcTCode.
-        
+
         Returns:
             The iidcTCode value
-        
+
         Note:
             Delegates to iidc_t_code property (CODING_RULE_V2_00017)
         """
@@ -460,13 +460,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def setIidcTCode(self, value: "PositiveInteger") -> "IEEE1722TpIidcConnection":
         """
         AUTOSAR-compliant setter for iidcTCode with method chaining.
-        
+
         Args:
             value: The iidcTCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to iidc_t_code property setter (gets validation automatically)
         """
@@ -478,13 +478,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_channel(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcChannel and return self for chaining.
-        
+
         Args:
             value: The iidcChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_channel("value")
         """
@@ -494,13 +494,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_data_block(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcDataBlock and return self for chaining.
-        
+
         Args:
             value: The iidcDataBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_data_block("value")
         """
@@ -510,13 +510,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_fraction(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcFraction and return self for chaining.
-        
+
         Args:
             value: The iidcFraction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_fraction("value")
         """
@@ -526,13 +526,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_source(self, value: Optional["Boolean"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcSource and return self for chaining.
-        
+
         Args:
             value: The iidcSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_source("value")
         """
@@ -542,13 +542,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_stream(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcStream and return self for chaining.
-        
+
         Args:
             value: The iidcStream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_stream("value")
         """
@@ -558,13 +558,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_sy(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcSy and return self for chaining.
-        
+
         Args:
             value: The iidcSy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_sy("value")
         """
@@ -574,13 +574,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_tag(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcTag and return self for chaining.
-        
+
         Args:
             value: The iidcTag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_tag("value")
         """
@@ -590,13 +590,13 @@ class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     def with_iidc_t_code(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpIidcConnection":
         """
         Set iidcTCode and return self for chaining.
-        
+
         Args:
             value: The iidcTCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_iidc_t_code("value")
         """

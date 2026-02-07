@@ -1,16 +1,22 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     """
     This is an abstract EnumerationValueVariationPoint. It is introduced to
     support the case that additional attributes are required for particular
     purposes.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AbstractEnumerationValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 421, Foundation
       R23-11)
@@ -33,10 +39,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def base(self, value: Optional["Identifier"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +67,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def enum_table(self, value: RefType) -> None:
         """
         Set enumTable with validation.
-        
+
         Args:
             value: The enumTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +85,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def getBase(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -91,13 +97,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def setBase(self, value: "Identifier") -> "AbstractEnumerationValueVariationPoint":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -107,10 +113,10 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def getEnumTable(self) -> RefType:
         """
         AUTOSAR-compliant getter for enumTable.
-        
+
         Returns:
             The enumTable value
-        
+
         Note:
             Delegates to enum_table property (CODING_RULE_V2_00017)
         """
@@ -119,13 +125,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def setEnumTable(self, value: RefType) -> "AbstractEnumerationValueVariationPoint":
         """
         AUTOSAR-compliant setter for enumTable with method chaining.
-        
+
         Args:
             value: The enumTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enum_table property setter (gets validation automatically)
         """
@@ -137,13 +143,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def with_base(self, value: Optional["Identifier"]) -> "AbstractEnumerationValueVariationPoint":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -153,13 +159,13 @@ class AbstractEnumerationValueVariationPoint(ARObject, ABC):
     def with_enum_table(self, value: Optional[RefType]) -> "AbstractEnumerationValueVariationPoint":
         """
         Set enumTable and return self for chaining.
-        
+
         Args:
             value: The enumTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enum_table("value")
         """

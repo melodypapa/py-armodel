@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CryptoServiceNeeds(ServiceNeeds):
     """
@@ -7,9 +7,9 @@ class CryptoServiceNeeds(ServiceNeeds):
     ConfigID (see Specification AUTOSAR_SWS_CSM.doc). An instance of this class
     is used to find out which ports of a software-component belong to this
     ConfigID.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic
       Platform R23-11)
@@ -34,10 +34,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def algorithm_family(self, value: Optional["String"]) -> None:
         """
         Set algorithmFamily with validation.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def algorithm_mode(self, value: Optional["String"]) -> None:
         """
         Set algorithmMode with validation.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def crypto_key(self, value: Optional["String"]) -> None:
         """
         Set cryptoKey with validation.
-        
+
         Args:
             value: The cryptoKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +120,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def maximum_key(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximumKey with validation.
-        
+
         Args:
             value: The maximumKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getAlgorithmFamily(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmFamily.
-        
+
         Returns:
             The algorithmFamily value
-        
+
         Note:
             Delegates to algorithm_family property (CODING_RULE_V2_00017)
         """
@@ -154,13 +154,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setAlgorithmFamily(self, value: "String") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_family property setter (gets validation automatically)
         """
@@ -170,10 +170,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getAlgorithmMode(self) -> "String":
         """
         AUTOSAR-compliant getter for algorithmMode.
-        
+
         Returns:
             The algorithmMode value
-        
+
         Note:
             Delegates to algorithm_mode property (CODING_RULE_V2_00017)
         """
@@ -182,13 +182,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setAlgorithmMode(self, value: "String") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for algorithmMode with method chaining.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to algorithm_mode property setter (gets validation automatically)
         """
@@ -198,10 +198,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getCryptoKey(self) -> "String":
         """
         AUTOSAR-compliant getter for cryptoKey.
-        
+
         Returns:
             The cryptoKey value
-        
+
         Note:
             Delegates to crypto_key property (CODING_RULE_V2_00017)
         """
@@ -210,13 +210,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setCryptoKey(self, value: "String") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for cryptoKey with method chaining.
-        
+
         Args:
             value: The cryptoKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_key property setter (gets validation automatically)
         """
@@ -226,10 +226,10 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getMaximumKey(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximumKey.
-        
+
         Returns:
             The maximumKey value
-        
+
         Note:
             Delegates to maximum_key property (CODING_RULE_V2_00017)
         """
@@ -238,13 +238,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setMaximumKey(self, value: "PositiveInteger") -> "CryptoServiceNeeds":
         """
         AUTOSAR-compliant setter for maximumKey with method chaining.
-        
+
         Args:
             value: The maximumKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum_key property setter (gets validation automatically)
         """
@@ -256,13 +256,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_algorithm_family(self, value: Optional["String"]) -> "CryptoServiceNeeds":
         """
         Set algorithmFamily and return self for chaining.
-        
+
         Args:
             value: The algorithmFamily to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_family("value")
         """
@@ -272,13 +272,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_algorithm_mode(self, value: Optional["String"]) -> "CryptoServiceNeeds":
         """
         Set algorithmMode and return self for chaining.
-        
+
         Args:
             value: The algorithmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_algorithm_mode("value")
         """
@@ -288,13 +288,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_crypto_key(self, value: Optional["String"]) -> "CryptoServiceNeeds":
         """
         Set cryptoKey and return self for chaining.
-        
+
         Args:
             value: The cryptoKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_key("value")
         """
@@ -304,13 +304,13 @@ class CryptoServiceNeeds(ServiceNeeds):
     def with_maximum_key(self, value: Optional["PositiveInteger"]) -> "CryptoServiceNeeds":
         """
         Set maximumKey and return self for chaining.
-        
+
         Args:
             value: The maximumKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum_key("value")
         """

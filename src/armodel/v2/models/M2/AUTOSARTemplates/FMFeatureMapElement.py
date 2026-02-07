@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FMFeatureMapElement(Identifiable):
     """
     Defines value sets for system constants and postbuild variant criterions
     that shall be chosen whenever a certain combination of features (and system
     constants) is encountered.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMapElement
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 53, Foundation
       R23-11)
@@ -54,10 +56,10 @@ class FMFeatureMapElement(Identifiable):
     def getAssertion(self) -> List["FMFeatureMap"]:
         """
         AUTOSAR-compliant getter for assertion.
-        
+
         Returns:
             The assertion value
-        
+
         Note:
             Delegates to assertion property (CODING_RULE_V2_00017)
         """
@@ -66,10 +68,10 @@ class FMFeatureMapElement(Identifiable):
     def getCondition(self) -> List["FMFeatureMap"]:
         """
         AUTOSAR-compliant getter for condition.
-        
+
         Returns:
             The condition value
-        
+
         Note:
             Delegates to condition property (CODING_RULE_V2_00017)
         """
@@ -78,10 +80,10 @@ class FMFeatureMapElement(Identifiable):
     def getPostBuildVariant(self) -> List["PostBuildVariant"]:
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -90,10 +92,10 @@ class FMFeatureMapElement(Identifiable):
     def getSwValueSet(self) -> List["SwSystemconstant"]:
         """
         AUTOSAR-compliant getter for swValueSet.
-        
+
         Returns:
             The swValueSet value
-        
+
         Note:
             Delegates to sw_value_set property (CODING_RULE_V2_00017)
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MacSecProps(ARObject):
     """
     This meta-class allows to configure MACsec (Media access control security)
     and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 173, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class MacSecProps(ARObject):
     def auto_start(self, value: Optional["Boolean"]) -> None:
         """
         Set autoStart with validation.
-        
+
         Args:
             value: The autoStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class MacSecProps(ARObject):
     def mac_sec_kay(self, value: Optional["MacSecLocalKayProps"]) -> None:
         """
         Set macSecKay with validation.
-        
+
         Args:
             value: The macSecKay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class MacSecProps(ARObject):
     def on_fail(self, value: Optional["TimeValue"]) -> None:
         """
         Set onFail with validation.
-        
+
         Args:
             value: The onFail to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class MacSecProps(ARObject):
     def sak_rekey_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set sakRekeyTime with validation.
-        
+
         Args:
             value: The sakRekeyTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +142,10 @@ class MacSecProps(ARObject):
     def getAutoStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoStart.
-        
+
         Returns:
             The autoStart value
-        
+
         Note:
             Delegates to auto_start property (CODING_RULE_V2_00017)
         """
@@ -151,13 +154,13 @@ class MacSecProps(ARObject):
     def setAutoStart(self, value: "Boolean") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for autoStart with method chaining.
-        
+
         Args:
             value: The autoStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_start property setter (gets validation automatically)
         """
@@ -167,10 +170,10 @@ class MacSecProps(ARObject):
     def getMacSecKay(self) -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant getter for macSecKay.
-        
+
         Returns:
             The macSecKay value
-        
+
         Note:
             Delegates to mac_sec_kay property (CODING_RULE_V2_00017)
         """
@@ -179,13 +182,13 @@ class MacSecProps(ARObject):
     def setMacSecKay(self, value: "MacSecLocalKayProps") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for macSecKay with method chaining.
-        
+
         Args:
             value: The macSecKay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_sec_kay property setter (gets validation automatically)
         """
@@ -195,10 +198,10 @@ class MacSecProps(ARObject):
     def getOnFail(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for onFail.
-        
+
         Returns:
             The onFail value
-        
+
         Note:
             Delegates to on_fail property (CODING_RULE_V2_00017)
         """
@@ -207,13 +210,13 @@ class MacSecProps(ARObject):
     def setOnFail(self, value: "TimeValue") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for onFail with method chaining.
-        
+
         Args:
             value: The onFail to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to on_fail property setter (gets validation automatically)
         """
@@ -223,10 +226,10 @@ class MacSecProps(ARObject):
     def getSakRekeyTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sakRekeyTime.
-        
+
         Returns:
             The sakRekeyTime value
-        
+
         Note:
             Delegates to sak_rekey_time property (CODING_RULE_V2_00017)
         """
@@ -235,13 +238,13 @@ class MacSecProps(ARObject):
     def setSakRekeyTime(self, value: "TimeValue") -> "MacSecProps":
         """
         AUTOSAR-compliant setter for sakRekeyTime with method chaining.
-        
+
         Args:
             value: The sakRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sak_rekey_time property setter (gets validation automatically)
         """
@@ -253,13 +256,13 @@ class MacSecProps(ARObject):
     def with_auto_start(self, value: Optional["Boolean"]) -> "MacSecProps":
         """
         Set autoStart and return self for chaining.
-        
+
         Args:
             value: The autoStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_start("value")
         """
@@ -269,13 +272,13 @@ class MacSecProps(ARObject):
     def with_mac_sec_kay(self, value: Optional["MacSecLocalKayProps"]) -> "MacSecProps":
         """
         Set macSecKay and return self for chaining.
-        
+
         Args:
             value: The macSecKay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_sec_kay("value")
         """
@@ -285,13 +288,13 @@ class MacSecProps(ARObject):
     def with_on_fail(self, value: Optional["TimeValue"]) -> "MacSecProps":
         """
         Set onFail and return self for chaining.
-        
+
         Args:
             value: The onFail to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_on_fail("value")
         """
@@ -301,13 +304,13 @@ class MacSecProps(ARObject):
     def with_sak_rekey_time(self, value: Optional["TimeValue"]) -> "MacSecProps":
         """
         Set sakRekeyTime and return self for chaining.
-        
+
         Args:
             value: The sakRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sak_rekey_time("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ApplicationEntry(ScheduleTableEntry):
     """
     Schedule table entry for application messages.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::ApplicationEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 433, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class ApplicationEntry(ScheduleTableEntry):
     def frame_triggering(self, value: RefType) -> None:
         """
         Set frameTriggering with validation.
-        
+
         Args:
             value: The frameTriggering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -45,10 +48,10 @@ class ApplicationEntry(ScheduleTableEntry):
     def getFrameTriggering(self) -> RefType:
         """
         AUTOSAR-compliant getter for frameTriggering.
-        
+
         Returns:
             The frameTriggering value
-        
+
         Note:
             Delegates to frame_triggering property (CODING_RULE_V2_00017)
         """
@@ -57,13 +60,13 @@ class ApplicationEntry(ScheduleTableEntry):
     def setFrameTriggering(self, value: RefType) -> "ApplicationEntry":
         """
         AUTOSAR-compliant setter for frameTriggering with method chaining.
-        
+
         Args:
             value: The frameTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame_triggering property setter (gets validation automatically)
         """
@@ -75,13 +78,13 @@ class ApplicationEntry(ScheduleTableEntry):
     def with_frame_triggering(self, value: Optional[RefType]) -> "ApplicationEntry":
         """
         Set frameTriggering and return self for chaining.
-        
+
         Args:
             value: The frameTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame_triggering("value")
         """

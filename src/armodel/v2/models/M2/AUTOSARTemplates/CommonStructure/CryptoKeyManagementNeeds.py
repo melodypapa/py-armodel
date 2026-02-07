@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class CryptoKeyManagementNeeds(ServiceNeeds):
     """
     This meta-class can be used to indicate a service use case for key
     management.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoKeyManagementNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 745, Classic Platform
       R23-11)

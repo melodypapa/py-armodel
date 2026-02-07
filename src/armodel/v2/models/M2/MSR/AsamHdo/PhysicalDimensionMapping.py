@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PhysicalDimensionMapping(ARObject):
     """
     This class represents a specific mapping between two PhysicalDimensions.
-    
+
     Package: M2::MSR::AsamHdo::Units::PhysicalDimensionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 399, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class PhysicalDimensionMapping(ARObject):
     def first_physical(self, value: Optional["PhysicalDimension"]) -> None:
         """
         Set firstPhysical with validation.
-        
+
         Args:
             value: The firstPhysical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class PhysicalDimensionMapping(ARObject):
     def second_physical(self, value: Optional["PhysicalDimension"]) -> None:
         """
         Set secondPhysical with validation.
-        
+
         Args:
             value: The secondPhysical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class PhysicalDimensionMapping(ARObject):
     def getFirstPhysical(self) -> "PhysicalDimension":
         """
         AUTOSAR-compliant getter for firstPhysical.
-        
+
         Returns:
             The firstPhysical value
-        
+
         Note:
             Delegates to first_physical property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class PhysicalDimensionMapping(ARObject):
     def setFirstPhysical(self, value: "PhysicalDimension") -> "PhysicalDimensionMapping":
         """
         AUTOSAR-compliant setter for firstPhysical with method chaining.
-        
+
         Args:
             value: The firstPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_physical property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class PhysicalDimensionMapping(ARObject):
     def getSecondPhysical(self) -> "PhysicalDimension":
         """
         AUTOSAR-compliant getter for secondPhysical.
-        
+
         Returns:
             The secondPhysical value
-        
+
         Note:
             Delegates to second_physical property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class PhysicalDimensionMapping(ARObject):
     def setSecondPhysical(self, value: "PhysicalDimension") -> "PhysicalDimensionMapping":
         """
         AUTOSAR-compliant setter for secondPhysical with method chaining.
-        
+
         Args:
             value: The secondPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_physical property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class PhysicalDimensionMapping(ARObject):
     def with_first_physical(self, value: Optional["PhysicalDimension"]) -> "PhysicalDimensionMapping":
         """
         Set firstPhysical and return self for chaining.
-        
+
         Args:
             value: The firstPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_physical("value")
         """
@@ -152,13 +155,13 @@ class PhysicalDimensionMapping(ARObject):
     def with_second_physical(self, value: Optional["PhysicalDimension"]) -> "PhysicalDimensionMapping":
         """
         Set secondPhysical and return self for chaining.
-        
+
         Args:
             value: The secondPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_physical("value")
         """

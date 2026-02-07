@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RestrictionWithSeverity(ARObject, ABC):
     """
     A restriction that has a severity. The severity describes the severity level
     that is reported in case the restriction is violated.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::RestrictionWithSeverity
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 86, Foundation R23-11)
     """
@@ -30,10 +33,10 @@ class RestrictionWithSeverity(ARObject, ABC):
     def severity(self, value: "SeverityEnum") -> None:
         """
         Set severity with validation.
-        
+
         Args:
             value: The severity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +51,10 @@ class RestrictionWithSeverity(ARObject, ABC):
     def getSeverity(self) -> "SeverityEnum":
         """
         AUTOSAR-compliant getter for severity.
-        
+
         Returns:
             The severity value
-        
+
         Note:
             Delegates to severity property (CODING_RULE_V2_00017)
         """
@@ -60,13 +63,13 @@ class RestrictionWithSeverity(ARObject, ABC):
     def setSeverity(self, value: "SeverityEnum") -> "RestrictionWithSeverity":
         """
         AUTOSAR-compliant setter for severity with method chaining.
-        
+
         Args:
             value: The severity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to severity property setter (gets validation automatically)
         """
@@ -78,13 +81,13 @@ class RestrictionWithSeverity(ARObject, ABC):
     def with_severity(self, value: "SeverityEnum") -> "RestrictionWithSeverity":
         """
         Set severity and return self for chaining.
-        
+
         Args:
             value: The severity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_severity("value")
         """

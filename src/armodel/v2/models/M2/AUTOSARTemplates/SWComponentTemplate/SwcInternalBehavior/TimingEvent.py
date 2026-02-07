@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TimingEvent(RTEEvent):
     """
     This event is used to start RunnableEntities that shall be executed
     periodically.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::TimingEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 532, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class TimingEvent(RTEEvent):
     def offset(self, value: Optional["TimeValue"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class TimingEvent(RTEEvent):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class TimingEvent(RTEEvent):
     def getOffset(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -95,13 +95,13 @@ class TimingEvent(RTEEvent):
     def setOffset(self, value: "TimeValue") -> "TimingEvent":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -111,10 +111,10 @@ class TimingEvent(RTEEvent):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class TimingEvent(RTEEvent):
     def setPeriod(self, value: "TimeValue") -> "TimingEvent":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -141,13 +141,13 @@ class TimingEvent(RTEEvent):
     def with_offset(self, value: Optional["TimeValue"]) -> "TimingEvent":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -157,13 +157,13 @@ class TimingEvent(RTEEvent):
     def with_period(self, value: Optional["TimeValue"]) -> "TimingEvent":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """

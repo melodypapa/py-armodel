@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to associate a UDS trouble code to an
     OBD trouble code.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticTroubleCodeUdsToTroubleCodeObdMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 188, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCode with validation.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCodeUds with validation.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def getTroubleCode(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCode.
-        
+
         Returns:
             The troubleCode value
-        
+
         Note:
             Delegates to trouble_code property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def setTroubleCode(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         AUTOSAR-compliant setter for troubleCode with method chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def getTroubleCodeUds(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCodeUds.
-        
+
         Returns:
             The troubleCodeUds value
-        
+
         Note:
             Delegates to trouble_code_uds property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def setTroubleCodeUds(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         AUTOSAR-compliant setter for troubleCodeUds with method chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code_uds property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def with_trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         Set troubleCode and return self for chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
     def with_trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping":
         """
         Set troubleCodeUds and return self for chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code_uds("value")
         """

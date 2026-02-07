@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class MacSecGlobalKayProps(ARElement):
     """
     Configuration of the MAC Security Key Agreement Entity properties that are
     shared by different KaY configurations.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecGlobalKayProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 174, Classic Platform R23-11)
     """
@@ -28,10 +26,10 @@ class MacSecGlobalKayProps(ARElement):
     def bypass_ether(self, value: "PositiveInteger") -> None:
         """
         Set bypassEther with validation.
-        
+
         Args:
             value: The bypassEther to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +52,10 @@ class MacSecGlobalKayProps(ARElement):
     def bypass_vlan(self, value: "PositiveInteger") -> None:
         """
         Set bypassVlan with validation.
-        
+
         Args:
             value: The bypassVlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +70,10 @@ class MacSecGlobalKayProps(ARElement):
     def getBypassEther(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bypassEther.
-        
+
         Returns:
             The bypassEther value
-        
+
         Note:
             Delegates to bypass_ether property (CODING_RULE_V2_00017)
         """
@@ -84,13 +82,13 @@ class MacSecGlobalKayProps(ARElement):
     def setBypassEther(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         AUTOSAR-compliant setter for bypassEther with method chaining.
-        
+
         Args:
             value: The bypassEther to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bypass_ether property setter (gets validation automatically)
         """
@@ -100,10 +98,10 @@ class MacSecGlobalKayProps(ARElement):
     def getBypassVlan(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bypassVlan.
-        
+
         Returns:
             The bypassVlan value
-        
+
         Note:
             Delegates to bypass_vlan property (CODING_RULE_V2_00017)
         """
@@ -112,13 +110,13 @@ class MacSecGlobalKayProps(ARElement):
     def setBypassVlan(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         AUTOSAR-compliant setter for bypassVlan with method chaining.
-        
+
         Args:
             value: The bypassVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bypass_vlan property setter (gets validation automatically)
         """
@@ -130,13 +128,13 @@ class MacSecGlobalKayProps(ARElement):
     def with_bypass_ether(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         Set bypassEther and return self for chaining.
-        
+
         Args:
             value: The bypassEther to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bypass_ether("value")
         """
@@ -146,13 +144,13 @@ class MacSecGlobalKayProps(ARElement):
     def with_bypass_vlan(self, value: "PositiveInteger") -> "MacSecGlobalKayProps":
         """
         Set bypassVlan and return self for chaining.
-        
+
         Args:
             value: The bypassVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bypass_vlan("value")
         """

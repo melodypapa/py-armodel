@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticIndicator(DiagnosticCommonElement):
     """
     Definition of an indicator.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticIndicator::DiagnosticIndicator
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 203, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticIndicator(DiagnosticCommonElement):
     def type(self, value: Optional["DiagnosticIndicatorType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticIndicator(DiagnosticCommonElement):
     def getType(self) -> "DiagnosticIndicatorType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticIndicator(DiagnosticCommonElement):
     def setType(self, value: "DiagnosticIndicatorType") -> "DiagnosticIndicator":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticIndicator(DiagnosticCommonElement):
     def with_type(self, value: Optional["DiagnosticIndicatorType"]) -> "DiagnosticIndicator":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

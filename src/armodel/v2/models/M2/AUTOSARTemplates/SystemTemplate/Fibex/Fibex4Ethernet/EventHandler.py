@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EventHandler(Identifiable):
     """
     This element represents an event group as part of the Provided Service
     Instance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::EventHandler
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 492, Classic Platform R23-11)
     """
@@ -40,10 +44,10 @@ class EventHandler(Identifiable):
     def event_group(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +76,10 @@ class EventHandler(Identifiable):
     def event_multicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set eventMulticast with validation.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +110,10 @@ class EventHandler(Identifiable):
     def multicast(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -149,10 +153,10 @@ class EventHandler(Identifiable):
     def sd_server_config(self, value: Optional["SdServerConfig"]) -> None:
         """
         Set sdServerConfig with validation.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +182,10 @@ class EventHandler(Identifiable):
     def sd_server_eg(self, value: Optional["SomeipSdServerEvent"]) -> None:
         """
         Set sdServerEg with validation.
-        
+
         Args:
             value: The sdServerEg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -200,10 +204,10 @@ class EventHandler(Identifiable):
     def getConsumedEvent(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for consumedEvent.
-        
+
         Returns:
             The consumedEvent value
-        
+
         Note:
             Delegates to consumed_event property (CODING_RULE_V2_00017)
         """
@@ -212,10 +216,10 @@ class EventHandler(Identifiable):
     def getEventGroup(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -224,13 +228,13 @@ class EventHandler(Identifiable):
     def setEventGroup(self, value: "PositiveInteger") -> "EventHandler":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -240,10 +244,10 @@ class EventHandler(Identifiable):
     def getEventMulticast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for eventMulticast.
-        
+
         Returns:
             The eventMulticast value
-        
+
         Note:
             Delegates to event_multicast property (CODING_RULE_V2_00017)
         """
@@ -252,13 +256,13 @@ class EventHandler(Identifiable):
     def setEventMulticast(self, value: "ApplicationEndpoint") -> "EventHandler":
         """
         AUTOSAR-compliant setter for eventMulticast with method chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_multicast property setter (gets validation automatically)
         """
@@ -268,10 +272,10 @@ class EventHandler(Identifiable):
     def getMulticast(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -280,13 +284,13 @@ class EventHandler(Identifiable):
     def setMulticast(self, value: "PositiveInteger") -> "EventHandler":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -296,10 +300,10 @@ class EventHandler(Identifiable):
     def getPduActivation(self) -> List["PduActivationRouting"]:
         """
         AUTOSAR-compliant getter for pduActivation.
-        
+
         Returns:
             The pduActivation value
-        
+
         Note:
             Delegates to pdu_activation property (CODING_RULE_V2_00017)
         """
@@ -308,10 +312,10 @@ class EventHandler(Identifiable):
     def getRoutingGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for routingGroup.
-        
+
         Returns:
             The routingGroup value
-        
+
         Note:
             Delegates to routing_group property (CODING_RULE_V2_00017)
         """
@@ -320,10 +324,10 @@ class EventHandler(Identifiable):
     def getSdServerConfig(self) -> "SdServerConfig":
         """
         AUTOSAR-compliant getter for sdServerConfig.
-        
+
         Returns:
             The sdServerConfig value
-        
+
         Note:
             Delegates to sd_server_config property (CODING_RULE_V2_00017)
         """
@@ -332,13 +336,13 @@ class EventHandler(Identifiable):
     def setSdServerConfig(self, value: "SdServerConfig") -> "EventHandler":
         """
         AUTOSAR-compliant setter for sdServerConfig with method chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_config property setter (gets validation automatically)
         """
@@ -348,10 +352,10 @@ class EventHandler(Identifiable):
     def getSdServerEg(self) -> "SomeipSdServerEvent":
         """
         AUTOSAR-compliant getter for sdServerEg.
-        
+
         Returns:
             The sdServerEg value
-        
+
         Note:
             Delegates to sd_server_eg property (CODING_RULE_V2_00017)
         """
@@ -360,13 +364,13 @@ class EventHandler(Identifiable):
     def setSdServerEg(self, value: "SomeipSdServerEvent") -> "EventHandler":
         """
         AUTOSAR-compliant setter for sdServerEg with method chaining.
-        
+
         Args:
             value: The sdServerEg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_eg property setter (gets validation automatically)
         """
@@ -378,13 +382,13 @@ class EventHandler(Identifiable):
     def with_event_group(self, value: Optional["PositiveInteger"]) -> "EventHandler":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """
@@ -394,13 +398,13 @@ class EventHandler(Identifiable):
     def with_event_multicast(self, value: Optional["ApplicationEndpoint"]) -> "EventHandler":
         """
         Set eventMulticast and return self for chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_multicast("value")
         """
@@ -410,13 +414,13 @@ class EventHandler(Identifiable):
     def with_multicast(self, value: Optional["PositiveInteger"]) -> "EventHandler":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -426,13 +430,13 @@ class EventHandler(Identifiable):
     def with_sd_server_config(self, value: Optional["SdServerConfig"]) -> "EventHandler":
         """
         Set sdServerConfig and return self for chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_config("value")
         """
@@ -442,13 +446,13 @@ class EventHandler(Identifiable):
     def with_sd_server_eg(self, value: Optional["SomeipSdServerEvent"]) -> "EventHandler":
         """
         Set sdServerEg and return self for chaining.
-        
+
         Args:
             value: The sdServerEg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_eg("value")
         """

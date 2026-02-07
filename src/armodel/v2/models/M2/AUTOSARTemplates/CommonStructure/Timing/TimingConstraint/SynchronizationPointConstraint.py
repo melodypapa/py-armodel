@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SynchronizationPointConstraint(TimingConstraint):
     """
     Specifies a synchronization point either between groups of ExecutableEntitys
     or individual ExecutableEntitys referenced via their corresponding RTE or
     BSW events.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationPointConstraint::SynchronizationPointConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 132, Classic Platform R23-11)
     """
@@ -54,10 +54,10 @@ class SynchronizationPointConstraint(TimingConstraint):
     def getSourceEec(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for sourceEec.
-        
+
         Returns:
             The sourceEec value
-        
+
         Note:
             Delegates to source_eec property (CODING_RULE_V2_00017)
         """
@@ -66,10 +66,10 @@ class SynchronizationPointConstraint(TimingConstraint):
     def getSourceEvent(self) -> List["AbstractEvent"]:
         """
         AUTOSAR-compliant getter for sourceEvent.
-        
+
         Returns:
             The sourceEvent value
-        
+
         Note:
             Delegates to source_event property (CODING_RULE_V2_00017)
         """
@@ -78,10 +78,10 @@ class SynchronizationPointConstraint(TimingConstraint):
     def getTargetEec(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for targetEec.
-        
+
         Returns:
             The targetEec value
-        
+
         Note:
             Delegates to target_eec property (CODING_RULE_V2_00017)
         """
@@ -90,10 +90,10 @@ class SynchronizationPointConstraint(TimingConstraint):
     def getTargetEvent(self) -> List["AbstractEvent"]:
         """
         AUTOSAR-compliant getter for targetEvent.
-        
+
         Returns:
             The targetEvent value
-        
+
         Note:
             Delegates to target_event property (CODING_RULE_V2_00017)
         """

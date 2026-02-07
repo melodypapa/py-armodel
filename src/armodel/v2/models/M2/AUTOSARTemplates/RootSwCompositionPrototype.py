@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class RootSwCompositionPrototype(Identifiable):
     """
@@ -20,9 +22,9 @@ class RootSwCompositionPrototype(Identifiable):
     SwComponentTypes (including Port Prototypes, PortInterfaces,
     VariableDataPrototypes, SwcInternalBehavior etc.), and their ports are
     interconnected using SwConnectorPrototypes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RootSwCompositionPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1003, Classic
       Platform R23-11)
@@ -56,10 +58,10 @@ class RootSwCompositionPrototype(Identifiable):
     def flat_map(self, value: Optional["FlatMap"]) -> None:
         """
         Set flatMap with validation.
-        
+
         Args:
             value: The flatMap to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +86,10 @@ class RootSwCompositionPrototype(Identifiable):
     def software(self, value: Optional["CompositionSw"]) -> None:
         """
         Set software with validation.
-        
+
         Args:
             value: The software to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +108,10 @@ class RootSwCompositionPrototype(Identifiable):
     def getCalibration(self) -> List["CalibrationParameter"]:
         """
         AUTOSAR-compliant getter for calibration.
-        
+
         Returns:
             The calibration value
-        
+
         Note:
             Delegates to calibration property (CODING_RULE_V2_00017)
         """
@@ -118,10 +120,10 @@ class RootSwCompositionPrototype(Identifiable):
     def getFlatMap(self) -> "FlatMap":
         """
         AUTOSAR-compliant getter for flatMap.
-        
+
         Returns:
             The flatMap value
-        
+
         Note:
             Delegates to flat_map property (CODING_RULE_V2_00017)
         """
@@ -130,13 +132,13 @@ class RootSwCompositionPrototype(Identifiable):
     def setFlatMap(self, value: "FlatMap") -> "RootSwCompositionPrototype":
         """
         AUTOSAR-compliant setter for flatMap with method chaining.
-        
+
         Args:
             value: The flatMap to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flat_map property setter (gets validation automatically)
         """
@@ -146,10 +148,10 @@ class RootSwCompositionPrototype(Identifiable):
     def getSoftware(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for software.
-        
+
         Returns:
             The software value
-        
+
         Note:
             Delegates to software property (CODING_RULE_V2_00017)
         """
@@ -158,13 +160,13 @@ class RootSwCompositionPrototype(Identifiable):
     def setSoftware(self, value: "CompositionSw") -> "RootSwCompositionPrototype":
         """
         AUTOSAR-compliant setter for software with method chaining.
-        
+
         Args:
             value: The software to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software property setter (gets validation automatically)
         """
@@ -176,13 +178,13 @@ class RootSwCompositionPrototype(Identifiable):
     def with_flat_map(self, value: Optional["FlatMap"]) -> "RootSwCompositionPrototype":
         """
         Set flatMap and return self for chaining.
-        
+
         Args:
             value: The flatMap to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flat_map("value")
         """
@@ -192,13 +194,13 @@ class RootSwCompositionPrototype(Identifiable):
     def with_software(self, value: Optional["CompositionSw"]) -> "RootSwCompositionPrototype":
         """
         Set software and return self for chaining.
-        
+
         Args:
             value: The software to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class NvDataInterface(DataInterface):
     """
     A non volatile data interface declares a number of VariableDataPrototypes to
     be exchanged between non volatile block components and atomic software
     components.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::NvDataInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform
       R23-11)
@@ -36,10 +39,10 @@ class NvDataInterface(DataInterface):
     def getNvData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for nvData.
-        
+
         Returns:
             The nvData value
-        
+
         Note:
             Delegates to nv_data property (CODING_RULE_V2_00017)
         """

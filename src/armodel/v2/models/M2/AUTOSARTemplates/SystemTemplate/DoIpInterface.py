@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DoIpInterface(Identifiable):
     """
     A logical interface over which the DoIP Node is able to communicate via DoIP
     independently from other existing DoIpInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 551, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class DoIpInterface(Identifiable):
     def alive_check(self, value: Optional["TimeValue"]) -> None:
         """
         Set aliveCheck with validation.
-        
+
         Args:
             value: The aliveCheck to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +66,10 @@ class DoIpInterface(Identifiable):
     def doip_channel(self, value: Optional["DoIpTpConfig"]) -> None:
         """
         Set doipChannel with validation.
-        
+
         Args:
             value: The doipChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +111,10 @@ class DoIpInterface(Identifiable):
     def general_inactivity(self, value: Optional["TimeValue"]) -> None:
         """
         Set generalInactivity with validation.
-        
+
         Args:
             value: The generalInactivity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +141,10 @@ class DoIpInterface(Identifiable):
     def initial_inactivity(self, value: Optional["TimeValue"]) -> None:
         """
         Set initialInactivity with validation.
-        
+
         Args:
             value: The initialInactivity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +171,10 @@ class DoIpInterface(Identifiable):
     def initial_vehicle(self, value: Optional["TimeValue"]) -> None:
         """
         Set initialVehicle with validation.
-        
+
         Args:
             value: The initialVehicle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -198,10 +200,10 @@ class DoIpInterface(Identifiable):
     def is_activation_line(self, value: Optional["Boolean"]) -> None:
         """
         Set isActivationLine with validation.
-        
+
         Args:
             value: The isActivationLine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -227,10 +229,10 @@ class DoIpInterface(Identifiable):
     def max_tester(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxTester with validation.
-        
+
         Args:
             value: The maxTester to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -266,10 +268,10 @@ class DoIpInterface(Identifiable):
     def use_mac_address(self, value: Optional["Boolean"]) -> None:
         """
         Set useMacAddress with validation.
-        
+
         Args:
             value: The useMacAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +297,10 @@ class DoIpInterface(Identifiable):
     def use_vehicle(self, value: Optional["Boolean"]) -> None:
         """
         Set useVehicle with validation.
-        
+
         Args:
             value: The useVehicle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -325,10 +327,10 @@ class DoIpInterface(Identifiable):
     def vehicle(self, value: Optional["TimeValue"]) -> None:
         """
         Set vehicle with validation.
-        
+
         Args:
             value: The vehicle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -347,10 +349,10 @@ class DoIpInterface(Identifiable):
     def getAliveCheck(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for aliveCheck.
-        
+
         Returns:
             The aliveCheck value
-        
+
         Note:
             Delegates to alive_check property (CODING_RULE_V2_00017)
         """
@@ -359,13 +361,13 @@ class DoIpInterface(Identifiable):
     def setAliveCheck(self, value: "TimeValue") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for aliveCheck with method chaining.
-        
+
         Args:
             value: The aliveCheck to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alive_check property setter (gets validation automatically)
         """
@@ -375,10 +377,10 @@ class DoIpInterface(Identifiable):
     def getDoipChannel(self) -> "DoIpTpConfig":
         """
         AUTOSAR-compliant getter for doipChannel.
-        
+
         Returns:
             The doipChannel value
-        
+
         Note:
             Delegates to doip_channel property (CODING_RULE_V2_00017)
         """
@@ -387,13 +389,13 @@ class DoIpInterface(Identifiable):
     def setDoipChannel(self, value: "DoIpTpConfig") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for doipChannel with method chaining.
-        
+
         Args:
             value: The doipChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to doip_channel property setter (gets validation automatically)
         """
@@ -403,10 +405,10 @@ class DoIpInterface(Identifiable):
     def getDoipConnection(self) -> List["SocketConnection"]:
         """
         AUTOSAR-compliant getter for doipConnection.
-        
+
         Returns:
             The doipConnection value
-        
+
         Note:
             Delegates to doip_connection property (CODING_RULE_V2_00017)
         """
@@ -415,10 +417,10 @@ class DoIpInterface(Identifiable):
     def getDoIpRouting(self) -> List["DoIpRoutingActivation"]:
         """
         AUTOSAR-compliant getter for doIpRouting.
-        
+
         Returns:
             The doIpRouting value
-        
+
         Note:
             Delegates to do_ip_routing property (CODING_RULE_V2_00017)
         """
@@ -427,10 +429,10 @@ class DoIpInterface(Identifiable):
     def getGeneralInactivity(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for generalInactivity.
-        
+
         Returns:
             The generalInactivity value
-        
+
         Note:
             Delegates to general_inactivity property (CODING_RULE_V2_00017)
         """
@@ -439,13 +441,13 @@ class DoIpInterface(Identifiable):
     def setGeneralInactivity(self, value: "TimeValue") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for generalInactivity with method chaining.
-        
+
         Args:
             value: The generalInactivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to general_inactivity property setter (gets validation automatically)
         """
@@ -455,10 +457,10 @@ class DoIpInterface(Identifiable):
     def getInitialInactivity(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for initialInactivity.
-        
+
         Returns:
             The initialInactivity value
-        
+
         Note:
             Delegates to initial_inactivity property (CODING_RULE_V2_00017)
         """
@@ -467,13 +469,13 @@ class DoIpInterface(Identifiable):
     def setInitialInactivity(self, value: "TimeValue") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for initialInactivity with method chaining.
-        
+
         Args:
             value: The initialInactivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_inactivity property setter (gets validation automatically)
         """
@@ -483,10 +485,10 @@ class DoIpInterface(Identifiable):
     def getInitialVehicle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for initialVehicle.
-        
+
         Returns:
             The initialVehicle value
-        
+
         Note:
             Delegates to initial_vehicle property (CODING_RULE_V2_00017)
         """
@@ -495,13 +497,13 @@ class DoIpInterface(Identifiable):
     def setInitialVehicle(self, value: "TimeValue") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for initialVehicle with method chaining.
-        
+
         Args:
             value: The initialVehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_vehicle property setter (gets validation automatically)
         """
@@ -511,10 +513,10 @@ class DoIpInterface(Identifiable):
     def getIsActivationLine(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isActivationLine.
-        
+
         Returns:
             The isActivationLine value
-        
+
         Note:
             Delegates to is_activation_line property (CODING_RULE_V2_00017)
         """
@@ -523,13 +525,13 @@ class DoIpInterface(Identifiable):
     def setIsActivationLine(self, value: "Boolean") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for isActivationLine with method chaining.
-        
+
         Args:
             value: The isActivationLine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_activation_line property setter (gets validation automatically)
         """
@@ -539,10 +541,10 @@ class DoIpInterface(Identifiable):
     def getMaxTester(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxTester.
-        
+
         Returns:
             The maxTester value
-        
+
         Note:
             Delegates to max_tester property (CODING_RULE_V2_00017)
         """
@@ -551,13 +553,13 @@ class DoIpInterface(Identifiable):
     def setMaxTester(self, value: "PositiveInteger") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for maxTester with method chaining.
-        
+
         Args:
             value: The maxTester to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_tester property setter (gets validation automatically)
         """
@@ -567,10 +569,10 @@ class DoIpInterface(Identifiable):
     def getSocket(self) -> List["StaticSocketConnection"]:
         """
         AUTOSAR-compliant getter for socket.
-        
+
         Returns:
             The socket value
-        
+
         Note:
             Delegates to socket property (CODING_RULE_V2_00017)
         """
@@ -579,10 +581,10 @@ class DoIpInterface(Identifiable):
     def getUseMacAddress(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useMacAddress.
-        
+
         Returns:
             The useMacAddress value
-        
+
         Note:
             Delegates to use_mac_address property (CODING_RULE_V2_00017)
         """
@@ -591,13 +593,13 @@ class DoIpInterface(Identifiable):
     def setUseMacAddress(self, value: "Boolean") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for useMacAddress with method chaining.
-        
+
         Args:
             value: The useMacAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_mac_address property setter (gets validation automatically)
         """
@@ -607,10 +609,10 @@ class DoIpInterface(Identifiable):
     def getUseVehicle(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useVehicle.
-        
+
         Returns:
             The useVehicle value
-        
+
         Note:
             Delegates to use_vehicle property (CODING_RULE_V2_00017)
         """
@@ -619,13 +621,13 @@ class DoIpInterface(Identifiable):
     def setUseVehicle(self, value: "Boolean") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for useVehicle with method chaining.
-        
+
         Args:
             value: The useVehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_vehicle property setter (gets validation automatically)
         """
@@ -635,10 +637,10 @@ class DoIpInterface(Identifiable):
     def getVehicle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for vehicle.
-        
+
         Returns:
             The vehicle value
-        
+
         Note:
             Delegates to vehicle property (CODING_RULE_V2_00017)
         """
@@ -647,13 +649,13 @@ class DoIpInterface(Identifiable):
     def setVehicle(self, value: "TimeValue") -> "DoIpInterface":
         """
         AUTOSAR-compliant setter for vehicle with method chaining.
-        
+
         Args:
             value: The vehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vehicle property setter (gets validation automatically)
         """
@@ -665,13 +667,13 @@ class DoIpInterface(Identifiable):
     def with_alive_check(self, value: Optional["TimeValue"]) -> "DoIpInterface":
         """
         Set aliveCheck and return self for chaining.
-        
+
         Args:
             value: The aliveCheck to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alive_check("value")
         """
@@ -681,13 +683,13 @@ class DoIpInterface(Identifiable):
     def with_doip_channel(self, value: Optional["DoIpTpConfig"]) -> "DoIpInterface":
         """
         Set doipChannel and return self for chaining.
-        
+
         Args:
             value: The doipChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_doip_channel("value")
         """
@@ -697,13 +699,13 @@ class DoIpInterface(Identifiable):
     def with_general_inactivity(self, value: Optional["TimeValue"]) -> "DoIpInterface":
         """
         Set generalInactivity and return self for chaining.
-        
+
         Args:
             value: The generalInactivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_general_inactivity("value")
         """
@@ -713,13 +715,13 @@ class DoIpInterface(Identifiable):
     def with_initial_inactivity(self, value: Optional["TimeValue"]) -> "DoIpInterface":
         """
         Set initialInactivity and return self for chaining.
-        
+
         Args:
             value: The initialInactivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_inactivity("value")
         """
@@ -729,13 +731,13 @@ class DoIpInterface(Identifiable):
     def with_initial_vehicle(self, value: Optional["TimeValue"]) -> "DoIpInterface":
         """
         Set initialVehicle and return self for chaining.
-        
+
         Args:
             value: The initialVehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_vehicle("value")
         """
@@ -745,13 +747,13 @@ class DoIpInterface(Identifiable):
     def with_is_activation_line(self, value: Optional["Boolean"]) -> "DoIpInterface":
         """
         Set isActivationLine and return self for chaining.
-        
+
         Args:
             value: The isActivationLine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_activation_line("value")
         """
@@ -761,13 +763,13 @@ class DoIpInterface(Identifiable):
     def with_max_tester(self, value: Optional["PositiveInteger"]) -> "DoIpInterface":
         """
         Set maxTester and return self for chaining.
-        
+
         Args:
             value: The maxTester to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_tester("value")
         """
@@ -777,13 +779,13 @@ class DoIpInterface(Identifiable):
     def with_use_mac_address(self, value: Optional["Boolean"]) -> "DoIpInterface":
         """
         Set useMacAddress and return self for chaining.
-        
+
         Args:
             value: The useMacAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_mac_address("value")
         """
@@ -793,13 +795,13 @@ class DoIpInterface(Identifiable):
     def with_use_vehicle(self, value: Optional["Boolean"]) -> "DoIpInterface":
         """
         Set useVehicle and return self for chaining.
-        
+
         Args:
             value: The useVehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_vehicle("value")
         """
@@ -809,13 +811,13 @@ class DoIpInterface(Identifiable):
     def with_vehicle(self, value: Optional["TimeValue"]) -> "DoIpInterface":
         """
         Set vehicle and return self for chaining.
-        
+
         Args:
             value: The vehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vehicle("value")
         """

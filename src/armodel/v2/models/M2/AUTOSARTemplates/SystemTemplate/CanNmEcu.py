@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class CanNmEcu(BusspecificNmEcu):
     """
     CAN specific attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 683, Classic Platform R23-11)
     """

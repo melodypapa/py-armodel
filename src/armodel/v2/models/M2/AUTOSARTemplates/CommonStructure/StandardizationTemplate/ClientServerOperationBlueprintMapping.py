@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ClientServerOperationBlueprintMapping(ARObject):
     """
     This class describes a specific mapping between a ClientServerOperation in a
     ClientServerInterface blueprint and a BswModuleEntry blueprint.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw::ClientServerOperationBlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 68, Foundation R23-11)
     """
@@ -29,10 +32,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def blueprint(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set blueprint with validation.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def bsw_module(self, value: "BswModuleEntry") -> None:
         """
         Set bswModule with validation.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def client_server(self, value: "ClientServerOperation") -> None:
         """
         Set clientServer with validation.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +103,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def getBlueprint(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for blueprint.
-        
+
         Returns:
             The blueprint value
-        
+
         Note:
             Delegates to blueprint property (CODING_RULE_V2_00017)
         """
@@ -112,13 +115,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def setBlueprint(self, value: "DocumentationBlock") -> "ClientServerOperationBlueprintMapping":
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint property setter (gets validation automatically)
         """
@@ -128,10 +131,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def getBswModule(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for bswModule.
-        
+
         Returns:
             The bswModule value
-        
+
         Note:
             Delegates to bsw_module property (CODING_RULE_V2_00017)
         """
@@ -140,13 +143,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def setBswModule(self, value: "BswModuleEntry") -> "ClientServerOperationBlueprintMapping":
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module property setter (gets validation automatically)
         """
@@ -156,10 +159,10 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def getClientServer(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for clientServer.
-        
+
         Returns:
             The clientServer value
-        
+
         Note:
             Delegates to client_server property (CODING_RULE_V2_00017)
         """
@@ -168,13 +171,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def setClientServer(self, value: "ClientServerOperation") -> "ClientServerOperationBlueprintMapping":
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server property setter (gets validation automatically)
         """
@@ -186,13 +189,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def with_blueprint(self, value: Optional["DocumentationBlock"]) -> "ClientServerOperationBlueprintMapping":
         """
         Set blueprint and return self for chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint("value")
         """
@@ -202,13 +205,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def with_bsw_module(self, value: "BswModuleEntry") -> "ClientServerOperationBlueprintMapping":
         """
         Set bswModule and return self for chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module("value")
         """
@@ -218,13 +221,13 @@ class ClientServerOperationBlueprintMapping(ARObject):
     def with_client_server(self, value: "ClientServerOperation") -> "ClientServerOperationBlueprintMapping":
         """
         Set clientServer and return self for chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server("value")
         """

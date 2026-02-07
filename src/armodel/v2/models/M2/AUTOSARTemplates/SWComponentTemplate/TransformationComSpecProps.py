@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class TransformationComSpecProps(Describable, ABC):
     """
     TransformationComSpecProps holds all the attributes for transformers that
     are port specific.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransformationComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 196, Classic Platform
       R23-11)

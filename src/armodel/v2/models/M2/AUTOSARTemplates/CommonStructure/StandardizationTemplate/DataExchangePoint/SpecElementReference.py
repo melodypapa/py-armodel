@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SpecElementReference(Identifiable, ABC):
     """
     This is a reference to a specification element in the Autosar standard.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::SpecElementReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 82, Foundation R23-11)
     """
@@ -34,10 +37,10 @@ class SpecElementReference(Identifiable, ABC):
     def alternative(self, value: Optional["String"]) -> None:
         """
         Set alternative with validation.
-        
+
         Args:
             value: The alternative to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class SpecElementReference(Identifiable, ABC):
     def getAlternative(self) -> "String":
         """
         AUTOSAR-compliant getter for alternative.
-        
+
         Returns:
             The alternative value
-        
+
         Note:
             Delegates to alternative property (CODING_RULE_V2_00017)
         """
@@ -68,13 +71,13 @@ class SpecElementReference(Identifiable, ABC):
     def setAlternative(self, value: "String") -> "SpecElementReference":
         """
         AUTOSAR-compliant setter for alternative with method chaining.
-        
+
         Args:
             value: The alternative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alternative property setter (gets validation automatically)
         """
@@ -86,13 +89,13 @@ class SpecElementReference(Identifiable, ABC):
     def with_alternative(self, value: Optional["String"]) -> "SpecElementReference":
         """
         Set alternative and return self for chaining.
-        
+
         Args:
             value: The alternative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alternative("value")
         """

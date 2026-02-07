@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class UnitGroup(ARElement):
     """
     that the UnitGroup does not ensure the physical compliance of the units.
     This is maintained by the physical dimension.
-    
+
     Package: M2::MSR::AsamHdo::Units::UnitGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 314, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 402, Classic Platform
@@ -30,10 +30,10 @@ class UnitGroup(ARElement):
     def getUnit(self) -> List["Unit"]:
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """

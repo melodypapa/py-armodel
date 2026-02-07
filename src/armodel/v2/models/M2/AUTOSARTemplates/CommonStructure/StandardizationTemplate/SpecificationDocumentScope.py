@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class SpecificationDocumentScope(SpecElementReference):
     """
     Represents a standardized or custom specification document such as Software
     Component Template, Main Requirements, Specification of Communication, etc.
     Autosar specifications are referenced via their title.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange::SpecificationDocumentScope
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 97, Foundation R23-11)
     """
@@ -28,10 +28,10 @@ class SpecificationDocumentScope(SpecElementReference):
     def custom_documentation(self, value: Optional["Documentation"]) -> None:
         """
         Set customDocumentation with validation.
-        
+
         Args:
             value: The customDocumentation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class SpecificationDocumentScope(SpecElementReference):
     def getCustomDocumentation(self) -> "Documentation":
         """
         AUTOSAR-compliant getter for customDocumentation.
-        
+
         Returns:
             The customDocumentation value
-        
+
         Note:
             Delegates to custom_documentation property (CODING_RULE_V2_00017)
         """
@@ -69,13 +69,13 @@ class SpecificationDocumentScope(SpecElementReference):
     def setCustomDocumentation(self, value: "Documentation") -> "SpecificationDocumentScope":
         """
         AUTOSAR-compliant setter for customDocumentation with method chaining.
-        
+
         Args:
             value: The customDocumentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to custom_documentation property setter (gets validation automatically)
         """
@@ -85,10 +85,10 @@ class SpecificationDocumentScope(SpecElementReference):
     def getDocument(self) -> List["DocumentElement"]:
         """
         AUTOSAR-compliant getter for document.
-        
+
         Returns:
             The document value
-        
+
         Note:
             Delegates to document property (CODING_RULE_V2_00017)
         """
@@ -99,13 +99,13 @@ class SpecificationDocumentScope(SpecElementReference):
     def with_custom_documentation(self, value: Optional["Documentation"]) -> "SpecificationDocumentScope":
         """
         Set customDocumentation and return self for chaining.
-        
+
         Args:
             value: The customDocumentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_custom_documentation("value")
         """

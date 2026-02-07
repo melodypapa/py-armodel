@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     """
@@ -10,9 +13,9 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     used to model a reference to the AutosarDataPrototype as a target itself,
     even if the AutosarDataPrototype is typed by an ImplementationDataType and
     even if that ImplementationDataType represents a composite data type.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::ImplementationDataTypeElementInPortInterfaceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 789, Classic Platform R23-11)
     """
@@ -45,10 +48,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def root_data(self, value: RefType) -> None:
         """
         Set rootData with validation.
-        
+
         Args:
             value: The rootData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +76,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def target(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set target with validation.
-        
+
         Args:
             value: The target to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def getContext(self) -> List["AbstractImplementation"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -107,10 +110,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def getRootData(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootData.
-        
+
         Returns:
             The rootData value
-        
+
         Note:
             Delegates to root_data property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def setRootData(self, value: RefType) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         AUTOSAR-compliant setter for rootData with method chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data property setter (gets validation automatically)
         """
@@ -135,10 +138,10 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def getTarget(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -147,13 +150,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def setTarget(self, value: "AbstractImplementation") -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         AUTOSAR-compliant setter for target with method chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target property setter (gets validation automatically)
         """
@@ -165,13 +168,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def with_root_data(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         Set rootData and return self for chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data("value")
         """
@@ -181,13 +184,13 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     def with_target(self, value: Optional["AbstractImplementation"]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         Set target and return self for chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target("value")
         """

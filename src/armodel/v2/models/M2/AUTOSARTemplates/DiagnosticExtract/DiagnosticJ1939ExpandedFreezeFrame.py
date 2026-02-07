@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model an expanded J1939 Freeze
     Frame.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939::DiagnosticJ1939ExpandedFreezeFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 221, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
     def node(self, value: Optional["DiagnosticJ1939Node"]) -> None:
         """
         Set node with validation.
-        
+
         Args:
             value: The node to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
     def getNode(self) -> "DiagnosticJ1939Node":
         """
         AUTOSAR-compliant getter for node.
-        
+
         Returns:
             The node value
-        
+
         Note:
             Delegates to node property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
     def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticJ1939ExpandedFreezeFrame":
         """
         AUTOSAR-compliant setter for node with method chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to node property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class DiagnosticJ1939ExpandedFreezeFrame(DiagnosticCommonElement):
     def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticJ1939ExpandedFreezeFrame":
         """
         Set node and return self for chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_node("value")
         """

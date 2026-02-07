@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     """
@@ -9,9 +13,9 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     developer (CanControllerConfiguration). 2. Providing ranges of values which
     are taken as requirements and have to be respected by the ECU developer
     (CanControllerConfigurationRequirements).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::AbstractCanCommunicationControllerAttributes
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 64, Classic Platform R23-11)
     """
@@ -36,10 +40,10 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def can_controller_fd(self, value: Optional["CanControllerFd"]) -> None:
         """
         Set canControllerFd with validation.
-        
+
         Args:
             value: The canControllerFd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +71,10 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def can_controller_xl(self, value: Optional["CanControllerXl"]) -> None:
         """
         Set canControllerXl with validation.
-        
+
         Args:
             value: The canControllerXl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +93,10 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def getCanControllerFd(self) -> "CanControllerFd":
         """
         AUTOSAR-compliant getter for canControllerFd.
-        
+
         Returns:
             The canControllerFd value
-        
+
         Note:
             Delegates to can_controller_fd property (CODING_RULE_V2_00017)
         """
@@ -101,13 +105,13 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def setCanControllerFd(self, value: "CanControllerFd") -> "AbstractCanCommunicationControllerAttributes":
         """
         AUTOSAR-compliant setter for canControllerFd with method chaining.
-        
+
         Args:
             value: The canControllerFd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_controller_fd property setter (gets validation automatically)
         """
@@ -117,10 +121,10 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def getCanControllerXl(self) -> "CanControllerXl":
         """
         AUTOSAR-compliant getter for canControllerXl.
-        
+
         Returns:
             The canControllerXl value
-        
+
         Note:
             Delegates to can_controller_xl property (CODING_RULE_V2_00017)
         """
@@ -129,13 +133,13 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def setCanControllerXl(self, value: "CanControllerXl") -> "AbstractCanCommunicationControllerAttributes":
         """
         AUTOSAR-compliant setter for canControllerXl with method chaining.
-        
+
         Args:
             value: The canControllerXl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_controller_xl property setter (gets validation automatically)
         """
@@ -147,13 +151,13 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def with_can_controller_fd(self, value: Optional["CanControllerFd"]) -> "AbstractCanCommunicationControllerAttributes":
         """
         Set canControllerFd and return self for chaining.
-        
+
         Args:
             value: The canControllerFd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_controller_fd("value")
         """
@@ -163,13 +167,13 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def with_can_controller_xl(self, value: Optional["CanControllerXl"]) -> "AbstractCanCommunicationControllerAttributes":
         """
         Set canControllerXl and return self for chaining.
-        
+
         Args:
             value: The canControllerXl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_controller_xl("value")
         """

@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ServiceDependency(ARObject, ABC):
     """
@@ -10,9 +14,9 @@ class ServiceDependency(ARObject, ABC):
     well as (optionally) references to additional elements. This information is
     required for tools in order to generate the related basic software
     configuration and ServiceSwComponentTypes.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ServiceDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 225, Classic
       Platform R23-11)
@@ -38,10 +42,10 @@ class ServiceDependency(ARObject, ABC):
     def assigned_data(self, value: Optional["RoleBasedDataType"]) -> None:
         """
         Set assignedData with validation.
-        
+
         Args:
             value: The assignedData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +75,10 @@ class ServiceDependency(ARObject, ABC):
     def diagnostic(self, value: Optional["ServiceDiagnostic"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +103,10 @@ class ServiceDependency(ARObject, ABC):
     def symbolic_name(self, value: Optional["SymbolicNameProps"]) -> None:
         """
         Set symbolicName with validation.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +125,10 @@ class ServiceDependency(ARObject, ABC):
     def getAssignedData(self) -> "RoleBasedDataType":
         """
         AUTOSAR-compliant getter for assignedData.
-        
+
         Returns:
             The assignedData value
-        
+
         Note:
             Delegates to assigned_data property (CODING_RULE_V2_00017)
         """
@@ -133,13 +137,13 @@ class ServiceDependency(ARObject, ABC):
     def setAssignedData(self, value: "RoleBasedDataType") -> "ServiceDependency":
         """
         AUTOSAR-compliant setter for assignedData with method chaining.
-        
+
         Args:
             value: The assignedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_data property setter (gets validation automatically)
         """
@@ -149,10 +153,10 @@ class ServiceDependency(ARObject, ABC):
     def getDiagnostic(self) -> "ServiceDiagnostic":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -161,13 +165,13 @@ class ServiceDependency(ARObject, ABC):
     def setDiagnostic(self, value: "ServiceDiagnostic") -> "ServiceDependency":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -177,10 +181,10 @@ class ServiceDependency(ARObject, ABC):
     def getSymbolicName(self) -> "SymbolicNameProps":
         """
         AUTOSAR-compliant getter for symbolicName.
-        
+
         Returns:
             The symbolicName value
-        
+
         Note:
             Delegates to symbolic_name property (CODING_RULE_V2_00017)
         """
@@ -189,13 +193,13 @@ class ServiceDependency(ARObject, ABC):
     def setSymbolicName(self, value: "SymbolicNameProps") -> "ServiceDependency":
         """
         AUTOSAR-compliant setter for symbolicName with method chaining.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbolic_name property setter (gets validation automatically)
         """
@@ -207,13 +211,13 @@ class ServiceDependency(ARObject, ABC):
     def with_assigned_data(self, value: Optional["RoleBasedDataType"]) -> "ServiceDependency":
         """
         Set assignedData and return self for chaining.
-        
+
         Args:
             value: The assignedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_data("value")
         """
@@ -223,13 +227,13 @@ class ServiceDependency(ARObject, ABC):
     def with_diagnostic(self, value: Optional["ServiceDiagnostic"]) -> "ServiceDependency":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -239,13 +243,13 @@ class ServiceDependency(ARObject, ABC):
     def with_symbolic_name(self, value: Optional["SymbolicNameProps"]) -> "ServiceDependency":
         """
         Set symbolicName and return self for chaining.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbolic_name("value")
         """

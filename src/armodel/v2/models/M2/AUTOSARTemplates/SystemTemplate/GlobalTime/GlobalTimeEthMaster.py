@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
     """
     This represents the specialization of the GlobalTimeMaster for Ethernet
     communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::GlobalTimeEthMaster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 866, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> None:
         """
         Set crcSecured with validation.
-        
+
         Args:
             value: The crcSecured to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def hold_over_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set holdOverTime with validation.
-        
+
         Args:
             value: The holdOverTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def sub_tlv_config(self, value: Optional["EthTSynSubTlvConfig"]) -> None:
         """
         Set subTlvConfig with validation.
-        
+
         Args:
             value: The subTlvConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def getCrcSecured(self) -> "GlobalTimeCrcSupport":
         """
         AUTOSAR-compliant getter for crcSecured.
-        
+
         Returns:
             The crcSecured value
-        
+
         Note:
             Delegates to crc_secured property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> "GlobalTimeEthMaster":
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
-        
+
         Args:
             value: The crcSecured to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_secured property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def getHoldOverTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for holdOverTime.
-        
+
         Returns:
             The holdOverTime value
-        
+
         Note:
             Delegates to hold_over_time property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def setHoldOverTime(self, value: "TimeValue") -> "GlobalTimeEthMaster":
         """
         AUTOSAR-compliant setter for holdOverTime with method chaining.
-        
+
         Args:
             value: The holdOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hold_over_time property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def getSubTlvConfig(self) -> "EthTSynSubTlvConfig":
         """
         AUTOSAR-compliant getter for subTlvConfig.
-        
+
         Returns:
             The subTlvConfig value
-        
+
         Note:
             Delegates to sub_tlv_config property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def setSubTlvConfig(self, value: "EthTSynSubTlvConfig") -> "GlobalTimeEthMaster":
         """
         AUTOSAR-compliant setter for subTlvConfig with method chaining.
-        
+
         Args:
             value: The subTlvConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_tlv_config property setter (gets validation automatically)
         """
@@ -193,13 +193,13 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> "GlobalTimeEthMaster":
         """
         Set crcSecured and return self for chaining.
-        
+
         Args:
             value: The crcSecured to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_secured("value")
         """
@@ -209,13 +209,13 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def with_hold_over_time(self, value: Optional["TimeValue"]) -> "GlobalTimeEthMaster":
         """
         Set holdOverTime and return self for chaining.
-        
+
         Args:
             value: The holdOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hold_over_time("value")
         """
@@ -225,13 +225,13 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     def with_sub_tlv_config(self, value: Optional["EthTSynSubTlvConfig"]) -> "GlobalTimeEthMaster":
         """
         Set subTlvConfig and return self for chaining.
-        
+
         Args:
             value: The subTlvConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_tlv_config("value")
         """

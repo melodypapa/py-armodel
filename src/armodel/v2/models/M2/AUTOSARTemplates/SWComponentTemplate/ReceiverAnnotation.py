@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ReceiverAnnotation(SenderReceiverAnnotation):
     """
     Annotation of a receiver port, specifying properties of data elements that
     don’t affect communication or generation of the RTE. The given attributes
     are requirements on the required data.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ReceiverAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 153, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
     def signal_age(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set signalAge with validation.
-        
+
         Args:
             value: The signalAge to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
     def getSignalAge(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for signalAge.
-        
+
         Returns:
             The signalAge value
-        
+
         Note:
             Delegates to signal_age property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
     def setSignalAge(self, value: "MultidimensionalTime") -> "ReceiverAnnotation":
         """
         AUTOSAR-compliant setter for signalAge with method chaining.
-        
+
         Args:
             value: The signalAge to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signal_age property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
     def with_signal_age(self, value: Optional["MultidimensionalTime"]) -> "ReceiverAnnotation":
         """
         Set signalAge and return self for chaining.
-        
+
         Args:
             value: The signalAge to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signal_age("value")
         """

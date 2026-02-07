@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Xfile(SingleLanguageReferrable):
     """
     This represents to reference an external file within a documentation.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xfile
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 319, Foundation
       R23-11)
@@ -28,10 +28,10 @@ class Xfile(SingleLanguageReferrable):
     def tool(self, value: Optional["String"]) -> None:
         """
         Set tool with validation.
-        
+
         Args:
             value: The tool to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class Xfile(SingleLanguageReferrable):
     def tool_version(self, value: Optional["String"]) -> None:
         """
         Set toolVersion with validation.
-        
+
         Args:
             value: The toolVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class Xfile(SingleLanguageReferrable):
     def url(self, value: Optional["Url"]) -> None:
         """
         Set url with validation.
-        
+
         Args:
             value: The url to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +108,10 @@ class Xfile(SingleLanguageReferrable):
     def getTool(self) -> "String":
         """
         AUTOSAR-compliant getter for tool.
-        
+
         Returns:
             The tool value
-        
+
         Note:
             Delegates to tool property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class Xfile(SingleLanguageReferrable):
     def setTool(self, value: "String") -> "Xfile":
         """
         AUTOSAR-compliant setter for tool with method chaining.
-        
+
         Args:
             value: The tool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tool property setter (gets validation automatically)
         """
@@ -136,10 +136,10 @@ class Xfile(SingleLanguageReferrable):
     def getToolVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for toolVersion.
-        
+
         Returns:
             The toolVersion value
-        
+
         Note:
             Delegates to tool_version property (CODING_RULE_V2_00017)
         """
@@ -148,13 +148,13 @@ class Xfile(SingleLanguageReferrable):
     def setToolVersion(self, value: "String") -> "Xfile":
         """
         AUTOSAR-compliant setter for toolVersion with method chaining.
-        
+
         Args:
             value: The toolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tool_version property setter (gets validation automatically)
         """
@@ -164,10 +164,10 @@ class Xfile(SingleLanguageReferrable):
     def getUrl(self) -> "Url":
         """
         AUTOSAR-compliant getter for url.
-        
+
         Returns:
             The url value
-        
+
         Note:
             Delegates to url property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class Xfile(SingleLanguageReferrable):
     def setUrl(self, value: "Url") -> "Xfile":
         """
         AUTOSAR-compliant setter for url with method chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to url property setter (gets validation automatically)
         """
@@ -194,13 +194,13 @@ class Xfile(SingleLanguageReferrable):
     def with_tool(self, value: Optional["String"]) -> "Xfile":
         """
         Set tool and return self for chaining.
-        
+
         Args:
             value: The tool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tool("value")
         """
@@ -210,13 +210,13 @@ class Xfile(SingleLanguageReferrable):
     def with_tool_version(self, value: Optional["String"]) -> "Xfile":
         """
         Set toolVersion and return self for chaining.
-        
+
         Args:
             value: The toolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tool_version("value")
         """
@@ -226,13 +226,13 @@ class Xfile(SingleLanguageReferrable):
     def with_url(self, value: Optional["Url"]) -> "Xfile":
         """
         Set url and return self for chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_url("value")
         """

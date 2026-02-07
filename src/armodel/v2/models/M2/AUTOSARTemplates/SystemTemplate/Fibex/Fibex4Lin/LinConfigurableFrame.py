@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LinConfigurableFrame(ARObject):
     """
     Assignment of messageIds to Frames. This element shall be used for the LIN
     2.0 Assign-Frame command.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinConfigurableFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 99, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class LinConfigurableFrame(ARObject):
     def frame(self, value: Optional["LinFrame"]) -> None:
         """
         Set frame with validation.
-        
+
         Args:
             value: The frame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class LinConfigurableFrame(ARObject):
     def message_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageId with validation.
-        
+
         Args:
             value: The messageId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class LinConfigurableFrame(ARObject):
     def getFrame(self) -> "LinFrame":
         """
         AUTOSAR-compliant getter for frame.
-        
+
         Returns:
             The frame value
-        
+
         Note:
             Delegates to frame property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class LinConfigurableFrame(ARObject):
     def setFrame(self, value: "LinFrame") -> "LinConfigurableFrame":
         """
         AUTOSAR-compliant setter for frame with method chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class LinConfigurableFrame(ARObject):
     def getMessageId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageId.
-        
+
         Returns:
             The messageId value
-        
+
         Note:
             Delegates to message_id property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class LinConfigurableFrame(ARObject):
     def setMessageId(self, value: "PositiveInteger") -> "LinConfigurableFrame":
         """
         AUTOSAR-compliant setter for messageId with method chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_id property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class LinConfigurableFrame(ARObject):
     def with_frame(self, value: Optional["LinFrame"]) -> "LinConfigurableFrame":
         """
         Set frame and return self for chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame("value")
         """
@@ -152,13 +155,13 @@ class LinConfigurableFrame(ARObject):
     def with_message_id(self, value: Optional["PositiveInteger"]) -> "LinConfigurableFrame":
         """
         Set messageId and return self for chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_id("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     """
@@ -9,9 +9,9 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     ComplexDeviceDriverSwComponentType introduces the possibility to link from
     the software representation to its hardware description provided by the ECU
     Resource Template.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ComplexDeviceDriverSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 310, Classic
       Platform R23-11)
@@ -38,10 +38,10 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     def getHardware(self) -> List["HwDescriptionEntity"]:
         """
         AUTOSAR-compliant getter for hardware.
-        
+
         Returns:
             The hardware value
-        
+
         Note:
             Delegates to hardware property (CODING_RULE_V2_00017)
         """

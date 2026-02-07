@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SymbolicNameProps(ImplementationProps):
     """
     This meta-class can be taken to contribute to the creation of symbolic name
     values.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SymbolicNameProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 610, Classic Platform
       R23-11)

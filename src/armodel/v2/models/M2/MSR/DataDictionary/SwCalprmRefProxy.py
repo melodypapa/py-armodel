@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwCalprmRefProxy(ARObject):
     """
     Wrapper class for different kinds of references to a calibration parameter.
-    
+
     Package: M2::MSR::DataDictionary::DatadictionaryProxies::SwCalprmRefProxy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 370, Classic Platform
       R23-11)
@@ -31,10 +36,10 @@ class SwCalprmRefProxy(ARObject):
     def ar_parameter(self, value: RefType) -> None:
         """
         Set arParameter with validation.
-        
+
         Args:
             value: The arParameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +63,10 @@ class SwCalprmRefProxy(ARObject):
     def mc_data_instance(self, value: Optional["McDataInstance"]) -> None:
         """
         Set mcDataInstance with validation.
-        
+
         Args:
             value: The mcDataInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +85,10 @@ class SwCalprmRefProxy(ARObject):
     def getArParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for arParameter.
-        
+
         Returns:
             The arParameter value
-        
+
         Note:
             Delegates to ar_parameter property (CODING_RULE_V2_00017)
         """
@@ -92,13 +97,13 @@ class SwCalprmRefProxy(ARObject):
     def setArParameter(self, value: RefType) -> "SwCalprmRefProxy":
         """
         AUTOSAR-compliant setter for arParameter with method chaining.
-        
+
         Args:
             value: The arParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ar_parameter property setter (gets validation automatically)
         """
@@ -108,10 +113,10 @@ class SwCalprmRefProxy(ARObject):
     def getMcDataInstance(self) -> "McDataInstance":
         """
         AUTOSAR-compliant getter for mcDataInstance.
-        
+
         Returns:
             The mcDataInstance value
-        
+
         Note:
             Delegates to mc_data_instance property (CODING_RULE_V2_00017)
         """
@@ -120,13 +125,13 @@ class SwCalprmRefProxy(ARObject):
     def setMcDataInstance(self, value: "McDataInstance") -> "SwCalprmRefProxy":
         """
         AUTOSAR-compliant setter for mcDataInstance with method chaining.
-        
+
         Args:
             value: The mcDataInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mc_data_instance property setter (gets validation automatically)
         """
@@ -138,13 +143,13 @@ class SwCalprmRefProxy(ARObject):
     def with_ar_parameter(self, value: Optional[RefType]) -> "SwCalprmRefProxy":
         """
         Set arParameter and return self for chaining.
-        
+
         Args:
             value: The arParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ar_parameter("value")
         """
@@ -154,13 +159,13 @@ class SwCalprmRefProxy(ARObject):
     def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> "SwCalprmRefProxy":
         """
         Set mcDataInstance and return self for chaining.
-        
+
         Args:
             value: The mcDataInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mc_data_instance("value")
         """

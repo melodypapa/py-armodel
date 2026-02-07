@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CompositeNetworkRepresentation(ARObject):
     """
     This meta-class is used to define the network representation of leaf
     elements of composite application data types.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::CompositeNetworkRepresentation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 181, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class CompositeNetworkRepresentation(ARObject):
     def leaf_element_element_in_port_interface_instance_ref(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set leafElementElementInPortInterfaceInstanceRef with validation.
-        
+
         Args:
             value: The leafElementElementInPortInterfaceInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class CompositeNetworkRepresentation(ARObject):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class CompositeNetworkRepresentation(ARObject):
     def getLeafElementElementInPortInterfaceInstanceRef(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for leafElementElementInPortInterfaceInstanceRef.
-        
+
         Returns:
             The leafElementElementInPortInterfaceInstanceRef value
-        
+
         Note:
             Delegates to leaf_element_element_in_port_interface_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class CompositeNetworkRepresentation(ARObject):
     def setLeafElementElementInPortInterfaceInstanceRef(self, value: "ApplicationComposite") -> "CompositeNetworkRepresentation":
         """
         AUTOSAR-compliant setter for leafElementElementInPortInterfaceInstanceRef with method chaining.
-        
+
         Args:
             value: The leafElementElementInPortInterfaceInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to leaf_element_element_in_port_interface_instance_ref property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class CompositeNetworkRepresentation(ARObject):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class CompositeNetworkRepresentation(ARObject):
     def setNetwork(self, value: "SwDataDefProps") -> "CompositeNetworkRepresentation":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class CompositeNetworkRepresentation(ARObject):
     def with_leaf_element_element_in_port_interface_instance_ref(self, value: Optional["ApplicationComposite"]) -> "CompositeNetworkRepresentation":
         """
         Set leafElementElementInPortInterfaceInstanceRef and return self for chaining.
-        
+
         Args:
             value: The leafElementElementInPortInterfaceInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_leaf_element_element_in_port_interface_instance_ref("value")
         """
@@ -155,13 +158,13 @@ class CompositeNetworkRepresentation(ARObject):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "CompositeNetworkRepresentation":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """

@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class FrameMapping(ARObject):
     """
@@ -12,9 +17,9 @@ class FrameMapping(ARObject):
     not supported by the Autosar BSW. The existence is optional and has been
     incorporated into the System Template mainly for compatibility in order to
     allow interchange between FIBEX and AUTOSAR descriptions.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::FrameMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 838, Classic Platform R23-11)
     """
@@ -34,10 +39,10 @@ class FrameMapping(ARObject):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +67,10 @@ class FrameMapping(ARObject):
     def source_frame(self, value: RefType) -> None:
         """
         Set sourceFrame with validation.
-        
+
         Args:
             value: The sourceFrame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +91,10 @@ class FrameMapping(ARObject):
     def target_frame(self, value: RefType) -> None:
         """
         Set targetFrame with validation.
-        
+
         Args:
             value: The targetFrame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +109,10 @@ class FrameMapping(ARObject):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -116,13 +121,13 @@ class FrameMapping(ARObject):
     def setIntroduction(self, value: "DocumentationBlock") -> "FrameMapping":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -132,10 +137,10 @@ class FrameMapping(ARObject):
     def getSourceFrame(self) -> RefType:
         """
         AUTOSAR-compliant getter for sourceFrame.
-        
+
         Returns:
             The sourceFrame value
-        
+
         Note:
             Delegates to source_frame property (CODING_RULE_V2_00017)
         """
@@ -144,13 +149,13 @@ class FrameMapping(ARObject):
     def setSourceFrame(self, value: RefType) -> "FrameMapping":
         """
         AUTOSAR-compliant setter for sourceFrame with method chaining.
-        
+
         Args:
             value: The sourceFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_frame property setter (gets validation automatically)
         """
@@ -160,10 +165,10 @@ class FrameMapping(ARObject):
     def getTargetFrame(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetFrame.
-        
+
         Returns:
             The targetFrame value
-        
+
         Note:
             Delegates to target_frame property (CODING_RULE_V2_00017)
         """
@@ -172,13 +177,13 @@ class FrameMapping(ARObject):
     def setTargetFrame(self, value: RefType) -> "FrameMapping":
         """
         AUTOSAR-compliant setter for targetFrame with method chaining.
-        
+
         Args:
             value: The targetFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_frame property setter (gets validation automatically)
         """
@@ -190,13 +195,13 @@ class FrameMapping(ARObject):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "FrameMapping":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """
@@ -206,13 +211,13 @@ class FrameMapping(ARObject):
     def with_source_frame(self, value: Optional[RefType]) -> "FrameMapping":
         """
         Set sourceFrame and return self for chaining.
-        
+
         Args:
             value: The sourceFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_frame("value")
         """
@@ -222,13 +227,13 @@ class FrameMapping(ARObject):
     def with_target_frame(self, value: Optional[RefType]) -> "FrameMapping":
         """
         Set targetFrame and return self for chaining.
-        
+
         Args:
             value: The targetFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_frame("value")
         """

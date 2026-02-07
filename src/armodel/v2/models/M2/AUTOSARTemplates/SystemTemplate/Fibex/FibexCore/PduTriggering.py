@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PduTriggering(Identifiable):
     """
@@ -13,9 +17,9 @@ class PduTriggering(Identifiable):
     If the fan-out is specified between different clusters it shall be handled
     by the Pdu Router. If the fan-out is specified between different channels of
     the same cluster it shall be handled by the Bus Interface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PduTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 303, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 348, Classic Platform R23-11)
@@ -40,10 +44,10 @@ class PduTriggering(Identifiable):
     def i_pdu(self, value: Optional["Pdu"]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +95,10 @@ class PduTriggering(Identifiable):
     def sec_oc_crypto(self, value: Optional["SecOcCryptoService"]) -> None:
         """
         Set secOcCrypto with validation.
-        
+
         Args:
             value: The secOcCrypto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +126,10 @@ class PduTriggering(Identifiable):
     def getIPdu(self) -> "Pdu":
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -134,13 +138,13 @@ class PduTriggering(Identifiable):
     def setIPdu(self, value: "Pdu") -> "PduTriggering":
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -150,10 +154,10 @@ class PduTriggering(Identifiable):
     def getIPduPort(self) -> List["IPduPort"]:
         """
         AUTOSAR-compliant getter for iPduPort.
-        
+
         Returns:
             The iPduPort value
-        
+
         Note:
             Delegates to i_pdu_port property (CODING_RULE_V2_00017)
         """
@@ -162,10 +166,10 @@ class PduTriggering(Identifiable):
     def getISignal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -174,10 +178,10 @@ class PduTriggering(Identifiable):
     def getSecOcCrypto(self) -> "SecOcCryptoService":
         """
         AUTOSAR-compliant getter for secOcCrypto.
-        
+
         Returns:
             The secOcCrypto value
-        
+
         Note:
             Delegates to sec_oc_crypto property (CODING_RULE_V2_00017)
         """
@@ -186,13 +190,13 @@ class PduTriggering(Identifiable):
     def setSecOcCrypto(self, value: "SecOcCryptoService") -> "PduTriggering":
         """
         AUTOSAR-compliant setter for secOcCrypto with method chaining.
-        
+
         Args:
             value: The secOcCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sec_oc_crypto property setter (gets validation automatically)
         """
@@ -202,10 +206,10 @@ class PduTriggering(Identifiable):
     def getTriggerIPduSend(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for triggerIPduSend.
-        
+
         Returns:
             The triggerIPduSend value
-        
+
         Note:
             Delegates to trigger_i_pdu_send property (CODING_RULE_V2_00017)
         """
@@ -216,13 +220,13 @@ class PduTriggering(Identifiable):
     def with_i_pdu(self, value: Optional["Pdu"]) -> "PduTriggering":
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """
@@ -232,13 +236,13 @@ class PduTriggering(Identifiable):
     def with_sec_oc_crypto(self, value: Optional["SecOcCryptoService"]) -> "PduTriggering":
         """
         Set secOcCrypto and return self for chaining.
-        
+
         Args:
             value: The secOcCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sec_oc_crypto("value")
         """

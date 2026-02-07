@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SdgTailoring(RestrictionWithSeverity):
     """
     Describes if the referenced Sdg may be attached to the current class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::SdgTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 118, Foundation R23-11)
     """
@@ -26,10 +26,10 @@ class SdgTailoring(RestrictionWithSeverity):
     def sdg_class(self, value: Optional["SdgClass"]) -> None:
         """
         Set sdgClass with validation.
-        
+
         Args:
             value: The sdgClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class SdgTailoring(RestrictionWithSeverity):
     def getSdgClass(self) -> "SdgClass":
         """
         AUTOSAR-compliant getter for sdgClass.
-        
+
         Returns:
             The sdgClass value
-        
+
         Note:
             Delegates to sdg_class property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class SdgTailoring(RestrictionWithSeverity):
     def setSdgClass(self, value: "SdgClass") -> "SdgTailoring":
         """
         AUTOSAR-compliant setter for sdgClass with method chaining.
-        
+
         Args:
             value: The sdgClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdg_class property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class SdgTailoring(RestrictionWithSeverity):
     def with_sdg_class(self, value: Optional["SdgClass"]) -> "SdgTailoring":
         """
         Set sdgClass and return self for chaining.
-        
+
         Args:
             value: The sdgClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdg_class("value")
         """

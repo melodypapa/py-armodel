@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class CryptoServiceJobNeeds(ServiceNeeds):
     """
     This meta-class shall be taken to indicate that the service use case modeled
     with this kind of Service Needs assumes the usage of the crypto job API.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoServiceJobNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 733, Classic Platform
       R23-11)

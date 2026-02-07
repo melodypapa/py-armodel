@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FlexrayArTpChannel(ARObject):
     """
@@ -8,9 +11,9 @@ class FlexrayArTpChannel(ARObject):
     AutosarTransport Layer supports several channels. These channels can work
     concurrently, thus each of them requires its own state machine and
     management data structures and its own PDU-IDs.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayArTpChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 600, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class FlexrayArTpChannel(ARObject):
     def ack_type(self, value: Optional["FrArTpAckType"]) -> None:
         """
         Set ackType with validation.
-        
+
         Args:
             value: The ackType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class FlexrayArTpChannel(ARObject):
     def cancellation(self, value: Optional["Boolean"]) -> None:
         """
         Set cancellation with validation.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class FlexrayArTpChannel(ARObject):
     def extended(self, value: Optional["Boolean"]) -> None:
         """
         Set extended with validation.
-        
+
         Args:
             value: The extended to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +118,10 @@ class FlexrayArTpChannel(ARObject):
     def max_ar(self, value: Optional["Integer"]) -> None:
         """
         Set maxAr with validation.
-        
+
         Args:
             value: The maxAr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +147,10 @@ class FlexrayArTpChannel(ARObject):
     def max_as(self, value: Optional["Integer"]) -> None:
         """
         Set maxAs with validation.
-        
+
         Args:
             value: The maxAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +178,10 @@ class FlexrayArTpChannel(ARObject):
     def max_bs(self, value: Optional["Integer"]) -> None:
         """
         Set maxBs with validation.
-        
+
         Args:
             value: The maxBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +209,10 @@ class FlexrayArTpChannel(ARObject):
     def max_fc_wait(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxFcWait with validation.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +237,10 @@ class FlexrayArTpChannel(ARObject):
     def maximum(self, value: Optional["MaximumMessage"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -264,10 +267,10 @@ class FlexrayArTpChannel(ARObject):
     def max_retries(self, value: Optional["Integer"]) -> None:
         """
         Set maxRetries with validation.
-        
+
         Args:
             value: The maxRetries to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -303,10 +306,10 @@ class FlexrayArTpChannel(ARObject):
     def minimum(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -331,10 +334,10 @@ class FlexrayArTpChannel(ARObject):
     def multicast(self, value: Optional["Boolean"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -369,10 +372,10 @@ class FlexrayArTpChannel(ARObject):
     def time_br(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBr with validation.
-        
+
         Args:
             value: The timeBr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -399,10 +402,10 @@ class FlexrayArTpChannel(ARObject):
     def time_cs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeCs with validation.
-        
+
         Args:
             value: The timeCs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -430,10 +433,10 @@ class FlexrayArTpChannel(ARObject):
     def timeout_ar(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAr with validation.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -461,10 +464,10 @@ class FlexrayArTpChannel(ARObject):
     def timeout_as(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAs with validation.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -490,10 +493,10 @@ class FlexrayArTpChannel(ARObject):
     def timeout_bs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutBs with validation.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -519,10 +522,10 @@ class FlexrayArTpChannel(ARObject):
     def timeout_cr(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutCr with validation.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -548,10 +551,10 @@ class FlexrayArTpChannel(ARObject):
     def getAckType(self) -> "FrArTpAckType":
         """
         AUTOSAR-compliant getter for ackType.
-        
+
         Returns:
             The ackType value
-        
+
         Note:
             Delegates to ack_type property (CODING_RULE_V2_00017)
         """
@@ -560,13 +563,13 @@ class FlexrayArTpChannel(ARObject):
     def setAckType(self, value: "FrArTpAckType") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for ackType with method chaining.
-        
+
         Args:
             value: The ackType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ack_type property setter (gets validation automatically)
         """
@@ -576,10 +579,10 @@ class FlexrayArTpChannel(ARObject):
     def getCancellation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for cancellation.
-        
+
         Returns:
             The cancellation value
-        
+
         Note:
             Delegates to cancellation property (CODING_RULE_V2_00017)
         """
@@ -588,13 +591,13 @@ class FlexrayArTpChannel(ARObject):
     def setCancellation(self, value: "Boolean") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cancellation property setter (gets validation automatically)
         """
@@ -604,10 +607,10 @@ class FlexrayArTpChannel(ARObject):
     def getExtended(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for extended.
-        
+
         Returns:
             The extended value
-        
+
         Note:
             Delegates to extended property (CODING_RULE_V2_00017)
         """
@@ -616,13 +619,13 @@ class FlexrayArTpChannel(ARObject):
     def setExtended(self, value: "Boolean") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for extended with method chaining.
-        
+
         Args:
             value: The extended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to extended property setter (gets validation automatically)
         """
@@ -632,10 +635,10 @@ class FlexrayArTpChannel(ARObject):
     def getMaxAr(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxAr.
-        
+
         Returns:
             The maxAr value
-        
+
         Note:
             Delegates to max_ar property (CODING_RULE_V2_00017)
         """
@@ -644,13 +647,13 @@ class FlexrayArTpChannel(ARObject):
     def setMaxAr(self, value: "Integer") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for maxAr with method chaining.
-        
+
         Args:
             value: The maxAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_ar property setter (gets validation automatically)
         """
@@ -660,10 +663,10 @@ class FlexrayArTpChannel(ARObject):
     def getMaxAs(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxAs.
-        
+
         Returns:
             The maxAs value
-        
+
         Note:
             Delegates to max_as property (CODING_RULE_V2_00017)
         """
@@ -672,13 +675,13 @@ class FlexrayArTpChannel(ARObject):
     def setMaxAs(self, value: "Integer") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for maxAs with method chaining.
-        
+
         Args:
             value: The maxAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_as property setter (gets validation automatically)
         """
@@ -688,10 +691,10 @@ class FlexrayArTpChannel(ARObject):
     def getMaxBs(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxBs.
-        
+
         Returns:
             The maxBs value
-        
+
         Note:
             Delegates to max_bs property (CODING_RULE_V2_00017)
         """
@@ -700,13 +703,13 @@ class FlexrayArTpChannel(ARObject):
     def setMaxBs(self, value: "Integer") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for maxBs with method chaining.
-        
+
         Args:
             value: The maxBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_bs property setter (gets validation automatically)
         """
@@ -716,10 +719,10 @@ class FlexrayArTpChannel(ARObject):
     def getMaxFcWait(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxFcWait.
-        
+
         Returns:
             The maxFcWait value
-        
+
         Note:
             Delegates to max_fc_wait property (CODING_RULE_V2_00017)
         """
@@ -728,13 +731,13 @@ class FlexrayArTpChannel(ARObject):
     def setMaxFcWait(self, value: "PositiveInteger") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for maxFcWait with method chaining.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_fc_wait property setter (gets validation automatically)
         """
@@ -744,10 +747,10 @@ class FlexrayArTpChannel(ARObject):
     def getMaximum(self) -> "MaximumMessage":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -756,13 +759,13 @@ class FlexrayArTpChannel(ARObject):
     def setMaximum(self, value: "MaximumMessage") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -772,10 +775,10 @@ class FlexrayArTpChannel(ARObject):
     def getMaxRetries(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxRetries.
-        
+
         Returns:
             The maxRetries value
-        
+
         Note:
             Delegates to max_retries property (CODING_RULE_V2_00017)
         """
@@ -784,13 +787,13 @@ class FlexrayArTpChannel(ARObject):
     def setMaxRetries(self, value: "Integer") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for maxRetries with method chaining.
-        
+
         Args:
             value: The maxRetries to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_retries property setter (gets validation automatically)
         """
@@ -800,10 +803,10 @@ class FlexrayArTpChannel(ARObject):
     def getMinimum(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -812,13 +815,13 @@ class FlexrayArTpChannel(ARObject):
     def setMinimum(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -828,10 +831,10 @@ class FlexrayArTpChannel(ARObject):
     def getMulticast(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -840,13 +843,13 @@ class FlexrayArTpChannel(ARObject):
     def setMulticast(self, value: "Boolean") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -856,10 +859,10 @@ class FlexrayArTpChannel(ARObject):
     def getNPdu(self) -> List["NPdu"]:
         """
         AUTOSAR-compliant getter for nPdu.
-        
+
         Returns:
             The nPdu value
-        
+
         Note:
             Delegates to n_pdu property (CODING_RULE_V2_00017)
         """
@@ -868,10 +871,10 @@ class FlexrayArTpChannel(ARObject):
     def getTimeBr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBr.
-        
+
         Returns:
             The timeBr value
-        
+
         Note:
             Delegates to time_br property (CODING_RULE_V2_00017)
         """
@@ -880,13 +883,13 @@ class FlexrayArTpChannel(ARObject):
     def setTimeBr(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for timeBr with method chaining.
-        
+
         Args:
             value: The timeBr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_br property setter (gets validation automatically)
         """
@@ -896,10 +899,10 @@ class FlexrayArTpChannel(ARObject):
     def getTimeCs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeCs.
-        
+
         Returns:
             The timeCs value
-        
+
         Note:
             Delegates to time_cs property (CODING_RULE_V2_00017)
         """
@@ -908,13 +911,13 @@ class FlexrayArTpChannel(ARObject):
     def setTimeCs(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for timeCs with method chaining.
-        
+
         Args:
             value: The timeCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_cs property setter (gets validation automatically)
         """
@@ -924,10 +927,10 @@ class FlexrayArTpChannel(ARObject):
     def getTimeoutAr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAr.
-        
+
         Returns:
             The timeoutAr value
-        
+
         Note:
             Delegates to timeout_ar property (CODING_RULE_V2_00017)
         """
@@ -936,13 +939,13 @@ class FlexrayArTpChannel(ARObject):
     def setTimeoutAr(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for timeoutAr with method chaining.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_ar property setter (gets validation automatically)
         """
@@ -952,10 +955,10 @@ class FlexrayArTpChannel(ARObject):
     def getTimeoutAs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAs.
-        
+
         Returns:
             The timeoutAs value
-        
+
         Note:
             Delegates to timeout_as property (CODING_RULE_V2_00017)
         """
@@ -964,13 +967,13 @@ class FlexrayArTpChannel(ARObject):
     def setTimeoutAs(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_as property setter (gets validation automatically)
         """
@@ -980,10 +983,10 @@ class FlexrayArTpChannel(ARObject):
     def getTimeoutBs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutBs.
-        
+
         Returns:
             The timeoutBs value
-        
+
         Note:
             Delegates to timeout_bs property (CODING_RULE_V2_00017)
         """
@@ -992,13 +995,13 @@ class FlexrayArTpChannel(ARObject):
     def setTimeoutBs(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for timeoutBs with method chaining.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_bs property setter (gets validation automatically)
         """
@@ -1008,10 +1011,10 @@ class FlexrayArTpChannel(ARObject):
     def getTimeoutCr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutCr.
-        
+
         Returns:
             The timeoutCr value
-        
+
         Note:
             Delegates to timeout_cr property (CODING_RULE_V2_00017)
         """
@@ -1020,13 +1023,13 @@ class FlexrayArTpChannel(ARObject):
     def setTimeoutCr(self, value: "TimeValue") -> "FlexrayArTpChannel":
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_cr property setter (gets validation automatically)
         """
@@ -1036,10 +1039,10 @@ class FlexrayArTpChannel(ARObject):
     def getTpConnection(self) -> List["FlexrayArTpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """
@@ -1050,13 +1053,13 @@ class FlexrayArTpChannel(ARObject):
     def with_ack_type(self, value: Optional["FrArTpAckType"]) -> "FlexrayArTpChannel":
         """
         Set ackType and return self for chaining.
-        
+
         Args:
             value: The ackType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ack_type("value")
         """
@@ -1066,13 +1069,13 @@ class FlexrayArTpChannel(ARObject):
     def with_cancellation(self, value: Optional["Boolean"]) -> "FlexrayArTpChannel":
         """
         Set cancellation and return self for chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cancellation("value")
         """
@@ -1082,13 +1085,13 @@ class FlexrayArTpChannel(ARObject):
     def with_extended(self, value: Optional["Boolean"]) -> "FlexrayArTpChannel":
         """
         Set extended and return self for chaining.
-        
+
         Args:
             value: The extended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_extended("value")
         """
@@ -1098,13 +1101,13 @@ class FlexrayArTpChannel(ARObject):
     def with_max_ar(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
         """
         Set maxAr and return self for chaining.
-        
+
         Args:
             value: The maxAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_ar("value")
         """
@@ -1114,13 +1117,13 @@ class FlexrayArTpChannel(ARObject):
     def with_max_as(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
         """
         Set maxAs and return self for chaining.
-        
+
         Args:
             value: The maxAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_as("value")
         """
@@ -1130,13 +1133,13 @@ class FlexrayArTpChannel(ARObject):
     def with_max_bs(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
         """
         Set maxBs and return self for chaining.
-        
+
         Args:
             value: The maxBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_bs("value")
         """
@@ -1146,13 +1149,13 @@ class FlexrayArTpChannel(ARObject):
     def with_max_fc_wait(self, value: Optional["PositiveInteger"]) -> "FlexrayArTpChannel":
         """
         Set maxFcWait and return self for chaining.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_fc_wait("value")
         """
@@ -1162,13 +1165,13 @@ class FlexrayArTpChannel(ARObject):
     def with_maximum(self, value: Optional["MaximumMessage"]) -> "FlexrayArTpChannel":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -1178,13 +1181,13 @@ class FlexrayArTpChannel(ARObject):
     def with_max_retries(self, value: Optional["Integer"]) -> "FlexrayArTpChannel":
         """
         Set maxRetries and return self for chaining.
-        
+
         Args:
             value: The maxRetries to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_retries("value")
         """
@@ -1194,13 +1197,13 @@ class FlexrayArTpChannel(ARObject):
     def with_minimum(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """
@@ -1210,13 +1213,13 @@ class FlexrayArTpChannel(ARObject):
     def with_multicast(self, value: Optional["Boolean"]) -> "FlexrayArTpChannel":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -1226,13 +1229,13 @@ class FlexrayArTpChannel(ARObject):
     def with_time_br(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set timeBr and return self for chaining.
-        
+
         Args:
             value: The timeBr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_br("value")
         """
@@ -1242,13 +1245,13 @@ class FlexrayArTpChannel(ARObject):
     def with_time_cs(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set timeCs and return self for chaining.
-        
+
         Args:
             value: The timeCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_cs("value")
         """
@@ -1258,13 +1261,13 @@ class FlexrayArTpChannel(ARObject):
     def with_timeout_ar(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set timeoutAr and return self for chaining.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_ar("value")
         """
@@ -1274,13 +1277,13 @@ class FlexrayArTpChannel(ARObject):
     def with_timeout_as(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set timeoutAs and return self for chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_as("value")
         """
@@ -1290,13 +1293,13 @@ class FlexrayArTpChannel(ARObject):
     def with_timeout_bs(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set timeoutBs and return self for chaining.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_bs("value")
         """
@@ -1306,13 +1309,13 @@ class FlexrayArTpChannel(ARObject):
     def with_timeout_cr(self, value: Optional["TimeValue"]) -> "FlexrayArTpChannel":
         """
         Set timeoutCr and return self for chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_cr("value")
         """

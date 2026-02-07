@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CouplingPortAsynchronousTrafficShaper(Identifiable):
     """
     Defines an Asynchronous Traffic Shaper (ATS) for the CouplingPort egress
     structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortAsynchronousTrafficShaper
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2012, Classic Platform R23-11)
     """
@@ -31,10 +33,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def committed_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committedBurst with validation.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def committed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committed with validation.
-        
+
         Args:
             value: The committed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def traffic_shaper(self, value: Optional["SwitchAsynchronous"]) -> None:
         """
         Set trafficShaper with validation.
-        
+
         Args:
             value: The trafficShaper to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +115,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def getCommittedBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committedBurst.
-        
+
         Returns:
             The committedBurst value
-        
+
         Note:
             Delegates to committed_burst property (CODING_RULE_V2_00017)
         """
@@ -125,13 +127,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def setCommittedBurst(self, value: "PositiveInteger") -> "CouplingPortAsynchronousTrafficShaper":
         """
         AUTOSAR-compliant setter for committedBurst with method chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed_burst property setter (gets validation automatically)
         """
@@ -141,10 +143,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def getCommitted(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committed.
-        
+
         Returns:
             The committed value
-        
+
         Note:
             Delegates to committed property (CODING_RULE_V2_00017)
         """
@@ -153,13 +155,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def setCommitted(self, value: "PositiveInteger") -> "CouplingPortAsynchronousTrafficShaper":
         """
         AUTOSAR-compliant setter for committed with method chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed property setter (gets validation automatically)
         """
@@ -169,10 +171,10 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def getTrafficShaper(self) -> "SwitchAsynchronous":
         """
         AUTOSAR-compliant getter for trafficShaper.
-        
+
         Returns:
             The trafficShaper value
-        
+
         Note:
             Delegates to traffic_shaper property (CODING_RULE_V2_00017)
         """
@@ -181,13 +183,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def setTrafficShaper(self, value: "SwitchAsynchronous") -> "CouplingPortAsynchronousTrafficShaper":
         """
         AUTOSAR-compliant setter for trafficShaper with method chaining.
-        
+
         Args:
             value: The trafficShaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traffic_shaper property setter (gets validation automatically)
         """
@@ -199,13 +201,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def with_committed_burst(self, value: Optional["PositiveInteger"]) -> "CouplingPortAsynchronousTrafficShaper":
         """
         Set committedBurst and return self for chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed_burst("value")
         """
@@ -215,13 +217,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def with_committed(self, value: Optional["PositiveInteger"]) -> "CouplingPortAsynchronousTrafficShaper":
         """
         Set committed and return self for chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed("value")
         """
@@ -231,13 +233,13 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     def with_traffic_shaper(self, value: Optional["SwitchAsynchronous"]) -> "CouplingPortAsynchronousTrafficShaper":
         """
         Set trafficShaper and return self for chaining.
-        
+
         Args:
             value: The trafficShaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traffic_shaper("value")
         """

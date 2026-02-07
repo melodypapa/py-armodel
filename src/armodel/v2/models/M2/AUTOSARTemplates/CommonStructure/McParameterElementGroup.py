@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class McParameterElementGroup(ARObject):
     """
     Denotes a group of calibration parameters which are handled by the RTE as
     one data structure.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McParameterElementGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 181, Classic
       Platform R23-11)
@@ -31,10 +36,10 @@ class McParameterElementGroup(ARObject):
     def ram_location(self, value: RefType) -> None:
         """
         Set ramLocation with validation.
-        
+
         Args:
             value: The ramLocation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class McParameterElementGroup(ARObject):
     def rom_location(self, value: Optional["ParameterData"]) -> None:
         """
         Set romLocation with validation.
-        
+
         Args:
             value: The romLocation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class McParameterElementGroup(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +111,10 @@ class McParameterElementGroup(ARObject):
     def getRamLocation(self) -> RefType:
         """
         AUTOSAR-compliant getter for ramLocation.
-        
+
         Returns:
             The ramLocation value
-        
+
         Note:
             Delegates to ram_location property (CODING_RULE_V2_00017)
         """
@@ -118,13 +123,13 @@ class McParameterElementGroup(ARObject):
     def setRamLocation(self, value: RefType) -> "McParameterElementGroup":
         """
         AUTOSAR-compliant setter for ramLocation with method chaining.
-        
+
         Args:
             value: The ramLocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ram_location property setter (gets validation automatically)
         """
@@ -134,10 +139,10 @@ class McParameterElementGroup(ARObject):
     def getRomLocation(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for romLocation.
-        
+
         Returns:
             The romLocation value
-        
+
         Note:
             Delegates to rom_location property (CODING_RULE_V2_00017)
         """
@@ -146,13 +151,13 @@ class McParameterElementGroup(ARObject):
     def setRomLocation(self, value: "ParameterData") -> "McParameterElementGroup":
         """
         AUTOSAR-compliant setter for romLocation with method chaining.
-        
+
         Args:
             value: The romLocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rom_location property setter (gets validation automatically)
         """
@@ -162,10 +167,10 @@ class McParameterElementGroup(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -174,13 +179,13 @@ class McParameterElementGroup(ARObject):
     def setShortLabel(self, value: "Identifier") -> "McParameterElementGroup":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -192,13 +197,13 @@ class McParameterElementGroup(ARObject):
     def with_ram_location(self, value: Optional[RefType]) -> "McParameterElementGroup":
         """
         Set ramLocation and return self for chaining.
-        
+
         Args:
             value: The ramLocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ram_location("value")
         """
@@ -208,13 +213,13 @@ class McParameterElementGroup(ARObject):
     def with_rom_location(self, value: Optional["ParameterData"]) -> "McParameterElementGroup":
         """
         Set romLocation and return self for chaining.
-        
+
         Args:
             value: The romLocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rom_location("value")
         """
@@ -224,13 +229,13 @@ class McParameterElementGroup(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "McParameterElementGroup":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EcucModuleConfigurationValues(ARElement):
     """
@@ -12,9 +12,9 @@ class EcucModuleConfigurationValues(ARElement):
     changed. These two EcucModuleConfigurationValues are used when the base
     EcucModuleConfigurationValues (as part of the base ECU configuration) is
     created to fill parameters with initial values.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucModuleConfigurationValues
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 313, Classic
       Platform R23-11)
@@ -46,10 +46,10 @@ class EcucModuleConfigurationValues(ARElement):
     def definition(self, value: Optional["EcucModuleDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class EcucModuleConfigurationValues(ARElement):
     def ecuc_def_edition(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set ecucDefEdition with validation.
-        
+
         Args:
             value: The ecucDefEdition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +110,10 @@ class EcucModuleConfigurationValues(ARElement):
     def implementation(self, value: Optional["EcucConfiguration"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class EcucModuleConfigurationValues(ARElement):
     def module(self, value: Optional["BswImplementation"]) -> None:
         """
         Set module with validation.
-        
+
         Args:
             value: The module to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class EcucModuleConfigurationValues(ARElement):
     def post_build_variant(self, value: Optional["Boolean"]) -> None:
         """
         Set postBuildVariant with validation.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -195,10 +195,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getContainer(self) -> List["EcucContainerValue"]:
         """
         AUTOSAR-compliant getter for container.
-        
+
         Returns:
             The container value
-        
+
         Note:
             Delegates to container property (CODING_RULE_V2_00017)
         """
@@ -207,10 +207,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getDefinition(self) -> "EcucModuleDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -219,13 +219,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setDefinition(self, value: "EcucModuleDef") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -235,10 +235,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getEcucDefEdition(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for ecucDefEdition.
-        
+
         Returns:
             The ecucDefEdition value
-        
+
         Note:
             Delegates to ecuc_def_edition property (CODING_RULE_V2_00017)
         """
@@ -247,13 +247,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setEcucDefEdition(self, value: "RevisionLabelString") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for ecucDefEdition with method chaining.
-        
+
         Args:
             value: The ecucDefEdition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_def_edition property setter (gets validation automatically)
         """
@@ -263,10 +263,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getImplementation(self) -> "EcucConfiguration":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -275,13 +275,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setImplementation(self, value: "EcucConfiguration") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -291,10 +291,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getModule(self) -> "BswImplementation":
         """
         AUTOSAR-compliant getter for module.
-        
+
         Returns:
             The module value
-        
+
         Note:
             Delegates to module property (CODING_RULE_V2_00017)
         """
@@ -303,13 +303,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setModule(self, value: "BswImplementation") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for module with method chaining.
-        
+
         Args:
             value: The module to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to module property setter (gets validation automatically)
         """
@@ -319,10 +319,10 @@ class EcucModuleConfigurationValues(ARElement):
     def getPostBuildVariant(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -331,13 +331,13 @@ class EcucModuleConfigurationValues(ARElement):
     def setPostBuildVariant(self, value: "Boolean") -> "EcucModuleConfigurationValues":
         """
         AUTOSAR-compliant setter for postBuildVariant with method chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to post_build_variant property setter (gets validation automatically)
         """
@@ -349,13 +349,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_definition(self, value: Optional["EcucModuleDef"]) -> "EcucModuleConfigurationValues":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -365,13 +365,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_ecuc_def_edition(self, value: Optional["RevisionLabelString"]) -> "EcucModuleConfigurationValues":
         """
         Set ecucDefEdition and return self for chaining.
-        
+
         Args:
             value: The ecucDefEdition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_def_edition("value")
         """
@@ -381,13 +381,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_implementation(self, value: Optional["EcucConfiguration"]) -> "EcucModuleConfigurationValues":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -397,13 +397,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_module(self, value: Optional["BswImplementation"]) -> "EcucModuleConfigurationValues":
         """
         Set module and return self for chaining.
-        
+
         Args:
             value: The module to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_module("value")
         """
@@ -413,13 +413,13 @@ class EcucModuleConfigurationValues(ARElement):
     def with_post_build_variant(self, value: Optional["Boolean"]) -> "EcucModuleConfigurationValues":
         """
         Set postBuildVariant and return self for chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_post_build_variant("value")
         """

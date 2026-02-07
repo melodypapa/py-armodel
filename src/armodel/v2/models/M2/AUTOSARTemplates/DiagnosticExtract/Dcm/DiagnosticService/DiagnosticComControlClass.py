@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticComControlClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the
     "Communication Control" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControlClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 109, Classic Platform
       R23-11)
@@ -63,10 +63,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getAllChannels(self) -> List["CommunicationCluster"]:
         """
         AUTOSAR-compliant getter for allChannels.
-        
+
         Returns:
             The allChannels value
-        
+
         Note:
             Delegates to all_channels property (CODING_RULE_V2_00017)
         """
@@ -75,10 +75,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getAllPhysical(self) -> List["EthernetPhysical"]:
         """
         AUTOSAR-compliant getter for allPhysical.
-        
+
         Returns:
             The allPhysical value
-        
+
         Note:
             Delegates to all_physical property (CODING_RULE_V2_00017)
         """
@@ -87,10 +87,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getSpecificChannel(self) -> List["DiagnosticComControl"]:
         """
         AUTOSAR-compliant getter for specificChannel.
-        
+
         Returns:
             The specificChannel value
-        
+
         Note:
             Delegates to specific_channel property (CODING_RULE_V2_00017)
         """
@@ -99,10 +99,10 @@ class DiagnosticComControlClass(DiagnosticServiceClass):
     def getSubNode(self) -> List["DiagnosticComControl"]:
         """
         AUTOSAR-compliant getter for subNode.
-        
+
         Returns:
             The subNode value
-        
+
         Note:
             Delegates to sub_node property (CODING_RULE_V2_00017)
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EcucQueryExpression(ARObject):
     """
     Defines a query expression to the ECUC Description and output the result as
     an numerical value. Due to the "mixedString" nature of the formula there can
     be several EcuQueryExpressions used.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQueryExpression
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 89, Classic Platform R23-11)
     """
@@ -35,10 +38,10 @@ class EcucQueryExpression(ARObject):
     def config_element(self, value: Optional["EcucDefinitionElement"]) -> None:
         """
         Set configElement with validation.
-        
+
         Args:
             value: The configElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class EcucQueryExpression(ARObject):
     def getConfigElement(self) -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant getter for configElement.
-        
+
         Returns:
             The configElement value
-        
+
         Note:
             Delegates to config_element property (CODING_RULE_V2_00017)
         """
@@ -69,13 +72,13 @@ class EcucQueryExpression(ARObject):
     def setConfigElement(self, value: "EcucDefinitionElement") -> "EcucQueryExpression":
         """
         AUTOSAR-compliant setter for configElement with method chaining.
-        
+
         Args:
             value: The configElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to config_element property setter (gets validation automatically)
         """
@@ -87,13 +90,13 @@ class EcucQueryExpression(ARObject):
     def with_config_element(self, value: Optional["EcucDefinitionElement"]) -> "EcucQueryExpression":
         """
         Set configElement and return self for chaining.
-        
+
         Args:
             value: The configElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_config_element("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ComponentSeparation(MappingConstraint):
     """
@@ -11,9 +14,9 @@ class ComponentSeparation(MappingConstraint):
     composition, none of the atomic SW components making up the A composition
     shall be mapped together with any of the atomic SW components making up the
     B composition. Furthermore, A and B shall be disjoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ComponentSeparation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 205, Classic Platform R23-11)
     """
@@ -38,10 +41,10 @@ class ComponentSeparation(MappingConstraint):
     def mapping_scope(self, value: RefType) -> None:
         """
         Set mappingScope with validation.
-        
+
         Args:
             value: The mappingScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class ComponentSeparation(MappingConstraint):
     def getMappingScope(self) -> RefType:
         """
         AUTOSAR-compliant getter for mappingScope.
-        
+
         Returns:
             The mappingScope value
-        
+
         Note:
             Delegates to mapping_scope property (CODING_RULE_V2_00017)
         """
@@ -68,13 +71,13 @@ class ComponentSeparation(MappingConstraint):
     def setMappingScope(self, value: RefType) -> "ComponentSeparation":
         """
         AUTOSAR-compliant setter for mappingScope with method chaining.
-        
+
         Args:
             value: The mappingScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapping_scope property setter (gets validation automatically)
         """
@@ -86,13 +89,13 @@ class ComponentSeparation(MappingConstraint):
     def with_mapping_scope(self, value: Optional[RefType]) -> "ComponentSeparation":
         """
         Set mappingScope and return self for chaining.
-        
+
         Args:
             value: The mappingScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapping_scope("value")
         """

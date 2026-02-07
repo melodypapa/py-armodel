@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ImplementationDataType(AbstractImplementationDataType):
     """
     Describes a reusable data type on the implementation level. This will
     typically correspond to a typedef in C-code.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::ImplementationDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 320, Classic
       Platform R23-11)
@@ -40,10 +40,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def dynamic_array(self, value: Optional["String"]) -> None:
         """
         Set dynamicArray with validation.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def symbol_props(self, value: Optional["SymbolProps"]) -> None:
         """
         Set symbolProps with validation.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def type_emitter(self, value: Optional["NameToken"]) -> None:
         """
         Set typeEmitter with validation.
-        
+
         Args:
             value: The typeEmitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -129,10 +129,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getDynamicArray(self) -> "String":
         """
         AUTOSAR-compliant getter for dynamicArray.
-        
+
         Returns:
             The dynamicArray value
-        
+
         Note:
             Delegates to dynamic_array property (CODING_RULE_V2_00017)
         """
@@ -141,13 +141,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def setDynamicArray(self, value: "String") -> "ImplementationDataType":
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_array property setter (gets validation automatically)
         """
@@ -157,10 +157,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getSubElement(self) -> List["ImplementationData"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -169,10 +169,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getSymbolProps(self) -> "SymbolProps":
         """
         AUTOSAR-compliant getter for symbolProps.
-        
+
         Returns:
             The symbolProps value
-        
+
         Note:
             Delegates to symbol_props property (CODING_RULE_V2_00017)
         """
@@ -181,13 +181,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def setSymbolProps(self, value: "SymbolProps") -> "ImplementationDataType":
         """
         AUTOSAR-compliant setter for symbolProps with method chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol_props property setter (gets validation automatically)
         """
@@ -197,10 +197,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getTypeEmitter(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for typeEmitter.
-        
+
         Returns:
             The typeEmitter value
-        
+
         Note:
             Delegates to type_emitter property (CODING_RULE_V2_00017)
         """
@@ -209,13 +209,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def setTypeEmitter(self, value: "NameToken") -> "ImplementationDataType":
         """
         AUTOSAR-compliant setter for typeEmitter with method chaining.
-        
+
         Args:
             value: The typeEmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_emitter property setter (gets validation automatically)
         """
@@ -227,13 +227,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def with_dynamic_array(self, value: Optional["String"]) -> "ImplementationDataType":
         """
         Set dynamicArray and return self for chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_array("value")
         """
@@ -243,13 +243,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def with_symbol_props(self, value: Optional["SymbolProps"]) -> "ImplementationDataType":
         """
         Set symbolProps and return self for chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol_props("value")
         """
@@ -259,13 +259,13 @@ class ImplementationDataType(AbstractImplementationDataType):
     def with_type_emitter(self, value: Optional["NameToken"]) -> "ImplementationDataType":
         """
         Set typeEmitter and return self for chaining.
-        
+
         Args:
             value: The typeEmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_emitter("value")
         """

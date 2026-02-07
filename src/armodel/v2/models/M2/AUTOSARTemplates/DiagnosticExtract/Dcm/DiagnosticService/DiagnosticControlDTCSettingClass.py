@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Control
     DTC Setting" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ControlDTCSetting::DiagnosticControlDTCSettingClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 111, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
     def control_option(self, value: Optional["Boolean"]) -> None:
         """
         Set controlOption with validation.
-        
+
         Args:
             value: The controlOption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
     def getControlOption(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for controlOption.
-        
+
         Returns:
             The controlOption value
-        
+
         Note:
             Delegates to control_option property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
     def setControlOption(self, value: "Boolean") -> "DiagnosticControlDTCSettingClass":
         """
         AUTOSAR-compliant setter for controlOption with method chaining.
-        
+
         Args:
             value: The controlOption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to control_option property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class DiagnosticControlDTCSettingClass(DiagnosticServiceClass):
     def with_control_option(self, value: Optional["Boolean"]) -> "DiagnosticControlDTCSettingClass":
         """
         Set controlOption and return self for chaining.
-        
+
         Args:
             value: The controlOption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_control_option("value")
         """

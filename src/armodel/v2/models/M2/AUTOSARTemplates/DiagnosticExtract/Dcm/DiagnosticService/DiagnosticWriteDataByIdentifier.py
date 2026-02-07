@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     """
     This represents an instance of the "Write Data by Identifier" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticWriteDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def write_class(self, value: Optional["DiagnosticWriteDataBy"]) -> None:
         """
         Set writeClass with validation.
-        
+
         Args:
             value: The writeClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def getWriteClass(self) -> "DiagnosticWriteDataBy":
         """
         AUTOSAR-compliant getter for writeClass.
-        
+
         Returns:
             The writeClass value
-        
+
         Note:
             Delegates to write_class property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def setWriteClass(self, value: "DiagnosticWriteDataBy") -> "DiagnosticWriteDataByIdentifier":
         """
         AUTOSAR-compliant setter for writeClass with method chaining.
-        
+
         Args:
             value: The writeClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to write_class property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     def with_write_class(self, value: Optional["DiagnosticWriteDataBy"]) -> "DiagnosticWriteDataByIdentifier":
         """
         Set writeClass and return self for chaining.
-        
+
         Args:
             value: The writeClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_write_class("value")
         """

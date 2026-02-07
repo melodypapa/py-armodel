@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class AnalyzedExecutionTime(ExecutionTime):
     """
     AnalyzedExecutionTime provides an analytic method for specifying the best
     and worst case execution time.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::AnalyzedExecutionTime
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 164, Classic
       Platform R23-11)
@@ -29,10 +29,10 @@ class AnalyzedExecutionTime(ExecutionTime):
     def best_case(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set bestCase with validation.
-        
+
         Args:
             value: The bestCase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class AnalyzedExecutionTime(ExecutionTime):
     def worst_case(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set worstCase with validation.
-        
+
         Args:
             value: The worstCase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class AnalyzedExecutionTime(ExecutionTime):
     def getBestCase(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for bestCase.
-        
+
         Returns:
             The bestCase value
-        
+
         Note:
             Delegates to best_case property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class AnalyzedExecutionTime(ExecutionTime):
     def setBestCase(self, value: "MultidimensionalTime") -> "AnalyzedExecutionTime":
         """
         AUTOSAR-compliant setter for bestCase with method chaining.
-        
+
         Args:
             value: The bestCase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to best_case property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class AnalyzedExecutionTime(ExecutionTime):
     def getWorstCase(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for worstCase.
-        
+
         Returns:
             The worstCase value
-        
+
         Note:
             Delegates to worst_case property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class AnalyzedExecutionTime(ExecutionTime):
     def setWorstCase(self, value: "MultidimensionalTime") -> "AnalyzedExecutionTime":
         """
         AUTOSAR-compliant setter for worstCase with method chaining.
-        
+
         Args:
             value: The worstCase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to worst_case property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class AnalyzedExecutionTime(ExecutionTime):
     def with_best_case(self, value: Optional["MultidimensionalTime"]) -> "AnalyzedExecutionTime":
         """
         Set bestCase and return self for chaining.
-        
+
         Args:
             value: The bestCase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_best_case("value")
         """
@@ -154,13 +154,13 @@ class AnalyzedExecutionTime(ExecutionTime):
     def with_worst_case(self, value: Optional["MultidimensionalTime"]) -> "AnalyzedExecutionTime":
         """
         Set worstCase and return self for chaining.
-        
+
         Args:
             value: The worstCase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_worst_case("value")
         """

@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EndToEndProtectionVariablePrototype(ARObject):
     """
@@ -15,9 +20,9 @@ class EndToEndProtectionVariablePrototype(ARObject):
     transformer approach (which is fully standardized by AUTOSAR). Hence, new
     projects (without legacy constraints due to carry-over parts) shall use the
     fully standardized E2E transformer approach.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection::EndToEndProtectionVariablePrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 215, Classic Platform
       R23-11)
@@ -48,10 +53,10 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def sender(self, value: RefType) -> None:
         """
         Set sender with validation.
-        
+
         Args:
             value: The sender to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +78,10 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +100,10 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def getReceiver(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for receiver.
-        
+
         Returns:
             The receiver value
-        
+
         Note:
             Delegates to receiver property (CODING_RULE_V2_00017)
         """
@@ -107,10 +112,10 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def getSender(self) -> RefType:
         """
         AUTOSAR-compliant getter for sender.
-        
+
         Returns:
             The sender value
-        
+
         Note:
             Delegates to sender property (CODING_RULE_V2_00017)
         """
@@ -119,13 +124,13 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def setSender(self, value: RefType) -> "EndToEndProtectionVariablePrototype":
         """
         AUTOSAR-compliant setter for sender with method chaining.
-        
+
         Args:
             value: The sender to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sender property setter (gets validation automatically)
         """
@@ -135,10 +140,10 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -147,13 +152,13 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def setShortLabel(self, value: "Identifier") -> "EndToEndProtectionVariablePrototype":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -165,13 +170,13 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def with_sender(self, value: Optional[RefType]) -> "EndToEndProtectionVariablePrototype":
         """
         Set sender and return self for chaining.
-        
+
         Args:
             value: The sender to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sender("value")
         """
@@ -181,13 +186,13 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "EndToEndProtectionVariablePrototype":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

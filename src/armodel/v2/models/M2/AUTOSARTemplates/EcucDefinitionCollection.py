@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EcucDefinitionCollection(ARElement):
     """
     This represents the anchor point of an ECU Configuration Parameter
     Definition within the AUTOSAR templates structure.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDefinitionCollection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 25, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 185, Foundation R23-11)
@@ -29,10 +29,10 @@ class EcucDefinitionCollection(ARElement):
     def getModule(self) -> List["EcucModuleDef"]:
         """
         AUTOSAR-compliant getter for module.
-        
+
         Returns:
             The module value
-        
+
         Note:
             Delegates to module property (CODING_RULE_V2_00017)
         """

@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataPrototypeMapping(ARObject):
     """
@@ -20,9 +25,9 @@ class DataPrototypeMapping(ARObject):
     out of the factorSiToUnit and offsetSiToUnit attributes of the referred
     Units and the CompuRationalCoeffs of a compuInternalToPhys of the referred
     CompuMethods.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::DataPrototypeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 125, Classic Platform
       R23-11)
@@ -45,10 +50,10 @@ class DataPrototypeMapping(ARObject):
     def first_data(self, value: RefType) -> None:
         """
         Set firstData with validation.
-        
+
         Args:
             value: The firstData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +80,10 @@ class DataPrototypeMapping(ARObject):
     def first_to_second(self, value: Optional["DataTransformation"]) -> None:
         """
         Set firstToSecond with validation.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +109,10 @@ class DataPrototypeMapping(ARObject):
     def second_data(self, value: RefType) -> None:
         """
         Set secondData with validation.
-        
+
         Args:
             value: The secondData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -129,10 +134,10 @@ class DataPrototypeMapping(ARObject):
     def second_to_first(self, value: Optional["DataTransformation"]) -> None:
         """
         Set secondToFirst with validation.
-        
+
         Args:
             value: The secondToFirst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +169,10 @@ class DataPrototypeMapping(ARObject):
     def text_table(self, value: RefType) -> None:
         """
         Set textTable with validation.
-        
+
         Args:
             value: The textTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +183,10 @@ class DataPrototypeMapping(ARObject):
     def getFirstData(self) -> RefType:
         """
         AUTOSAR-compliant getter for firstData.
-        
+
         Returns:
             The firstData value
-        
+
         Note:
             Delegates to first_data property (CODING_RULE_V2_00017)
         """
@@ -190,13 +195,13 @@ class DataPrototypeMapping(ARObject):
     def setFirstData(self, value: RefType) -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for firstData with method chaining.
-        
+
         Args:
             value: The firstData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_data property setter (gets validation automatically)
         """
@@ -206,10 +211,10 @@ class DataPrototypeMapping(ARObject):
     def getFirstToSecond(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for firstToSecond.
-        
+
         Returns:
             The firstToSecond value
-        
+
         Note:
             Delegates to first_to_second property (CODING_RULE_V2_00017)
         """
@@ -218,13 +223,13 @@ class DataPrototypeMapping(ARObject):
     def setFirstToSecond(self, value: "DataTransformation") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for firstToSecond with method chaining.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_to_second property setter (gets validation automatically)
         """
@@ -234,10 +239,10 @@ class DataPrototypeMapping(ARObject):
     def getSecondData(self) -> RefType:
         """
         AUTOSAR-compliant getter for secondData.
-        
+
         Returns:
             The secondData value
-        
+
         Note:
             Delegates to second_data property (CODING_RULE_V2_00017)
         """
@@ -246,13 +251,13 @@ class DataPrototypeMapping(ARObject):
     def setSecondData(self, value: RefType) -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for secondData with method chaining.
-        
+
         Args:
             value: The secondData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_data property setter (gets validation automatically)
         """
@@ -262,10 +267,10 @@ class DataPrototypeMapping(ARObject):
     def getSecondToFirst(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for secondToFirst.
-        
+
         Returns:
             The secondToFirst value
-        
+
         Note:
             Delegates to second_to_first property (CODING_RULE_V2_00017)
         """
@@ -274,13 +279,13 @@ class DataPrototypeMapping(ARObject):
     def setSecondToFirst(self, value: "DataTransformation") -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for secondToFirst with method chaining.
-        
+
         Args:
             value: The secondToFirst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_to_first property setter (gets validation automatically)
         """
@@ -290,10 +295,10 @@ class DataPrototypeMapping(ARObject):
     def getSubElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -302,10 +307,10 @@ class DataPrototypeMapping(ARObject):
     def getTextTable(self) -> RefType:
         """
         AUTOSAR-compliant getter for textTable.
-        
+
         Returns:
             The textTable value
-        
+
         Note:
             Delegates to text_table property (CODING_RULE_V2_00017)
         """
@@ -314,13 +319,13 @@ class DataPrototypeMapping(ARObject):
     def setTextTable(self, value: RefType) -> "DataPrototypeMapping":
         """
         AUTOSAR-compliant setter for textTable with method chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text_table property setter (gets validation automatically)
         """
@@ -332,13 +337,13 @@ class DataPrototypeMapping(ARObject):
     def with_first_data(self, value: Optional[RefType]) -> "DataPrototypeMapping":
         """
         Set firstData and return self for chaining.
-        
+
         Args:
             value: The firstData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_data("value")
         """
@@ -348,13 +353,13 @@ class DataPrototypeMapping(ARObject):
     def with_first_to_second(self, value: Optional["DataTransformation"]) -> "DataPrototypeMapping":
         """
         Set firstToSecond and return self for chaining.
-        
+
         Args:
             value: The firstToSecond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_to_second("value")
         """
@@ -364,13 +369,13 @@ class DataPrototypeMapping(ARObject):
     def with_second_data(self, value: Optional[RefType]) -> "DataPrototypeMapping":
         """
         Set secondData and return self for chaining.
-        
+
         Args:
             value: The secondData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_data("value")
         """
@@ -380,13 +385,13 @@ class DataPrototypeMapping(ARObject):
     def with_second_to_first(self, value: Optional["DataTransformation"]) -> "DataPrototypeMapping":
         """
         Set secondToFirst and return self for chaining.
-        
+
         Args:
             value: The secondToFirst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_to_first("value")
         """
@@ -396,13 +401,13 @@ class DataPrototypeMapping(ARObject):
     def with_text_table(self, value: RefType) -> "DataPrototypeMapping":
         """
         Set textTable and return self for chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text_table("value")
         """

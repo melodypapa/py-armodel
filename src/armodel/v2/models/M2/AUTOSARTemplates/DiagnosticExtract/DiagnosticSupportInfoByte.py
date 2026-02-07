@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticSupportInfoByte(ARObject):
     """
     This meta-class defines the support information (typically byte A) to
     declare the usability of the Data Elements within the so-called packeted
     PIDs (e.g. PID$68).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticSupportInfoByte
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 150, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def position(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set position with validation.
-        
+
         Args:
             value: The position to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def getPosition(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for position.
-        
+
         Returns:
             The position value
-        
+
         Note:
             Delegates to position property (CODING_RULE_V2_00017)
         """
@@ -92,13 +95,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def setPosition(self, value: "PositiveInteger") -> "DiagnosticSupportInfoByte":
         """
         AUTOSAR-compliant setter for position with method chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position property setter (gets validation automatically)
         """
@@ -108,10 +111,10 @@ class DiagnosticSupportInfoByte(ARObject):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def setSize(self, value: "PositiveInteger") -> "DiagnosticSupportInfoByte":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -138,13 +141,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def with_position(self, value: Optional["PositiveInteger"]) -> "DiagnosticSupportInfoByte":
         """
         Set position and return self for chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position("value")
         """
@@ -154,13 +157,13 @@ class DiagnosticSupportInfoByte(ARObject):
     def with_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticSupportInfoByte":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """

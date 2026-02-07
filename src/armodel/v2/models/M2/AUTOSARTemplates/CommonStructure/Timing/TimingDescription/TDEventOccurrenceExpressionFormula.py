@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TDEventOccurrenceExpressionFormula(ARObject):
     """
@@ -10,9 +13,9 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     correlation with specific variable and argument values. The formal
     definition of the extended functions (ExtUnaryFunctions) is described in
     detail in the AUTOSAR Timing Extensions.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventOccurrenceExpressionFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 84, Classic Platform R23-11)
     """
@@ -32,10 +35,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def argument(self, value: Optional["AutosarOperation"]) -> None:
         """
         Set argument with validation.
-        
+
         Args:
             value: The argument to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set event with validation.
-        
+
         Args:
             value: The event to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def mode(self, value: Optional["TimingModeInstance"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def variable(self, value: Optional["AutosarVariable"]) -> None:
         """
         Set variable with validation.
-        
+
         Args:
             value: The variable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -138,10 +141,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def getArgument(self) -> "AutosarOperation":
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -150,13 +153,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def setArgument(self, value: "AutosarOperation") -> "TDEventOccurrenceExpressionFormula":
         """
         AUTOSAR-compliant setter for argument with method chaining.
-        
+
         Args:
             value: The argument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to argument property setter (gets validation automatically)
         """
@@ -166,10 +169,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def getEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -178,13 +181,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def setEvent(self, value: "TimingDescriptionEvent") -> "TDEventOccurrenceExpressionFormula":
         """
         AUTOSAR-compliant setter for event with method chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -194,10 +197,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def getMode(self) -> "TimingModeInstance":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -206,13 +209,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def setMode(self, value: "TimingModeInstance") -> "TDEventOccurrenceExpressionFormula":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -222,10 +225,10 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def getVariable(self) -> "AutosarVariable":
         """
         AUTOSAR-compliant getter for variable.
-        
+
         Returns:
             The variable value
-        
+
         Note:
             Delegates to variable property (CODING_RULE_V2_00017)
         """
@@ -234,13 +237,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def setVariable(self, value: "AutosarVariable") -> "TDEventOccurrenceExpressionFormula":
         """
         AUTOSAR-compliant setter for variable with method chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable property setter (gets validation automatically)
         """
@@ -252,13 +255,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def with_argument(self, value: Optional["AutosarOperation"]) -> "TDEventOccurrenceExpressionFormula":
         """
         Set argument and return self for chaining.
-        
+
         Args:
             value: The argument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_argument("value")
         """
@@ -268,13 +271,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def with_event(self, value: Optional["TimingDescriptionEvent"]) -> "TDEventOccurrenceExpressionFormula":
         """
         Set event and return self for chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event("value")
         """
@@ -284,13 +287,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def with_mode(self, value: Optional["TimingModeInstance"]) -> "TDEventOccurrenceExpressionFormula":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -300,13 +303,13 @@ class TDEventOccurrenceExpressionFormula(ARObject):
     def with_variable(self, value: Optional["AutosarVariable"]) -> "TDEventOccurrenceExpressionFormula":
         """
         Set variable and return self for chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable("value")
         """

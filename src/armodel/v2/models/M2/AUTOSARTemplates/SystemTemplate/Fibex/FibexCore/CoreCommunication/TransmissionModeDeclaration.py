@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TransmissionModeDeclaration(ARObject):
     """
@@ -13,9 +16,9 @@ class TransmissionModeDeclaration(ARObject):
     modeDrivenFalseCondition are defined they shall never evaluate to true both
     at the same time. The mixing of Transmission Mode Switch via API and signal
     value is not allowed.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TransmissionModeDeclaration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 392, Classic Platform R23-11)
     """
@@ -47,10 +50,10 @@ class TransmissionModeDeclaration(ARObject):
     def transmission(self, value: Optional["TransmissionMode"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +72,10 @@ class TransmissionModeDeclaration(ARObject):
     def getModeDriven(self) -> List["ModeDriven"]:
         """
         AUTOSAR-compliant getter for modeDriven.
-        
+
         Returns:
             The modeDriven value
-        
+
         Note:
             Delegates to mode_driven property (CODING_RULE_V2_00017)
         """
@@ -81,10 +84,10 @@ class TransmissionModeDeclaration(ARObject):
     def getTransmission(self) -> "TransmissionMode":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class TransmissionModeDeclaration(ARObject):
     def setTransmission(self, value: "TransmissionMode") -> "TransmissionModeDeclaration":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -111,13 +114,13 @@ class TransmissionModeDeclaration(ARObject):
     def with_transmission(self, value: Optional["TransmissionMode"]) -> "TransmissionModeDeclaration":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """

@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ApplicationPartition(ARElement):
     """
@@ -7,9 +5,9 @@ class ApplicationPartition(ARElement):
     time when the corresponding EcuInstance is not yet known or defined. In a
     later methodology step the Application Partition can be assigned to an
     EcuPartition.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ApplicationPartition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 200, Classic Platform R23-11)
     """

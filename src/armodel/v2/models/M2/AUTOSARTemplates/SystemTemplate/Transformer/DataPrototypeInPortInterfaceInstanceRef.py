@@ -1,7 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     """
@@ -9,9 +15,9 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     context of a PortInterface. • refer to the internal structure of a
     DataPrototype which is typed by an ApplicationDatatype in the context of a
     PortInterface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInPortInterfaceInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1009, Classic Platform R23-11)
     """
@@ -33,10 +39,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def abstract_base(self, value: Optional["PortInterface"]) -> None:
         """
         Set abstractBase with validation.
-        
+
         Args:
             value: The abstractBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +76,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def root_data(self, value: RefType) -> None:
         """
         Set rootData with validation.
-        
+
         Args:
             value: The rootData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +101,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def target_data(self, value: RefType) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +115,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getAbstractBase(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for abstractBase.
-        
+
         Returns:
             The abstractBase value
-        
+
         Note:
             Delegates to abstract_base property (CODING_RULE_V2_00017)
         """
@@ -121,13 +127,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def setAbstractBase(self, value: "PortInterface") -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for abstractBase with method chaining.
-        
+
         Args:
             value: The abstractBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to abstract_base property setter (gets validation automatically)
         """
@@ -137,10 +143,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -149,10 +155,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getRootData(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootData.
-        
+
         Returns:
             The rootData value
-        
+
         Note:
             Delegates to root_data property (CODING_RULE_V2_00017)
         """
@@ -161,13 +167,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def setRootData(self, value: RefType) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for rootData with method chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data property setter (gets validation automatically)
         """
@@ -177,10 +183,10 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -189,13 +195,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def setTargetData(self, value: RefType) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -207,13 +213,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def with_abstract_base(self, value: Optional["PortInterface"]) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         Set abstractBase and return self for chaining.
-        
+
         Args:
             value: The abstractBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_abstract_base("value")
         """
@@ -223,13 +229,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def with_root_data(self, value: Optional[RefType]) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         Set rootData and return self for chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data("value")
         """
@@ -239,13 +245,13 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     def with_target_data(self, value: RefType) -> "DataPrototypeInPortInterfaceInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

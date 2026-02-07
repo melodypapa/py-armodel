@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
@@ -7,9 +8,9 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     the destination is located in the Ecu Configuration Description). (cid:53)
     71 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of
     ECU Configuration AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractInternalReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 71, Classic Platform R23-11)
     """
@@ -32,10 +33,10 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     def requires(self, value: Optional["Boolean"]) -> None:
         """
         Set requires with validation.
-        
+
         Args:
             value: The requires to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +55,10 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     def getRequires(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for requires.
-        
+
         Returns:
             The requires value
-        
+
         Note:
             Delegates to requires property (CODING_RULE_V2_00017)
         """
@@ -66,13 +67,13 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     def setRequires(self, value: "Boolean") -> "EcucAbstractInternalReferenceDef":
         """
         AUTOSAR-compliant setter for requires with method chaining.
-        
+
         Args:
             value: The requires to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to requires property setter (gets validation automatically)
         """
@@ -84,13 +85,13 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     def with_requires(self, value: Optional["Boolean"]) -> "EcucAbstractInternalReferenceDef":
         """
         Set requires and return self for chaining.
-        
+
         Args:
             value: The requires to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_requires("value")
         """

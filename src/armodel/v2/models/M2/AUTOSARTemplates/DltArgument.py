@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DltArgument(Identifiable):
     """
     This element defines an Argument in a DltMessage.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltArgument
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 983, Classic Platform
       R23-11)
@@ -38,10 +40,10 @@ class DltArgument(Identifiable):
     def length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +68,10 @@ class DltArgument(Identifiable):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +97,10 @@ class DltArgument(Identifiable):
     def optional(self, value: Optional["Boolean"]) -> None:
         """
         Set optional with validation.
-        
+
         Args:
             value: The optional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +125,10 @@ class DltArgument(Identifiable):
     def predefined_text(self, value: Optional["Boolean"]) -> None:
         """
         Set predefinedText with validation.
-        
+
         Args:
             value: The predefinedText to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +154,10 @@ class DltArgument(Identifiable):
     def variable_length(self, value: Optional["Boolean"]) -> None:
         """
         Set variableLength with validation.
-        
+
         Args:
             value: The variableLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +176,10 @@ class DltArgument(Identifiable):
     def getDltArgument(self) -> List["DltArgument"]:
         """
         AUTOSAR-compliant getter for dltArgument.
-        
+
         Returns:
             The dltArgument value
-        
+
         Note:
             Delegates to dlt_argument property (CODING_RULE_V2_00017)
         """
@@ -186,10 +188,10 @@ class DltArgument(Identifiable):
     def getLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -198,13 +200,13 @@ class DltArgument(Identifiable):
     def setLength(self, value: "PositiveInteger") -> "DltArgument":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -214,10 +216,10 @@ class DltArgument(Identifiable):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -226,13 +228,13 @@ class DltArgument(Identifiable):
     def setNetwork(self, value: "SwDataDefProps") -> "DltArgument":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -242,10 +244,10 @@ class DltArgument(Identifiable):
     def getOptional(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for optional.
-        
+
         Returns:
             The optional value
-        
+
         Note:
             Delegates to optional property (CODING_RULE_V2_00017)
         """
@@ -254,13 +256,13 @@ class DltArgument(Identifiable):
     def setOptional(self, value: "Boolean") -> "DltArgument":
         """
         AUTOSAR-compliant setter for optional with method chaining.
-        
+
         Args:
             value: The optional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to optional property setter (gets validation automatically)
         """
@@ -270,10 +272,10 @@ class DltArgument(Identifiable):
     def getPredefinedText(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for predefinedText.
-        
+
         Returns:
             The predefinedText value
-        
+
         Note:
             Delegates to predefined_text property (CODING_RULE_V2_00017)
         """
@@ -282,13 +284,13 @@ class DltArgument(Identifiable):
     def setPredefinedText(self, value: "Boolean") -> "DltArgument":
         """
         AUTOSAR-compliant setter for predefinedText with method chaining.
-        
+
         Args:
             value: The predefinedText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to predefined_text property setter (gets validation automatically)
         """
@@ -298,10 +300,10 @@ class DltArgument(Identifiable):
     def getVariableLength(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for variableLength.
-        
+
         Returns:
             The variableLength value
-        
+
         Note:
             Delegates to variable_length property (CODING_RULE_V2_00017)
         """
@@ -310,13 +312,13 @@ class DltArgument(Identifiable):
     def setVariableLength(self, value: "Boolean") -> "DltArgument":
         """
         AUTOSAR-compliant setter for variableLength with method chaining.
-        
+
         Args:
             value: The variableLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable_length property setter (gets validation automatically)
         """
@@ -328,13 +330,13 @@ class DltArgument(Identifiable):
     def with_length(self, value: Optional["PositiveInteger"]) -> "DltArgument":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -344,13 +346,13 @@ class DltArgument(Identifiable):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "DltArgument":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -360,13 +362,13 @@ class DltArgument(Identifiable):
     def with_optional(self, value: Optional["Boolean"]) -> "DltArgument":
         """
         Set optional and return self for chaining.
-        
+
         Args:
             value: The optional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_optional("value")
         """
@@ -376,13 +378,13 @@ class DltArgument(Identifiable):
     def with_predefined_text(self, value: Optional["Boolean"]) -> "DltArgument":
         """
         Set predefinedText and return self for chaining.
-        
+
         Args:
             value: The predefinedText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_predefined_text("value")
         """
@@ -392,13 +394,13 @@ class DltArgument(Identifiable):
     def with_variable_length(self, value: Optional["Boolean"]) -> "DltArgument":
         """
         Set variableLength and return self for chaining.
-        
+
         Args:
             value: The variableLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable_length("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x08 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard::DiagnosticRequestControlOfOnBoardDevice
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 157, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def request_control(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestControl with validation.
-        
+
         Args:
             value: The requestControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def test_id_identifier(self, value: Optional["DiagnosticTestRoutine"]) -> None:
         """
         Set testIdIdentifier with validation.
-        
+
         Args:
             value: The testIdIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def getRequestControl(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestControl.
-        
+
         Returns:
             The requestControl value
-        
+
         Note:
             Delegates to request_control property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def setRequestControl(self, value: "DiagnosticRequest") -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         AUTOSAR-compliant setter for requestControl with method chaining.
-        
+
         Args:
             value: The requestControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_control property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def getTestIdIdentifier(self) -> "DiagnosticTestRoutine":
         """
         AUTOSAR-compliant getter for testIdIdentifier.
-        
+
         Returns:
             The testIdIdentifier value
-        
+
         Note:
             Delegates to test_id_identifier property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def setTestIdIdentifier(self, value: "DiagnosticTestRoutine") -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         AUTOSAR-compliant setter for testIdIdentifier with method chaining.
-        
+
         Args:
             value: The testIdIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to test_id_identifier property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def with_request_control(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         Set requestControl and return self for chaining.
-        
+
         Args:
             value: The requestControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_control("value")
         """
@@ -155,13 +155,13 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
     def with_test_id_identifier(self, value: Optional["DiagnosticTestRoutine"]) -> "DiagnosticRequestControlOfOnBoardDevice":
         """
         Set testIdIdentifier and return self for chaining.
-        
+
         Args:
             value: The testIdIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_test_id_identifier("value")
         """

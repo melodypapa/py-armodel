@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to do a bidirectional
     verification of the certificate.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticVerifyCertificateBidirectional
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 99, Classic Platform
       R23-11)

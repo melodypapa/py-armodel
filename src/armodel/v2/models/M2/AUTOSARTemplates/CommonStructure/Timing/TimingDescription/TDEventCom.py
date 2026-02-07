@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class TDEventCom(TimingDescriptionEvent, ABC):
     """
     This is the abstract parent class to describe timing events related to
     communication including the physical layer.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventCom
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 65, Classic Platform R23-11)
     """
@@ -30,10 +31,10 @@ class TDEventCom(TimingDescriptionEvent, ABC):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class TDEventCom(TimingDescriptionEvent, ABC):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -64,13 +65,13 @@ class TDEventCom(TimingDescriptionEvent, ABC):
     def setEcuInstance(self, value: "EcuInstance") -> "TDEventCom":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -82,13 +83,13 @@ class TDEventCom(TimingDescriptionEvent, ABC):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "TDEventCom":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """

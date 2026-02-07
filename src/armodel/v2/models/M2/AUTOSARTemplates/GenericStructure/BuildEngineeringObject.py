@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BuildEngineeringObject(EngineeringObject):
     """
@@ -66,9 +66,9 @@ class BuildEngineeringObject(EngineeringObject):
     <SHORT-NAME>ECU_Integrator</SHORT-NAME> <LONG-NAME> <L-4 L="EN">See <TT>ECU
     Integrator</TT></L-4> </LONG-NAME> </ACL-ROLE> </ELEMENTS> </AR-PACKAGE>
     </AR-PACKAGES> </AR-PACKAGE> Listing 11.1: Example for Access Control
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildEngineeringObject
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 372, Foundation
       R23-11)
@@ -92,10 +92,10 @@ class BuildEngineeringObject(EngineeringObject):
     def file_type(self, value: "NameToken") -> None:
         """
         Set fileType with validation.
-        
+
         Args:
             value: The fileType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class BuildEngineeringObject(EngineeringObject):
     def file_type_pattern(self, value: "RegularExpression") -> None:
         """
         Set fileTypePattern with validation.
-        
+
         Args:
             value: The fileTypePattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class BuildEngineeringObject(EngineeringObject):
     def intended(self, value: Optional["UriString"]) -> None:
         """
         Set intended with validation.
-        
+
         Args:
             value: The intended to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class BuildEngineeringObject(EngineeringObject):
     def getFileType(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for fileType.
-        
+
         Returns:
             The fileType value
-        
+
         Note:
             Delegates to file_type property (CODING_RULE_V2_00017)
         """
@@ -178,13 +178,13 @@ class BuildEngineeringObject(EngineeringObject):
     def setFileType(self, value: "NameToken") -> "BuildEngineeringObject":
         """
         AUTOSAR-compliant setter for fileType with method chaining.
-        
+
         Args:
             value: The fileType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to file_type property setter (gets validation automatically)
         """
@@ -194,10 +194,10 @@ class BuildEngineeringObject(EngineeringObject):
     def getFileTypePattern(self) -> "RegularExpression":
         """
         AUTOSAR-compliant getter for fileTypePattern.
-        
+
         Returns:
             The fileTypePattern value
-        
+
         Note:
             Delegates to file_type_pattern property (CODING_RULE_V2_00017)
         """
@@ -206,13 +206,13 @@ class BuildEngineeringObject(EngineeringObject):
     def setFileTypePattern(self, value: "RegularExpression") -> "BuildEngineeringObject":
         """
         AUTOSAR-compliant setter for fileTypePattern with method chaining.
-        
+
         Args:
             value: The fileTypePattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to file_type_pattern property setter (gets validation automatically)
         """
@@ -222,10 +222,10 @@ class BuildEngineeringObject(EngineeringObject):
     def getIntended(self) -> "UriString":
         """
         AUTOSAR-compliant getter for intended.
-        
+
         Returns:
             The intended value
-        
+
         Note:
             Delegates to intended property (CODING_RULE_V2_00017)
         """
@@ -234,13 +234,13 @@ class BuildEngineeringObject(EngineeringObject):
     def setIntended(self, value: "UriString") -> "BuildEngineeringObject":
         """
         AUTOSAR-compliant setter for intended with method chaining.
-        
+
         Args:
             value: The intended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to intended property setter (gets validation automatically)
         """
@@ -252,13 +252,13 @@ class BuildEngineeringObject(EngineeringObject):
     def with_file_type(self, value: "NameToken") -> "BuildEngineeringObject":
         """
         Set fileType and return self for chaining.
-        
+
         Args:
             value: The fileType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_file_type("value")
         """
@@ -268,13 +268,13 @@ class BuildEngineeringObject(EngineeringObject):
     def with_file_type_pattern(self, value: "RegularExpression") -> "BuildEngineeringObject":
         """
         Set fileTypePattern and return self for chaining.
-        
+
         Args:
             value: The fileTypePattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_file_type_pattern("value")
         """
@@ -284,13 +284,13 @@ class BuildEngineeringObject(EngineeringObject):
     def with_intended(self, value: Optional["UriString"]) -> "BuildEngineeringObject":
         """
         Set intended and return self for chaining.
-        
+
         Args:
             value: The intended to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_intended("value")
         """

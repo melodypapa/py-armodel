@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsOwnershipStrength(ARObject):
     """
     Describes the DDS OWNERSHIP_STRENGTH QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsOwnershipStrength
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 533, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class DdsOwnershipStrength(ARObject):
     def ownership(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ownership with validation.
-        
+
         Args:
             value: The ownership to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class DdsOwnershipStrength(ARObject):
     def getOwnership(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ownership.
-        
+
         Returns:
             The ownership value
-        
+
         Note:
             Delegates to ownership property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class DdsOwnershipStrength(ARObject):
     def setOwnership(self, value: "PositiveInteger") -> "DdsOwnershipStrength":
         """
         AUTOSAR-compliant setter for ownership with method chaining.
-        
+
         Args:
             value: The ownership to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ownership property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class DdsOwnershipStrength(ARObject):
     def with_ownership(self, value: Optional["PositiveInteger"]) -> "DdsOwnershipStrength":
         """
         Set ownership and return self for chaining.
-        
+
         Args:
             value: The ownership to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ownership("value")
         """

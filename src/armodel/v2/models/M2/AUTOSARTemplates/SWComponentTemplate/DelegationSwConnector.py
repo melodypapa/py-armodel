@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DelegationSwConnector(SwConnector):
     """
@@ -8,9 +11,9 @@ class DelegationSwConnector(SwConnector):
     component that is used inside the composition) to a outer PortPrototype of
     compatible type that belongs directly to the composition (a port that is
     owned by the composition).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::DelegationSwConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 80, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class DelegationSwConnector(SwConnector):
     def inner_port_instance_ref(self, value: RefType) -> None:
         """
         Set innerPortInstanceRef with validation.
-        
+
         Args:
             value: The innerPortInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class DelegationSwConnector(SwConnector):
     def outer_port(self, value: RefType) -> None:
         """
         Set outerPort with validation.
-        
+
         Args:
             value: The outerPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +77,10 @@ class DelegationSwConnector(SwConnector):
     def getInnerPortInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for innerPortInstanceRef.
-        
+
         Returns:
             The innerPortInstanceRef value
-        
+
         Note:
             Delegates to inner_port_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -86,13 +89,13 @@ class DelegationSwConnector(SwConnector):
     def setInnerPortInstanceRef(self, value: RefType) -> "DelegationSwConnector":
         """
         AUTOSAR-compliant setter for innerPortInstanceRef with method chaining.
-        
+
         Args:
             value: The innerPortInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to inner_port_instance_ref property setter (gets validation automatically)
         """
@@ -102,10 +105,10 @@ class DelegationSwConnector(SwConnector):
     def getOuterPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for outerPort.
-        
+
         Returns:
             The outerPort value
-        
+
         Note:
             Delegates to outer_port property (CODING_RULE_V2_00017)
         """
@@ -114,13 +117,13 @@ class DelegationSwConnector(SwConnector):
     def setOuterPort(self, value: RefType) -> "DelegationSwConnector":
         """
         AUTOSAR-compliant setter for outerPort with method chaining.
-        
+
         Args:
             value: The outerPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to outer_port property setter (gets validation automatically)
         """
@@ -132,13 +135,13 @@ class DelegationSwConnector(SwConnector):
     def with_inner_port_instance_ref(self, value: Optional[RefType]) -> "DelegationSwConnector":
         """
         Set innerPortInstanceRef and return self for chaining.
-        
+
         Args:
             value: The innerPortInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_inner_port_instance_ref("value")
         """
@@ -148,13 +151,13 @@ class DelegationSwConnector(SwConnector):
     def with_outer_port(self, value: Optional[RefType]) -> "DelegationSwConnector":
         """
         Set outerPort and return self for chaining.
-        
+
         Args:
             value: The outerPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_outer_port("value")
         """

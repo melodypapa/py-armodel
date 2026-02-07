@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class FlexrayPhysicalChannel(PhysicalChannel):
     """
     FlexRay specific attributes to the physicalChannel
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 89, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def channel_name(self, value: Optional["FlexrayChannelName"]) -> None:
         """
         Set channelName with validation.
-        
+
         Args:
             value: The channelName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def getChannelName(self) -> "FlexrayChannelName":
         """
         AUTOSAR-compliant getter for channelName.
-        
+
         Returns:
             The channelName value
-        
+
         Note:
             Delegates to channel_name property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def setChannelName(self, value: "FlexrayChannelName") -> "FlexrayPhysicalChannel":
         """
         AUTOSAR-compliant setter for channelName with method chaining.
-        
+
         Args:
             value: The channelName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to channel_name property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def with_channel_name(self, value: Optional["FlexrayChannelName"]) -> "FlexrayPhysicalChannel":
         """
         Set channelName and return self for chaining.
-        
+
         Args:
             value: The channelName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_channel_name("value")
         """

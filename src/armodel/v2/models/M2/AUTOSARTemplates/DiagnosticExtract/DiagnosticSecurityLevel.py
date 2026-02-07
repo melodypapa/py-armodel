@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticSecurityLevel(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a security level considered
     for diagnostic purposes.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticSecurityLevel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 75, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def access_data(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set accessData with validation.
-        
+
         Args:
             value: The accessData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def key_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set keySize with validation.
-        
+
         Args:
             value: The keySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def num_failed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set numFailed with validation.
-        
+
         Args:
             value: The numFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def security_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set securityDelay with validation.
-        
+
         Args:
             value: The securityDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def seed_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set seedSize with validation.
-        
+
         Args:
             value: The seedSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def getAccessData(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for accessData.
-        
+
         Returns:
             The accessData value
-        
+
         Note:
             Delegates to access_data property (CODING_RULE_V2_00017)
         """
@@ -178,13 +178,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def setAccessData(self, value: "PositiveInteger") -> "DiagnosticSecurityLevel":
         """
         AUTOSAR-compliant setter for accessData with method chaining.
-        
+
         Args:
             value: The accessData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to access_data property setter (gets validation automatically)
         """
@@ -194,10 +194,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def getKeySize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for keySize.
-        
+
         Returns:
             The keySize value
-        
+
         Note:
             Delegates to key_size property (CODING_RULE_V2_00017)
         """
@@ -206,13 +206,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def setKeySize(self, value: "PositiveInteger") -> "DiagnosticSecurityLevel":
         """
         AUTOSAR-compliant setter for keySize with method chaining.
-        
+
         Args:
             value: The keySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_size property setter (gets validation automatically)
         """
@@ -222,10 +222,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def getNumFailed(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for numFailed.
-        
+
         Returns:
             The numFailed value
-        
+
         Note:
             Delegates to num_failed property (CODING_RULE_V2_00017)
         """
@@ -234,13 +234,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def setNumFailed(self, value: "PositiveInteger") -> "DiagnosticSecurityLevel":
         """
         AUTOSAR-compliant setter for numFailed with method chaining.
-        
+
         Args:
             value: The numFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to num_failed property setter (gets validation automatically)
         """
@@ -250,10 +250,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def getSecurityDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for securityDelay.
-        
+
         Returns:
             The securityDelay value
-        
+
         Note:
             Delegates to security_delay property (CODING_RULE_V2_00017)
         """
@@ -262,13 +262,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def setSecurityDelay(self, value: "TimeValue") -> "DiagnosticSecurityLevel":
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
-        
+
         Args:
             value: The securityDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_delay property setter (gets validation automatically)
         """
@@ -278,10 +278,10 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def getSeedSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for seedSize.
-        
+
         Returns:
             The seedSize value
-        
+
         Note:
             Delegates to seed_size property (CODING_RULE_V2_00017)
         """
@@ -290,13 +290,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def setSeedSize(self, value: "PositiveInteger") -> "DiagnosticSecurityLevel":
         """
         AUTOSAR-compliant setter for seedSize with method chaining.
-        
+
         Args:
             value: The seedSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to seed_size property setter (gets validation automatically)
         """
@@ -308,13 +308,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def with_access_data(self, value: Optional["PositiveInteger"]) -> "DiagnosticSecurityLevel":
         """
         Set accessData and return self for chaining.
-        
+
         Args:
             value: The accessData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_access_data("value")
         """
@@ -324,13 +324,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def with_key_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticSecurityLevel":
         """
         Set keySize and return self for chaining.
-        
+
         Args:
             value: The keySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_size("value")
         """
@@ -340,13 +340,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def with_num_failed(self, value: Optional["PositiveInteger"]) -> "DiagnosticSecurityLevel":
         """
         Set numFailed and return self for chaining.
-        
+
         Args:
             value: The numFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_num_failed("value")
         """
@@ -356,13 +356,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def with_security_delay(self, value: Optional["TimeValue"]) -> "DiagnosticSecurityLevel":
         """
         Set securityDelay and return self for chaining.
-        
+
         Args:
             value: The securityDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_delay("value")
         """
@@ -372,13 +372,13 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     def with_seed_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticSecurityLevel":
         """
         Set seedSize and return self for chaining.
-        
+
         Args:
             value: The seedSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_seed_size("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FlexrayAbsolutelyScheduledTiming(ARObject):
     """
@@ -10,9 +13,9 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     cycle. For describing this case multiple AbsolutelyScheduledTimings have to
     be used. The main use case would be that a frame is sent twice within one
     communication cycle.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication::FlexrayAbsolutelyScheduledTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 423, Classic Platform R23-11)
     """
@@ -32,10 +35,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def communication_cycle(self, value: Optional["CommunicationCycle"]) -> None:
         """
         Set communicationCycle with validation.
-        
+
         Args:
             value: The communicationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def slot_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set slotID with validation.
-        
+
         Args:
             value: The slotID to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def getCommunicationCycle(self) -> "CommunicationCycle":
         """
         AUTOSAR-compliant getter for communicationCycle.
-        
+
         Returns:
             The communicationCycle value
-        
+
         Note:
             Delegates to communication_cycle property (CODING_RULE_V2_00017)
         """
@@ -99,13 +102,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def setCommunicationCycle(self, value: "CommunicationCycle") -> "FlexrayAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
-        
+
         Args:
             value: The communicationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication_cycle property setter (gets validation automatically)
         """
@@ -115,10 +118,10 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def getSlotID(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for slotID.
-        
+
         Returns:
             The slotID value
-        
+
         Note:
             Delegates to slot_id property (CODING_RULE_V2_00017)
         """
@@ -127,13 +130,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def setSlotID(self, value: "PositiveInteger") -> "FlexrayAbsolutelyScheduledTiming":
         """
         AUTOSAR-compliant setter for slotID with method chaining.
-        
+
         Args:
             value: The slotID to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slot_id property setter (gets validation automatically)
         """
@@ -145,13 +148,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def with_communication_cycle(self, value: Optional["CommunicationCycle"]) -> "FlexrayAbsolutelyScheduledTiming":
         """
         Set communicationCycle and return self for chaining.
-        
+
         Args:
             value: The communicationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication_cycle("value")
         """
@@ -161,13 +164,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def with_slot_id(self, value: Optional["PositiveInteger"]) -> "FlexrayAbsolutelyScheduledTiming":
         """
         Set slotID and return self for chaining.
-        
+
         Args:
             value: The slotID to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slot_id("value")
         """

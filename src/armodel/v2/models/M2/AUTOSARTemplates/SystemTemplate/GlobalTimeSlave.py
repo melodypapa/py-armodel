@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class GlobalTimeSlave(Identifiable, ABC):
     """
     This represents the generic concept of a global time slave.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeSlave
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 860, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def follow_up_timeout_value(self, value: Optional["TimeValue"]) -> None:
         """
         Set followUpTimeoutValue with validation.
-        
+
         Args:
             value: The followUpTimeoutValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def icv_verification(self, value: Optional["GlobalTimeIcv"]) -> None:
         """
         Set icvVerification with validation.
-        
+
         Args:
             value: The icvVerification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def time_leap_future(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeLeapFuture with validation.
-        
+
         Args:
             value: The timeLeapFuture to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def time_leap(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeLeap with validation.
-        
+
         Args:
             value: The timeLeap to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +178,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def time_leap_past(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeLeapPast with validation.
-        
+
         Args:
             value: The timeLeapPast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -197,10 +200,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -209,13 +212,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def setCommunication(self, value: "Communication") -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -225,10 +228,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def getFollowUpTimeoutValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for followUpTimeoutValue.
-        
+
         Returns:
             The followUpTimeoutValue value
-        
+
         Note:
             Delegates to follow_up_timeout_value property (CODING_RULE_V2_00017)
         """
@@ -237,13 +240,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def setFollowUpTimeoutValue(self, value: "TimeValue") -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant setter for followUpTimeoutValue with method chaining.
-        
+
         Args:
             value: The followUpTimeoutValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to follow_up_timeout_value property setter (gets validation automatically)
         """
@@ -253,10 +256,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def getIcvVerification(self) -> "GlobalTimeIcv":
         """
         AUTOSAR-compliant getter for icvVerification.
-        
+
         Returns:
             The icvVerification value
-        
+
         Note:
             Delegates to icv_verification property (CODING_RULE_V2_00017)
         """
@@ -265,13 +268,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def setIcvVerification(self, value: "GlobalTimeIcv") -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant setter for icvVerification with method chaining.
-        
+
         Args:
             value: The icvVerification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to icv_verification property setter (gets validation automatically)
         """
@@ -281,10 +284,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def getTimeLeapFuture(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeLeapFuture.
-        
+
         Returns:
             The timeLeapFuture value
-        
+
         Note:
             Delegates to time_leap_future property (CODING_RULE_V2_00017)
         """
@@ -293,13 +296,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def setTimeLeapFuture(self, value: "TimeValue") -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant setter for timeLeapFuture with method chaining.
-        
+
         Args:
             value: The timeLeapFuture to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_leap_future property setter (gets validation automatically)
         """
@@ -309,10 +312,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def getTimeLeap(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeLeap.
-        
+
         Returns:
             The timeLeap value
-        
+
         Note:
             Delegates to time_leap property (CODING_RULE_V2_00017)
         """
@@ -321,13 +324,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def setTimeLeap(self, value: "PositiveInteger") -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant setter for timeLeap with method chaining.
-        
+
         Args:
             value: The timeLeap to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_leap property setter (gets validation automatically)
         """
@@ -337,10 +340,10 @@ class GlobalTimeSlave(Identifiable, ABC):
     def getTimeLeapPast(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeLeapPast.
-        
+
         Returns:
             The timeLeapPast value
-        
+
         Note:
             Delegates to time_leap_past property (CODING_RULE_V2_00017)
         """
@@ -349,13 +352,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def setTimeLeapPast(self, value: "TimeValue") -> "GlobalTimeSlave":
         """
         AUTOSAR-compliant setter for timeLeapPast with method chaining.
-        
+
         Args:
             value: The timeLeapPast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_leap_past property setter (gets validation automatically)
         """
@@ -367,13 +370,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def with_communication(self, value: Optional["Communication"]) -> "GlobalTimeSlave":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -383,13 +386,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def with_follow_up_timeout_value(self, value: Optional["TimeValue"]) -> "GlobalTimeSlave":
         """
         Set followUpTimeoutValue and return self for chaining.
-        
+
         Args:
             value: The followUpTimeoutValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_follow_up_timeout_value("value")
         """
@@ -399,13 +402,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def with_icv_verification(self, value: Optional["GlobalTimeIcv"]) -> "GlobalTimeSlave":
         """
         Set icvVerification and return self for chaining.
-        
+
         Args:
             value: The icvVerification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_icv_verification("value")
         """
@@ -415,13 +418,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def with_time_leap_future(self, value: Optional["TimeValue"]) -> "GlobalTimeSlave":
         """
         Set timeLeapFuture and return self for chaining.
-        
+
         Args:
             value: The timeLeapFuture to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_leap_future("value")
         """
@@ -431,13 +434,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def with_time_leap(self, value: Optional["PositiveInteger"]) -> "GlobalTimeSlave":
         """
         Set timeLeap and return self for chaining.
-        
+
         Args:
             value: The timeLeap to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_leap("value")
         """
@@ -447,13 +450,13 @@ class GlobalTimeSlave(Identifiable, ABC):
     def with_time_leap_past(self, value: Optional["TimeValue"]) -> "GlobalTimeSlave":
         """
         Set timeLeapPast and return self for chaining.
-        
+
         Args:
             value: The timeLeapPast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_leap_past("value")
         """

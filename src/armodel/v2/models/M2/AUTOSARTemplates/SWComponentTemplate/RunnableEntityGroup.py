@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RunnableEntityGroup(Identifiable):
     """
     This meta-class represents the ability to define a collection of
     RunnableEntities. The collection can be nested.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::RunnableEntityGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 222, Classic Platform
       R23-11)
@@ -42,10 +46,10 @@ class RunnableEntityGroup(Identifiable):
     def getRunnableEntity(self) -> List["RunnableEntity"]:
         """
         AUTOSAR-compliant getter for runnableEntity.
-        
+
         Returns:
             The runnableEntity value
-        
+
         Note:
             Delegates to runnable_entity property (CODING_RULE_V2_00017)
         """
@@ -54,10 +58,10 @@ class RunnableEntityGroup(Identifiable):
     def getRunnableEntityGroupInCompositionInstanceRef(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for runnableEntityGroupInCompositionInstanceRef.
-        
+
         Returns:
             The runnableEntityGroupInCompositionInstanceRef value
-        
+
         Note:
             Delegates to runnable_entity_group_in_composition_instance_ref property (CODING_RULE_V2_00017)
         """

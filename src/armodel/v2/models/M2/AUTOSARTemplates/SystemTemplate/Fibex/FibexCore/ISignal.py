@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ISignal(FibexElement):
     """
@@ -12,9 +12,9 @@ class ISignal(FibexElement):
     Postbuild configured Com Stack (see ECUC Parameter Mapping). In case of the
     SystemSignalGroup an ISignal shall be created for each SystemSignal
     contained in the SystemSignalGroup.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 315, Classic Platform
       R23-11)
@@ -41,10 +41,10 @@ class ISignal(FibexElement):
     def data(self, value: Optional["DataTransformation"]) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class ISignal(FibexElement):
     def data_type_policy(self, value: Optional["DataTypePolicyEnum"]) -> None:
         """
         Set dataTypePolicy with validation.
-        
+
         Args:
             value: The dataTypePolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class ISignal(FibexElement):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class ISignal(FibexElement):
     def i_signal_props(self, value: Optional["ISignalProps"]) -> None:
         """
         Set iSignalProps with validation.
-        
+
         Args:
             value: The iSignalProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class ISignal(FibexElement):
     def i_signal_type(self, value: Optional["ISignalTypeEnum"]) -> None:
         """
         Set iSignalType with validation.
-        
+
         Args:
             value: The iSignalType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -204,10 +204,10 @@ class ISignal(FibexElement):
     def length(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -242,10 +242,10 @@ class ISignal(FibexElement):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -270,10 +270,10 @@ class ISignal(FibexElement):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -298,10 +298,10 @@ class ISignal(FibexElement):
     def timeout(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -330,10 +330,10 @@ class ISignal(FibexElement):
     def getData(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -342,13 +342,13 @@ class ISignal(FibexElement):
     def setData(self, value: "DataTransformation") -> "ISignal":
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -358,10 +358,10 @@ class ISignal(FibexElement):
     def getDataTypePolicy(self) -> "DataTypePolicyEnum":
         """
         AUTOSAR-compliant getter for dataTypePolicy.
-        
+
         Returns:
             The dataTypePolicy value
-        
+
         Note:
             Delegates to data_type_policy property (CODING_RULE_V2_00017)
         """
@@ -370,13 +370,13 @@ class ISignal(FibexElement):
     def setDataTypePolicy(self, value: "DataTypePolicyEnum") -> "ISignal":
         """
         AUTOSAR-compliant setter for dataTypePolicy with method chaining.
-        
+
         Args:
             value: The dataTypePolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_type_policy property setter (gets validation automatically)
         """
@@ -386,10 +386,10 @@ class ISignal(FibexElement):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -398,13 +398,13 @@ class ISignal(FibexElement):
     def setInitValue(self, value: "ValueSpecification") -> "ISignal":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -414,10 +414,10 @@ class ISignal(FibexElement):
     def getISignalProps(self) -> "ISignalProps":
         """
         AUTOSAR-compliant getter for iSignalProps.
-        
+
         Returns:
             The iSignalProps value
-        
+
         Note:
             Delegates to i_signal_props property (CODING_RULE_V2_00017)
         """
@@ -426,13 +426,13 @@ class ISignal(FibexElement):
     def setISignalProps(self, value: "ISignalProps") -> "ISignal":
         """
         AUTOSAR-compliant setter for iSignalProps with method chaining.
-        
+
         Args:
             value: The iSignalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_props property setter (gets validation automatically)
         """
@@ -442,10 +442,10 @@ class ISignal(FibexElement):
     def getISignalType(self) -> "ISignalTypeEnum":
         """
         AUTOSAR-compliant getter for iSignalType.
-        
+
         Returns:
             The iSignalType value
-        
+
         Note:
             Delegates to i_signal_type property (CODING_RULE_V2_00017)
         """
@@ -454,13 +454,13 @@ class ISignal(FibexElement):
     def setISignalType(self, value: "ISignalTypeEnum") -> "ISignal":
         """
         AUTOSAR-compliant setter for iSignalType with method chaining.
-        
+
         Args:
             value: The iSignalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_type property setter (gets validation automatically)
         """
@@ -470,10 +470,10 @@ class ISignal(FibexElement):
     def getLength(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -482,13 +482,13 @@ class ISignal(FibexElement):
     def setLength(self, value: "UnlimitedInteger") -> "ISignal":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -498,10 +498,10 @@ class ISignal(FibexElement):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -510,13 +510,13 @@ class ISignal(FibexElement):
     def setNetwork(self, value: "SwDataDefProps") -> "ISignal":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -526,10 +526,10 @@ class ISignal(FibexElement):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -538,13 +538,13 @@ class ISignal(FibexElement):
     def setSystemSignal(self, value: "SystemSignal") -> "ISignal":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -554,10 +554,10 @@ class ISignal(FibexElement):
     def getTimeout(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -566,13 +566,13 @@ class ISignal(FibexElement):
     def setTimeout(self, value: "ValueSpecification") -> "ISignal":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -582,10 +582,10 @@ class ISignal(FibexElement):
     def getTransformation(self) -> List["TransformationISignal"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -596,13 +596,13 @@ class ISignal(FibexElement):
     def with_data(self, value: Optional["DataTransformation"]) -> "ISignal":
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """
@@ -612,13 +612,13 @@ class ISignal(FibexElement):
     def with_data_type_policy(self, value: Optional["DataTypePolicyEnum"]) -> "ISignal":
         """
         Set dataTypePolicy and return self for chaining.
-        
+
         Args:
             value: The dataTypePolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_type_policy("value")
         """
@@ -628,13 +628,13 @@ class ISignal(FibexElement):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "ISignal":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -644,13 +644,13 @@ class ISignal(FibexElement):
     def with_i_signal_props(self, value: Optional["ISignalProps"]) -> "ISignal":
         """
         Set iSignalProps and return self for chaining.
-        
+
         Args:
             value: The iSignalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_props("value")
         """
@@ -660,13 +660,13 @@ class ISignal(FibexElement):
     def with_i_signal_type(self, value: Optional["ISignalTypeEnum"]) -> "ISignal":
         """
         Set iSignalType and return self for chaining.
-        
+
         Args:
             value: The iSignalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_type("value")
         """
@@ -676,13 +676,13 @@ class ISignal(FibexElement):
     def with_length(self, value: Optional["UnlimitedInteger"]) -> "ISignal":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -692,13 +692,13 @@ class ISignal(FibexElement):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "ISignal":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -708,13 +708,13 @@ class ISignal(FibexElement):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "ISignal":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """
@@ -724,13 +724,13 @@ class ISignal(FibexElement):
     def with_timeout(self, value: Optional["ValueSpecification"]) -> "ISignal":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """

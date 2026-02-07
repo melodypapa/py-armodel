@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TlsPskIdentity(ARObject):
     """
     This element is used to describe the pre-shared key shared during the
     handshake among the communication parties, to establish a TLS connection if
     the handshake is based on the existence of a pre-shared key.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsPskIdentity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 563, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class TlsPskIdentity(ARObject):
     def pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set preSharedKey with validation.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class TlsPskIdentity(ARObject):
     def psk_identity(self, value: Optional["String"]) -> None:
         """
         Set pskIdentity with validation.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class TlsPskIdentity(ARObject):
     def psk_identity_hint(self, value: Optional["String"]) -> None:
         """
         Set pskIdentityHint with validation.
-        
+
         Args:
             value: The pskIdentityHint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +110,10 @@ class TlsPskIdentity(ARObject):
     def getPreSharedKey(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for preSharedKey.
-        
+
         Returns:
             The preSharedKey value
-        
+
         Note:
             Delegates to pre_shared_key property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class TlsPskIdentity(ARObject):
     def setPreSharedKey(self, value: "CryptoServiceKey") -> "TlsPskIdentity":
         """
         AUTOSAR-compliant setter for preSharedKey with method chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pre_shared_key property setter (gets validation automatically)
         """
@@ -135,10 +138,10 @@ class TlsPskIdentity(ARObject):
     def getPskIdentity(self) -> "String":
         """
         AUTOSAR-compliant getter for pskIdentity.
-        
+
         Returns:
             The pskIdentity value
-        
+
         Note:
             Delegates to psk_identity property (CODING_RULE_V2_00017)
         """
@@ -147,13 +150,13 @@ class TlsPskIdentity(ARObject):
     def setPskIdentity(self, value: "String") -> "TlsPskIdentity":
         """
         AUTOSAR-compliant setter for pskIdentity with method chaining.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to psk_identity property setter (gets validation automatically)
         """
@@ -163,10 +166,10 @@ class TlsPskIdentity(ARObject):
     def getPskIdentityHint(self) -> "String":
         """
         AUTOSAR-compliant getter for pskIdentityHint.
-        
+
         Returns:
             The pskIdentityHint value
-        
+
         Note:
             Delegates to psk_identity_hint property (CODING_RULE_V2_00017)
         """
@@ -175,13 +178,13 @@ class TlsPskIdentity(ARObject):
     def setPskIdentityHint(self, value: "String") -> "TlsPskIdentity":
         """
         AUTOSAR-compliant setter for pskIdentityHint with method chaining.
-        
+
         Args:
             value: The pskIdentityHint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to psk_identity_hint property setter (gets validation automatically)
         """
@@ -193,13 +196,13 @@ class TlsPskIdentity(ARObject):
     def with_pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> "TlsPskIdentity":
         """
         Set preSharedKey and return self for chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pre_shared_key("value")
         """
@@ -209,13 +212,13 @@ class TlsPskIdentity(ARObject):
     def with_psk_identity(self, value: Optional["String"]) -> "TlsPskIdentity":
         """
         Set pskIdentity and return self for chaining.
-        
+
         Args:
             value: The pskIdentity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_psk_identity("value")
         """
@@ -225,13 +228,13 @@ class TlsPskIdentity(ARObject):
     def with_psk_identity_hint(self, value: Optional["String"]) -> "TlsPskIdentity":
         """
         Set pskIdentityHint and return self for chaining.
-        
+
         Args:
             value: The pskIdentityHint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_psk_identity_hint("value")
         """

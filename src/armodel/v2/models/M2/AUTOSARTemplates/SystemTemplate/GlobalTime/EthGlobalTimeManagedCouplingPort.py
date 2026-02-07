@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EthGlobalTimeManagedCouplingPort(ARObject):
     """
     Specifies a CouplingPort which is managed by an Ethernet Global Time Domain.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthGlobalTimeManagedCouplingPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 874, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def coupling_port(self, value: Optional["CouplingPort"]) -> None:
         """
         Set couplingPort with validation.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def global_time_port(self, value: Optional["GlobalTimePortRole"]) -> None:
         """
         Set globalTimePort with validation.
-        
+
         Args:
             value: The globalTimePort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def global_time_tx_period(self, value: Optional["TimeValue"]) -> None:
         """
         Set globalTimeTxPeriod with validation.
-        
+
         Args:
             value: The globalTimeTxPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def pdelay_latency(self, value: Optional["TimeValue"]) -> None:
         """
         Set pdelayLatency with validation.
-        
+
         Args:
             value: The pdelayLatency to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +144,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def pdelay_request(self, value: Optional["TimeValue"]) -> None:
         """
         Set pdelayRequest with validation.
-        
+
         Args:
             value: The pdelayRequest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +175,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def pdelay_resp_and(self, value: Optional["TimeValue"]) -> None:
         """
         Set pdelayRespAnd with validation.
-        
+
         Args:
             value: The pdelayRespAnd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +204,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def pdelay(self, value: Optional["Boolean"]) -> None:
         """
         Set pdelay with validation.
-        
+
         Args:
             value: The pdelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +226,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getCouplingPort(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -235,13 +238,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setCouplingPort(self, value: "CouplingPort") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for couplingPort with method chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_port property setter (gets validation automatically)
         """
@@ -251,10 +254,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getGlobalTimePort(self) -> "GlobalTimePortRole":
         """
         AUTOSAR-compliant getter for globalTimePort.
-        
+
         Returns:
             The globalTimePort value
-        
+
         Note:
             Delegates to global_time_port property (CODING_RULE_V2_00017)
         """
@@ -263,13 +266,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setGlobalTimePort(self, value: "GlobalTimePortRole") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for globalTimePort with method chaining.
-        
+
         Args:
             value: The globalTimePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_time_port property setter (gets validation automatically)
         """
@@ -279,10 +282,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getGlobalTimeTxPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for globalTimeTxPeriod.
-        
+
         Returns:
             The globalTimeTxPeriod value
-        
+
         Note:
             Delegates to global_time_tx_period property (CODING_RULE_V2_00017)
         """
@@ -291,13 +294,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setGlobalTimeTxPeriod(self, value: "TimeValue") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for globalTimeTxPeriod with method chaining.
-        
+
         Args:
             value: The globalTimeTxPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_time_tx_period property setter (gets validation automatically)
         """
@@ -307,10 +310,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getPdelayLatency(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pdelayLatency.
-        
+
         Returns:
             The pdelayLatency value
-        
+
         Note:
             Delegates to pdelay_latency property (CODING_RULE_V2_00017)
         """
@@ -319,13 +322,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setPdelayLatency(self, value: "TimeValue") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for pdelayLatency with method chaining.
-        
+
         Args:
             value: The pdelayLatency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdelay_latency property setter (gets validation automatically)
         """
@@ -335,10 +338,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getPdelayRequest(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pdelayRequest.
-        
+
         Returns:
             The pdelayRequest value
-        
+
         Note:
             Delegates to pdelay_request property (CODING_RULE_V2_00017)
         """
@@ -347,13 +350,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setPdelayRequest(self, value: "TimeValue") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for pdelayRequest with method chaining.
-        
+
         Args:
             value: The pdelayRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdelay_request property setter (gets validation automatically)
         """
@@ -363,10 +366,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getPdelayRespAnd(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pdelayRespAnd.
-        
+
         Returns:
             The pdelayRespAnd value
-        
+
         Note:
             Delegates to pdelay_resp_and property (CODING_RULE_V2_00017)
         """
@@ -375,13 +378,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setPdelayRespAnd(self, value: "TimeValue") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for pdelayRespAnd with method chaining.
-        
+
         Args:
             value: The pdelayRespAnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdelay_resp_and property setter (gets validation automatically)
         """
@@ -391,10 +394,10 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def getPdelay(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pdelay.
-        
+
         Returns:
             The pdelay value
-        
+
         Note:
             Delegates to pdelay property (CODING_RULE_V2_00017)
         """
@@ -403,13 +406,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def setPdelay(self, value: "Boolean") -> "EthGlobalTimeManagedCouplingPort":
         """
         AUTOSAR-compliant setter for pdelay with method chaining.
-        
+
         Args:
             value: The pdelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdelay property setter (gets validation automatically)
         """
@@ -421,13 +424,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_coupling_port(self, value: Optional["CouplingPort"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set couplingPort and return self for chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_port("value")
         """
@@ -437,13 +440,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_global_time_port(self, value: Optional["GlobalTimePortRole"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set globalTimePort and return self for chaining.
-        
+
         Args:
             value: The globalTimePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_time_port("value")
         """
@@ -453,13 +456,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_global_time_tx_period(self, value: Optional["TimeValue"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set globalTimeTxPeriod and return self for chaining.
-        
+
         Args:
             value: The globalTimeTxPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_time_tx_period("value")
         """
@@ -469,13 +472,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_pdelay_latency(self, value: Optional["TimeValue"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set pdelayLatency and return self for chaining.
-        
+
         Args:
             value: The pdelayLatency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdelay_latency("value")
         """
@@ -485,13 +488,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_pdelay_request(self, value: Optional["TimeValue"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set pdelayRequest and return self for chaining.
-        
+
         Args:
             value: The pdelayRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdelay_request("value")
         """
@@ -501,13 +504,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_pdelay_resp_and(self, value: Optional["TimeValue"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set pdelayRespAnd and return self for chaining.
-        
+
         Args:
             value: The pdelayRespAnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdelay_resp_and("value")
         """
@@ -517,13 +520,13 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
     def with_pdelay(self, value: Optional["Boolean"]) -> "EthGlobalTimeManagedCouplingPort":
         """
         Set pdelay and return self for chaining.
-        
+
         Args:
             value: The pdelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdelay("value")
         """

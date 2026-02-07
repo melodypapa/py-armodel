@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsLifespan(ARObject):
     """
     Describes the DDS LIFESPAN QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsLifespan
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 536, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DdsLifespan(ARObject):
     def lifespan_duration(self, value: Optional["Float"]) -> None:
         """
         Set lifespanDuration with validation.
-        
+
         Args:
             value: The lifespanDuration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +53,10 @@ class DdsLifespan(ARObject):
     def getLifespanDuration(self) -> "Float":
         """
         AUTOSAR-compliant getter for lifespanDuration.
-        
+
         Returns:
             The lifespanDuration value
-        
+
         Note:
             Delegates to lifespan_duration property (CODING_RULE_V2_00017)
         """
@@ -62,13 +65,13 @@ class DdsLifespan(ARObject):
     def setLifespanDuration(self, value: "Float") -> "DdsLifespan":
         """
         AUTOSAR-compliant setter for lifespanDuration with method chaining.
-        
+
         Args:
             value: The lifespanDuration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lifespan_duration property setter (gets validation automatically)
         """
@@ -80,13 +83,13 @@ class DdsLifespan(ARObject):
     def with_lifespan_duration(self, value: Optional["Float"]) -> "DdsLifespan":
         """
         Set lifespanDuration and return self for chaining.
-        
+
         Args:
             value: The lifespanDuration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lifespan_duration("value")
         """

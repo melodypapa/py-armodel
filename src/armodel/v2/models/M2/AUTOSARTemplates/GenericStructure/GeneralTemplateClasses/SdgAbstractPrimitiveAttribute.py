@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class SdgAbstractPrimitiveAttribute(SdgElementWithGid, ABC):
     """
     Describes primitive attributes of a special data group.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAbstractPrimitiveAttribute
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation
       R23-11)

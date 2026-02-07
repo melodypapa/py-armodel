@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ClientServerInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of ClientServerOperations in context of two different
     ClientServerInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 128, Classic Platform
       R23-11)
@@ -38,10 +38,10 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def getErrorMapping(self) -> List["ClientServerApplication"]:
         """
         AUTOSAR-compliant getter for errorMapping.
-        
+
         Returns:
             The errorMapping value
-        
+
         Note:
             Delegates to error_mapping property (CODING_RULE_V2_00017)
         """
@@ -50,10 +50,10 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def getOperation(self) -> List["ClientServerOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """

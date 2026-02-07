@@ -1,8 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class FrameTriggering(Identifiable, ABC):
     """
@@ -11,9 +16,9 @@ class FrameTriggering(Identifiable, ABC):
     a frame on the channel, on which it is sent. For the same frame, if
     FrameTriggerings exist on more than one channel of the same cluster the
     fan-out/ in is handled by the Bus interface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::FrameTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 295, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 418, Classic Platform R23-11)
@@ -40,10 +45,10 @@ class FrameTriggering(Identifiable, ABC):
     def frame(self, value: Optional["Frame"]) -> None:
         """
         Set frame with validation.
-        
+
         Args:
             value: The frame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +87,10 @@ class FrameTriggering(Identifiable, ABC):
     def getFrame(self) -> "Frame":
         """
         AUTOSAR-compliant getter for frame.
-        
+
         Returns:
             The frame value
-        
+
         Note:
             Delegates to frame property (CODING_RULE_V2_00017)
         """
@@ -94,13 +99,13 @@ class FrameTriggering(Identifiable, ABC):
     def setFrame(self, value: "Frame") -> "FrameTriggering":
         """
         AUTOSAR-compliant setter for frame with method chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame property setter (gets validation automatically)
         """
@@ -110,10 +115,10 @@ class FrameTriggering(Identifiable, ABC):
     def getFramePort(self) -> List["FramePort"]:
         """
         AUTOSAR-compliant getter for framePort.
-        
+
         Returns:
             The framePort value
-        
+
         Note:
             Delegates to frame_port property (CODING_RULE_V2_00017)
         """
@@ -122,10 +127,10 @@ class FrameTriggering(Identifiable, ABC):
     def getPduTriggering(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -136,13 +141,13 @@ class FrameTriggering(Identifiable, ABC):
     def with_frame(self, value: Optional["Frame"]) -> "FrameTriggering":
         """
         Set frame and return self for chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame("value")
         """

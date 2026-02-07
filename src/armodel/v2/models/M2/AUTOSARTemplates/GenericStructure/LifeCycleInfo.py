@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class LifeCycleInfo(ARObject):
     """
     LifeCycleInfo describes the life cycle state of an element together with
     additional information like what to use instead
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleInfo
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 392, Foundation
       R23-11)
@@ -31,10 +36,10 @@ class LifeCycleInfo(ARObject):
     def lc_object(self, value: RefType) -> None:
         """
         Set lcObject with validation.
-        
+
         Args:
             value: The lcObject to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +57,10 @@ class LifeCycleInfo(ARObject):
     def lc_state(self, value: Optional["LifeCycleState"]) -> None:
         """
         Set lcState with validation.
-        
+
         Args:
             value: The lcState to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +87,10 @@ class LifeCycleInfo(ARObject):
     def period_begin(self, value: Optional["LifeCyclePeriod"]) -> None:
         """
         Set periodBegin with validation.
-        
+
         Args:
             value: The periodBegin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +119,10 @@ class LifeCycleInfo(ARObject):
     def period_end(self, value: Optional["LifeCyclePeriod"]) -> None:
         """
         Set periodEnd with validation.
-        
+
         Args:
             value: The periodEnd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +148,10 @@ class LifeCycleInfo(ARObject):
     def remark(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set remark with validation.
-        
+
         Args:
             value: The remark to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +179,10 @@ class LifeCycleInfo(ARObject):
     def getLcObject(self) -> RefType:
         """
         AUTOSAR-compliant getter for lcObject.
-        
+
         Returns:
             The lcObject value
-        
+
         Note:
             Delegates to lc_object property (CODING_RULE_V2_00017)
         """
@@ -186,13 +191,13 @@ class LifeCycleInfo(ARObject):
     def setLcObject(self, value: RefType) -> "LifeCycleInfo":
         """
         AUTOSAR-compliant setter for lcObject with method chaining.
-        
+
         Args:
             value: The lcObject to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lc_object property setter (gets validation automatically)
         """
@@ -202,10 +207,10 @@ class LifeCycleInfo(ARObject):
     def getLcState(self) -> "LifeCycleState":
         """
         AUTOSAR-compliant getter for lcState.
-        
+
         Returns:
             The lcState value
-        
+
         Note:
             Delegates to lc_state property (CODING_RULE_V2_00017)
         """
@@ -214,13 +219,13 @@ class LifeCycleInfo(ARObject):
     def setLcState(self, value: "LifeCycleState") -> "LifeCycleInfo":
         """
         AUTOSAR-compliant setter for lcState with method chaining.
-        
+
         Args:
             value: The lcState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lc_state property setter (gets validation automatically)
         """
@@ -230,10 +235,10 @@ class LifeCycleInfo(ARObject):
     def getPeriodBegin(self) -> "LifeCyclePeriod":
         """
         AUTOSAR-compliant getter for periodBegin.
-        
+
         Returns:
             The periodBegin value
-        
+
         Note:
             Delegates to period_begin property (CODING_RULE_V2_00017)
         """
@@ -242,13 +247,13 @@ class LifeCycleInfo(ARObject):
     def setPeriodBegin(self, value: "LifeCyclePeriod") -> "LifeCycleInfo":
         """
         AUTOSAR-compliant setter for periodBegin with method chaining.
-        
+
         Args:
             value: The periodBegin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period_begin property setter (gets validation automatically)
         """
@@ -258,10 +263,10 @@ class LifeCycleInfo(ARObject):
     def getPeriodEnd(self) -> "LifeCyclePeriod":
         """
         AUTOSAR-compliant getter for periodEnd.
-        
+
         Returns:
             The periodEnd value
-        
+
         Note:
             Delegates to period_end property (CODING_RULE_V2_00017)
         """
@@ -270,13 +275,13 @@ class LifeCycleInfo(ARObject):
     def setPeriodEnd(self, value: "LifeCyclePeriod") -> "LifeCycleInfo":
         """
         AUTOSAR-compliant setter for periodEnd with method chaining.
-        
+
         Args:
             value: The periodEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period_end property setter (gets validation automatically)
         """
@@ -286,10 +291,10 @@ class LifeCycleInfo(ARObject):
     def getRemark(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for remark.
-        
+
         Returns:
             The remark value
-        
+
         Note:
             Delegates to remark property (CODING_RULE_V2_00017)
         """
@@ -298,13 +303,13 @@ class LifeCycleInfo(ARObject):
     def setRemark(self, value: "DocumentationBlock") -> "LifeCycleInfo":
         """
         AUTOSAR-compliant setter for remark with method chaining.
-        
+
         Args:
             value: The remark to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remark property setter (gets validation automatically)
         """
@@ -314,10 +319,10 @@ class LifeCycleInfo(ARObject):
     def getUseInstead(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for useInstead.
-        
+
         Returns:
             The useInstead value
-        
+
         Note:
             Delegates to use_instead property (CODING_RULE_V2_00017)
         """
@@ -328,13 +333,13 @@ class LifeCycleInfo(ARObject):
     def with_lc_object(self, value: RefType) -> "LifeCycleInfo":
         """
         Set lcObject and return self for chaining.
-        
+
         Args:
             value: The lcObject to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lc_object("value")
         """
@@ -344,13 +349,13 @@ class LifeCycleInfo(ARObject):
     def with_lc_state(self, value: Optional["LifeCycleState"]) -> "LifeCycleInfo":
         """
         Set lcState and return self for chaining.
-        
+
         Args:
             value: The lcState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lc_state("value")
         """
@@ -360,13 +365,13 @@ class LifeCycleInfo(ARObject):
     def with_period_begin(self, value: Optional["LifeCyclePeriod"]) -> "LifeCycleInfo":
         """
         Set periodBegin and return self for chaining.
-        
+
         Args:
             value: The periodBegin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period_begin("value")
         """
@@ -376,13 +381,13 @@ class LifeCycleInfo(ARObject):
     def with_period_end(self, value: Optional["LifeCyclePeriod"]) -> "LifeCycleInfo":
         """
         Set periodEnd and return self for chaining.
-        
+
         Args:
             value: The periodEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period_end("value")
         """
@@ -392,13 +397,13 @@ class LifeCycleInfo(ARObject):
     def with_remark(self, value: Optional["DocumentationBlock"]) -> "LifeCycleInfo":
         """
         Set remark and return self for chaining.
-        
+
         Args:
             value: The remark to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remark("value")
         """

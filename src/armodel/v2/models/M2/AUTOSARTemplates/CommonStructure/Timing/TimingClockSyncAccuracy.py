@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TimingClockSyncAccuracy(Identifiable):
     """
     Describes the synchronization accuracy between exactly two TDClocks.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TimingClockSyncAccuracy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 252, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class TimingClockSyncAccuracy(Identifiable):
     def accuracy(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set accuracy with validation.
-        
+
         Args:
             value: The accuracy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class TimingClockSyncAccuracy(Identifiable):
     def lower(self, value: Optional["TimingClock"]) -> None:
         """
         Set lower with validation.
-        
+
         Args:
             value: The lower to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +86,10 @@ class TimingClockSyncAccuracy(Identifiable):
     def upper(self, value: Optional["TimingClock"]) -> None:
         """
         Set upper with validation.
-        
+
         Args:
             value: The upper to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +108,10 @@ class TimingClockSyncAccuracy(Identifiable):
     def getAccuracy(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for accuracy.
-        
+
         Returns:
             The accuracy value
-        
+
         Note:
             Delegates to accuracy property (CODING_RULE_V2_00017)
         """
@@ -118,13 +120,13 @@ class TimingClockSyncAccuracy(Identifiable):
     def setAccuracy(self, value: "MultidimensionalTime") -> "TimingClockSyncAccuracy":
         """
         AUTOSAR-compliant setter for accuracy with method chaining.
-        
+
         Args:
             value: The accuracy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accuracy property setter (gets validation automatically)
         """
@@ -134,10 +136,10 @@ class TimingClockSyncAccuracy(Identifiable):
     def getLower(self) -> "TimingClock":
         """
         AUTOSAR-compliant getter for lower.
-        
+
         Returns:
             The lower value
-        
+
         Note:
             Delegates to lower property (CODING_RULE_V2_00017)
         """
@@ -146,13 +148,13 @@ class TimingClockSyncAccuracy(Identifiable):
     def setLower(self, value: "TimingClock") -> "TimingClockSyncAccuracy":
         """
         AUTOSAR-compliant setter for lower with method chaining.
-        
+
         Args:
             value: The lower to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower property setter (gets validation automatically)
         """
@@ -162,10 +164,10 @@ class TimingClockSyncAccuracy(Identifiable):
     def getUpper(self) -> "TimingClock":
         """
         AUTOSAR-compliant getter for upper.
-        
+
         Returns:
             The upper value
-        
+
         Note:
             Delegates to upper property (CODING_RULE_V2_00017)
         """
@@ -174,13 +176,13 @@ class TimingClockSyncAccuracy(Identifiable):
     def setUpper(self, value: "TimingClock") -> "TimingClockSyncAccuracy":
         """
         AUTOSAR-compliant setter for upper with method chaining.
-        
+
         Args:
             value: The upper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper property setter (gets validation automatically)
         """
@@ -192,13 +194,13 @@ class TimingClockSyncAccuracy(Identifiable):
     def with_accuracy(self, value: Optional["MultidimensionalTime"]) -> "TimingClockSyncAccuracy":
         """
         Set accuracy and return self for chaining.
-        
+
         Args:
             value: The accuracy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accuracy("value")
         """
@@ -208,13 +210,13 @@ class TimingClockSyncAccuracy(Identifiable):
     def with_lower(self, value: Optional["TimingClock"]) -> "TimingClockSyncAccuracy":
         """
         Set lower and return self for chaining.
-        
+
         Args:
             value: The lower to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower("value")
         """
@@ -224,13 +226,13 @@ class TimingClockSyncAccuracy(Identifiable):
     def with_upper(self, value: Optional["TimingClock"]) -> "TimingClockSyncAccuracy":
         """
         Set upper and return self for chaining.
-        
+
         Args:
             value: The upper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper("value")
         """

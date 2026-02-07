@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     """
     This represents a primary memory for a diagnostic event.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination::DiagnosticMemoryDestinationPrimary
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 184, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def type_of_dtc(self, value: Optional["DiagnosticTypeOfDtc"]) -> None:
         """
         Set typeOfDtc with validation.
-        
+
         Args:
             value: The typeOfDtc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def getTypeOfDtc(self) -> "DiagnosticTypeOfDtc":
         """
         AUTOSAR-compliant getter for typeOfDtc.
-        
+
         Returns:
             The typeOfDtc value
-        
+
         Note:
             Delegates to type_of_dtc property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def setTypeOfDtc(self, value: "DiagnosticTypeOfDtc") -> "DiagnosticMemoryDestinationPrimary":
         """
         AUTOSAR-compliant setter for typeOfDtc with method chaining.
-        
+
         Args:
             value: The typeOfDtc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_of_dtc property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticMemoryDestinationPrimary(DiagnosticMemoryDestination):
     def with_type_of_dtc(self, value: Optional["DiagnosticTypeOfDtc"]) -> "DiagnosticMemoryDestinationPrimary":
         """
         Set typeOfDtc and return self for chaining.
-        
+
         Args:
             value: The typeOfDtc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_of_dtc("value")
         """

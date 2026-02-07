@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class TextualCondition(AbstractCondition):
     """
     Specifies additional conditions for one or more model elements. The
     condition is described using human language.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::TextualCondition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 105, Foundation R23-11)
     """
@@ -27,10 +25,10 @@ class TextualCondition(AbstractCondition):
     def text(self, value: "String") -> None:
         """
         Set text with validation.
-        
+
         Args:
             value: The text to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -45,10 +43,10 @@ class TextualCondition(AbstractCondition):
     def getText(self) -> "String":
         """
         AUTOSAR-compliant getter for text.
-        
+
         Returns:
             The text value
-        
+
         Note:
             Delegates to text property (CODING_RULE_V2_00017)
         """
@@ -57,13 +55,13 @@ class TextualCondition(AbstractCondition):
     def setText(self, value: "String") -> "TextualCondition":
         """
         AUTOSAR-compliant setter for text with method chaining.
-        
+
         Args:
             value: The text to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text property setter (gets validation automatically)
         """
@@ -75,13 +73,13 @@ class TextualCondition(AbstractCondition):
     def with_text(self, value: "String") -> "TextualCondition":
         """
         Set text and return self for chaining.
-        
+
         Args:
             value: The text to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FMFeatureModel(ARElement):
     """
     A Feature model describes the features of a product line and their
     dependencies. Feature models are an optional part of an AUTOSAR model.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureModel
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 21, Foundation
       R23-11)
@@ -40,10 +40,10 @@ class FMFeatureModel(ARElement):
     def root(self, value: Optional["FMFeature"]) -> None:
         """
         Set root with validation.
-        
+
         Args:
             value: The root to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class FMFeatureModel(ARElement):
     def getFeature(self) -> List["FMFeature"]:
         """
         AUTOSAR-compliant getter for feature.
-        
+
         Returns:
             The feature value
-        
+
         Note:
             Delegates to feature property (CODING_RULE_V2_00017)
         """
@@ -74,10 +74,10 @@ class FMFeatureModel(ARElement):
     def getRoot(self) -> "FMFeature":
         """
         AUTOSAR-compliant getter for root.
-        
+
         Returns:
             The root value
-        
+
         Note:
             Delegates to root property (CODING_RULE_V2_00017)
         """
@@ -86,13 +86,13 @@ class FMFeatureModel(ARElement):
     def setRoot(self, value: "FMFeature") -> "FMFeatureModel":
         """
         AUTOSAR-compliant setter for root with method chaining.
-        
+
         Args:
             value: The root to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root property setter (gets validation automatically)
         """
@@ -104,13 +104,13 @@ class FMFeatureModel(ARElement):
     def with_root(self, value: Optional["FMFeature"]) -> "FMFeatureModel":
         """
         Set root and return self for chaining.
-        
+
         Args:
             value: The root to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root("value")
         """

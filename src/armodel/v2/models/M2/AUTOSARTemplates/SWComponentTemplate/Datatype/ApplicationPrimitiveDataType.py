@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
     """
     A primitive data type defines a set of allowed values.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationPrimitiveDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 230, Classic Platform
       R23-11)

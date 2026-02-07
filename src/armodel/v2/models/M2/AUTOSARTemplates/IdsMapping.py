@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class IdsMapping(IdsCommonElement, ABC):
     """
     This meta-class serves as abstract base class for mappings related to an IDS
     design.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 62, Foundation R23-11)
     """

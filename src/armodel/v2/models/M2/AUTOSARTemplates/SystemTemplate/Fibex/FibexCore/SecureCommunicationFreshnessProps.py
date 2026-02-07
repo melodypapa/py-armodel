@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SecureCommunicationFreshnessProps(Identifiable):
     """
     Freshness properties used to configure SecuredIPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationFreshnessProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 370, Classic Platform R23-11)
     """
@@ -31,10 +33,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def freshness(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set freshness with validation.
-        
+
         Args:
             value: The freshness to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def freshness_value(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set freshnessValue with validation.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +94,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def use_freshness(self, value: Optional["Boolean"]) -> None:
         """
         Set useFreshness with validation.
-        
+
         Args:
             value: The useFreshness to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +116,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def getFreshness(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for freshness.
-        
+
         Returns:
             The freshness value
-        
+
         Note:
             Delegates to freshness property (CODING_RULE_V2_00017)
         """
@@ -126,13 +128,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def setFreshness(self, value: "PositiveInteger") -> "SecureCommunicationFreshnessProps":
         """
         AUTOSAR-compliant setter for freshness with method chaining.
-        
+
         Args:
             value: The freshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness property setter (gets validation automatically)
         """
@@ -142,10 +144,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def getFreshnessValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for freshnessValue.
-        
+
         Returns:
             The freshnessValue value
-        
+
         Note:
             Delegates to freshness_value property (CODING_RULE_V2_00017)
         """
@@ -154,13 +156,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def setFreshnessValue(self, value: "PositiveInteger") -> "SecureCommunicationFreshnessProps":
         """
         AUTOSAR-compliant setter for freshnessValue with method chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness_value property setter (gets validation automatically)
         """
@@ -170,10 +172,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def getUseFreshness(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useFreshness.
-        
+
         Returns:
             The useFreshness value
-        
+
         Note:
             Delegates to use_freshness property (CODING_RULE_V2_00017)
         """
@@ -182,13 +184,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def setUseFreshness(self, value: "Boolean") -> "SecureCommunicationFreshnessProps":
         """
         AUTOSAR-compliant setter for useFreshness with method chaining.
-        
+
         Args:
             value: The useFreshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_freshness property setter (gets validation automatically)
         """
@@ -200,13 +202,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def with_freshness(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationFreshnessProps":
         """
         Set freshness and return self for chaining.
-        
+
         Args:
             value: The freshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness("value")
         """
@@ -216,13 +218,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def with_freshness_value(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationFreshnessProps":
         """
         Set freshnessValue and return self for chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness_value("value")
         """
@@ -232,13 +234,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def with_use_freshness(self, value: Optional["Boolean"]) -> "SecureCommunicationFreshnessProps":
         """
         Set useFreshness and return self for chaining.
-        
+
         Args:
             value: The useFreshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_freshness("value")
         """

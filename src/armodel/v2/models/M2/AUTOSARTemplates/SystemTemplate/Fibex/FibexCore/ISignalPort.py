@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ISignalPort(CommConnectorPort):
     """
     Connectors reception or send port on the referenced channel referenced by an
     ISignalTriggering. If different timeouts or DataFilters for ISignals need to
     be specified several ISignalPorts may be created.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 305, Classic Platform R23-11)
     """
@@ -32,10 +32,10 @@ class ISignalPort(CommConnectorPort):
     def data_filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set dataFilter with validation.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class ISignalPort(CommConnectorPort):
     def dds_qos_profile(self, value: Optional["DdsCpQosProfile"]) -> None:
         """
         Set ddsQosProfile with validation.
-        
+
         Args:
             value: The ddsQosProfile to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +90,10 @@ class ISignalPort(CommConnectorPort):
     def first_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set firstTimeout with validation.
-        
+
         Args:
             value: The firstTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +120,10 @@ class ISignalPort(CommConnectorPort):
     def handle_invalid(self, value: Optional["HandleInvalidEnum"]) -> None:
         """
         Set handleInvalid with validation.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +162,10 @@ class ISignalPort(CommConnectorPort):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -184,10 +184,10 @@ class ISignalPort(CommConnectorPort):
     def getDataFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for dataFilter.
-        
+
         Returns:
             The dataFilter value
-        
+
         Note:
             Delegates to data_filter property (CODING_RULE_V2_00017)
         """
@@ -196,13 +196,13 @@ class ISignalPort(CommConnectorPort):
     def setDataFilter(self, value: "DataFilter") -> "ISignalPort":
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_filter property setter (gets validation automatically)
         """
@@ -212,10 +212,10 @@ class ISignalPort(CommConnectorPort):
     def getDdsQosProfile(self) -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant getter for ddsQosProfile.
-        
+
         Returns:
             The ddsQosProfile value
-        
+
         Note:
             Delegates to dds_qos_profile property (CODING_RULE_V2_00017)
         """
@@ -224,13 +224,13 @@ class ISignalPort(CommConnectorPort):
     def setDdsQosProfile(self, value: "DdsCpQosProfile") -> "ISignalPort":
         """
         AUTOSAR-compliant setter for ddsQosProfile with method chaining.
-        
+
         Args:
             value: The ddsQosProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_qos_profile property setter (gets validation automatically)
         """
@@ -240,10 +240,10 @@ class ISignalPort(CommConnectorPort):
     def getFirstTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for firstTimeout.
-        
+
         Returns:
             The firstTimeout value
-        
+
         Note:
             Delegates to first_timeout property (CODING_RULE_V2_00017)
         """
@@ -252,13 +252,13 @@ class ISignalPort(CommConnectorPort):
     def setFirstTimeout(self, value: "TimeValue") -> "ISignalPort":
         """
         AUTOSAR-compliant setter for firstTimeout with method chaining.
-        
+
         Args:
             value: The firstTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_timeout property setter (gets validation automatically)
         """
@@ -268,10 +268,10 @@ class ISignalPort(CommConnectorPort):
     def getHandleInvalid(self) -> "HandleInvalidEnum":
         """
         AUTOSAR-compliant getter for handleInvalid.
-        
+
         Returns:
             The handleInvalid value
-        
+
         Note:
             Delegates to handle_invalid property (CODING_RULE_V2_00017)
         """
@@ -280,13 +280,13 @@ class ISignalPort(CommConnectorPort):
     def setHandleInvalid(self, value: "HandleInvalidEnum") -> "ISignalPort":
         """
         AUTOSAR-compliant setter for handleInvalid with method chaining.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_invalid property setter (gets validation automatically)
         """
@@ -296,10 +296,10 @@ class ISignalPort(CommConnectorPort):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -308,13 +308,13 @@ class ISignalPort(CommConnectorPort):
     def setTimeout(self, value: "TimeValue") -> "ISignalPort":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -326,13 +326,13 @@ class ISignalPort(CommConnectorPort):
     def with_data_filter(self, value: Optional["DataFilter"]) -> "ISignalPort":
         """
         Set dataFilter and return self for chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_filter("value")
         """
@@ -342,13 +342,13 @@ class ISignalPort(CommConnectorPort):
     def with_dds_qos_profile(self, value: Optional["DdsCpQosProfile"]) -> "ISignalPort":
         """
         Set ddsQosProfile and return self for chaining.
-        
+
         Args:
             value: The ddsQosProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_qos_profile("value")
         """
@@ -358,13 +358,13 @@ class ISignalPort(CommConnectorPort):
     def with_first_timeout(self, value: Optional["TimeValue"]) -> "ISignalPort":
         """
         Set firstTimeout and return self for chaining.
-        
+
         Args:
             value: The firstTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_timeout("value")
         """
@@ -374,13 +374,13 @@ class ISignalPort(CommConnectorPort):
     def with_handle_invalid(self, value: Optional["HandleInvalidEnum"]) -> "ISignalPort":
         """
         Set handleInvalid and return self for chaining.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_invalid("value")
         """
@@ -390,13 +390,13 @@ class ISignalPort(CommConnectorPort):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ISignalPort":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class SystemSignalGroup(ARElement):
     """
@@ -8,9 +8,9 @@ class SystemSignalGroup(ARElement):
     composite data types. The SystemSignalGroup defines a signal grouping on VFB
     level. On cluster level the Signal grouping is described by the ISignalGroup
     element.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SystemSignalGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 324, Classic Platform R23-11)
     """
@@ -38,10 +38,10 @@ class SystemSignalGroup(ARElement):
     def transforming(self, value: Optional["SystemSignal"]) -> None:
         """
         Set transforming with validation.
-        
+
         Args:
             value: The transforming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class SystemSignalGroup(ARElement):
     def getSystemSignal(self) -> List["SystemSignal"]:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -72,10 +72,10 @@ class SystemSignalGroup(ARElement):
     def getTransforming(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for transforming.
-        
+
         Returns:
             The transforming value
-        
+
         Note:
             Delegates to transforming property (CODING_RULE_V2_00017)
         """
@@ -84,13 +84,13 @@ class SystemSignalGroup(ARElement):
     def setTransforming(self, value: "SystemSignal") -> "SystemSignalGroup":
         """
         AUTOSAR-compliant setter for transforming with method chaining.
-        
+
         Args:
             value: The transforming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transforming property setter (gets validation automatically)
         """
@@ -102,13 +102,13 @@ class SystemSignalGroup(ARElement):
     def with_transforming(self, value: Optional["SystemSignal"]) -> "SystemSignalGroup":
         """
         Set transforming and return self for chaining.
-        
+
         Args:
             value: The transforming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transforming("value")
         """

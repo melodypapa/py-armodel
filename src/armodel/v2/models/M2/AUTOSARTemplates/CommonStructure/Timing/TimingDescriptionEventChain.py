@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class TimingDescriptionEventChain(TimingDescription):
     """
@@ -8,9 +8,9 @@ class TimingDescriptionEventChain(TimingDescription):
     response, which describe its start and end point. Furthermore, it can be
     hierarchically decomposed into an arbitrary number of sub-chains, so called
     event chain segments.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEventChain
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 40, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def is_pipelining(self, value: Optional["Boolean"]) -> None:
         """
         Set isPipelining with validation.
-        
+
         Args:
             value: The isPipelining to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def response(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set response with validation.
-        
+
         Args:
             value: The response to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +97,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def stimulus(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set stimulus with validation.
-        
+
         Args:
             value: The stimulus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def getIsPipelining(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isPipelining.
-        
+
         Returns:
             The isPipelining value
-        
+
         Note:
             Delegates to is_pipelining property (CODING_RULE_V2_00017)
         """
@@ -131,13 +131,13 @@ class TimingDescriptionEventChain(TimingDescription):
     def setIsPipelining(self, value: "Boolean") -> "TimingDescriptionEventChain":
         """
         AUTOSAR-compliant setter for isPipelining with method chaining.
-        
+
         Args:
             value: The isPipelining to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_pipelining property setter (gets validation automatically)
         """
@@ -147,10 +147,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def getResponse(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """
@@ -159,13 +159,13 @@ class TimingDescriptionEventChain(TimingDescription):
     def setResponse(self, value: "TimingDescriptionEvent") -> "TimingDescriptionEventChain":
         """
         AUTOSAR-compliant setter for response with method chaining.
-        
+
         Args:
             value: The response to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response property setter (gets validation automatically)
         """
@@ -175,10 +175,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def getSegment(self) -> List["TimingDescriptionEvent"]:
         """
         AUTOSAR-compliant getter for segment.
-        
+
         Returns:
             The segment value
-        
+
         Note:
             Delegates to segment property (CODING_RULE_V2_00017)
         """
@@ -187,10 +187,10 @@ class TimingDescriptionEventChain(TimingDescription):
     def getStimulus(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for stimulus.
-        
+
         Returns:
             The stimulus value
-        
+
         Note:
             Delegates to stimulus property (CODING_RULE_V2_00017)
         """
@@ -199,13 +199,13 @@ class TimingDescriptionEventChain(TimingDescription):
     def setStimulus(self, value: "TimingDescriptionEvent") -> "TimingDescriptionEventChain":
         """
         AUTOSAR-compliant setter for stimulus with method chaining.
-        
+
         Args:
             value: The stimulus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stimulus property setter (gets validation automatically)
         """
@@ -217,13 +217,13 @@ class TimingDescriptionEventChain(TimingDescription):
     def with_is_pipelining(self, value: Optional["Boolean"]) -> "TimingDescriptionEventChain":
         """
         Set isPipelining and return self for chaining.
-        
+
         Args:
             value: The isPipelining to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_pipelining("value")
         """
@@ -233,13 +233,13 @@ class TimingDescriptionEventChain(TimingDescription):
     def with_response(self, value: Optional["TimingDescriptionEvent"]) -> "TimingDescriptionEventChain":
         """
         Set response and return self for chaining.
-        
+
         Args:
             value: The response to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response("value")
         """
@@ -249,13 +249,13 @@ class TimingDescriptionEventChain(TimingDescription):
     def with_stimulus(self, value: Optional["TimingDescriptionEvent"]) -> "TimingDescriptionEventChain":
         """
         Set stimulus and return self for chaining.
-        
+
         Args:
             value: The stimulus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stimulus("value")
         """

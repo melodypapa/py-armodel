@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RtePluginProps(ARObject):
     """
     The properties of a communication graph with respect to the utilization of
     RTE Implementation Plug-in.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::RtePluginProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 971, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class RtePluginProps(ARObject):
     def associated(self, value: Optional["EcucContainerValue"]) -> None:
         """
         Set associated with validation.
-        
+
         Args:
             value: The associated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class RtePluginProps(ARObject):
     def associated_rte(self, value: Optional["EcucContainerValue"]) -> None:
         """
         Set associatedRte with validation.
-        
+
         Args:
             value: The associatedRte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class RtePluginProps(ARObject):
     def getAssociated(self) -> "EcucContainerValue":
         """
         AUTOSAR-compliant getter for associated.
-        
+
         Returns:
             The associated value
-        
+
         Note:
             Delegates to associated property (CODING_RULE_V2_00017)
         """
@@ -92,13 +95,13 @@ class RtePluginProps(ARObject):
     def setAssociated(self, value: "EcucContainerValue") -> "RtePluginProps":
         """
         AUTOSAR-compliant setter for associated with method chaining.
-        
+
         Args:
             value: The associated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to associated property setter (gets validation automatically)
         """
@@ -108,10 +111,10 @@ class RtePluginProps(ARObject):
     def getAssociatedRte(self) -> "EcucContainerValue":
         """
         AUTOSAR-compliant getter for associatedRte.
-        
+
         Returns:
             The associatedRte value
-        
+
         Note:
             Delegates to associated_rte property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class RtePluginProps(ARObject):
     def setAssociatedRte(self, value: "EcucContainerValue") -> "RtePluginProps":
         """
         AUTOSAR-compliant setter for associatedRte with method chaining.
-        
+
         Args:
             value: The associatedRte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to associated_rte property setter (gets validation automatically)
         """
@@ -138,13 +141,13 @@ class RtePluginProps(ARObject):
     def with_associated(self, value: Optional["EcucContainerValue"]) -> "RtePluginProps":
         """
         Set associated and return self for chaining.
-        
+
         Args:
             value: The associated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_associated("value")
         """
@@ -154,13 +157,13 @@ class RtePluginProps(ARObject):
     def with_associated_rte(self, value: Optional["EcucContainerValue"]) -> "RtePluginProps":
         """
         Set associatedRte and return self for chaining.
-        
+
         Args:
             value: The associatedRte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_associated_rte("value")
         """

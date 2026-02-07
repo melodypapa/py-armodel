@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ConsistencyNeedsBlueprintSet(ARElement):
     """
     This meta class represents the ability to specify a set of blueprint for
     ConsistencyNeeds.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint::ConsistencyNeedsBlueprintSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 179, Foundation R23-11)
     """
@@ -29,10 +29,10 @@ class ConsistencyNeedsBlueprintSet(ARElement):
     def getConsistency(self) -> List["ConsistencyNeeds"]:
         """
         AUTOSAR-compliant getter for consistency.
-        
+
         Returns:
             The consistency value
-        
+
         Note:
             Delegates to consistency property (CODING_RULE_V2_00017)
         """

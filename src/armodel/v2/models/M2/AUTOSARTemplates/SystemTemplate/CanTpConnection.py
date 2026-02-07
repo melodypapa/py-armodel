@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CanTpConnection(TpConnection):
     """
     A connection identifies the sender and the receiver of this particular
     communication. The CanTp module routes a Pdu through this connection.
     atpVariation: Derived, because TpNode can vary.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 608, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class CanTpConnection(TpConnection):
     def addressing(self, value: Optional["CanTpAddressing"]) -> None:
         """
         Set addressing with validation.
-        
+
         Args:
             value: The addressing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class CanTpConnection(TpConnection):
     def cancellation(self, value: Optional["Boolean"]) -> None:
         """
         Set cancellation with validation.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class CanTpConnection(TpConnection):
     def can_tp_channel(self, value: Optional["CanTpChannel"]) -> None:
         """
         Set canTpChannel with validation.
-        
+
         Args:
             value: The canTpChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +113,10 @@ class CanTpConnection(TpConnection):
     def data_pdu(self, value: Optional["NPdu"]) -> None:
         """
         Set dataPdu with validation.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +141,10 @@ class CanTpConnection(TpConnection):
     def flow_control_pdu(self, value: Optional["NPdu"]) -> None:
         """
         Set flowControlPdu with validation.
-        
+
         Args:
             value: The flowControlPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class CanTpConnection(TpConnection):
     def max_block_size(self, value: Optional["Integer"]) -> None:
         """
         Set maxBlockSize with validation.
-        
+
         Args:
             value: The maxBlockSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +201,10 @@ class CanTpConnection(TpConnection):
     def multicast(self, value: Optional["CanTpAddress"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +234,10 @@ class CanTpConnection(TpConnection):
     def padding(self, value: Optional["Boolean"]) -> None:
         """
         Set padding with validation.
-        
+
         Args:
             value: The padding to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -270,10 +270,10 @@ class CanTpConnection(TpConnection):
     def ta_type_type(self, value: Optional["NetworkTargetAddress"]) -> None:
         """
         Set taTypeType with validation.
-        
+
         Args:
             value: The taTypeType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -300,10 +300,10 @@ class CanTpConnection(TpConnection):
     def timeout_br(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutBr with validation.
-        
+
         Args:
             value: The timeoutBr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -330,10 +330,10 @@ class CanTpConnection(TpConnection):
     def timeout_bs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutBs with validation.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -360,10 +360,10 @@ class CanTpConnection(TpConnection):
     def timeout_cr(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutCr with validation.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -389,10 +389,10 @@ class CanTpConnection(TpConnection):
     def timeout_cs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutCs with validation.
-        
+
         Args:
             value: The timeoutCs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -417,10 +417,10 @@ class CanTpConnection(TpConnection):
     def tp_sdu(self, value: Optional["IPdu"]) -> None:
         """
         Set tpSdu with validation.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -445,10 +445,10 @@ class CanTpConnection(TpConnection):
     def transmitter(self, value: Optional["CanTpNode"]) -> None:
         """
         Set transmitter with validation.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -467,10 +467,10 @@ class CanTpConnection(TpConnection):
     def getAddressing(self) -> "CanTpAddressing":
         """
         AUTOSAR-compliant getter for addressing.
-        
+
         Returns:
             The addressing value
-        
+
         Note:
             Delegates to addressing property (CODING_RULE_V2_00017)
         """
@@ -479,13 +479,13 @@ class CanTpConnection(TpConnection):
     def setAddressing(self, value: "CanTpAddressing") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for addressing with method chaining.
-        
+
         Args:
             value: The addressing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to addressing property setter (gets validation automatically)
         """
@@ -495,10 +495,10 @@ class CanTpConnection(TpConnection):
     def getCancellation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for cancellation.
-        
+
         Returns:
             The cancellation value
-        
+
         Note:
             Delegates to cancellation property (CODING_RULE_V2_00017)
         """
@@ -507,13 +507,13 @@ class CanTpConnection(TpConnection):
     def setCancellation(self, value: "Boolean") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cancellation property setter (gets validation automatically)
         """
@@ -523,10 +523,10 @@ class CanTpConnection(TpConnection):
     def getCanTpChannel(self) -> "CanTpChannel":
         """
         AUTOSAR-compliant getter for canTpChannel.
-        
+
         Returns:
             The canTpChannel value
-        
+
         Note:
             Delegates to can_tp_channel property (CODING_RULE_V2_00017)
         """
@@ -535,13 +535,13 @@ class CanTpConnection(TpConnection):
     def setCanTpChannel(self, value: "CanTpChannel") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for canTpChannel with method chaining.
-        
+
         Args:
             value: The canTpChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_tp_channel property setter (gets validation automatically)
         """
@@ -551,10 +551,10 @@ class CanTpConnection(TpConnection):
     def getDataPdu(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for dataPdu.
-        
+
         Returns:
             The dataPdu value
-        
+
         Note:
             Delegates to data_pdu property (CODING_RULE_V2_00017)
         """
@@ -563,13 +563,13 @@ class CanTpConnection(TpConnection):
     def setDataPdu(self, value: "NPdu") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for dataPdu with method chaining.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_pdu property setter (gets validation automatically)
         """
@@ -579,10 +579,10 @@ class CanTpConnection(TpConnection):
     def getFlowControlPdu(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for flowControlPdu.
-        
+
         Returns:
             The flowControlPdu value
-        
+
         Note:
             Delegates to flow_control_pdu property (CODING_RULE_V2_00017)
         """
@@ -591,13 +591,13 @@ class CanTpConnection(TpConnection):
     def setFlowControlPdu(self, value: "NPdu") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for flowControlPdu with method chaining.
-        
+
         Args:
             value: The flowControlPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_control_pdu property setter (gets validation automatically)
         """
@@ -607,10 +607,10 @@ class CanTpConnection(TpConnection):
     def getMaxBlockSize(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxBlockSize.
-        
+
         Returns:
             The maxBlockSize value
-        
+
         Note:
             Delegates to max_block_size property (CODING_RULE_V2_00017)
         """
@@ -619,13 +619,13 @@ class CanTpConnection(TpConnection):
     def setMaxBlockSize(self, value: "Integer") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for maxBlockSize with method chaining.
-        
+
         Args:
             value: The maxBlockSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_block_size property setter (gets validation automatically)
         """
@@ -635,10 +635,10 @@ class CanTpConnection(TpConnection):
     def getMulticast(self) -> "CanTpAddress":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -647,13 +647,13 @@ class CanTpConnection(TpConnection):
     def setMulticast(self, value: "CanTpAddress") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -663,10 +663,10 @@ class CanTpConnection(TpConnection):
     def getPadding(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for padding.
-        
+
         Returns:
             The padding value
-        
+
         Note:
             Delegates to padding property (CODING_RULE_V2_00017)
         """
@@ -675,13 +675,13 @@ class CanTpConnection(TpConnection):
     def setPadding(self, value: "Boolean") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for padding with method chaining.
-        
+
         Args:
             value: The padding to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to padding property setter (gets validation automatically)
         """
@@ -691,10 +691,10 @@ class CanTpConnection(TpConnection):
     def getReceiver(self) -> List["CanTpNode"]:
         """
         AUTOSAR-compliant getter for receiver.
-        
+
         Returns:
             The receiver value
-        
+
         Note:
             Delegates to receiver property (CODING_RULE_V2_00017)
         """
@@ -703,10 +703,10 @@ class CanTpConnection(TpConnection):
     def getTaTypeType(self) -> "NetworkTargetAddress":
         """
         AUTOSAR-compliant getter for taTypeType.
-        
+
         Returns:
             The taTypeType value
-        
+
         Note:
             Delegates to ta_type_type property (CODING_RULE_V2_00017)
         """
@@ -715,13 +715,13 @@ class CanTpConnection(TpConnection):
     def setTaTypeType(self, value: "NetworkTargetAddress") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for taTypeType with method chaining.
-        
+
         Args:
             value: The taTypeType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ta_type_type property setter (gets validation automatically)
         """
@@ -731,10 +731,10 @@ class CanTpConnection(TpConnection):
     def getTimeoutBr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutBr.
-        
+
         Returns:
             The timeoutBr value
-        
+
         Note:
             Delegates to timeout_br property (CODING_RULE_V2_00017)
         """
@@ -743,13 +743,13 @@ class CanTpConnection(TpConnection):
     def setTimeoutBr(self, value: "TimeValue") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for timeoutBr with method chaining.
-        
+
         Args:
             value: The timeoutBr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_br property setter (gets validation automatically)
         """
@@ -759,10 +759,10 @@ class CanTpConnection(TpConnection):
     def getTimeoutBs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutBs.
-        
+
         Returns:
             The timeoutBs value
-        
+
         Note:
             Delegates to timeout_bs property (CODING_RULE_V2_00017)
         """
@@ -771,13 +771,13 @@ class CanTpConnection(TpConnection):
     def setTimeoutBs(self, value: "TimeValue") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for timeoutBs with method chaining.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_bs property setter (gets validation automatically)
         """
@@ -787,10 +787,10 @@ class CanTpConnection(TpConnection):
     def getTimeoutCr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutCr.
-        
+
         Returns:
             The timeoutCr value
-        
+
         Note:
             Delegates to timeout_cr property (CODING_RULE_V2_00017)
         """
@@ -799,13 +799,13 @@ class CanTpConnection(TpConnection):
     def setTimeoutCr(self, value: "TimeValue") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_cr property setter (gets validation automatically)
         """
@@ -815,10 +815,10 @@ class CanTpConnection(TpConnection):
     def getTimeoutCs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutCs.
-        
+
         Returns:
             The timeoutCs value
-        
+
         Note:
             Delegates to timeout_cs property (CODING_RULE_V2_00017)
         """
@@ -827,13 +827,13 @@ class CanTpConnection(TpConnection):
     def setTimeoutCs(self, value: "TimeValue") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for timeoutCs with method chaining.
-        
+
         Args:
             value: The timeoutCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_cs property setter (gets validation automatically)
         """
@@ -843,10 +843,10 @@ class CanTpConnection(TpConnection):
     def getTpSdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for tpSdu.
-        
+
         Returns:
             The tpSdu value
-        
+
         Note:
             Delegates to tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -855,13 +855,13 @@ class CanTpConnection(TpConnection):
     def setTpSdu(self, value: "IPdu") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_sdu property setter (gets validation automatically)
         """
@@ -871,10 +871,10 @@ class CanTpConnection(TpConnection):
     def getTransmitter(self) -> "CanTpNode":
         """
         AUTOSAR-compliant getter for transmitter.
-        
+
         Returns:
             The transmitter value
-        
+
         Note:
             Delegates to transmitter property (CODING_RULE_V2_00017)
         """
@@ -883,13 +883,13 @@ class CanTpConnection(TpConnection):
     def setTransmitter(self, value: "CanTpNode") -> "CanTpConnection":
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmitter property setter (gets validation automatically)
         """
@@ -901,13 +901,13 @@ class CanTpConnection(TpConnection):
     def with_addressing(self, value: Optional["CanTpAddressing"]) -> "CanTpConnection":
         """
         Set addressing and return self for chaining.
-        
+
         Args:
             value: The addressing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_addressing("value")
         """
@@ -917,13 +917,13 @@ class CanTpConnection(TpConnection):
     def with_cancellation(self, value: Optional["Boolean"]) -> "CanTpConnection":
         """
         Set cancellation and return self for chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cancellation("value")
         """
@@ -933,13 +933,13 @@ class CanTpConnection(TpConnection):
     def with_can_tp_channel(self, value: Optional["CanTpChannel"]) -> "CanTpConnection":
         """
         Set canTpChannel and return self for chaining.
-        
+
         Args:
             value: The canTpChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_tp_channel("value")
         """
@@ -949,13 +949,13 @@ class CanTpConnection(TpConnection):
     def with_data_pdu(self, value: Optional["NPdu"]) -> "CanTpConnection":
         """
         Set dataPdu and return self for chaining.
-        
+
         Args:
             value: The dataPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_pdu("value")
         """
@@ -965,13 +965,13 @@ class CanTpConnection(TpConnection):
     def with_flow_control_pdu(self, value: Optional["NPdu"]) -> "CanTpConnection":
         """
         Set flowControlPdu and return self for chaining.
-        
+
         Args:
             value: The flowControlPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_control_pdu("value")
         """
@@ -981,13 +981,13 @@ class CanTpConnection(TpConnection):
     def with_max_block_size(self, value: Optional["Integer"]) -> "CanTpConnection":
         """
         Set maxBlockSize and return self for chaining.
-        
+
         Args:
             value: The maxBlockSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_block_size("value")
         """
@@ -997,13 +997,13 @@ class CanTpConnection(TpConnection):
     def with_multicast(self, value: Optional["CanTpAddress"]) -> "CanTpConnection":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -1013,13 +1013,13 @@ class CanTpConnection(TpConnection):
     def with_padding(self, value: Optional["Boolean"]) -> "CanTpConnection":
         """
         Set padding and return self for chaining.
-        
+
         Args:
             value: The padding to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_padding("value")
         """
@@ -1029,13 +1029,13 @@ class CanTpConnection(TpConnection):
     def with_ta_type_type(self, value: Optional["NetworkTargetAddress"]) -> "CanTpConnection":
         """
         Set taTypeType and return self for chaining.
-        
+
         Args:
             value: The taTypeType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ta_type_type("value")
         """
@@ -1045,13 +1045,13 @@ class CanTpConnection(TpConnection):
     def with_timeout_br(self, value: Optional["TimeValue"]) -> "CanTpConnection":
         """
         Set timeoutBr and return self for chaining.
-        
+
         Args:
             value: The timeoutBr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_br("value")
         """
@@ -1061,13 +1061,13 @@ class CanTpConnection(TpConnection):
     def with_timeout_bs(self, value: Optional["TimeValue"]) -> "CanTpConnection":
         """
         Set timeoutBs and return self for chaining.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_bs("value")
         """
@@ -1077,13 +1077,13 @@ class CanTpConnection(TpConnection):
     def with_timeout_cr(self, value: Optional["TimeValue"]) -> "CanTpConnection":
         """
         Set timeoutCr and return self for chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_cr("value")
         """
@@ -1093,13 +1093,13 @@ class CanTpConnection(TpConnection):
     def with_timeout_cs(self, value: Optional["TimeValue"]) -> "CanTpConnection":
         """
         Set timeoutCs and return self for chaining.
-        
+
         Args:
             value: The timeoutCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_cs("value")
         """
@@ -1109,13 +1109,13 @@ class CanTpConnection(TpConnection):
     def with_tp_sdu(self, value: Optional["IPdu"]) -> "CanTpConnection":
         """
         Set tpSdu and return self for chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_sdu("value")
         """
@@ -1125,13 +1125,13 @@ class CanTpConnection(TpConnection):
     def with_transmitter(self, value: Optional["CanTpNode"]) -> "CanTpConnection":
         """
         Set transmitter and return self for chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmitter("value")
         """

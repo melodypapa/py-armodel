@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component to provide
     information regarding the operation cycle management to the Dem module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticOperationCycleNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 761, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def operation_cycle(self, value: Optional["OperationCycleType"]) -> None:
         """
         Set operationCycle with validation.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def getOperationCycle(self) -> "OperationCycleType":
         """
         AUTOSAR-compliant getter for operationCycle.
-        
+
         Returns:
             The operationCycle value
-        
+
         Note:
             Delegates to operation_cycle property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def setOperationCycle(self, value: "OperationCycleType") -> "DiagnosticOperationCycleNeeds":
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_cycle property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     def with_operation_cycle(self, value: Optional["OperationCycleType"]) -> "DiagnosticOperationCycleNeeds":
         """
         Set operationCycle and return self for chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_cycle("value")
         """

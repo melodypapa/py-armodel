@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EthernetCommunicationConnector(CommunicationConnector):
     """
     Ethernet specific attributes to the CommunicationConnector.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 117, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def eth_ip_props(self, value: Optional["EthIpProps"]) -> None:
         """
         Set ethIpProps with validation.
-        
+
         Args:
             value: The ethIpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def maximum(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def neighbor_cache(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set neighborCache with validation.
-        
+
         Args:
             value: The neighborCache to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def path_mtu(self, value: Optional["Boolean"]) -> None:
         """
         Set pathMtu with validation.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +141,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def path_mtu_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set pathMtuTimeout with validation.
-        
+
         Args:
             value: The pathMtuTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +163,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getEthIpProps(self) -> "EthIpProps":
         """
         AUTOSAR-compliant getter for ethIpProps.
-        
+
         Returns:
             The ethIpProps value
-        
+
         Note:
             Delegates to eth_ip_props property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setEthIpProps(self, value: "EthIpProps") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for ethIpProps with method chaining.
-        
+
         Args:
             value: The ethIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to eth_ip_props property setter (gets validation automatically)
         """
@@ -191,10 +191,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getMaximum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -203,13 +203,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setMaximum(self, value: "PositiveInteger") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -219,10 +219,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getNeighborCache(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for neighborCache.
-        
+
         Returns:
             The neighborCache value
-        
+
         Note:
             Delegates to neighbor_cache property (CODING_RULE_V2_00017)
         """
@@ -231,13 +231,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setNeighborCache(self, value: "PositiveInteger") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for neighborCache with method chaining.
-        
+
         Args:
             value: The neighborCache to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to neighbor_cache property setter (gets validation automatically)
         """
@@ -247,10 +247,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getPathMtu(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for pathMtu.
-        
+
         Returns:
             The pathMtu value
-        
+
         Note:
             Delegates to path_mtu property (CODING_RULE_V2_00017)
         """
@@ -259,13 +259,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setPathMtu(self, value: "Boolean") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for pathMtu with method chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to path_mtu property setter (gets validation automatically)
         """
@@ -275,10 +275,10 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def getPathMtuTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pathMtuTimeout.
-        
+
         Returns:
             The pathMtuTimeout value
-        
+
         Note:
             Delegates to path_mtu_timeout property (CODING_RULE_V2_00017)
         """
@@ -287,13 +287,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setPathMtuTimeout(self, value: "TimeValue") -> "EthernetCommunicationConnector":
         """
         AUTOSAR-compliant setter for pathMtuTimeout with method chaining.
-        
+
         Args:
             value: The pathMtuTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to path_mtu_timeout property setter (gets validation automatically)
         """
@@ -305,13 +305,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_eth_ip_props(self, value: Optional["EthIpProps"]) -> "EthernetCommunicationConnector":
         """
         Set ethIpProps and return self for chaining.
-        
+
         Args:
             value: The ethIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_eth_ip_props("value")
         """
@@ -321,13 +321,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_maximum(self, value: Optional["PositiveInteger"]) -> "EthernetCommunicationConnector":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -337,13 +337,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_neighbor_cache(self, value: Optional["PositiveInteger"]) -> "EthernetCommunicationConnector":
         """
         Set neighborCache and return self for chaining.
-        
+
         Args:
             value: The neighborCache to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_neighbor_cache("value")
         """
@@ -353,13 +353,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_path_mtu(self, value: Optional["Boolean"]) -> "EthernetCommunicationConnector":
         """
         Set pathMtu and return self for chaining.
-        
+
         Args:
             value: The pathMtu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_path_mtu("value")
         """
@@ -369,13 +369,13 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def with_path_mtu_timeout(self, value: Optional["TimeValue"]) -> "EthernetCommunicationConnector":
         """
         Set pathMtuTimeout and return self for chaining.
-        
+
         Args:
             value: The pathMtuTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_path_mtu_timeout("value")
         """

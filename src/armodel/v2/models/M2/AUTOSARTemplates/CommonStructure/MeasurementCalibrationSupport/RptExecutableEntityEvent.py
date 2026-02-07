@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class RptExecutableEntityEvent(Identifiable):
     """
     This describes an ExecutableEntity event instance which can be bypassed.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptExecutableEntityEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 201, Classic
       Platform R23-11)
@@ -44,10 +46,10 @@ class RptExecutableEntityEvent(Identifiable):
     def rpt_event_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set rptEventId with validation.
-        
+
         Args:
             value: The rptEventId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +75,10 @@ class RptExecutableEntityEvent(Identifiable):
     def rpt_executable(self, value: Optional["RptExecutableEntity"]) -> None:
         """
         Set rptExecutable with validation.
-        
+
         Args:
             value: The rptExecutable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +103,10 @@ class RptExecutableEntityEvent(Identifiable):
     def rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> None:
         """
         Set rptImplPolicy with validation.
-        
+
         Args:
             value: The rptImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +133,10 @@ class RptExecutableEntityEvent(Identifiable):
     def getExecution(self) -> List["RptExecutionContext"]:
         """
         AUTOSAR-compliant getter for execution.
-        
+
         Returns:
             The execution value
-        
+
         Note:
             Delegates to execution property (CODING_RULE_V2_00017)
         """
@@ -143,10 +145,10 @@ class RptExecutableEntityEvent(Identifiable):
     def getMcData(self) -> List["RoleBasedMcData"]:
         """
         AUTOSAR-compliant getter for mcData.
-        
+
         Returns:
             The mcData value
-        
+
         Note:
             Delegates to mc_data property (CODING_RULE_V2_00017)
         """
@@ -155,10 +157,10 @@ class RptExecutableEntityEvent(Identifiable):
     def getRptEventId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for rptEventId.
-        
+
         Returns:
             The rptEventId value
-        
+
         Note:
             Delegates to rpt_event_id property (CODING_RULE_V2_00017)
         """
@@ -167,13 +169,13 @@ class RptExecutableEntityEvent(Identifiable):
     def setRptEventId(self, value: "PositiveInteger") -> "RptExecutableEntityEvent":
         """
         AUTOSAR-compliant setter for rptEventId with method chaining.
-        
+
         Args:
             value: The rptEventId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_event_id property setter (gets validation automatically)
         """
@@ -183,10 +185,10 @@ class RptExecutableEntityEvent(Identifiable):
     def getRptExecutable(self) -> "RptExecutableEntity":
         """
         AUTOSAR-compliant getter for rptExecutable.
-        
+
         Returns:
             The rptExecutable value
-        
+
         Note:
             Delegates to rpt_executable property (CODING_RULE_V2_00017)
         """
@@ -195,13 +197,13 @@ class RptExecutableEntityEvent(Identifiable):
     def setRptExecutable(self, value: "RptExecutableEntity") -> "RptExecutableEntityEvent":
         """
         AUTOSAR-compliant setter for rptExecutable with method chaining.
-        
+
         Args:
             value: The rptExecutable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_executable property setter (gets validation automatically)
         """
@@ -211,10 +213,10 @@ class RptExecutableEntityEvent(Identifiable):
     def getRptImplPolicy(self) -> "RptImplPolicy":
         """
         AUTOSAR-compliant getter for rptImplPolicy.
-        
+
         Returns:
             The rptImplPolicy value
-        
+
         Note:
             Delegates to rpt_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -223,13 +225,13 @@ class RptExecutableEntityEvent(Identifiable):
     def setRptImplPolicy(self, value: "RptImplPolicy") -> "RptExecutableEntityEvent":
         """
         AUTOSAR-compliant setter for rptImplPolicy with method chaining.
-        
+
         Args:
             value: The rptImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_impl_policy property setter (gets validation automatically)
         """
@@ -239,10 +241,10 @@ class RptExecutableEntityEvent(Identifiable):
     def getRptServicePoint(self) -> List["RptServicePoint"]:
         """
         AUTOSAR-compliant getter for rptServicePoint.
-        
+
         Returns:
             The rptServicePoint value
-        
+
         Note:
             Delegates to rpt_service_point property (CODING_RULE_V2_00017)
         """
@@ -253,13 +255,13 @@ class RptExecutableEntityEvent(Identifiable):
     def with_rpt_event_id(self, value: Optional["PositiveInteger"]) -> "RptExecutableEntityEvent":
         """
         Set rptEventId and return self for chaining.
-        
+
         Args:
             value: The rptEventId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_event_id("value")
         """
@@ -269,13 +271,13 @@ class RptExecutableEntityEvent(Identifiable):
     def with_rpt_executable(self, value: Optional["RptExecutableEntity"]) -> "RptExecutableEntityEvent":
         """
         Set rptExecutable and return self for chaining.
-        
+
         Args:
             value: The rptExecutable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_executable("value")
         """
@@ -285,13 +287,13 @@ class RptExecutableEntityEvent(Identifiable):
     def with_rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> "RptExecutableEntityEvent":
         """
         Set rptImplPolicy and return self for chaining.
-        
+
         Args:
             value: The rptImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_impl_policy("value")
         """

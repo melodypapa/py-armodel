@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     """
@@ -7,9 +7,9 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     CpSoftwareClusterResource with a DiagnosticData Element. This allows for
     indicating that the CpSoftwareClusterResource is used to convey the
     Diagnostic DataElement.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterResourceToDiagDataElemMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 273, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set diagnosticData with validation.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -94,13 +94,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -110,10 +110,10 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def getDiagnosticData(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for diagnosticData.
-        
+
         Returns:
             The diagnosticData value
-        
+
         Note:
             Delegates to diagnostic_data property (CODING_RULE_V2_00017)
         """
@@ -122,13 +122,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def setDiagnosticData(self, value: "DiagnosticDataElement") -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         AUTOSAR-compliant setter for diagnosticData with method chaining.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_data property setter (gets validation automatically)
         """
@@ -140,13 +140,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -156,13 +156,13 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> "CpSwClusterResourceToDiagDataElemMapping":
         """
         Set diagnosticData and return self for chaining.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_data("value")
         """

@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ISignalTriggering(Identifiable):
     """
     A ISignalTriggering allows an assignment of ISignals to physical channels.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 330, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 229, Classic Platform R23-11)
@@ -31,10 +35,10 @@ class ISignalTriggering(Identifiable):
     def i_signal(self, value: Optional["ISignal"]) -> None:
         """
         Set iSignal with validation.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class ISignalTriggering(Identifiable):
     def i_signal_group(self, value: RefType) -> None:
         """
         Set iSignalGroup with validation.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +92,10 @@ class ISignalTriggering(Identifiable):
     def getISignal(self) -> "ISignal":
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -100,13 +104,13 @@ class ISignalTriggering(Identifiable):
     def setISignal(self, value: "ISignal") -> "ISignalTriggering":
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -116,10 +120,10 @@ class ISignalTriggering(Identifiable):
     def getISignalGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for iSignalGroup.
-        
+
         Returns:
             The iSignalGroup value
-        
+
         Note:
             Delegates to i_signal_group property (CODING_RULE_V2_00017)
         """
@@ -128,13 +132,13 @@ class ISignalTriggering(Identifiable):
     def setISignalGroup(self, value: RefType) -> "ISignalTriggering":
         """
         AUTOSAR-compliant setter for iSignalGroup with method chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_group property setter (gets validation automatically)
         """
@@ -144,10 +148,10 @@ class ISignalTriggering(Identifiable):
     def getISignalPort(self) -> List["ISignalPort"]:
         """
         AUTOSAR-compliant getter for iSignalPort.
-        
+
         Returns:
             The iSignalPort value
-        
+
         Note:
             Delegates to i_signal_port property (CODING_RULE_V2_00017)
         """
@@ -158,13 +162,13 @@ class ISignalTriggering(Identifiable):
     def with_i_signal(self, value: Optional["ISignal"]) -> "ISignalTriggering":
         """
         Set iSignal and return self for chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal("value")
         """
@@ -174,13 +178,13 @@ class ISignalTriggering(Identifiable):
     def with_i_signal_group(self, value: Optional[RefType]) -> "ISignalTriggering":
         """
         Set iSignalGroup and return self for chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_group("value")
         """

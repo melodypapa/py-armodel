@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ExecutableEntityActivationReason(ImplementationProps):
     """
     This meta-class represents the ability to define the reason for the
     activation of the enclosing Executable Entity.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExecutableEntityActivationReason
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 315, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def bit_position(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitPosition with validation.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def getBitPosition(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitPosition.
-        
+
         Returns:
             The bitPosition value
-        
+
         Note:
             Delegates to bit_position property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def setBitPosition(self, value: "PositiveInteger") -> "ExecutableEntityActivationReason":
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_position property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class ExecutableEntityActivationReason(ImplementationProps):
     def with_bit_position(self, value: Optional["PositiveInteger"]) -> "ExecutableEntityActivationReason":
         """
         Set bitPosition and return self for chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_position("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class ApplicationDataType(AutosarDataType, ABC):
     """
@@ -10,9 +10,9 @@ class ApplicationDataType(AutosarDataType, ABC):
     details such as bit-size, endianess, etc. It should be possible to model the
     application level aspects of a VFB system by using ApplicationData Types
     only.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 302, Classic
       Platform R23-11)

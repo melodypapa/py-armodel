@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     """
     Specify a reference to an XML description of an entity described in another
     AUTOSAR template using the INSTANCE REFERENCE semantics.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucInstanceReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 77, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def destination(self, value: Optional["String"]) -> None:
         """
         Set destination with validation.
-        
+
         Args:
             value: The destination to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def destination_type(self, value: Optional["String"]) -> None:
         """
         Set destinationType with validation.
-        
+
         Args:
             value: The destinationType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def getDestination(self) -> "String":
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def setDestination(self, value: "String") -> "EcucInstanceReferenceDef":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def getDestinationType(self) -> "String":
         """
         AUTOSAR-compliant getter for destinationType.
-        
+
         Returns:
             The destinationType value
-        
+
         Note:
             Delegates to destination_type property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def setDestinationType(self, value: "String") -> "EcucInstanceReferenceDef":
         """
         AUTOSAR-compliant setter for destinationType with method chaining.
-        
+
         Args:
             value: The destinationType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_type property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def with_destination(self, value: Optional["String"]) -> "EcucInstanceReferenceDef":
         """
         Set destination and return self for chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination("value")
         """
@@ -151,13 +151,13 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     def with_destination_type(self, value: Optional["String"]) -> "EcucInstanceReferenceDef":
         """
         Set destinationType and return self for chaining.
-        
+
         Args:
             value: The destinationType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_type("value")
         """

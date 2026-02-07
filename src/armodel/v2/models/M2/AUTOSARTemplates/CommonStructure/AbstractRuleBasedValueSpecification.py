@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
     """
     This represents an abstract base class for all rule-based value
     specifications.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::AbstractRuleBasedValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 462, Classic Platform
       R23-11)

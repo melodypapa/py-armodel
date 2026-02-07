@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     """
     Specify references within the ECU Configuration Description between
     parameter containers.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 73, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 442, Foundation
@@ -30,10 +30,10 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     def destination(self, value: Optional["EcucContainerDef"]) -> None:
         """
         Set destination with validation.
-        
+
         Args:
             value: The destination to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     def getDestination(self) -> "EcucContainerDef":
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     def setDestination(self, value: "EcucContainerDef") -> "EcucReferenceDef":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     def with_destination(self, value: Optional["EcucContainerDef"]) -> "EcucReferenceDef":
         """
         Set destination and return self for chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination("value")
         """

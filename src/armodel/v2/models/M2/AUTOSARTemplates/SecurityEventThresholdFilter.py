@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     """
@@ -7,9 +7,9 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     each beginning of a configurable time interval) a configurable number of
     security events . All subsequently arriving security events (within the
     configured time interval) pass the filter.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventThresholdFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 26, Foundation R23-11)
     """
@@ -29,10 +29,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def interval_length(self, value: Optional["TimeValue"]) -> None:
         """
         Set intervalLength with validation.
-        
+
         Args:
             value: The intervalLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def threshold(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set threshold with validation.
-        
+
         Args:
             value: The threshold to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def getIntervalLength(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for intervalLength.
-        
+
         Returns:
             The intervalLength value
-        
+
         Note:
             Delegates to interval_length property (CODING_RULE_V2_00017)
         """
@@ -94,13 +94,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def setIntervalLength(self, value: "TimeValue") -> "SecurityEventThresholdFilter":
         """
         AUTOSAR-compliant setter for intervalLength with method chaining.
-        
+
         Args:
             value: The intervalLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interval_length property setter (gets validation automatically)
         """
@@ -110,10 +110,10 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def getThreshold(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for threshold.
-        
+
         Returns:
             The threshold value
-        
+
         Note:
             Delegates to threshold property (CODING_RULE_V2_00017)
         """
@@ -122,13 +122,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def setThreshold(self, value: "PositiveInteger") -> "SecurityEventThresholdFilter":
         """
         AUTOSAR-compliant setter for threshold with method chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold property setter (gets validation automatically)
         """
@@ -140,13 +140,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def with_interval_length(self, value: Optional["TimeValue"]) -> "SecurityEventThresholdFilter":
         """
         Set intervalLength and return self for chaining.
-        
+
         Args:
             value: The intervalLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interval_length("value")
         """
@@ -156,13 +156,13 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     def with_threshold(self, value: Optional["PositiveInteger"]) -> "SecurityEventThresholdFilter":
         """
         Set threshold and return self for chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold("value")
         """

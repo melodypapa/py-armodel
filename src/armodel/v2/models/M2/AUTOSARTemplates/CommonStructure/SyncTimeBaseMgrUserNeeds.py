@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     """
@@ -9,9 +7,9 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     software-component belong to this time-base in order to group the request
     and response ports of the same time-base. The actual time-base value is
     stored in the PortDefinedArgumentValue of the respective port specification.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SyncTimeBaseMgrUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic
       Platform R23-11)

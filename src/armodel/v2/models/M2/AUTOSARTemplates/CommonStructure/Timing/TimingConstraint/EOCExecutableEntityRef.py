@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     """
@@ -8,9 +8,9 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     to the Sw ComponentPrototype, via the ComponentInCompositionInstanceRef, the
     referenced ExecutableEntity belongs to, shall be provided as context
     information.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::EOCExecutableEntityRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 120, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def bsw_module(self, value: Optional["BswImplementation"]) -> None:
         """
         Set bswModule with validation.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def component_composition_instance_ref(self, value: Optional["SwComponent"]) -> None:
         """
         Set componentCompositionInstanceRef with validation.
-        
+
         Args:
             value: The componentCompositionInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def executable(self, value: Optional["ExecutableEntity"]) -> None:
         """
         Set executable with validation.
-        
+
         Args:
             value: The executable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getBswModule(self) -> "BswImplementation":
         """
         AUTOSAR-compliant getter for bswModule.
-        
+
         Returns:
             The bswModule value
-        
+
         Note:
             Delegates to bsw_module property (CODING_RULE_V2_00017)
         """
@@ -128,13 +128,13 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def setBswModule(self, value: "BswImplementation") -> "EOCExecutableEntityRef":
         """
         AUTOSAR-compliant setter for bswModule with method chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module property setter (gets validation automatically)
         """
@@ -144,10 +144,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getComponentCompositionInstanceRef(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for componentCompositionInstanceRef.
-        
+
         Returns:
             The componentCompositionInstanceRef value
-        
+
         Note:
             Delegates to component_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -156,13 +156,13 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def setComponentCompositionInstanceRef(self, value: "SwComponent") -> "EOCExecutableEntityRef":
         """
         AUTOSAR-compliant setter for componentCompositionInstanceRef with method chaining.
-        
+
         Args:
             value: The componentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to component_composition_instance_ref property setter (gets validation automatically)
         """
@@ -172,10 +172,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getExecutable(self) -> "ExecutableEntity":
         """
         AUTOSAR-compliant getter for executable.
-        
+
         Returns:
             The executable value
-        
+
         Note:
             Delegates to executable property (CODING_RULE_V2_00017)
         """
@@ -184,13 +184,13 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def setExecutable(self, value: "ExecutableEntity") -> "EOCExecutableEntityRef":
         """
         AUTOSAR-compliant setter for executable with method chaining.
-        
+
         Args:
             value: The executable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to executable property setter (gets validation automatically)
         """
@@ -200,10 +200,10 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getSuccessor(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for successor.
-        
+
         Returns:
             The successor value
-        
+
         Note:
             Delegates to successor property (CODING_RULE_V2_00017)
         """
@@ -214,13 +214,13 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def with_bsw_module(self, value: Optional["BswImplementation"]) -> "EOCExecutableEntityRef":
         """
         Set bswModule and return self for chaining.
-        
+
         Args:
             value: The bswModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module("value")
         """
@@ -230,13 +230,13 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "EOCExecutableEntityRef":
         """
         Set componentCompositionInstanceRef and return self for chaining.
-        
+
         Args:
             value: The componentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_component_composition_instance_ref("value")
         """
@@ -246,13 +246,13 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def with_executable(self, value: Optional["ExecutableEntity"]) -> "EOCExecutableEntityRef":
         """
         Set executable and return self for chaining.
-        
+
         Args:
             value: The executable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_executable("value")
         """

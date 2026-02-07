@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class Gateway(FibexElement):
     """
     A gateway is an ECU that is connected to two or more clusters (channels, but
     not redundant), and performs a frame, Pdu or signal mapping between them.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::Gateway
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 837, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class Gateway(FibexElement):
     def ecu(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecu with validation.
-        
+
         Args:
             value: The ecu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class Gateway(FibexElement):
     def getEcu(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecu.
-        
+
         Returns:
             The ecu value
-        
+
         Note:
             Delegates to ecu property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class Gateway(FibexElement):
     def setEcu(self, value: "EcuInstance") -> "Gateway":
         """
         AUTOSAR-compliant setter for ecu with method chaining.
-        
+
         Args:
             value: The ecu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class Gateway(FibexElement):
     def getFrameMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for frameMapping.
-        
+
         Returns:
             The frameMapping value
-        
+
         Note:
             Delegates to frame_mapping property (CODING_RULE_V2_00017)
         """
@@ -121,10 +124,10 @@ class Gateway(FibexElement):
     def getIPduMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iPduMapping.
-        
+
         Returns:
             The iPduMapping value
-        
+
         Note:
             Delegates to i_pdu_mapping property (CODING_RULE_V2_00017)
         """
@@ -133,10 +136,10 @@ class Gateway(FibexElement):
     def getSignalMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for signalMapping.
-        
+
         Returns:
             The signalMapping value
-        
+
         Note:
             Delegates to signal_mapping property (CODING_RULE_V2_00017)
         """
@@ -147,13 +150,13 @@ class Gateway(FibexElement):
     def with_ecu(self, value: Optional["EcuInstance"]) -> "Gateway":
         """
         Set ecu and return self for chaining.
-        
+
         Args:
             value: The ecu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu("value")
         """

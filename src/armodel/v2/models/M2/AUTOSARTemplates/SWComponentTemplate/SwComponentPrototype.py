@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwComponentPrototype(Identifiable):
     """
     Role of a software component within a composition.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::SwComponentPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 330, Classic Platform
       R23-11)
@@ -40,10 +42,10 @@ class SwComponentPrototype(Identifiable):
     def type(self, value: Optional["SwComponentType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +64,10 @@ class SwComponentPrototype(Identifiable):
     def getType(self) -> "SwComponentType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -74,13 +76,13 @@ class SwComponentPrototype(Identifiable):
     def setType(self, value: "SwComponentType") -> "SwComponentPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -92,13 +94,13 @@ class SwComponentPrototype(Identifiable):
     def with_type(self, value: Optional["SwComponentType"]) -> "SwComponentPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

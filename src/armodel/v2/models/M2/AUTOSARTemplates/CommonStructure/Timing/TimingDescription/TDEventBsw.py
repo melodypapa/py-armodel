@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class TDEventBsw(TimingDescriptionEvent, ABC):
     """
     This is used to describe timing events related to BSW modules.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBsw
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 251, Classic Platform R23-11)
     """
@@ -28,10 +29,10 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
     def bsw_module_description(self, value: Optional["BswModuleDescription"]) -> None:
         """
         Set bswModuleDescription with validation.
-        
+
         Args:
             value: The bswModuleDescription to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +51,10 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
     def getBswModuleDescription(self) -> "BswModuleDescription":
         """
         AUTOSAR-compliant getter for bswModuleDescription.
-        
+
         Returns:
             The bswModuleDescription value
-        
+
         Note:
             Delegates to bsw_module_description property (CODING_RULE_V2_00017)
         """
@@ -62,13 +63,13 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
     def setBswModuleDescription(self, value: "BswModuleDescription") -> "TDEventBsw":
         """
         AUTOSAR-compliant setter for bswModuleDescription with method chaining.
-        
+
         Args:
             value: The bswModuleDescription to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module_description property setter (gets validation automatically)
         """
@@ -80,13 +81,13 @@ class TDEventBsw(TimingDescriptionEvent, ABC):
     def with_bsw_module_description(self, value: Optional["BswModuleDescription"]) -> "TDEventBsw":
         """
         Set bswModuleDescription and return self for chaining.
-        
+
         Args:
             value: The bswModuleDescription to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module_description("value")
         """

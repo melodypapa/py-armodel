@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ConsumedEventGroup(Identifiable):
     """
     This element represents an event-group to which the service consumer wants
     to subscribe.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ConsumedEventGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 978, Classic Platform
       R23-11)
@@ -35,10 +39,10 @@ class ConsumedEventGroup(Identifiable):
     def application(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +71,10 @@ class ConsumedEventGroup(Identifiable):
     def auto_require(self, value: Optional["Boolean"]) -> None:
         """
         Set autoRequire with validation.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +100,10 @@ class ConsumedEventGroup(Identifiable):
     def event_group(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +156,10 @@ class ConsumedEventGroup(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +195,10 @@ class ConsumedEventGroup(Identifiable):
     def sd_client_config(self, value: Optional["SdClientConfig"]) -> None:
         """
         Set sdClientConfig with validation.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -220,10 +224,10 @@ class ConsumedEventGroup(Identifiable):
     def sd_client_timer(self, value: Optional["SomeipSdClientEvent"]) -> None:
         """
         Set sdClientTimer with validation.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -242,10 +246,10 @@ class ConsumedEventGroup(Identifiable):
     def getApplication(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -254,13 +258,13 @@ class ConsumedEventGroup(Identifiable):
     def setApplication(self, value: "ApplicationEndpoint") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -270,10 +274,10 @@ class ConsumedEventGroup(Identifiable):
     def getAutoRequire(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoRequire.
-        
+
         Returns:
             The autoRequire value
-        
+
         Note:
             Delegates to auto_require property (CODING_RULE_V2_00017)
         """
@@ -282,13 +286,13 @@ class ConsumedEventGroup(Identifiable):
     def setAutoRequire(self, value: "Boolean") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for autoRequire with method chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_require property setter (gets validation automatically)
         """
@@ -298,10 +302,10 @@ class ConsumedEventGroup(Identifiable):
     def getEventGroup(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -310,13 +314,13 @@ class ConsumedEventGroup(Identifiable):
     def setEventGroup(self, value: "PositiveInteger") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -326,10 +330,10 @@ class ConsumedEventGroup(Identifiable):
     def getEventMulticast(self) -> List["ApplicationEndpoint"]:
         """
         AUTOSAR-compliant getter for eventMulticast.
-        
+
         Returns:
             The eventMulticast value
-        
+
         Note:
             Delegates to event_multicast property (CODING_RULE_V2_00017)
         """
@@ -338,10 +342,10 @@ class ConsumedEventGroup(Identifiable):
     def getPduActivation(self) -> List["PduActivationRouting"]:
         """
         AUTOSAR-compliant getter for pduActivation.
-        
+
         Returns:
             The pduActivation value
-        
+
         Note:
             Delegates to pdu_activation property (CODING_RULE_V2_00017)
         """
@@ -350,10 +354,10 @@ class ConsumedEventGroup(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -362,13 +366,13 @@ class ConsumedEventGroup(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -378,10 +382,10 @@ class ConsumedEventGroup(Identifiable):
     def getRoutingGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for routingGroup.
-        
+
         Returns:
             The routingGroup value
-        
+
         Note:
             Delegates to routing_group property (CODING_RULE_V2_00017)
         """
@@ -390,10 +394,10 @@ class ConsumedEventGroup(Identifiable):
     def getSdClientConfig(self) -> "SdClientConfig":
         """
         AUTOSAR-compliant getter for sdClientConfig.
-        
+
         Returns:
             The sdClientConfig value
-        
+
         Note:
             Delegates to sd_client_config property (CODING_RULE_V2_00017)
         """
@@ -402,13 +406,13 @@ class ConsumedEventGroup(Identifiable):
     def setSdClientConfig(self, value: "SdClientConfig") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for sdClientConfig with method chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_config property setter (gets validation automatically)
         """
@@ -418,10 +422,10 @@ class ConsumedEventGroup(Identifiable):
     def getSdClientTimer(self) -> "SomeipSdClientEvent":
         """
         AUTOSAR-compliant getter for sdClientTimer.
-        
+
         Returns:
             The sdClientTimer value
-        
+
         Note:
             Delegates to sd_client_timer property (CODING_RULE_V2_00017)
         """
@@ -430,13 +434,13 @@ class ConsumedEventGroup(Identifiable):
     def setSdClientTimer(self, value: "SomeipSdClientEvent") -> "ConsumedEventGroup":
         """
         AUTOSAR-compliant setter for sdClientTimer with method chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_timer property setter (gets validation automatically)
         """
@@ -448,13 +452,13 @@ class ConsumedEventGroup(Identifiable):
     def with_application(self, value: Optional["ApplicationEndpoint"]) -> "ConsumedEventGroup":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -464,13 +468,13 @@ class ConsumedEventGroup(Identifiable):
     def with_auto_require(self, value: Optional["Boolean"]) -> "ConsumedEventGroup":
         """
         Set autoRequire and return self for chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_require("value")
         """
@@ -480,13 +484,13 @@ class ConsumedEventGroup(Identifiable):
     def with_event_group(self, value: Optional["PositiveInteger"]) -> "ConsumedEventGroup":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """
@@ -496,13 +500,13 @@ class ConsumedEventGroup(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ConsumedEventGroup":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -512,13 +516,13 @@ class ConsumedEventGroup(Identifiable):
     def with_sd_client_config(self, value: Optional["SdClientConfig"]) -> "ConsumedEventGroup":
         """
         Set sdClientConfig and return self for chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_config("value")
         """
@@ -528,13 +532,13 @@ class ConsumedEventGroup(Identifiable):
     def with_sd_client_timer(self, value: Optional["SomeipSdClientEvent"]) -> "ConsumedEventGroup":
         """
         Set sdClientTimer and return self for chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_timer("value")
         """

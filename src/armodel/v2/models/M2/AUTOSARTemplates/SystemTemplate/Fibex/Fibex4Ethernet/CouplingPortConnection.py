@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CouplingPortConnection(ARObject):
     """
     Connection between two CouplingPorts (firstPort and secondPort) or between a
     collection of Ports that are all referenced by the portCollection reference.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 112, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class CouplingPortConnection(ARObject):
     def first_port(self, value: Optional["CouplingPort"]) -> None:
         """
         Set firstPort with validation.
-        
+
         Args:
             value: The firstPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +70,10 @@ class CouplingPortConnection(ARObject):
     def plca_local_node(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaLocalNode with validation.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +99,10 @@ class CouplingPortConnection(ARObject):
     def plca_transmit(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaTransmit with validation.
-        
+
         Args:
             value: The plcaTransmit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +128,10 @@ class CouplingPortConnection(ARObject):
     def second_port(self, value: Optional["CouplingPort"]) -> None:
         """
         Set secondPort with validation.
-        
+
         Args:
             value: The secondPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class CouplingPortConnection(ARObject):
     def getFirstPort(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for firstPort.
-        
+
         Returns:
             The firstPort value
-        
+
         Note:
             Delegates to first_port property (CODING_RULE_V2_00017)
         """
@@ -159,13 +162,13 @@ class CouplingPortConnection(ARObject):
     def setFirstPort(self, value: "CouplingPort") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for firstPort with method chaining.
-        
+
         Args:
             value: The firstPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_port property setter (gets validation automatically)
         """
@@ -175,10 +178,10 @@ class CouplingPortConnection(ARObject):
     def getNodePort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for nodePort.
-        
+
         Returns:
             The nodePort value
-        
+
         Note:
             Delegates to node_port property (CODING_RULE_V2_00017)
         """
@@ -187,10 +190,10 @@ class CouplingPortConnection(ARObject):
     def getPlcaLocalNode(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaLocalNode.
-        
+
         Returns:
             The plcaLocalNode value
-        
+
         Note:
             Delegates to plca_local_node property (CODING_RULE_V2_00017)
         """
@@ -199,13 +202,13 @@ class CouplingPortConnection(ARObject):
     def setPlcaLocalNode(self, value: "PositiveInteger") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for plcaLocalNode with method chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_local_node property setter (gets validation automatically)
         """
@@ -215,10 +218,10 @@ class CouplingPortConnection(ARObject):
     def getPlcaTransmit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaTransmit.
-        
+
         Returns:
             The plcaTransmit value
-        
+
         Note:
             Delegates to plca_transmit property (CODING_RULE_V2_00017)
         """
@@ -227,13 +230,13 @@ class CouplingPortConnection(ARObject):
     def setPlcaTransmit(self, value: "PositiveInteger") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for plcaTransmit with method chaining.
-        
+
         Args:
             value: The plcaTransmit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_transmit property setter (gets validation automatically)
         """
@@ -243,10 +246,10 @@ class CouplingPortConnection(ARObject):
     def getSecondPort(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for secondPort.
-        
+
         Returns:
             The secondPort value
-        
+
         Note:
             Delegates to second_port property (CODING_RULE_V2_00017)
         """
@@ -255,13 +258,13 @@ class CouplingPortConnection(ARObject):
     def setSecondPort(self, value: "CouplingPort") -> "CouplingPortConnection":
         """
         AUTOSAR-compliant setter for secondPort with method chaining.
-        
+
         Args:
             value: The secondPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_port property setter (gets validation automatically)
         """
@@ -273,13 +276,13 @@ class CouplingPortConnection(ARObject):
     def with_first_port(self, value: Optional["CouplingPort"]) -> "CouplingPortConnection":
         """
         Set firstPort and return self for chaining.
-        
+
         Args:
             value: The firstPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_port("value")
         """
@@ -289,13 +292,13 @@ class CouplingPortConnection(ARObject):
     def with_plca_local_node(self, value: Optional["PositiveInteger"]) -> "CouplingPortConnection":
         """
         Set plcaLocalNode and return self for chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_local_node("value")
         """
@@ -305,13 +308,13 @@ class CouplingPortConnection(ARObject):
     def with_plca_transmit(self, value: Optional["PositiveInteger"]) -> "CouplingPortConnection":
         """
         Set plcaTransmit and return self for chaining.
-        
+
         Args:
             value: The plcaTransmit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_transmit("value")
         """
@@ -321,13 +324,13 @@ class CouplingPortConnection(ARObject):
     def with_second_port(self, value: Optional["CouplingPort"]) -> "CouplingPortConnection":
         """
         Set secondPort and return self for chaining.
-        
+
         Args:
             value: The secondPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_port("value")
         """

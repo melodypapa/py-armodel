@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CyclicTiming(Describable):
     """
     Specification of a cyclic sending behavior.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::CyclicTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 396, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class CyclicTiming(Describable):
     def time_offset(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set timeOffset with validation.
-        
+
         Args:
             value: The timeOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class CyclicTiming(Describable):
     def time_period(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set timePeriod with validation.
-        
+
         Args:
             value: The timePeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class CyclicTiming(Describable):
     def getTimeOffset(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for timeOffset.
-        
+
         Returns:
             The timeOffset value
-        
+
         Note:
             Delegates to time_offset property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class CyclicTiming(Describable):
     def setTimeOffset(self, value: "TimeRangeType") -> "CyclicTiming":
         """
         AUTOSAR-compliant setter for timeOffset with method chaining.
-        
+
         Args:
             value: The timeOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_offset property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class CyclicTiming(Describable):
     def getTimePeriod(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for timePeriod.
-        
+
         Returns:
             The timePeriod value
-        
+
         Note:
             Delegates to time_period property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class CyclicTiming(Describable):
     def setTimePeriod(self, value: "TimeRangeType") -> "CyclicTiming":
         """
         AUTOSAR-compliant setter for timePeriod with method chaining.
-        
+
         Args:
             value: The timePeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_period property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class CyclicTiming(Describable):
     def with_time_offset(self, value: Optional["TimeRangeType"]) -> "CyclicTiming":
         """
         Set timeOffset and return self for chaining.
-        
+
         Args:
             value: The timeOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_offset("value")
         """
@@ -152,13 +152,13 @@ class CyclicTiming(Describable):
     def with_time_period(self, value: Optional["TimeRangeType"]) -> "CyclicTiming":
         """
         Set timePeriod and return self for chaining.
-        
+
         Args:
             value: The timePeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_period("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CanNmClusterCoupling(NmClusterCoupling):
     """
     CAN attributes that are valid for each of the referenced (coupled) CAN
     clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 684, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def nm_busload_reduction_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmBusloadReductionEnabled with validation.
-        
+
         Args:
             value: The nmBusloadReductionEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def nm_immediate(self, value: Optional["Boolean"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def getCoupledCluster(self) -> List["CanNmCluster"]:
         """
         AUTOSAR-compliant getter for coupledCluster.
-        
+
         Returns:
             The coupledCluster value
-        
+
         Note:
             Delegates to coupled_cluster property (CODING_RULE_V2_00017)
         """
@@ -97,10 +97,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def getNmBusloadReductionEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmBusloadReductionEnabled.
-        
+
         Returns:
             The nmBusloadReductionEnabled value
-        
+
         Note:
             Delegates to nm_busload_reduction_enabled property (CODING_RULE_V2_00017)
         """
@@ -109,13 +109,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def setNmBusloadReductionEnabled(self, value: "Boolean") -> "CanNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmBusloadReductionEnabled with method chaining.
-        
+
         Args:
             value: The nmBusloadReductionEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_busload_reduction_enabled property setter (gets validation automatically)
         """
@@ -125,10 +125,10 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def getNmImmediate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -137,13 +137,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def setNmImmediate(self, value: "Boolean") -> "CanNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -155,13 +155,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def with_nm_busload_reduction_enabled(self, value: Optional["Boolean"]) -> "CanNmClusterCoupling":
         """
         Set nmBusloadReductionEnabled and return self for chaining.
-        
+
         Args:
             value: The nmBusloadReductionEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_busload_reduction_enabled("value")
         """
@@ -171,13 +171,13 @@ class CanNmClusterCoupling(NmClusterCoupling):
     def with_nm_immediate(self, value: Optional["Boolean"]) -> "CanNmClusterCoupling":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TimingConditionFormula(ARObject):
     """
     A TimingConditionFormula describes a specific dependency. The expression
     shall be a boolean expression addressing modes, variables, arguments, and/or
     events.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingConditionFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class TimingConditionFormula(ARObject):
     def timing_argument_argument_instance(self, value: Optional["AutosarOperation"]) -> None:
         """
         Set timingArgumentArgumentInstance with validation.
-        
+
         Args:
             value: The timingArgumentArgumentInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class TimingConditionFormula(ARObject):
     def timing_condition(self, value: Optional["TimingCondition"]) -> None:
         """
         Set timingCondition with validation.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class TimingConditionFormula(ARObject):
     def timing_event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set timingEvent with validation.
-        
+
         Args:
             value: The timingEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class TimingConditionFormula(ARObject):
     def timing_mode(self, value: Optional["TimingModeInstance"]) -> None:
         """
         Set timingMode with validation.
-        
+
         Args:
             value: The timingMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +145,10 @@ class TimingConditionFormula(ARObject):
     def timing_variable_instance(self, value: Optional["AutosarVariable"]) -> None:
         """
         Set timingVariableInstance with validation.
-        
+
         Args:
             value: The timingVariableInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +167,10 @@ class TimingConditionFormula(ARObject):
     def getTimingArgumentArgumentInstance(self) -> "AutosarOperation":
         """
         AUTOSAR-compliant getter for timingArgumentArgumentInstance.
-        
+
         Returns:
             The timingArgumentArgumentInstance value
-        
+
         Note:
             Delegates to timing_argument_argument_instance property (CODING_RULE_V2_00017)
         """
@@ -176,13 +179,13 @@ class TimingConditionFormula(ARObject):
     def setTimingArgumentArgumentInstance(self, value: "AutosarOperation") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingArgumentArgumentInstance with method chaining.
-        
+
         Args:
             value: The timingArgumentArgumentInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_argument_argument_instance property setter (gets validation automatically)
         """
@@ -192,10 +195,10 @@ class TimingConditionFormula(ARObject):
     def getTimingCondition(self) -> "TimingCondition":
         """
         AUTOSAR-compliant getter for timingCondition.
-        
+
         Returns:
             The timingCondition value
-        
+
         Note:
             Delegates to timing_condition property (CODING_RULE_V2_00017)
         """
@@ -204,13 +207,13 @@ class TimingConditionFormula(ARObject):
     def setTimingCondition(self, value: "TimingCondition") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_condition property setter (gets validation automatically)
         """
@@ -220,10 +223,10 @@ class TimingConditionFormula(ARObject):
     def getTimingEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for timingEvent.
-        
+
         Returns:
             The timingEvent value
-        
+
         Note:
             Delegates to timing_event property (CODING_RULE_V2_00017)
         """
@@ -232,13 +235,13 @@ class TimingConditionFormula(ARObject):
     def setTimingEvent(self, value: "TimingDescriptionEvent") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
-        
+
         Args:
             value: The timingEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_event property setter (gets validation automatically)
         """
@@ -248,10 +251,10 @@ class TimingConditionFormula(ARObject):
     def getTimingMode(self) -> "TimingModeInstance":
         """
         AUTOSAR-compliant getter for timingMode.
-        
+
         Returns:
             The timingMode value
-        
+
         Note:
             Delegates to timing_mode property (CODING_RULE_V2_00017)
         """
@@ -260,13 +263,13 @@ class TimingConditionFormula(ARObject):
     def setTimingMode(self, value: "TimingModeInstance") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingMode with method chaining.
-        
+
         Args:
             value: The timingMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_mode property setter (gets validation automatically)
         """
@@ -276,10 +279,10 @@ class TimingConditionFormula(ARObject):
     def getTimingVariableInstance(self) -> "AutosarVariable":
         """
         AUTOSAR-compliant getter for timingVariableInstance.
-        
+
         Returns:
             The timingVariableInstance value
-        
+
         Note:
             Delegates to timing_variable_instance property (CODING_RULE_V2_00017)
         """
@@ -288,13 +291,13 @@ class TimingConditionFormula(ARObject):
     def setTimingVariableInstance(self, value: "AutosarVariable") -> "TimingConditionFormula":
         """
         AUTOSAR-compliant setter for timingVariableInstance with method chaining.
-        
+
         Args:
             value: The timingVariableInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_variable_instance property setter (gets validation automatically)
         """
@@ -306,13 +309,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_argument_argument_instance(self, value: Optional["AutosarOperation"]) -> "TimingConditionFormula":
         """
         Set timingArgumentArgumentInstance and return self for chaining.
-        
+
         Args:
             value: The timingArgumentArgumentInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_argument_argument_instance("value")
         """
@@ -322,13 +325,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingConditionFormula":
         """
         Set timingCondition and return self for chaining.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_condition("value")
         """
@@ -338,13 +341,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_event(self, value: Optional["TimingDescriptionEvent"]) -> "TimingConditionFormula":
         """
         Set timingEvent and return self for chaining.
-        
+
         Args:
             value: The timingEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_event("value")
         """
@@ -354,13 +357,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_mode(self, value: Optional["TimingModeInstance"]) -> "TimingConditionFormula":
         """
         Set timingMode and return self for chaining.
-        
+
         Args:
             value: The timingMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_mode("value")
         """
@@ -370,13 +373,13 @@ class TimingConditionFormula(ARObject):
     def with_timing_variable_instance(self, value: Optional["AutosarVariable"]) -> "TimingConditionFormula":
         """
         Set timingVariableInstance and return self for chaining.
-        
+
         Args:
             value: The timingVariableInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_variable_instance("value")
         """

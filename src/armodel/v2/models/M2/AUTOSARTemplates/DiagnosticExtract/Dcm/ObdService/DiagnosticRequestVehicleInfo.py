@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x09 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x09_RequestVehicleInformation::DiagnosticRequestVehicleInfo
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 160, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def info_type(self, value: Optional["DiagnosticInfoType"]) -> None:
         """
         Set infoType with validation.
-        
+
         Args:
             value: The infoType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def request_vehicle(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestVehicle with validation.
-        
+
         Args:
             value: The requestVehicle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def getInfoType(self) -> "DiagnosticInfoType":
         """
         AUTOSAR-compliant getter for infoType.
-        
+
         Returns:
             The infoType value
-        
+
         Note:
             Delegates to info_type property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def setInfoType(self, value: "DiagnosticInfoType") -> "DiagnosticRequestVehicleInfo":
         """
         AUTOSAR-compliant setter for infoType with method chaining.
-        
+
         Args:
             value: The infoType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to info_type property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def getRequestVehicle(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestVehicle.
-        
+
         Returns:
             The requestVehicle value
-        
+
         Note:
             Delegates to request_vehicle property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def setRequestVehicle(self, value: "DiagnosticRequest") -> "DiagnosticRequestVehicleInfo":
         """
         AUTOSAR-compliant setter for requestVehicle with method chaining.
-        
+
         Args:
             value: The requestVehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_vehicle property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def with_info_type(self, value: Optional["DiagnosticInfoType"]) -> "DiagnosticRequestVehicleInfo":
         """
         Set infoType and return self for chaining.
-        
+
         Args:
             value: The infoType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_info_type("value")
         """
@@ -154,13 +154,13 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
     def with_request_vehicle(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestVehicleInfo":
         """
         Set requestVehicle and return self for chaining.
-        
+
         Args:
             value: The requestVehicle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_vehicle("value")
         """

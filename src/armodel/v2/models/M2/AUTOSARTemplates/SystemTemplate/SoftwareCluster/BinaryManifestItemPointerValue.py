@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     """
     This meta-class has the ability to provide a value for a pointer in the
     context of a binary manifest item.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItemPointerValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 922, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def address(self, value: Optional["Address"]) -> None:
         """
         Set address with validation.
-        
+
         Args:
             value: The address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def symbol(self, value: Optional["SymbolString"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def getAddress(self) -> "Address":
         """
         AUTOSAR-compliant getter for address.
-        
+
         Returns:
             The address value
-        
+
         Note:
             Delegates to address property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def setAddress(self, value: "Address") -> "BinaryManifestItemPointerValue":
         """
         AUTOSAR-compliant setter for address with method chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def getSymbol(self) -> "SymbolString":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def setSymbol(self, value: "SymbolString") -> "BinaryManifestItemPointerValue":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def with_address(self, value: Optional["Address"]) -> "BinaryManifestItemPointerValue":
         """
         Set address and return self for chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address("value")
         """
@@ -151,13 +151,13 @@ class BinaryManifestItemPointerValue(BinaryManifestItemValue):
     def with_symbol(self, value: Optional["SymbolString"]) -> "BinaryManifestItemPointerValue":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

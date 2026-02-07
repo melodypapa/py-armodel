@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TriggerIPduSendCondition(ARObject):
     """
     The condition defined by this class evaluates to true if one of the
     referenced modeDeclarations (OR associated) is active. The condition is used
     to define when the Pdu is triggered with the Com_Trigger IPDUSend API call.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TriggerIPduSendCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 399, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class TriggerIPduSendCondition(ARObject):
     def getMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """

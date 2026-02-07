@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TcpTp(TcpUdpConfig):
     """
     Content Model for TCP configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 460, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TcpTp(TcpUdpConfig):
     def keep_alive(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set keepAlive with validation.
-        
+
         Args:
             value: The keepAlive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class TcpTp(TcpUdpConfig):
     def keep_alives(self, value: Optional["Boolean"]) -> None:
         """
         Set keepAlives with validation.
-        
+
         Args:
             value: The keepAlives to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class TcpTp(TcpUdpConfig):
     def keep_alive_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set keepAliveTime with validation.
-        
+
         Args:
             value: The keepAliveTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class TcpTp(TcpUdpConfig):
     def nagles_algorithm(self, value: Optional["Boolean"]) -> None:
         """
         Set naglesAlgorithm with validation.
-        
+
         Args:
             value: The naglesAlgorithm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +140,10 @@ class TcpTp(TcpUdpConfig):
     def receive_window_min(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set receiveWindowMin with validation.
-        
+
         Args:
             value: The receiveWindowMin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +169,10 @@ class TcpTp(TcpUdpConfig):
     def tcp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcp with validation.
-        
+
         Args:
             value: The tcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -197,10 +197,10 @@ class TcpTp(TcpUdpConfig):
     def tcp_tp_port(self, value: Optional["TpPort"]) -> None:
         """
         Set tcpTpPort with validation.
-        
+
         Args:
             value: The tcpTpPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -219,10 +219,10 @@ class TcpTp(TcpUdpConfig):
     def getKeepAlive(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for keepAlive.
-        
+
         Returns:
             The keepAlive value
-        
+
         Note:
             Delegates to keep_alive property (CODING_RULE_V2_00017)
         """
@@ -231,13 +231,13 @@ class TcpTp(TcpUdpConfig):
     def setKeepAlive(self, value: "PositiveInteger") -> "TcpTp":
         """
         AUTOSAR-compliant setter for keepAlive with method chaining.
-        
+
         Args:
             value: The keepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_alive property setter (gets validation automatically)
         """
@@ -247,10 +247,10 @@ class TcpTp(TcpUdpConfig):
     def getKeepAlives(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for keepAlives.
-        
+
         Returns:
             The keepAlives value
-        
+
         Note:
             Delegates to keep_alives property (CODING_RULE_V2_00017)
         """
@@ -259,13 +259,13 @@ class TcpTp(TcpUdpConfig):
     def setKeepAlives(self, value: "Boolean") -> "TcpTp":
         """
         AUTOSAR-compliant setter for keepAlives with method chaining.
-        
+
         Args:
             value: The keepAlives to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_alives property setter (gets validation automatically)
         """
@@ -275,10 +275,10 @@ class TcpTp(TcpUdpConfig):
     def getKeepAliveTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for keepAliveTime.
-        
+
         Returns:
             The keepAliveTime value
-        
+
         Note:
             Delegates to keep_alive_time property (CODING_RULE_V2_00017)
         """
@@ -287,13 +287,13 @@ class TcpTp(TcpUdpConfig):
     def setKeepAliveTime(self, value: "TimeValue") -> "TcpTp":
         """
         AUTOSAR-compliant setter for keepAliveTime with method chaining.
-        
+
         Args:
             value: The keepAliveTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_alive_time property setter (gets validation automatically)
         """
@@ -303,10 +303,10 @@ class TcpTp(TcpUdpConfig):
     def getNaglesAlgorithm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for naglesAlgorithm.
-        
+
         Returns:
             The naglesAlgorithm value
-        
+
         Note:
             Delegates to nagles_algorithm property (CODING_RULE_V2_00017)
         """
@@ -315,13 +315,13 @@ class TcpTp(TcpUdpConfig):
     def setNaglesAlgorithm(self, value: "Boolean") -> "TcpTp":
         """
         AUTOSAR-compliant setter for naglesAlgorithm with method chaining.
-        
+
         Args:
             value: The naglesAlgorithm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nagles_algorithm property setter (gets validation automatically)
         """
@@ -331,10 +331,10 @@ class TcpTp(TcpUdpConfig):
     def getReceiveWindowMin(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for receiveWindowMin.
-        
+
         Returns:
             The receiveWindowMin value
-        
+
         Note:
             Delegates to receive_window_min property (CODING_RULE_V2_00017)
         """
@@ -343,13 +343,13 @@ class TcpTp(TcpUdpConfig):
     def setReceiveWindowMin(self, value: "PositiveInteger") -> "TcpTp":
         """
         AUTOSAR-compliant setter for receiveWindowMin with method chaining.
-        
+
         Args:
             value: The receiveWindowMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to receive_window_min property setter (gets validation automatically)
         """
@@ -359,10 +359,10 @@ class TcpTp(TcpUdpConfig):
     def getTcp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcp.
-        
+
         Returns:
             The tcp value
-        
+
         Note:
             Delegates to tcp property (CODING_RULE_V2_00017)
         """
@@ -371,13 +371,13 @@ class TcpTp(TcpUdpConfig):
     def setTcp(self, value: "TimeValue") -> "TcpTp":
         """
         AUTOSAR-compliant setter for tcp with method chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp property setter (gets validation automatically)
         """
@@ -387,10 +387,10 @@ class TcpTp(TcpUdpConfig):
     def getTcpTpPort(self) -> "TpPort":
         """
         AUTOSAR-compliant getter for tcpTpPort.
-        
+
         Returns:
             The tcpTpPort value
-        
+
         Note:
             Delegates to tcp_tp_port property (CODING_RULE_V2_00017)
         """
@@ -399,13 +399,13 @@ class TcpTp(TcpUdpConfig):
     def setTcpTpPort(self, value: "TpPort") -> "TcpTp":
         """
         AUTOSAR-compliant setter for tcpTpPort with method chaining.
-        
+
         Args:
             value: The tcpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_tp_port property setter (gets validation automatically)
         """
@@ -417,13 +417,13 @@ class TcpTp(TcpUdpConfig):
     def with_keep_alive(self, value: Optional["PositiveInteger"]) -> "TcpTp":
         """
         Set keepAlive and return self for chaining.
-        
+
         Args:
             value: The keepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_alive("value")
         """
@@ -433,13 +433,13 @@ class TcpTp(TcpUdpConfig):
     def with_keep_alives(self, value: Optional["Boolean"]) -> "TcpTp":
         """
         Set keepAlives and return self for chaining.
-        
+
         Args:
             value: The keepAlives to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_alives("value")
         """
@@ -449,13 +449,13 @@ class TcpTp(TcpUdpConfig):
     def with_keep_alive_time(self, value: Optional["TimeValue"]) -> "TcpTp":
         """
         Set keepAliveTime and return self for chaining.
-        
+
         Args:
             value: The keepAliveTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_alive_time("value")
         """
@@ -465,13 +465,13 @@ class TcpTp(TcpUdpConfig):
     def with_nagles_algorithm(self, value: Optional["Boolean"]) -> "TcpTp":
         """
         Set naglesAlgorithm and return self for chaining.
-        
+
         Args:
             value: The naglesAlgorithm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nagles_algorithm("value")
         """
@@ -481,13 +481,13 @@ class TcpTp(TcpUdpConfig):
     def with_receive_window_min(self, value: Optional["PositiveInteger"]) -> "TcpTp":
         """
         Set receiveWindowMin and return self for chaining.
-        
+
         Args:
             value: The receiveWindowMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_receive_window_min("value")
         """
@@ -497,13 +497,13 @@ class TcpTp(TcpUdpConfig):
     def with_tcp(self, value: Optional["TimeValue"]) -> "TcpTp":
         """
         Set tcp and return self for chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp("value")
         """
@@ -513,13 +513,13 @@ class TcpTp(TcpUdpConfig):
     def with_tcp_tp_port(self, value: Optional["TpPort"]) -> "TcpTp":
         """
         Set tcpTpPort and return self for chaining.
-        
+
         Args:
             value: The tcpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_tp_port("value")
         """

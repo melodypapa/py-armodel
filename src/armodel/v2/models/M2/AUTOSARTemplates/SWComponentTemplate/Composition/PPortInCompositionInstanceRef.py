@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::PPortInCompositionInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 951, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def context(self, value: Optional["SwComponent"]) -> None:
         """
         Set context with validation.
-        
+
         Args:
             value: The context to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def target_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set targetPPortPrototype with validation.
-        
+
         Args:
             value: The targetPPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def getContext(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def setContext(self, value: "SwComponent") -> "PPortInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for context with method chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def getTargetPPortPrototype(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for targetPPortPrototype.
-        
+
         Returns:
             The targetPPortPrototype value
-        
+
         Note:
             Delegates to target_p_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def setTargetPPortPrototype(self, value: "AbstractProvidedPort") -> "PPortInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetPPortPrototype with method chaining.
-        
+
         Args:
             value: The targetPPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_p_port_prototype property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def with_context(self, value: Optional["SwComponent"]) -> "PPortInCompositionInstanceRef":
         """
         Set context and return self for chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context("value")
         """
@@ -152,13 +152,13 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def with_target_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PPortInCompositionInstanceRef":
         """
         Set targetPPortPrototype and return self for chaining.
-        
+
         Args:
             value: The targetPPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_p_port_prototype("value")
         """

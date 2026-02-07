@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BinaryManifestItemDefinition(Identifiable):
     """
     This meta-class provides the ability to define the handle definition or an
     auxiliary field of a binary manifest resource.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItemDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 920, Classic Platform R23-11)
     """
@@ -37,10 +39,10 @@ class BinaryManifestItemDefinition(Identifiable):
     def is_optional(self, value: Optional["Boolean"]) -> None:
         """
         Set isOptional with validation.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +67,10 @@ class BinaryManifestItemDefinition(Identifiable):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +89,10 @@ class BinaryManifestItemDefinition(Identifiable):
     def getAuxiliaryField(self) -> List["BinaryManifestItem"]:
         """
         AUTOSAR-compliant getter for auxiliaryField.
-        
+
         Returns:
             The auxiliaryField value
-        
+
         Note:
             Delegates to auxiliary_field property (CODING_RULE_V2_00017)
         """
@@ -99,10 +101,10 @@ class BinaryManifestItemDefinition(Identifiable):
     def getIsOptional(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isOptional.
-        
+
         Returns:
             The isOptional value
-        
+
         Note:
             Delegates to is_optional property (CODING_RULE_V2_00017)
         """
@@ -111,13 +113,13 @@ class BinaryManifestItemDefinition(Identifiable):
     def setIsOptional(self, value: "Boolean") -> "BinaryManifestItemDefinition":
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_optional property setter (gets validation automatically)
         """
@@ -127,10 +129,10 @@ class BinaryManifestItemDefinition(Identifiable):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -139,13 +141,13 @@ class BinaryManifestItemDefinition(Identifiable):
     def setSize(self, value: "PositiveInteger") -> "BinaryManifestItemDefinition":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -157,13 +159,13 @@ class BinaryManifestItemDefinition(Identifiable):
     def with_is_optional(self, value: Optional["Boolean"]) -> "BinaryManifestItemDefinition":
         """
         Set isOptional and return self for chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_optional("value")
         """
@@ -173,13 +175,13 @@ class BinaryManifestItemDefinition(Identifiable):
     def with_size(self, value: Optional["PositiveInteger"]) -> "BinaryManifestItemDefinition":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticProtocol(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a diagnostic protocol.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticProtocol
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 58, Classic Platform
       R23-11)
@@ -39,10 +39,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +67,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def protocol_kind(self, value: Optional["NameToken"]) -> None:
         """
         Set protocolKind with validation.
-        
+
         Args:
             value: The protocolKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def send_resp_pend(self, value: Optional["Boolean"]) -> None:
         """
         Set sendRespPend with validation.
-        
+
         Args:
             value: The sendRespPend to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def service_table(self, value: Optional["DiagnosticServiceTable"]) -> None:
         """
         Set serviceTable with validation.
-        
+
         Args:
             value: The serviceTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -148,10 +148,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def getDiagnostic(self) -> List["DiagnosticConnection"]:
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -160,10 +160,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -172,13 +172,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def setPriority(self, value: "PositiveInteger") -> "DiagnosticProtocol":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -188,10 +188,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def getProtocolKind(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for protocolKind.
-        
+
         Returns:
             The protocolKind value
-        
+
         Note:
             Delegates to protocol_kind property (CODING_RULE_V2_00017)
         """
@@ -200,13 +200,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def setProtocolKind(self, value: "NameToken") -> "DiagnosticProtocol":
         """
         AUTOSAR-compliant setter for protocolKind with method chaining.
-        
+
         Args:
             value: The protocolKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol_kind property setter (gets validation automatically)
         """
@@ -216,10 +216,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def getSendRespPend(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for sendRespPend.
-        
+
         Returns:
             The sendRespPend value
-        
+
         Note:
             Delegates to send_resp_pend property (CODING_RULE_V2_00017)
         """
@@ -228,13 +228,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def setSendRespPend(self, value: "Boolean") -> "DiagnosticProtocol":
         """
         AUTOSAR-compliant setter for sendRespPend with method chaining.
-        
+
         Args:
             value: The sendRespPend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to send_resp_pend property setter (gets validation automatically)
         """
@@ -244,10 +244,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def getServiceTable(self) -> "DiagnosticServiceTable":
         """
         AUTOSAR-compliant getter for serviceTable.
-        
+
         Returns:
             The serviceTable value
-        
+
         Note:
             Delegates to service_table property (CODING_RULE_V2_00017)
         """
@@ -256,13 +256,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def setServiceTable(self, value: "DiagnosticServiceTable") -> "DiagnosticProtocol":
         """
         AUTOSAR-compliant setter for serviceTable with method chaining.
-        
+
         Args:
             value: The serviceTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_table property setter (gets validation automatically)
         """
@@ -274,13 +274,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "DiagnosticProtocol":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -290,13 +290,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def with_protocol_kind(self, value: Optional["NameToken"]) -> "DiagnosticProtocol":
         """
         Set protocolKind and return self for chaining.
-        
+
         Args:
             value: The protocolKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol_kind("value")
         """
@@ -306,13 +306,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def with_send_resp_pend(self, value: Optional["Boolean"]) -> "DiagnosticProtocol":
         """
         Set sendRespPend and return self for chaining.
-        
+
         Args:
             value: The sendRespPend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_send_resp_pend("value")
         """
@@ -322,13 +322,13 @@ class DiagnosticProtocol(DiagnosticCommonElement):
     def with_service_table(self, value: Optional["DiagnosticServiceTable"]) -> "DiagnosticProtocol":
         """
         Set serviceTable and return self for chaining.
-        
+
         Args:
             value: The serviceTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_table("value")
         """

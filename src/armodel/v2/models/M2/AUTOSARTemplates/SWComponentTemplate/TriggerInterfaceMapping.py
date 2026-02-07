@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TriggerInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of unequal named Triggers in context of two different
     TriggerInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TriggerInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 134, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
     def getTriggerMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for triggerMapping.
-        
+
         Returns:
             The triggerMapping value
-        
+
         Note:
             Delegates to trigger_mapping property (CODING_RULE_V2_00017)
         """

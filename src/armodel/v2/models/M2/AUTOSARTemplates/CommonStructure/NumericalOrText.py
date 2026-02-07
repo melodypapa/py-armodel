@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class NumericalOrText(ARObject):
     """
@@ -9,9 +12,9 @@ class NumericalOrText(ARObject):
     are aggregated with a VariationPoint where some instances yield strings
     while other instances yield numerical depending on the resolution of the
     binding expression.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::NumericalOrText
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 323, Classic
       Platform R23-11)
@@ -35,10 +38,10 @@ class NumericalOrText(ARObject):
     def vf(self, value: Optional["Numerical"]) -> None:
         """
         Set vf with validation.
-        
+
         Args:
             value: The vf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +66,10 @@ class NumericalOrText(ARObject):
     def vt(self, value: Optional["String"]) -> None:
         """
         Set vt with validation.
-        
+
         Args:
             value: The vt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class NumericalOrText(ARObject):
     def getVf(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for vf.
-        
+
         Returns:
             The vf value
-        
+
         Note:
             Delegates to vf property (CODING_RULE_V2_00017)
         """
@@ -97,13 +100,13 @@ class NumericalOrText(ARObject):
     def setVf(self, value: "Numerical") -> "NumericalOrText":
         """
         AUTOSAR-compliant setter for vf with method chaining.
-        
+
         Args:
             value: The vf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vf property setter (gets validation automatically)
         """
@@ -113,10 +116,10 @@ class NumericalOrText(ARObject):
     def getVt(self) -> "String":
         """
         AUTOSAR-compliant getter for vt.
-        
+
         Returns:
             The vt value
-        
+
         Note:
             Delegates to vt property (CODING_RULE_V2_00017)
         """
@@ -125,13 +128,13 @@ class NumericalOrText(ARObject):
     def setVt(self, value: "String") -> "NumericalOrText":
         """
         AUTOSAR-compliant setter for vt with method chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vt property setter (gets validation automatically)
         """
@@ -143,13 +146,13 @@ class NumericalOrText(ARObject):
     def with_vf(self, value: Optional["Numerical"]) -> "NumericalOrText":
         """
         Set vf and return self for chaining.
-        
+
         Args:
             value: The vf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vf("value")
         """
@@ -159,13 +162,13 @@ class NumericalOrText(ARObject):
     def with_vt(self, value: Optional["String"]) -> "NumericalOrText":
         """
         Set vt and return self for chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vt("value")
         """

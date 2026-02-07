@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CpSoftwareClusterResource(Identifiable, ABC):
     """
     Represents a single resource required or provided by a CP Software Cluster.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 271, Classic Platform
       R23-11)
@@ -42,10 +45,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def global_resource(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set globalResource with validation.
-        
+
         Args:
             value: The globalResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +75,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def is_mandatory(self, value: Optional["Boolean"]) -> None:
         """
         Set isMandatory with validation.
-        
+
         Args:
             value: The isMandatory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +97,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def getDependent(self) -> List["RoleBasedResource"]:
         """
         AUTOSAR-compliant getter for dependent.
-        
+
         Returns:
             The dependent value
-        
+
         Note:
             Delegates to dependent property (CODING_RULE_V2_00017)
         """
@@ -106,10 +109,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def getGlobalResource(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for globalResource.
-        
+
         Returns:
             The globalResource value
-        
+
         Note:
             Delegates to global_resource property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def setGlobalResource(self, value: "PositiveInteger") -> "CpSoftwareClusterResource":
         """
         AUTOSAR-compliant setter for globalResource with method chaining.
-        
+
         Args:
             value: The globalResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_resource property setter (gets validation automatically)
         """
@@ -134,10 +137,10 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def getIsMandatory(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isMandatory.
-        
+
         Returns:
             The isMandatory value
-        
+
         Note:
             Delegates to is_mandatory property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def setIsMandatory(self, value: "Boolean") -> "CpSoftwareClusterResource":
         """
         AUTOSAR-compliant setter for isMandatory with method chaining.
-        
+
         Args:
             value: The isMandatory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_mandatory property setter (gets validation automatically)
         """
@@ -164,13 +167,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def with_global_resource(self, value: Optional["PositiveInteger"]) -> "CpSoftwareClusterResource":
         """
         Set globalResource and return self for chaining.
-        
+
         Args:
             value: The globalResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_resource("value")
         """
@@ -180,13 +183,13 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     def with_is_mandatory(self, value: Optional["Boolean"]) -> "CpSoftwareClusterResource":
         """
         Set isMandatory and return self for chaining.
-        
+
         Args:
             value: The isMandatory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_mandatory("value")
         """

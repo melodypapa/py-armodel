@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SystemTiming(TimingExtension):
     """
@@ -9,9 +9,9 @@ class SystemTiming(TimingExtension):
     TimingDescriptions aggregated by SystemTiming are restricted to events which
     are derived from the class TDEventVfb, TDEventSwcInternalBehavior and
     TDEventCom.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::SystemTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 26, Classic Platform R23-11)
     """
@@ -32,10 +32,10 @@ class SystemTiming(TimingExtension):
     def system(self, value: Optional["System"]) -> None:
         """
         Set system with validation.
-        
+
         Args:
             value: The system to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class SystemTiming(TimingExtension):
     def getSystem(self) -> "System":
         """
         AUTOSAR-compliant getter for system.
-        
+
         Returns:
             The system value
-        
+
         Note:
             Delegates to system property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class SystemTiming(TimingExtension):
     def setSystem(self, value: "System") -> "SystemTiming":
         """
         AUTOSAR-compliant setter for system with method chaining.
-        
+
         Args:
             value: The system to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class SystemTiming(TimingExtension):
     def with_system(self, value: Optional["System"]) -> "SystemTiming":
         """
         Set system and return self for chaining.
-        
+
         Args:
             value: The system to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system("value")
         """

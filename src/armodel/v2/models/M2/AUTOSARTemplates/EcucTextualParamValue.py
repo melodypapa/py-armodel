@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucTextualParamValue(EcucParameterValue):
     """
     Holding a value which is not subject to variation.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucTextualParamValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 127, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 443, Foundation
@@ -29,10 +29,10 @@ class EcucTextualParamValue(EcucParameterValue):
     def value(self, value: Optional["VerbatimString"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class EcucTextualParamValue(EcucParameterValue):
     def getValue(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class EcucTextualParamValue(EcucParameterValue):
     def setValue(self, value: "VerbatimString") -> "EcucTextualParamValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class EcucTextualParamValue(EcucParameterValue):
     def with_value(self, value: Optional["VerbatimString"]) -> "EcucTextualParamValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

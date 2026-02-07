@@ -1,7 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class FormulaExpression(ARObject, ABC):
     """
@@ -9,9 +15,9 @@ class FormulaExpression(ARObject, ABC):
     modeled as an abstract class in order to be specialized into particular use
     cases. For each use case the referable objects might be specified in the
     specialization.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::FormulaLanguage::FormulaExpression
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 223, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 73, Foundation
@@ -46,10 +52,10 @@ class FormulaExpression(ARObject, ABC):
     def getAtpReference(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for atpReference.
-        
+
         Returns:
             The atpReference value
-        
+
         Note:
             Delegates to atp_reference property (CODING_RULE_V2_00017)
         """
@@ -58,10 +64,10 @@ class FormulaExpression(ARObject, ABC):
     def getAtpString(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for atpString.
-        
+
         Returns:
             The atpString value
-        
+
         Note:
             Delegates to atp_string property (CODING_RULE_V2_00017)
         """

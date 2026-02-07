@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ClassTailoring(ARObject, ABC):
     """
     The ClassTailoring is an abstract class that allows the tailoring of its
     attributes, applicable constraints and Sdgs.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ClassTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 102, Foundation R23-11)
     """
@@ -38,10 +42,10 @@ class ClassTailoring(ARObject, ABC):
     def multiplicity(self, value: Optional["MultiplicityRestriction"]) -> None:
         """
         Set multiplicity with validation.
-        
+
         Args:
             value: The multiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +72,10 @@ class ClassTailoring(ARObject, ABC):
     def variation(self, value: Optional["VariationRestrictionWith"]) -> None:
         """
         Set variation with validation.
-        
+
         Args:
             value: The variation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +94,10 @@ class ClassTailoring(ARObject, ABC):
     def getClassContent(self) -> List["ClassContent"]:
         """
         AUTOSAR-compliant getter for classContent.
-        
+
         Returns:
             The classContent value
-        
+
         Note:
             Delegates to class_content property (CODING_RULE_V2_00017)
         """
@@ -102,10 +106,10 @@ class ClassTailoring(ARObject, ABC):
     def getMultiplicity(self) -> "MultiplicityRestriction":
         """
         AUTOSAR-compliant getter for multiplicity.
-        
+
         Returns:
             The multiplicity value
-        
+
         Note:
             Delegates to multiplicity property (CODING_RULE_V2_00017)
         """
@@ -114,13 +118,13 @@ class ClassTailoring(ARObject, ABC):
     def setMultiplicity(self, value: "MultiplicityRestriction") -> "ClassTailoring":
         """
         AUTOSAR-compliant setter for multiplicity with method chaining.
-        
+
         Args:
             value: The multiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multiplicity property setter (gets validation automatically)
         """
@@ -130,10 +134,10 @@ class ClassTailoring(ARObject, ABC):
     def getVariation(self) -> "VariationRestrictionWith":
         """
         AUTOSAR-compliant getter for variation.
-        
+
         Returns:
             The variation value
-        
+
         Note:
             Delegates to variation property (CODING_RULE_V2_00017)
         """
@@ -142,13 +146,13 @@ class ClassTailoring(ARObject, ABC):
     def setVariation(self, value: "VariationRestrictionWith") -> "ClassTailoring":
         """
         AUTOSAR-compliant setter for variation with method chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variation property setter (gets validation automatically)
         """
@@ -160,13 +164,13 @@ class ClassTailoring(ARObject, ABC):
     def with_multiplicity(self, value: Optional["MultiplicityRestriction"]) -> "ClassTailoring":
         """
         Set multiplicity and return self for chaining.
-        
+
         Args:
             value: The multiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multiplicity("value")
         """
@@ -176,13 +180,13 @@ class ClassTailoring(ARObject, ABC):
     def with_variation(self, value: Optional["VariationRestrictionWith"]) -> "ClassTailoring":
         """
         Set variation and return self for chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variation("value")
         """

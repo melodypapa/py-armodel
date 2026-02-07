@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DdsCpDomain(Identifiable):
     """
     Definition of a DDS Domain.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpDomain
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 526, Classic Platform R23-11)
     """
@@ -42,10 +44,10 @@ class DdsCpDomain(Identifiable):
     def domain_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set domainId with validation.
-        
+
         Args:
             value: The domainId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +66,10 @@ class DdsCpDomain(Identifiable):
     def getDdsPartition(self) -> List["DdsCpPartition"]:
         """
         AUTOSAR-compliant getter for ddsPartition.
-        
+
         Returns:
             The ddsPartition value
-        
+
         Note:
             Delegates to dds_partition property (CODING_RULE_V2_00017)
         """
@@ -76,10 +78,10 @@ class DdsCpDomain(Identifiable):
     def getDdsTopic(self) -> List["DdsCpTopic"]:
         """
         AUTOSAR-compliant getter for ddsTopic.
-        
+
         Returns:
             The ddsTopic value
-        
+
         Note:
             Delegates to dds_topic property (CODING_RULE_V2_00017)
         """
@@ -88,10 +90,10 @@ class DdsCpDomain(Identifiable):
     def getDomainId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for domainId.
-        
+
         Returns:
             The domainId value
-        
+
         Note:
             Delegates to domain_id property (CODING_RULE_V2_00017)
         """
@@ -100,13 +102,13 @@ class DdsCpDomain(Identifiable):
     def setDomainId(self, value: "PositiveInteger") -> "DdsCpDomain":
         """
         AUTOSAR-compliant setter for domainId with method chaining.
-        
+
         Args:
             value: The domainId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to domain_id property setter (gets validation automatically)
         """
@@ -118,13 +120,13 @@ class DdsCpDomain(Identifiable):
     def with_domain_id(self, value: Optional["PositiveInteger"]) -> "DdsCpDomain":
         """
         Set domainId and return self for chaining.
-        
+
         Args:
             value: The domainId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_domain_id("value")
         """

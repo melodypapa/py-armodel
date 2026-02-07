@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class TransformationDescription(Describable, ABC):
     """
     The TransformationDescription is the abstract class that can be used by
     specific transformers to add transformer specific properties.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationDescription
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 199, Classic Platform
       R23-11)

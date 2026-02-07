@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IPduTiming(Describable):
     """
@@ -12,9 +12,9 @@ class IPduTiming(Describable):
     Template). The Transmission Mode Selector is defined to be true, if at least
     one Condition evaluates to true and is defined to be false, if all
     Conditions evaluate to false.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPduTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 348, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class IPduTiming(Describable):
     def minimum_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumDelay with validation.
-        
+
         Args:
             value: The minimumDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class IPduTiming(Describable):
     def transmission(self, value: Optional["TransmissionMode"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class IPduTiming(Describable):
     def getMinimumDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumDelay.
-        
+
         Returns:
             The minimumDelay value
-        
+
         Note:
             Delegates to minimum_delay property (CODING_RULE_V2_00017)
         """
@@ -100,13 +100,13 @@ class IPduTiming(Describable):
     def setMinimumDelay(self, value: "TimeValue") -> "IPduTiming":
         """
         AUTOSAR-compliant setter for minimumDelay with method chaining.
-        
+
         Args:
             value: The minimumDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_delay property setter (gets validation automatically)
         """
@@ -116,10 +116,10 @@ class IPduTiming(Describable):
     def getTransmission(self) -> "TransmissionMode":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -128,13 +128,13 @@ class IPduTiming(Describable):
     def setTransmission(self, value: "TransmissionMode") -> "IPduTiming":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -146,13 +146,13 @@ class IPduTiming(Describable):
     def with_minimum_delay(self, value: Optional["TimeValue"]) -> "IPduTiming":
         """
         Set minimumDelay and return self for chaining.
-        
+
         Args:
             value: The minimumDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_delay("value")
         """
@@ -162,13 +162,13 @@ class IPduTiming(Describable):
     def with_transmission(self, value: Optional["TransmissionMode"]) -> "IPduTiming":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """

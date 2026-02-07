@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class AssignNad(LinConfigurationEntry):
     """
     Schedule entry for an Assign NAD master request.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::AssignNad
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 438, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class AssignNad(LinConfigurationEntry):
     def new_nad(self, value: Optional["Integer"]) -> None:
         """
         Set newNad with validation.
-        
+
         Args:
             value: The newNad to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class AssignNad(LinConfigurationEntry):
     def getNewNad(self) -> "Integer":
         """
         AUTOSAR-compliant getter for newNad.
-        
+
         Returns:
             The newNad value
-        
+
         Note:
             Delegates to new_nad property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class AssignNad(LinConfigurationEntry):
     def setNewNad(self, value: "Integer") -> "AssignNad":
         """
         AUTOSAR-compliant setter for newNad with method chaining.
-        
+
         Args:
             value: The newNad to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to new_nad property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class AssignNad(LinConfigurationEntry):
     def with_new_nad(self, value: Optional["Integer"]) -> "AssignNad":
         """
         Set newNad and return self for chaining.
-        
+
         Args:
             value: The newNad to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_new_nad("value")
         """

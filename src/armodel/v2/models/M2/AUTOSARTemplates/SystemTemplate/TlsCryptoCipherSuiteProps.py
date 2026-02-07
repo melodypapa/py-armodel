@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TlsCryptoCipherSuiteProps(Identifiable):
     """
     This meta-class provides attributes to specify details of TLS Cipher Suites.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsCryptoCipherSuiteProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 563, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def tcp_ip_tls_use(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpTlsUse with validation.
-        
+
         Args:
             value: The tcpIpTlsUse to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def getTcpIpTlsUse(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpTlsUse.
-        
+
         Returns:
             The tcpIpTlsUse value
-        
+
         Note:
             Delegates to tcp_ip_tls_use property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def setTcpIpTlsUse(self, value: "Boolean") -> "TlsCryptoCipherSuiteProps":
         """
         AUTOSAR-compliant setter for tcpIpTlsUse with method chaining.
-        
+
         Args:
             value: The tcpIpTlsUse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_tls_use property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     def with_tcp_ip_tls_use(self, value: Optional["Boolean"]) -> "TlsCryptoCipherSuiteProps":
         """
         Set tcpIpTlsUse and return self for chaining.
-        
+
         Args:
             value: The tcpIpTlsUse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_tls_use("value")
         """

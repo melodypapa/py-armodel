@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DdsCpPartition(Identifiable):
     """
     Definition of a DDS Partition.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpPartition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 527, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class DdsCpPartition(Identifiable):
     def partition_name(self, value: Optional["String"]) -> None:
         """
         Set partitionName with validation.
-        
+
         Args:
             value: The partitionName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class DdsCpPartition(Identifiable):
     def getPartitionName(self) -> "String":
         """
         AUTOSAR-compliant getter for partitionName.
-        
+
         Returns:
             The partitionName value
-        
+
         Note:
             Delegates to partition_name property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class DdsCpPartition(Identifiable):
     def setPartitionName(self, value: "String") -> "DdsCpPartition":
         """
         AUTOSAR-compliant setter for partitionName with method chaining.
-        
+
         Args:
             value: The partitionName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to partition_name property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class DdsCpPartition(Identifiable):
     def with_partition_name(self, value: Optional["String"]) -> "DdsCpPartition":
         """
         Set partitionName and return self for chaining.
-        
+
         Args:
             value: The partitionName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_partition_name("value")
         """

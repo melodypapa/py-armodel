@@ -1,12 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::RVariableInAtomicSwcInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 943, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set contextRPortPrototype with validation.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def target_data_element(self, value: RefType) -> None:
         """
         Set targetDataElement with validation.
-        
+
         Args:
             value: The targetDataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def getContextRPortPrototype(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for contextRPortPrototype.
-        
+
         Returns:
             The contextRPortPrototype value
-        
+
         Note:
             Delegates to context_r_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -87,13 +90,13 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RVariableInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_r_port_prototype property setter (gets validation automatically)
         """
@@ -103,10 +106,10 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def getTargetDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetDataElement.
-        
+
         Returns:
             The targetDataElement value
-        
+
         Note:
             Delegates to target_data_element property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def setTargetDataElement(self, value: RefType) -> "RVariableInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for targetDataElement with method chaining.
-        
+
         Args:
             value: The targetDataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data_element property setter (gets validation automatically)
         """
@@ -133,13 +136,13 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RVariableInAtomicSwcInstanceRef":
         """
         Set contextRPortPrototype and return self for chaining.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_r_port_prototype("value")
         """
@@ -149,13 +152,13 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def with_target_data_element(self, value: Optional[RefType]) -> "RVariableInAtomicSwcInstanceRef":
         """
         Set targetDataElement and return self for chaining.
-        
+
         Args:
             value: The targetDataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data_element("value")
         """

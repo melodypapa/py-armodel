@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
     """
     Describes a primitive numerical special data attribute with variation. This
     class accepts a special data "sdf" element.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgPrimitiveAttributeWithVariation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation
       R23-11)

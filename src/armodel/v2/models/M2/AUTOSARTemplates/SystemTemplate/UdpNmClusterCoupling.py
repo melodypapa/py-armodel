@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class UdpNmClusterCoupling(NmClusterCoupling):
     """
     Udp attributes that are valid for each of the referenced (coupled) UdpNm
     clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)
     """
@@ -35,10 +35,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def nm_immediate(self, value: Optional["Boolean"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def getCoupledCluster(self) -> List["UdpNmCluster"]:
         """
         AUTOSAR-compliant getter for coupledCluster.
-        
+
         Returns:
             The coupledCluster value
-        
+
         Note:
             Delegates to coupled_cluster property (CODING_RULE_V2_00017)
         """
@@ -69,10 +69,10 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def getNmImmediate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -81,13 +81,13 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def setNmImmediate(self, value: "Boolean") -> "UdpNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -99,13 +99,13 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def with_nm_immediate(self, value: Optional["Boolean"]) -> "UdpNmClusterCoupling":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """

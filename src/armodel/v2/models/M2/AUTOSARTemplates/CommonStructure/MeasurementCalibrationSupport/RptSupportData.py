@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RptSupportData(ARObject):
     """
@@ -8,9 +11,9 @@ class RptSupportData(ARObject):
     Implementation artifact on an ECU, in particular the RTE. The rapid
     prototyping support data may reference to elements provided for Mc
     SupportData.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptSupportData
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 198, Classic
       Platform R23-11)
@@ -48,10 +51,10 @@ class RptSupportData(ARObject):
     def getExecution(self) -> List["RptExecutionContext"]:
         """
         AUTOSAR-compliant getter for execution.
-        
+
         Returns:
             The execution value
-        
+
         Note:
             Delegates to execution property (CODING_RULE_V2_00017)
         """
@@ -60,10 +63,10 @@ class RptSupportData(ARObject):
     def getRptComponent(self) -> List["RptComponent"]:
         """
         AUTOSAR-compliant getter for rptComponent.
-        
+
         Returns:
             The rptComponent value
-        
+
         Note:
             Delegates to rpt_component property (CODING_RULE_V2_00017)
         """
@@ -72,10 +75,10 @@ class RptSupportData(ARObject):
     def getRptServicePoint(self) -> List["RptServicePoint"]:
         """
         AUTOSAR-compliant getter for rptServicePoint.
-        
+
         Returns:
             The rptServicePoint value
-        
+
         Note:
             Delegates to rpt_service_point property (CODING_RULE_V2_00017)
         """

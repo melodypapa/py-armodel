@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticFimEventGroup(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model a Fim event group, also
     known as a summary event in Fim terminology. This represents a group of
     single diagnostic events.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimEventGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 217, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
     def getEvent(self) -> List["DiagnosticEvent"]:
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """

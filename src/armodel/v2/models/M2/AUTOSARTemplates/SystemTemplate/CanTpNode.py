@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CanTpNode(Identifiable):
     """
     TP Node (Sender or Receiver) provides the TP Address and the connection to
     the Topology description.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 611, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class CanTpNode(Identifiable):
     def connector(self, value: Optional["Communication"]) -> None:
         """
         Set connector with validation.
-        
+
         Args:
             value: The connector to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +63,10 @@ class CanTpNode(Identifiable):
     def max_fc_wait(self, value: Optional["Integer"]) -> None:
         """
         Set maxFcWait with validation.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +92,10 @@ class CanTpNode(Identifiable):
     def st_min(self, value: Optional["TimeValue"]) -> None:
         """
         Set stMin with validation.
-        
+
         Args:
             value: The stMin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +123,10 @@ class CanTpNode(Identifiable):
     def timeout_ar(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAr with validation.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +156,10 @@ class CanTpNode(Identifiable):
     def timeout_as(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAs with validation.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -183,10 +185,10 @@ class CanTpNode(Identifiable):
     def tp_address(self, value: Optional["CanTpAddress"]) -> None:
         """
         Set tpAddress with validation.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +207,10 @@ class CanTpNode(Identifiable):
     def getConnector(self) -> "Communication":
         """
         AUTOSAR-compliant getter for connector.
-        
+
         Returns:
             The connector value
-        
+
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -217,13 +219,13 @@ class CanTpNode(Identifiable):
     def setConnector(self, value: "Communication") -> "CanTpNode":
         """
         AUTOSAR-compliant setter for connector with method chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connector property setter (gets validation automatically)
         """
@@ -233,10 +235,10 @@ class CanTpNode(Identifiable):
     def getMaxFcWait(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxFcWait.
-        
+
         Returns:
             The maxFcWait value
-        
+
         Note:
             Delegates to max_fc_wait property (CODING_RULE_V2_00017)
         """
@@ -245,13 +247,13 @@ class CanTpNode(Identifiable):
     def setMaxFcWait(self, value: "Integer") -> "CanTpNode":
         """
         AUTOSAR-compliant setter for maxFcWait with method chaining.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_fc_wait property setter (gets validation automatically)
         """
@@ -261,10 +263,10 @@ class CanTpNode(Identifiable):
     def getStMin(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for stMin.
-        
+
         Returns:
             The stMin value
-        
+
         Note:
             Delegates to st_min property (CODING_RULE_V2_00017)
         """
@@ -273,13 +275,13 @@ class CanTpNode(Identifiable):
     def setStMin(self, value: "TimeValue") -> "CanTpNode":
         """
         AUTOSAR-compliant setter for stMin with method chaining.
-        
+
         Args:
             value: The stMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to st_min property setter (gets validation automatically)
         """
@@ -289,10 +291,10 @@ class CanTpNode(Identifiable):
     def getTimeoutAr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAr.
-        
+
         Returns:
             The timeoutAr value
-        
+
         Note:
             Delegates to timeout_ar property (CODING_RULE_V2_00017)
         """
@@ -301,13 +303,13 @@ class CanTpNode(Identifiable):
     def setTimeoutAr(self, value: "TimeValue") -> "CanTpNode":
         """
         AUTOSAR-compliant setter for timeoutAr with method chaining.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_ar property setter (gets validation automatically)
         """
@@ -317,10 +319,10 @@ class CanTpNode(Identifiable):
     def getTimeoutAs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAs.
-        
+
         Returns:
             The timeoutAs value
-        
+
         Note:
             Delegates to timeout_as property (CODING_RULE_V2_00017)
         """
@@ -329,13 +331,13 @@ class CanTpNode(Identifiable):
     def setTimeoutAs(self, value: "TimeValue") -> "CanTpNode":
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_as property setter (gets validation automatically)
         """
@@ -345,10 +347,10 @@ class CanTpNode(Identifiable):
     def getTpAddress(self) -> "CanTpAddress":
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -357,13 +359,13 @@ class CanTpNode(Identifiable):
     def setTpAddress(self, value: "CanTpAddress") -> "CanTpNode":
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_address property setter (gets validation automatically)
         """
@@ -375,13 +377,13 @@ class CanTpNode(Identifiable):
     def with_connector(self, value: Optional["Communication"]) -> "CanTpNode":
         """
         Set connector and return self for chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connector("value")
         """
@@ -391,13 +393,13 @@ class CanTpNode(Identifiable):
     def with_max_fc_wait(self, value: Optional["Integer"]) -> "CanTpNode":
         """
         Set maxFcWait and return self for chaining.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_fc_wait("value")
         """
@@ -407,13 +409,13 @@ class CanTpNode(Identifiable):
     def with_st_min(self, value: Optional["TimeValue"]) -> "CanTpNode":
         """
         Set stMin and return self for chaining.
-        
+
         Args:
             value: The stMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_st_min("value")
         """
@@ -423,13 +425,13 @@ class CanTpNode(Identifiable):
     def with_timeout_ar(self, value: Optional["TimeValue"]) -> "CanTpNode":
         """
         Set timeoutAr and return self for chaining.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_ar("value")
         """
@@ -439,13 +441,13 @@ class CanTpNode(Identifiable):
     def with_timeout_as(self, value: Optional["TimeValue"]) -> "CanTpNode":
         """
         Set timeoutAs and return self for chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_as("value")
         """
@@ -455,13 +457,13 @@ class CanTpNode(Identifiable):
     def with_tp_address(self, value: Optional["CanTpAddress"]) -> "CanTpNode":
         """
         Set tpAddress and return self for chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_address("value")
         """

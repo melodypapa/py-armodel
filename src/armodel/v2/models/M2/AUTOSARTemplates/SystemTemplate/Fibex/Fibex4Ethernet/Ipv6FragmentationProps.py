@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv6FragmentationProps(ARObject):
     """
     This meta-class specifies the configuration options for IPv6 packet
     fragmentation/reassembly.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6FragmentationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 148, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpIp with validation.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip_reassembly_buffer_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpReassemblyBufferSize with validation.
-        
+
         Args:
             value: The tcpIpIpReassemblyBufferSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip_tx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpTx with validation.
-        
+
         Args:
             value: The tcpIpIpTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class Ipv6FragmentationProps(ARObject):
     def tcp_ip_ip_tx_fragment_buffer_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpTxFragmentBufferSize with validation.
-        
+
         Args:
             value: The tcpIpIpTxFragmentBufferSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +139,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpIp.
-        
+
         Returns:
             The tcpIpIp value
-        
+
         Note:
             Delegates to tcp_ip_ip property (CODING_RULE_V2_00017)
         """
@@ -148,13 +151,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIp(self, value: "TimeValue") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIp with method chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip property setter (gets validation automatically)
         """
@@ -164,10 +167,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIpReassemblyBufferSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpReassemblyBufferSize.
-        
+
         Returns:
             The tcpIpIpReassemblyBufferSize value
-        
+
         Note:
             Delegates to tcp_ip_ip_reassembly_buffer_size property (CODING_RULE_V2_00017)
         """
@@ -176,13 +179,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIpReassemblyBufferSize(self, value: "PositiveInteger") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpReassemblyBufferSize with method chaining.
-        
+
         Args:
             value: The tcpIpIpReassemblyBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_reassembly_buffer_size property setter (gets validation automatically)
         """
@@ -192,10 +195,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIpTx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpTx.
-        
+
         Returns:
             The tcpIpIpTx value
-        
+
         Note:
             Delegates to tcp_ip_ip_tx property (CODING_RULE_V2_00017)
         """
@@ -204,13 +207,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIpTx(self, value: "PositiveInteger") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpTx with method chaining.
-        
+
         Args:
             value: The tcpIpIpTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_tx property setter (gets validation automatically)
         """
@@ -220,10 +223,10 @@ class Ipv6FragmentationProps(ARObject):
     def getTcpIpIpTxFragmentBufferSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpTxFragmentBufferSize.
-        
+
         Returns:
             The tcpIpIpTxFragmentBufferSize value
-        
+
         Note:
             Delegates to tcp_ip_ip_tx_fragment_buffer_size property (CODING_RULE_V2_00017)
         """
@@ -232,13 +235,13 @@ class Ipv6FragmentationProps(ARObject):
     def setTcpIpIpTxFragmentBufferSize(self, value: "PositiveInteger") -> "Ipv6FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpTxFragmentBufferSize with method chaining.
-        
+
         Args:
             value: The tcpIpIpTxFragmentBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_tx_fragment_buffer_size property setter (gets validation automatically)
         """
@@ -250,13 +253,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip(self, value: Optional["TimeValue"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip("value")
         """
@@ -266,13 +269,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip_reassembly_buffer_size(self, value: Optional["PositiveInteger"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIpReassemblyBufferSize and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpReassemblyBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_reassembly_buffer_size("value")
         """
@@ -282,13 +285,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip_tx(self, value: Optional["PositiveInteger"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIpTx and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_tx("value")
         """
@@ -298,13 +301,13 @@ class Ipv6FragmentationProps(ARObject):
     def with_tcp_ip_ip_tx_fragment_buffer_size(self, value: Optional["PositiveInteger"]) -> "Ipv6FragmentationProps":
         """
         Set tcpIpIpTxFragmentBufferSize and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpTxFragmentBufferSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_tx_fragment_buffer_size("value")
         """

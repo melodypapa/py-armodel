@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswModuleEntity(ExecutableEntity, ABC):
     """
     Specifies the smallest code fragment which can be described for a BSW module
     or cluster within AUTOSAR.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModuleEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 70, Classic
       Platform R23-11)
@@ -77,10 +81,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def implemented(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set implemented with validation.
-        
+
         Args:
             value: The implemented to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +134,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def scheduler_name(self, value: Optional["BswSchedulerName"]) -> None:
         """
         Set schedulerName with validation.
-        
+
         Args:
             value: The schedulerName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +156,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getAccessedMode(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for accessedMode.
-        
+
         Returns:
             The accessedMode value
-        
+
         Note:
             Delegates to accessed_mode property (CODING_RULE_V2_00017)
         """
@@ -164,10 +168,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getActivationPoint(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for activationPoint.
-        
+
         Returns:
             The activationPoint value
-        
+
         Note:
             Delegates to activation_point property (CODING_RULE_V2_00017)
         """
@@ -176,10 +180,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getCallPoint(self) -> List["BswModuleCallPoint"]:
         """
         AUTOSAR-compliant getter for callPoint.
-        
+
         Returns:
             The callPoint value
-        
+
         Note:
             Delegates to call_point property (CODING_RULE_V2_00017)
         """
@@ -188,10 +192,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getDataReceive(self) -> List["BswVariableAccess"]:
         """
         AUTOSAR-compliant getter for dataReceive.
-        
+
         Returns:
             The dataReceive value
-        
+
         Note:
             Delegates to data_receive property (CODING_RULE_V2_00017)
         """
@@ -200,10 +204,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getDataSendPoint(self) -> List["BswVariableAccess"]:
         """
         AUTOSAR-compliant getter for dataSendPoint.
-        
+
         Returns:
             The dataSendPoint value
-        
+
         Note:
             Delegates to data_send_point property (CODING_RULE_V2_00017)
         """
@@ -212,10 +216,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getImplemented(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for implemented.
-        
+
         Returns:
             The implemented value
-        
+
         Note:
             Delegates to implemented property (CODING_RULE_V2_00017)
         """
@@ -224,13 +228,13 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def setImplemented(self, value: "BswModuleEntry") -> "BswModuleEntity":
         """
         AUTOSAR-compliant setter for implemented with method chaining.
-        
+
         Args:
             value: The implemented to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implemented property setter (gets validation automatically)
         """
@@ -240,10 +244,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getIssuedTrigger(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for issuedTrigger.
-        
+
         Returns:
             The issuedTrigger value
-        
+
         Note:
             Delegates to issued_trigger property (CODING_RULE_V2_00017)
         """
@@ -252,10 +256,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getManagedMode(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for managedMode.
-        
+
         Returns:
             The managedMode value
-        
+
         Note:
             Delegates to managed_mode property (CODING_RULE_V2_00017)
         """
@@ -264,10 +268,10 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def getSchedulerName(self) -> "BswSchedulerName":
         """
         AUTOSAR-compliant getter for schedulerName.
-        
+
         Returns:
             The schedulerName value
-        
+
         Note:
             Delegates to scheduler_name property (CODING_RULE_V2_00017)
         """
@@ -276,13 +280,13 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def setSchedulerName(self, value: "BswSchedulerName") -> "BswModuleEntity":
         """
         AUTOSAR-compliant setter for schedulerName with method chaining.
-        
+
         Args:
             value: The schedulerName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scheduler_name property setter (gets validation automatically)
         """
@@ -294,13 +298,13 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def with_implemented(self, value: Optional["BswModuleEntry"]) -> "BswModuleEntity":
         """
         Set implemented and return self for chaining.
-        
+
         Args:
             value: The implemented to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implemented("value")
         """
@@ -310,13 +314,13 @@ class BswModuleEntity(ExecutableEntity, ABC):
     def with_scheduler_name(self, value: Optional["BswSchedulerName"]) -> "BswModuleEntity":
         """
         Set schedulerName and return self for chaining.
-        
+
         Args:
             value: The schedulerName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scheduler_name("value")
         """

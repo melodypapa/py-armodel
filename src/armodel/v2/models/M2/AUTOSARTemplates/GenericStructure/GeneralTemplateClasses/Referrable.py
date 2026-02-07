@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Referrable(ARObject, ABC):
     """
     Instances of this class can be referred to by their identifier (while
     adhering to namespace borders).
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::Referrable
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 328, Classic
       Platform R23-11)
@@ -51,10 +55,10 @@ class Referrable(ARObject, ABC):
     def getShortName(self) -> List["ShortNameFragment"]:
         """
         AUTOSAR-compliant getter for shortName.
-        
+
         Returns:
             The shortName value
-        
+
         Note:
             Delegates to short_name property (CODING_RULE_V2_00017)
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PackageableElement import PackageableElement
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PackageableElement import (
+    PackageableElement,
+)
+
 
 class ARElement(PackageableElement, ABC):
     """
     An element that can be defined stand-alone, i.e. without being part of
     another element (except for packages of course).
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic
       Platform R23-11)

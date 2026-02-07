@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticComControlSpecificChannel(ARObject):
     """
     This represents the ability to add further attributes to the definition of a
     specific channel that is subject to the diagnostic service "communication
     control".
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControlSpecificChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 109, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def specific_channel(self, value: Optional["CommunicationCluster"]) -> None:
         """
         Set specificChannel with validation.
-        
+
         Args:
             value: The specificChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def specific_physical(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set specificPhysical with validation.
-        
+
         Args:
             value: The specificPhysical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def subnet_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subnetNumber with validation.
-        
+
         Args:
             value: The subnetNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +112,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def getSpecificChannel(self) -> "CommunicationCluster":
         """
         AUTOSAR-compliant getter for specificChannel.
-        
+
         Returns:
             The specificChannel value
-        
+
         Note:
             Delegates to specific_channel property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def setSpecificChannel(self, value: "CommunicationCluster") -> "DiagnosticComControlSpecificChannel":
         """
         AUTOSAR-compliant setter for specificChannel with method chaining.
-        
+
         Args:
             value: The specificChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to specific_channel property setter (gets validation automatically)
         """
@@ -137,10 +140,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def getSpecificPhysical(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for specificPhysical.
-        
+
         Returns:
             The specificPhysical value
-        
+
         Note:
             Delegates to specific_physical property (CODING_RULE_V2_00017)
         """
@@ -149,13 +152,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def setSpecificPhysical(self, value: "EthernetPhysical") -> "DiagnosticComControlSpecificChannel":
         """
         AUTOSAR-compliant setter for specificPhysical with method chaining.
-        
+
         Args:
             value: The specificPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to specific_physical property setter (gets validation automatically)
         """
@@ -165,10 +168,10 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def getSubnetNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subnetNumber.
-        
+
         Returns:
             The subnetNumber value
-        
+
         Note:
             Delegates to subnet_number property (CODING_RULE_V2_00017)
         """
@@ -177,13 +180,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def setSubnetNumber(self, value: "PositiveInteger") -> "DiagnosticComControlSpecificChannel":
         """
         AUTOSAR-compliant setter for subnetNumber with method chaining.
-        
+
         Args:
             value: The subnetNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to subnet_number property setter (gets validation automatically)
         """
@@ -195,13 +198,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def with_specific_channel(self, value: Optional["CommunicationCluster"]) -> "DiagnosticComControlSpecificChannel":
         """
         Set specificChannel and return self for chaining.
-        
+
         Args:
             value: The specificChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_specific_channel("value")
         """
@@ -211,13 +214,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def with_specific_physical(self, value: Optional["EthernetPhysical"]) -> "DiagnosticComControlSpecificChannel":
         """
         Set specificPhysical and return self for chaining.
-        
+
         Args:
             value: The specificPhysical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_specific_physical("value")
         """
@@ -227,13 +230,13 @@ class DiagnosticComControlSpecificChannel(ARObject):
     def with_subnet_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticComControlSpecificChannel":
         """
         Set subnetNumber and return self for chaining.
-        
+
         Args:
             value: The subnetNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_subnet_number("value")
         """

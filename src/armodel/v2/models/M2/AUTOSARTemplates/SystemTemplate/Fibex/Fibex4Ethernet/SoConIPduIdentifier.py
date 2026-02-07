@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class SoConIPduIdentifier(Referrable):
     """
     Identification of Pdu content on a socket connection. This Identifier is
     required in case that multiple Pdus are transmitted over the same socket
     connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SoConIPduIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 489, Classic Platform R23-11)
     """
@@ -32,10 +37,10 @@ class SoConIPduIdentifier(Referrable):
     def header_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set headerId with validation.
-        
+
         Args:
             value: The headerId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +66,10 @@ class SoConIPduIdentifier(Referrable):
     def pdu_collection(self, value: RefType) -> None:
         """
         Set pduCollection with validation.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +90,10 @@ class SoConIPduIdentifier(Referrable):
     def pdu_triggering(self, value: RefType) -> None:
         """
         Set pduTriggering with validation.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +108,10 @@ class SoConIPduIdentifier(Referrable):
     def getHeaderId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for headerId.
-        
+
         Returns:
             The headerId value
-        
+
         Note:
             Delegates to header_id property (CODING_RULE_V2_00017)
         """
@@ -115,13 +120,13 @@ class SoConIPduIdentifier(Referrable):
     def setHeaderId(self, value: "PositiveInteger") -> "SoConIPduIdentifier":
         """
         AUTOSAR-compliant setter for headerId with method chaining.
-        
+
         Args:
             value: The headerId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_id property setter (gets validation automatically)
         """
@@ -131,10 +136,10 @@ class SoConIPduIdentifier(Referrable):
     def getPduCollection(self) -> RefType:
         """
         AUTOSAR-compliant getter for pduCollection.
-        
+
         Returns:
             The pduCollection value
-        
+
         Note:
             Delegates to pdu_collection property (CODING_RULE_V2_00017)
         """
@@ -143,13 +148,13 @@ class SoConIPduIdentifier(Referrable):
     def setPduCollection(self, value: RefType) -> "SoConIPduIdentifier":
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_collection property setter (gets validation automatically)
         """
@@ -159,10 +164,10 @@ class SoConIPduIdentifier(Referrable):
     def getPduTriggering(self) -> RefType:
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -171,13 +176,13 @@ class SoConIPduIdentifier(Referrable):
     def setPduTriggering(self, value: RefType) -> "SoConIPduIdentifier":
         """
         AUTOSAR-compliant setter for pduTriggering with method chaining.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_triggering property setter (gets validation automatically)
         """
@@ -189,13 +194,13 @@ class SoConIPduIdentifier(Referrable):
     def with_header_id(self, value: Optional["PositiveInteger"]) -> "SoConIPduIdentifier":
         """
         Set headerId and return self for chaining.
-        
+
         Args:
             value: The headerId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_id("value")
         """
@@ -205,13 +210,13 @@ class SoConIPduIdentifier(Referrable):
     def with_pdu_collection(self, value: Optional[RefType]) -> "SoConIPduIdentifier":
         """
         Set pduCollection and return self for chaining.
-        
+
         Args:
             value: The pduCollection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_collection("value")
         """
@@ -221,13 +226,13 @@ class SoConIPduIdentifier(Referrable):
     def with_pdu_triggering(self, value: Optional[RefType]) -> "SoConIPduIdentifier":
         """
         Set pduTriggering and return self for chaining.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_triggering("value")
         """

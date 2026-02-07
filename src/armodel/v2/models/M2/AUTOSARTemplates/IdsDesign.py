@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class IdsDesign(ARElement):
     """
@@ -7,9 +7,9 @@ class IdsDesign(ARElement):
     IDS development. It defines the scope of an IDS to be designed and
     implemented by referencing all SecurityExtract meta-classes that need to be
     included into the IDS development process.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsDesign
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 16, Foundation R23-11)
     """
@@ -31,10 +31,10 @@ class IdsDesign(ARElement):
     def getElement(self) -> List["IdsCommonElement"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """

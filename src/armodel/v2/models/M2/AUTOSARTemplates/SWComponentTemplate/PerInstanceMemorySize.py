@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PerInstanceMemorySize(ARObject):
     """
     Resources needed by the allocation of PerInstanceMemory for each SWC
     instance. Note that these resources are not covered by an ObjectFileSection,
     because they are supposed to be allocated by the RTE.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation::PerInstanceMemorySize
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 623, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class PerInstanceMemorySize(ARObject):
     def alignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set alignment with validation.
-        
+
         Args:
             value: The alignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class PerInstanceMemorySize(ARObject):
     def per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> None:
         """
         Set perInstanceMemory with validation.
-        
+
         Args:
             value: The perInstanceMemory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class PerInstanceMemorySize(ARObject):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class PerInstanceMemorySize(ARObject):
     def getAlignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for alignment.
-        
+
         Returns:
             The alignment value
-        
+
         Note:
             Delegates to alignment property (CODING_RULE_V2_00017)
         """
@@ -124,13 +127,13 @@ class PerInstanceMemorySize(ARObject):
     def setAlignment(self, value: "PositiveInteger") -> "PerInstanceMemorySize":
         """
         AUTOSAR-compliant setter for alignment with method chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alignment property setter (gets validation automatically)
         """
@@ -140,10 +143,10 @@ class PerInstanceMemorySize(ARObject):
     def getPerInstanceMemory(self) -> "PerInstanceMemory":
         """
         AUTOSAR-compliant getter for perInstanceMemory.
-        
+
         Returns:
             The perInstanceMemory value
-        
+
         Note:
             Delegates to per_instance_memory property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class PerInstanceMemorySize(ARObject):
     def setPerInstanceMemory(self, value: "PerInstanceMemory") -> "PerInstanceMemorySize":
         """
         AUTOSAR-compliant setter for perInstanceMemory with method chaining.
-        
+
         Args:
             value: The perInstanceMemory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to per_instance_memory property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class PerInstanceMemorySize(ARObject):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class PerInstanceMemorySize(ARObject):
     def setSize(self, value: "PositiveInteger") -> "PerInstanceMemorySize":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -198,13 +201,13 @@ class PerInstanceMemorySize(ARObject):
     def with_alignment(self, value: Optional["PositiveInteger"]) -> "PerInstanceMemorySize":
         """
         Set alignment and return self for chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alignment("value")
         """
@@ -214,13 +217,13 @@ class PerInstanceMemorySize(ARObject):
     def with_per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> "PerInstanceMemorySize":
         """
         Set perInstanceMemory and return self for chaining.
-        
+
         Args:
             value: The perInstanceMemory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_per_instance_memory("value")
         """
@@ -230,13 +233,13 @@ class PerInstanceMemorySize(ARObject):
     def with_size(self, value: Optional["PositiveInteger"]) -> "PerInstanceMemorySize":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsDeadline(ARObject):
     """
     Describes the DDS DEADLINE QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDeadline
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 532, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DdsDeadline(ARObject):
     def deadline_period(self, value: Optional["Float"]) -> None:
         """
         Set deadlinePeriod with validation.
-        
+
         Args:
             value: The deadlinePeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +53,10 @@ class DdsDeadline(ARObject):
     def getDeadlinePeriod(self) -> "Float":
         """
         AUTOSAR-compliant getter for deadlinePeriod.
-        
+
         Returns:
             The deadlinePeriod value
-        
+
         Note:
             Delegates to deadline_period property (CODING_RULE_V2_00017)
         """
@@ -62,13 +65,13 @@ class DdsDeadline(ARObject):
     def setDeadlinePeriod(self, value: "Float") -> "DdsDeadline":
         """
         AUTOSAR-compliant setter for deadlinePeriod with method chaining.
-        
+
         Args:
             value: The deadlinePeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to deadline_period property setter (gets validation automatically)
         """
@@ -80,13 +83,13 @@ class DdsDeadline(ARObject):
     def with_deadline_period(self, value: Optional["Float"]) -> "DdsDeadline":
         """
         Set deadlinePeriod and return self for chaining.
-        
+
         Args:
             value: The deadlinePeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_deadline_period("value")
         """

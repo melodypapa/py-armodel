@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
     """
     This represents an instance of the "Request Upload" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticRequestUpload
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 145, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
     def request_upload(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestUpload with validation.
-        
+
         Args:
             value: The requestUpload to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
     def getRequestUpload(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestUpload.
-        
+
         Returns:
             The requestUpload value
-        
+
         Note:
             Delegates to request_upload property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
     def setRequestUpload(self, value: "DiagnosticRequest") -> "DiagnosticRequestUpload":
         """
         AUTOSAR-compliant setter for requestUpload with method chaining.
-        
+
         Args:
             value: The requestUpload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_upload property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class DiagnosticRequestUpload(DiagnosticMemoryAddressableRangeAccess):
     def with_request_upload(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestUpload":
         """
         Set requestUpload and return self for chaining.
-        
+
         Args:
             value: The requestUpload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_upload("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class BuildAction(BuildActionEntity):
     """
     This meta-class represents the ability to specify a build action.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildAction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 366, Foundation
       R23-11)
@@ -65,10 +65,10 @@ class BuildAction(BuildActionEntity):
     def required(self, value: "BuildActionEnvironment") -> None:
         """
         Set required with validation.
-        
+
         Args:
             value: The required to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class BuildAction(BuildActionEntity):
     def getCreatedData(self) -> List["BuildActionIoElement"]:
         """
         AUTOSAR-compliant getter for createdData.
-        
+
         Returns:
             The createdData value
-        
+
         Note:
             Delegates to created_data property (CODING_RULE_V2_00017)
         """
@@ -95,10 +95,10 @@ class BuildAction(BuildActionEntity):
     def getFollowUpAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for followUpAction.
-        
+
         Returns:
             The followUpAction value
-        
+
         Note:
             Delegates to follow_up_action property (CODING_RULE_V2_00017)
         """
@@ -107,10 +107,10 @@ class BuildAction(BuildActionEntity):
     def getInputData(self) -> List["BuildActionIoElement"]:
         """
         AUTOSAR-compliant getter for inputData.
-        
+
         Returns:
             The inputData value
-        
+
         Note:
             Delegates to input_data property (CODING_RULE_V2_00017)
         """
@@ -119,10 +119,10 @@ class BuildAction(BuildActionEntity):
     def getModifiedData(self) -> List["BuildActionIoElement"]:
         """
         AUTOSAR-compliant getter for modifiedData.
-        
+
         Returns:
             The modifiedData value
-        
+
         Note:
             Delegates to modified_data property (CODING_RULE_V2_00017)
         """
@@ -131,10 +131,10 @@ class BuildAction(BuildActionEntity):
     def getPredecessor(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for predecessor.
-        
+
         Returns:
             The predecessor value
-        
+
         Note:
             Delegates to predecessor property (CODING_RULE_V2_00017)
         """
@@ -143,10 +143,10 @@ class BuildAction(BuildActionEntity):
     def getRequired(self) -> "BuildActionEnvironment":
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -155,13 +155,13 @@ class BuildAction(BuildActionEntity):
     def setRequired(self, value: "BuildActionEnvironment") -> "BuildAction":
         """
         AUTOSAR-compliant setter for required with method chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required property setter (gets validation automatically)
         """
@@ -173,13 +173,13 @@ class BuildAction(BuildActionEntity):
     def with_required(self, value: "BuildActionEnvironment") -> "BuildAction":
         """
         Set required and return self for chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required("value")
         """

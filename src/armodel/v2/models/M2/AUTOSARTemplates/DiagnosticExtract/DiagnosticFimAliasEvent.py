@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
     """
@@ -8,9 +6,9 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
     defined yet, not known or not in the responsibility of the author.
     Therefore, the DiagnosticFimAliasEvent has a reference to the actual
     DiagnosticEvent and by this the final connection is created.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimAliasEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 214, Classic Platform
       R23-11)

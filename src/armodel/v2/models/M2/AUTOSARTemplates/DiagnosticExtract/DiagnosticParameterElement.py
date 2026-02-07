@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagnosticParameterElement(Identifiable):
     """
     This meta-class represents an element of a DiagnosticParameter if the
     DiagnosticParameter represents a structure.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 36, Classic Platform
       R23-11)
@@ -31,10 +33,10 @@ class DiagnosticParameterElement(Identifiable):
     def array_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class DiagnosticParameterElement(Identifiable):
     def getArraySize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -72,13 +74,13 @@ class DiagnosticParameterElement(Identifiable):
     def setArraySize(self, value: "PositiveInteger") -> "DiagnosticParameterElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -88,10 +90,10 @@ class DiagnosticParameterElement(Identifiable):
     def getSubElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """
@@ -102,13 +104,13 @@ class DiagnosticParameterElement(Identifiable):
     def with_array_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """

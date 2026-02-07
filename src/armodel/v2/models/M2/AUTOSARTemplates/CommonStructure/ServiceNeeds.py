@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ServiceNeeds(Identifiable, ABC):
     """
@@ -11,9 +13,9 @@ class ServiceNeeds(Identifiable, ABC):
     Configuration Parameters of the underlying Basic Software. (cid:53) 227 of
     381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic
     Software Module Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 227, Classic
       Platform R23-11)

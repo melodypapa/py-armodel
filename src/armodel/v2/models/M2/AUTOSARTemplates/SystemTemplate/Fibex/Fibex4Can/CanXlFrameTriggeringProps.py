@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanXlFrameTriggeringProps(ARObject):
     """
     This element indicates the frame being CAN XL and contains further CAN XL
     specific attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication::CanXlFrameTriggeringProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2007, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def acceptance_field(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set acceptanceField with validation.
-        
+
         Args:
             value: The acceptanceField to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def priority_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priorityId with validation.
-        
+
         Args:
             value: The priorityId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def sdu_type(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sduType with validation.
-        
+
         Args:
             value: The sduType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def vcid(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vcid with validation.
-        
+
         Args:
             value: The vcid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +137,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def getAcceptanceField(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for acceptanceField.
-        
+
         Returns:
             The acceptanceField value
-        
+
         Note:
             Delegates to acceptance_field property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def setAcceptanceField(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
         """
         AUTOSAR-compliant setter for acceptanceField with method chaining.
-        
+
         Args:
             value: The acceptanceField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to acceptance_field property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def getPriorityId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priorityId.
-        
+
         Returns:
             The priorityId value
-        
+
         Note:
             Delegates to priority_id property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def setPriorityId(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
         """
         AUTOSAR-compliant setter for priorityId with method chaining.
-        
+
         Args:
             value: The priorityId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority_id property setter (gets validation automatically)
         """
@@ -190,10 +193,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def getSduType(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sduType.
-        
+
         Returns:
             The sduType value
-        
+
         Note:
             Delegates to sdu_type property (CODING_RULE_V2_00017)
         """
@@ -202,13 +205,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def setSduType(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
         """
         AUTOSAR-compliant setter for sduType with method chaining.
-        
+
         Args:
             value: The sduType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdu_type property setter (gets validation automatically)
         """
@@ -218,10 +221,10 @@ class CanXlFrameTriggeringProps(ARObject):
     def getVcid(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vcid.
-        
+
         Returns:
             The vcid value
-        
+
         Note:
             Delegates to vcid property (CODING_RULE_V2_00017)
         """
@@ -230,13 +233,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def setVcid(self, value: "PositiveInteger") -> "CanXlFrameTriggeringProps":
         """
         AUTOSAR-compliant setter for vcid with method chaining.
-        
+
         Args:
             value: The vcid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vcid property setter (gets validation automatically)
         """
@@ -248,13 +251,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def with_acceptance_field(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
         """
         Set acceptanceField and return self for chaining.
-        
+
         Args:
             value: The acceptanceField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_acceptance_field("value")
         """
@@ -264,13 +267,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def with_priority_id(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
         """
         Set priorityId and return self for chaining.
-        
+
         Args:
             value: The priorityId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority_id("value")
         """
@@ -280,13 +283,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def with_sdu_type(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
         """
         Set sduType and return self for chaining.
-        
+
         Args:
             value: The sduType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdu_type("value")
         """
@@ -296,13 +299,13 @@ class CanXlFrameTriggeringProps(ARObject):
     def with_vcid(self, value: Optional["PositiveInteger"]) -> "CanXlFrameTriggeringProps":
         """
         Set vcid and return self for chaining.
-        
+
         Args:
             value: The vcid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vcid("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class UdpNmNode(NmNode):
     """
     Udp specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class UdpNmNode(NmNode):
     def all_nm_messages(self, value: Optional["Boolean"]) -> None:
         """
         Set allNmMessages with validation.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class UdpNmNode(NmNode):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class UdpNmNode(NmNode):
     def getAllNmMessages(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allNmMessages.
-        
+
         Returns:
             The allNmMessages value
-        
+
         Note:
             Delegates to all_nm_messages property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class UdpNmNode(NmNode):
     def setAllNmMessages(self, value: "Boolean") -> "UdpNmNode":
         """
         AUTOSAR-compliant setter for allNmMessages with method chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to all_nm_messages property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class UdpNmNode(NmNode):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class UdpNmNode(NmNode):
     def setNmMsgCycle(self, value: "TimeValue") -> "UdpNmNode":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class UdpNmNode(NmNode):
     def with_all_nm_messages(self, value: Optional["Boolean"]) -> "UdpNmNode":
         """
         Set allNmMessages and return self for chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_all_nm_messages("value")
         """
@@ -155,13 +155,13 @@ class UdpNmNode(NmNode):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "UdpNmNode":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """

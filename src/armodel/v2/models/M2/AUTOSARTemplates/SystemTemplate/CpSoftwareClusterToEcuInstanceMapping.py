@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     """
     This meta class maps a CpSoftwareCluster to a EcuInstance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterToEcuInstanceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 283, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +59,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def machine_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set machineId with validation.
-        
+
         Args:
             value: The machineId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +88,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -98,13 +100,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def setEcuInstance(self, value: "EcuInstance") -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -114,10 +116,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def getMachineId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for machineId.
-        
+
         Returns:
             The machineId value
-        
+
         Note:
             Delegates to machine_id property (CODING_RULE_V2_00017)
         """
@@ -126,13 +128,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def setMachineId(self, value: "PositiveInteger") -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         AUTOSAR-compliant setter for machineId with method chaining.
-        
+
         Args:
             value: The machineId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to machine_id property setter (gets validation automatically)
         """
@@ -142,10 +144,10 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def getSwCluster(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for swCluster.
-        
+
         Returns:
             The swCluster value
-        
+
         Note:
             Delegates to sw_cluster property (CODING_RULE_V2_00017)
         """
@@ -156,13 +158,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -172,13 +174,13 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
     def with_machine_id(self, value: Optional["PositiveInteger"]) -> "CpSoftwareClusterToEcuInstanceMapping":
         """
         Set machineId and return self for chaining.
-        
+
         Args:
             value: The machineId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_machine_id("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ConstantReference(ValueSpecification):
     """
     Instead of defining this value inline, a constant is referenced.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantReference
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 440, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class ConstantReference(ValueSpecification):
     def constant(self, value: Optional["ConstantSpecification"]) -> None:
         """
         Set constant with validation.
-        
+
         Args:
             value: The constant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class ConstantReference(ValueSpecification):
     def getConstant(self) -> "ConstantSpecification":
         """
         AUTOSAR-compliant getter for constant.
-        
+
         Returns:
             The constant value
-        
+
         Note:
             Delegates to constant property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class ConstantReference(ValueSpecification):
     def setConstant(self, value: "ConstantSpecification") -> "ConstantReference":
         """
         AUTOSAR-compliant setter for constant with method chaining.
-        
+
         Args:
             value: The constant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to constant property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class ConstantReference(ValueSpecification):
     def with_constant(self, value: Optional["ConstantSpecification"]) -> "ConstantReference":
         """
         Set constant and return self for chaining.
-        
+
         Args:
             value: The constant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_constant("value")
         """

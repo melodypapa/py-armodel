@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Modification(ARObject):
     """
     This meta-class represents the ability to record what has changed in a
     document in comparison to its predecessor.
-    
+
     Package: M2::MSR::AsamHdo::AdminData::Modification
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 86, Foundation R23-11)
     """
@@ -29,10 +32,10 @@ class Modification(ARObject):
     def change(self, value: "MultiLanguageOverview") -> None:
         """
         Set change with validation.
-        
+
         Args:
             value: The change to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +56,10 @@ class Modification(ARObject):
     def reason(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set reason with validation.
-        
+
         Args:
             value: The reason to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class Modification(ARObject):
     def getChange(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for change.
-        
+
         Returns:
             The change value
-        
+
         Note:
             Delegates to change property (CODING_RULE_V2_00017)
         """
@@ -87,13 +90,13 @@ class Modification(ARObject):
     def setChange(self, value: "MultiLanguageOverview") -> "Modification":
         """
         AUTOSAR-compliant setter for change with method chaining.
-        
+
         Args:
             value: The change to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to change property setter (gets validation automatically)
         """
@@ -103,10 +106,10 @@ class Modification(ARObject):
     def getReason(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for reason.
-        
+
         Returns:
             The reason value
-        
+
         Note:
             Delegates to reason property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class Modification(ARObject):
     def setReason(self, value: "MultiLanguageOverview") -> "Modification":
         """
         AUTOSAR-compliant setter for reason with method chaining.
-        
+
         Args:
             value: The reason to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reason property setter (gets validation automatically)
         """
@@ -133,13 +136,13 @@ class Modification(ARObject):
     def with_change(self, value: "MultiLanguageOverview") -> "Modification":
         """
         Set change and return self for chaining.
-        
+
         Args:
             value: The change to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_change("value")
         """
@@ -149,13 +152,13 @@ class Modification(ARObject):
     def with_reason(self, value: Optional["MultiLanguageOverview"]) -> "Modification":
         """
         Set reason and return self for chaining.
-        
+
         Args:
             value: The reason to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reason("value")
         """

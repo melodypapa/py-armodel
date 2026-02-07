@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ArrayValueSpecification(CompositeValueSpecification):
     """
     Specifies the values for an array.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ArrayValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 303, Classic
       Platform R23-11)
@@ -41,10 +41,10 @@ class ArrayValueSpecification(CompositeValueSpecification):
     def intended_partial(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set intendedPartial with validation.
-        
+
         Args:
             value: The intendedPartial to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class ArrayValueSpecification(CompositeValueSpecification):
     def getElement(self) -> List["ValueSpecification"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -75,10 +75,10 @@ class ArrayValueSpecification(CompositeValueSpecification):
     def getIntendedPartial(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for intendedPartial.
-        
+
         Returns:
             The intendedPartial value
-        
+
         Note:
             Delegates to intended_partial property (CODING_RULE_V2_00017)
         """
@@ -87,13 +87,13 @@ class ArrayValueSpecification(CompositeValueSpecification):
     def setIntendedPartial(self, value: "PositiveInteger") -> "ArrayValueSpecification":
         """
         AUTOSAR-compliant setter for intendedPartial with method chaining.
-        
+
         Args:
             value: The intendedPartial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to intended_partial property setter (gets validation automatically)
         """
@@ -105,13 +105,13 @@ class ArrayValueSpecification(CompositeValueSpecification):
     def with_intended_partial(self, value: Optional["PositiveInteger"]) -> "ArrayValueSpecification":
         """
         Set intendedPartial and return self for chaining.
-        
+
         Args:
             value: The intendedPartial to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_intended_partial("value")
         """

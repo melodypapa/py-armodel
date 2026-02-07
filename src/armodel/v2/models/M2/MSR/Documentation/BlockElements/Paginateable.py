@@ -5,9 +5,9 @@ class Paginateable(DocumentViewSelectable, ABC):
     """
     This meta-class represents the ability to control the pagination policy when
     creating documents.
-    
+
     Package: M2::MSR::Documentation::BlockElements::PaginationAndView::Paginateable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 339, Foundation
       R23-11)
@@ -30,10 +30,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def break(self, value: Optional["ChapterEnumBreak"]) -> None:
         """
         Set break with validation.
-        
+
         Args:
             value: The break to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def keep_with(self, value: Optional["KeepWithPreviousEnum"]) -> None:
         """
         Set keepWith with validation.
-        
+
         Args:
             value: The keepWith to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def getBreak(self) -> "ChapterEnumBreak":
         """
         AUTOSAR-compliant getter for break.
-        
+
         Returns:
             The break value
-        
+
         Note:
             Delegates to break property (CODING_RULE_V2_00017)
         """
@@ -94,13 +94,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def setBreak(self, value: "ChapterEnumBreak") -> "Paginateable":
         """
         AUTOSAR-compliant setter for break with method chaining.
-        
+
         Args:
             value: The break to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to break property setter (gets validation automatically)
         """
@@ -110,10 +110,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def getKeepWith(self) -> "KeepWithPreviousEnum":
         """
         AUTOSAR-compliant getter for keepWith.
-        
+
         Returns:
             The keepWith value
-        
+
         Note:
             Delegates to keep_with property (CODING_RULE_V2_00017)
         """
@@ -122,13 +122,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def setKeepWith(self, value: "KeepWithPreviousEnum") -> "Paginateable":
         """
         AUTOSAR-compliant setter for keepWith with method chaining.
-        
+
         Args:
             value: The keepWith to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_with property setter (gets validation automatically)
         """
@@ -140,13 +140,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def with_break(self, value: Optional["ChapterEnumBreak"]) -> "Paginateable":
         """
         Set break and return self for chaining.
-        
+
         Args:
             value: The break to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_break("value")
         """
@@ -156,13 +156,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def with_keep_with(self, value: Optional["KeepWithPreviousEnum"]) -> "Paginateable":
         """
         Set keepWith and return self for chaining.
-        
+
         Args:
             value: The keepWith to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_with("value")
         """

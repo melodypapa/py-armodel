@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticAccessPermission(DiagnosticCommonElement):
     """
@@ -8,9 +8,9 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     DiagnosticAccessPermission. In other words, this meta-class acts as a
     mapping element between several (otherwise unrelated) pieces of information
     that are put into context for the purpose of checking for access rights.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticAccessPermission
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 73, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def authentication(self, value: Optional["DiagnosticAuthRole"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def environmental(self, value: Optional["Diagnostic"]) -> None:
         """
         Set environmental with validation.
-        
+
         Args:
             value: The environmental to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def getAuthentication(self) -> "DiagnosticAuthRole":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -110,13 +110,13 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def setAuthentication(self, value: "DiagnosticAuthRole") -> "DiagnosticAccessPermission":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -126,10 +126,10 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def getDiagnostic(self) -> List["DiagnosticSession"]:
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -138,10 +138,10 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def getEnvironmental(self) -> "Diagnostic":
         """
         AUTOSAR-compliant getter for environmental.
-        
+
         Returns:
             The environmental value
-        
+
         Note:
             Delegates to environmental property (CODING_RULE_V2_00017)
         """
@@ -150,13 +150,13 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def setEnvironmental(self, value: "Diagnostic") -> "DiagnosticAccessPermission":
         """
         AUTOSAR-compliant setter for environmental with method chaining.
-        
+
         Args:
             value: The environmental to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to environmental property setter (gets validation automatically)
         """
@@ -166,10 +166,10 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def getSecurityLevel(self) -> List["DiagnosticSecurityLevel"]:
         """
         AUTOSAR-compliant getter for securityLevel.
-        
+
         Returns:
             The securityLevel value
-        
+
         Note:
             Delegates to security_level property (CODING_RULE_V2_00017)
         """
@@ -180,13 +180,13 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def with_authentication(self, value: Optional["DiagnosticAuthRole"]) -> "DiagnosticAccessPermission":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -196,13 +196,13 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     def with_environmental(self, value: Optional["Diagnostic"]) -> "DiagnosticAccessPermission":
         """
         Set environmental and return self for chaining.
-        
+
         Args:
             value: The environmental to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_environmental("value")
         """

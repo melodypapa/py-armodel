@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ArbitraryEventTriggering(EventTriggeringConstraint):
     """
@@ -7,9 +7,9 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     randomly. The primary purpose of this event triggering is to abstract event
     occurrences captured by data acquisition tools (background debugger, trace
     analyzer, etc.) during system runtime.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::ArbitraryEventTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 111, Classic Platform R23-11)
     """
@@ -51,10 +51,10 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     def getConfidence(self) -> List["ConfidenceInterval"]:
         """
         AUTOSAR-compliant getter for confidence.
-        
+
         Returns:
             The confidence value
-        
+
         Note:
             Delegates to confidence property (CODING_RULE_V2_00017)
         """
@@ -63,10 +63,10 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     def getMaximum(self) -> List["MultidimensionalTime"]:
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -75,10 +75,10 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     def getMinimum(self) -> List["MultidimensionalTime"]:
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ReferenceTailoring(AttributeTailoring):
     """
     Tailoring of Non-Containment References.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ReferenceTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 115, Foundation R23-11)
     """
@@ -34,10 +37,10 @@ class ReferenceTailoring(AttributeTailoring):
     def unresolved_restriction(self, value: RefType) -> None:
         """
         Set unresolvedRestriction with validation.
-        
+
         Args:
             value: The unresolvedRestriction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class ReferenceTailoring(AttributeTailoring):
     def getTypeTailoring(self) -> List["ClassTailoring"]:
         """
         AUTOSAR-compliant getter for typeTailoring.
-        
+
         Returns:
             The typeTailoring value
-        
+
         Note:
             Delegates to type_tailoring property (CODING_RULE_V2_00017)
         """
@@ -64,10 +67,10 @@ class ReferenceTailoring(AttributeTailoring):
     def getUnresolvedRestriction(self) -> RefType:
         """
         AUTOSAR-compliant getter for unresolvedRestriction.
-        
+
         Returns:
             The unresolvedRestriction value
-        
+
         Note:
             Delegates to unresolved_restriction property (CODING_RULE_V2_00017)
         """
@@ -76,13 +79,13 @@ class ReferenceTailoring(AttributeTailoring):
     def setUnresolvedRestriction(self, value: RefType) -> "ReferenceTailoring":
         """
         AUTOSAR-compliant setter for unresolvedRestriction with method chaining.
-        
+
         Args:
             value: The unresolvedRestriction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unresolved_restriction property setter (gets validation automatically)
         """
@@ -94,13 +97,13 @@ class ReferenceTailoring(AttributeTailoring):
     def with_unresolved_restriction(self, value: Optional[RefType]) -> "ReferenceTailoring":
         """
         Set unresolvedRestriction and return self for chaining.
-        
+
         Args:
             value: The unresolvedRestriction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unresolved_restriction("value")
         """

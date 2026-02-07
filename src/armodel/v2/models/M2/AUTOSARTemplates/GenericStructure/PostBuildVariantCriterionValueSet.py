@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class PostBuildVariantCriterionValueSet(ARElement):
     """
     This meta-class represents the ability to denote one set of
     postBuildVariantCriterionValues.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValueSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1000, Classic
       Platform R23-11)
@@ -34,10 +34,10 @@ class PostBuildVariantCriterionValueSet(ARElement):
     def getPostBuildVariant(self) -> List["PostBuildVariant"]:
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """

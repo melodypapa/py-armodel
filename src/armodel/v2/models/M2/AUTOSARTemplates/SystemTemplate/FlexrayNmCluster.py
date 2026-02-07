@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class FlexrayNmCluster(NmCluster):
     """
     FlexRay specific NM cluster attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 678, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_car_wake_up(self, value: Optional["Boolean"]) -> None:
         """
         Set nmCarWakeUp with validation.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_data_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set nmDataCycle with validation.
-        
+
         Args:
             value: The nmDataCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_main(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMain with validation.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_remote(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +143,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_repeat(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRepeat with validation.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_repetition(self, value: Optional["Integer"]) -> None:
         """
         Set nmRepetition with validation.
-        
+
         Args:
             value: The nmRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +202,10 @@ class FlexrayNmCluster(NmCluster):
     def nm_voting_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set nmVotingCycle with validation.
-        
+
         Args:
             value: The nmVotingCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +224,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmCarWakeUp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmCarWakeUp.
-        
+
         Returns:
             The nmCarWakeUp value
-        
+
         Note:
             Delegates to nm_car_wake_up property (CODING_RULE_V2_00017)
         """
@@ -236,13 +236,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmCarWakeUp(self, value: "Boolean") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up property setter (gets validation automatically)
         """
@@ -252,10 +252,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmDataCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmDataCycle.
-        
+
         Returns:
             The nmDataCycle value
-        
+
         Note:
             Delegates to nm_data_cycle property (CODING_RULE_V2_00017)
         """
@@ -264,13 +264,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmDataCycle(self, value: "Integer") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmDataCycle with method chaining.
-        
+
         Args:
             value: The nmDataCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_data_cycle property setter (gets validation automatically)
         """
@@ -280,10 +280,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmMain(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMain.
-        
+
         Returns:
             The nmMain value
-        
+
         Note:
             Delegates to nm_main property (CODING_RULE_V2_00017)
         """
@@ -292,13 +292,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmMain(self, value: "TimeValue") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmMain with method chaining.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_main property setter (gets validation automatically)
         """
@@ -308,10 +308,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmRemote(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -320,13 +320,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmRemote(self, value: "TimeValue") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -336,10 +336,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmRepeat(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRepeat.
-        
+
         Returns:
             The nmRepeat value
-        
+
         Note:
             Delegates to nm_repeat property (CODING_RULE_V2_00017)
         """
@@ -348,13 +348,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmRepeat(self, value: "TimeValue") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat property setter (gets validation automatically)
         """
@@ -364,10 +364,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmRepetition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmRepetition.
-        
+
         Returns:
             The nmRepetition value
-        
+
         Note:
             Delegates to nm_repetition property (CODING_RULE_V2_00017)
         """
@@ -376,13 +376,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmRepetition(self, value: "Integer") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmRepetition with method chaining.
-        
+
         Args:
             value: The nmRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repetition property setter (gets validation automatically)
         """
@@ -392,10 +392,10 @@ class FlexrayNmCluster(NmCluster):
     def getNmVotingCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmVotingCycle.
-        
+
         Returns:
             The nmVotingCycle value
-        
+
         Note:
             Delegates to nm_voting_cycle property (CODING_RULE_V2_00017)
         """
@@ -404,13 +404,13 @@ class FlexrayNmCluster(NmCluster):
     def setNmVotingCycle(self, value: "Integer") -> "FlexrayNmCluster":
         """
         AUTOSAR-compliant setter for nmVotingCycle with method chaining.
-        
+
         Args:
             value: The nmVotingCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_voting_cycle property setter (gets validation automatically)
         """
@@ -422,13 +422,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> "FlexrayNmCluster":
         """
         Set nmCarWakeUp and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up("value")
         """
@@ -438,13 +438,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_data_cycle(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
         """
         Set nmDataCycle and return self for chaining.
-        
+
         Args:
             value: The nmDataCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_data_cycle("value")
         """
@@ -454,13 +454,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_main(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
         """
         Set nmMain and return self for chaining.
-        
+
         Args:
             value: The nmMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_main("value")
         """
@@ -470,13 +470,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_remote(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -486,13 +486,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_repeat(self, value: Optional["TimeValue"]) -> "FlexrayNmCluster":
         """
         Set nmRepeat and return self for chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat("value")
         """
@@ -502,13 +502,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_repetition(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
         """
         Set nmRepetition and return self for chaining.
-        
+
         Args:
             value: The nmRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repetition("value")
         """
@@ -518,13 +518,13 @@ class FlexrayNmCluster(NmCluster):
     def with_nm_voting_cycle(self, value: Optional["Integer"]) -> "FlexrayNmCluster":
         """
         Set nmVotingCycle and return self for chaining.
-        
+
         Args:
             value: The nmVotingCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_voting_cycle("value")
         """

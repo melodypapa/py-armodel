@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PPortComSpec(ARObject, ABC):
     """
     Communication attributes of a provided PortPrototype. This class will
     contain attributes that are valid for all kinds of provide ports,
     independent of client-server or sender-receiver communication patterns.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::PPortComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 166, Classic Platform
       R23-11)

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     """
@@ -7,9 +7,9 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     (DID) that is fully specified regarding the payload at configuration-time.
     (cid:53) 33 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
     Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDataIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 33, Classic Platform
       R23-11)
@@ -37,10 +37,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def did_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set didSize with validation.
-        
+
         Args:
             value: The didSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def represents_vin(self, value: Optional["Boolean"]) -> None:
         """
         Set representsVin with validation.
-        
+
         Args:
             value: The representsVin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> None:
         """
         Set supportInfoByte with validation.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getDataElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -129,10 +129,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getDidSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for didSize.
-        
+
         Returns:
             The didSize value
-        
+
         Note:
             Delegates to did_size property (CODING_RULE_V2_00017)
         """
@@ -141,13 +141,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def setDidSize(self, value: "PositiveInteger") -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant setter for didSize with method chaining.
-        
+
         Args:
             value: The didSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to did_size property setter (gets validation automatically)
         """
@@ -157,10 +157,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getRepresentsVin(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for representsVin.
-        
+
         Returns:
             The representsVin value
-        
+
         Note:
             Delegates to represents_vin property (CODING_RULE_V2_00017)
         """
@@ -169,13 +169,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def setRepresentsVin(self, value: "Boolean") -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant setter for representsVin with method chaining.
-        
+
         Args:
             value: The representsVin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to represents_vin property setter (gets validation automatically)
         """
@@ -185,10 +185,10 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def getSupportInfoByte(self) -> "DiagnosticSupportInfo":
         """
         AUTOSAR-compliant getter for supportInfoByte.
-        
+
         Returns:
             The supportInfoByte value
-        
+
         Note:
             Delegates to support_info_byte property (CODING_RULE_V2_00017)
         """
@@ -197,13 +197,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def setSupportInfoByte(self, value: "DiagnosticSupportInfo") -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant setter for supportInfoByte with method chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info_byte property setter (gets validation automatically)
         """
@@ -215,13 +215,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def with_did_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticDataIdentifier":
         """
         Set didSize and return self for chaining.
-        
+
         Args:
             value: The didSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_did_size("value")
         """
@@ -231,13 +231,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def with_represents_vin(self, value: Optional["Boolean"]) -> "DiagnosticDataIdentifier":
         """
         Set representsVin and return self for chaining.
-        
+
         Args:
             value: The representsVin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_represents_vin("value")
         """
@@ -247,13 +247,13 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     def with_support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> "DiagnosticDataIdentifier":
         """
         Set supportInfoByte and return self for chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info_byte("value")
         """

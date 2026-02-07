@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AclObjectSet(ARElement):
     """
     that this can also be a reference to a Standard Module Definition. Therefore
     it is stereotyped by atpUri Def. Stereotypes: atpUriDef Table 11.2:
     AclObjectSet
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclObjectSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 383, Foundation
       R23-11)
@@ -39,10 +42,10 @@ class AclObjectSet(ARElement):
     def acl_scope(self, value: "AclScopeEnum") -> None:
         """
         Set aclScope with validation.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +66,10 @@ class AclObjectSet(ARElement):
     def collection(self, value: RefType) -> None:
         """
         Set collection with validation.
-        
+
         Args:
             value: The collection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +102,10 @@ class AclObjectSet(ARElement):
     def getAclObjectClass(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for aclObjectClass.
-        
+
         Returns:
             The aclObjectClass value
-        
+
         Note:
             Delegates to acl_object_class property (CODING_RULE_V2_00017)
         """
@@ -111,10 +114,10 @@ class AclObjectSet(ARElement):
     def getAclScope(self) -> "AclScopeEnum":
         """
         AUTOSAR-compliant getter for aclScope.
-        
+
         Returns:
             The aclScope value
-        
+
         Note:
             Delegates to acl_scope property (CODING_RULE_V2_00017)
         """
@@ -123,13 +126,13 @@ class AclObjectSet(ARElement):
     def setAclScope(self, value: "AclScopeEnum") -> "AclObjectSet":
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to acl_scope property setter (gets validation automatically)
         """
@@ -139,10 +142,10 @@ class AclObjectSet(ARElement):
     def getCollection(self) -> RefType:
         """
         AUTOSAR-compliant getter for collection.
-        
+
         Returns:
             The collection value
-        
+
         Note:
             Delegates to collection property (CODING_RULE_V2_00017)
         """
@@ -151,13 +154,13 @@ class AclObjectSet(ARElement):
     def setCollection(self, value: RefType) -> "AclObjectSet":
         """
         AUTOSAR-compliant setter for collection with method chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection property setter (gets validation automatically)
         """
@@ -167,10 +170,10 @@ class AclObjectSet(ARElement):
     def getDerivedFrom(self) -> List["AtpBlueprint"]:
         """
         AUTOSAR-compliant getter for derivedFrom.
-        
+
         Returns:
             The derivedFrom value
-        
+
         Note:
             Delegates to derived_from property (CODING_RULE_V2_00017)
         """
@@ -179,10 +182,10 @@ class AclObjectSet(ARElement):
     def getEngineering(self) -> List["AutosarEngineering"]:
         """
         AUTOSAR-compliant getter for engineering.
-        
+
         Returns:
             The engineering value
-        
+
         Note:
             Delegates to engineering property (CODING_RULE_V2_00017)
         """
@@ -193,13 +196,13 @@ class AclObjectSet(ARElement):
     def with_acl_scope(self, value: "AclScopeEnum") -> "AclObjectSet":
         """
         Set aclScope and return self for chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_acl_scope("value")
         """
@@ -209,13 +212,13 @@ class AclObjectSet(ARElement):
     def with_collection(self, value: Optional[RefType]) -> "AclObjectSet":
         """
         Set collection and return self for chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RuleBasedValueSpecification(ARObject):
     """
@@ -8,9 +11,9 @@ class RuleBasedValueSpecification(ARObject):
     data types with an array-nature (ApplicationArrayDataType and
     ImplementationDataType of category ARRAY) or a compound Application
     PrimitiveDataType (which also boils down to an array-nature).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::RuleBasedValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 331, Classic
       Platform R23-11)
@@ -33,10 +36,10 @@ class RuleBasedValueSpecification(ARObject):
     def arguments(self, value: Optional["RuleArguments"]) -> None:
         """
         Set arguments with validation.
-        
+
         Args:
             value: The arguments to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class RuleBasedValueSpecification(ARObject):
     def max_size_to_fill(self, value: Optional["Integer"]) -> None:
         """
         Set maxSizeToFill with validation.
-        
+
         Args:
             value: The maxSizeToFill to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class RuleBasedValueSpecification(ARObject):
     def rule(self, value: Optional["Identifier"]) -> None:
         """
         Set rule with validation.
-        
+
         Args:
             value: The rule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class RuleBasedValueSpecification(ARObject):
     def getArguments(self) -> "RuleArguments":
         """
         AUTOSAR-compliant getter for arguments.
-        
+
         Returns:
             The arguments value
-        
+
         Note:
             Delegates to arguments property (CODING_RULE_V2_00017)
         """
@@ -125,13 +128,13 @@ class RuleBasedValueSpecification(ARObject):
     def setArguments(self, value: "RuleArguments") -> "RuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for arguments with method chaining.
-        
+
         Args:
             value: The arguments to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arguments property setter (gets validation automatically)
         """
@@ -141,10 +144,10 @@ class RuleBasedValueSpecification(ARObject):
     def getMaxSizeToFill(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxSizeToFill.
-        
+
         Returns:
             The maxSizeToFill value
-        
+
         Note:
             Delegates to max_size_to_fill property (CODING_RULE_V2_00017)
         """
@@ -153,13 +156,13 @@ class RuleBasedValueSpecification(ARObject):
     def setMaxSizeToFill(self, value: "Integer") -> "RuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for maxSizeToFill with method chaining.
-        
+
         Args:
             value: The maxSizeToFill to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_size_to_fill property setter (gets validation automatically)
         """
@@ -169,10 +172,10 @@ class RuleBasedValueSpecification(ARObject):
     def getRule(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for rule.
-        
+
         Returns:
             The rule value
-        
+
         Note:
             Delegates to rule property (CODING_RULE_V2_00017)
         """
@@ -181,13 +184,13 @@ class RuleBasedValueSpecification(ARObject):
     def setRule(self, value: "Identifier") -> "RuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for rule with method chaining.
-        
+
         Args:
             value: The rule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rule property setter (gets validation automatically)
         """
@@ -199,13 +202,13 @@ class RuleBasedValueSpecification(ARObject):
     def with_arguments(self, value: Optional["RuleArguments"]) -> "RuleBasedValueSpecification":
         """
         Set arguments and return self for chaining.
-        
+
         Args:
             value: The arguments to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arguments("value")
         """
@@ -215,13 +218,13 @@ class RuleBasedValueSpecification(ARObject):
     def with_max_size_to_fill(self, value: Optional["Integer"]) -> "RuleBasedValueSpecification":
         """
         Set maxSizeToFill and return self for chaining.
-        
+
         Args:
             value: The maxSizeToFill to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_size_to_fill("value")
         """
@@ -231,13 +234,13 @@ class RuleBasedValueSpecification(ARObject):
     def with_rule(self, value: Optional["Identifier"]) -> "RuleBasedValueSpecification":
         """
         Set rule and return self for chaining.
-        
+
         Args:
             value: The rule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rule("value")
         """

@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DoIpPowerModeStatusNeeds(DoIpServiceNeeds):
     """
     The DoIpPowerModeStatusNeeds indicates that the software-component owning
     this ServiceNeeds is providing the PowerModeStatus for the DoIP service
     0x4003 according to ISO 13400-2:2012.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpPowerModeStatusNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 806, Classic Platform
       R23-11)

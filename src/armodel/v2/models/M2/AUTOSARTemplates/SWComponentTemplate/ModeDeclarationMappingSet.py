@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ModeDeclarationMappingSet(ARElement):
     """
     This meta-class implements a container for ModeDeclarationGroupMappings
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeDeclarationMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class ModeDeclarationMappingSet(ARElement):
     def getMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """

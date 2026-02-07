@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     """
@@ -10,9 +12,9 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     EthernetWakeupSleepOnDatalineConfigSet could aggregate multiple different
     configurations regarding the wakeup and sleep on dataline
     (EthernetWakeupSleepOnDatalineConfig).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetWakeupSleepOnDatalineConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 158, Classic Platform R23-11)
     """
@@ -37,10 +39,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def sleep_mode(self, value: Optional["TimeValue"]) -> None:
         """
         Set sleepMode with validation.
-        
+
         Args:
             value: The sleepMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +69,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def sleep_repetition(self, value: Optional["TimeValue"]) -> None:
         """
         Set sleepRepetition with validation.
-        
+
         Args:
             value: The sleepRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +101,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def sleep(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sleep with validation.
-        
+
         Args:
             value: The sleep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +132,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup_forward(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeupForward with validation.
-        
+
         Args:
             value: The wakeupForward to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +164,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup_local(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeupLocal with validation.
-        
+
         Args:
             value: The wakeupLocal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -193,10 +195,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup_remote(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeupRemote with validation.
-        
+
         Args:
             value: The wakeupRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +226,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def wakeup(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set wakeup with validation.
-        
+
         Args:
             value: The wakeup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -246,10 +248,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getSleepMode(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sleepMode.
-        
+
         Returns:
             The sleepMode value
-        
+
         Note:
             Delegates to sleep_mode property (CODING_RULE_V2_00017)
         """
@@ -258,13 +260,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setSleepMode(self, value: "TimeValue") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for sleepMode with method chaining.
-        
+
         Args:
             value: The sleepMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sleep_mode property setter (gets validation automatically)
         """
@@ -274,10 +276,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getSleepRepetition(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sleepRepetition.
-        
+
         Returns:
             The sleepRepetition value
-        
+
         Note:
             Delegates to sleep_repetition property (CODING_RULE_V2_00017)
         """
@@ -286,13 +288,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setSleepRepetition(self, value: "TimeValue") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for sleepRepetition with method chaining.
-        
+
         Args:
             value: The sleepRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sleep_repetition property setter (gets validation automatically)
         """
@@ -302,10 +304,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getSleep(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sleep.
-        
+
         Returns:
             The sleep value
-        
+
         Note:
             Delegates to sleep property (CODING_RULE_V2_00017)
         """
@@ -314,13 +316,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setSleep(self, value: "PositiveInteger") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for sleep with method chaining.
-        
+
         Args:
             value: The sleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sleep property setter (gets validation automatically)
         """
@@ -330,10 +332,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeupForward(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeupForward.
-        
+
         Returns:
             The wakeupForward value
-        
+
         Note:
             Delegates to wakeup_forward property (CODING_RULE_V2_00017)
         """
@@ -342,13 +344,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeupForward(self, value: "Boolean") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeupForward with method chaining.
-        
+
         Args:
             value: The wakeupForward to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_forward property setter (gets validation automatically)
         """
@@ -358,10 +360,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeupLocal(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeupLocal.
-        
+
         Returns:
             The wakeupLocal value
-        
+
         Note:
             Delegates to wakeup_local property (CODING_RULE_V2_00017)
         """
@@ -370,13 +372,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeupLocal(self, value: "Boolean") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeupLocal with method chaining.
-        
+
         Args:
             value: The wakeupLocal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_local property setter (gets validation automatically)
         """
@@ -386,10 +388,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeupRemote(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeupRemote.
-        
+
         Returns:
             The wakeupRemote value
-        
+
         Note:
             Delegates to wakeup_remote property (CODING_RULE_V2_00017)
         """
@@ -398,13 +400,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeupRemote(self, value: "Boolean") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeupRemote with method chaining.
-        
+
         Args:
             value: The wakeupRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_remote property setter (gets validation automatically)
         """
@@ -414,10 +416,10 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def getWakeup(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for wakeup.
-        
+
         Returns:
             The wakeup value
-        
+
         Note:
             Delegates to wakeup property (CODING_RULE_V2_00017)
         """
@@ -426,13 +428,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def setWakeup(self, value: "PositiveInteger") -> "EthernetWakeupSleepOnDatalineConfig":
         """
         AUTOSAR-compliant setter for wakeup with method chaining.
-        
+
         Args:
             value: The wakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup property setter (gets validation automatically)
         """
@@ -444,13 +446,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_sleep_mode(self, value: Optional["TimeValue"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set sleepMode and return self for chaining.
-        
+
         Args:
             value: The sleepMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sleep_mode("value")
         """
@@ -460,13 +462,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_sleep_repetition(self, value: Optional["TimeValue"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set sleepRepetition and return self for chaining.
-        
+
         Args:
             value: The sleepRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sleep_repetition("value")
         """
@@ -476,13 +478,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_sleep(self, value: Optional["PositiveInteger"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set sleep and return self for chaining.
-        
+
         Args:
             value: The sleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sleep("value")
         """
@@ -492,13 +494,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup_forward(self, value: Optional["Boolean"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeupForward and return self for chaining.
-        
+
         Args:
             value: The wakeupForward to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_forward("value")
         """
@@ -508,13 +510,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup_local(self, value: Optional["Boolean"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeupLocal and return self for chaining.
-        
+
         Args:
             value: The wakeupLocal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_local("value")
         """
@@ -524,13 +526,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup_remote(self, value: Optional["Boolean"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeupRemote and return self for chaining.
-        
+
         Args:
             value: The wakeupRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_remote("value")
         """
@@ -540,13 +542,13 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     def with_wakeup(self, value: Optional["PositiveInteger"]) -> "EthernetWakeupSleepOnDatalineConfig":
         """
         Set wakeup and return self for chaining.
-        
+
         Args:
             value: The wakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup("value")
         """

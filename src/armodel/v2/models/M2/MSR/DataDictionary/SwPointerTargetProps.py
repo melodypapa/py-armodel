@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwPointerTargetProps(ARObject):
     """
@@ -10,9 +13,9 @@ class SwPointerTargetProps(ARObject):
     The attributes of this element describe the category and the detailed
     properties of the target which is either a data description or a function
     signature.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwPointerTargetProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 39, Classic
       Platform R23-11)
@@ -40,10 +43,10 @@ class SwPointerTargetProps(ARObject):
     def function_pointer(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set functionPointer with validation.
-        
+
         Args:
             value: The functionPointer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +72,10 @@ class SwPointerTargetProps(ARObject):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +103,10 @@ class SwPointerTargetProps(ARObject):
     def target_category(self, value: Optional["Identifier"]) -> None:
         """
         Set targetCategory with validation.
-        
+
         Args:
             value: The targetCategory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +125,10 @@ class SwPointerTargetProps(ARObject):
     def getFunctionPointer(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for functionPointer.
-        
+
         Returns:
             The functionPointer value
-        
+
         Note:
             Delegates to function_pointer property (CODING_RULE_V2_00017)
         """
@@ -134,13 +137,13 @@ class SwPointerTargetProps(ARObject):
     def setFunctionPointer(self, value: "BswModuleEntry") -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant setter for functionPointer with method chaining.
-        
+
         Args:
             value: The functionPointer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function_pointer property setter (gets validation automatically)
         """
@@ -150,10 +153,10 @@ class SwPointerTargetProps(ARObject):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -162,13 +165,13 @@ class SwPointerTargetProps(ARObject):
     def setSwDataDef(self, value: "SwDataDefProps") -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -178,10 +181,10 @@ class SwPointerTargetProps(ARObject):
     def getTargetCategory(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for targetCategory.
-        
+
         Returns:
             The targetCategory value
-        
+
         Note:
             Delegates to target_category property (CODING_RULE_V2_00017)
         """
@@ -190,13 +193,13 @@ class SwPointerTargetProps(ARObject):
     def setTargetCategory(self, value: "Identifier") -> "SwPointerTargetProps":
         """
         AUTOSAR-compliant setter for targetCategory with method chaining.
-        
+
         Args:
             value: The targetCategory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_category property setter (gets validation automatically)
         """
@@ -208,13 +211,13 @@ class SwPointerTargetProps(ARObject):
     def with_function_pointer(self, value: Optional["BswModuleEntry"]) -> "SwPointerTargetProps":
         """
         Set functionPointer and return self for chaining.
-        
+
         Args:
             value: The functionPointer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function_pointer("value")
         """
@@ -224,13 +227,13 @@ class SwPointerTargetProps(ARObject):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "SwPointerTargetProps":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -240,13 +243,13 @@ class SwPointerTargetProps(ARObject):
     def with_target_category(self, value: Optional["Identifier"]) -> "SwPointerTargetProps":
         """
         Set targetCategory and return self for chaining.
-        
+
         Args:
             value: The targetCategory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_category("value")
         """

@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SystemMapping(Identifiable):
     """
     The system mapping aggregates all mapping aspects (mapping of SW components
     to ECUs, mapping of data elements to signals, and mapping constraints).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SystemMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 190, Classic Platform R23-11)
     """
@@ -215,10 +219,10 @@ class SystemMapping(Identifiable):
     def getApplication(self) -> List["ApplicationPartitionTo"]:
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -227,10 +231,10 @@ class SystemMapping(Identifiable):
     def getAppOsTask(self) -> List["AppOsTaskProxyToEcu"]:
         """
         AUTOSAR-compliant getter for appOsTask.
-        
+
         Returns:
             The appOsTask value
-        
+
         Note:
             Delegates to app_os_task property (CODING_RULE_V2_00017)
         """
@@ -239,10 +243,10 @@ class SystemMapping(Identifiable):
     def getCom(self) -> List["ComManagement"]:
         """
         AUTOSAR-compliant getter for com.
-        
+
         Returns:
             The com value
-        
+
         Note:
             Delegates to com property (CODING_RULE_V2_00017)
         """
@@ -251,10 +255,10 @@ class SystemMapping(Identifiable):
     def getCryptoService(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -263,10 +267,10 @@ class SystemMapping(Identifiable):
     def getDataMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataMapping.
-        
+
         Returns:
             The dataMapping value
-        
+
         Note:
             Delegates to data_mapping property (CODING_RULE_V2_00017)
         """
@@ -275,10 +279,10 @@ class SystemMapping(Identifiable):
     def getDdsISignalTo(self) -> List["DdsCpISignalToDds"]:
         """
         AUTOSAR-compliant getter for ddsISignalTo.
-        
+
         Returns:
             The ddsISignalTo value
-        
+
         Note:
             Delegates to dds_i_signal_to property (CODING_RULE_V2_00017)
         """
@@ -287,10 +291,10 @@ class SystemMapping(Identifiable):
     def getEcuResource(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for ecuResource.
-        
+
         Returns:
             The ecuResource value
-        
+
         Note:
             Delegates to ecu_resource property (CODING_RULE_V2_00017)
         """
@@ -299,10 +303,10 @@ class SystemMapping(Identifiable):
     def getJ1939Controller(self) -> List["J1939Controller"]:
         """
         AUTOSAR-compliant getter for j1939Controller.
-        
+
         Returns:
             The j1939Controller value
-        
+
         Note:
             Delegates to j1939_controller property (CODING_RULE_V2_00017)
         """
@@ -311,10 +315,10 @@ class SystemMapping(Identifiable):
     def getMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -323,10 +327,10 @@ class SystemMapping(Identifiable):
     def getPncMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pncMapping.
-        
+
         Returns:
             The pncMapping value
-        
+
         Note:
             Delegates to pnc_mapping property (CODING_RULE_V2_00017)
         """
@@ -335,10 +339,10 @@ class SystemMapping(Identifiable):
     def getPortElementTo(self) -> List["PortElementTo"]:
         """
         AUTOSAR-compliant getter for portElementTo.
-        
+
         Returns:
             The portElementTo value
-        
+
         Note:
             Delegates to port_element_to property (CODING_RULE_V2_00017)
         """
@@ -347,10 +351,10 @@ class SystemMapping(Identifiable):
     def getResource(self) -> List["EcuResourceEstimation"]:
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -359,10 +363,10 @@ class SystemMapping(Identifiable):
     def getResourceTo(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for resourceTo.
-        
+
         Returns:
             The resourceTo value
-        
+
         Note:
             Delegates to resource_to property (CODING_RULE_V2_00017)
         """
@@ -371,10 +375,10 @@ class SystemMapping(Identifiable):
     def getRteEvent(self) -> List["RteEventInSystem"]:
         """
         AUTOSAR-compliant getter for rteEvent.
-        
+
         Returns:
             The rteEvent value
-        
+
         Note:
             Delegates to rte_event property (CODING_RULE_V2_00017)
         """
@@ -383,10 +387,10 @@ class SystemMapping(Identifiable):
     def getRteEventToOs(self) -> List["RteEventInSystemToOs"]:
         """
         AUTOSAR-compliant getter for rteEventToOs.
-        
+
         Returns:
             The rteEventToOs value
-        
+
         Note:
             Delegates to rte_event_to_os property (CODING_RULE_V2_00017)
         """
@@ -395,10 +399,10 @@ class SystemMapping(Identifiable):
     def getSignalPath(self) -> List["SignalPathConstraint"]:
         """
         AUTOSAR-compliant getter for signalPath.
-        
+
         Returns:
             The signalPath value
-        
+
         Note:
             Delegates to signal_path property (CODING_RULE_V2_00017)
         """
@@ -407,10 +411,10 @@ class SystemMapping(Identifiable):
     def getSoftwareCluster(self) -> List["CpSoftwareClusterTo"]:
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -419,10 +423,10 @@ class SystemMapping(Identifiable):
     def getSwCluster(self) -> List["CpSoftwareClusterTo"]:
         """
         AUTOSAR-compliant getter for swCluster.
-        
+
         Returns:
             The swCluster value
-        
+
         Note:
             Delegates to sw_cluster property (CODING_RULE_V2_00017)
         """
@@ -431,10 +435,10 @@ class SystemMapping(Identifiable):
     def getSwcTo(self) -> List["SwcToApplication"]:
         """
         AUTOSAR-compliant getter for swcTo.
-        
+
         Returns:
             The swcTo value
-        
+
         Note:
             Delegates to swc_to property (CODING_RULE_V2_00017)
         """
@@ -443,10 +447,10 @@ class SystemMapping(Identifiable):
     def getSwImplMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for swImplMapping.
-        
+
         Returns:
             The swImplMapping value
-        
+
         Note:
             Delegates to sw_impl_mapping property (CODING_RULE_V2_00017)
         """
@@ -455,10 +459,10 @@ class SystemMapping(Identifiable):
     def getSwMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for swMapping.
-        
+
         Returns:
             The swMapping value
-        
+
         Note:
             Delegates to sw_mapping property (CODING_RULE_V2_00017)
         """
@@ -467,10 +471,10 @@ class SystemMapping(Identifiable):
     def getSystemSignal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -479,10 +483,10 @@ class SystemMapping(Identifiable):
     def getSystemSignalTo(self) -> List["SystemSignalTo"]:
         """
         AUTOSAR-compliant getter for systemSignalTo.
-        
+
         Returns:
             The systemSignalTo value
-        
+
         Note:
             Delegates to system_signal_to property (CODING_RULE_V2_00017)
         """

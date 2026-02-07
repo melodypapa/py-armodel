@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwcToSwcOperationArguments(ARObject):
     """
@@ -12,9 +15,9 @@ class SwcToSwcOperationArguments(ARObject):
     from the client to the server are described by the
     SwcToSwcOperationArguments, in direction == OUT, it’s the arguments sent
     back from server to client.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SwcToSwcOperationArguments
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 253, Classic Platform R23-11)
     """
@@ -34,10 +37,10 @@ class SwcToSwcOperationArguments(ARObject):
     def direction(self, value: Optional["SwcToSwcOperation"]) -> None:
         """
         Set direction with validation.
-        
+
         Args:
             value: The direction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +67,10 @@ class SwcToSwcOperationArguments(ARObject):
     def getDirection(self) -> "SwcToSwcOperation":
         """
         AUTOSAR-compliant getter for direction.
-        
+
         Returns:
             The direction value
-        
+
         Note:
             Delegates to direction property (CODING_RULE_V2_00017)
         """
@@ -76,13 +79,13 @@ class SwcToSwcOperationArguments(ARObject):
     def setDirection(self, value: "SwcToSwcOperation") -> "SwcToSwcOperationArguments":
         """
         AUTOSAR-compliant setter for direction with method chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direction property setter (gets validation automatically)
         """
@@ -92,10 +95,10 @@ class SwcToSwcOperationArguments(ARObject):
     def getOperation(self) -> List["ClientServerOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -106,13 +109,13 @@ class SwcToSwcOperationArguments(ARObject):
     def with_direction(self, value: Optional["SwcToSwcOperation"]) -> "SwcToSwcOperationArguments":
         """
         Set direction and return self for chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direction("value")
         """

@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwAxisCont(ARObject):
     """
@@ -10,9 +15,9 @@ class SwAxisCont(ARObject):
     directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS
     are for display only. For editing and processing, only the values in the
     related GroupAxis are binding.
-    
+
     Package: M2::MSR::CalibrationData::CalibrationValue::SwAxisCont
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 457, Classic Platform
       R23-11)
@@ -34,10 +39,10 @@ class SwAxisCont(ARObject):
     def category(self, value: Optional["CalprmAxisCategory"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +69,10 @@ class SwAxisCont(ARObject):
     def sw_arraysize(self, value: RefType) -> None:
         """
         Set swArraysize with validation.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +95,10 @@ class SwAxisCont(ARObject):
     def sw_axis_index(self, value: Optional["AxisIndexType"]) -> None:
         """
         Set swAxisIndex with validation.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +123,10 @@ class SwAxisCont(ARObject):
     def sw_values_phys(self, value: Optional["SwValues"]) -> None:
         """
         Set swValuesPhys with validation.
-        
+
         Args:
             value: The swValuesPhys to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +151,10 @@ class SwAxisCont(ARObject):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +180,10 @@ class SwAxisCont(ARObject):
     def unit_display(self, value: Optional["SingleLanguageUnit"]) -> None:
         """
         Set unitDisplay with validation.
-        
+
         Args:
             value: The unitDisplay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -197,10 +202,10 @@ class SwAxisCont(ARObject):
     def getCategory(self) -> "CalprmAxisCategory":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -209,13 +214,13 @@ class SwAxisCont(ARObject):
     def setCategory(self, value: "CalprmAxisCategory") -> "SwAxisCont":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -225,10 +230,10 @@ class SwAxisCont(ARObject):
     def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
-        
+
         Returns:
             The swArraysize value
-        
+
         Note:
             Delegates to sw_arraysize property (CODING_RULE_V2_00017)
         """
@@ -237,13 +242,13 @@ class SwAxisCont(ARObject):
     def setSwArraysize(self, value: RefType) -> "SwAxisCont":
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_arraysize property setter (gets validation automatically)
         """
@@ -253,10 +258,10 @@ class SwAxisCont(ARObject):
     def getSwAxisIndex(self) -> "AxisIndexType":
         """
         AUTOSAR-compliant getter for swAxisIndex.
-        
+
         Returns:
             The swAxisIndex value
-        
+
         Note:
             Delegates to sw_axis_index property (CODING_RULE_V2_00017)
         """
@@ -265,13 +270,13 @@ class SwAxisCont(ARObject):
     def setSwAxisIndex(self, value: "AxisIndexType") -> "SwAxisCont":
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_axis_index property setter (gets validation automatically)
         """
@@ -281,10 +286,10 @@ class SwAxisCont(ARObject):
     def getSwValuesPhys(self) -> "SwValues":
         """
         AUTOSAR-compliant getter for swValuesPhys.
-        
+
         Returns:
             The swValuesPhys value
-        
+
         Note:
             Delegates to sw_values_phys property (CODING_RULE_V2_00017)
         """
@@ -293,13 +298,13 @@ class SwAxisCont(ARObject):
     def setSwValuesPhys(self, value: "SwValues") -> "SwAxisCont":
         """
         AUTOSAR-compliant setter for swValuesPhys with method chaining.
-        
+
         Args:
             value: The swValuesPhys to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_values_phys property setter (gets validation automatically)
         """
@@ -309,10 +314,10 @@ class SwAxisCont(ARObject):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -321,13 +326,13 @@ class SwAxisCont(ARObject):
     def setUnit(self, value: "Unit") -> "SwAxisCont":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -337,10 +342,10 @@ class SwAxisCont(ARObject):
     def getUnitDisplay(self) -> "SingleLanguageUnit":
         """
         AUTOSAR-compliant getter for unitDisplay.
-        
+
         Returns:
             The unitDisplay value
-        
+
         Note:
             Delegates to unit_display property (CODING_RULE_V2_00017)
         """
@@ -349,13 +354,13 @@ class SwAxisCont(ARObject):
     def setUnitDisplay(self, value: "SingleLanguageUnit") -> "SwAxisCont":
         """
         AUTOSAR-compliant setter for unitDisplay with method chaining.
-        
+
         Args:
             value: The unitDisplay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit_display property setter (gets validation automatically)
         """
@@ -367,13 +372,13 @@ class SwAxisCont(ARObject):
     def with_category(self, value: Optional["CalprmAxisCategory"]) -> "SwAxisCont":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -383,13 +388,13 @@ class SwAxisCont(ARObject):
     def with_sw_arraysize(self, value: Optional[RefType]) -> "SwAxisCont":
         """
         Set swArraysize and return self for chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_arraysize("value")
         """
@@ -399,13 +404,13 @@ class SwAxisCont(ARObject):
     def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "SwAxisCont":
         """
         Set swAxisIndex and return self for chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_axis_index("value")
         """
@@ -415,13 +420,13 @@ class SwAxisCont(ARObject):
     def with_sw_values_phys(self, value: Optional["SwValues"]) -> "SwAxisCont":
         """
         Set swValuesPhys and return self for chaining.
-        
+
         Args:
             value: The swValuesPhys to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_values_phys("value")
         """
@@ -431,13 +436,13 @@ class SwAxisCont(ARObject):
     def with_unit(self, value: Optional["Unit"]) -> "SwAxisCont":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """
@@ -447,13 +452,13 @@ class SwAxisCont(ARObject):
     def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> "SwAxisCont":
         """
         Set unitDisplay and return self for chaining.
-        
+
         Args:
             value: The unitDisplay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit_display("value")
         """

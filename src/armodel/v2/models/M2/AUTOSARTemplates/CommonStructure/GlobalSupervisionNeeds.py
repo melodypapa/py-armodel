@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class GlobalSupervisionNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Watchdog Manager to
     get access on the Global Supervision control and status interface.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::GlobalSupervisionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 318, Classic
       Platform R23-11)

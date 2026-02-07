@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class VfbTiming(TimingExtension):
     """
     A model element used to define timing descriptions and constraints at VFB
     level. TimingDescriptions aggregated by VfbTiming are restricted to event
     chains referring to events which are derived from the class TDEventVfb.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::VfbTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 24, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 223, Foundation R23-11)
@@ -30,10 +30,10 @@ class VfbTiming(TimingExtension):
     def component(self, value: Optional["SwComponentType"]) -> None:
         """
         Set component with validation.
-        
+
         Args:
             value: The component to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class VfbTiming(TimingExtension):
     def getComponent(self) -> "SwComponentType":
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class VfbTiming(TimingExtension):
     def setComponent(self, value: "SwComponentType") -> "VfbTiming":
         """
         AUTOSAR-compliant setter for component with method chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to component property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class VfbTiming(TimingExtension):
     def with_component(self, value: Optional["SwComponentType"]) -> "VfbTiming":
         """
         Set component and return self for chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_component("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class J1939DcmIPdu(IPdu):
     """
     Represents the IPdus handled by J1939Dcm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::J1939DcmIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 321, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class J1939DcmIPdu(IPdu):
     def diagnostic(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class J1939DcmIPdu(IPdu):
     def message_type(self, value: "e.g") -> None:
         """
         Set MessageType with validation.
-        
+
         Args:
             value: The MessageType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class J1939DcmIPdu(IPdu):
     def getDiagnostic(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -85,13 +85,13 @@ class J1939DcmIPdu(IPdu):
     def setDiagnostic(self, value: "PositiveInteger") -> "J1939DcmIPdu":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -101,10 +101,10 @@ class J1939DcmIPdu(IPdu):
     def getMessageType(self) -> "e.g":
         """
         AUTOSAR-compliant getter for MessageType.
-        
+
         Returns:
             The MessageType value
-        
+
         Note:
             Delegates to message_type property (CODING_RULE_V2_00017)
         """
@@ -113,13 +113,13 @@ class J1939DcmIPdu(IPdu):
     def setMessageType(self, value: "e.g") -> "J1939DcmIPdu":
         """
         AUTOSAR-compliant setter for MessageType with method chaining.
-        
+
         Args:
             value: The MessageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_type property setter (gets validation automatically)
         """
@@ -131,13 +131,13 @@ class J1939DcmIPdu(IPdu):
     def with_diagnostic(self, value: Optional["PositiveInteger"]) -> "J1939DcmIPdu":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -147,13 +147,13 @@ class J1939DcmIPdu(IPdu):
     def with_message_type(self, value: "e.g") -> "J1939DcmIPdu":
         """
         Set MessageType and return self for chaining.
-        
+
         Args:
             value: The MessageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_type("value")
         """

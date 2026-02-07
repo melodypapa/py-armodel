@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CryptoSignatureScheme(ARElement):
     """
     This meta-class provides attributes to specify the TLS Signature Scheme.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoSignatureScheme
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 564, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class CryptoSignatureScheme(ARElement):
     def signature(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set signature with validation.
-        
+
         Args:
             value: The signature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class CryptoSignatureScheme(ARElement):
     def getSignature(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for signature.
-        
+
         Returns:
             The signature value
-        
+
         Note:
             Delegates to signature property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class CryptoSignatureScheme(ARElement):
     def setSignature(self, value: "PositiveInteger") -> "CryptoSignatureScheme":
         """
         AUTOSAR-compliant setter for signature with method chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signature property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class CryptoSignatureScheme(ARElement):
     def with_signature(self, value: Optional["PositiveInteger"]) -> "CryptoSignatureScheme":
         """
         Set signature and return self for chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signature("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class PredefinedVariant(ARElement):
     """
@@ -7,9 +7,9 @@ class PredefinedVariant(ARElement):
     all system constant values and post-build variant criterion values
     aggregated within all referenced system constant value sets and post build
     variant criterion value sets plus the value sets of the included variants.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PredefinedVariant
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 77, Foundation
@@ -52,10 +52,10 @@ class PredefinedVariant(ARElement):
     def getIncludedVariant(self) -> List["PredefinedVariant"]:
         """
         AUTOSAR-compliant getter for includedVariant.
-        
+
         Returns:
             The includedVariant value
-        
+
         Note:
             Delegates to included_variant property (CODING_RULE_V2_00017)
         """
@@ -64,10 +64,10 @@ class PredefinedVariant(ARElement):
     def getPostBuildVariant(self) -> List["PostBuildVariant"]:
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -76,10 +76,10 @@ class PredefinedVariant(ARElement):
     def getSw(self) -> List["SwSystemconstant"]:
         """
         AUTOSAR-compliant getter for sw.
-        
+
         Returns:
             The sw value
-        
+
         Note:
             Delegates to sw property (CODING_RULE_V2_00017)
         """

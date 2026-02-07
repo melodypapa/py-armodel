@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TransmissionModeTiming(ARObject):
     """
@@ -11,9 +14,9 @@ class TransmissionModeTiming(ARObject):
     COM supports the following Transmission Modes: • Periodic (Cyclic Timing) •
     Direct /n-times (EventControlledTiming) • Mixed (Cyclic and
     EventControlledTiming are assigned) • None (no timing is assigned)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TransmissionModeTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 393, Classic Platform R23-11)
     """
@@ -33,10 +36,10 @@ class TransmissionModeTiming(ARObject):
     def cyclic_timing(self, value: Optional["CyclicTiming"]) -> None:
         """
         Set cyclicTiming with validation.
-        
+
         Args:
             value: The cyclicTiming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class TransmissionModeTiming(ARObject):
     def event_controlled_timing(self, value: Optional["EventControlledTiming"]) -> None:
         """
         Set eventControlledTiming with validation.
-        
+
         Args:
             value: The eventControlledTiming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class TransmissionModeTiming(ARObject):
     def getCyclicTiming(self) -> "CyclicTiming":
         """
         AUTOSAR-compliant getter for cyclicTiming.
-        
+
         Returns:
             The cyclicTiming value
-        
+
         Note:
             Delegates to cyclic_timing property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class TransmissionModeTiming(ARObject):
     def setCyclicTiming(self, value: "CyclicTiming") -> "TransmissionModeTiming":
         """
         AUTOSAR-compliant setter for cyclicTiming with method chaining.
-        
+
         Args:
             value: The cyclicTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cyclic_timing property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class TransmissionModeTiming(ARObject):
     def getEventControlledTiming(self) -> "EventControlledTiming":
         """
         AUTOSAR-compliant getter for eventControlledTiming.
-        
+
         Returns:
             The eventControlledTiming value
-        
+
         Note:
             Delegates to event_controlled_timing property (CODING_RULE_V2_00017)
         """
@@ -123,13 +126,13 @@ class TransmissionModeTiming(ARObject):
     def setEventControlledTiming(self, value: "EventControlledTiming") -> "TransmissionModeTiming":
         """
         AUTOSAR-compliant setter for eventControlledTiming with method chaining.
-        
+
         Args:
             value: The eventControlledTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_controlled_timing property setter (gets validation automatically)
         """
@@ -141,13 +144,13 @@ class TransmissionModeTiming(ARObject):
     def with_cyclic_timing(self, value: Optional["CyclicTiming"]) -> "TransmissionModeTiming":
         """
         Set cyclicTiming and return self for chaining.
-        
+
         Args:
             value: The cyclicTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cyclic_timing("value")
         """
@@ -157,13 +160,13 @@ class TransmissionModeTiming(ARObject):
     def with_event_controlled_timing(self, value: Optional["EventControlledTiming"]) -> "TransmissionModeTiming":
         """
         Set eventControlledTiming and return self for chaining.
-        
+
         Args:
             value: The eventControlledTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_controlled_timing("value")
         """

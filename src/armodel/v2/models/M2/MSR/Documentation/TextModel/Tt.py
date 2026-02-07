@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Tt(ARObject):
     """
     This meta-class represents the ability to express specific technical terms.
     The kind of term is denoted in the attribute "type".
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Tt
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 318, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class Tt(ARObject):
     def term(self, value: "String") -> None:
         """
         Set term with validation.
-        
+
         Args:
             value: The term to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class Tt(ARObject):
     def tex_render(self, value: Optional["String"]) -> None:
         """
         Set texRender with validation.
-        
+
         Args:
             value: The texRender to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class Tt(ARObject):
     def type(self, value: "NameToken") -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +109,10 @@ class Tt(ARObject):
     def getTerm(self) -> "String":
         """
         AUTOSAR-compliant getter for term.
-        
+
         Returns:
             The term value
-        
+
         Note:
             Delegates to term property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class Tt(ARObject):
     def setTerm(self, value: "String") -> "Tt":
         """
         AUTOSAR-compliant setter for term with method chaining.
-        
+
         Args:
             value: The term to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to term property setter (gets validation automatically)
         """
@@ -134,10 +137,10 @@ class Tt(ARObject):
     def getTexRender(self) -> "String":
         """
         AUTOSAR-compliant getter for texRender.
-        
+
         Returns:
             The texRender value
-        
+
         Note:
             Delegates to tex_render property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class Tt(ARObject):
     def setTexRender(self, value: "String") -> "Tt":
         """
         AUTOSAR-compliant setter for texRender with method chaining.
-        
+
         Args:
             value: The texRender to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tex_render property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class Tt(ARObject):
     def getType(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class Tt(ARObject):
     def setType(self, value: "NameToken") -> "Tt":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -192,13 +195,13 @@ class Tt(ARObject):
     def with_term(self, value: "String") -> "Tt":
         """
         Set term and return self for chaining.
-        
+
         Args:
             value: The term to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_term("value")
         """
@@ -208,13 +211,13 @@ class Tt(ARObject):
     def with_tex_render(self, value: Optional["String"]) -> "Tt":
         """
         Set texRender and return self for chaining.
-        
+
         Args:
             value: The texRender to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tex_render("value")
         """
@@ -224,13 +227,13 @@ class Tt(ARObject):
     def with_type(self, value: "NameToken") -> "Tt":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

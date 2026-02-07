@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LimitValueVariationPoint(ARObject):
     """
     that the xml.name is "LIMIT" for backward compatibility reasons.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::LimitValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 241, Foundation
       R23-11)
@@ -29,10 +32,10 @@ class LimitValueVariationPoint(ARObject):
     def interval_type(self, value: Optional["IntervalTypeEnum"]) -> None:
         """
         Set intervalType with validation.
-        
+
         Args:
             value: The intervalType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class LimitValueVariationPoint(ARObject):
     def getIntervalType(self) -> "IntervalTypeEnum":
         """
         AUTOSAR-compliant getter for intervalType.
-        
+
         Returns:
             The intervalType value
-        
+
         Note:
             Delegates to interval_type property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class LimitValueVariationPoint(ARObject):
     def setIntervalType(self, value: "IntervalTypeEnum") -> "LimitValueVariationPoint":
         """
         AUTOSAR-compliant setter for intervalType with method chaining.
-        
+
         Args:
             value: The intervalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interval_type property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class LimitValueVariationPoint(ARObject):
     def with_interval_type(self, value: Optional["IntervalTypeEnum"]) -> "LimitValueVariationPoint":
         """
         Set intervalType and return self for chaining.
-        
+
         Args:
             value: The intervalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interval_type("value")
         """

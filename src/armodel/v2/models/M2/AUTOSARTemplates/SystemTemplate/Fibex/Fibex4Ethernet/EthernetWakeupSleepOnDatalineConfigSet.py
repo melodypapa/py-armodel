@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     """
     This meta-class is the main element that aggregates different config set
     regarding the ethernet wakeup and sleep on data line.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetWakeupSleepOnDatalineConfigSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 159, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     def getEthernet(self) -> List["EthernetWakeupSleep"]:
         """
         AUTOSAR-compliant getter for ethernet.
-        
+
         Returns:
             The ethernet value
-        
+
         Note:
             Delegates to ethernet property (CODING_RULE_V2_00017)
         """

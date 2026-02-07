@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BusMirrorCanIdRangeMapping(ARObject):
     """
     This element defines a rule for remapping a set of CAN IDs.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorCanIdRangeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 702, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def destination_base(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set destinationBase with validation.
-        
+
         Args:
             value: The destinationBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def source_can_id_code(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sourceCanIdCode with validation.
-        
+
         Args:
             value: The sourceCanIdCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def source_can_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sourceCanId with validation.
-        
+
         Args:
             value: The sourceCanId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +109,10 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def getDestinationBase(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for destinationBase.
-        
+
         Returns:
             The destinationBase value
-        
+
         Note:
             Delegates to destination_base property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def setDestinationBase(self, value: "PositiveInteger") -> "BusMirrorCanIdRangeMapping":
         """
         AUTOSAR-compliant setter for destinationBase with method chaining.
-        
+
         Args:
             value: The destinationBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_base property setter (gets validation automatically)
         """
@@ -134,10 +137,10 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def getSourceCanIdCode(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sourceCanIdCode.
-        
+
         Returns:
             The sourceCanIdCode value
-        
+
         Note:
             Delegates to source_can_id_code property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def setSourceCanIdCode(self, value: "PositiveInteger") -> "BusMirrorCanIdRangeMapping":
         """
         AUTOSAR-compliant setter for sourceCanIdCode with method chaining.
-        
+
         Args:
             value: The sourceCanIdCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_can_id_code property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def getSourceCanId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sourceCanId.
-        
+
         Returns:
             The sourceCanId value
-        
+
         Note:
             Delegates to source_can_id property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def setSourceCanId(self, value: "PositiveInteger") -> "BusMirrorCanIdRangeMapping":
         """
         AUTOSAR-compliant setter for sourceCanId with method chaining.
-        
+
         Args:
             value: The sourceCanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_can_id property setter (gets validation automatically)
         """
@@ -192,13 +195,13 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def with_destination_base(self, value: Optional["PositiveInteger"]) -> "BusMirrorCanIdRangeMapping":
         """
         Set destinationBase and return self for chaining.
-        
+
         Args:
             value: The destinationBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_base("value")
         """
@@ -208,13 +211,13 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def with_source_can_id_code(self, value: Optional["PositiveInteger"]) -> "BusMirrorCanIdRangeMapping":
         """
         Set sourceCanIdCode and return self for chaining.
-        
+
         Args:
             value: The sourceCanIdCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_can_id_code("value")
         """
@@ -224,13 +227,13 @@ class BusMirrorCanIdRangeMapping(ARObject):
     def with_source_can_id(self, value: Optional["PositiveInteger"]) -> "BusMirrorCanIdRangeMapping":
         """
         Set sourceCanId and return self for chaining.
-        
+
         Args:
             value: The sourceCanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_can_id("value")
         """

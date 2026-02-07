@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TimingExtensionResource(Identifiable):
     """
     A TimingExtensionResource provides the capability to contain instance
     references referred from within a timing condition formula.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingExtensionResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)
     """
@@ -47,10 +49,10 @@ class TimingExtensionResource(Identifiable):
     def getTimingArgument(self) -> List["AutosarOperation"]:
         """
         AUTOSAR-compliant getter for timingArgument.
-        
+
         Returns:
             The timingArgument value
-        
+
         Note:
             Delegates to timing_argument property (CODING_RULE_V2_00017)
         """
@@ -59,10 +61,10 @@ class TimingExtensionResource(Identifiable):
     def getTimingMode(self) -> List["TimingModeInstance"]:
         """
         AUTOSAR-compliant getter for timingMode.
-        
+
         Returns:
             The timingMode value
-        
+
         Note:
             Delegates to timing_mode property (CODING_RULE_V2_00017)
         """
@@ -71,10 +73,10 @@ class TimingExtensionResource(Identifiable):
     def getTimingVariable(self) -> List["AutosarVariable"]:
         """
         AUTOSAR-compliant getter for timingVariable.
-        
+
         Returns:
             The timingVariable value
-        
+
         Note:
             Delegates to timing_variable property (CODING_RULE_V2_00017)
         """

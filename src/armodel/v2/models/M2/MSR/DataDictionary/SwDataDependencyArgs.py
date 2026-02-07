@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwDataDependencyArgs(ARObject):
     """
     This element specifies the elements used in a SwDataDependency.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwDataDependencyArgs
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 374, Classic Platform
       R23-11)
@@ -29,10 +34,10 @@ class SwDataDependencyArgs(ARObject):
     def sw_calprm_ref(self, value: RefType) -> None:
         """
         Set swCalprmRef with validation.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +58,10 @@ class SwDataDependencyArgs(ARObject):
     def sw_variable(self, value: RefType) -> None:
         """
         Set swVariable with validation.
-        
+
         Args:
             value: The swVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +76,10 @@ class SwDataDependencyArgs(ARObject):
     def getSwCalprmRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for swCalprmRef.
-        
+
         Returns:
             The swCalprmRef value
-        
+
         Note:
             Delegates to sw_calprm_ref property (CODING_RULE_V2_00017)
         """
@@ -83,13 +88,13 @@ class SwDataDependencyArgs(ARObject):
     def setSwCalprmRef(self, value: RefType) -> "SwDataDependencyArgs":
         """
         AUTOSAR-compliant setter for swCalprmRef with method chaining.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calprm_ref property setter (gets validation automatically)
         """
@@ -99,10 +104,10 @@ class SwDataDependencyArgs(ARObject):
     def getSwVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for swVariable.
-        
+
         Returns:
             The swVariable value
-        
+
         Note:
             Delegates to sw_variable property (CODING_RULE_V2_00017)
         """
@@ -111,13 +116,13 @@ class SwDataDependencyArgs(ARObject):
     def setSwVariable(self, value: RefType) -> "SwDataDependencyArgs":
         """
         AUTOSAR-compliant setter for swVariable with method chaining.
-        
+
         Args:
             value: The swVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_variable property setter (gets validation automatically)
         """
@@ -129,13 +134,13 @@ class SwDataDependencyArgs(ARObject):
     def with_sw_calprm_ref(self, value: Optional[RefType]) -> "SwDataDependencyArgs":
         """
         Set swCalprmRef and return self for chaining.
-        
+
         Args:
             value: The swCalprmRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calprm_ref("value")
         """
@@ -145,13 +150,13 @@ class SwDataDependencyArgs(ARObject):
     def with_sw_variable(self, value: Optional[RefType]) -> "SwDataDependencyArgs":
         """
         Set swVariable and return self for chaining.
-        
+
         Args:
             value: The swVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_variable("value")
         """

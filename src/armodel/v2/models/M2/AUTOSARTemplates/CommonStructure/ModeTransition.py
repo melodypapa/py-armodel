@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ModeTransition(Identifiable):
     """
     This meta-class represents the ability to describe possible ModeTransitions
     in the context of a Mode DeclarationGroup.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeTransition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 43, Classic
       Platform R23-11)
@@ -32,10 +34,10 @@ class ModeTransition(Identifiable):
     def entered_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set enteredMode with validation.
-        
+
         Args:
             value: The enteredMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class ModeTransition(Identifiable):
     def exited_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set exitedMode with validation.
-        
+
         Args:
             value: The exitedMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +84,10 @@ class ModeTransition(Identifiable):
     def getEnteredMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for enteredMode.
-        
+
         Returns:
             The enteredMode value
-        
+
         Note:
             Delegates to entered_mode property (CODING_RULE_V2_00017)
         """
@@ -94,13 +96,13 @@ class ModeTransition(Identifiable):
     def setEnteredMode(self, value: "ModeDeclaration") -> "ModeTransition":
         """
         AUTOSAR-compliant setter for enteredMode with method chaining.
-        
+
         Args:
             value: The enteredMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to entered_mode property setter (gets validation automatically)
         """
@@ -110,10 +112,10 @@ class ModeTransition(Identifiable):
     def getExitedMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for exitedMode.
-        
+
         Returns:
             The exitedMode value
-        
+
         Note:
             Delegates to exited_mode property (CODING_RULE_V2_00017)
         """
@@ -122,13 +124,13 @@ class ModeTransition(Identifiable):
     def setExitedMode(self, value: "ModeDeclaration") -> "ModeTransition":
         """
         AUTOSAR-compliant setter for exitedMode with method chaining.
-        
+
         Args:
             value: The exitedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exited_mode property setter (gets validation automatically)
         """
@@ -140,13 +142,13 @@ class ModeTransition(Identifiable):
     def with_entered_mode(self, value: Optional["ModeDeclaration"]) -> "ModeTransition":
         """
         Set enteredMode and return self for chaining.
-        
+
         Args:
             value: The enteredMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_entered_mode("value")
         """
@@ -156,13 +158,13 @@ class ModeTransition(Identifiable):
     def with_exited_mode(self, value: Optional["ModeDeclaration"]) -> "ModeTransition":
         """
         Set exitedMode and return self for chaining.
-        
+
         Args:
             value: The exitedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exited_mode("value")
         """

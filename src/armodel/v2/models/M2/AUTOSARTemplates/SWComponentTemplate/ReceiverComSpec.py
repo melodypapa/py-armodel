@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ReceiverComSpec(RPortComSpec, ABC):
     """
@@ -28,9 +32,9 @@ class ReceiverComSpec(RPortComSpec, ABC):
     invalidValue handling. (cid:53) 171 of 1228 Document ID 62:
     AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 170, Classic Platform
       R23-11)
@@ -64,10 +68,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +93,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def handle_out_of(self, value: Optional["HandleOutOfRange"]) -> None:
         """
         Set handleOutOf with validation.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +126,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def max_delta(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDelta with validation.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -156,10 +160,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def sync_counter_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set syncCounterInit with validation.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -196,10 +200,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def uses_end_to_end(self, value: Optional["Boolean"]) -> None:
         """
         Set usesEndToEnd with validation.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -218,10 +222,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getComposite(self) -> List["CompositeNetwork"]:
         """
         AUTOSAR-compliant getter for composite.
-        
+
         Returns:
             The composite value
-        
+
         Note:
             Delegates to composite property (CODING_RULE_V2_00017)
         """
@@ -230,10 +234,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -242,13 +246,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setDataElement(self, value: RefType) -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -258,10 +262,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getHandleOutOf(self) -> "HandleOutOfRange":
         """
         AUTOSAR-compliant getter for handleOutOf.
-        
+
         Returns:
             The handleOutOf value
-        
+
         Note:
             Delegates to handle_out_of property (CODING_RULE_V2_00017)
         """
@@ -270,13 +274,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setHandleOutOf(self, value: "HandleOutOfRange") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_out_of property setter (gets validation automatically)
         """
@@ -286,10 +290,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getMaxDelta(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDelta.
-        
+
         Returns:
             The maxDelta value
-        
+
         Note:
             Delegates to max_delta property (CODING_RULE_V2_00017)
         """
@@ -298,13 +302,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setMaxDelta(self, value: "PositiveInteger") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_delta property setter (gets validation automatically)
         """
@@ -314,10 +318,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getSyncCounterInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncCounterInit.
-        
+
         Returns:
             The syncCounterInit value
-        
+
         Note:
             Delegates to sync_counter_init property (CODING_RULE_V2_00017)
         """
@@ -326,13 +330,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setSyncCounterInit(self, value: "PositiveInteger") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_counter_init property setter (gets validation automatically)
         """
@@ -342,10 +346,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getTransformation(self) -> List["TransformationCom"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -354,10 +358,10 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def getUsesEndToEnd(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesEndToEnd.
-        
+
         Returns:
             The usesEndToEnd value
-        
+
         Note:
             Delegates to uses_end_to_end property (CODING_RULE_V2_00017)
         """
@@ -366,13 +370,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def setUsesEndToEnd(self, value: "Boolean") -> "ReceiverComSpec":
         """
         AUTOSAR-compliant setter for usesEndToEnd with method chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_end_to_end property setter (gets validation automatically)
         """
@@ -384,13 +388,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_data_element(self, value: Optional[RefType]) -> "ReceiverComSpec":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -400,13 +404,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "ReceiverComSpec":
         """
         Set handleOutOf and return self for chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_out_of("value")
         """
@@ -416,13 +420,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_max_delta(self, value: Optional["PositiveInteger"]) -> "ReceiverComSpec":
         """
         Set maxDelta and return self for chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_delta("value")
         """
@@ -432,13 +436,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "ReceiverComSpec":
         """
         Set syncCounterInit and return self for chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_counter_init("value")
         """
@@ -448,13 +452,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
     def with_uses_end_to_end(self, value: Optional["Boolean"]) -> "ReceiverComSpec":
         """
         Set usesEndToEnd and return self for chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_end_to_end("value")
         """

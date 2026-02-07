@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class CompositeValueSpecification(ValueSpecification, ABC):
     """
     This abstract meta-class acts a base class for ValueSpecifications that have
     a composite form.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::CompositeValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 434, Classic Platform
       R23-11)

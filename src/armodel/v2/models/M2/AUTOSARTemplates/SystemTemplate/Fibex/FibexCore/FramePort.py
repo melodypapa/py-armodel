@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class FramePort(CommConnectorPort):
     """
     Connectors reception or send port on the referenced channel referenced by a
     FrameTriggering.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::FramePort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 304, Classic Platform R23-11)
     """

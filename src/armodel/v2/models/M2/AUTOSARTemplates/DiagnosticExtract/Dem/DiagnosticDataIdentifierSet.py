@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticDataIdentifierSet(DiagnosticCommonElement):
     """
     This represents the ability to define a list of DiagnosticDataIdentifiers
     that can be reused in different contexts.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticDataIdentifierSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 187, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticDataIdentifierSet(DiagnosticCommonElement):
     def getDataIdentifier(self) -> List["DiagnosticDataIdentifier"]:
         """
         AUTOSAR-compliant getter for dataIdentifier.
-        
+
         Returns:
             The dataIdentifier value
-        
+
         Note:
             Delegates to data_identifier property (CODING_RULE_V2_00017)
         """

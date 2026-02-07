@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ConditionByFormula(ARObject):
     """
@@ -9,9 +10,9 @@ class ConditionByFormula(ARObject):
     considered as boolean value. The result of the expression is interpreted as
     a condition. • "0" represents "false"; • a value other than zero is
     considered "true"
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::ConditionByFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 613, Classic Platform
       R23-11)
@@ -39,10 +40,10 @@ class ConditionByFormula(ARObject):
     def binding_time(self, value: "BindingTimeEnum") -> None:
         """
         Set bindingTime with validation.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +58,10 @@ class ConditionByFormula(ARObject):
     def getBindingTime(self) -> "BindingTimeEnum":
         """
         AUTOSAR-compliant getter for bindingTime.
-        
+
         Returns:
             The bindingTime value
-        
+
         Note:
             Delegates to binding_time property (CODING_RULE_V2_00017)
         """
@@ -69,13 +70,13 @@ class ConditionByFormula(ARObject):
     def setBindingTime(self, value: "BindingTimeEnum") -> "ConditionByFormula":
         """
         AUTOSAR-compliant setter for bindingTime with method chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to binding_time property setter (gets validation automatically)
         """
@@ -87,13 +88,13 @@ class ConditionByFormula(ARObject):
     def with_binding_time(self, value: "BindingTimeEnum") -> "ConditionByFormula":
         """
         Set bindingTime and return self for chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_binding_time("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class System(ARElement):
     """
@@ -10,9 +13,9 @@ class System(ARElement):
     describing the Software, Mapping and Mapping Constraints; it contains a
     reference to an ASAM FIBEX description specifying Communication and
     Topology.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::System
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 349, Classic
       Platform R23-11)
@@ -51,10 +54,10 @@ class System(ARElement):
     def container_i_pdu(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set containerIPdu with validation.
-        
+
         Args:
             value: The containerIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class System(ARElement):
     def ecu_extract_version(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set ecuExtractVersion with validation.
-        
+
         Args:
             value: The ecuExtractVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -149,10 +152,10 @@ class System(ARElement):
     def pnc_vector(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncVector with validation.
-        
+
         Args:
             value: The pncVector to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +181,10 @@ class System(ARElement):
     def pnc_vector_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncVectorOffset with validation.
-        
+
         Args:
             value: The pncVectorOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -210,10 +213,10 @@ class System(ARElement):
     def root_software(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set rootSoftware with validation.
-        
+
         Args:
             value: The rootSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -254,10 +257,10 @@ class System(ARElement):
     def system_version(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set systemVersion with validation.
-        
+
         Args:
             value: The systemVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -276,10 +279,10 @@ class System(ARElement):
     def getClientId(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for clientId.
-        
+
         Returns:
             The clientId value
-        
+
         Note:
             Delegates to client_id property (CODING_RULE_V2_00017)
         """
@@ -288,10 +291,10 @@ class System(ARElement):
     def getContainerIPdu(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for containerIPdu.
-        
+
         Returns:
             The containerIPdu value
-        
+
         Note:
             Delegates to container_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -300,13 +303,13 @@ class System(ARElement):
     def setContainerIPdu(self, value: "ByteOrderEnum") -> "System":
         """
         AUTOSAR-compliant setter for containerIPdu with method chaining.
-        
+
         Args:
             value: The containerIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to container_i_pdu property setter (gets validation automatically)
         """
@@ -316,10 +319,10 @@ class System(ARElement):
     def getEcuExtractVersion(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for ecuExtractVersion.
-        
+
         Returns:
             The ecuExtractVersion value
-        
+
         Note:
             Delegates to ecu_extract_version property (CODING_RULE_V2_00017)
         """
@@ -328,13 +331,13 @@ class System(ARElement):
     def setEcuExtractVersion(self, value: "RevisionLabelString") -> "System":
         """
         AUTOSAR-compliant setter for ecuExtractVersion with method chaining.
-        
+
         Args:
             value: The ecuExtractVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_extract_version property setter (gets validation automatically)
         """
@@ -344,10 +347,10 @@ class System(ARElement):
     def getFibexElement(self) -> List["FibexElement"]:
         """
         AUTOSAR-compliant getter for fibexElement.
-        
+
         Returns:
             The fibexElement value
-        
+
         Note:
             Delegates to fibex_element property (CODING_RULE_V2_00017)
         """
@@ -356,10 +359,10 @@ class System(ARElement):
     def getInterpolation(self) -> List["InterpolationRoutine"]:
         """
         AUTOSAR-compliant getter for interpolation.
-        
+
         Returns:
             The interpolation value
-        
+
         Note:
             Delegates to interpolation property (CODING_RULE_V2_00017)
         """
@@ -368,10 +371,10 @@ class System(ARElement):
     def getJ1939Shared(self) -> List["J1939SharedAddress"]:
         """
         AUTOSAR-compliant getter for j1939Shared.
-        
+
         Returns:
             The j1939Shared value
-        
+
         Note:
             Delegates to j1939_shared property (CODING_RULE_V2_00017)
         """
@@ -380,10 +383,10 @@ class System(ARElement):
     def getMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -392,10 +395,10 @@ class System(ARElement):
     def getPncVector(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncVector.
-        
+
         Returns:
             The pncVector value
-        
+
         Note:
             Delegates to pnc_vector property (CODING_RULE_V2_00017)
         """
@@ -404,13 +407,13 @@ class System(ARElement):
     def setPncVector(self, value: "PositiveInteger") -> "System":
         """
         AUTOSAR-compliant setter for pncVector with method chaining.
-        
+
         Args:
             value: The pncVector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_vector property setter (gets validation automatically)
         """
@@ -420,10 +423,10 @@ class System(ARElement):
     def getPncVectorOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncVectorOffset.
-        
+
         Returns:
             The pncVectorOffset value
-        
+
         Note:
             Delegates to pnc_vector_offset property (CODING_RULE_V2_00017)
         """
@@ -432,13 +435,13 @@ class System(ARElement):
     def setPncVectorOffset(self, value: "PositiveInteger") -> "System":
         """
         AUTOSAR-compliant setter for pncVectorOffset with method chaining.
-        
+
         Args:
             value: The pncVectorOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_vector_offset property setter (gets validation automatically)
         """
@@ -448,10 +451,10 @@ class System(ARElement):
     def getRootSoftware(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for rootSoftware.
-        
+
         Returns:
             The rootSoftware value
-        
+
         Note:
             Delegates to root_software property (CODING_RULE_V2_00017)
         """
@@ -460,13 +463,13 @@ class System(ARElement):
     def setRootSoftware(self, value: "RootSwComposition") -> "System":
         """
         AUTOSAR-compliant setter for rootSoftware with method chaining.
-        
+
         Args:
             value: The rootSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_software property setter (gets validation automatically)
         """
@@ -476,10 +479,10 @@ class System(ARElement):
     def getSwCluster(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for swCluster.
-        
+
         Returns:
             The swCluster value
-        
+
         Note:
             Delegates to sw_cluster property (CODING_RULE_V2_00017)
         """
@@ -488,10 +491,10 @@ class System(ARElement):
     def getSystem(self) -> List["Chapter"]:
         """
         AUTOSAR-compliant getter for system.
-        
+
         Returns:
             The system value
-        
+
         Note:
             Delegates to system property (CODING_RULE_V2_00017)
         """
@@ -500,10 +503,10 @@ class System(ARElement):
     def getSystemVersion(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for systemVersion.
-        
+
         Returns:
             The systemVersion value
-        
+
         Note:
             Delegates to system_version property (CODING_RULE_V2_00017)
         """
@@ -512,13 +515,13 @@ class System(ARElement):
     def setSystemVersion(self, value: "RevisionLabelString") -> "System":
         """
         AUTOSAR-compliant setter for systemVersion with method chaining.
-        
+
         Args:
             value: The systemVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_version property setter (gets validation automatically)
         """
@@ -530,13 +533,13 @@ class System(ARElement):
     def with_container_i_pdu(self, value: Optional["ByteOrderEnum"]) -> "System":
         """
         Set containerIPdu and return self for chaining.
-        
+
         Args:
             value: The containerIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_container_i_pdu("value")
         """
@@ -546,13 +549,13 @@ class System(ARElement):
     def with_ecu_extract_version(self, value: Optional["RevisionLabelString"]) -> "System":
         """
         Set ecuExtractVersion and return self for chaining.
-        
+
         Args:
             value: The ecuExtractVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_extract_version("value")
         """
@@ -562,13 +565,13 @@ class System(ARElement):
     def with_pnc_vector(self, value: Optional["PositiveInteger"]) -> "System":
         """
         Set pncVector and return self for chaining.
-        
+
         Args:
             value: The pncVector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_vector("value")
         """
@@ -578,13 +581,13 @@ class System(ARElement):
     def with_pnc_vector_offset(self, value: Optional["PositiveInteger"]) -> "System":
         """
         Set pncVectorOffset and return self for chaining.
-        
+
         Args:
             value: The pncVectorOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_vector_offset("value")
         """
@@ -594,13 +597,13 @@ class System(ARElement):
     def with_root_software(self, value: Optional["RootSwComposition"]) -> "System":
         """
         Set rootSoftware and return self for chaining.
-        
+
         Args:
             value: The rootSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_software("value")
         """
@@ -610,13 +613,13 @@ class System(ARElement):
     def with_system_version(self, value: Optional["RevisionLabelString"]) -> "System":
         """
         Set systemVersion and return self for chaining.
-        
+
         Args:
             value: The systemVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_version("value")
         """

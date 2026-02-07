@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbstractGlobalTimeDomainProps(ARObject, ABC):
     """
     This abstract class enables a GlobalTimeDomain to specify additional
     properties.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::AbstractGlobalTimeDomainProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 859, Classic Platform R23-11)
     """

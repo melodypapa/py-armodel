@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TpPort(ARObject):
     """
     Dynamic or direct assignment of a PortNumber.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TpPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 461, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class TpPort(ARObject):
     def dynamically(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamically with validation.
-        
+
         Args:
             value: The dynamically to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class TpPort(ARObject):
     def port_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set portNumber with validation.
-        
+
         Args:
             value: The portNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class TpPort(ARObject):
     def getDynamically(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamically.
-        
+
         Returns:
             The dynamically value
-        
+
         Note:
             Delegates to dynamically property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class TpPort(ARObject):
     def setDynamically(self, value: "Boolean") -> "TpPort":
         """
         AUTOSAR-compliant setter for dynamically with method chaining.
-        
+
         Args:
             value: The dynamically to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamically property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class TpPort(ARObject):
     def getPortNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for portNumber.
-        
+
         Returns:
             The portNumber value
-        
+
         Note:
             Delegates to port_number property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class TpPort(ARObject):
     def setPortNumber(self, value: "PositiveInteger") -> "TpPort":
         """
         AUTOSAR-compliant setter for portNumber with method chaining.
-        
+
         Args:
             value: The portNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_number property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class TpPort(ARObject):
     def with_dynamically(self, value: Optional["Boolean"]) -> "TpPort":
         """
         Set dynamically and return self for chaining.
-        
+
         Args:
             value: The dynamically to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamically("value")
         """
@@ -151,13 +154,13 @@ class TpPort(ARObject):
     def with_port_number(self, value: Optional["PositiveInteger"]) -> "TpPort":
         """
         Set portNumber and return self for chaining.
-        
+
         Args:
             value: The portNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_number("value")
         """

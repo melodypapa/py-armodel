@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ClientServerAnnotation(GeneralAnnotation):
     """
     Annotation to a port regarding a certain Operation.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ClientServerAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 155, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class ClientServerAnnotation(GeneralAnnotation):
     def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class ClientServerAnnotation(GeneralAnnotation):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class ClientServerAnnotation(GeneralAnnotation):
     def setOperation(self, value: "ClientServerOperation") -> "ClientServerAnnotation":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class ClientServerAnnotation(GeneralAnnotation):
     def with_operation(self, value: Optional["ClientServerOperation"]) -> "ClientServerAnnotation":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """

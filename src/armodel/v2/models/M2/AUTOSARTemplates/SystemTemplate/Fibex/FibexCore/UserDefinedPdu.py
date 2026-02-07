@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class UserDefinedPdu(Pdu):
     """
     UserDefinedPdu allows to describe PDU-based communication over Complex
     Drivers. If a new BSW module is added above the BusIf (e.g. a new Nm module)
     then this Pdu element shall be used to describe the communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::UserDefinedPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 314, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 345, Classic Platform R23-11)
@@ -30,10 +30,10 @@ class UserDefinedPdu(Pdu):
     def cdd_type(self, value: Optional["String"]) -> None:
         """
         Set cddType with validation.
-        
+
         Args:
             value: The cddType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class UserDefinedPdu(Pdu):
     def getCddType(self) -> "String":
         """
         AUTOSAR-compliant getter for cddType.
-        
+
         Returns:
             The cddType value
-        
+
         Note:
             Delegates to cdd_type property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class UserDefinedPdu(Pdu):
     def setCddType(self, value: "String") -> "UserDefinedPdu":
         """
         AUTOSAR-compliant setter for cddType with method chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cdd_type property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class UserDefinedPdu(Pdu):
     def with_cdd_type(self, value: Optional["String"]) -> "UserDefinedPdu":
         """
         Set cddType and return self for chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cdd_type("value")
         """

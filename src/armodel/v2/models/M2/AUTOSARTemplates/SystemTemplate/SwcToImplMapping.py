@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwcToImplMapping(Identifiable):
     """
     Map instances of an AtomicSwComponentType to a specific Implementation.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::SwcToImplMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 199, Classic Platform R23-11)
     """
@@ -31,10 +33,10 @@ class SwcToImplMapping(Identifiable):
     def component(self, value: Optional["SwcImplementation"]) -> None:
         """
         Set component with validation.
-        
+
         Args:
             value: The component to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +55,10 @@ class SwcToImplMapping(Identifiable):
     def getComponent(self) -> "SwcImplementation":
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -65,13 +67,13 @@ class SwcToImplMapping(Identifiable):
     def setComponent(self, value: "SwcImplementation") -> "SwcToImplMapping":
         """
         AUTOSAR-compliant setter for component with method chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to component property setter (gets validation automatically)
         """
@@ -83,13 +85,13 @@ class SwcToImplMapping(Identifiable):
     def with_component(self, value: Optional["SwcImplementation"]) -> "SwcToImplMapping":
         """
         Set component and return self for chaining.
-        
+
         Args:
             value: The component to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_component("value")
         """

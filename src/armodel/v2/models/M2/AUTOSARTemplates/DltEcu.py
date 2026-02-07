@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DltEcu(ARElement):
     """
     This element represents an Ecu or Machine that produces logging and tracing
     information.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2018, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 8, Foundation R23-11)
@@ -36,10 +36,10 @@ class DltEcu(ARElement):
     def ecu_id(self, value: Optional["String"]) -> None:
         """
         Set ecuId with validation.
-        
+
         Args:
             value: The ecuId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DltEcu(ARElement):
     def getApplication(self) -> List["DltApplication"]:
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -70,10 +70,10 @@ class DltEcu(ARElement):
     def getEcuId(self) -> "String":
         """
         AUTOSAR-compliant getter for ecuId.
-        
+
         Returns:
             The ecuId value
-        
+
         Note:
             Delegates to ecu_id property (CODING_RULE_V2_00017)
         """
@@ -82,13 +82,13 @@ class DltEcu(ARElement):
     def setEcuId(self, value: "String") -> "DltEcu":
         """
         AUTOSAR-compliant setter for ecuId with method chaining.
-        
+
         Args:
             value: The ecuId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_id property setter (gets validation automatically)
         """
@@ -100,13 +100,13 @@ class DltEcu(ARElement):
     def with_ecu_id(self, value: Optional["String"]) -> "DltEcu":
         """
         Set ecuId and return self for chaining.
-        
+
         Args:
             value: The ecuId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_id("value")
         """

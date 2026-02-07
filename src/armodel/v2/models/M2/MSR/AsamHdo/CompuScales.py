@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CompuScales(CompuContent):
     """
     This meta-class represents the ability to stepwise express a computation
     method.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScales
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class CompuScales(CompuContent):
     def getCompuScale(self) -> List["CompuScale"]:
         """
         AUTOSAR-compliant getter for compuScale.
-        
+
         Returns:
             The compuScale value
-        
+
         Note:
             Delegates to compu_scale property (CODING_RULE_V2_00017)
         """

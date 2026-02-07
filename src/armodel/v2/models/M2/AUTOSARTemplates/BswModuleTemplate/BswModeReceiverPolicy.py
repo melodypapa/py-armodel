@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswModeReceiverPolicy(ARObject):
     """
     Specifies the details for the reception of a mode switch for the referred
     mode group.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModeReceiverPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 103, Classic
       Platform R23-11)
@@ -33,10 +38,10 @@ class BswModeReceiverPolicy(ARObject):
     def enhanced_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set enhancedMode with validation.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +66,10 @@ class BswModeReceiverPolicy(ARObject):
     def required_mode(self, value: RefType) -> None:
         """
         Set requiredMode with validation.
-        
+
         Args:
             value: The requiredMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +91,10 @@ class BswModeReceiverPolicy(ARObject):
     def supports(self, value: Optional["Boolean"]) -> None:
         """
         Set supports with validation.
-        
+
         Args:
             value: The supports to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +113,10 @@ class BswModeReceiverPolicy(ARObject):
     def getEnhancedMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enhancedMode.
-        
+
         Returns:
             The enhancedMode value
-        
+
         Note:
             Delegates to enhanced_mode property (CODING_RULE_V2_00017)
         """
@@ -120,13 +125,13 @@ class BswModeReceiverPolicy(ARObject):
     def setEnhancedMode(self, value: "Boolean") -> "BswModeReceiverPolicy":
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enhanced_mode property setter (gets validation automatically)
         """
@@ -136,10 +141,10 @@ class BswModeReceiverPolicy(ARObject):
     def getRequiredMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for requiredMode.
-        
+
         Returns:
             The requiredMode value
-        
+
         Note:
             Delegates to required_mode property (CODING_RULE_V2_00017)
         """
@@ -148,13 +153,13 @@ class BswModeReceiverPolicy(ARObject):
     def setRequiredMode(self, value: RefType) -> "BswModeReceiverPolicy":
         """
         AUTOSAR-compliant setter for requiredMode with method chaining.
-        
+
         Args:
             value: The requiredMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required_mode property setter (gets validation automatically)
         """
@@ -164,10 +169,10 @@ class BswModeReceiverPolicy(ARObject):
     def getSupports(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for supports.
-        
+
         Returns:
             The supports value
-        
+
         Note:
             Delegates to supports property (CODING_RULE_V2_00017)
         """
@@ -176,13 +181,13 @@ class BswModeReceiverPolicy(ARObject):
     def setSupports(self, value: "Boolean") -> "BswModeReceiverPolicy":
         """
         AUTOSAR-compliant setter for supports with method chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to supports property setter (gets validation automatically)
         """
@@ -194,13 +199,13 @@ class BswModeReceiverPolicy(ARObject):
     def with_enhanced_mode(self, value: Optional["Boolean"]) -> "BswModeReceiverPolicy":
         """
         Set enhancedMode and return self for chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enhanced_mode("value")
         """
@@ -210,13 +215,13 @@ class BswModeReceiverPolicy(ARObject):
     def with_required_mode(self, value: Optional[RefType]) -> "BswModeReceiverPolicy":
         """
         Set requiredMode and return self for chaining.
-        
+
         Args:
             value: The requiredMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required_mode("value")
         """
@@ -226,13 +231,13 @@ class BswModeReceiverPolicy(ARObject):
     def with_supports(self, value: Optional["Boolean"]) -> "BswModeReceiverPolicy":
         """
         Set supports and return self for chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_supports("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class TDCpSoftwareClusterMappingSet(ARElement):
     """
     This is used to gather of classic platform software cluster mappings.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster::TDCpSoftwareClusterMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 156, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class TDCpSoftwareClusterMappingSet(ARElement):
     def getTdCpSoftware(self) -> List["TDCpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for tdCpSoftware.
-        
+
         Returns:
             The tdCpSoftware value
-        
+
         Note:
             Delegates to td_cp_software property (CODING_RULE_V2_00017)
         """

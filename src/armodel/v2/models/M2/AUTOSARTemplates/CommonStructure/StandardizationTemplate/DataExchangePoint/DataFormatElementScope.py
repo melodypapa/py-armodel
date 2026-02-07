@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DataFormatElementScope(SpecElementScope, ABC):
     """
     This class specifies if a Meta Class, Meta Attribute, Constraint or SdgDef
     is relevant for the Data Exchange Point.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::DataFormatElementScope
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 91, Foundation R23-11)
     """

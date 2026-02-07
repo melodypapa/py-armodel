@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RoleBasedDataAssignment(ARObject):
     """
@@ -14,9 +19,9 @@ class RoleBasedDataAssignment(ARObject):
     is used in the context of the definition of a specific ServiceNeeds or
     NvBlockDescriptor, so that a tool is able to create the correct access or
     writing strategy.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::RoleBasedDataAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 226, Classic
       Platform R23-11)
@@ -44,10 +49,10 @@ class RoleBasedDataAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +81,10 @@ class RoleBasedDataAssignment(ARObject):
     def used_data(self, value: RefType) -> None:
         """
         Set usedData with validation.
-        
+
         Args:
             value: The usedData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +109,10 @@ class RoleBasedDataAssignment(ARObject):
     def used_parameter(self, value: RefType) -> None:
         """
         Set usedParameter with validation.
-        
+
         Args:
             value: The usedParameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +135,10 @@ class RoleBasedDataAssignment(ARObject):
     def used_pim(self, value: Optional["PerInstanceMemory"]) -> None:
         """
         Set usedPim with validation.
-        
+
         Args:
             value: The usedPim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +157,10 @@ class RoleBasedDataAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -164,13 +169,13 @@ class RoleBasedDataAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -180,10 +185,10 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedData(self) -> RefType:
         """
         AUTOSAR-compliant getter for usedData.
-        
+
         Returns:
             The usedData value
-        
+
         Note:
             Delegates to used_data property (CODING_RULE_V2_00017)
         """
@@ -192,13 +197,13 @@ class RoleBasedDataAssignment(ARObject):
     def setUsedData(self, value: RefType) -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for usedData with method chaining.
-        
+
         Args:
             value: The usedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_data property setter (gets validation automatically)
         """
@@ -208,10 +213,10 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for usedParameter.
-        
+
         Returns:
             The usedParameter value
-        
+
         Note:
             Delegates to used_parameter property (CODING_RULE_V2_00017)
         """
@@ -220,13 +225,13 @@ class RoleBasedDataAssignment(ARObject):
     def setUsedParameter(self, value: RefType) -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for usedParameter with method chaining.
-        
+
         Args:
             value: The usedParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_parameter property setter (gets validation automatically)
         """
@@ -236,10 +241,10 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedPim(self) -> "PerInstanceMemory":
         """
         AUTOSAR-compliant getter for usedPim.
-        
+
         Returns:
             The usedPim value
-        
+
         Note:
             Delegates to used_pim property (CODING_RULE_V2_00017)
         """
@@ -248,13 +253,13 @@ class RoleBasedDataAssignment(ARObject):
     def setUsedPim(self, value: "PerInstanceMemory") -> "RoleBasedDataAssignment":
         """
         AUTOSAR-compliant setter for usedPim with method chaining.
-        
+
         Args:
             value: The usedPim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_pim property setter (gets validation automatically)
         """
@@ -266,13 +271,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedDataAssignment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -282,13 +287,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_used_data(self, value: Optional[RefType]) -> "RoleBasedDataAssignment":
         """
         Set usedData and return self for chaining.
-        
+
         Args:
             value: The usedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_data("value")
         """
@@ -298,13 +303,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_used_parameter(self, value: Optional[RefType]) -> "RoleBasedDataAssignment":
         """
         Set usedParameter and return self for chaining.
-        
+
         Args:
             value: The usedParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_parameter("value")
         """
@@ -314,13 +319,13 @@ class RoleBasedDataAssignment(ARObject):
     def with_used_pim(self, value: Optional["PerInstanceMemory"]) -> "RoleBasedDataAssignment":
         """
         Set usedPim and return self for chaining.
-        
+
         Args:
             value: The usedPim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_pim("value")
         """

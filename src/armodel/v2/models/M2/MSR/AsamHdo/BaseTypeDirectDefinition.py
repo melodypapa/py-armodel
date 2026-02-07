@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BaseTypeDirectDefinition(BaseTypeDefinition):
     """
     This BaseType is defined directly (as opposite to a derived BaseType)
-    
+
     Package: M2::MSR::AsamHdo::BaseTypes::BaseTypeDirectDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 302, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def base_type(self, value: Optional["BaseTypeEncoding"]) -> None:
         """
         Set baseType with validation.
-        
+
         Args:
             value: The baseType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def base_type_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set baseTypeSize with validation.
-        
+
         Args:
             value: The baseTypeSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def byte_order(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set byteOrder with validation.
-        
+
         Args:
             value: The byteOrder to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def mem_alignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set memAlignment with validation.
-        
+
         Args:
             value: The memAlignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +160,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def native(self, value: Optional["NativeDeclarationString"]) -> None:
         """
         Set native with validation.
-        
+
         Args:
             value: The native to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +182,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def getBaseType(self) -> "BaseTypeEncoding":
         """
         AUTOSAR-compliant getter for baseType.
-        
+
         Returns:
             The baseType value
-        
+
         Note:
             Delegates to base_type property (CODING_RULE_V2_00017)
         """
@@ -194,13 +194,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def setBaseType(self, value: "BaseTypeEncoding") -> "BaseTypeDirectDefinition":
         """
         AUTOSAR-compliant setter for baseType with method chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type property setter (gets validation automatically)
         """
@@ -210,10 +210,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def getBaseTypeSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for baseTypeSize.
-        
+
         Returns:
             The baseTypeSize value
-        
+
         Note:
             Delegates to base_type_size property (CODING_RULE_V2_00017)
         """
@@ -222,13 +222,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def setBaseTypeSize(self, value: "PositiveInteger") -> "BaseTypeDirectDefinition":
         """
         AUTOSAR-compliant setter for baseTypeSize with method chaining.
-        
+
         Args:
             value: The baseTypeSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type_size property setter (gets validation automatically)
         """
@@ -238,10 +238,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def getByteOrder(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for byteOrder.
-        
+
         Returns:
             The byteOrder value
-        
+
         Note:
             Delegates to byte_order property (CODING_RULE_V2_00017)
         """
@@ -250,13 +250,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def setByteOrder(self, value: "ByteOrderEnum") -> "BaseTypeDirectDefinition":
         """
         AUTOSAR-compliant setter for byteOrder with method chaining.
-        
+
         Args:
             value: The byteOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to byte_order property setter (gets validation automatically)
         """
@@ -266,10 +266,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def getMemAlignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for memAlignment.
-        
+
         Returns:
             The memAlignment value
-        
+
         Note:
             Delegates to mem_alignment property (CODING_RULE_V2_00017)
         """
@@ -278,13 +278,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def setMemAlignment(self, value: "PositiveInteger") -> "BaseTypeDirectDefinition":
         """
         AUTOSAR-compliant setter for memAlignment with method chaining.
-        
+
         Args:
             value: The memAlignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mem_alignment property setter (gets validation automatically)
         """
@@ -294,10 +294,10 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def getNative(self) -> "NativeDeclarationString":
         """
         AUTOSAR-compliant getter for native.
-        
+
         Returns:
             The native value
-        
+
         Note:
             Delegates to native property (CODING_RULE_V2_00017)
         """
@@ -306,13 +306,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def setNative(self, value: "NativeDeclarationString") -> "BaseTypeDirectDefinition":
         """
         AUTOSAR-compliant setter for native with method chaining.
-        
+
         Args:
             value: The native to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to native property setter (gets validation automatically)
         """
@@ -324,13 +324,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def with_base_type(self, value: Optional["BaseTypeEncoding"]) -> "BaseTypeDirectDefinition":
         """
         Set baseType and return self for chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type("value")
         """
@@ -340,13 +340,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def with_base_type_size(self, value: Optional["PositiveInteger"]) -> "BaseTypeDirectDefinition":
         """
         Set baseTypeSize and return self for chaining.
-        
+
         Args:
             value: The baseTypeSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type_size("value")
         """
@@ -356,13 +356,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> "BaseTypeDirectDefinition":
         """
         Set byteOrder and return self for chaining.
-        
+
         Args:
             value: The byteOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_byte_order("value")
         """
@@ -372,13 +372,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def with_mem_alignment(self, value: Optional["PositiveInteger"]) -> "BaseTypeDirectDefinition":
         """
         Set memAlignment and return self for chaining.
-        
+
         Args:
             value: The memAlignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mem_alignment("value")
         """
@@ -388,13 +388,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def with_native(self, value: Optional["NativeDeclarationString"]) -> "BaseTypeDirectDefinition":
         """
         Set native and return self for chaining.
-        
+
         Args:
             value: The native to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_native("value")
         """

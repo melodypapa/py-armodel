@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecOcCryptoServiceMapping(CryptoServiceMapping):
     """
     This meta-class has the ability to represent a crypto service mapping for
     the Pdu-based communication via SecOC.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::SecOcCryptoServiceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 375, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def authentication(self, value: Optional["CryptoServicePrimitive"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def crypto_service(self, value: Optional["CryptoServiceQueue"]) -> None:
         """
         Set cryptoService with validation.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def getAuthentication(self) -> "CryptoServicePrimitive":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def setAuthentication(self, value: "CryptoServicePrimitive") -> "SecOcCryptoServiceMapping":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def getCryptoService(self) -> "CryptoServiceQueue":
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def setCryptoService(self, value: "CryptoServiceQueue") -> "SecOcCryptoServiceMapping":
         """
         AUTOSAR-compliant setter for cryptoService with method chaining.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_service property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def with_authentication(self, value: Optional["CryptoServicePrimitive"]) -> "SecOcCryptoServiceMapping":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -152,13 +152,13 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def with_crypto_service(self, value: Optional["CryptoServiceQueue"]) -> "SecOcCryptoServiceMapping":
         """
         Set cryptoService and return self for chaining.
-        
+
         Args:
             value: The cryptoService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_service("value")
         """

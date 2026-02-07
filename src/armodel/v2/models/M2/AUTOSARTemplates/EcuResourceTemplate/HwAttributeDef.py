@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class HwAttributeDef(Identifiable):
     """
@@ -9,9 +11,9 @@ class HwAttributeDef(Identifiable):
     attribute. The category of this element defines the type of the
     attributeValue. If the category is Enumeration the hw
     AttributeEnumerationLiterals specify the available literals.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 26, Classic Platform
       R23-11)
@@ -40,10 +42,10 @@ class HwAttributeDef(Identifiable):
     def is_required(self, value: Optional["Boolean"]) -> None:
         """
         Set isRequired with validation.
-        
+
         Args:
             value: The isRequired to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +71,10 @@ class HwAttributeDef(Identifiable):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class HwAttributeDef(Identifiable):
     def getHwAttribute(self) -> List["HwAttributeLiteralDef"]:
         """
         AUTOSAR-compliant getter for hwAttribute.
-        
+
         Returns:
             The hwAttribute value
-        
+
         Note:
             Delegates to hw_attribute property (CODING_RULE_V2_00017)
         """
@@ -103,10 +105,10 @@ class HwAttributeDef(Identifiable):
     def getIsRequired(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isRequired.
-        
+
         Returns:
             The isRequired value
-        
+
         Note:
             Delegates to is_required property (CODING_RULE_V2_00017)
         """
@@ -115,13 +117,13 @@ class HwAttributeDef(Identifiable):
     def setIsRequired(self, value: "Boolean") -> "HwAttributeDef":
         """
         AUTOSAR-compliant setter for isRequired with method chaining.
-        
+
         Args:
             value: The isRequired to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_required property setter (gets validation automatically)
         """
@@ -131,10 +133,10 @@ class HwAttributeDef(Identifiable):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -143,13 +145,13 @@ class HwAttributeDef(Identifiable):
     def setUnit(self, value: "Unit") -> "HwAttributeDef":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -161,13 +163,13 @@ class HwAttributeDef(Identifiable):
     def with_is_required(self, value: Optional["Boolean"]) -> "HwAttributeDef":
         """
         Set isRequired and return self for chaining.
-        
+
         Args:
             value: The isRequired to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_required("value")
         """
@@ -177,13 +179,13 @@ class HwAttributeDef(Identifiable):
     def with_unit(self, value: Optional["Unit"]) -> "HwAttributeDef":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """

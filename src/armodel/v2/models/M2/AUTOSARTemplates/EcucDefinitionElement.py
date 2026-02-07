@@ -1,16 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EcucDefinitionElement(Identifiable, ABC):
     """
     Common class used to express the commonalities of configuration parameters,
     references and containers. If not stated otherwise the default multiplicity
     is exactly one mandatory occurrence of the specified element.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDefinitionElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 45, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 440, Foundation
@@ -35,10 +38,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def ecuc_cond(self, value: Optional["EcucCondition"]) -> None:
         """
         Set ecucCond with validation.
-        
+
         Args:
             value: The ecucCond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +76,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def lower_multiplicity(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set lowerMultiplicity with validation.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +105,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def related_trace(self, value: Optional["Traceable"]) -> None:
         """
         Set relatedTrace with validation.
-        
+
         Args:
             value: The relatedTrace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +133,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def scope(self, value: Optional["EcucScopeEnum"]) -> None:
         """
         Set scope with validation.
-        
+
         Args:
             value: The scope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +163,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def upper_multiplicity(self, value: Optional["Boolean"]) -> None:
         """
         Set upperMultiplicity with validation.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +185,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def getEcucCond(self) -> "EcucCondition":
         """
         AUTOSAR-compliant getter for ecucCond.
-        
+
         Returns:
             The ecucCond value
-        
+
         Note:
             Delegates to ecuc_cond property (CODING_RULE_V2_00017)
         """
@@ -194,13 +197,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def setEcucCond(self, value: "EcucCondition") -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant setter for ecucCond with method chaining.
-        
+
         Args:
             value: The ecucCond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_cond property setter (gets validation automatically)
         """
@@ -210,10 +213,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def getEcucValidation(self) -> List["EcucValidation"]:
         """
         AUTOSAR-compliant getter for ecucValidation.
-        
+
         Returns:
             The ecucValidation value
-        
+
         Note:
             Delegates to ecuc_validation property (CODING_RULE_V2_00017)
         """
@@ -222,10 +225,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def getLowerMultiplicity(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for lowerMultiplicity.
-        
+
         Returns:
             The lowerMultiplicity value
-        
+
         Note:
             Delegates to lower_multiplicity property (CODING_RULE_V2_00017)
         """
@@ -234,13 +237,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def setLowerMultiplicity(self, value: "PositiveInteger") -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant setter for lowerMultiplicity with method chaining.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_multiplicity property setter (gets validation automatically)
         """
@@ -250,10 +253,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def getRelatedTrace(self) -> "Traceable":
         """
         AUTOSAR-compliant getter for relatedTrace.
-        
+
         Returns:
             The relatedTrace value
-        
+
         Note:
             Delegates to related_trace property (CODING_RULE_V2_00017)
         """
@@ -262,13 +265,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def setRelatedTrace(self, value: "Traceable") -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant setter for relatedTrace with method chaining.
-        
+
         Args:
             value: The relatedTrace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to related_trace property setter (gets validation automatically)
         """
@@ -278,10 +281,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def getScope(self) -> "EcucScopeEnum":
         """
         AUTOSAR-compliant getter for scope.
-        
+
         Returns:
             The scope value
-        
+
         Note:
             Delegates to scope property (CODING_RULE_V2_00017)
         """
@@ -290,13 +293,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def setScope(self, value: "EcucScopeEnum") -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant setter for scope with method chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scope property setter (gets validation automatically)
         """
@@ -306,10 +309,10 @@ class EcucDefinitionElement(Identifiable, ABC):
     def getUpperMultiplicity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for upperMultiplicity.
-        
+
         Returns:
             The upperMultiplicity value
-        
+
         Note:
             Delegates to upper_multiplicity property (CODING_RULE_V2_00017)
         """
@@ -318,13 +321,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def setUpperMultiplicity(self, value: "Boolean") -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant setter for upperMultiplicity with method chaining.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_multiplicity property setter (gets validation automatically)
         """
@@ -336,13 +339,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def with_ecuc_cond(self, value: Optional["EcucCondition"]) -> "EcucDefinitionElement":
         """
         Set ecucCond and return self for chaining.
-        
+
         Args:
             value: The ecucCond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_cond("value")
         """
@@ -352,13 +355,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def with_lower_multiplicity(self, value: Optional["PositiveInteger"]) -> "EcucDefinitionElement":
         """
         Set lowerMultiplicity and return self for chaining.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_multiplicity("value")
         """
@@ -368,13 +371,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def with_related_trace(self, value: Optional["Traceable"]) -> "EcucDefinitionElement":
         """
         Set relatedTrace and return self for chaining.
-        
+
         Args:
             value: The relatedTrace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_related_trace("value")
         """
@@ -384,13 +387,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def with_scope(self, value: Optional["EcucScopeEnum"]) -> "EcucDefinitionElement":
         """
         Set scope and return self for chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scope("value")
         """
@@ -400,13 +403,13 @@ class EcucDefinitionElement(Identifiable, ABC):
     def with_upper_multiplicity(self, value: Optional["Boolean"]) -> "EcucDefinitionElement":
         """
         Set upperMultiplicity and return self for chaining.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_multiplicity("value")
         """

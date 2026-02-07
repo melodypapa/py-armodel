@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     """
     This meta-class represents the ability to configure the usage of the UDS
     service Authentication in the Diagnostic extract.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthentication
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 98, Classic Platform
       R23-11)
@@ -33,10 +34,10 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def authentication(self, value: Optional["Diagnostic"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +56,10 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def getAuthentication(self) -> "Diagnostic":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -67,13 +68,13 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def setAuthentication(self, value: "Diagnostic") -> "DiagnosticAuthentication":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -85,13 +86,13 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     def with_authentication(self, value: Optional["Diagnostic"]) -> "DiagnosticAuthentication":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """

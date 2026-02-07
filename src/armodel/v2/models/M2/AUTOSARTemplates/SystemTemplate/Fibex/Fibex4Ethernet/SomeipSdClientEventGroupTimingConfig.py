@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SomeipSdClientEventGroupTimingConfig(ARElement):
     """
     This meta-class is used to specify configuration related to service
     discovery in the context of an event group on SOME/IP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdClientEventGroupTimingConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 521, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def request(self, value: Optional["RequestResponseDelay"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def subscribe(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subscribe with validation.
-        
+
         Args:
             value: The subscribe to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +90,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def time_to_live(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeToLive with validation.
-        
+
         Args:
             value: The timeToLive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def getRequest(self) -> "RequestResponseDelay":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -124,13 +124,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def setRequest(self, value: "RequestResponseDelay") -> "SomeipSdClientEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -140,10 +140,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def getSubscribe(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subscribe.
-        
+
         Returns:
             The subscribe value
-        
+
         Note:
             Delegates to subscribe property (CODING_RULE_V2_00017)
         """
@@ -152,13 +152,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def setSubscribe(self, value: "PositiveInteger") -> "SomeipSdClientEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for subscribe with method chaining.
-        
+
         Args:
             value: The subscribe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to subscribe property setter (gets validation automatically)
         """
@@ -168,10 +168,10 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def getTimeToLive(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeToLive.
-        
+
         Returns:
             The timeToLive value
-        
+
         Note:
             Delegates to time_to_live property (CODING_RULE_V2_00017)
         """
@@ -180,13 +180,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def setTimeToLive(self, value: "PositiveInteger") -> "SomeipSdClientEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for timeToLive with method chaining.
-        
+
         Args:
             value: The timeToLive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_to_live property setter (gets validation automatically)
         """
@@ -198,13 +198,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def with_request(self, value: Optional["RequestResponseDelay"]) -> "SomeipSdClientEventGroupTimingConfig":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -214,13 +214,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def with_subscribe(self, value: Optional["PositiveInteger"]) -> "SomeipSdClientEventGroupTimingConfig":
         """
         Set subscribe and return self for chaining.
-        
+
         Args:
             value: The subscribe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_subscribe("value")
         """
@@ -230,13 +230,13 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
     def with_time_to_live(self, value: Optional["PositiveInteger"]) -> "SomeipSdClientEventGroupTimingConfig":
         """
         Set timeToLive and return self for chaining.
-        
+
         Args:
             value: The timeToLive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_to_live("value")
         """

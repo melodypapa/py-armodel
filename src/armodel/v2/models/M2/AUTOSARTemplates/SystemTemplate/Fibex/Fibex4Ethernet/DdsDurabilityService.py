@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsDurabilityService(ARObject):
     """
     Describes the DDS DURABILITY_SERVICE QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDurabilityService
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 530, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class DdsDurabilityService(ARObject):
     def durability(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set durability with validation.
-        
+
         Args:
             value: The durability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class DdsDurabilityService(ARObject):
     def getDurability(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for durability.
-        
+
         Returns:
             The durability value
-        
+
         Note:
             Delegates to durability property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class DdsDurabilityService(ARObject):
     def setDurability(self, value: "PositiveInteger") -> "DdsDurabilityService":
         """
         AUTOSAR-compliant setter for durability with method chaining.
-        
+
         Args:
             value: The durability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to durability property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class DdsDurabilityService(ARObject):
     def with_durability(self, value: Optional["PositiveInteger"]) -> "DdsDurabilityService":
         """
         Set durability and return self for chaining.
-        
+
         Args:
             value: The durability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_durability("value")
         """

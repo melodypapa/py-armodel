@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwcToSwcSignal(ARObject):
     """
@@ -11,9 +16,9 @@ class SwcToSwcSignal(ARObject):
     Components (1:n Communication). The SwcToSwcSignal describes exactly the
     information which is exchanged between one P-Port of a SW Component and one
     R-Port of another SW Component.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SwcToSwcSignal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 253, Classic Platform R23-11)
     """
@@ -35,10 +40,10 @@ class SwcToSwcSignal(ARObject):
     def getDataElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """

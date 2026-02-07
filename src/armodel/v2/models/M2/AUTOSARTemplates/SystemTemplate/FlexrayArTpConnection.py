@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FlexrayArTpConnection(TpConnection):
     """
     A connection within a channel identifies the sender and the receiver of this
     particular communication. The FlexRay Autosar Tp module routes a Pdu through
     this connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayArTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 603, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class FlexrayArTpConnection(TpConnection):
     def connection_prio(self, value: Optional["Integer"]) -> None:
         """
         Set connectionPrio with validation.
-        
+
         Args:
             value: The connectionPrio to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class FlexrayArTpConnection(TpConnection):
     def direct_tp_sdu(self, value: Optional["IPdu"]) -> None:
         """
         Set directTpSdu with validation.
-        
+
         Args:
             value: The directTpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class FlexrayArTpConnection(TpConnection):
     def multicast(self, value: Optional["TpAddress"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class FlexrayArTpConnection(TpConnection):
     def reversed_tp_sdu(self, value: Optional["IPdu"]) -> None:
         """
         Set reversedTpSdu with validation.
-        
+
         Args:
             value: The reversedTpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +147,10 @@ class FlexrayArTpConnection(TpConnection):
     def source(self, value: Optional["FlexrayArTpNode"]) -> None:
         """
         Set source with validation.
-        
+
         Args:
             value: The source to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +176,10 @@ class FlexrayArTpConnection(TpConnection):
     def getConnectionPrio(self) -> "Integer":
         """
         AUTOSAR-compliant getter for connectionPrio.
-        
+
         Returns:
             The connectionPrio value
-        
+
         Note:
             Delegates to connection_prio property (CODING_RULE_V2_00017)
         """
@@ -188,13 +188,13 @@ class FlexrayArTpConnection(TpConnection):
     def setConnectionPrio(self, value: "Integer") -> "FlexrayArTpConnection":
         """
         AUTOSAR-compliant setter for connectionPrio with method chaining.
-        
+
         Args:
             value: The connectionPrio to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connection_prio property setter (gets validation automatically)
         """
@@ -204,10 +204,10 @@ class FlexrayArTpConnection(TpConnection):
     def getDirectTpSdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for directTpSdu.
-        
+
         Returns:
             The directTpSdu value
-        
+
         Note:
             Delegates to direct_tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -216,13 +216,13 @@ class FlexrayArTpConnection(TpConnection):
     def setDirectTpSdu(self, value: "IPdu") -> "FlexrayArTpConnection":
         """
         AUTOSAR-compliant setter for directTpSdu with method chaining.
-        
+
         Args:
             value: The directTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direct_tp_sdu property setter (gets validation automatically)
         """
@@ -232,10 +232,10 @@ class FlexrayArTpConnection(TpConnection):
     def getMulticast(self) -> "TpAddress":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -244,13 +244,13 @@ class FlexrayArTpConnection(TpConnection):
     def setMulticast(self, value: "TpAddress") -> "FlexrayArTpConnection":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -260,10 +260,10 @@ class FlexrayArTpConnection(TpConnection):
     def getReversedTpSdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for reversedTpSdu.
-        
+
         Returns:
             The reversedTpSdu value
-        
+
         Note:
             Delegates to reversed_tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -272,13 +272,13 @@ class FlexrayArTpConnection(TpConnection):
     def setReversedTpSdu(self, value: "IPdu") -> "FlexrayArTpConnection":
         """
         AUTOSAR-compliant setter for reversedTpSdu with method chaining.
-        
+
         Args:
             value: The reversedTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reversed_tp_sdu property setter (gets validation automatically)
         """
@@ -288,10 +288,10 @@ class FlexrayArTpConnection(TpConnection):
     def getSource(self) -> "FlexrayArTpNode":
         """
         AUTOSAR-compliant getter for source.
-        
+
         Returns:
             The source value
-        
+
         Note:
             Delegates to source property (CODING_RULE_V2_00017)
         """
@@ -300,13 +300,13 @@ class FlexrayArTpConnection(TpConnection):
     def setSource(self, value: "FlexrayArTpNode") -> "FlexrayArTpConnection":
         """
         AUTOSAR-compliant setter for source with method chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source property setter (gets validation automatically)
         """
@@ -316,10 +316,10 @@ class FlexrayArTpConnection(TpConnection):
     def getTarget(self) -> List["FlexrayArTpNode"]:
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -330,13 +330,13 @@ class FlexrayArTpConnection(TpConnection):
     def with_connection_prio(self, value: Optional["Integer"]) -> "FlexrayArTpConnection":
         """
         Set connectionPrio and return self for chaining.
-        
+
         Args:
             value: The connectionPrio to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connection_prio("value")
         """
@@ -346,13 +346,13 @@ class FlexrayArTpConnection(TpConnection):
     def with_direct_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayArTpConnection":
         """
         Set directTpSdu and return self for chaining.
-        
+
         Args:
             value: The directTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direct_tp_sdu("value")
         """
@@ -362,13 +362,13 @@ class FlexrayArTpConnection(TpConnection):
     def with_multicast(self, value: Optional["TpAddress"]) -> "FlexrayArTpConnection":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -378,13 +378,13 @@ class FlexrayArTpConnection(TpConnection):
     def with_reversed_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayArTpConnection":
         """
         Set reversedTpSdu and return self for chaining.
-        
+
         Args:
             value: The reversedTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reversed_tp_sdu("value")
         """
@@ -394,13 +394,13 @@ class FlexrayArTpConnection(TpConnection):
     def with_source(self, value: Optional["FlexrayArTpNode"]) -> "FlexrayArTpConnection":
         """
         Set source and return self for chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source("value")
         """

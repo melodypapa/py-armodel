@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class UserDefinedCommunicationController(ARObject):
     """
     This element allows the modeling of arbitrary Communication Controllers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 180, Classic Platform R23-11)
     """

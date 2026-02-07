@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FMAttributeValue(ARObject):
     """
     This defines a value for the attribute that is referred to in the role
     definition.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMAttributeValue
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 42, Foundation
       R23-11)
@@ -29,10 +32,10 @@ class FMAttributeValue(ARObject):
     def definition(self, value: Optional["FMAttributeDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class FMAttributeValue(ARObject):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class FMAttributeValue(ARObject):
     def getDefinition(self) -> "FMAttributeDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class FMAttributeValue(ARObject):
     def setDefinition(self, value: "FMAttributeDef") -> "FMAttributeValue":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class FMAttributeValue(ARObject):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class FMAttributeValue(ARObject):
     def setValue(self, value: "Numerical") -> "FMAttributeValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class FMAttributeValue(ARObject):
     def with_definition(self, value: Optional["FMAttributeDef"]) -> "FMAttributeValue":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -153,13 +156,13 @@ class FMAttributeValue(ARObject):
     def with_value(self, value: Optional["Numerical"]) -> "FMAttributeValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

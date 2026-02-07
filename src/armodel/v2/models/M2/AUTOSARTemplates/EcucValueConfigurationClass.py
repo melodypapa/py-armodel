@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
     """
     Specifies the ValueConfigurationClass of a parameter/reference for each
     ConfigurationVariant of the EcucModuleDef.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucValueConfigurationClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 52, Classic Platform R23-11)
     """

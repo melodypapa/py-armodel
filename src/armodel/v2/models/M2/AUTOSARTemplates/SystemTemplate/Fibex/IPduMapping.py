@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IPduMapping(ARObject):
     """
     Arranges those IPdus that are transferred by the gateway from one channel to
     the other in pairs and defines the mapping between them.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::IPduMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 840, Classic Platform R23-11)
     """
@@ -29,10 +34,10 @@ class IPduMapping(ARObject):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +63,10 @@ class IPduMapping(ARObject):
     def pdu_max_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pduMaxLength with validation.
-        
+
         Args:
             value: The pduMaxLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +92,10 @@ class IPduMapping(ARObject):
     def pdur_tp_chunk(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pdurTpChunk with validation.
-        
+
         Args:
             value: The pdurTpChunk to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +120,10 @@ class IPduMapping(ARObject):
     def source_i_pdu(self, value: RefType) -> None:
         """
         Set sourceIPdu with validation.
-        
+
         Args:
             value: The sourceIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +144,10 @@ class IPduMapping(ARObject):
     def target_i_pdu(self, value: RefType) -> None:
         """
         Set targetIPdu with validation.
-        
+
         Args:
             value: The targetIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -157,10 +162,10 @@ class IPduMapping(ARObject):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -169,13 +174,13 @@ class IPduMapping(ARObject):
     def setIntroduction(self, value: "DocumentationBlock") -> "IPduMapping":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -185,10 +190,10 @@ class IPduMapping(ARObject):
     def getPduMaxLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pduMaxLength.
-        
+
         Returns:
             The pduMaxLength value
-        
+
         Note:
             Delegates to pdu_max_length property (CODING_RULE_V2_00017)
         """
@@ -197,13 +202,13 @@ class IPduMapping(ARObject):
     def setPduMaxLength(self, value: "PositiveInteger") -> "IPduMapping":
         """
         AUTOSAR-compliant setter for pduMaxLength with method chaining.
-        
+
         Args:
             value: The pduMaxLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_max_length property setter (gets validation automatically)
         """
@@ -213,10 +218,10 @@ class IPduMapping(ARObject):
     def getPdurTpChunk(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pdurTpChunk.
-        
+
         Returns:
             The pdurTpChunk value
-        
+
         Note:
             Delegates to pdur_tp_chunk property (CODING_RULE_V2_00017)
         """
@@ -225,13 +230,13 @@ class IPduMapping(ARObject):
     def setPdurTpChunk(self, value: "PositiveInteger") -> "IPduMapping":
         """
         AUTOSAR-compliant setter for pdurTpChunk with method chaining.
-        
+
         Args:
             value: The pdurTpChunk to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdur_tp_chunk property setter (gets validation automatically)
         """
@@ -241,10 +246,10 @@ class IPduMapping(ARObject):
     def getSourceIPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for sourceIPdu.
-        
+
         Returns:
             The sourceIPdu value
-        
+
         Note:
             Delegates to source_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -253,13 +258,13 @@ class IPduMapping(ARObject):
     def setSourceIPdu(self, value: RefType) -> "IPduMapping":
         """
         AUTOSAR-compliant setter for sourceIPdu with method chaining.
-        
+
         Args:
             value: The sourceIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_i_pdu property setter (gets validation automatically)
         """
@@ -269,10 +274,10 @@ class IPduMapping(ARObject):
     def getTargetIPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetIPdu.
-        
+
         Returns:
             The targetIPdu value
-        
+
         Note:
             Delegates to target_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -281,13 +286,13 @@ class IPduMapping(ARObject):
     def setTargetIPdu(self, value: RefType) -> "IPduMapping":
         """
         AUTOSAR-compliant setter for targetIPdu with method chaining.
-        
+
         Args:
             value: The targetIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_i_pdu property setter (gets validation automatically)
         """
@@ -299,13 +304,13 @@ class IPduMapping(ARObject):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "IPduMapping":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """
@@ -315,13 +320,13 @@ class IPduMapping(ARObject):
     def with_pdu_max_length(self, value: Optional["PositiveInteger"]) -> "IPduMapping":
         """
         Set pduMaxLength and return self for chaining.
-        
+
         Args:
             value: The pduMaxLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_max_length("value")
         """
@@ -331,13 +336,13 @@ class IPduMapping(ARObject):
     def with_pdur_tp_chunk(self, value: Optional["PositiveInteger"]) -> "IPduMapping":
         """
         Set pdurTpChunk and return self for chaining.
-        
+
         Args:
             value: The pdurTpChunk to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdur_tp_chunk("value")
         """
@@ -347,13 +352,13 @@ class IPduMapping(ARObject):
     def with_source_i_pdu(self, value: Optional[RefType]) -> "IPduMapping":
         """
         Set sourceIPdu and return self for chaining.
-        
+
         Args:
             value: The sourceIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_i_pdu("value")
         """
@@ -363,13 +368,13 @@ class IPduMapping(ARObject):
     def with_target_i_pdu(self, value: Optional[RefType]) -> "IPduMapping":
         """
         Set targetIPdu and return self for chaining.
-        
+
         Args:
             value: The targetIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_i_pdu("value")
         """

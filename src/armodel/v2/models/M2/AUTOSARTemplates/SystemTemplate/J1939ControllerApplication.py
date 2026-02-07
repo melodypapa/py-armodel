@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class J1939ControllerApplication(ARElement):
     """
     This element represents a J1939 controller application.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::J1939ControllerApplication
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 207, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class J1939ControllerApplication(ARElement):
     def function_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set functionId with validation.
-        
+
         Args:
             value: The functionId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class J1939ControllerApplication(ARElement):
     def sw_component(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponent with validation.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class J1939ControllerApplication(ARElement):
     def getFunctionId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for functionId.
-        
+
         Returns:
             The functionId value
-        
+
         Note:
             Delegates to function_id property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class J1939ControllerApplication(ARElement):
     def setFunctionId(self, value: "PositiveInteger") -> "J1939ControllerApplication":
         """
         AUTOSAR-compliant setter for functionId with method chaining.
-        
+
         Args:
             value: The functionId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function_id property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class J1939ControllerApplication(ARElement):
     def getSwComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponent.
-        
+
         Returns:
             The swComponent value
-        
+
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class J1939ControllerApplication(ARElement):
     def setSwComponent(self, value: "SwComponent") -> "J1939ControllerApplication":
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class J1939ControllerApplication(ARElement):
     def with_function_id(self, value: Optional["PositiveInteger"]) -> "J1939ControllerApplication":
         """
         Set functionId and return self for chaining.
-        
+
         Args:
             value: The functionId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function_id("value")
         """
@@ -152,13 +152,13 @@ class J1939ControllerApplication(ARElement):
     def with_sw_component(self, value: Optional["SwComponent"]) -> "J1939ControllerApplication":
         """
         Set swComponent and return self for chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticEvent is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventPortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 249, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def bsw_service(self, value: Optional["BswService"]) -> None:
         """
         Set bswService with validation.
-        
+
         Args:
             value: The bswService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +136,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getBswService(self) -> "BswService":
         """
         AUTOSAR-compliant getter for bswService.
-        
+
         Returns:
             The bswService value
-        
+
         Note:
             Delegates to bsw_service property (CODING_RULE_V2_00017)
         """
@@ -148,13 +148,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setBswService(self, value: "BswService") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for bswService with method chaining.
-        
+
         Args:
             value: The bswService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_service property setter (gets validation automatically)
         """
@@ -164,10 +164,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -192,10 +192,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -220,10 +220,10 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -232,13 +232,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticEventPortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -250,13 +250,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_bsw_service(self, value: Optional["BswService"]) -> "DiagnosticEventPortMapping":
         """
         Set bswService and return self for chaining.
-        
+
         Args:
             value: The bswService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_service("value")
         """
@@ -266,13 +266,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventPortMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -282,13 +282,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticEventPortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -298,13 +298,13 @@ class DiagnosticEventPortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticEventPortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """

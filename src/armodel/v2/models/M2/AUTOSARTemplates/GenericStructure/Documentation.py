@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class Documentation(ARElement):
     """
@@ -8,9 +8,9 @@ class Documentation(ARElement):
     in another ARElement or identifiable object. The standalone documentation is
     an entity of its own which denotes its context by reference to other objects
     and instances.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1::Documentation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 294, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 439, Foundation
@@ -40,10 +40,10 @@ class Documentation(ARElement):
     def documentation(self, value: Optional["PredefinedChapter"]) -> None:
         """
         Set documentation with validation.
-        
+
         Args:
             value: The documentation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class Documentation(ARElement):
     def getContext(self) -> List["DocumentationContext"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -74,10 +74,10 @@ class Documentation(ARElement):
     def getDocumentation(self) -> "PredefinedChapter":
         """
         AUTOSAR-compliant getter for documentation.
-        
+
         Returns:
             The documentation value
-        
+
         Note:
             Delegates to documentation property (CODING_RULE_V2_00017)
         """
@@ -86,13 +86,13 @@ class Documentation(ARElement):
     def setDocumentation(self, value: "PredefinedChapter") -> "Documentation":
         """
         AUTOSAR-compliant setter for documentation with method chaining.
-        
+
         Args:
             value: The documentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to documentation property setter (gets validation automatically)
         """
@@ -104,13 +104,13 @@ class Documentation(ARElement):
     def with_documentation(self, value: Optional["PredefinedChapter"]) -> "Documentation":
         """
         Set documentation and return self for chaining.
-        
+
         Args:
             value: The documentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_documentation("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ValueGroup(ARObject):
     """
     This element enables values to be grouped. It can be used to perform row and
     column-orientated groupings, so that these can be rendered properly e.g. as
     a table.
-    
+
     Package: M2::MSR::CalibrationData::CalibrationValue::ValueGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 458, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class ValueGroup(ARObject):
     def label(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set label with validation.
-        
+
         Args:
             value: The label to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class ValueGroup(ARObject):
     def vg_contents(self, value: Optional["SwValues"]) -> None:
         """
         Set vgContents with validation.
-        
+
         Args:
             value: The vgContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class ValueGroup(ARObject):
     def getLabel(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for label.
-        
+
         Returns:
             The label value
-        
+
         Note:
             Delegates to label property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class ValueGroup(ARObject):
     def setLabel(self, value: "MultilanguageLong") -> "ValueGroup":
         """
         AUTOSAR-compliant setter for label with method chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class ValueGroup(ARObject):
     def getVgContents(self) -> "SwValues":
         """
         AUTOSAR-compliant getter for vgContents.
-        
+
         Returns:
             The vgContents value
-        
+
         Note:
             Delegates to vg_contents property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class ValueGroup(ARObject):
     def setVgContents(self, value: "SwValues") -> "ValueGroup":
         """
         AUTOSAR-compliant setter for vgContents with method chaining.
-        
+
         Args:
             value: The vgContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vg_contents property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class ValueGroup(ARObject):
     def with_label(self, value: Optional["MultilanguageLong"]) -> "ValueGroup":
         """
         Set label and return self for chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label("value")
         """
@@ -155,13 +158,13 @@ class ValueGroup(ARObject):
     def with_vg_contents(self, value: Optional["SwValues"]) -> "ValueGroup":
         """
         Set vgContents and return self for chaining.
-        
+
         Args:
             value: The vgContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vg_contents("value")
         """

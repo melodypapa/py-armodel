@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     """
     This meta-class represents the ability to refer to a specific
     ModeDeclaration in the scope of a BswModule Description.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvBswModeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 90, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def getMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def setMode(self, value: "ModeDeclaration") -> "DiagnosticEnvBswModeElement":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     def with_mode(self, value: Optional["ModeDeclaration"]) -> "DiagnosticEnvBswModeElement":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """

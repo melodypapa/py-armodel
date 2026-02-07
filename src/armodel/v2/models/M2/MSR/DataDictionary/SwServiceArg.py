@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwServiceArg(Identifiable):
     """
@@ -11,9 +15,9 @@ class SwServiceArg(Identifiable):
     used in the argument list of a C-macro. For this purpose the category shall
     be set to "MACRO". A reference to implementationDataType can optional be
     added if the actual argument has an implementationDataType.
-    
+
     Package: M2::MSR::DataDictionary::ServiceProcessTask::SwServiceArg
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 38, Classic
       Platform R23-11)
@@ -46,10 +50,10 @@ class SwServiceArg(Identifiable):
     def direction(self, value: Optional["ArgumentDirection"]) -> None:
         """
         Set direction with validation.
-        
+
         Args:
             value: The direction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +78,10 @@ class SwServiceArg(Identifiable):
     def sw_arraysize(self, value: RefType) -> None:
         """
         Set swArraysize with validation.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +103,10 @@ class SwServiceArg(Identifiable):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +125,10 @@ class SwServiceArg(Identifiable):
     def getDirection(self) -> "ArgumentDirection":
         """
         AUTOSAR-compliant getter for direction.
-        
+
         Returns:
             The direction value
-        
+
         Note:
             Delegates to direction property (CODING_RULE_V2_00017)
         """
@@ -133,13 +137,13 @@ class SwServiceArg(Identifiable):
     def setDirection(self, value: "ArgumentDirection") -> "SwServiceArg":
         """
         AUTOSAR-compliant setter for direction with method chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direction property setter (gets validation automatically)
         """
@@ -149,10 +153,10 @@ class SwServiceArg(Identifiable):
     def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
-        
+
         Returns:
             The swArraysize value
-        
+
         Note:
             Delegates to sw_arraysize property (CODING_RULE_V2_00017)
         """
@@ -161,13 +165,13 @@ class SwServiceArg(Identifiable):
     def setSwArraysize(self, value: RefType) -> "SwServiceArg":
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_arraysize property setter (gets validation automatically)
         """
@@ -177,10 +181,10 @@ class SwServiceArg(Identifiable):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -189,13 +193,13 @@ class SwServiceArg(Identifiable):
     def setSwDataDef(self, value: "SwDataDefProps") -> "SwServiceArg":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -207,13 +211,13 @@ class SwServiceArg(Identifiable):
     def with_direction(self, value: Optional["ArgumentDirection"]) -> "SwServiceArg":
         """
         Set direction and return self for chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direction("value")
         """
@@ -223,13 +227,13 @@ class SwServiceArg(Identifiable):
     def with_sw_arraysize(self, value: Optional[RefType]) -> "SwServiceArg":
         """
         Set swArraysize and return self for chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_arraysize("value")
         """
@@ -239,13 +243,13 @@ class SwServiceArg(Identifiable):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "SwServiceArg":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """

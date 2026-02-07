@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderReceiverToSignalMapping(DataMapping):
     """
     Mapping of a sender receiver communication data element to a signal.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderReceiverToSignalMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1005, Classic
       Platform R23-11)
@@ -29,10 +32,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def data_element_system_instance_ref(self, value: RefType) -> None:
         """
         Set dataElementSystemInstanceRef with validation.
-        
+
         Args:
             value: The dataElementSystemInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def sender_to_signal(self, value: RefType) -> None:
         """
         Set senderToSignal with validation.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def signal_to(self, value: RefType) -> None:
         """
         Set signalTo with validation.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +107,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +129,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def getDataElementSystemInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElementSystemInstanceRef.
-        
+
         Returns:
             The dataElementSystemInstanceRef value
-        
+
         Note:
             Delegates to data_element_system_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -138,13 +141,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def setDataElementSystemInstanceRef(self, value: RefType) -> "SenderReceiverToSignalMapping":
         """
         AUTOSAR-compliant setter for dataElementSystemInstanceRef with method chaining.
-        
+
         Args:
             value: The dataElementSystemInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element_system_instance_ref property setter (gets validation automatically)
         """
@@ -154,10 +157,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def getSenderToSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for senderToSignal.
-        
+
         Returns:
             The senderToSignal value
-        
+
         Note:
             Delegates to sender_to_signal property (CODING_RULE_V2_00017)
         """
@@ -166,13 +169,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def setSenderToSignal(self, value: RefType) -> "SenderReceiverToSignalMapping":
         """
         AUTOSAR-compliant setter for senderToSignal with method chaining.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sender_to_signal property setter (gets validation automatically)
         """
@@ -182,10 +185,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def getSignalTo(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalTo.
-        
+
         Returns:
             The signalTo value
-        
+
         Note:
             Delegates to signal_to property (CODING_RULE_V2_00017)
         """
@@ -194,13 +197,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def setSignalTo(self, value: RefType) -> "SenderReceiverToSignalMapping":
         """
         AUTOSAR-compliant setter for signalTo with method chaining.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signal_to property setter (gets validation automatically)
         """
@@ -210,10 +213,10 @@ class SenderReceiverToSignalMapping(DataMapping):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -222,13 +225,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def setSystemSignal(self, value: "SystemSignal") -> "SenderReceiverToSignalMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -240,13 +243,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def with_data_element_system_instance_ref(self, value: Optional[RefType]) -> "SenderReceiverToSignalMapping":
         """
         Set dataElementSystemInstanceRef and return self for chaining.
-        
+
         Args:
             value: The dataElementSystemInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element_system_instance_ref("value")
         """
@@ -256,13 +259,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def with_sender_to_signal(self, value: Optional[RefType]) -> "SenderReceiverToSignalMapping":
         """
         Set senderToSignal and return self for chaining.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sender_to_signal("value")
         """
@@ -272,13 +275,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def with_signal_to(self, value: Optional[RefType]) -> "SenderReceiverToSignalMapping":
         """
         Set signalTo and return self for chaining.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signal_to("value")
         """
@@ -288,13 +291,13 @@ class SenderReceiverToSignalMapping(DataMapping):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "SenderReceiverToSignalMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
     """
     This represents an instance of the "Request Download" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticRequestDownload
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 144, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
     def request(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
     def getRequest(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
     def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestDownload":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
     def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestDownload":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """

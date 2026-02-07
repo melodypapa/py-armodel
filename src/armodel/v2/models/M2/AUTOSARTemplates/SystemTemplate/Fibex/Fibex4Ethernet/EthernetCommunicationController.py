@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EthernetCommunicationController(ARObject):
     """
     Ethernet specific communication port attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 115, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class EthernetCommunicationController(ARObject):
     def can_xl_config(self, value: Optional["AbstractCan"]) -> None:
         """
         Set canXlConfig with validation.
-        
+
         Args:
             value: The canXlConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +69,10 @@ class EthernetCommunicationController(ARObject):
     def mac_layer_type(self, value: Optional["EthernetMacLayerType"]) -> None:
         """
         Set macLayerType with validation.
-        
+
         Args:
             value: The macLayerType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class EthernetCommunicationController(ARObject):
     def mac_unicast(self, value: Optional["MacAddressString"]) -> None:
         """
         Set macUnicast with validation.
-        
+
         Args:
             value: The macUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +127,10 @@ class EthernetCommunicationController(ARObject):
     def maximum(self, value: Optional["Integer"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -156,10 +159,10 @@ class EthernetCommunicationController(ARObject):
     def slave_act_as(self, value: Optional["Boolean"]) -> None:
         """
         Set slaveActAs with validation.
-        
+
         Args:
             value: The slaveActAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -185,10 +188,10 @@ class EthernetCommunicationController(ARObject):
     def slave_qualified(self, value: Optional["TimeValue"]) -> None:
         """
         Set slaveQualified with validation.
-        
+
         Args:
             value: The slaveQualified to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -207,10 +210,10 @@ class EthernetCommunicationController(ARObject):
     def getCanXlConfig(self) -> "AbstractCan":
         """
         AUTOSAR-compliant getter for canXlConfig.
-        
+
         Returns:
             The canXlConfig value
-        
+
         Note:
             Delegates to can_xl_config property (CODING_RULE_V2_00017)
         """
@@ -219,13 +222,13 @@ class EthernetCommunicationController(ARObject):
     def setCanXlConfig(self, value: "AbstractCan") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for canXlConfig with method chaining.
-        
+
         Args:
             value: The canXlConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_xl_config property setter (gets validation automatically)
         """
@@ -235,10 +238,10 @@ class EthernetCommunicationController(ARObject):
     def getCouplingPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -247,10 +250,10 @@ class EthernetCommunicationController(ARObject):
     def getMacLayerType(self) -> "EthernetMacLayerType":
         """
         AUTOSAR-compliant getter for macLayerType.
-        
+
         Returns:
             The macLayerType value
-        
+
         Note:
             Delegates to mac_layer_type property (CODING_RULE_V2_00017)
         """
@@ -259,13 +262,13 @@ class EthernetCommunicationController(ARObject):
     def setMacLayerType(self, value: "EthernetMacLayerType") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for macLayerType with method chaining.
-        
+
         Args:
             value: The macLayerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_layer_type property setter (gets validation automatically)
         """
@@ -275,10 +278,10 @@ class EthernetCommunicationController(ARObject):
     def getMacUnicast(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for macUnicast.
-        
+
         Returns:
             The macUnicast value
-        
+
         Note:
             Delegates to mac_unicast property (CODING_RULE_V2_00017)
         """
@@ -287,13 +290,13 @@ class EthernetCommunicationController(ARObject):
     def setMacUnicast(self, value: "MacAddressString") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for macUnicast with method chaining.
-        
+
         Args:
             value: The macUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_unicast property setter (gets validation automatically)
         """
@@ -303,10 +306,10 @@ class EthernetCommunicationController(ARObject):
     def getMaximum(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -315,13 +318,13 @@ class EthernetCommunicationController(ARObject):
     def setMaximum(self, value: "Integer") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -331,10 +334,10 @@ class EthernetCommunicationController(ARObject):
     def getSlaveActAs(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for slaveActAs.
-        
+
         Returns:
             The slaveActAs value
-        
+
         Note:
             Delegates to slave_act_as property (CODING_RULE_V2_00017)
         """
@@ -343,13 +346,13 @@ class EthernetCommunicationController(ARObject):
     def setSlaveActAs(self, value: "Boolean") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for slaveActAs with method chaining.
-        
+
         Args:
             value: The slaveActAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slave_act_as property setter (gets validation automatically)
         """
@@ -359,10 +362,10 @@ class EthernetCommunicationController(ARObject):
     def getSlaveQualified(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for slaveQualified.
-        
+
         Returns:
             The slaveQualified value
-        
+
         Note:
             Delegates to slave_qualified property (CODING_RULE_V2_00017)
         """
@@ -371,13 +374,13 @@ class EthernetCommunicationController(ARObject):
     def setSlaveQualified(self, value: "TimeValue") -> "EthernetCommunicationController":
         """
         AUTOSAR-compliant setter for slaveQualified with method chaining.
-        
+
         Args:
             value: The slaveQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to slave_qualified property setter (gets validation automatically)
         """
@@ -389,13 +392,13 @@ class EthernetCommunicationController(ARObject):
     def with_can_xl_config(self, value: Optional["AbstractCan"]) -> "EthernetCommunicationController":
         """
         Set canXlConfig and return self for chaining.
-        
+
         Args:
             value: The canXlConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_xl_config("value")
         """
@@ -405,13 +408,13 @@ class EthernetCommunicationController(ARObject):
     def with_mac_layer_type(self, value: Optional["EthernetMacLayerType"]) -> "EthernetCommunicationController":
         """
         Set macLayerType and return self for chaining.
-        
+
         Args:
             value: The macLayerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_layer_type("value")
         """
@@ -421,13 +424,13 @@ class EthernetCommunicationController(ARObject):
     def with_mac_unicast(self, value: Optional["MacAddressString"]) -> "EthernetCommunicationController":
         """
         Set macUnicast and return self for chaining.
-        
+
         Args:
             value: The macUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_unicast("value")
         """
@@ -437,13 +440,13 @@ class EthernetCommunicationController(ARObject):
     def with_maximum(self, value: Optional["Integer"]) -> "EthernetCommunicationController":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -453,13 +456,13 @@ class EthernetCommunicationController(ARObject):
     def with_slave_act_as(self, value: Optional["Boolean"]) -> "EthernetCommunicationController":
         """
         Set slaveActAs and return self for chaining.
-        
+
         Args:
             value: The slaveActAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slave_act_as("value")
         """
@@ -469,13 +472,13 @@ class EthernetCommunicationController(ARObject):
     def with_slave_qualified(self, value: Optional["TimeValue"]) -> "EthernetCommunicationController":
         """
         Set slaveQualified and return self for chaining.
-        
+
         Args:
             value: The slaveQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_slave_qualified("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SpecificationScope(ARObject):
     """
     Specification of the relevant subset of Autosar specifications.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange::SpecificationScope
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 96, Foundation R23-11)
     """
@@ -29,10 +32,10 @@ class SpecificationScope(ARObject):
     def getSpecification(self) -> List["SpecificationDocument"]:
         """
         AUTOSAR-compliant getter for specification.
-        
+
         Returns:
             The specification value
-        
+
         Note:
             Delegates to specification property (CODING_RULE_V2_00017)
         """

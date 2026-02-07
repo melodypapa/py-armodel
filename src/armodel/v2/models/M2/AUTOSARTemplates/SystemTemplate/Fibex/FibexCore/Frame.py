@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class Frame(FibexElement, ABC):
     """
     Data frame which is sent over a communication medium. This element describes
     the pure Layout of a frame sent on a channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Frame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 295, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 418, Classic Platform R23-11)
@@ -37,10 +41,10 @@ class Frame(FibexElement, ABC):
     def frame_length(self, value: Optional["Integer"]) -> None:
         """
         Set frameLength with validation.
-        
+
         Args:
             value: The frameLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +72,10 @@ class Frame(FibexElement, ABC):
     def getFrameLength(self) -> "Integer":
         """
         AUTOSAR-compliant getter for frameLength.
-        
+
         Returns:
             The frameLength value
-        
+
         Note:
             Delegates to frame_length property (CODING_RULE_V2_00017)
         """
@@ -80,13 +84,13 @@ class Frame(FibexElement, ABC):
     def setFrameLength(self, value: "Integer") -> "Frame":
         """
         AUTOSAR-compliant setter for frameLength with method chaining.
-        
+
         Args:
             value: The frameLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame_length property setter (gets validation automatically)
         """
@@ -96,10 +100,10 @@ class Frame(FibexElement, ABC):
     def getPduToFrame(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pduToFrame.
-        
+
         Returns:
             The pduToFrame value
-        
+
         Note:
             Delegates to pdu_to_frame property (CODING_RULE_V2_00017)
         """
@@ -110,13 +114,13 @@ class Frame(FibexElement, ABC):
     def with_frame_length(self, value: Optional["Integer"]) -> "Frame":
         """
         Set frameLength and return self for chaining.
-        
+
         Args:
             value: The frameLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame_length("value")
         """

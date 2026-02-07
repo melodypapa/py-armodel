@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class InvertCondition(AbstractCondition):
     """
     inverts the nested condition
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::InvertCondition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 104, Foundation R23-11)
     """
@@ -26,10 +24,10 @@ class InvertCondition(AbstractCondition):
     def condition(self, value: "AbstractCondition") -> None:
         """
         Set condition with validation.
-        
+
         Args:
             value: The condition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -44,10 +42,10 @@ class InvertCondition(AbstractCondition):
     def getCondition(self) -> "AbstractCondition":
         """
         AUTOSAR-compliant getter for condition.
-        
+
         Returns:
             The condition value
-        
+
         Note:
             Delegates to condition property (CODING_RULE_V2_00017)
         """
@@ -56,13 +54,13 @@ class InvertCondition(AbstractCondition):
     def setCondition(self, value: "AbstractCondition") -> "InvertCondition":
         """
         AUTOSAR-compliant setter for condition with method chaining.
-        
+
         Args:
             value: The condition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to condition property setter (gets validation automatically)
         """
@@ -74,13 +72,13 @@ class InvertCondition(AbstractCondition):
     def with_condition(self, value: "AbstractCondition") -> "InvertCondition":
         """
         Set condition and return self for chaining.
-        
+
         Args:
             value: The condition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_condition("value")
         """

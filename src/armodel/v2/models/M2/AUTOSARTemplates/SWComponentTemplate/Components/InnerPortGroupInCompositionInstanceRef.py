@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class InnerPortGroupInCompositionInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::InnerPortGroupInCompositionInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 943, Classic Platform
       R23-11)
@@ -29,10 +34,10 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +72,10 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def target(self, value: RefType) -> None:
         """
         Set target with validation.
-        
+
         Args:
             value: The target to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +90,10 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -97,13 +102,13 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "InnerPortGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -113,10 +118,10 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def getContext(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -125,10 +130,10 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def getTarget(self) -> RefType:
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -137,13 +142,13 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def setTarget(self, value: RefType) -> "InnerPortGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for target with method chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target property setter (gets validation automatically)
         """
@@ -155,13 +160,13 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "InnerPortGroupInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -171,13 +176,13 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     def with_target(self, value: Optional[RefType]) -> "InnerPortGroupInCompositionInstanceRef":
         """
         Set target and return self for chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target("value")
         """

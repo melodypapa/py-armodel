@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class InternalConstrs(ARObject):
     """
     This meta-class represents the ability to express internal constraints.
-    
+
     Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::InternalConstrs
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 407, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class InternalConstrs(ARObject):
     def lower_limit(self, value: Optional["Limit"]) -> None:
         """
         Set lowerLimit with validation.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class InternalConstrs(ARObject):
     def max_diff(self, value: Optional["Numerical"]) -> None:
         """
         Set maxDiff with validation.
-        
+
         Args:
             value: The maxDiff to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class InternalConstrs(ARObject):
     def max_gradient(self, value: Optional["Numerical"]) -> None:
         """
         Set maxGradient with validation.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class InternalConstrs(ARObject):
     def monotony(self, value: Optional["MonotonyEnum"]) -> None:
         """
         Set monotony with validation.
-        
+
         Args:
             value: The monotony to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +155,10 @@ class InternalConstrs(ARObject):
     def upper_limit(self, value: Optional["Limit"]) -> None:
         """
         Set upperLimit with validation.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +177,10 @@ class InternalConstrs(ARObject):
     def getLowerLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for lowerLimit.
-        
+
         Returns:
             The lowerLimit value
-        
+
         Note:
             Delegates to lower_limit property (CODING_RULE_V2_00017)
         """
@@ -186,13 +189,13 @@ class InternalConstrs(ARObject):
     def setLowerLimit(self, value: "Limit") -> "InternalConstrs":
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_limit property setter (gets validation automatically)
         """
@@ -202,10 +205,10 @@ class InternalConstrs(ARObject):
     def getMaxDiff(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for maxDiff.
-        
+
         Returns:
             The maxDiff value
-        
+
         Note:
             Delegates to max_diff property (CODING_RULE_V2_00017)
         """
@@ -214,13 +217,13 @@ class InternalConstrs(ARObject):
     def setMaxDiff(self, value: "Numerical") -> "InternalConstrs":
         """
         AUTOSAR-compliant setter for maxDiff with method chaining.
-        
+
         Args:
             value: The maxDiff to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_diff property setter (gets validation automatically)
         """
@@ -230,10 +233,10 @@ class InternalConstrs(ARObject):
     def getMaxGradient(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for maxGradient.
-        
+
         Returns:
             The maxGradient value
-        
+
         Note:
             Delegates to max_gradient property (CODING_RULE_V2_00017)
         """
@@ -242,13 +245,13 @@ class InternalConstrs(ARObject):
     def setMaxGradient(self, value: "Numerical") -> "InternalConstrs":
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_gradient property setter (gets validation automatically)
         """
@@ -258,10 +261,10 @@ class InternalConstrs(ARObject):
     def getMonotony(self) -> "MonotonyEnum":
         """
         AUTOSAR-compliant getter for monotony.
-        
+
         Returns:
             The monotony value
-        
+
         Note:
             Delegates to monotony property (CODING_RULE_V2_00017)
         """
@@ -270,13 +273,13 @@ class InternalConstrs(ARObject):
     def setMonotony(self, value: "MonotonyEnum") -> "InternalConstrs":
         """
         AUTOSAR-compliant setter for monotony with method chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to monotony property setter (gets validation automatically)
         """
@@ -286,10 +289,10 @@ class InternalConstrs(ARObject):
     def getScaleConstr(self) -> List["ScaleConstr"]:
         """
         AUTOSAR-compliant getter for scaleConstr.
-        
+
         Returns:
             The scaleConstr value
-        
+
         Note:
             Delegates to scale_constr property (CODING_RULE_V2_00017)
         """
@@ -298,10 +301,10 @@ class InternalConstrs(ARObject):
     def getUpperLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for upperLimit.
-        
+
         Returns:
             The upperLimit value
-        
+
         Note:
             Delegates to upper_limit property (CODING_RULE_V2_00017)
         """
@@ -310,13 +313,13 @@ class InternalConstrs(ARObject):
     def setUpperLimit(self, value: "Limit") -> "InternalConstrs":
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_limit property setter (gets validation automatically)
         """
@@ -328,13 +331,13 @@ class InternalConstrs(ARObject):
     def with_lower_limit(self, value: Optional["Limit"]) -> "InternalConstrs":
         """
         Set lowerLimit and return self for chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_limit("value")
         """
@@ -344,13 +347,13 @@ class InternalConstrs(ARObject):
     def with_max_diff(self, value: Optional["Numerical"]) -> "InternalConstrs":
         """
         Set maxDiff and return self for chaining.
-        
+
         Args:
             value: The maxDiff to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_diff("value")
         """
@@ -360,13 +363,13 @@ class InternalConstrs(ARObject):
     def with_max_gradient(self, value: Optional["Numerical"]) -> "InternalConstrs":
         """
         Set maxGradient and return self for chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_gradient("value")
         """
@@ -376,13 +379,13 @@ class InternalConstrs(ARObject):
     def with_monotony(self, value: Optional["MonotonyEnum"]) -> "InternalConstrs":
         """
         Set monotony and return self for chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_monotony("value")
         """
@@ -392,13 +395,13 @@ class InternalConstrs(ARObject):
     def with_upper_limit(self, value: Optional["Limit"]) -> "InternalConstrs":
         """
         Set upperLimit and return self for chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_limit("value")
         """

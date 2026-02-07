@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RptSwPrototypingAccess(ARObject):
     """
     Describes the accessibility of data and modes by the rapid prototyping
     tooling.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptSwPrototypingAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 199, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class RptSwPrototypingAccess(ARObject):
     def rpt_hook_access(self, value: Optional["RptAccessEnum"]) -> None:
         """
         Set rptHookAccess with validation.
-        
+
         Args:
             value: The rptHookAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class RptSwPrototypingAccess(ARObject):
     def rpt_read_access(self, value: Optional["RptAccessEnum"]) -> None:
         """
         Set rptReadAccess with validation.
-        
+
         Args:
             value: The rptReadAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class RptSwPrototypingAccess(ARObject):
     def rpt_write_access(self, value: Optional["RptAccessEnum"]) -> None:
         """
         Set rptWriteAccess with validation.
-        
+
         Args:
             value: The rptWriteAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class RptSwPrototypingAccess(ARObject):
     def getRptHookAccess(self) -> "RptAccessEnum":
         """
         AUTOSAR-compliant getter for rptHookAccess.
-        
+
         Returns:
             The rptHookAccess value
-        
+
         Note:
             Delegates to rpt_hook_access property (CODING_RULE_V2_00017)
         """
@@ -125,13 +128,13 @@ class RptSwPrototypingAccess(ARObject):
     def setRptHookAccess(self, value: "RptAccessEnum") -> "RptSwPrototypingAccess":
         """
         AUTOSAR-compliant setter for rptHookAccess with method chaining.
-        
+
         Args:
             value: The rptHookAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_hook_access property setter (gets validation automatically)
         """
@@ -141,10 +144,10 @@ class RptSwPrototypingAccess(ARObject):
     def getRptReadAccess(self) -> "RptAccessEnum":
         """
         AUTOSAR-compliant getter for rptReadAccess.
-        
+
         Returns:
             The rptReadAccess value
-        
+
         Note:
             Delegates to rpt_read_access property (CODING_RULE_V2_00017)
         """
@@ -153,13 +156,13 @@ class RptSwPrototypingAccess(ARObject):
     def setRptReadAccess(self, value: "RptAccessEnum") -> "RptSwPrototypingAccess":
         """
         AUTOSAR-compliant setter for rptReadAccess with method chaining.
-        
+
         Args:
             value: The rptReadAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_read_access property setter (gets validation automatically)
         """
@@ -169,10 +172,10 @@ class RptSwPrototypingAccess(ARObject):
     def getRptWriteAccess(self) -> "RptAccessEnum":
         """
         AUTOSAR-compliant getter for rptWriteAccess.
-        
+
         Returns:
             The rptWriteAccess value
-        
+
         Note:
             Delegates to rpt_write_access property (CODING_RULE_V2_00017)
         """
@@ -181,13 +184,13 @@ class RptSwPrototypingAccess(ARObject):
     def setRptWriteAccess(self, value: "RptAccessEnum") -> "RptSwPrototypingAccess":
         """
         AUTOSAR-compliant setter for rptWriteAccess with method chaining.
-        
+
         Args:
             value: The rptWriteAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_write_access property setter (gets validation automatically)
         """
@@ -199,13 +202,13 @@ class RptSwPrototypingAccess(ARObject):
     def with_rpt_hook_access(self, value: Optional["RptAccessEnum"]) -> "RptSwPrototypingAccess":
         """
         Set rptHookAccess and return self for chaining.
-        
+
         Args:
             value: The rptHookAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_hook_access("value")
         """
@@ -215,13 +218,13 @@ class RptSwPrototypingAccess(ARObject):
     def with_rpt_read_access(self, value: Optional["RptAccessEnum"]) -> "RptSwPrototypingAccess":
         """
         Set rptReadAccess and return self for chaining.
-        
+
         Args:
             value: The rptReadAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_read_access("value")
         """
@@ -231,13 +234,13 @@ class RptSwPrototypingAccess(ARObject):
     def with_rpt_write_access(self, value: Optional["RptAccessEnum"]) -> "RptSwPrototypingAccess":
         """
         Set rptWriteAccess and return self for chaining.
-        
+
         Args:
             value: The rptWriteAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_write_access("value")
         """

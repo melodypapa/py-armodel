@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CommonSignalPath(SignalPathConstraint):
     """
     The CommonSignalPath describes that two or more SwcToSwcSignals and/or
     SwcToSwcOperation Arguments shall take the same way (Signal Path) in the
     topology.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::CommonSignalPath
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 253, Classic Platform R23-11)
     """
@@ -37,10 +37,10 @@ class CommonSignalPath(SignalPathConstraint):
     def getOperation(self) -> List["SwcToSwcOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -49,10 +49,10 @@ class CommonSignalPath(SignalPathConstraint):
     def getSignal(self) -> List["SwcToSwcSignal"]:
         """
         AUTOSAR-compliant getter for signal.
-        
+
         Returns:
             The signal value
-        
+
         Note:
             Delegates to signal property (CODING_RULE_V2_00017)
         """

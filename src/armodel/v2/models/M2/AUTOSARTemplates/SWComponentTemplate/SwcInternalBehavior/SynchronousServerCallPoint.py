@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SynchronousServerCallPoint(ServerCallPoint):
     """
     This means that the RunnableEntity is supposed to perform a blocking wait
     for a response from the server.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::SynchronousServerCallPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 580, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def called_from(self, value: Optional["ExclusiveAreaNesting"]) -> None:
         """
         Set calledFrom with validation.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def getCalledFrom(self) -> "ExclusiveAreaNesting":
         """
         AUTOSAR-compliant getter for calledFrom.
-        
+
         Returns:
             The calledFrom value
-        
+
         Note:
             Delegates to called_from property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def setCalledFrom(self, value: "ExclusiveAreaNesting") -> "SynchronousServerCallPoint":
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to called_from property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> "SynchronousServerCallPoint":
         """
         Set calledFrom and return self for chaining.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_called_from("value")
         """

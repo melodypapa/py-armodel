@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CompuScaleRationalFormula(CompuScaleContents):
     """
     This meta-class represents the fact that the computation in this scale is
     represented as rational term.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleRationalFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def compu_rational(self, value: Optional["CompuRationalCoeffs"]) -> None:
         """
         Set compuRational with validation.
-        
+
         Args:
             value: The compuRational to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def getCompuRational(self) -> "CompuRationalCoeffs":
         """
         AUTOSAR-compliant getter for compuRational.
-        
+
         Returns:
             The compuRational value
-        
+
         Note:
             Delegates to compu_rational property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def setCompuRational(self, value: "CompuRationalCoeffs") -> "CompuScaleRationalFormula":
         """
         AUTOSAR-compliant setter for compuRational with method chaining.
-        
+
         Args:
             value: The compuRational to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_rational property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def with_compu_rational(self, value: Optional["CompuRationalCoeffs"]) -> "CompuScaleRationalFormula":
         """
         Set compuRational and return self for chaining.
-        
+
         Args:
             value: The compuRational to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_rational("value")
         """

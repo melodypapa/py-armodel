@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class EcucParameterDef(EcucCommonAttributes, ABC):
     """
     Abstract class used to define the similarities of all ECU Configuration
     Parameter types defined as subclasses.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParameterDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 57, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 188, Foundation R23-11)
@@ -31,10 +32,10 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def derivation(self, value: Optional["EcucDerivation"]) -> None:
         """
         Set derivation with validation.
-        
+
         Args:
             value: The derivation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +62,10 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def symbolic_name(self, value: Optional["Boolean"]) -> None:
         """
         Set symbolicName with validation.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +99,10 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def with_auto(self, value: Optional["Boolean"]) -> None:
         """
         Set withAuto with validation.
-        
+
         Args:
             value: The withAuto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +121,10 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def getDerivation(self) -> "EcucDerivation":
         """
         AUTOSAR-compliant getter for derivation.
-        
+
         Returns:
             The derivation value
-        
+
         Note:
             Delegates to derivation property (CODING_RULE_V2_00017)
         """
@@ -132,13 +133,13 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def setDerivation(self, value: "EcucDerivation") -> "EcucParameterDef":
         """
         AUTOSAR-compliant setter for derivation with method chaining.
-        
+
         Args:
             value: The derivation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to derivation property setter (gets validation automatically)
         """
@@ -148,10 +149,10 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def getSymbolicName(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for symbolicName.
-        
+
         Returns:
             The symbolicName value
-        
+
         Note:
             Delegates to symbolic_name property (CODING_RULE_V2_00017)
         """
@@ -160,13 +161,13 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def setSymbolicName(self, value: "Boolean") -> "EcucParameterDef":
         """
         AUTOSAR-compliant setter for symbolicName with method chaining.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbolic_name property setter (gets validation automatically)
         """
@@ -176,10 +177,10 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def getWithAuto(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for withAuto.
-        
+
         Returns:
             The withAuto value
-        
+
         Note:
             Delegates to with_auto property (CODING_RULE_V2_00017)
         """
@@ -188,13 +189,13 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def setWithAuto(self, value: "Boolean") -> "EcucParameterDef":
         """
         AUTOSAR-compliant setter for withAuto with method chaining.
-        
+
         Args:
             value: The withAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to with_auto property setter (gets validation automatically)
         """
@@ -206,13 +207,13 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def with_derivation(self, value: Optional["EcucDerivation"]) -> "EcucParameterDef":
         """
         Set derivation and return self for chaining.
-        
+
         Args:
             value: The derivation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_derivation("value")
         """
@@ -222,13 +223,13 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def with_symbolic_name(self, value: Optional["Boolean"]) -> "EcucParameterDef":
         """
         Set symbolicName and return self for chaining.
-        
+
         Args:
             value: The symbolicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbolic_name("value")
         """
@@ -238,13 +239,13 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     def with_with_auto(self, value: Optional["Boolean"]) -> "EcucParameterDef":
         """
         Set withAuto and return self for chaining.
-        
+
         Args:
             value: The withAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_with_auto("value")
         """

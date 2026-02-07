@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 6 (IPv6) configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6Configuration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 466, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def assignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set assignment with validation.
-        
+
         Args:
             value: The assignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def default_router(self, value: Optional["Ip6AddressString"]) -> None:
         """
         Set defaultRouter with validation.
-        
+
         Args:
             value: The defaultRouter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def enable_anycast(self, value: Optional["Boolean"]) -> None:
         """
         Set enableAnycast with validation.
-        
+
         Args:
             value: The enableAnycast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +125,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def hop_count(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set hopCount with validation.
-        
+
         Args:
             value: The hopCount to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +153,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> None:
         """
         Set ipAddressKeep with validation.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +182,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def ip_address_prefix(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ipAddressPrefix with validation.
-        
+
         Args:
             value: The ipAddressPrefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -210,10 +210,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def ipv6_address(self, value: Optional["Ipv6AddressSource"]) -> None:
         """
         Set ipv6Address with validation.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +232,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getAssignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for assignment.
-        
+
         Returns:
             The assignment value
-        
+
         Note:
             Delegates to assignment property (CODING_RULE_V2_00017)
         """
@@ -244,13 +244,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setAssignment(self, value: "PositiveInteger") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for assignment with method chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assignment property setter (gets validation automatically)
         """
@@ -260,10 +260,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getDefaultRouter(self) -> "Ip6AddressString":
         """
         AUTOSAR-compliant getter for defaultRouter.
-        
+
         Returns:
             The defaultRouter value
-        
+
         Note:
             Delegates to default_router property (CODING_RULE_V2_00017)
         """
@@ -272,13 +272,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setDefaultRouter(self, value: "Ip6AddressString") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for defaultRouter with method chaining.
-        
+
         Args:
             value: The defaultRouter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_router property setter (gets validation automatically)
         """
@@ -288,10 +288,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getDnsServer(self) -> List["Ip6AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -300,10 +300,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getEnableAnycast(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enableAnycast.
-        
+
         Returns:
             The enableAnycast value
-        
+
         Note:
             Delegates to enable_anycast property (CODING_RULE_V2_00017)
         """
@@ -312,13 +312,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setEnableAnycast(self, value: "Boolean") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for enableAnycast with method chaining.
-        
+
         Args:
             value: The enableAnycast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_anycast property setter (gets validation automatically)
         """
@@ -328,10 +328,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getHopCount(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for hopCount.
-        
+
         Returns:
             The hopCount value
-        
+
         Note:
             Delegates to hop_count property (CODING_RULE_V2_00017)
         """
@@ -340,13 +340,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setHopCount(self, value: "PositiveInteger") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for hopCount with method chaining.
-        
+
         Args:
             value: The hopCount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hop_count property setter (gets validation automatically)
         """
@@ -356,10 +356,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getIpAddressKeep(self) -> "IpAddressKeepEnum":
         """
         AUTOSAR-compliant getter for ipAddressKeep.
-        
+
         Returns:
             The ipAddressKeep value
-        
+
         Note:
             Delegates to ip_address_keep property (CODING_RULE_V2_00017)
         """
@@ -368,13 +368,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpAddressKeep(self, value: "IpAddressKeepEnum") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for ipAddressKeep with method chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_address_keep property setter (gets validation automatically)
         """
@@ -384,10 +384,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getIpAddressPrefix(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ipAddressPrefix.
-        
+
         Returns:
             The ipAddressPrefix value
-        
+
         Note:
             Delegates to ip_address_prefix property (CODING_RULE_V2_00017)
         """
@@ -396,13 +396,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpAddressPrefix(self, value: "PositiveInteger") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for ipAddressPrefix with method chaining.
-        
+
         Args:
             value: The ipAddressPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_address_prefix property setter (gets validation automatically)
         """
@@ -412,10 +412,10 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def getIpv6Address(self) -> "Ipv6AddressSource":
         """
         AUTOSAR-compliant getter for ipv6Address.
-        
+
         Returns:
             The ipv6Address value
-        
+
         Note:
             Delegates to ipv6_address property (CODING_RULE_V2_00017)
         """
@@ -424,13 +424,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpv6Address(self, value: "Ipv6AddressSource") -> "Ipv6Configuration":
         """
         AUTOSAR-compliant setter for ipv6Address with method chaining.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv6_address property setter (gets validation automatically)
         """
@@ -442,13 +442,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_assignment(self, value: Optional["PositiveInteger"]) -> "Ipv6Configuration":
         """
         Set assignment and return self for chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assignment("value")
         """
@@ -458,13 +458,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_default_router(self, value: Optional["Ip6AddressString"]) -> "Ipv6Configuration":
         """
         Set defaultRouter and return self for chaining.
-        
+
         Args:
             value: The defaultRouter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_router("value")
         """
@@ -474,13 +474,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_enable_anycast(self, value: Optional["Boolean"]) -> "Ipv6Configuration":
         """
         Set enableAnycast and return self for chaining.
-        
+
         Args:
             value: The enableAnycast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_anycast("value")
         """
@@ -490,13 +490,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_hop_count(self, value: Optional["PositiveInteger"]) -> "Ipv6Configuration":
         """
         Set hopCount and return self for chaining.
-        
+
         Args:
             value: The hopCount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hop_count("value")
         """
@@ -506,13 +506,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> "Ipv6Configuration":
         """
         Set ipAddressKeep and return self for chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_address_keep("value")
         """
@@ -522,13 +522,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_ip_address_prefix(self, value: Optional["PositiveInteger"]) -> "Ipv6Configuration":
         """
         Set ipAddressPrefix and return self for chaining.
-        
+
         Args:
             value: The ipAddressPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_address_prefix("value")
         """
@@ -538,13 +538,13 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def with_ipv6_address(self, value: Optional["Ipv6AddressSource"]) -> "Ipv6Configuration":
         """
         Set ipv6Address and return self for chaining.
-        
+
         Args:
             value: The ipv6Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv6_address("value")
         """

@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class OperationInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::InstanceRefs::OperationInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1001, Classic Platform R23-11)
     """
@@ -27,10 +32,10 @@ class OperationInSystemInstanceRef(ARObject):
     def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class OperationInSystemInstanceRef(ARObject):
     def context(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set context with validation.
-        
+
         Args:
             value: The context to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +90,10 @@ class OperationInSystemInstanceRef(ARObject):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +111,10 @@ class OperationInSystemInstanceRef(ARObject):
     def target_operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set targetOperation with validation.
-        
+
         Args:
             value: The targetOperation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +133,10 @@ class OperationInSystemInstanceRef(ARObject):
     def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -140,13 +145,13 @@ class OperationInSystemInstanceRef(ARObject):
     def setBase(self, value: "System") -> "OperationInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -156,10 +161,10 @@ class OperationInSystemInstanceRef(ARObject):
     def getContext(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -168,13 +173,13 @@ class OperationInSystemInstanceRef(ARObject):
     def setContext(self, value: "RootSwComposition") -> "OperationInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for context with method chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context property setter (gets validation automatically)
         """
@@ -184,10 +189,10 @@ class OperationInSystemInstanceRef(ARObject):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -196,13 +201,13 @@ class OperationInSystemInstanceRef(ARObject):
     def setContextPort(self, value: RefType) -> "OperationInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -212,10 +217,10 @@ class OperationInSystemInstanceRef(ARObject):
     def getTargetOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for targetOperation.
-        
+
         Returns:
             The targetOperation value
-        
+
         Note:
             Delegates to target_operation property (CODING_RULE_V2_00017)
         """
@@ -224,13 +229,13 @@ class OperationInSystemInstanceRef(ARObject):
     def setTargetOperation(self, value: "ClientServerOperation") -> "OperationInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetOperation with method chaining.
-        
+
         Args:
             value: The targetOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_operation property setter (gets validation automatically)
         """
@@ -242,13 +247,13 @@ class OperationInSystemInstanceRef(ARObject):
     def with_base(self, value: Optional["System"]) -> "OperationInSystemInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -258,13 +263,13 @@ class OperationInSystemInstanceRef(ARObject):
     def with_context(self, value: Optional["RootSwComposition"]) -> "OperationInSystemInstanceRef":
         """
         Set context and return self for chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context("value")
         """
@@ -274,13 +279,13 @@ class OperationInSystemInstanceRef(ARObject):
     def with_context_port(self, value: RefType) -> "OperationInSystemInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -290,13 +295,13 @@ class OperationInSystemInstanceRef(ARObject):
     def with_target_operation(self, value: Optional["ClientServerOperation"]) -> "OperationInSystemInstanceRef":
         """
         Set targetOperation and return self for chaining.
-        
+
         Args:
             value: The targetOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_operation("value")
         """

@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FMFeatureRelation(Identifiable):
     """
     Defines relations for FMFeatures, for example dependencies on other
     FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part
     of a FMFeatureSelectionSet if all its relations are fulfilled.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureRelation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 34, Foundation
       R23-11)
@@ -39,10 +41,10 @@ class FMFeatureRelation(Identifiable):
     def restriction(self, value: Optional["FMConditionByFeatures"]) -> None:
         """
         Set restriction with validation.
-        
+
         Args:
             value: The restriction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +63,10 @@ class FMFeatureRelation(Identifiable):
     def getFeature(self) -> List["FMFeature"]:
         """
         AUTOSAR-compliant getter for feature.
-        
+
         Returns:
             The feature value
-        
+
         Note:
             Delegates to feature property (CODING_RULE_V2_00017)
         """
@@ -73,10 +75,10 @@ class FMFeatureRelation(Identifiable):
     def getRestriction(self) -> "FMConditionByFeatures":
         """
         AUTOSAR-compliant getter for restriction.
-        
+
         Returns:
             The restriction value
-        
+
         Note:
             Delegates to restriction property (CODING_RULE_V2_00017)
         """
@@ -85,13 +87,13 @@ class FMFeatureRelation(Identifiable):
     def setRestriction(self, value: "FMConditionByFeatures") -> "FMFeatureRelation":
         """
         AUTOSAR-compliant setter for restriction with method chaining.
-        
+
         Args:
             value: The restriction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to restriction property setter (gets validation automatically)
         """
@@ -103,13 +105,13 @@ class FMFeatureRelation(Identifiable):
     def with_restriction(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureRelation":
         """
         Set restriction and return self for chaining.
-        
+
         Args:
             value: The restriction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_restriction("value")
         """

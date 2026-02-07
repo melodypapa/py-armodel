@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PdurIPduGroup(FibexElement):
     """
     The AUTOSAR PduR will enable and disable the sending of configurable groups
     of IPdus during runtime according to the AUTOSAR PduR specification.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PdurIPduGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 352, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class PdurIPduGroup(FibexElement):
     def communication(self, value: Optional["String"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +66,10 @@ class PdurIPduGroup(FibexElement):
     def getCommunication(self) -> "String":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -75,13 +78,13 @@ class PdurIPduGroup(FibexElement):
     def setCommunication(self, value: "String") -> "PdurIPduGroup":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -91,10 +94,10 @@ class PdurIPduGroup(FibexElement):
     def getIPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -105,13 +108,13 @@ class PdurIPduGroup(FibexElement):
     def with_communication(self, value: Optional["String"]) -> "PdurIPduGroup":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """

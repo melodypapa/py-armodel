@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FirewallRuleProps(ARObject):
     """
     Firewall rule that is defined by an action that is performed if the
     referenced pattern matches.
-    
+
     Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRuleProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 584, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class FirewallRuleProps(ARObject):
     def action(self, value: Optional["FirewallActionEnum"]) -> None:
         """
         Set action with validation.
-        
+
         Args:
             value: The action to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +71,10 @@ class FirewallRuleProps(ARObject):
     def getAction(self) -> "FirewallActionEnum":
         """
         AUTOSAR-compliant getter for action.
-        
+
         Returns:
             The action value
-        
+
         Note:
             Delegates to action property (CODING_RULE_V2_00017)
         """
@@ -80,13 +83,13 @@ class FirewallRuleProps(ARObject):
     def setAction(self, value: "FirewallActionEnum") -> "FirewallRuleProps":
         """
         AUTOSAR-compliant setter for action with method chaining.
-        
+
         Args:
             value: The action to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to action property setter (gets validation automatically)
         """
@@ -96,10 +99,10 @@ class FirewallRuleProps(ARObject):
     def getMatchingEgress(self) -> List["FirewallRule"]:
         """
         AUTOSAR-compliant getter for matchingEgress.
-        
+
         Returns:
             The matchingEgress value
-        
+
         Note:
             Delegates to matching_egress property (CODING_RULE_V2_00017)
         """
@@ -108,10 +111,10 @@ class FirewallRuleProps(ARObject):
     def getMatching(self) -> List["FirewallRule"]:
         """
         AUTOSAR-compliant getter for matching.
-        
+
         Returns:
             The matching value
-        
+
         Note:
             Delegates to matching property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class FirewallRuleProps(ARObject):
     def with_action(self, value: Optional["FirewallActionEnum"]) -> "FirewallRuleProps":
         """
         Set action and return self for chaining.
-        
+
         Args:
             value: The action to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_action("value")
         """

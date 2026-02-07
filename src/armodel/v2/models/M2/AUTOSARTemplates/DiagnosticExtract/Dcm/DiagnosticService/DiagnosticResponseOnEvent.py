@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     """
     This represents an instance of the "Response on Event" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent::DiagnosticResponseOnEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -37,10 +37,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def response_on(self, value: Optional["DiagnosticResponseOn"]) -> None:
         """
         Set responseOn with validation.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def getEventWindow(self) -> List["DiagnosticEventWindow"]:
         """
         AUTOSAR-compliant getter for eventWindow.
-        
+
         Returns:
             The eventWindow value
-        
+
         Note:
             Delegates to event_window property (CODING_RULE_V2_00017)
         """
@@ -71,10 +71,10 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def getResponseOn(self) -> "DiagnosticResponseOn":
         """
         AUTOSAR-compliant getter for responseOn.
-        
+
         Returns:
             The responseOn value
-        
+
         Note:
             Delegates to response_on property (CODING_RULE_V2_00017)
         """
@@ -83,13 +83,13 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def setResponseOn(self, value: "DiagnosticResponseOn") -> "DiagnosticResponseOnEvent":
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response_on property setter (gets validation automatically)
         """
@@ -101,13 +101,13 @@ class DiagnosticResponseOnEvent(DiagnosticServiceInstance):
     def with_response_on(self, value: Optional["DiagnosticResponseOn"]) -> "DiagnosticResponseOnEvent":
         """
         Set responseOn and return self for chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response_on("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SignalServiceTranslationPropsSet(ARElement):
     """
     Collection of SignalServiceTranslationProps.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationPropsSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 730, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class SignalServiceTranslationPropsSet(ARElement):
     def getSignalServiceProps(self) -> List["SignalService"]:
         """
         AUTOSAR-compliant getter for signalServiceProps.
-        
+
         Returns:
             The signalServiceProps value
-        
+
         Note:
             Delegates to signal_service_props property (CODING_RULE_V2_00017)
         """

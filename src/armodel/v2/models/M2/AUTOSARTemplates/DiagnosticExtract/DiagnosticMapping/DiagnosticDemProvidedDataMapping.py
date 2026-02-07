@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     """
     This represents the ability to define the nature of a data access for a
     DiagnosticDataElement in the Dem.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticDemProvidedDataMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 255, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def data_element(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def data_provider(self, value: Optional["NameToken"]) -> None:
         """
         Set dataProvider with validation.
-        
+
         Args:
             value: The dataProvider to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def getDataElement(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticDemProvidedDataMapping":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def getDataProvider(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for dataProvider.
-        
+
         Returns:
             The dataProvider value
-        
+
         Note:
             Delegates to data_provider property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def setDataProvider(self, value: "NameToken") -> "DiagnosticDemProvidedDataMapping":
         """
         AUTOSAR-compliant setter for dataProvider with method chaining.
-        
+
         Args:
             value: The dataProvider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_provider property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticDemProvidedDataMapping":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticDemProvidedDataMapping(DiagnosticMapping):
     def with_data_provider(self, value: Optional["NameToken"]) -> "DiagnosticDemProvidedDataMapping":
         """
         Set dataProvider and return self for chaining.
-        
+
         Args:
             value: The dataProvider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_provider("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecurityEventFilterChain(IdsCommonElement):
     """
@@ -7,9 +7,9 @@ class SecurityEventFilterChain(IdsCommonElement):
     security events. The different filters of this filter chain are applied in
     the follow order: SecurityEventStateFilter, SecurityEventOneEvery NFilter,
     SecurityEventAggregationFilter, SecurityEventThresholdFilter.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventFilterChain
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 20, Foundation R23-11)
     """
@@ -29,10 +29,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def aggregation(self, value: Optional["SecurityEvent"]) -> None:
         """
         Set aggregation with validation.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def one_every_n(self, value: Optional["SecurityEventOneEvery"]) -> None:
         """
         Set oneEveryN with validation.
-        
+
         Args:
             value: The oneEveryN to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def state(self, value: Optional["SecurityEventStateFilter"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def threshold(self, value: Optional["SecurityEventThreshold"]) -> None:
         """
         Set threshold with validation.
-        
+
         Args:
             value: The threshold to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +136,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getAggregation(self) -> "SecurityEvent":
         """
         AUTOSAR-compliant getter for aggregation.
-        
+
         Returns:
             The aggregation value
-        
+
         Note:
             Delegates to aggregation property (CODING_RULE_V2_00017)
         """
@@ -148,13 +148,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setAggregation(self, value: "SecurityEvent") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for aggregation with method chaining.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to aggregation property setter (gets validation automatically)
         """
@@ -164,10 +164,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getOneEveryN(self) -> "SecurityEventOneEvery":
         """
         AUTOSAR-compliant getter for oneEveryN.
-        
+
         Returns:
             The oneEveryN value
-        
+
         Note:
             Delegates to one_every_n property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setOneEveryN(self, value: "SecurityEventOneEvery") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for oneEveryN with method chaining.
-        
+
         Args:
             value: The oneEveryN to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to one_every_n property setter (gets validation automatically)
         """
@@ -192,10 +192,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getState(self) -> "SecurityEventStateFilter":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setState(self, value: "SecurityEventStateFilter") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -220,10 +220,10 @@ class SecurityEventFilterChain(IdsCommonElement):
     def getThreshold(self) -> "SecurityEventThreshold":
         """
         AUTOSAR-compliant getter for threshold.
-        
+
         Returns:
             The threshold value
-        
+
         Note:
             Delegates to threshold property (CODING_RULE_V2_00017)
         """
@@ -232,13 +232,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def setThreshold(self, value: "SecurityEventThreshold") -> "SecurityEventFilterChain":
         """
         AUTOSAR-compliant setter for threshold with method chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold property setter (gets validation automatically)
         """
@@ -250,13 +250,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_aggregation(self, value: Optional["SecurityEvent"]) -> "SecurityEventFilterChain":
         """
         Set aggregation and return self for chaining.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_aggregation("value")
         """
@@ -266,13 +266,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_one_every_n(self, value: Optional["SecurityEventOneEvery"]) -> "SecurityEventFilterChain":
         """
         Set oneEveryN and return self for chaining.
-        
+
         Args:
             value: The oneEveryN to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_one_every_n("value")
         """
@@ -282,13 +282,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_state(self, value: Optional["SecurityEventStateFilter"]) -> "SecurityEventFilterChain":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """
@@ -298,13 +298,13 @@ class SecurityEventFilterChain(IdsCommonElement):
     def with_threshold(self, value: Optional["SecurityEventThreshold"]) -> "SecurityEventFilterChain":
         """
         Set threshold and return self for chaining.
-        
+
         Args:
             value: The threshold to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold("value")
         """

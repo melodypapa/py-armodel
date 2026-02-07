@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticContributionSet(ARElement):
     """
@@ -8,9 +8,9 @@ class DiagnosticContributionSet(ARElement):
     DiagonsticContributionSet is arbitrary in order to support the aspect of
     decentralized configuration, i.e. different contributors can come up with an
     own DiagnosticContribution Set.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticContributionSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 56, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class DiagnosticContributionSet(ARElement):
     def common(self, value: Optional["DiagnosticCommon"]) -> None:
         """
         Set common with validation.
-        
+
         Args:
             value: The common to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +71,10 @@ class DiagnosticContributionSet(ARElement):
     def getCommon(self) -> "DiagnosticCommon":
         """
         AUTOSAR-compliant getter for common.
-        
+
         Returns:
             The common value
-        
+
         Note:
             Delegates to common property (CODING_RULE_V2_00017)
         """
@@ -83,13 +83,13 @@ class DiagnosticContributionSet(ARElement):
     def setCommon(self, value: "DiagnosticCommon") -> "DiagnosticContributionSet":
         """
         AUTOSAR-compliant setter for common with method chaining.
-        
+
         Args:
             value: The common to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to common property setter (gets validation automatically)
         """
@@ -99,10 +99,10 @@ class DiagnosticContributionSet(ARElement):
     def getElement(self) -> List["DiagnosticCommon"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -111,10 +111,10 @@ class DiagnosticContributionSet(ARElement):
     def getServiceTable(self) -> List["DiagnosticServiceTable"]:
         """
         AUTOSAR-compliant getter for serviceTable.
-        
+
         Returns:
             The serviceTable value
-        
+
         Note:
             Delegates to service_table property (CODING_RULE_V2_00017)
         """
@@ -125,13 +125,13 @@ class DiagnosticContributionSet(ARElement):
     def with_common(self, value: Optional["DiagnosticCommon"]) -> "DiagnosticContributionSet":
         """
         Set common and return self for chaining.
-        
+
         Args:
             value: The common to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_common("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class FreeFormat(FreeFormatEntry):
     """
     Representing freely defined data.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::FreeFormat
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 439, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class FreeFormat(FreeFormatEntry):
     def getByteValue(self) -> List["Integer"]:
         """
         AUTOSAR-compliant getter for byteValue.
-        
+
         Returns:
             The byteValue value
-        
+
         Note:
             Delegates to byte_value property (CODING_RULE_V2_00017)
         """

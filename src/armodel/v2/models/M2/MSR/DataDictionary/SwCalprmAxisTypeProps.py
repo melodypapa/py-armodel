@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
     """
@@ -8,9 +12,9 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     particular model of the specialization. If the specialization would be the
     directly from SwCalPrmAxis, the sequence of common properties and the
     specializes ones would be different.
-    
+
     Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxisTypeProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 353, Classic Platform
       R23-11)
@@ -35,10 +39,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def max_gradient(self, value: Optional["Float"]) -> None:
         """
         Set maxGradient with validation.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +69,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def monotony(self, value: Optional["MonotonyEnum"]) -> None:
         """
         Set monotony with validation.
-        
+
         Args:
             value: The monotony to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +91,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def getMaxGradient(self) -> "Float":
         """
         AUTOSAR-compliant getter for maxGradient.
-        
+
         Returns:
             The maxGradient value
-        
+
         Note:
             Delegates to max_gradient property (CODING_RULE_V2_00017)
         """
@@ -99,13 +103,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def setMaxGradient(self, value: "Float") -> "SwCalprmAxisTypeProps":
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_gradient property setter (gets validation automatically)
         """
@@ -115,10 +119,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def getMonotony(self) -> "MonotonyEnum":
         """
         AUTOSAR-compliant getter for monotony.
-        
+
         Returns:
             The monotony value
-        
+
         Note:
             Delegates to monotony property (CODING_RULE_V2_00017)
         """
@@ -127,13 +131,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def setMonotony(self, value: "MonotonyEnum") -> "SwCalprmAxisTypeProps":
         """
         AUTOSAR-compliant setter for monotony with method chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to monotony property setter (gets validation automatically)
         """
@@ -145,13 +149,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def with_max_gradient(self, value: Optional["Float"]) -> "SwCalprmAxisTypeProps":
         """
         Set maxGradient and return self for chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_gradient("value")
         """
@@ -161,13 +165,13 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     def with_monotony(self, value: Optional["MonotonyEnum"]) -> "SwCalprmAxisTypeProps":
         """
         Set monotony and return self for chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_monotony("value")
         """

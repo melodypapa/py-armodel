@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IndicatorStatusNeeds(ServiceNeeds):
     """
     This meta-class shall be taken to signal a service use case that affects the
     indicator status.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IndicatorStatusNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 766, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> None:
         """
         Set typeEnum with validation.
-        
+
         Args:
             value: The typeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def getTypeEnum(self) -> "DiagnosticIndicatorType":
         """
         AUTOSAR-compliant getter for typeEnum.
-        
+
         Returns:
             The typeEnum value
-        
+
         Note:
             Delegates to type_enum property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def setTypeEnum(self, value: "DiagnosticIndicatorType") -> "IndicatorStatusNeeds":
         """
         AUTOSAR-compliant setter for typeEnum with method chaining.
-        
+
         Args:
             value: The typeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_enum property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def with_type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> "IndicatorStatusNeeds":
         """
         Set typeEnum and return self for chaining.
-        
+
         Args:
             value: The typeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_enum("value")
         """

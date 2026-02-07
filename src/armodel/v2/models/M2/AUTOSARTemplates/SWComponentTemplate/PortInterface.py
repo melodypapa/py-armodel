@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import ARElement
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
+    ARElement,
+)
+
 
 class PortInterface(ARElement, ABC):
     """
     Abstract base class for an interface that is either provided or required by
     a port of a software component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 326, Classic Platform
       R23-11)
@@ -41,10 +45,10 @@ class PortInterface(ARElement, ABC):
     def is_service(self, value: Optional["Boolean"]) -> None:
         """
         Set isService with validation.
-        
+
         Args:
             value: The isService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +73,10 @@ class PortInterface(ARElement, ABC):
     def service_kind(self, value: Optional["ServiceProviderEnum"]) -> None:
         """
         Set serviceKind with validation.
-        
+
         Args:
             value: The serviceKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +95,10 @@ class PortInterface(ARElement, ABC):
     def getIsService(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isService.
-        
+
         Returns:
             The isService value
-        
+
         Note:
             Delegates to is_service property (CODING_RULE_V2_00017)
         """
@@ -103,13 +107,13 @@ class PortInterface(ARElement, ABC):
     def setIsService(self, value: "Boolean") -> "PortInterface":
         """
         AUTOSAR-compliant setter for isService with method chaining.
-        
+
         Args:
             value: The isService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_service property setter (gets validation automatically)
         """
@@ -119,10 +123,10 @@ class PortInterface(ARElement, ABC):
     def getServiceKind(self) -> "ServiceProviderEnum":
         """
         AUTOSAR-compliant getter for serviceKind.
-        
+
         Returns:
             The serviceKind value
-        
+
         Note:
             Delegates to service_kind property (CODING_RULE_V2_00017)
         """
@@ -131,13 +135,13 @@ class PortInterface(ARElement, ABC):
     def setServiceKind(self, value: "ServiceProviderEnum") -> "PortInterface":
         """
         AUTOSAR-compliant setter for serviceKind with method chaining.
-        
+
         Args:
             value: The serviceKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_kind property setter (gets validation automatically)
         """
@@ -149,13 +153,13 @@ class PortInterface(ARElement, ABC):
     def with_is_service(self, value: Optional["Boolean"]) -> "PortInterface":
         """
         Set isService and return self for chaining.
-        
+
         Args:
             value: The isService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_service("value")
         """
@@ -165,13 +169,13 @@ class PortInterface(ARElement, ABC):
     def with_service_kind(self, value: Optional["ServiceProviderEnum"]) -> "PortInterface":
         """
         Set serviceKind and return self for chaining.
-        
+
         Args:
             value: The serviceKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_kind("value")
         """

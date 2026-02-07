@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class InfrastructureServices(ARObject):
     """
     Defines the network infrastructure services provided or consumed.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::InfrastructureServices
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 469, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class InfrastructureServices(ARObject):
     def do_ip_entity(self, value: Optional["DoIpEntity"]) -> None:
         """
         Set doIpEntity with validation.
-        
+
         Args:
             value: The doIpEntity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class InfrastructureServices(ARObject):
     def time(self, value: Optional["TimeSynchronization"]) -> None:
         """
         Set time with validation.
-        
+
         Args:
             value: The time to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class InfrastructureServices(ARObject):
     def getDoIpEntity(self) -> "DoIpEntity":
         """
         AUTOSAR-compliant getter for doIpEntity.
-        
+
         Returns:
             The doIpEntity value
-        
+
         Note:
             Delegates to do_ip_entity property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class InfrastructureServices(ARObject):
     def setDoIpEntity(self, value: "DoIpEntity") -> "InfrastructureServices":
         """
         AUTOSAR-compliant setter for doIpEntity with method chaining.
-        
+
         Args:
             value: The doIpEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_entity property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class InfrastructureServices(ARObject):
     def getTime(self) -> "TimeSynchronization":
         """
         AUTOSAR-compliant getter for time.
-        
+
         Returns:
             The time value
-        
+
         Note:
             Delegates to time property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class InfrastructureServices(ARObject):
     def setTime(self, value: "TimeSynchronization") -> "InfrastructureServices":
         """
         AUTOSAR-compliant setter for time with method chaining.
-        
+
         Args:
             value: The time to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class InfrastructureServices(ARObject):
     def with_do_ip_entity(self, value: Optional["DoIpEntity"]) -> "InfrastructureServices":
         """
         Set doIpEntity and return self for chaining.
-        
+
         Args:
             value: The doIpEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_entity("value")
         """
@@ -151,13 +154,13 @@ class InfrastructureServices(ARObject):
     def with_time(self, value: Optional["TimeSynchronization"]) -> "InfrastructureServices":
         """
         Set time and return self for chaining.
-        
+
         Args:
             value: The time to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time("value")
         """

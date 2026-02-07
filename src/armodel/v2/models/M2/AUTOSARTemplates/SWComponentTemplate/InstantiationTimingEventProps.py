@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class InstantiationTimingEventProps(InstantiationRTEEventProps):
     """
     This meta-class represents the ability to refine a timing event for
     particular instances of a software component. This approach supports an
     instance specific timing.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstantiationTimingEventProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 85, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def setPeriod(self, value: "TimeValue") -> "InstantiationTimingEventProps":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     def with_period(self, value: Optional["TimeValue"]) -> "InstantiationTimingEventProps":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """

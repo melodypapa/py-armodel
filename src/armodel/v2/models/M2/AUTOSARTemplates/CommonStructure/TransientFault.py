@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class TransientFault(TracedFailure):
     """
     The reported failure is classified as runtime error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::TransientFault
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1009, Classic
       Platform R23-11)
@@ -28,10 +28,10 @@ class TransientFault(TracedFailure):
     def getPossibleError(self) -> List["PossibleErrorReaction"]:
         """
         AUTOSAR-compliant getter for possibleError.
-        
+
         Returns:
             The possibleError value
-        
+
         Note:
             Delegates to possible_error property (CODING_RULE_V2_00017)
         """

@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Flexray GlobalTime specific properties.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::FrGlobalTimeDomainProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 878, Classic Platform R23-11)
     """
@@ -25,10 +23,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def ofs_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set ofsDataIDList with validation.
-        
+
         Args:
             value: The ofsDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +46,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def sync_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set syncDataIDList with validation.
-        
+
         Args:
             value: The syncDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +64,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getOfsDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ofsDataIDList.
-        
+
         Returns:
             The ofsDataIDList value
-        
+
         Note:
             Delegates to ofs_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -78,13 +76,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setOfsDataIDList(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for ofsDataIDList with method chaining.
-        
+
         Args:
             value: The ofsDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ofs_data_id_list property setter (gets validation automatically)
         """
@@ -94,10 +92,10 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getSyncDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncDataIDList.
-        
+
         Returns:
             The syncDataIDList value
-        
+
         Note:
             Delegates to sync_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -106,13 +104,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setSyncDataIDList(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for syncDataIDList with method chaining.
-        
+
         Args:
             value: The syncDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_data_id_list property setter (gets validation automatically)
         """
@@ -124,13 +122,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_ofs_data_id_list(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         Set ofsDataIDList and return self for chaining.
-        
+
         Args:
             value: The ofsDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ofs_data_id_list("value")
         """
@@ -140,13 +138,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_sync_data_id_list(self, value: "PositiveInteger") -> "FrGlobalTimeDomainProps":
         """
         Set syncDataIDList and return self for chaining.
-        
+
         Args:
             value: The syncDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_data_id_list("value")
         """

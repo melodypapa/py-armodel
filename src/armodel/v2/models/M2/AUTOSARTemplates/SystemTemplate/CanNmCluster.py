@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CanNmCluster(NmCluster):
     """
     Can specific NmCluster attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 682, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class CanNmCluster(NmCluster):
     def nm_busload(self, value: Optional["Boolean"]) -> None:
         """
         Set nmBusload with validation.
-        
+
         Args:
             value: The nmBusload to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class CanNmCluster(NmCluster):
     def nm_car_wake_up(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmCarWakeUp with validation.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class CanNmCluster(NmCluster):
     def nm_car_wake_up_filter_node_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmCarWakeUpFilterNodeId with validation.
-        
+
         Args:
             value: The nmCarWakeUpFilterNodeId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class CanNmCluster(NmCluster):
     def nm_cbv_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmCbvPosition with validation.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class CanNmCluster(NmCluster):
     def nm_immediate(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +172,10 @@ class CanNmCluster(NmCluster):
     def nm_message(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMessage with validation.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +202,10 @@ class CanNmCluster(NmCluster):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -231,10 +231,10 @@ class CanNmCluster(NmCluster):
     def nm_network(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmNetwork with validation.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -260,10 +260,10 @@ class CanNmCluster(NmCluster):
     def nm_nid_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmNidPosition with validation.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -290,10 +290,10 @@ class CanNmCluster(NmCluster):
     def nm_remote(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -319,10 +319,10 @@ class CanNmCluster(NmCluster):
     def nm_repeat(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRepeat with validation.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -349,10 +349,10 @@ class CanNmCluster(NmCluster):
     def nm_wait_bus(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmWaitBus with validation.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -371,10 +371,10 @@ class CanNmCluster(NmCluster):
     def getNmBusload(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmBusload.
-        
+
         Returns:
             The nmBusload value
-        
+
         Note:
             Delegates to nm_busload property (CODING_RULE_V2_00017)
         """
@@ -383,13 +383,13 @@ class CanNmCluster(NmCluster):
     def setNmBusload(self, value: "Boolean") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmBusload with method chaining.
-        
+
         Args:
             value: The nmBusload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_busload property setter (gets validation automatically)
         """
@@ -399,10 +399,10 @@ class CanNmCluster(NmCluster):
     def getNmCarWakeUp(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmCarWakeUp.
-        
+
         Returns:
             The nmCarWakeUp value
-        
+
         Note:
             Delegates to nm_car_wake_up property (CODING_RULE_V2_00017)
         """
@@ -411,13 +411,13 @@ class CanNmCluster(NmCluster):
     def setNmCarWakeUp(self, value: "PositiveInteger") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up property setter (gets validation automatically)
         """
@@ -427,10 +427,10 @@ class CanNmCluster(NmCluster):
     def getNmCarWakeUpFilterNodeId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmCarWakeUpFilterNodeId.
-        
+
         Returns:
             The nmCarWakeUpFilterNodeId value
-        
+
         Note:
             Delegates to nm_car_wake_up_filter_node_id property (CODING_RULE_V2_00017)
         """
@@ -439,13 +439,13 @@ class CanNmCluster(NmCluster):
     def setNmCarWakeUpFilterNodeId(self, value: "PositiveInteger") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmCarWakeUpFilterNodeId with method chaining.
-        
+
         Args:
             value: The nmCarWakeUpFilterNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up_filter_node_id property setter (gets validation automatically)
         """
@@ -455,10 +455,10 @@ class CanNmCluster(NmCluster):
     def getNmCbvPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmCbvPosition.
-        
+
         Returns:
             The nmCbvPosition value
-        
+
         Note:
             Delegates to nm_cbv_position property (CODING_RULE_V2_00017)
         """
@@ -467,13 +467,13 @@ class CanNmCluster(NmCluster):
     def setNmCbvPosition(self, value: "Integer") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmCbvPosition with method chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_cbv_position property setter (gets validation automatically)
         """
@@ -483,10 +483,10 @@ class CanNmCluster(NmCluster):
     def getNmImmediate(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -495,13 +495,13 @@ class CanNmCluster(NmCluster):
     def setNmImmediate(self, value: "PositiveInteger") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -511,10 +511,10 @@ class CanNmCluster(NmCluster):
     def getNmMessage(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMessage.
-        
+
         Returns:
             The nmMessage value
-        
+
         Note:
             Delegates to nm_message property (CODING_RULE_V2_00017)
         """
@@ -523,13 +523,13 @@ class CanNmCluster(NmCluster):
     def setNmMessage(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmMessage with method chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_message property setter (gets validation automatically)
         """
@@ -539,10 +539,10 @@ class CanNmCluster(NmCluster):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -551,13 +551,13 @@ class CanNmCluster(NmCluster):
     def setNmMsgCycle(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -567,10 +567,10 @@ class CanNmCluster(NmCluster):
     def getNmNetwork(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmNetwork.
-        
+
         Returns:
             The nmNetwork value
-        
+
         Note:
             Delegates to nm_network property (CODING_RULE_V2_00017)
         """
@@ -579,13 +579,13 @@ class CanNmCluster(NmCluster):
     def setNmNetwork(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmNetwork with method chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_network property setter (gets validation automatically)
         """
@@ -595,10 +595,10 @@ class CanNmCluster(NmCluster):
     def getNmNidPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmNidPosition.
-        
+
         Returns:
             The nmNidPosition value
-        
+
         Note:
             Delegates to nm_nid_position property (CODING_RULE_V2_00017)
         """
@@ -607,13 +607,13 @@ class CanNmCluster(NmCluster):
     def setNmNidPosition(self, value: "Integer") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmNidPosition with method chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_nid_position property setter (gets validation automatically)
         """
@@ -623,10 +623,10 @@ class CanNmCluster(NmCluster):
     def getNmRemote(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -635,13 +635,13 @@ class CanNmCluster(NmCluster):
     def setNmRemote(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -651,10 +651,10 @@ class CanNmCluster(NmCluster):
     def getNmRepeat(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRepeat.
-        
+
         Returns:
             The nmRepeat value
-        
+
         Note:
             Delegates to nm_repeat property (CODING_RULE_V2_00017)
         """
@@ -663,13 +663,13 @@ class CanNmCluster(NmCluster):
     def setNmRepeat(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat property setter (gets validation automatically)
         """
@@ -679,10 +679,10 @@ class CanNmCluster(NmCluster):
     def getNmWaitBus(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmWaitBus.
-        
+
         Returns:
             The nmWaitBus value
-        
+
         Note:
             Delegates to nm_wait_bus property (CODING_RULE_V2_00017)
         """
@@ -691,13 +691,13 @@ class CanNmCluster(NmCluster):
     def setNmWaitBus(self, value: "TimeValue") -> "CanNmCluster":
         """
         AUTOSAR-compliant setter for nmWaitBus with method chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_wait_bus property setter (gets validation automatically)
         """
@@ -709,13 +709,13 @@ class CanNmCluster(NmCluster):
     def with_nm_busload(self, value: Optional["Boolean"]) -> "CanNmCluster":
         """
         Set nmBusload and return self for chaining.
-        
+
         Args:
             value: The nmBusload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_busload("value")
         """
@@ -725,13 +725,13 @@ class CanNmCluster(NmCluster):
     def with_nm_car_wake_up(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
         """
         Set nmCarWakeUp and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up("value")
         """
@@ -741,13 +741,13 @@ class CanNmCluster(NmCluster):
     def with_nm_car_wake_up_filter_node_id(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
         """
         Set nmCarWakeUpFilterNodeId and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUpFilterNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up_filter_node_id("value")
         """
@@ -757,13 +757,13 @@ class CanNmCluster(NmCluster):
     def with_nm_cbv_position(self, value: Optional["Integer"]) -> "CanNmCluster":
         """
         Set nmCbvPosition and return self for chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_cbv_position("value")
         """
@@ -773,13 +773,13 @@ class CanNmCluster(NmCluster):
     def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> "CanNmCluster":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """
@@ -789,13 +789,13 @@ class CanNmCluster(NmCluster):
     def with_nm_message(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmMessage and return self for chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_message("value")
         """
@@ -805,13 +805,13 @@ class CanNmCluster(NmCluster):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -821,13 +821,13 @@ class CanNmCluster(NmCluster):
     def with_nm_network(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmNetwork and return self for chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_network("value")
         """
@@ -837,13 +837,13 @@ class CanNmCluster(NmCluster):
     def with_nm_nid_position(self, value: Optional["Integer"]) -> "CanNmCluster":
         """
         Set nmNidPosition and return self for chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_nid_position("value")
         """
@@ -853,13 +853,13 @@ class CanNmCluster(NmCluster):
     def with_nm_remote(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -869,13 +869,13 @@ class CanNmCluster(NmCluster):
     def with_nm_repeat(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmRepeat and return self for chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat("value")
         """
@@ -885,13 +885,13 @@ class CanNmCluster(NmCluster):
     def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> "CanNmCluster":
         """
         Set nmWaitBus and return self for chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_wait_bus("value")
         """

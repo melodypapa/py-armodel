@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     """
     Reception policy attributes specific for queued receiving.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswQueuedDataReceptionPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 105, Classic
       Platform R23-11)
@@ -27,10 +27,10 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     def setQueueLength(self, value: "PositiveInteger") -> "BswQueuedDataReceptionPolicy":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "BswQueuedDataReceptionPolicy":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """

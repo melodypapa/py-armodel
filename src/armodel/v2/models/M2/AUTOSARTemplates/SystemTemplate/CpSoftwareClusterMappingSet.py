@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CpSoftwareClusterMappingSet(ARElement):
     """
@@ -7,9 +7,9 @@ class CpSoftwareClusterMappingSet(ARElement):
     Software Cluster relevant mappings. This is applicable if a CP Software
     Cluster is described besides a concrete System, e.g. a reusable CP Software
     Cluster.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 285, Classic Platform R23-11)
     """
@@ -56,10 +56,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getPortElementTo(self) -> List["PortElementTo"]:
         """
         AUTOSAR-compliant getter for portElementTo.
-        
+
         Returns:
             The portElementTo value
-        
+
         Note:
             Delegates to port_element_to property (CODING_RULE_V2_00017)
         """
@@ -68,10 +68,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getResourceTo(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for resourceTo.
-        
+
         Returns:
             The resourceTo value
-        
+
         Note:
             Delegates to resource_to property (CODING_RULE_V2_00017)
         """
@@ -80,10 +80,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getSoftwareCluster(self) -> List["CpSoftwareClusterTo"]:
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -92,10 +92,10 @@ class CpSoftwareClusterMappingSet(ARElement):
     def getSwcTo(self) -> List["SwcToApplication"]:
         """
         AUTOSAR-compliant getter for swcTo.
-        
+
         Returns:
             The swcTo value
-        
+
         Note:
             Delegates to swc_to property (CODING_RULE_V2_00017)
         """

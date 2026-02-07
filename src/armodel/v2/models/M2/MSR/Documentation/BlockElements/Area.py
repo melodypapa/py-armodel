@@ -8,9 +8,9 @@ class Area(ARObject):
     to specify regions in an object (e.g. a graphic) and to assign a specific
     activity to each region (e.g. load a document, launch a program etc.). For
     more details refer to the specification of HTML.
-    
+
     Package: M2::MSR::Documentation::BlockElements::Figure::Area
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 299, Foundation
       R23-11)
@@ -36,10 +36,10 @@ class Area(ARObject):
     def accesskey(self, value: Optional["String"]) -> None:
         """
         Set accesskey with validation.
-        
+
         Args:
             value: The accesskey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class Area(ARObject):
     def alt(self, value: Optional["String"]) -> None:
         """
         Set alt with validation.
-        
+
         Args:
             value: The alt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +93,10 @@ class Area(ARObject):
     def class(self, value: Optional["String"]) -> None:
         """
         Set class with validation.
-        
+
         Args:
             value: The class to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +122,10 @@ class Area(ARObject):
     def coords(self, value: Optional["String"]) -> None:
         """
         Set coords with validation.
-        
+
         Args:
             value: The coords to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +152,10 @@ class Area(ARObject):
     def href(self, value: Optional["String"]) -> None:
         """
         Set href with validation.
-        
+
         Args:
             value: The href to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -180,10 +180,10 @@ class Area(ARObject):
     def nohref(self, value: Optional["AreaEnumNohref"]) -> None:
         """
         Set nohref with validation.
-        
+
         Args:
             value: The nohref to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -209,10 +209,10 @@ class Area(ARObject):
     def onblur(self, value: Optional["String"]) -> None:
         """
         Set onblur with validation.
-        
+
         Args:
             value: The onblur to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -238,10 +238,10 @@ class Area(ARObject):
     def onclick(self, value: Optional["String"]) -> None:
         """
         Set onclick with validation.
-        
+
         Args:
             value: The onclick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -267,10 +267,10 @@ class Area(ARObject):
     def ondblclick(self, value: Optional["String"]) -> None:
         """
         Set ondblclick with validation.
-        
+
         Args:
             value: The ondblclick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -297,10 +297,10 @@ class Area(ARObject):
     def onfocus(self, value: Optional["String"]) -> None:
         """
         Set onfocus with validation.
-        
+
         Args:
             value: The onfocus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -326,10 +326,10 @@ class Area(ARObject):
     def onkeydown(self, value: Optional["String"]) -> None:
         """
         Set onkeydown with validation.
-        
+
         Args:
             value: The onkeydown to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -355,10 +355,10 @@ class Area(ARObject):
     def onkeypress(self, value: Optional["String"]) -> None:
         """
         Set onkeypress with validation.
-        
+
         Args:
             value: The onkeypress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -384,10 +384,10 @@ class Area(ARObject):
     def onkeyup(self, value: Optional["String"]) -> None:
         """
         Set onkeyup with validation.
-        
+
         Args:
             value: The onkeyup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -414,10 +414,10 @@ class Area(ARObject):
     def onmousedown(self, value: Optional["String"]) -> None:
         """
         Set onmousedown with validation.
-        
+
         Args:
             value: The onmousedown to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -445,10 +445,10 @@ class Area(ARObject):
     def onmousemove(self, value: Optional["String"]) -> None:
         """
         Set onmousemove with validation.
-        
+
         Args:
             value: The onmousemove to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -474,10 +474,10 @@ class Area(ARObject):
     def onmouseout(self, value: Optional["String"]) -> None:
         """
         Set onmouseout with validation.
-        
+
         Args:
             value: The onmouseout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -503,10 +503,10 @@ class Area(ARObject):
     def onmouseover(self, value: Optional["String"]) -> None:
         """
         Set onmouseover with validation.
-        
+
         Args:
             value: The onmouseover to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -533,10 +533,10 @@ class Area(ARObject):
     def onmouseup(self, value: Optional["String"]) -> None:
         """
         Set onmouseup with validation.
-        
+
         Args:
             value: The onmouseup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -562,10 +562,10 @@ class Area(ARObject):
     def shape(self, value: Optional["AreaEnumShape"]) -> None:
         """
         Set shape with validation.
-        
+
         Args:
             value: The shape to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -590,10 +590,10 @@ class Area(ARObject):
     def style(self, value: Optional["String"]) -> None:
         """
         Set style with validation.
-        
+
         Args:
             value: The style to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -622,10 +622,10 @@ class Area(ARObject):
     def tabindex(self, value: Optional["String"]) -> None:
         """
         Set tabindex with validation.
-        
+
         Args:
             value: The tabindex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -650,10 +650,10 @@ class Area(ARObject):
     def title(self, value: Optional["String"]) -> None:
         """
         Set title with validation.
-        
+
         Args:
             value: The title to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -672,10 +672,10 @@ class Area(ARObject):
     def getAccesskey(self) -> "String":
         """
         AUTOSAR-compliant getter for accesskey.
-        
+
         Returns:
             The accesskey value
-        
+
         Note:
             Delegates to accesskey property (CODING_RULE_V2_00017)
         """
@@ -684,13 +684,13 @@ class Area(ARObject):
     def setAccesskey(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for accesskey with method chaining.
-        
+
         Args:
             value: The accesskey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accesskey property setter (gets validation automatically)
         """
@@ -700,10 +700,10 @@ class Area(ARObject):
     def getAlt(self) -> "String":
         """
         AUTOSAR-compliant getter for alt.
-        
+
         Returns:
             The alt value
-        
+
         Note:
             Delegates to alt property (CODING_RULE_V2_00017)
         """
@@ -712,13 +712,13 @@ class Area(ARObject):
     def setAlt(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for alt with method chaining.
-        
+
         Args:
             value: The alt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alt property setter (gets validation automatically)
         """
@@ -728,10 +728,10 @@ class Area(ARObject):
     def getClass(self) -> "String":
         """
         AUTOSAR-compliant getter for class.
-        
+
         Returns:
             The class value
-        
+
         Note:
             Delegates to class property (CODING_RULE_V2_00017)
         """
@@ -740,13 +740,13 @@ class Area(ARObject):
     def setClass(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for class with method chaining.
-        
+
         Args:
             value: The class to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to class property setter (gets validation automatically)
         """
@@ -756,10 +756,10 @@ class Area(ARObject):
     def getCoords(self) -> "String":
         """
         AUTOSAR-compliant getter for coords.
-        
+
         Returns:
             The coords value
-        
+
         Note:
             Delegates to coords property (CODING_RULE_V2_00017)
         """
@@ -768,13 +768,13 @@ class Area(ARObject):
     def setCoords(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for coords with method chaining.
-        
+
         Args:
             value: The coords to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coords property setter (gets validation automatically)
         """
@@ -784,10 +784,10 @@ class Area(ARObject):
     def getHref(self) -> "String":
         """
         AUTOSAR-compliant getter for href.
-        
+
         Returns:
             The href value
-        
+
         Note:
             Delegates to href property (CODING_RULE_V2_00017)
         """
@@ -796,13 +796,13 @@ class Area(ARObject):
     def setHref(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for href with method chaining.
-        
+
         Args:
             value: The href to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to href property setter (gets validation automatically)
         """
@@ -812,10 +812,10 @@ class Area(ARObject):
     def getNohref(self) -> "AreaEnumNohref":
         """
         AUTOSAR-compliant getter for nohref.
-        
+
         Returns:
             The nohref value
-        
+
         Note:
             Delegates to nohref property (CODING_RULE_V2_00017)
         """
@@ -824,13 +824,13 @@ class Area(ARObject):
     def setNohref(self, value: "AreaEnumNohref") -> "Area":
         """
         AUTOSAR-compliant setter for nohref with method chaining.
-        
+
         Args:
             value: The nohref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nohref property setter (gets validation automatically)
         """
@@ -840,10 +840,10 @@ class Area(ARObject):
     def getOnblur(self) -> "String":
         """
         AUTOSAR-compliant getter for onblur.
-        
+
         Returns:
             The onblur value
-        
+
         Note:
             Delegates to onblur property (CODING_RULE_V2_00017)
         """
@@ -852,13 +852,13 @@ class Area(ARObject):
     def setOnblur(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onblur with method chaining.
-        
+
         Args:
             value: The onblur to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onblur property setter (gets validation automatically)
         """
@@ -868,10 +868,10 @@ class Area(ARObject):
     def getOnclick(self) -> "String":
         """
         AUTOSAR-compliant getter for onclick.
-        
+
         Returns:
             The onclick value
-        
+
         Note:
             Delegates to onclick property (CODING_RULE_V2_00017)
         """
@@ -880,13 +880,13 @@ class Area(ARObject):
     def setOnclick(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onclick with method chaining.
-        
+
         Args:
             value: The onclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onclick property setter (gets validation automatically)
         """
@@ -896,10 +896,10 @@ class Area(ARObject):
     def getOndblclick(self) -> "String":
         """
         AUTOSAR-compliant getter for ondblclick.
-        
+
         Returns:
             The ondblclick value
-        
+
         Note:
             Delegates to ondblclick property (CODING_RULE_V2_00017)
         """
@@ -908,13 +908,13 @@ class Area(ARObject):
     def setOndblclick(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for ondblclick with method chaining.
-        
+
         Args:
             value: The ondblclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ondblclick property setter (gets validation automatically)
         """
@@ -924,10 +924,10 @@ class Area(ARObject):
     def getOnfocus(self) -> "String":
         """
         AUTOSAR-compliant getter for onfocus.
-        
+
         Returns:
             The onfocus value
-        
+
         Note:
             Delegates to onfocus property (CODING_RULE_V2_00017)
         """
@@ -936,13 +936,13 @@ class Area(ARObject):
     def setOnfocus(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onfocus with method chaining.
-        
+
         Args:
             value: The onfocus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onfocus property setter (gets validation automatically)
         """
@@ -952,10 +952,10 @@ class Area(ARObject):
     def getOnkeydown(self) -> "String":
         """
         AUTOSAR-compliant getter for onkeydown.
-        
+
         Returns:
             The onkeydown value
-        
+
         Note:
             Delegates to onkeydown property (CODING_RULE_V2_00017)
         """
@@ -964,13 +964,13 @@ class Area(ARObject):
     def setOnkeydown(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onkeydown with method chaining.
-        
+
         Args:
             value: The onkeydown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onkeydown property setter (gets validation automatically)
         """
@@ -980,10 +980,10 @@ class Area(ARObject):
     def getOnkeypress(self) -> "String":
         """
         AUTOSAR-compliant getter for onkeypress.
-        
+
         Returns:
             The onkeypress value
-        
+
         Note:
             Delegates to onkeypress property (CODING_RULE_V2_00017)
         """
@@ -992,13 +992,13 @@ class Area(ARObject):
     def setOnkeypress(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onkeypress with method chaining.
-        
+
         Args:
             value: The onkeypress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onkeypress property setter (gets validation automatically)
         """
@@ -1008,10 +1008,10 @@ class Area(ARObject):
     def getOnkeyup(self) -> "String":
         """
         AUTOSAR-compliant getter for onkeyup.
-        
+
         Returns:
             The onkeyup value
-        
+
         Note:
             Delegates to onkeyup property (CODING_RULE_V2_00017)
         """
@@ -1020,13 +1020,13 @@ class Area(ARObject):
     def setOnkeyup(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onkeyup with method chaining.
-        
+
         Args:
             value: The onkeyup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onkeyup property setter (gets validation automatically)
         """
@@ -1036,10 +1036,10 @@ class Area(ARObject):
     def getOnmousedown(self) -> "String":
         """
         AUTOSAR-compliant getter for onmousedown.
-        
+
         Returns:
             The onmousedown value
-        
+
         Note:
             Delegates to onmousedown property (CODING_RULE_V2_00017)
         """
@@ -1048,13 +1048,13 @@ class Area(ARObject):
     def setOnmousedown(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onmousedown with method chaining.
-        
+
         Args:
             value: The onmousedown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmousedown property setter (gets validation automatically)
         """
@@ -1064,10 +1064,10 @@ class Area(ARObject):
     def getOnmousemove(self) -> "String":
         """
         AUTOSAR-compliant getter for onmousemove.
-        
+
         Returns:
             The onmousemove value
-        
+
         Note:
             Delegates to onmousemove property (CODING_RULE_V2_00017)
         """
@@ -1076,13 +1076,13 @@ class Area(ARObject):
     def setOnmousemove(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onmousemove with method chaining.
-        
+
         Args:
             value: The onmousemove to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmousemove property setter (gets validation automatically)
         """
@@ -1092,10 +1092,10 @@ class Area(ARObject):
     def getOnmouseout(self) -> "String":
         """
         AUTOSAR-compliant getter for onmouseout.
-        
+
         Returns:
             The onmouseout value
-        
+
         Note:
             Delegates to onmouseout property (CODING_RULE_V2_00017)
         """
@@ -1104,13 +1104,13 @@ class Area(ARObject):
     def setOnmouseout(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onmouseout with method chaining.
-        
+
         Args:
             value: The onmouseout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmouseout property setter (gets validation automatically)
         """
@@ -1120,10 +1120,10 @@ class Area(ARObject):
     def getOnmouseover(self) -> "String":
         """
         AUTOSAR-compliant getter for onmouseover.
-        
+
         Returns:
             The onmouseover value
-        
+
         Note:
             Delegates to onmouseover property (CODING_RULE_V2_00017)
         """
@@ -1132,13 +1132,13 @@ class Area(ARObject):
     def setOnmouseover(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onmouseover with method chaining.
-        
+
         Args:
             value: The onmouseover to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmouseover property setter (gets validation automatically)
         """
@@ -1148,10 +1148,10 @@ class Area(ARObject):
     def getOnmouseup(self) -> "String":
         """
         AUTOSAR-compliant getter for onmouseup.
-        
+
         Returns:
             The onmouseup value
-        
+
         Note:
             Delegates to onmouseup property (CODING_RULE_V2_00017)
         """
@@ -1160,13 +1160,13 @@ class Area(ARObject):
     def setOnmouseup(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for onmouseup with method chaining.
-        
+
         Args:
             value: The onmouseup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmouseup property setter (gets validation automatically)
         """
@@ -1176,10 +1176,10 @@ class Area(ARObject):
     def getShape(self) -> "AreaEnumShape":
         """
         AUTOSAR-compliant getter for shape.
-        
+
         Returns:
             The shape value
-        
+
         Note:
             Delegates to shape property (CODING_RULE_V2_00017)
         """
@@ -1188,13 +1188,13 @@ class Area(ARObject):
     def setShape(self, value: "AreaEnumShape") -> "Area":
         """
         AUTOSAR-compliant setter for shape with method chaining.
-        
+
         Args:
             value: The shape to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to shape property setter (gets validation automatically)
         """
@@ -1204,10 +1204,10 @@ class Area(ARObject):
     def getStyle(self) -> "String":
         """
         AUTOSAR-compliant getter for style.
-        
+
         Returns:
             The style value
-        
+
         Note:
             Delegates to style property (CODING_RULE_V2_00017)
         """
@@ -1216,13 +1216,13 @@ class Area(ARObject):
     def setStyle(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for style with method chaining.
-        
+
         Args:
             value: The style to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to style property setter (gets validation automatically)
         """
@@ -1232,10 +1232,10 @@ class Area(ARObject):
     def getTabindex(self) -> "String":
         """
         AUTOSAR-compliant getter for tabindex.
-        
+
         Returns:
             The tabindex value
-        
+
         Note:
             Delegates to tabindex property (CODING_RULE_V2_00017)
         """
@@ -1244,13 +1244,13 @@ class Area(ARObject):
     def setTabindex(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for tabindex with method chaining.
-        
+
         Args:
             value: The tabindex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tabindex property setter (gets validation automatically)
         """
@@ -1260,10 +1260,10 @@ class Area(ARObject):
     def getTitle(self) -> "String":
         """
         AUTOSAR-compliant getter for title.
-        
+
         Returns:
             The title value
-        
+
         Note:
             Delegates to title property (CODING_RULE_V2_00017)
         """
@@ -1272,13 +1272,13 @@ class Area(ARObject):
     def setTitle(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for title with method chaining.
-        
+
         Args:
             value: The title to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to title property setter (gets validation automatically)
         """
@@ -1290,13 +1290,13 @@ class Area(ARObject):
     def with_accesskey(self, value: Optional["String"]) -> "Area":
         """
         Set accesskey and return self for chaining.
-        
+
         Args:
             value: The accesskey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accesskey("value")
         """
@@ -1306,13 +1306,13 @@ class Area(ARObject):
     def with_alt(self, value: Optional["String"]) -> "Area":
         """
         Set alt and return self for chaining.
-        
+
         Args:
             value: The alt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alt("value")
         """
@@ -1322,13 +1322,13 @@ class Area(ARObject):
     def with_class(self, value: Optional["String"]) -> "Area":
         """
         Set class and return self for chaining.
-        
+
         Args:
             value: The class to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_class("value")
         """
@@ -1338,13 +1338,13 @@ class Area(ARObject):
     def with_coords(self, value: Optional["String"]) -> "Area":
         """
         Set coords and return self for chaining.
-        
+
         Args:
             value: The coords to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coords("value")
         """
@@ -1354,13 +1354,13 @@ class Area(ARObject):
     def with_href(self, value: Optional["String"]) -> "Area":
         """
         Set href and return self for chaining.
-        
+
         Args:
             value: The href to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_href("value")
         """
@@ -1370,13 +1370,13 @@ class Area(ARObject):
     def with_nohref(self, value: Optional["AreaEnumNohref"]) -> "Area":
         """
         Set nohref and return self for chaining.
-        
+
         Args:
             value: The nohref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nohref("value")
         """
@@ -1386,13 +1386,13 @@ class Area(ARObject):
     def with_onblur(self, value: Optional["String"]) -> "Area":
         """
         Set onblur and return self for chaining.
-        
+
         Args:
             value: The onblur to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onblur("value")
         """
@@ -1402,13 +1402,13 @@ class Area(ARObject):
     def with_onclick(self, value: Optional["String"]) -> "Area":
         """
         Set onclick and return self for chaining.
-        
+
         Args:
             value: The onclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onclick("value")
         """
@@ -1418,13 +1418,13 @@ class Area(ARObject):
     def with_ondblclick(self, value: Optional["String"]) -> "Area":
         """
         Set ondblclick and return self for chaining.
-        
+
         Args:
             value: The ondblclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ondblclick("value")
         """
@@ -1434,13 +1434,13 @@ class Area(ARObject):
     def with_onfocus(self, value: Optional["String"]) -> "Area":
         """
         Set onfocus and return self for chaining.
-        
+
         Args:
             value: The onfocus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onfocus("value")
         """
@@ -1450,13 +1450,13 @@ class Area(ARObject):
     def with_onkeydown(self, value: Optional["String"]) -> "Area":
         """
         Set onkeydown and return self for chaining.
-        
+
         Args:
             value: The onkeydown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onkeydown("value")
         """
@@ -1466,13 +1466,13 @@ class Area(ARObject):
     def with_onkeypress(self, value: Optional["String"]) -> "Area":
         """
         Set onkeypress and return self for chaining.
-        
+
         Args:
             value: The onkeypress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onkeypress("value")
         """
@@ -1482,13 +1482,13 @@ class Area(ARObject):
     def with_onkeyup(self, value: Optional["String"]) -> "Area":
         """
         Set onkeyup and return self for chaining.
-        
+
         Args:
             value: The onkeyup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onkeyup("value")
         """
@@ -1498,13 +1498,13 @@ class Area(ARObject):
     def with_onmousedown(self, value: Optional["String"]) -> "Area":
         """
         Set onmousedown and return self for chaining.
-        
+
         Args:
             value: The onmousedown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmousedown("value")
         """
@@ -1514,13 +1514,13 @@ class Area(ARObject):
     def with_onmousemove(self, value: Optional["String"]) -> "Area":
         """
         Set onmousemove and return self for chaining.
-        
+
         Args:
             value: The onmousemove to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmousemove("value")
         """
@@ -1530,13 +1530,13 @@ class Area(ARObject):
     def with_onmouseout(self, value: Optional["String"]) -> "Area":
         """
         Set onmouseout and return self for chaining.
-        
+
         Args:
             value: The onmouseout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmouseout("value")
         """
@@ -1546,13 +1546,13 @@ class Area(ARObject):
     def with_onmouseover(self, value: Optional["String"]) -> "Area":
         """
         Set onmouseover and return self for chaining.
-        
+
         Args:
             value: The onmouseover to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmouseover("value")
         """
@@ -1562,13 +1562,13 @@ class Area(ARObject):
     def with_onmouseup(self, value: Optional["String"]) -> "Area":
         """
         Set onmouseup and return self for chaining.
-        
+
         Args:
             value: The onmouseup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmouseup("value")
         """
@@ -1578,13 +1578,13 @@ class Area(ARObject):
     def with_shape(self, value: Optional["AreaEnumShape"]) -> "Area":
         """
         Set shape and return self for chaining.
-        
+
         Args:
             value: The shape to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_shape("value")
         """
@@ -1594,13 +1594,13 @@ class Area(ARObject):
     def with_style(self, value: Optional["String"]) -> "Area":
         """
         Set style and return self for chaining.
-        
+
         Args:
             value: The style to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_style("value")
         """
@@ -1610,13 +1610,13 @@ class Area(ARObject):
     def with_tabindex(self, value: Optional["String"]) -> "Area":
         """
         Set tabindex and return self for chaining.
-        
+
         Args:
             value: The tabindex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tabindex("value")
         """
@@ -1626,13 +1626,13 @@ class Area(ARObject):
     def with_title(self, value: Optional["String"]) -> "Area":
         """
         Set title and return self for chaining.
-        
+
         Args:
             value: The title to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_title("value")
         """

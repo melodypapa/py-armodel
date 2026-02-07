@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FlexrayFifoRange(ARObject):
     """
     FIFO Frame Id range acceptance criteria.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayFifoRange
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 87, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class FlexrayFifoRange(ARObject):
     def range_max(self, value: Optional["Integer"]) -> None:
         """
         Set rangeMax with validation.
-        
+
         Args:
             value: The rangeMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class FlexrayFifoRange(ARObject):
     def range_min(self, value: Optional["Integer"]) -> None:
         """
         Set rangeMin with validation.
-        
+
         Args:
             value: The rangeMin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class FlexrayFifoRange(ARObject):
     def getRangeMax(self) -> "Integer":
         """
         AUTOSAR-compliant getter for rangeMax.
-        
+
         Returns:
             The rangeMax value
-        
+
         Note:
             Delegates to range_max property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class FlexrayFifoRange(ARObject):
     def setRangeMax(self, value: "Integer") -> "FlexrayFifoRange":
         """
         AUTOSAR-compliant setter for rangeMax with method chaining.
-        
+
         Args:
             value: The rangeMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to range_max property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class FlexrayFifoRange(ARObject):
     def getRangeMin(self) -> "Integer":
         """
         AUTOSAR-compliant getter for rangeMin.
-        
+
         Returns:
             The rangeMin value
-        
+
         Note:
             Delegates to range_min property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class FlexrayFifoRange(ARObject):
     def setRangeMin(self, value: "Integer") -> "FlexrayFifoRange":
         """
         AUTOSAR-compliant setter for rangeMin with method chaining.
-        
+
         Args:
             value: The rangeMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to range_min property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class FlexrayFifoRange(ARObject):
     def with_range_max(self, value: Optional["Integer"]) -> "FlexrayFifoRange":
         """
         Set rangeMax and return self for chaining.
-        
+
         Args:
             value: The rangeMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_range_max("value")
         """
@@ -151,13 +154,13 @@ class FlexrayFifoRange(ARObject):
     def with_range_min(self, value: Optional["Integer"]) -> "FlexrayFifoRange":
         """
         Set rangeMin and return self for chaining.
-        
+
         Args:
             value: The rangeMin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_range_min("value")
         """

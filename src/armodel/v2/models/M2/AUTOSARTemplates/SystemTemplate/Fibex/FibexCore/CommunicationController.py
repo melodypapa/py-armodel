@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CommunicationController(ARObject, ABC):
     """
     The communication controller is a dedicated hardware device by means of
     which hosts are sending frames to and receiving frames from the
     communication medium. Tags: vh.latestBindingTime=postBuild
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 53, Classic Platform R23-11)
     """
@@ -33,10 +37,10 @@ class CommunicationController(ARObject, ABC):
     def wake_up_by(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeUpBy with validation.
-        
+
         Args:
             value: The wakeUpBy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +59,10 @@ class CommunicationController(ARObject, ABC):
     def getWakeUpBy(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeUpBy.
-        
+
         Returns:
             The wakeUpBy value
-        
+
         Note:
             Delegates to wake_up_by property (CODING_RULE_V2_00017)
         """
@@ -67,13 +71,13 @@ class CommunicationController(ARObject, ABC):
     def setWakeUpBy(self, value: "Boolean") -> "CommunicationController":
         """
         AUTOSAR-compliant setter for wakeUpBy with method chaining.
-        
+
         Args:
             value: The wakeUpBy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wake_up_by property setter (gets validation automatically)
         """
@@ -85,13 +89,13 @@ class CommunicationController(ARObject, ABC):
     def with_wake_up_by(self, value: Optional["Boolean"]) -> "CommunicationController":
         """
         Set wakeUpBy and return self for chaining.
-        
+
         Args:
             value: The wakeUpBy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wake_up_by("value")
         """

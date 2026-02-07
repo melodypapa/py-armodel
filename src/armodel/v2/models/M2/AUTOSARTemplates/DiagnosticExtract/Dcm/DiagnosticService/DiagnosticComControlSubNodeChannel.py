@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticComControlSubNodeChannel(ARObject):
     """
     This represents the ability to add further attributes to the definition of a
     specific sub-node channel that is subject to the diagnostic service
     "communication control".
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControlSubNodeChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 110, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def sub_node(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set subNode with validation.
-        
+
         Args:
             value: The subNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def getSubNode(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for subNode.
-        
+
         Returns:
             The subNode value
-        
+
         Note:
             Delegates to sub_node property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def setSubNode(self, value: "EthernetPhysical") -> "DiagnosticComControlSubNodeChannel":
         """
         AUTOSAR-compliant setter for subNode with method chaining.
-        
+
         Args:
             value: The subNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_node property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class DiagnosticComControlSubNodeChannel(ARObject):
     def with_sub_node(self, value: Optional["EthernetPhysical"]) -> "DiagnosticComControlSubNodeChannel":
         """
         Set subNode and return self for chaining.
-        
+
         Args:
             value: The subNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_node("value")
         """

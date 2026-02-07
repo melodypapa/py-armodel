@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventBswModeDeclaration(TDEventBsw):
     """
     This is used to describe timing events related to the mode communication on
     BSW level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBswModeDeclaration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 76, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def entry_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set entryMode with validation.
-        
+
         Args:
             value: The entryMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def exit_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set exitMode with validation.
-        
+
         Args:
             value: The exitMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def mode(self, value: RefType) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def td_event_bsw_declaration_type(self, value: Optional["TDEventBswMode"]) -> None:
         """
         Set tdEventBswDeclarationType with validation.
-        
+
         Args:
             value: The tdEventBswDeclarationType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +139,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def getEntryMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for entryMode.
-        
+
         Returns:
             The entryMode value
-        
+
         Note:
             Delegates to entry_mode property (CODING_RULE_V2_00017)
         """
@@ -148,13 +151,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def setEntryMode(self, value: "ModeDeclaration") -> "TDEventBswModeDeclaration":
         """
         AUTOSAR-compliant setter for entryMode with method chaining.
-        
+
         Args:
             value: The entryMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to entry_mode property setter (gets validation automatically)
         """
@@ -164,10 +167,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def getExitMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for exitMode.
-        
+
         Returns:
             The exitMode value
-        
+
         Note:
             Delegates to exit_mode property (CODING_RULE_V2_00017)
         """
@@ -176,13 +179,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def setExitMode(self, value: "ModeDeclaration") -> "TDEventBswModeDeclaration":
         """
         AUTOSAR-compliant setter for exitMode with method chaining.
-        
+
         Args:
             value: The exitMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exit_mode property setter (gets validation automatically)
         """
@@ -192,10 +195,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def getMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -204,13 +207,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def setMode(self, value: RefType) -> "TDEventBswModeDeclaration":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -220,10 +223,10 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def getTdEventBswDeclarationType(self) -> "TDEventBswMode":
         """
         AUTOSAR-compliant getter for tdEventBswDeclarationType.
-        
+
         Returns:
             The tdEventBswDeclarationType value
-        
+
         Note:
             Delegates to td_event_bsw_declaration_type property (CODING_RULE_V2_00017)
         """
@@ -232,13 +235,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def setTdEventBswDeclarationType(self, value: "TDEventBswMode") -> "TDEventBswModeDeclaration":
         """
         AUTOSAR-compliant setter for tdEventBswDeclarationType with method chaining.
-        
+
         Args:
             value: The tdEventBswDeclarationType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_bsw_declaration_type property setter (gets validation automatically)
         """
@@ -250,13 +253,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def with_entry_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventBswModeDeclaration":
         """
         Set entryMode and return self for chaining.
-        
+
         Args:
             value: The entryMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_entry_mode("value")
         """
@@ -266,13 +269,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def with_exit_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventBswModeDeclaration":
         """
         Set exitMode and return self for chaining.
-        
+
         Args:
             value: The exitMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exit_mode("value")
         """
@@ -282,13 +285,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def with_mode(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -298,13 +301,13 @@ class TDEventBswModeDeclaration(TDEventBsw):
     def with_td_event_bsw_declaration_type(self, value: Optional["TDEventBswMode"]) -> "TDEventBswModeDeclaration":
         """
         Set tdEventBswDeclarationType and return self for chaining.
-        
+
         Args:
             value: The tdEventBswDeclarationType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_bsw_declaration_type("value")
         """

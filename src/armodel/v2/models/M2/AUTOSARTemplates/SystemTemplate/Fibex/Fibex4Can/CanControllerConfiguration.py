@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     """
     This element is used for the specification of the exact CAN Bit Timing
     configuration parameter values.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 64, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def prop_seg(self, value: Optional["Integer"]) -> None:
         """
         Set propSeg with validation.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def sync_jump_width(self, value: Optional["Integer"]) -> None:
         """
         Set syncJumpWidth with validation.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def time_seg1(self, value: Optional["Integer"]) -> None:
         """
         Set timeSeg1 with validation.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def time_seg2(self, value: Optional["Integer"]) -> None:
         """
         Set timeSeg2 with validation.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +137,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def getPropSeg(self) -> "Integer":
         """
         AUTOSAR-compliant getter for propSeg.
-        
+
         Returns:
             The propSeg value
-        
+
         Note:
             Delegates to prop_seg property (CODING_RULE_V2_00017)
         """
@@ -149,13 +149,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def setPropSeg(self, value: "Integer") -> "CanControllerConfiguration":
         """
         AUTOSAR-compliant setter for propSeg with method chaining.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prop_seg property setter (gets validation automatically)
         """
@@ -165,10 +165,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def getSyncJumpWidth(self) -> "Integer":
         """
         AUTOSAR-compliant getter for syncJumpWidth.
-        
+
         Returns:
             The syncJumpWidth value
-        
+
         Note:
             Delegates to sync_jump_width property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def setSyncJumpWidth(self, value: "Integer") -> "CanControllerConfiguration":
         """
         AUTOSAR-compliant setter for syncJumpWidth with method chaining.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_jump_width property setter (gets validation automatically)
         """
@@ -193,10 +193,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def getTimeSeg1(self) -> "Integer":
         """
         AUTOSAR-compliant getter for timeSeg1.
-        
+
         Returns:
             The timeSeg1 value
-        
+
         Note:
             Delegates to time_seg1 property (CODING_RULE_V2_00017)
         """
@@ -205,13 +205,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def setTimeSeg1(self, value: "Integer") -> "CanControllerConfiguration":
         """
         AUTOSAR-compliant setter for timeSeg1 with method chaining.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_seg1 property setter (gets validation automatically)
         """
@@ -221,10 +221,10 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def getTimeSeg2(self) -> "Integer":
         """
         AUTOSAR-compliant getter for timeSeg2.
-        
+
         Returns:
             The timeSeg2 value
-        
+
         Note:
             Delegates to time_seg2 property (CODING_RULE_V2_00017)
         """
@@ -233,13 +233,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def setTimeSeg2(self, value: "Integer") -> "CanControllerConfiguration":
         """
         AUTOSAR-compliant setter for timeSeg2 with method chaining.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_seg2 property setter (gets validation automatically)
         """
@@ -251,13 +251,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def with_prop_seg(self, value: Optional["Integer"]) -> "CanControllerConfiguration":
         """
         Set propSeg and return self for chaining.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prop_seg("value")
         """
@@ -267,13 +267,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def with_sync_jump_width(self, value: Optional["Integer"]) -> "CanControllerConfiguration":
         """
         Set syncJumpWidth and return self for chaining.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_jump_width("value")
         """
@@ -283,13 +283,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def with_time_seg1(self, value: Optional["Integer"]) -> "CanControllerConfiguration":
         """
         Set timeSeg1 and return self for chaining.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_seg1("value")
         """
@@ -299,13 +299,13 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
     def with_time_seg2(self, value: Optional["Integer"]) -> "CanControllerConfiguration":
         """
         Set timeSeg2 and return self for chaining.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_seg2("value")
         """

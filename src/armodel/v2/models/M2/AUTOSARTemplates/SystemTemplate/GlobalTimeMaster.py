@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class GlobalTimeMaster(Identifiable, ABC):
     """
     This represents the generic concept of a global time master.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeMaster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 860, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def icv_secured(self, value: Optional["GlobalTimeIcvSupport"]) -> None:
         """
         Set icvSecured with validation.
-        
+
         Args:
             value: The icvSecured to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def immediate(self, value: Optional["TimeValue"]) -> None:
         """
         Set immediate with validation.
-        
+
         Args:
             value: The immediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def is_system_wide(self, value: Optional["Boolean"]) -> None:
         """
         Set isSystemWide with validation.
-        
+
         Args:
             value: The isSystemWide to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def sync_period(self, value: Optional["TimeValue"]) -> None:
         """
         Set syncPeriod with validation.
-        
+
         Args:
             value: The syncPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -168,10 +171,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def setCommunication(self, value: "Communication") -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -196,10 +199,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def getIcvSecured(self) -> "GlobalTimeIcvSupport":
         """
         AUTOSAR-compliant getter for icvSecured.
-        
+
         Returns:
             The icvSecured value
-        
+
         Note:
             Delegates to icv_secured property (CODING_RULE_V2_00017)
         """
@@ -208,13 +211,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def setIcvSecured(self, value: "GlobalTimeIcvSupport") -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant setter for icvSecured with method chaining.
-        
+
         Args:
             value: The icvSecured to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to icv_secured property setter (gets validation automatically)
         """
@@ -224,10 +227,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def getImmediate(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for immediate.
-        
+
         Returns:
             The immediate value
-        
+
         Note:
             Delegates to immediate property (CODING_RULE_V2_00017)
         """
@@ -236,13 +239,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def setImmediate(self, value: "TimeValue") -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant setter for immediate with method chaining.
-        
+
         Args:
             value: The immediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to immediate property setter (gets validation automatically)
         """
@@ -252,10 +255,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def getIsSystemWide(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isSystemWide.
-        
+
         Returns:
             The isSystemWide value
-        
+
         Note:
             Delegates to is_system_wide property (CODING_RULE_V2_00017)
         """
@@ -264,13 +267,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def setIsSystemWide(self, value: "Boolean") -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant setter for isSystemWide with method chaining.
-        
+
         Args:
             value: The isSystemWide to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_system_wide property setter (gets validation automatically)
         """
@@ -280,10 +283,10 @@ class GlobalTimeMaster(Identifiable, ABC):
     def getSyncPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for syncPeriod.
-        
+
         Returns:
             The syncPeriod value
-        
+
         Note:
             Delegates to sync_period property (CODING_RULE_V2_00017)
         """
@@ -292,13 +295,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def setSyncPeriod(self, value: "TimeValue") -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant setter for syncPeriod with method chaining.
-        
+
         Args:
             value: The syncPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_period property setter (gets validation automatically)
         """
@@ -310,13 +313,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def with_communication(self, value: Optional["Communication"]) -> "GlobalTimeMaster":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -326,13 +329,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def with_icv_secured(self, value: Optional["GlobalTimeIcvSupport"]) -> "GlobalTimeMaster":
         """
         Set icvSecured and return self for chaining.
-        
+
         Args:
             value: The icvSecured to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_icv_secured("value")
         """
@@ -342,13 +345,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def with_immediate(self, value: Optional["TimeValue"]) -> "GlobalTimeMaster":
         """
         Set immediate and return self for chaining.
-        
+
         Args:
             value: The immediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_immediate("value")
         """
@@ -358,13 +361,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def with_is_system_wide(self, value: Optional["Boolean"]) -> "GlobalTimeMaster":
         """
         Set isSystemWide and return self for chaining.
-        
+
         Args:
             value: The isSystemWide to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_system_wide("value")
         """
@@ -374,13 +377,13 @@ class GlobalTimeMaster(Identifiable, ABC):
     def with_sync_period(self, value: Optional["TimeValue"]) -> "GlobalTimeMaster":
         """
         Set syncPeriod and return self for chaining.
-        
+
         Args:
             value: The syncPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_period("value")
         """

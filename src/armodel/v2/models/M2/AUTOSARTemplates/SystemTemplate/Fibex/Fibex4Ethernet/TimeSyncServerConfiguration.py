@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class TimeSyncServerConfiguration(Referrable):
     """
     Defines the configuration of the time synchronisation server.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TimeSyncServerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 470, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class TimeSyncServerConfiguration(Referrable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class TimeSyncServerConfiguration(Referrable):
     def sync_interval(self, value: Optional["TimeValue"]) -> None:
         """
         Set syncInterval with validation.
-        
+
         Args:
             value: The syncInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class TimeSyncServerConfiguration(Referrable):
     def time_sync_server_identifier(self, value: Optional["String"]) -> None:
         """
         Set timeSyncServerIdentifier with validation.
-        
+
         Args:
             value: The timeSyncServerIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class TimeSyncServerConfiguration(Referrable):
     def time_sync(self, value: Optional["TimeSyncTechnology"]) -> None:
         """
         Set timeSync with validation.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +137,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setPriority(self, value: "PositiveInteger") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getSyncInterval(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for syncInterval.
-        
+
         Returns:
             The syncInterval value
-        
+
         Note:
             Delegates to sync_interval property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setSyncInterval(self, value: "TimeValue") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for syncInterval with method chaining.
-        
+
         Args:
             value: The syncInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_interval property setter (gets validation automatically)
         """
@@ -190,10 +193,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getTimeSyncServerIdentifier(self) -> "String":
         """
         AUTOSAR-compliant getter for timeSyncServerIdentifier.
-        
+
         Returns:
             The timeSyncServerIdentifier value
-        
+
         Note:
             Delegates to time_sync_server_identifier property (CODING_RULE_V2_00017)
         """
@@ -202,13 +205,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setTimeSyncServerIdentifier(self, value: "String") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for timeSyncServerIdentifier with method chaining.
-        
+
         Args:
             value: The timeSyncServerIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync_server_identifier property setter (gets validation automatically)
         """
@@ -218,10 +221,10 @@ class TimeSyncServerConfiguration(Referrable):
     def getTimeSync(self) -> "TimeSyncTechnology":
         """
         AUTOSAR-compliant getter for timeSync.
-        
+
         Returns:
             The timeSync value
-        
+
         Note:
             Delegates to time_sync property (CODING_RULE_V2_00017)
         """
@@ -230,13 +233,13 @@ class TimeSyncServerConfiguration(Referrable):
     def setTimeSync(self, value: "TimeSyncTechnology") -> "TimeSyncServerConfiguration":
         """
         AUTOSAR-compliant setter for timeSync with method chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync property setter (gets validation automatically)
         """
@@ -248,13 +251,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "TimeSyncServerConfiguration":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -264,13 +267,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_sync_interval(self, value: Optional["TimeValue"]) -> "TimeSyncServerConfiguration":
         """
         Set syncInterval and return self for chaining.
-        
+
         Args:
             value: The syncInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_interval("value")
         """
@@ -280,13 +283,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_time_sync_server_identifier(self, value: Optional["String"]) -> "TimeSyncServerConfiguration":
         """
         Set timeSyncServerIdentifier and return self for chaining.
-        
+
         Args:
             value: The timeSyncServerIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync_server_identifier("value")
         """
@@ -296,13 +299,13 @@ class TimeSyncServerConfiguration(Referrable):
     def with_time_sync(self, value: Optional["TimeSyncTechnology"]) -> "TimeSyncServerConfiguration":
         """
         Set timeSync and return self for chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync("value")
         """

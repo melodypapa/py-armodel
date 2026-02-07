@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventISignal(TDEventCom):
     """
     This is used to describe timing events related to the exchange of I-Signals
     between COM and RTE.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventISignal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 65, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventISignal(TDEventCom):
     def i_signal(self, value: Optional["ISignal"]) -> None:
         """
         Set iSignal with validation.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class TDEventISignal(TDEventCom):
     def physical(self, value: Optional["PhysicalChannel"]) -> None:
         """
         Set physical with validation.
-        
+
         Args:
             value: The physical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class TDEventISignal(TDEventCom):
     def td_event_type_enum(self, value: Optional["TDEventISignalType"]) -> None:
         """
         Set tdEventTypeEnum with validation.
-        
+
         Args:
             value: The tdEventTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class TDEventISignal(TDEventCom):
     def getISignal(self) -> "ISignal":
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class TDEventISignal(TDEventCom):
     def setISignal(self, value: "ISignal") -> "TDEventISignal":
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -133,10 +133,10 @@ class TDEventISignal(TDEventCom):
     def getPhysical(self) -> "PhysicalChannel":
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -145,13 +145,13 @@ class TDEventISignal(TDEventCom):
     def setPhysical(self, value: "PhysicalChannel") -> "TDEventISignal":
         """
         AUTOSAR-compliant setter for physical with method chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical property setter (gets validation automatically)
         """
@@ -161,10 +161,10 @@ class TDEventISignal(TDEventCom):
     def getTdEventTypeEnum(self) -> "TDEventISignalType":
         """
         AUTOSAR-compliant getter for tdEventTypeEnum.
-        
+
         Returns:
             The tdEventTypeEnum value
-        
+
         Note:
             Delegates to td_event_type_enum property (CODING_RULE_V2_00017)
         """
@@ -173,13 +173,13 @@ class TDEventISignal(TDEventCom):
     def setTdEventTypeEnum(self, value: "TDEventISignalType") -> "TDEventISignal":
         """
         AUTOSAR-compliant setter for tdEventTypeEnum with method chaining.
-        
+
         Args:
             value: The tdEventTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_type_enum property setter (gets validation automatically)
         """
@@ -191,13 +191,13 @@ class TDEventISignal(TDEventCom):
     def with_i_signal(self, value: Optional["ISignal"]) -> "TDEventISignal":
         """
         Set iSignal and return self for chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal("value")
         """
@@ -207,13 +207,13 @@ class TDEventISignal(TDEventCom):
     def with_physical(self, value: Optional["PhysicalChannel"]) -> "TDEventISignal":
         """
         Set physical and return self for chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical("value")
         """
@@ -223,13 +223,13 @@ class TDEventISignal(TDEventCom):
     def with_td_event_type_enum(self, value: Optional["TDEventISignalType"]) -> "TDEventISignal":
         """
         Set tdEventTypeEnum and return self for chaining.
-        
+
         Args:
             value: The tdEventTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_type_enum("value")
         """

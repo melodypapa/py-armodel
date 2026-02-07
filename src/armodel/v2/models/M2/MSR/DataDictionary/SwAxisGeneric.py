@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwAxisGeneric(ARObject):
     """
@@ -9,9 +12,9 @@ class SwAxisGeneric(ARObject):
     calculation algorithm. Parameters for the algorithm can be stored in the
     data component of the ECU. Therefore these parameters are specified in the
     data declaration, not in the calibration data.
-    
+
     Package: M2::MSR::DataDictionary::Axis::SwAxisGeneric
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 355, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class SwAxisGeneric(ARObject):
     def sw_axis_type(self, value: Optional["SwAxisType"]) -> None:
         """
         Set swAxisType with validation.
-        
+
         Args:
             value: The swAxisType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class SwAxisGeneric(ARObject):
     def getSwAxisType(self) -> "SwAxisType":
         """
         AUTOSAR-compliant getter for swAxisType.
-        
+
         Returns:
             The swAxisType value
-        
+
         Note:
             Delegates to sw_axis_type property (CODING_RULE_V2_00017)
         """
@@ -73,13 +76,13 @@ class SwAxisGeneric(ARObject):
     def setSwAxisType(self, value: "SwAxisType") -> "SwAxisGeneric":
         """
         AUTOSAR-compliant setter for swAxisType with method chaining.
-        
+
         Args:
             value: The swAxisType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_axis_type property setter (gets validation automatically)
         """
@@ -89,10 +92,10 @@ class SwAxisGeneric(ARObject):
     def getSwGenericAxis(self) -> List["SwGenericAxisParam"]:
         """
         AUTOSAR-compliant getter for swGenericAxis.
-        
+
         Returns:
             The swGenericAxis value
-        
+
         Note:
             Delegates to sw_generic_axis property (CODING_RULE_V2_00017)
         """
@@ -103,13 +106,13 @@ class SwAxisGeneric(ARObject):
     def with_sw_axis_type(self, value: Optional["SwAxisType"]) -> "SwAxisGeneric":
         """
         Set swAxisType and return self for chaining.
-        
+
         Args:
             value: The swAxisType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_axis_type("value")
         """

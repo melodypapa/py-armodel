@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class IndentSample(ARObject):
     """
     This represents the ability to specify indentation of a labeled list by
     providing a sample content. This content can be measured by the rendering
     system in order to determine the width of indentation.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::IndentSample
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 297, Foundation
       R23-11)
@@ -31,10 +34,10 @@ class IndentSample(ARObject):
     def item_label_pos(self, value: Optional["ItemLabelPosEnum"]) -> None:
         """
         Set itemLabelPos with validation.
-        
+
         Args:
             value: The itemLabelPos to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class IndentSample(ARObject):
     def l2(self, value: "LOverviewParagraph") -> None:
         """
         Set l2 with validation.
-        
+
         Args:
             value: The l2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +79,10 @@ class IndentSample(ARObject):
     def getItemLabelPos(self) -> "ItemLabelPosEnum":
         """
         AUTOSAR-compliant getter for itemLabelPos.
-        
+
         Returns:
             The itemLabelPos value
-        
+
         Note:
             Delegates to item_label_pos property (CODING_RULE_V2_00017)
         """
@@ -88,13 +91,13 @@ class IndentSample(ARObject):
     def setItemLabelPos(self, value: "ItemLabelPosEnum") -> "IndentSample":
         """
         AUTOSAR-compliant setter for itemLabelPos with method chaining.
-        
+
         Args:
             value: The itemLabelPos to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_label_pos property setter (gets validation automatically)
         """
@@ -104,10 +107,10 @@ class IndentSample(ARObject):
     def getL2(self) -> "LOverviewParagraph":
         """
         AUTOSAR-compliant getter for l2.
-        
+
         Returns:
             The l2 value
-        
+
         Note:
             Delegates to l2 property (CODING_RULE_V2_00017)
         """
@@ -116,13 +119,13 @@ class IndentSample(ARObject):
     def setL2(self, value: "LOverviewParagraph") -> "IndentSample":
         """
         AUTOSAR-compliant setter for l2 with method chaining.
-        
+
         Args:
             value: The l2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l2 property setter (gets validation automatically)
         """
@@ -134,13 +137,13 @@ class IndentSample(ARObject):
     def with_item_label_pos(self, value: Optional["ItemLabelPosEnum"]) -> "IndentSample":
         """
         Set itemLabelPos and return self for chaining.
-        
+
         Args:
             value: The itemLabelPos to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_label_pos("value")
         """
@@ -150,13 +153,13 @@ class IndentSample(ARObject):
     def with_l2(self, value: "LOverviewParagraph") -> "IndentSample":
         """
         Set l2 and return self for chaining.
-        
+
         Args:
             value: The l2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l2("value")
         """

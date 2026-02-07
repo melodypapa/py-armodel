@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticEventWindow(ARObject):
     """
     This represents the ability to define the characteristics of the applicable
     event window
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent::DiagnosticEventWindow
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 133, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class DiagnosticEventWindow(ARObject):
     def event_window(self, value: Optional["DiagnosticEventWindow"]) -> None:
         """
         Set eventWindow with validation.
-        
+
         Args:
             value: The eventWindow to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class DiagnosticEventWindow(ARObject):
     def getEventWindow(self) -> "DiagnosticEventWindow":
         """
         AUTOSAR-compliant getter for eventWindow.
-        
+
         Returns:
             The eventWindow value
-        
+
         Note:
             Delegates to event_window property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class DiagnosticEventWindow(ARObject):
     def setEventWindow(self, value: "DiagnosticEventWindow") -> "DiagnosticEventWindow":
         """
         AUTOSAR-compliant setter for eventWindow with method chaining.
-        
+
         Args:
             value: The eventWindow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_window property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class DiagnosticEventWindow(ARObject):
     def with_event_window(self, value: Optional["DiagnosticEventWindow"]) -> "DiagnosticEventWindow":
         """
         Set eventWindow and return self for chaining.
-        
+
         Args:
             value: The eventWindow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_window("value")
         """

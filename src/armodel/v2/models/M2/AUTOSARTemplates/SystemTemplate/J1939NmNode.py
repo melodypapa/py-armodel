@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class J1939NmNode(NmNode):
     """
     J1939 specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 322, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class J1939NmNode(NmNode):
     def address(self, value: Optional["J1939NmAddress"]) -> None:
         """
         Set address with validation.
-        
+
         Args:
             value: The address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class J1939NmNode(NmNode):
     def node_name(self, value: Optional["J1939NodeName"]) -> None:
         """
         Set nodeName with validation.
-        
+
         Args:
             value: The nodeName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class J1939NmNode(NmNode):
     def getAddress(self) -> "J1939NmAddress":
         """
         AUTOSAR-compliant getter for address.
-        
+
         Returns:
             The address value
-        
+
         Note:
             Delegates to address property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class J1939NmNode(NmNode):
     def setAddress(self, value: "J1939NmAddress") -> "J1939NmNode":
         """
         AUTOSAR-compliant setter for address with method chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class J1939NmNode(NmNode):
     def getNodeName(self) -> "J1939NodeName":
         """
         AUTOSAR-compliant getter for nodeName.
-        
+
         Returns:
             The nodeName value
-        
+
         Note:
             Delegates to node_name property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class J1939NmNode(NmNode):
     def setNodeName(self, value: "J1939NodeName") -> "J1939NmNode":
         """
         AUTOSAR-compliant setter for nodeName with method chaining.
-        
+
         Args:
             value: The nodeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to node_name property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class J1939NmNode(NmNode):
     def with_address(self, value: Optional["J1939NmAddress"]) -> "J1939NmNode":
         """
         Set address and return self for chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address("value")
         """
@@ -153,13 +153,13 @@ class J1939NmNode(NmNode):
     def with_node_name(self, value: Optional["J1939NodeName"]) -> "J1939NmNode":
         """
         Set nodeName and return self for chaining.
-        
+
         Args:
             value: The nodeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_node_name("value")
         """

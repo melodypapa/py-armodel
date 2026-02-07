@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TimeRangeType(ARObject):
     """
     The timeRange can be specified with the value attribute. Optionally a
     tolerance can be defined.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TimeRangeType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 398, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class TimeRangeType(ARObject):
     def tolerance_tolerance(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set toleranceTolerance with validation.
-        
+
         Args:
             value: The toleranceTolerance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class TimeRangeType(ARObject):
     def value(self, value: Optional["TimeValue"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class TimeRangeType(ARObject):
     def getToleranceTolerance(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for toleranceTolerance.
-        
+
         Returns:
             The toleranceTolerance value
-        
+
         Note:
             Delegates to tolerance_tolerance property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class TimeRangeType(ARObject):
     def setToleranceTolerance(self, value: "TimeRangeType") -> "TimeRangeType":
         """
         AUTOSAR-compliant setter for toleranceTolerance with method chaining.
-        
+
         Args:
             value: The toleranceTolerance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tolerance_tolerance property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class TimeRangeType(ARObject):
     def getValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class TimeRangeType(ARObject):
     def setValue(self, value: "TimeValue") -> "TimeRangeType":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class TimeRangeType(ARObject):
     def with_tolerance_tolerance(self, value: Optional["TimeRangeType"]) -> "TimeRangeType":
         """
         Set toleranceTolerance and return self for chaining.
-        
+
         Args:
             value: The toleranceTolerance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tolerance_tolerance("value")
         """
@@ -152,13 +155,13 @@ class TimeRangeType(ARObject):
     def with_value(self, value: Optional["TimeValue"]) -> "TimeRangeType":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

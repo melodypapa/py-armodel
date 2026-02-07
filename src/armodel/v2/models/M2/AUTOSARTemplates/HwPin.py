@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class HwPin(Identifiable):
     """
     This meta-class represents the possibility to describe a hardware pin.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPin
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 20, Classic Platform
       R23-11)
@@ -41,10 +43,10 @@ class HwPin(Identifiable):
     def packaging_pin(self, value: Optional["String"]) -> None:
         """
         Set packagingPin with validation.
-        
+
         Args:
             value: The packagingPin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +71,10 @@ class HwPin(Identifiable):
     def pin_number(self, value: Optional["Integer"]) -> None:
         """
         Set pinNumber with validation.
-        
+
         Args:
             value: The pinNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class HwPin(Identifiable):
     def getFunctionName(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for functionName.
-        
+
         Returns:
             The functionName value
-        
+
         Note:
             Delegates to function_name property (CODING_RULE_V2_00017)
         """
@@ -103,10 +105,10 @@ class HwPin(Identifiable):
     def getPackagingPin(self) -> "String":
         """
         AUTOSAR-compliant getter for packagingPin.
-        
+
         Returns:
             The packagingPin value
-        
+
         Note:
             Delegates to packaging_pin property (CODING_RULE_V2_00017)
         """
@@ -115,13 +117,13 @@ class HwPin(Identifiable):
     def setPackagingPin(self, value: "String") -> "HwPin":
         """
         AUTOSAR-compliant setter for packagingPin with method chaining.
-        
+
         Args:
             value: The packagingPin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to packaging_pin property setter (gets validation automatically)
         """
@@ -131,10 +133,10 @@ class HwPin(Identifiable):
     def getPinNumber(self) -> "Integer":
         """
         AUTOSAR-compliant getter for pinNumber.
-        
+
         Returns:
             The pinNumber value
-        
+
         Note:
             Delegates to pin_number property (CODING_RULE_V2_00017)
         """
@@ -143,13 +145,13 @@ class HwPin(Identifiable):
     def setPinNumber(self, value: "Integer") -> "HwPin":
         """
         AUTOSAR-compliant setter for pinNumber with method chaining.
-        
+
         Args:
             value: The pinNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pin_number property setter (gets validation automatically)
         """
@@ -161,13 +163,13 @@ class HwPin(Identifiable):
     def with_packaging_pin(self, value: Optional["String"]) -> "HwPin":
         """
         Set packagingPin and return self for chaining.
-        
+
         Args:
             value: The packagingPin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_packaging_pin("value")
         """
@@ -177,13 +179,13 @@ class HwPin(Identifiable):
     def with_pin_number(self, value: Optional["Integer"]) -> "HwPin":
         """
         Set pinNumber and return self for chaining.
-        
+
         Args:
             value: The pinNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pin_number("value")
         """

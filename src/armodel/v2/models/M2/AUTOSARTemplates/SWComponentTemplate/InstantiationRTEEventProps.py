@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class InstantiationRTEEventProps(ARObject, ABC):
     """
     This meta-class represents the ability to refine the properties of RTEEvents
     for particular instances of a software component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstantiationRTEEventProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 85, Classic Platform
       R23-11)
@@ -32,10 +36,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def refined_event(self, value: Optional["RTEEvent"]) -> None:
         """
         Set refinedEvent with validation.
-        
+
         Args:
             value: The refinedEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +65,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +87,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def getRefinedEvent(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for refinedEvent.
-        
+
         Returns:
             The refinedEvent value
-        
+
         Note:
             Delegates to refined_event property (CODING_RULE_V2_00017)
         """
@@ -95,13 +99,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def setRefinedEvent(self, value: "RTEEvent") -> "InstantiationRTEEventProps":
         """
         AUTOSAR-compliant setter for refinedEvent with method chaining.
-        
+
         Args:
             value: The refinedEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to refined_event property setter (gets validation automatically)
         """
@@ -111,10 +115,10 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -123,13 +127,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def setShortLabel(self, value: "Identifier") -> "InstantiationRTEEventProps":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -141,13 +145,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def with_refined_event(self, value: Optional["RTEEvent"]) -> "InstantiationRTEEventProps":
         """
         Set refinedEvent and return self for chaining.
-        
+
         Args:
             value: The refinedEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_refined_event("value")
         """
@@ -157,13 +161,13 @@ class InstantiationRTEEventProps(ARObject, ABC):
     def with_short_label(self, value: Optional["Identifier"]) -> "InstantiationRTEEventProps":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

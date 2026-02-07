@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class InterpolationRoutineMappingSet(ARElement):
     """
     This meta-class specifies a set of interpolation routine mappings. (cid:53)
     429 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate
     Software Component Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine::InterpolationRoutineMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 429, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class InterpolationRoutineMappingSet(ARElement):
     def getInterpolation(self) -> List["InterpolationRoutine"]:
         """
         AUTOSAR-compliant getter for interpolation.
-        
+
         Returns:
             The interpolation value
-        
+
         Note:
             Delegates to interpolation property (CODING_RULE_V2_00017)
         """

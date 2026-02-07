@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     """
@@ -11,9 +11,9 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     constant part of the comparison. Only DiagnosticCompareTypeEnum.isEqual or
     DiagnosticCompareTypeEnum.isNotEqual are eligible values for
     DiagnosticAtomicCondition.compareType.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvModeCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 88, Classic Platform
       R23-11)
@@ -35,10 +35,10 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def mode_element(self, value: Optional["DiagnosticEnvMode"]) -> None:
         """
         Set modeElement with validation.
-        
+
         Args:
             value: The modeElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def getModeElement(self) -> "DiagnosticEnvMode":
         """
         AUTOSAR-compliant getter for modeElement.
-        
+
         Returns:
             The modeElement value
-        
+
         Note:
             Delegates to mode_element property (CODING_RULE_V2_00017)
         """
@@ -69,13 +69,13 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def setModeElement(self, value: "DiagnosticEnvMode") -> "DiagnosticEnvModeCondition":
         """
         AUTOSAR-compliant setter for modeElement with method chaining.
-        
+
         Args:
             value: The modeElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_element property setter (gets validation automatically)
         """
@@ -87,13 +87,13 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     def with_mode_element(self, value: Optional["DiagnosticEnvMode"]) -> "DiagnosticEnvModeCondition":
         """
         Set modeElement and return self for chaining.
-        
+
         Args:
             value: The modeElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_element("value")
         """

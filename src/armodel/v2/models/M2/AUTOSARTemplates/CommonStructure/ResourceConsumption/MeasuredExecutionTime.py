@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class MeasuredExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using measurement means.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::MeasuredExecutionTime
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 166, Classic
       Platform R23-11)
@@ -27,10 +27,10 @@ class MeasuredExecutionTime(ExecutionTime):
     def maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set maximumExecutionTime with validation.
-        
+
         Args:
             value: The maximumExecutionTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class MeasuredExecutionTime(ExecutionTime):
     def minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimumExecutionTime with validation.
-        
+
         Args:
             value: The minimumExecutionTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class MeasuredExecutionTime(ExecutionTime):
     def nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set nominalExecutionTime with validation.
-        
+
         Args:
             value: The nominalExecutionTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class MeasuredExecutionTime(ExecutionTime):
     def getMaximumExecutionTime(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for maximumExecutionTime.
-        
+
         Returns:
             The maximumExecutionTime value
-        
+
         Note:
             Delegates to maximum_execution_time property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class MeasuredExecutionTime(ExecutionTime):
     def setMaximumExecutionTime(self, value: "MultidimensionalTime") -> "MeasuredExecutionTime":
         """
         AUTOSAR-compliant setter for maximumExecutionTime with method chaining.
-        
+
         Args:
             value: The maximumExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum_execution_time property setter (gets validation automatically)
         """
@@ -133,10 +133,10 @@ class MeasuredExecutionTime(ExecutionTime):
     def getMinimumExecutionTime(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimumExecutionTime.
-        
+
         Returns:
             The minimumExecutionTime value
-        
+
         Note:
             Delegates to minimum_execution_time property (CODING_RULE_V2_00017)
         """
@@ -145,13 +145,13 @@ class MeasuredExecutionTime(ExecutionTime):
     def setMinimumExecutionTime(self, value: "MultidimensionalTime") -> "MeasuredExecutionTime":
         """
         AUTOSAR-compliant setter for minimumExecutionTime with method chaining.
-        
+
         Args:
             value: The minimumExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_execution_time property setter (gets validation automatically)
         """
@@ -161,10 +161,10 @@ class MeasuredExecutionTime(ExecutionTime):
     def getNominalExecutionTime(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for nominalExecutionTime.
-        
+
         Returns:
             The nominalExecutionTime value
-        
+
         Note:
             Delegates to nominal_execution_time property (CODING_RULE_V2_00017)
         """
@@ -173,13 +173,13 @@ class MeasuredExecutionTime(ExecutionTime):
     def setNominalExecutionTime(self, value: "MultidimensionalTime") -> "MeasuredExecutionTime":
         """
         AUTOSAR-compliant setter for nominalExecutionTime with method chaining.
-        
+
         Args:
             value: The nominalExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nominal_execution_time property setter (gets validation automatically)
         """
@@ -191,13 +191,13 @@ class MeasuredExecutionTime(ExecutionTime):
     def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> "MeasuredExecutionTime":
         """
         Set maximumExecutionTime and return self for chaining.
-        
+
         Args:
             value: The maximumExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum_execution_time("value")
         """
@@ -207,13 +207,13 @@ class MeasuredExecutionTime(ExecutionTime):
     def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> "MeasuredExecutionTime":
         """
         Set minimumExecutionTime and return self for chaining.
-        
+
         Args:
             value: The minimumExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_execution_time("value")
         """
@@ -223,13 +223,13 @@ class MeasuredExecutionTime(ExecutionTime):
     def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> "MeasuredExecutionTime":
         """
         Set nominalExecutionTime and return self for chaining.
-        
+
         Args:
             value: The nominalExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nominal_execution_time("value")
         """

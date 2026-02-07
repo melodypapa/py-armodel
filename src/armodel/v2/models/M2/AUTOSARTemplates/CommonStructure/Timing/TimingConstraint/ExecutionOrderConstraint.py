@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ExecutionOrderConstraint(TimingConstraint):
     """
@@ -22,9 +22,9 @@ class ExecutionOrderConstraint(TimingConstraint):
     for all ExecutableEntitys and Events available via the EcucValueCollection,
     covering ECU Extract and BSW Module Configuration, referenced by the
     EcuTiming.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::ExecutionOrderConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 118, Classic Platform R23-11)
     """
@@ -45,10 +45,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def execution_order(self, value: Optional["ExecutionOrder"]) -> None:
         """
         Set executionOrder with validation.
-        
+
         Args:
             value: The executionOrder to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +102,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def ignore_order(self, value: Optional["Boolean"]) -> None:
         """
         Set ignoreOrder with validation.
-        
+
         Args:
             value: The ignoreOrder to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +131,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def is_event(self, value: Optional["Boolean"]) -> None:
         """
         Set isEvent with validation.
-        
+
         Args:
             value: The isEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +169,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def permit_multiple(self, value: Optional["Boolean"]) -> None:
         """
         Set permitMultiple with validation.
-        
+
         Args:
             value: The permitMultiple to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +191,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -203,13 +203,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def setBase(self, value: "CompositionSw") -> "ExecutionOrderConstraint":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -219,10 +219,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getExecutionOrder(self) -> "ExecutionOrder":
         """
         AUTOSAR-compliant getter for executionOrder.
-        
+
         Returns:
             The executionOrder value
-        
+
         Note:
             Delegates to execution_order property (CODING_RULE_V2_00017)
         """
@@ -231,13 +231,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def setExecutionOrder(self, value: "ExecutionOrder") -> "ExecutionOrderConstraint":
         """
         AUTOSAR-compliant setter for executionOrder with method chaining.
-        
+
         Args:
             value: The executionOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to execution_order property setter (gets validation automatically)
         """
@@ -247,10 +247,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getIgnoreOrder(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for ignoreOrder.
-        
+
         Returns:
             The ignoreOrder value
-        
+
         Note:
             Delegates to ignore_order property (CODING_RULE_V2_00017)
         """
@@ -259,13 +259,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def setIgnoreOrder(self, value: "Boolean") -> "ExecutionOrderConstraint":
         """
         AUTOSAR-compliant setter for ignoreOrder with method chaining.
-        
+
         Args:
             value: The ignoreOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ignore_order property setter (gets validation automatically)
         """
@@ -275,10 +275,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getIsEvent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isEvent.
-        
+
         Returns:
             The isEvent value
-        
+
         Note:
             Delegates to is_event property (CODING_RULE_V2_00017)
         """
@@ -287,13 +287,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def setIsEvent(self, value: "Boolean") -> "ExecutionOrderConstraint":
         """
         AUTOSAR-compliant setter for isEvent with method chaining.
-        
+
         Args:
             value: The isEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_event property setter (gets validation automatically)
         """
@@ -303,10 +303,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getOrderedElement(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for orderedElement.
-        
+
         Returns:
             The orderedElement value
-        
+
         Note:
             Delegates to ordered_element property (CODING_RULE_V2_00017)
         """
@@ -315,10 +315,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getPermitMultiple(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for permitMultiple.
-        
+
         Returns:
             The permitMultiple value
-        
+
         Note:
             Delegates to permit_multiple property (CODING_RULE_V2_00017)
         """
@@ -327,13 +327,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def setPermitMultiple(self, value: "Boolean") -> "ExecutionOrderConstraint":
         """
         AUTOSAR-compliant setter for permitMultiple with method chaining.
-        
+
         Args:
             value: The permitMultiple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to permit_multiple property setter (gets validation automatically)
         """
@@ -345,13 +345,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def with_base(self, value: Optional["CompositionSw"]) -> "ExecutionOrderConstraint":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -361,13 +361,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def with_execution_order(self, value: Optional["ExecutionOrder"]) -> "ExecutionOrderConstraint":
         """
         Set executionOrder and return self for chaining.
-        
+
         Args:
             value: The executionOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_execution_order("value")
         """
@@ -377,13 +377,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def with_ignore_order(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
         """
         Set ignoreOrder and return self for chaining.
-        
+
         Args:
             value: The ignoreOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ignore_order("value")
         """
@@ -393,13 +393,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def with_is_event(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
         """
         Set isEvent and return self for chaining.
-        
+
         Args:
             value: The isEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_event("value")
         """
@@ -409,13 +409,13 @@ class ExecutionOrderConstraint(TimingConstraint):
     def with_permit_multiple(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
         """
         Set permitMultiple and return self for chaining.
-        
+
         Args:
             value: The permitMultiple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_permit_multiple("value")
         """

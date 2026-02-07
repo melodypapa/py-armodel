@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CompuRationalCoeffs(ARObject):
     """
     This meta-class represents the ability to express a rational function by
     specifying the coefficients of nominator and denominator.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuRationalCoeffs
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 389, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class CompuRationalCoeffs(ARObject):
     def compu(self, value: Optional["CompuNominator"]) -> None:
         """
         Set compu with validation.
-        
+
         Args:
             value: The compu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +56,10 @@ class CompuRationalCoeffs(ARObject):
     def getCompu(self) -> "CompuNominator":
         """
         AUTOSAR-compliant getter for compu.
-        
+
         Returns:
             The compu value
-        
+
         Note:
             Delegates to compu property (CODING_RULE_V2_00017)
         """
@@ -65,13 +68,13 @@ class CompuRationalCoeffs(ARObject):
     def setCompu(self, value: "CompuNominator") -> "CompuRationalCoeffs":
         """
         AUTOSAR-compliant setter for compu with method chaining.
-        
+
         Args:
             value: The compu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu property setter (gets validation automatically)
         """
@@ -83,13 +86,13 @@ class CompuRationalCoeffs(ARObject):
     def with_compu(self, value: Optional["CompuNominator"]) -> "CompuRationalCoeffs":
         """
         Set compu and return self for chaining.
-        
+
         Args:
             value: The compu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu("value")
         """

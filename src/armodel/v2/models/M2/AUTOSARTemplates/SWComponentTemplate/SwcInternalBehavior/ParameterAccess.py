@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ParameterAccess(AbstractAccessPoint):
     """
     The presence of a ParameterAccess implies that a RunnableEntity needs access
     to a ParameterData Prototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::ParameterAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)
@@ -31,10 +34,10 @@ class ParameterAccess(AbstractAccessPoint):
     def accessed_parameter(self, value: RefType) -> None:
         """
         Set accessedParameter with validation.
-        
+
         Args:
             value: The accessedParameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class ParameterAccess(AbstractAccessPoint):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class ParameterAccess(AbstractAccessPoint):
     def getAccessedParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedParameter.
-        
+
         Returns:
             The accessedParameter value
-        
+
         Note:
             Delegates to accessed_parameter property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class ParameterAccess(AbstractAccessPoint):
     def setAccessedParameter(self, value: RefType) -> "ParameterAccess":
         """
         AUTOSAR-compliant setter for accessedParameter with method chaining.
-        
+
         Args:
             value: The accessedParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accessed_parameter property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class ParameterAccess(AbstractAccessPoint):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class ParameterAccess(AbstractAccessPoint):
     def setSwDataDef(self, value: "SwDataDefProps") -> "ParameterAccess":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class ParameterAccess(AbstractAccessPoint):
     def with_accessed_parameter(self, value: Optional[RefType]) -> "ParameterAccess":
         """
         Set accessedParameter and return self for chaining.
-        
+
         Args:
             value: The accessedParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accessed_parameter("value")
         """
@@ -152,13 +155,13 @@ class ParameterAccess(AbstractAccessPoint):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "ParameterAccess":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """

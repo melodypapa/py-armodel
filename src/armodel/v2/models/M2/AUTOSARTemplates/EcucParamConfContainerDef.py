@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EcucParamConfContainerDef(EcucContainerDef):
     """
     Used to define configuration containers that can hierarchically contain
     other containers and/or parameter definitions.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParamConfContainerDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 39, Classic Platform R23-11)
     """
@@ -43,10 +46,10 @@ class EcucParamConfContainerDef(EcucContainerDef):
     def getParameter(self) -> List["EcucParameterDef"]:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -55,10 +58,10 @@ class EcucParamConfContainerDef(EcucContainerDef):
     def getReference(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for reference.
-        
+
         Returns:
             The reference value
-        
+
         Note:
             Delegates to reference property (CODING_RULE_V2_00017)
         """
@@ -67,10 +70,10 @@ class EcucParamConfContainerDef(EcucContainerDef):
     def getSubContainer(self) -> List["EcucContainerDef"]:
         """
         AUTOSAR-compliant getter for subContainer.
-        
+
         Returns:
             The subContainer value
-        
+
         Note:
             Delegates to sub_container property (CODING_RULE_V2_00017)
         """

@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BuildActionEnvironment(Identifiable):
     """
     This meta-class represents the ability to specify a build action
     environment.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionEnvironment
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 370, Foundation
       R23-11)
@@ -33,10 +35,10 @@ class BuildActionEnvironment(Identifiable):
     def getSdg(self) -> List["Sdg"]:
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """

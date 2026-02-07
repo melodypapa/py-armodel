@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ISignalIPdu(IPdu):
     """
@@ -8,9 +11,9 @@ class ISignalIPdu(IPdu):
     disassembled in AUTOSAR COM consists of one or more signals. In case no
     multiplexing is performed this IPdu is routed to/from the Interface Layer. A
     maximum of one dynamic length signal per IPdu is allowed.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 994, Classic Platform
       R23-11)
@@ -37,10 +40,10 @@ class ISignalIPdu(IPdu):
     def i_pdu_timing(self, value: Optional["IPduTiming"]) -> None:
         """
         Set iPduTiming with validation.
-        
+
         Args:
             value: The iPduTiming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class ISignalIPdu(IPdu):
     def unused_bit(self, value: Optional["Integer"]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +102,10 @@ class ISignalIPdu(IPdu):
     def getIPduTiming(self) -> "IPduTiming":
         """
         AUTOSAR-compliant getter for iPduTiming.
-        
+
         Returns:
             The iPduTiming value
-        
+
         Note:
             Delegates to i_pdu_timing property (CODING_RULE_V2_00017)
         """
@@ -111,13 +114,13 @@ class ISignalIPdu(IPdu):
     def setIPduTiming(self, value: "IPduTiming") -> "ISignalIPdu":
         """
         AUTOSAR-compliant setter for iPduTiming with method chaining.
-        
+
         Args:
             value: The iPduTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu_timing property setter (gets validation automatically)
         """
@@ -127,10 +130,10 @@ class ISignalIPdu(IPdu):
     def getISignalToPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignalToPdu.
-        
+
         Returns:
             The iSignalToPdu value
-        
+
         Note:
             Delegates to i_signal_to_pdu property (CODING_RULE_V2_00017)
         """
@@ -139,10 +142,10 @@ class ISignalIPdu(IPdu):
     def getUnusedBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -151,13 +154,13 @@ class ISignalIPdu(IPdu):
     def setUnusedBit(self, value: "Integer") -> "ISignalIPdu":
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -169,13 +172,13 @@ class ISignalIPdu(IPdu):
     def with_i_pdu_timing(self, value: Optional["IPduTiming"]) -> "ISignalIPdu":
         """
         Set iPduTiming and return self for chaining.
-        
+
         Args:
             value: The iPduTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu_timing("value")
         """
@@ -185,13 +188,13 @@ class ISignalIPdu(IPdu):
     def with_unused_bit(self, value: Optional["Integer"]) -> "ISignalIPdu":
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """

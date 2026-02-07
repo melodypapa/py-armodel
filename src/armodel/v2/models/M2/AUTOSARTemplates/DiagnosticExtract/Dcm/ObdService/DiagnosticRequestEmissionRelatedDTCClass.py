@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticRequestEmissionRelatedDTCClass(DiagnosticServiceClass):
     """
     This meta-class represents the ability to define common properties for all
     instances of the "Request Emission Related DTC" OBD diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x03_0x07_RequestEmission::DiagnosticRequestEmissionRelatedDTCClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 154, Classic Platform
       R23-11)

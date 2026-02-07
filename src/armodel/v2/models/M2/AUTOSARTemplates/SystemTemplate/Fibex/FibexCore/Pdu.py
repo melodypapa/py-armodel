@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class Pdu(FibexElement, ABC):
     """
     Collection of all Pdus that can be routed through a bus interface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Pdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 303, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 340, Classic Platform R23-11)
@@ -30,10 +31,10 @@ class Pdu(FibexElement, ABC):
     def has_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set hasDynamic with validation.
-        
+
         Args:
             value: The hasDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +67,10 @@ class Pdu(FibexElement, ABC):
     def length(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +89,10 @@ class Pdu(FibexElement, ABC):
     def getHasDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for hasDynamic.
-        
+
         Returns:
             The hasDynamic value
-        
+
         Note:
             Delegates to has_dynamic property (CODING_RULE_V2_00017)
         """
@@ -100,13 +101,13 @@ class Pdu(FibexElement, ABC):
     def setHasDynamic(self, value: "Boolean") -> "Pdu":
         """
         AUTOSAR-compliant setter for hasDynamic with method chaining.
-        
+
         Args:
             value: The hasDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to has_dynamic property setter (gets validation automatically)
         """
@@ -116,10 +117,10 @@ class Pdu(FibexElement, ABC):
     def getLength(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -128,13 +129,13 @@ class Pdu(FibexElement, ABC):
     def setLength(self, value: "UnlimitedInteger") -> "Pdu":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -146,13 +147,13 @@ class Pdu(FibexElement, ABC):
     def with_has_dynamic(self, value: Optional["Boolean"]) -> "Pdu":
         """
         Set hasDynamic and return self for chaining.
-        
+
         Args:
             value: The hasDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_has_dynamic("value")
         """
@@ -162,13 +163,13 @@ class Pdu(FibexElement, ABC):
     def with_length(self, value: Optional["UnlimitedInteger"]) -> "Pdu":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """

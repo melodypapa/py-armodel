@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SecurityEventContextProps(Identifiable):
     """
     This meta-class specifies the SecurityEventDefinition to be mapped to an
     IdsmInstance and adds mapping-dependent properties of this security event
     valid only for this specific mapping.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 258, Classic Platform
       R23-11)
@@ -34,10 +36,10 @@ class SecurityEventContextProps(Identifiable):
     def context_data(self, value: Optional["SecurityEventContext"]) -> None:
         """
         Set contextData with validation.
-        
+
         Args:
             value: The contextData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class SecurityEventContextProps(Identifiable):
     def default(self, value: Optional["SecurityEventReporting"]) -> None:
         """
         Set default with validation.
-        
+
         Args:
             value: The default to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +94,10 @@ class SecurityEventContextProps(Identifiable):
     def persistent(self, value: Optional["Boolean"]) -> None:
         """
         Set persistent with validation.
-        
+
         Args:
             value: The persistent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +124,10 @@ class SecurityEventContextProps(Identifiable):
     def security_event(self, value: Optional["SecurityEventDefinition"]) -> None:
         """
         Set securityEvent with validation.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +155,10 @@ class SecurityEventContextProps(Identifiable):
     def sensor_instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sensorInstance with validation.
-        
+
         Args:
             value: The sensorInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -185,10 +187,10 @@ class SecurityEventContextProps(Identifiable):
     def severity(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set severity with validation.
-        
+
         Args:
             value: The severity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -207,10 +209,10 @@ class SecurityEventContextProps(Identifiable):
     def getContextData(self) -> "SecurityEventContext":
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -219,13 +221,13 @@ class SecurityEventContextProps(Identifiable):
     def setContextData(self, value: "SecurityEventContext") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for contextData with method chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_data property setter (gets validation automatically)
         """
@@ -235,10 +237,10 @@ class SecurityEventContextProps(Identifiable):
     def getDefault(self) -> "SecurityEventReporting":
         """
         AUTOSAR-compliant getter for default.
-        
+
         Returns:
             The default value
-        
+
         Note:
             Delegates to default property (CODING_RULE_V2_00017)
         """
@@ -247,13 +249,13 @@ class SecurityEventContextProps(Identifiable):
     def setDefault(self, value: "SecurityEventReporting") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for default with method chaining.
-        
+
         Args:
             value: The default to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default property setter (gets validation automatically)
         """
@@ -263,10 +265,10 @@ class SecurityEventContextProps(Identifiable):
     def getPersistent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for persistent.
-        
+
         Returns:
             The persistent value
-        
+
         Note:
             Delegates to persistent property (CODING_RULE_V2_00017)
         """
@@ -275,13 +277,13 @@ class SecurityEventContextProps(Identifiable):
     def setPersistent(self, value: "Boolean") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for persistent with method chaining.
-        
+
         Args:
             value: The persistent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to persistent property setter (gets validation automatically)
         """
@@ -291,10 +293,10 @@ class SecurityEventContextProps(Identifiable):
     def getSecurityEvent(self) -> "SecurityEventDefinition":
         """
         AUTOSAR-compliant getter for securityEvent.
-        
+
         Returns:
             The securityEvent value
-        
+
         Note:
             Delegates to security_event property (CODING_RULE_V2_00017)
         """
@@ -303,13 +305,13 @@ class SecurityEventContextProps(Identifiable):
     def setSecurityEvent(self, value: "SecurityEventDefinition") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for securityEvent with method chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_event property setter (gets validation automatically)
         """
@@ -319,10 +321,10 @@ class SecurityEventContextProps(Identifiable):
     def getSensorInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sensorInstance.
-        
+
         Returns:
             The sensorInstance value
-        
+
         Note:
             Delegates to sensor_instance property (CODING_RULE_V2_00017)
         """
@@ -331,13 +333,13 @@ class SecurityEventContextProps(Identifiable):
     def setSensorInstance(self, value: "PositiveInteger") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for sensorInstance with method chaining.
-        
+
         Args:
             value: The sensorInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sensor_instance property setter (gets validation automatically)
         """
@@ -347,10 +349,10 @@ class SecurityEventContextProps(Identifiable):
     def getSeverity(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for severity.
-        
+
         Returns:
             The severity value
-        
+
         Note:
             Delegates to severity property (CODING_RULE_V2_00017)
         """
@@ -359,13 +361,13 @@ class SecurityEventContextProps(Identifiable):
     def setSeverity(self, value: "PositiveInteger") -> "SecurityEventContextProps":
         """
         AUTOSAR-compliant setter for severity with method chaining.
-        
+
         Args:
             value: The severity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to severity property setter (gets validation automatically)
         """
@@ -377,13 +379,13 @@ class SecurityEventContextProps(Identifiable):
     def with_context_data(self, value: Optional["SecurityEventContext"]) -> "SecurityEventContextProps":
         """
         Set contextData and return self for chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_data("value")
         """
@@ -393,13 +395,13 @@ class SecurityEventContextProps(Identifiable):
     def with_default(self, value: Optional["SecurityEventReporting"]) -> "SecurityEventContextProps":
         """
         Set default and return self for chaining.
-        
+
         Args:
             value: The default to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default("value")
         """
@@ -409,13 +411,13 @@ class SecurityEventContextProps(Identifiable):
     def with_persistent(self, value: Optional["Boolean"]) -> "SecurityEventContextProps":
         """
         Set persistent and return self for chaining.
-        
+
         Args:
             value: The persistent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_persistent("value")
         """
@@ -425,13 +427,13 @@ class SecurityEventContextProps(Identifiable):
     def with_security_event(self, value: Optional["SecurityEventDefinition"]) -> "SecurityEventContextProps":
         """
         Set securityEvent and return self for chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_event("value")
         """
@@ -441,13 +443,13 @@ class SecurityEventContextProps(Identifiable):
     def with_sensor_instance(self, value: Optional["PositiveInteger"]) -> "SecurityEventContextProps":
         """
         Set sensorInstance and return self for chaining.
-        
+
         Args:
             value: The sensorInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sensor_instance("value")
         """
@@ -457,13 +459,13 @@ class SecurityEventContextProps(Identifiable):
     def with_severity(self, value: Optional["PositiveInteger"]) -> "SecurityEventContextProps":
         """
         Set severity and return self for chaining.
-        
+
         Args:
             value: The severity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_severity("value")
         """

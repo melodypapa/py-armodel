@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Can Global Time specific properties.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN::CanGlobalTimeDomainProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 864, Classic Platform R23-11)
     """
@@ -25,10 +23,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def fup_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set fupDataIDList with validation.
-        
+
         Args:
             value: The fupDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +46,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def ofns_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set ofnsDataIDList with validation.
-        
+
         Args:
             value: The ofnsDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +69,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def ofs_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set ofsDataIDList with validation.
-        
+
         Args:
             value: The ofsDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +92,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def sync_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set syncDataIDList with validation.
-        
+
         Args:
             value: The syncDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +110,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getFupDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for fupDataIDList.
-        
+
         Returns:
             The fupDataIDList value
-        
+
         Note:
             Delegates to fup_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -124,13 +122,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setFupDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for fupDataIDList with method chaining.
-        
+
         Args:
             value: The fupDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fup_data_id_list property setter (gets validation automatically)
         """
@@ -140,10 +138,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getOfnsDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ofnsDataIDList.
-        
+
         Returns:
             The ofnsDataIDList value
-        
+
         Note:
             Delegates to ofns_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -152,13 +150,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setOfnsDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for ofnsDataIDList with method chaining.
-        
+
         Args:
             value: The ofnsDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ofns_data_id_list property setter (gets validation automatically)
         """
@@ -168,10 +166,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getOfsDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ofsDataIDList.
-        
+
         Returns:
             The ofsDataIDList value
-        
+
         Note:
             Delegates to ofs_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -180,13 +178,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setOfsDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for ofsDataIDList with method chaining.
-        
+
         Args:
             value: The ofsDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ofs_data_id_list property setter (gets validation automatically)
         """
@@ -196,10 +194,10 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getSyncDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncDataIDList.
-        
+
         Returns:
             The syncDataIDList value
-        
+
         Note:
             Delegates to sync_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -208,13 +206,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setSyncDataIDList(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for syncDataIDList with method chaining.
-        
+
         Args:
             value: The syncDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_data_id_list property setter (gets validation automatically)
         """
@@ -226,13 +224,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_fup_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         Set fupDataIDList and return self for chaining.
-        
+
         Args:
             value: The fupDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fup_data_id_list("value")
         """
@@ -242,13 +240,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_ofns_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         Set ofnsDataIDList and return self for chaining.
-        
+
         Args:
             value: The ofnsDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ofns_data_id_list("value")
         """
@@ -258,13 +256,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_ofs_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         Set ofsDataIDList and return self for chaining.
-        
+
         Args:
             value: The ofsDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ofs_data_id_list("value")
         """
@@ -274,13 +272,13 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_sync_data_id_list(self, value: "PositiveInteger") -> "CanGlobalTimeDomainProps":
         """
         Set syncDataIDList and return self for chaining.
-        
+
         Args:
             value: The syncDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_data_id_list("value")
         """

@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import MultilanguageReferrable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import (
+    MultilanguageReferrable,
+)
+
 
 class DocumentationContext(MultilanguageReferrable):
     """
     This class represents the ability to denote a context of a so called
     standalone documentation. Note that this is an <<atpMixed>>. The contents
     needs to be considered as ordered.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1::DocumentationContext
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 327, Foundation
       R23-11)
@@ -32,10 +34,10 @@ class DocumentationContext(MultilanguageReferrable):
     def feature(self, value: Optional["AtpFeature"]) -> None:
         """
         Set feature with validation.
-        
+
         Args:
             value: The feature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class DocumentationContext(MultilanguageReferrable):
     def identifiable(self, value: Optional["Identifiable"]) -> None:
         """
         Set identifiable with validation.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +84,10 @@ class DocumentationContext(MultilanguageReferrable):
     def getFeature(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for feature.
-        
+
         Returns:
             The feature value
-        
+
         Note:
             Delegates to feature property (CODING_RULE_V2_00017)
         """
@@ -94,13 +96,13 @@ class DocumentationContext(MultilanguageReferrable):
     def setFeature(self, value: "AtpFeature") -> "DocumentationContext":
         """
         AUTOSAR-compliant setter for feature with method chaining.
-        
+
         Args:
             value: The feature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to feature property setter (gets validation automatically)
         """
@@ -110,10 +112,10 @@ class DocumentationContext(MultilanguageReferrable):
     def getIdentifiable(self) -> "Identifiable":
         """
         AUTOSAR-compliant getter for identifiable.
-        
+
         Returns:
             The identifiable value
-        
+
         Note:
             Delegates to identifiable property (CODING_RULE_V2_00017)
         """
@@ -122,13 +124,13 @@ class DocumentationContext(MultilanguageReferrable):
     def setIdentifiable(self, value: "Identifiable") -> "DocumentationContext":
         """
         AUTOSAR-compliant setter for identifiable with method chaining.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identifiable property setter (gets validation automatically)
         """
@@ -140,13 +142,13 @@ class DocumentationContext(MultilanguageReferrable):
     def with_feature(self, value: Optional["AtpFeature"]) -> "DocumentationContext":
         """
         Set feature and return self for chaining.
-        
+
         Args:
             value: The feature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_feature("value")
         """
@@ -156,13 +158,13 @@ class DocumentationContext(MultilanguageReferrable):
     def with_identifiable(self, value: Optional["Identifiable"]) -> "DocumentationContext":
         """
         Set identifiable and return self for chaining.
-        
+
         Args:
             value: The identifiable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identifiable("value")
         """

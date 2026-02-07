@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class LinFrameTriggering(FrameTriggering):
     """
     LIN specific attributes to the FrameTriggering
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinFrameTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 428, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class LinFrameTriggering(FrameTriggering):
     def identifier(self, value: Optional["Integer"]) -> None:
         """
         Set identifier with validation.
-        
+
         Args:
             value: The identifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class LinFrameTriggering(FrameTriggering):
     def lin_checksum(self, value: Optional["LinChecksumType"]) -> None:
         """
         Set linChecksum with validation.
-        
+
         Args:
             value: The linChecksum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class LinFrameTriggering(FrameTriggering):
     def getIdentifier(self) -> "Integer":
         """
         AUTOSAR-compliant getter for identifier.
-        
+
         Returns:
             The identifier value
-        
+
         Note:
             Delegates to identifier property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class LinFrameTriggering(FrameTriggering):
     def setIdentifier(self, value: "Integer") -> "LinFrameTriggering":
         """
         AUTOSAR-compliant setter for identifier with method chaining.
-        
+
         Args:
             value: The identifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identifier property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class LinFrameTriggering(FrameTriggering):
     def getLinChecksum(self) -> "LinChecksumType":
         """
         AUTOSAR-compliant getter for linChecksum.
-        
+
         Returns:
             The linChecksum value
-        
+
         Note:
             Delegates to lin_checksum property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class LinFrameTriggering(FrameTriggering):
     def setLinChecksum(self, value: "LinChecksumType") -> "LinFrameTriggering":
         """
         AUTOSAR-compliant setter for linChecksum with method chaining.
-        
+
         Args:
             value: The linChecksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lin_checksum property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class LinFrameTriggering(FrameTriggering):
     def with_identifier(self, value: Optional["Integer"]) -> "LinFrameTriggering":
         """
         Set identifier and return self for chaining.
-        
+
         Args:
             value: The identifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identifier("value")
         """
@@ -153,13 +153,13 @@ class LinFrameTriggering(FrameTriggering):
     def with_lin_checksum(self, value: Optional["LinChecksumType"]) -> "LinFrameTriggering":
         """
         Set linChecksum and return self for chaining.
-        
+
         Args:
             value: The linChecksum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lin_checksum("value")
         """

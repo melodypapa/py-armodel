@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     """
@@ -7,9 +7,9 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context of a BSW
     module in which this IdsM instance can receive reports for these security
     events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingBswModule
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 38, Foundation R23-11)
     """
@@ -30,10 +30,10 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def affected_bsw(self, value: Optional["String"]) -> None:
         """
         Set affectedBsw with validation.
-        
+
         Args:
             value: The affectedBsw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def getAffectedBsw(self) -> "String":
         """
         AUTOSAR-compliant getter for affectedBsw.
-        
+
         Returns:
             The affectedBsw value
-        
+
         Note:
             Delegates to affected_bsw property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def setAffectedBsw(self, value: "String") -> "SecurityEventContextMappingBswModule":
         """
         AUTOSAR-compliant setter for affectedBsw with method chaining.
-        
+
         Args:
             value: The affectedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to affected_bsw property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class SecurityEventContextMappingBswModule(SecurityEventContextMapping):
     def with_affected_bsw(self, value: Optional["String"]) -> "SecurityEventContextMappingBswModule":
         """
         Set affectedBsw and return self for chaining.
-        
+
         Args:
             value: The affectedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_affected_bsw("value")
         """

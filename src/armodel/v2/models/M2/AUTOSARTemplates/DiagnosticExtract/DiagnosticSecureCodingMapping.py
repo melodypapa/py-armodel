@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticSecureCodingMapping(DiagnosticMapping):
     """
@@ -11,9 +11,9 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     secure coding and this class references a diagnostic routine control that is
     used to provide the signature and to persist the data in non-volatile
     memory.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticSecureCodingMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 312, Classic Platform
       R23-11)
@@ -43,10 +43,10 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def validation(self, value: Optional["DiagnosticStartRoutine"]) -> None:
         """
         Set validation with validation.
-        
+
         Args:
             value: The validation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def getDataIdentifier(self) -> List["DiagnosticWriteDataBy"]:
         """
         AUTOSAR-compliant getter for dataIdentifier.
-        
+
         Returns:
             The dataIdentifier value
-        
+
         Note:
             Delegates to data_identifier property (CODING_RULE_V2_00017)
         """
@@ -77,10 +77,10 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def getValidation(self) -> "DiagnosticStartRoutine":
         """
         AUTOSAR-compliant getter for validation.
-        
+
         Returns:
             The validation value
-        
+
         Note:
             Delegates to validation property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def setValidation(self, value: "DiagnosticStartRoutine") -> "DiagnosticSecureCodingMapping":
         """
         AUTOSAR-compliant setter for validation with method chaining.
-        
+
         Args:
             value: The validation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to validation property setter (gets validation automatically)
         """
@@ -107,13 +107,13 @@ class DiagnosticSecureCodingMapping(DiagnosticMapping):
     def with_validation(self, value: Optional["DiagnosticStartRoutine"]) -> "DiagnosticSecureCodingMapping":
         """
         Set validation and return self for chaining.
-        
+
         Args:
             value: The validation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_validation("value")
         """

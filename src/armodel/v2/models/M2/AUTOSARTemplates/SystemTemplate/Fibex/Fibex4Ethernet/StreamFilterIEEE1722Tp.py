@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class StreamFilterIEEE1722Tp(ARObject):
     """
     Configuration of filter rules for IP and TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterIEEE1722Tp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 139, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class StreamFilterIEEE1722Tp(ARObject):
     def stream_id(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set streamId with validation.
-        
+
         Args:
             value: The streamId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class StreamFilterIEEE1722Tp(ARObject):
     def getStreamId(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for streamId.
-        
+
         Returns:
             The streamId value
-        
+
         Note:
             Delegates to stream_id property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class StreamFilterIEEE1722Tp(ARObject):
     def setStreamId(self, value: "PositiveUnlimitedInteger") -> "StreamFilterIEEE1722Tp":
         """
         AUTOSAR-compliant setter for streamId with method chaining.
-        
+
         Args:
             value: The streamId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_id property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class StreamFilterIEEE1722Tp(ARObject):
     def with_stream_id(self, value: Optional["PositiveUnlimitedInteger"]) -> "StreamFilterIEEE1722Tp":
         """
         Set streamId and return self for chaining.
-        
+
         Args:
             value: The streamId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_id("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SdgDef(ARElement):
     """
     A SdgDef groups several SdgClasses which belong to the same extension. The
     concept of an SdgDef is similiar to an UML Profile.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgDef
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 207, Foundation R23-11)
@@ -29,10 +29,10 @@ class SdgDef(ARElement):
     def getSdgClass(self) -> List["SdgClass"]:
         """
         AUTOSAR-compliant getter for sdgClass.
-        
+
         Returns:
             The sdgClass value
-        
+
         Note:
             Delegates to sdg_class property (CODING_RULE_V2_00017)
         """

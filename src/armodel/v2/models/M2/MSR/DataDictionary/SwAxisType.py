@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SwAxisType(ARElement):
     """
@@ -9,9 +9,9 @@ class SwAxisType(ARElement):
     verbally but the parameters are specified formally with respect to their
     names and constraints. As a result, SwAxisType mainly reserves appropriate
     keywords.
-    
+
     Package: M2::MSR::DataDictionary::Axis::SwAxisType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 355, Classic Platform
       R23-11)
@@ -34,10 +34,10 @@ class SwAxisType(ARElement):
     def getSwGenericAxis(self) -> List["SwGenericAxisParam"]:
         """
         AUTOSAR-compliant getter for swGenericAxis.
-        
+
         Returns:
             The swGenericAxis value
-        
+
         Note:
             Delegates to sw_generic_axis property (CODING_RULE_V2_00017)
         """

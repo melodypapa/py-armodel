@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class NumericalValueSpecification(ValueSpecification):
     """
     A numerical ValueSpecification which is intended to be assigned to a
     Primitive data element. Note that the numerical value is a variant, it can
     be computed by a formula.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::NumericalValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 324, Classic
       Platform R23-11)
@@ -32,10 +32,10 @@ class NumericalValueSpecification(ValueSpecification):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class NumericalValueSpecification(ValueSpecification):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class NumericalValueSpecification(ValueSpecification):
     def setValue(self, value: "Numerical") -> "NumericalValueSpecification":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class NumericalValueSpecification(ValueSpecification):
     def with_value(self, value: Optional["Numerical"]) -> "NumericalValueSpecification":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

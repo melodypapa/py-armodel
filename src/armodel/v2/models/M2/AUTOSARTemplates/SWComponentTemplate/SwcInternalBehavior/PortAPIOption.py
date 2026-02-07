@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortAPIOption(ARObject):
     """
@@ -9,9 +14,9 @@ class PortAPIOption(ARObject):
     in order to communicate over a PortPrototype (for calls into a
     RunnableEntity as well as for calls from a Runnable Entity to the
     PortPrototype).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions::PortAPIOption
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 589, Classic Platform
       R23-11)
@@ -34,10 +39,10 @@ class PortAPIOption(ARObject):
     def enable_take(self, value: Optional["Boolean"]) -> None:
         """
         Set enableTake with validation.
-        
+
         Args:
             value: The enableTake to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +68,10 @@ class PortAPIOption(ARObject):
     def error_handling(self, value: Optional["DataTransformation"]) -> None:
         """
         Set errorHandling with validation.
-        
+
         Args:
             value: The errorHandling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +100,10 @@ class PortAPIOption(ARObject):
     def indirect_api(self, value: Optional["Boolean"]) -> None:
         """
         Set indirectAPI with validation.
-        
+
         Args:
             value: The indirectAPI to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +128,10 @@ class PortAPIOption(ARObject):
     def port(self, value: RefType) -> None:
         """
         Set port with validation.
-        
+
         Args:
             value: The port to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +169,10 @@ class PortAPIOption(ARObject):
     def transformer(self, value: Optional["DataTransformation"]) -> None:
         """
         Set transformer with validation.
-        
+
         Args:
             value: The transformer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -186,10 +191,10 @@ class PortAPIOption(ARObject):
     def getEnableTake(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enableTake.
-        
+
         Returns:
             The enableTake value
-        
+
         Note:
             Delegates to enable_take property (CODING_RULE_V2_00017)
         """
@@ -198,13 +203,13 @@ class PortAPIOption(ARObject):
     def setEnableTake(self, value: "Boolean") -> "PortAPIOption":
         """
         AUTOSAR-compliant setter for enableTake with method chaining.
-        
+
         Args:
             value: The enableTake to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_take property setter (gets validation automatically)
         """
@@ -214,10 +219,10 @@ class PortAPIOption(ARObject):
     def getErrorHandling(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for errorHandling.
-        
+
         Returns:
             The errorHandling value
-        
+
         Note:
             Delegates to error_handling property (CODING_RULE_V2_00017)
         """
@@ -226,13 +231,13 @@ class PortAPIOption(ARObject):
     def setErrorHandling(self, value: "DataTransformation") -> "PortAPIOption":
         """
         AUTOSAR-compliant setter for errorHandling with method chaining.
-        
+
         Args:
             value: The errorHandling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to error_handling property setter (gets validation automatically)
         """
@@ -242,10 +247,10 @@ class PortAPIOption(ARObject):
     def getIndirectAPI(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for indirectAPI.
-        
+
         Returns:
             The indirectAPI value
-        
+
         Note:
             Delegates to indirect_api property (CODING_RULE_V2_00017)
         """
@@ -254,13 +259,13 @@ class PortAPIOption(ARObject):
     def setIndirectAPI(self, value: "Boolean") -> "PortAPIOption":
         """
         AUTOSAR-compliant setter for indirectAPI with method chaining.
-        
+
         Args:
             value: The indirectAPI to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to indirect_api property setter (gets validation automatically)
         """
@@ -270,10 +275,10 @@ class PortAPIOption(ARObject):
     def getPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for port.
-        
+
         Returns:
             The port value
-        
+
         Note:
             Delegates to port property (CODING_RULE_V2_00017)
         """
@@ -282,13 +287,13 @@ class PortAPIOption(ARObject):
     def setPort(self, value: RefType) -> "PortAPIOption":
         """
         AUTOSAR-compliant setter for port with method chaining.
-        
+
         Args:
             value: The port to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port property setter (gets validation automatically)
         """
@@ -298,10 +303,10 @@ class PortAPIOption(ARObject):
     def getPortArgValue(self) -> List["PortDefinedArgument"]:
         """
         AUTOSAR-compliant getter for portArgValue.
-        
+
         Returns:
             The portArgValue value
-        
+
         Note:
             Delegates to port_arg_value property (CODING_RULE_V2_00017)
         """
@@ -310,10 +315,10 @@ class PortAPIOption(ARObject):
     def getSupported(self) -> List["SwcSupportedFeature"]:
         """
         AUTOSAR-compliant getter for supported.
-        
+
         Returns:
             The supported value
-        
+
         Note:
             Delegates to supported property (CODING_RULE_V2_00017)
         """
@@ -322,10 +327,10 @@ class PortAPIOption(ARObject):
     def getTransformer(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for transformer.
-        
+
         Returns:
             The transformer value
-        
+
         Note:
             Delegates to transformer property (CODING_RULE_V2_00017)
         """
@@ -334,13 +339,13 @@ class PortAPIOption(ARObject):
     def setTransformer(self, value: "DataTransformation") -> "PortAPIOption":
         """
         AUTOSAR-compliant setter for transformer with method chaining.
-        
+
         Args:
             value: The transformer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transformer property setter (gets validation automatically)
         """
@@ -352,13 +357,13 @@ class PortAPIOption(ARObject):
     def with_enable_take(self, value: Optional["Boolean"]) -> "PortAPIOption":
         """
         Set enableTake and return self for chaining.
-        
+
         Args:
             value: The enableTake to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_take("value")
         """
@@ -368,13 +373,13 @@ class PortAPIOption(ARObject):
     def with_error_handling(self, value: Optional["DataTransformation"]) -> "PortAPIOption":
         """
         Set errorHandling and return self for chaining.
-        
+
         Args:
             value: The errorHandling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_error_handling("value")
         """
@@ -384,13 +389,13 @@ class PortAPIOption(ARObject):
     def with_indirect_api(self, value: Optional["Boolean"]) -> "PortAPIOption":
         """
         Set indirectAPI and return self for chaining.
-        
+
         Args:
             value: The indirectAPI to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_indirect_api("value")
         """
@@ -400,13 +405,13 @@ class PortAPIOption(ARObject):
     def with_port(self, value: Optional[RefType]) -> "PortAPIOption":
         """
         Set port and return self for chaining.
-        
+
         Args:
             value: The port to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port("value")
         """
@@ -416,13 +421,13 @@ class PortAPIOption(ARObject):
     def with_transformer(self, value: Optional["DataTransformation"]) -> "PortAPIOption":
         """
         Set transformer and return self for chaining.
-        
+
         Args:
             value: The transformer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transformer("value")
         """

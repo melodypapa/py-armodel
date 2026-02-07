@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class Annotation(GeneralAnnotation):
     """
     This is a plain annotation which does not have further formal data.
-    
+
     Package: M2::MSR::Documentation::Annotation::Annotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 334, Classic Platform
       R23-11)

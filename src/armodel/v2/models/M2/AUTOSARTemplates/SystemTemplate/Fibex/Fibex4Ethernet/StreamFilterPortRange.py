@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class StreamFilterPortRange(ARObject):
     """
     Configuration of filter rules for IP and TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterPortRange
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 139, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class StreamFilterPortRange(ARObject):
     def max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class StreamFilterPortRange(ARObject):
     def min(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class StreamFilterPortRange(ARObject):
     def getMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class StreamFilterPortRange(ARObject):
     def setMax(self, value: "PositiveInteger") -> "StreamFilterPortRange":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class StreamFilterPortRange(ARObject):
     def getMin(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class StreamFilterPortRange(ARObject):
     def setMin(self, value: "PositiveInteger") -> "StreamFilterPortRange":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class StreamFilterPortRange(ARObject):
     def with_max(self, value: Optional["PositiveInteger"]) -> "StreamFilterPortRange":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -151,13 +154,13 @@ class StreamFilterPortRange(ARObject):
     def with_min(self, value: Optional["PositiveInteger"]) -> "StreamFilterPortRange":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     """
     Defines which OperationCycle is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToOperationCycleMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 245, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def operation_cycle(self, value: Optional["DiagnosticOperation"]) -> None:
         """
         Set operationCycle with validation.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToOperationCycleMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def getOperationCycle(self) -> "DiagnosticOperation":
         """
         AUTOSAR-compliant getter for operationCycle.
-        
+
         Returns:
             The operationCycle value
-        
+
         Note:
             Delegates to operation_cycle property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def setOperationCycle(self, value: "DiagnosticOperation") -> "DiagnosticEventToOperationCycleMapping":
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_cycle property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToOperationCycleMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -151,13 +151,13 @@ class DiagnosticEventToOperationCycleMapping(DiagnosticMapping):
     def with_operation_cycle(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticEventToOperationCycleMapping":
         """
         Set operationCycle and return self for chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_cycle("value")
         """

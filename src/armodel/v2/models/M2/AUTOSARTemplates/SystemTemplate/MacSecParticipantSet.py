@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class MacSecParticipantSet(ARElement):
     """
     Collection of MACsec Kay Participants on an Ethernet Link.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecParticipantSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 174, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class MacSecParticipantSet(ARElement):
     def ethernet_cluster(self, value: Optional["EthernetCluster"]) -> None:
         """
         Set ethernetCluster with validation.
-        
+
         Args:
             value: The ethernetCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class MacSecParticipantSet(ARElement):
     def getEthernetCluster(self) -> "EthernetCluster":
         """
         AUTOSAR-compliant getter for ethernetCluster.
-        
+
         Returns:
             The ethernetCluster value
-        
+
         Note:
             Delegates to ethernet_cluster property (CODING_RULE_V2_00017)
         """
@@ -67,13 +67,13 @@ class MacSecParticipantSet(ARElement):
     def setEthernetCluster(self, value: "EthernetCluster") -> "MacSecParticipantSet":
         """
         AUTOSAR-compliant setter for ethernetCluster with method chaining.
-        
+
         Args:
             value: The ethernetCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ethernet_cluster property setter (gets validation automatically)
         """
@@ -83,10 +83,10 @@ class MacSecParticipantSet(ARElement):
     def getMkaParticipant(self) -> List["MacSecKayParticipant"]:
         """
         AUTOSAR-compliant getter for mkaParticipant.
-        
+
         Returns:
             The mkaParticipant value
-        
+
         Note:
             Delegates to mka_participant property (CODING_RULE_V2_00017)
         """
@@ -97,13 +97,13 @@ class MacSecParticipantSet(ARElement):
     def with_ethernet_cluster(self, value: Optional["EthernetCluster"]) -> "MacSecParticipantSet":
         """
         Set ethernetCluster and return self for chaining.
-        
+
         Args:
             value: The ethernetCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ethernet_cluster("value")
         """

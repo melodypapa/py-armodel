@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class VlanMembership(ARObject):
     """
@@ -8,9 +11,9 @@ class VlanMembership(ARObject):
     EthernetPhysicalChannel without a VLAN defined represents the handling of
     untagged frames. (cid:53) 111 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::VlanMembership
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 111, Classic Platform R23-11)
     """
@@ -34,10 +37,10 @@ class VlanMembership(ARObject):
     def default_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set defaultPriority with validation.
-        
+
         Args:
             value: The defaultPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class VlanMembership(ARObject):
     def dhcp_address(self, value: Optional["DhcpServer"]) -> None:
         """
         Set dhcpAddress with validation.
-        
+
         Args:
             value: The dhcpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class VlanMembership(ARObject):
     def send_activity(self, value: Optional["EthernetSwitchVlan"]) -> None:
         """
         Set sendActivity with validation.
-        
+
         Args:
             value: The sendActivity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +126,10 @@ class VlanMembership(ARObject):
     def vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlan with validation.
-        
+
         Args:
             value: The vlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +148,10 @@ class VlanMembership(ARObject):
     def getDefaultPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for defaultPriority.
-        
+
         Returns:
             The defaultPriority value
-        
+
         Note:
             Delegates to default_priority property (CODING_RULE_V2_00017)
         """
@@ -157,13 +160,13 @@ class VlanMembership(ARObject):
     def setDefaultPriority(self, value: "PositiveInteger") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for defaultPriority with method chaining.
-        
+
         Args:
             value: The defaultPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_priority property setter (gets validation automatically)
         """
@@ -173,10 +176,10 @@ class VlanMembership(ARObject):
     def getDhcpAddress(self) -> "DhcpServer":
         """
         AUTOSAR-compliant getter for dhcpAddress.
-        
+
         Returns:
             The dhcpAddress value
-        
+
         Note:
             Delegates to dhcp_address property (CODING_RULE_V2_00017)
         """
@@ -185,13 +188,13 @@ class VlanMembership(ARObject):
     def setDhcpAddress(self, value: "DhcpServer") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for dhcpAddress with method chaining.
-        
+
         Args:
             value: The dhcpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dhcp_address property setter (gets validation automatically)
         """
@@ -201,10 +204,10 @@ class VlanMembership(ARObject):
     def getSendActivity(self) -> "EthernetSwitchVlan":
         """
         AUTOSAR-compliant getter for sendActivity.
-        
+
         Returns:
             The sendActivity value
-        
+
         Note:
             Delegates to send_activity property (CODING_RULE_V2_00017)
         """
@@ -213,13 +216,13 @@ class VlanMembership(ARObject):
     def setSendActivity(self, value: "EthernetSwitchVlan") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for sendActivity with method chaining.
-        
+
         Args:
             value: The sendActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to send_activity property setter (gets validation automatically)
         """
@@ -229,10 +232,10 @@ class VlanMembership(ARObject):
     def getVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -241,13 +244,13 @@ class VlanMembership(ARObject):
     def setVlan(self, value: "EthernetPhysical") -> "VlanMembership":
         """
         AUTOSAR-compliant setter for vlan with method chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan property setter (gets validation automatically)
         """
@@ -259,13 +262,13 @@ class VlanMembership(ARObject):
     def with_default_priority(self, value: Optional["PositiveInteger"]) -> "VlanMembership":
         """
         Set defaultPriority and return self for chaining.
-        
+
         Args:
             value: The defaultPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_priority("value")
         """
@@ -275,13 +278,13 @@ class VlanMembership(ARObject):
     def with_dhcp_address(self, value: Optional["DhcpServer"]) -> "VlanMembership":
         """
         Set dhcpAddress and return self for chaining.
-        
+
         Args:
             value: The dhcpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dhcp_address("value")
         """
@@ -291,13 +294,13 @@ class VlanMembership(ARObject):
     def with_send_activity(self, value: Optional["EthernetSwitchVlan"]) -> "VlanMembership":
         """
         Set sendActivity and return self for chaining.
-        
+
         Args:
             value: The sendActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_send_activity("value")
         """
@@ -307,13 +310,13 @@ class VlanMembership(ARObject):
     def with_vlan(self, value: Optional["EthernetPhysical"]) -> "VlanMembership":
         """
         Set vlan and return self for chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan("value")
         """

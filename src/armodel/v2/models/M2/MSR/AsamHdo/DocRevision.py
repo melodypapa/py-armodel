@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DocRevision(ARObject):
     """
     This meta-class represents the ability to maintain information which relates
     to revision management of documents or objects.
-    
+
     Package: M2::MSR::AsamHdo::AdminData::DocRevision
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 293, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 85, Foundation R23-11)
@@ -29,10 +32,10 @@ class DocRevision(ARObject):
     def date(self, value: "DateTime") -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class DocRevision(ARObject):
     def issued_by(self, value: Optional["String"]) -> None:
         """
         Set issuedBy with validation.
-        
+
         Args:
             value: The issuedBy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +92,10 @@ class DocRevision(ARObject):
     def revision_label(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set revisionLabel with validation.
-        
+
         Args:
             value: The revisionLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class DocRevision(ARObject):
     def revision_label_p1(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set revisionLabelP1 with validation.
-        
+
         Args:
             value: The revisionLabelP1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class DocRevision(ARObject):
     def revision_label_p2(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set revisionLabelP2 with validation.
-        
+
         Args:
             value: The revisionLabelP2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +179,10 @@ class DocRevision(ARObject):
     def state(self, value: Optional["NameToken"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -198,10 +201,10 @@ class DocRevision(ARObject):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -210,13 +213,13 @@ class DocRevision(ARObject):
     def setDate(self, value: "DateTime") -> "DocRevision":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -226,10 +229,10 @@ class DocRevision(ARObject):
     def getIssuedBy(self) -> "String":
         """
         AUTOSAR-compliant getter for issuedBy.
-        
+
         Returns:
             The issuedBy value
-        
+
         Note:
             Delegates to issued_by property (CODING_RULE_V2_00017)
         """
@@ -238,13 +241,13 @@ class DocRevision(ARObject):
     def setIssuedBy(self, value: "String") -> "DocRevision":
         """
         AUTOSAR-compliant setter for issuedBy with method chaining.
-        
+
         Args:
             value: The issuedBy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to issued_by property setter (gets validation automatically)
         """
@@ -254,10 +257,10 @@ class DocRevision(ARObject):
     def getModification(self) -> List["Modification"]:
         """
         AUTOSAR-compliant getter for modification.
-        
+
         Returns:
             The modification value
-        
+
         Note:
             Delegates to modification property (CODING_RULE_V2_00017)
         """
@@ -266,10 +269,10 @@ class DocRevision(ARObject):
     def getRevisionLabel(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for revisionLabel.
-        
+
         Returns:
             The revisionLabel value
-        
+
         Note:
             Delegates to revision_label property (CODING_RULE_V2_00017)
         """
@@ -278,13 +281,13 @@ class DocRevision(ARObject):
     def setRevisionLabel(self, value: "RevisionLabelString") -> "DocRevision":
         """
         AUTOSAR-compliant setter for revisionLabel with method chaining.
-        
+
         Args:
             value: The revisionLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to revision_label property setter (gets validation automatically)
         """
@@ -294,10 +297,10 @@ class DocRevision(ARObject):
     def getRevisionLabelP1(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for revisionLabelP1.
-        
+
         Returns:
             The revisionLabelP1 value
-        
+
         Note:
             Delegates to revision_label_p1 property (CODING_RULE_V2_00017)
         """
@@ -306,13 +309,13 @@ class DocRevision(ARObject):
     def setRevisionLabelP1(self, value: "RevisionLabelString") -> "DocRevision":
         """
         AUTOSAR-compliant setter for revisionLabelP1 with method chaining.
-        
+
         Args:
             value: The revisionLabelP1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to revision_label_p1 property setter (gets validation automatically)
         """
@@ -322,10 +325,10 @@ class DocRevision(ARObject):
     def getRevisionLabelP2(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for revisionLabelP2.
-        
+
         Returns:
             The revisionLabelP2 value
-        
+
         Note:
             Delegates to revision_label_p2 property (CODING_RULE_V2_00017)
         """
@@ -334,13 +337,13 @@ class DocRevision(ARObject):
     def setRevisionLabelP2(self, value: "RevisionLabelString") -> "DocRevision":
         """
         AUTOSAR-compliant setter for revisionLabelP2 with method chaining.
-        
+
         Args:
             value: The revisionLabelP2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to revision_label_p2 property setter (gets validation automatically)
         """
@@ -350,10 +353,10 @@ class DocRevision(ARObject):
     def getState(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -362,13 +365,13 @@ class DocRevision(ARObject):
     def setState(self, value: "NameToken") -> "DocRevision":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -380,13 +383,13 @@ class DocRevision(ARObject):
     def with_date(self, value: "DateTime") -> "DocRevision":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -396,13 +399,13 @@ class DocRevision(ARObject):
     def with_issued_by(self, value: Optional["String"]) -> "DocRevision":
         """
         Set issuedBy and return self for chaining.
-        
+
         Args:
             value: The issuedBy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_issued_by("value")
         """
@@ -412,13 +415,13 @@ class DocRevision(ARObject):
     def with_revision_label(self, value: Optional["RevisionLabelString"]) -> "DocRevision":
         """
         Set revisionLabel and return self for chaining.
-        
+
         Args:
             value: The revisionLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_revision_label("value")
         """
@@ -428,13 +431,13 @@ class DocRevision(ARObject):
     def with_revision_label_p1(self, value: Optional["RevisionLabelString"]) -> "DocRevision":
         """
         Set revisionLabelP1 and return self for chaining.
-        
+
         Args:
             value: The revisionLabelP1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_revision_label_p1("value")
         """
@@ -444,13 +447,13 @@ class DocRevision(ARObject):
     def with_revision_label_p2(self, value: Optional["RevisionLabelString"]) -> "DocRevision":
         """
         Set revisionLabelP2 and return self for chaining.
-        
+
         Args:
             value: The revisionLabelP2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_revision_label_p2("value")
         """
@@ -460,13 +463,13 @@ class DocRevision(ARObject):
     def with_state(self, value: Optional["NameToken"]) -> "DocRevision":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """

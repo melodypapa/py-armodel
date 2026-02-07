@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ChapterOrMsrQuery(ARObject):
     """
     This meta-class represents the ability to denote a particular chapter or a
     query returning a chapter.
-    
+
     Package: M2::MSR::Documentation::Chapters::ChapterOrMsrQuery
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation
       R23-11)
@@ -30,10 +31,10 @@ class ChapterOrMsrQuery(ARObject):
     def chapter(self, value: "Chapter") -> None:
         """
         Set chapter with validation.
-        
+
         Args:
             value: The chapter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +55,10 @@ class ChapterOrMsrQuery(ARObject):
     def msr_query(self, value: "MsrQueryChapter") -> None:
         """
         Set msrQuery with validation.
-        
+
         Args:
             value: The msrQuery to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +73,10 @@ class ChapterOrMsrQuery(ARObject):
     def getChapter(self) -> "Chapter":
         """
         AUTOSAR-compliant getter for chapter.
-        
+
         Returns:
             The chapter value
-        
+
         Note:
             Delegates to chapter property (CODING_RULE_V2_00017)
         """
@@ -84,13 +85,13 @@ class ChapterOrMsrQuery(ARObject):
     def setChapter(self, value: "Chapter") -> "ChapterOrMsrQuery":
         """
         AUTOSAR-compliant setter for chapter with method chaining.
-        
+
         Args:
             value: The chapter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to chapter property setter (gets validation automatically)
         """
@@ -100,10 +101,10 @@ class ChapterOrMsrQuery(ARObject):
     def getMsrQuery(self) -> "MsrQueryChapter":
         """
         AUTOSAR-compliant getter for msrQuery.
-        
+
         Returns:
             The msrQuery value
-        
+
         Note:
             Delegates to msr_query property (CODING_RULE_V2_00017)
         """
@@ -112,13 +113,13 @@ class ChapterOrMsrQuery(ARObject):
     def setMsrQuery(self, value: "MsrQueryChapter") -> "ChapterOrMsrQuery":
         """
         AUTOSAR-compliant setter for msrQuery with method chaining.
-        
+
         Args:
             value: The msrQuery to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query property setter (gets validation automatically)
         """
@@ -130,13 +131,13 @@ class ChapterOrMsrQuery(ARObject):
     def with_chapter(self, value: "Chapter") -> "ChapterOrMsrQuery":
         """
         Set chapter and return self for chaining.
-        
+
         Args:
             value: The chapter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_chapter("value")
         """
@@ -146,13 +147,13 @@ class ChapterOrMsrQuery(ARObject):
     def with_msr_query(self, value: "MsrQueryChapter") -> "ChapterOrMsrQuery":
         """
         Set msrQuery and return self for chaining.
-        
+
         Args:
             value: The msrQuery to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     """
     ACF IEEE1722Tp bus used for LIN transport.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfLin
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 666, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def base_frequency(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set baseFrequency with validation.
-        
+
         Args:
             value: The baseFrequency to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def frame_sync(self, value: Optional["Boolean"]) -> None:
         """
         Set frameSync with validation.
-        
+
         Args:
             value: The frameSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def timestamp(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timestamp with validation.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +104,10 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def getBaseFrequency(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for baseFrequency.
-        
+
         Returns:
             The baseFrequency value
-        
+
         Note:
             Delegates to base_frequency property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def setBaseFrequency(self, value: "PositiveInteger") -> "IEEE1722TpAcfLin":
         """
         AUTOSAR-compliant setter for baseFrequency with method chaining.
-        
+
         Args:
             value: The baseFrequency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_frequency property setter (gets validation automatically)
         """
@@ -132,10 +132,10 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def getFrameSync(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for frameSync.
-        
+
         Returns:
             The frameSync value
-        
+
         Note:
             Delegates to frame_sync property (CODING_RULE_V2_00017)
         """
@@ -144,13 +144,13 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def setFrameSync(self, value: "Boolean") -> "IEEE1722TpAcfLin":
         """
         AUTOSAR-compliant setter for frameSync with method chaining.
-        
+
         Args:
             value: The frameSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame_sync property setter (gets validation automatically)
         """
@@ -160,10 +160,10 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def getTimestamp(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timestamp.
-        
+
         Returns:
             The timestamp value
-        
+
         Note:
             Delegates to timestamp property (CODING_RULE_V2_00017)
         """
@@ -172,13 +172,13 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def setTimestamp(self, value: "PositiveInteger") -> "IEEE1722TpAcfLin":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp property setter (gets validation automatically)
         """
@@ -190,13 +190,13 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def with_base_frequency(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAcfLin":
         """
         Set baseFrequency and return self for chaining.
-        
+
         Args:
             value: The baseFrequency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_frequency("value")
         """
@@ -206,13 +206,13 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def with_frame_sync(self, value: Optional["Boolean"]) -> "IEEE1722TpAcfLin":
         """
         Set frameSync and return self for chaining.
-        
+
         Args:
             value: The frameSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame_sync("value")
         """
@@ -222,13 +222,13 @@ class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     def with_timestamp(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAcfLin":
         """
         Set timestamp and return self for chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class IndexedArrayElement(ARObject):
     """
     This element represents exactly one indexed element in the array. Either the
     applicationArrayElement or implementationArrayElement reference shall be
     used.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::IndexedArrayElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 237, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class IndexedArrayElement(ARObject):
     def application_array(self, value: Optional["ApplicationArray"]) -> None:
         """
         Set applicationArray with validation.
-        
+
         Args:
             value: The applicationArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class IndexedArrayElement(ARObject):
     def implementation(self, value: Optional["ImplementationData"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class IndexedArrayElement(ARObject):
     def index(self, value: Optional["Integer"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +111,10 @@ class IndexedArrayElement(ARObject):
     def getApplicationArray(self) -> "ApplicationArray":
         """
         AUTOSAR-compliant getter for applicationArray.
-        
+
         Returns:
             The applicationArray value
-        
+
         Note:
             Delegates to application_array property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class IndexedArrayElement(ARObject):
     def setApplicationArray(self, value: "ApplicationArray") -> "IndexedArrayElement":
         """
         AUTOSAR-compliant setter for applicationArray with method chaining.
-        
+
         Args:
             value: The applicationArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_array property setter (gets validation automatically)
         """
@@ -136,10 +139,10 @@ class IndexedArrayElement(ARObject):
     def getImplementation(self) -> "ImplementationData":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -148,13 +151,13 @@ class IndexedArrayElement(ARObject):
     def setImplementation(self, value: "ImplementationData") -> "IndexedArrayElement":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -164,10 +167,10 @@ class IndexedArrayElement(ARObject):
     def getIndex(self) -> "Integer":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -176,13 +179,13 @@ class IndexedArrayElement(ARObject):
     def setIndex(self, value: "Integer") -> "IndexedArrayElement":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -194,13 +197,13 @@ class IndexedArrayElement(ARObject):
     def with_application_array(self, value: Optional["ApplicationArray"]) -> "IndexedArrayElement":
         """
         Set applicationArray and return self for chaining.
-        
+
         Args:
             value: The applicationArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_array("value")
         """
@@ -210,13 +213,13 @@ class IndexedArrayElement(ARObject):
     def with_implementation(self, value: Optional["ImplementationData"]) -> "IndexedArrayElement":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -226,13 +229,13 @@ class IndexedArrayElement(ARObject):
     def with_index(self, value: Optional["Integer"]) -> "IndexedArrayElement":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """

@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class MultilanguageReferrable(Referrable, ABC):
     """
@@ -8,9 +12,9 @@ class MultilanguageReferrable(Referrable, ABC):
     adhering to namespace borders). They also may have a longName. But they are
     not considered to contribute substantially to the overall structure of an
     AUTOSAR description. In particular it does not contain other Referrables.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::MultilanguageReferrable
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -43,10 +47,10 @@ class MultilanguageReferrable(Referrable, ABC):
     def long_name(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set longName with validation.
-        
+
         Args:
             value: The longName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +69,10 @@ class MultilanguageReferrable(Referrable, ABC):
     def getLongName(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for longName.
-        
+
         Returns:
             The longName value
-        
+
         Note:
             Delegates to long_name property (CODING_RULE_V2_00017)
         """
@@ -77,13 +81,13 @@ class MultilanguageReferrable(Referrable, ABC):
     def setLongName(self, value: "MultilanguageLong") -> "MultilanguageReferrable":
         """
         AUTOSAR-compliant setter for longName with method chaining.
-        
+
         Args:
             value: The longName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to long_name property setter (gets validation automatically)
         """
@@ -95,13 +99,13 @@ class MultilanguageReferrable(Referrable, ABC):
     def with_long_name(self, value: Optional["MultilanguageLong"]) -> "MultilanguageReferrable":
         """
         Set longName and return self for chaining.
-        
+
         Args:
             value: The longName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_long_name("value")
         """

@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RoleBasedPortAssignment(ARObject):
     """
@@ -10,9 +15,9 @@ class RoleBasedPortAssignment(ARObject):
     assignment, the role of the service port can be mapped to a specific
     ServiceNeeds element, so that a tool is able to create the correct
     connector.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::RoleBasedPortAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 329, Classic
       Platform R23-11)
@@ -40,10 +45,10 @@ class RoleBasedPortAssignment(ARObject):
     def port_prototype(self, value: RefType) -> None:
         """
         Set portPrototype with validation.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +71,10 @@ class RoleBasedPortAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +93,10 @@ class RoleBasedPortAssignment(ARObject):
     def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
-        
+
         Returns:
             The portPrototype value
-        
+
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
@@ -100,13 +105,13 @@ class RoleBasedPortAssignment(ARObject):
     def setPortPrototype(self, value: RefType) -> "RoleBasedPortAssignment":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -116,10 +121,10 @@ class RoleBasedPortAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -128,13 +133,13 @@ class RoleBasedPortAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedPortAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -146,13 +151,13 @@ class RoleBasedPortAssignment(ARObject):
     def with_port_prototype(self, value: Optional[RefType]) -> "RoleBasedPortAssignment":
         """
         Set portPrototype and return self for chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_prototype("value")
         """
@@ -162,13 +167,13 @@ class RoleBasedPortAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedPortAssignment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """

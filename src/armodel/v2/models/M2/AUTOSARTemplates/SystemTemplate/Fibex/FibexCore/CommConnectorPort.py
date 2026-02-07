@@ -1,7 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CommConnectorPort(Identifiable, ABC):
     """
@@ -13,9 +16,9 @@ class CommConnectorPort(Identifiable, ABC):
     corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu
     Gateway ECU only routes the Pdu without being interested in the content only
     a FramePort and an IPduPort needs to be created.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommConnectorPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 303, Classic Platform R23-11)
     """
@@ -37,10 +40,10 @@ class CommConnectorPort(Identifiable, ABC):
     def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class CommConnectorPort(Identifiable, ABC):
     def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -71,13 +74,13 @@ class CommConnectorPort(Identifiable, ABC):
     def setCommunication(self, value: "Communication") -> "CommConnectorPort":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -89,13 +92,13 @@ class CommConnectorPort(Identifiable, ABC):
     def with_communication(self, value: Optional["Communication"]) -> "CommConnectorPort":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """

@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to map a DiagnosticFimEventGroup to a
     DiagnosticFimAliasEvent Group. By this means the "preliminary" modeling by
     way of a DiagnosticFimAliasEventGroup is further substantiated.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping::DiagnosticFimAliasEventGroupMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 263, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def actual_event(self, value: Optional["DiagnosticFimEvent"]) -> None:
         """
         Set actualEvent with validation.
-        
+
         Args:
             value: The actualEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def alias_event(self, value: Optional["DiagnosticFimAlias"]) -> None:
         """
         Set aliasEvent with validation.
-        
+
         Args:
             value: The aliasEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def getActualEvent(self) -> "DiagnosticFimEvent":
         """
         AUTOSAR-compliant getter for actualEvent.
-        
+
         Returns:
             The actualEvent value
-        
+
         Note:
             Delegates to actual_event property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def setActualEvent(self, value: "DiagnosticFimEvent") -> "DiagnosticFimAliasEventGroupMapping":
         """
         AUTOSAR-compliant setter for actualEvent with method chaining.
-        
+
         Args:
             value: The actualEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to actual_event property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def getAliasEvent(self) -> "DiagnosticFimAlias":
         """
         AUTOSAR-compliant getter for aliasEvent.
-        
+
         Returns:
             The aliasEvent value
-        
+
         Note:
             Delegates to alias_event property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def setAliasEvent(self, value: "DiagnosticFimAlias") -> "DiagnosticFimAliasEventGroupMapping":
         """
         AUTOSAR-compliant setter for aliasEvent with method chaining.
-        
+
         Args:
             value: The aliasEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alias_event property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def with_actual_event(self, value: Optional["DiagnosticFimEvent"]) -> "DiagnosticFimAliasEventGroupMapping":
         """
         Set actualEvent and return self for chaining.
-        
+
         Args:
             value: The actualEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_actual_event("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     def with_alias_event(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFimAliasEventGroupMapping":
         """
         Set aliasEvent and return self for chaining.
-        
+
         Args:
             value: The aliasEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alias_event("value")
         """

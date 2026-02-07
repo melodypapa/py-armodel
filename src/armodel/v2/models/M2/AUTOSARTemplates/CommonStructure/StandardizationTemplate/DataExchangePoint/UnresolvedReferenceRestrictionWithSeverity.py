@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class UnresolvedReferenceRestrictionWithSeverity(RestrictionWithSeverity):
     """
     This restriction defines the severity level of unresolved references.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::UnresolvedReferenceRestrictionWithSeverity
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 222, Foundation R23-11)
     """

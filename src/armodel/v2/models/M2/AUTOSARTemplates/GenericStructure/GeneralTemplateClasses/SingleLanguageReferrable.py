@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class SingleLanguageReferrable(Referrable, ABC):
     """
@@ -10,9 +14,9 @@ class SingleLanguageReferrable(Referrable, ABC):
     in one particular language. Therefore they aggregate But they are not
     considered to contribute substantially to the overall structure of an
     AUTOSAR description. In particular it does not contain other Referrables.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::SingleLanguageReferrable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 64, Foundation R23-11)
     """
@@ -35,10 +39,10 @@ class SingleLanguageReferrable(Referrable, ABC):
     def long_name1(self, value: Optional["SingleLanguageLong"]) -> None:
         """
         Set longName1 with validation.
-        
+
         Args:
             value: The longName1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +61,10 @@ class SingleLanguageReferrable(Referrable, ABC):
     def getLongName1(self) -> "SingleLanguageLong":
         """
         AUTOSAR-compliant getter for longName1.
-        
+
         Returns:
             The longName1 value
-        
+
         Note:
             Delegates to long_name1 property (CODING_RULE_V2_00017)
         """
@@ -69,13 +73,13 @@ class SingleLanguageReferrable(Referrable, ABC):
     def setLongName1(self, value: "SingleLanguageLong") -> "SingleLanguageReferrable":
         """
         AUTOSAR-compliant setter for longName1 with method chaining.
-        
+
         Args:
             value: The longName1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to long_name1 property setter (gets validation automatically)
         """
@@ -87,13 +91,13 @@ class SingleLanguageReferrable(Referrable, ABC):
     def with_long_name1(self, value: Optional["SingleLanguageLong"]) -> "SingleLanguageReferrable":
         """
         Set longName1 and return self for chaining.
-        
+
         Args:
             value: The longName1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_long_name1("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     """
     An application data type which can be decomposed into prototypes of other
     application data types.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationRecordDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 261, Classic Platform
       R23-11)
@@ -34,10 +34,10 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     def getElement(self) -> List["ApplicationRecord"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """

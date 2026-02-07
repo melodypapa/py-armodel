@@ -1,12 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class InstanceEventInCompositionInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::InstanceEventInCompositionInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 959, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def target_event(self, value: Optional["RTEEvent"]) -> None:
         """
         Set targetEvent with validation.
-        
+
         Args:
             value: The targetEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -99,13 +102,13 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "InstanceEventInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -115,10 +118,10 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def getContextPrototype(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextPrototype.
-        
+
         Returns:
             The contextPrototype value
-        
+
         Note:
             Delegates to context_prototype property (CODING_RULE_V2_00017)
         """
@@ -127,10 +130,10 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def getTargetEvent(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for targetEvent.
-        
+
         Returns:
             The targetEvent value
-        
+
         Note:
             Delegates to target_event property (CODING_RULE_V2_00017)
         """
@@ -139,13 +142,13 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def setTargetEvent(self, value: "RTEEvent") -> "InstanceEventInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetEvent with method chaining.
-        
+
         Args:
             value: The targetEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_event property setter (gets validation automatically)
         """
@@ -157,13 +160,13 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "InstanceEventInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -173,13 +176,13 @@ class InstanceEventInCompositionInstanceRef(ARObject):
     def with_target_event(self, value: Optional["RTEEvent"]) -> "InstanceEventInCompositionInstanceRef":
         """
         Set targetEvent and return self for chaining.
-        
+
         Args:
             value: The targetEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_event("value")
         """

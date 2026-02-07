@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class IPdu(Pdu, ABC):
     """
     The IPdu (Interaction Layer Protocol Data Unit) element is used to sum up
     all Pdus that are routed by the PduR.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 341, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 226, Classic Platform R23-11)
@@ -30,10 +31,10 @@ class IPdu(Pdu, ABC):
     def contained_i_pdu(self, value: Optional["ContainedIPduProps"]) -> None:
         """
         Set containedIPdu with validation.
-        
+
         Args:
             value: The containedIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class IPdu(Pdu, ABC):
     def getContainedIPdu(self) -> "ContainedIPduProps":
         """
         AUTOSAR-compliant getter for containedIPdu.
-        
+
         Returns:
             The containedIPdu value
-        
+
         Note:
             Delegates to contained_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -64,13 +65,13 @@ class IPdu(Pdu, ABC):
     def setContainedIPdu(self, value: "ContainedIPduProps") -> "IPdu":
         """
         AUTOSAR-compliant setter for containedIPdu with method chaining.
-        
+
         Args:
             value: The containedIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to contained_i_pdu property setter (gets validation automatically)
         """
@@ -82,13 +83,13 @@ class IPdu(Pdu, ABC):
     def with_contained_i_pdu(self, value: Optional["ContainedIPduProps"]) -> "IPdu":
         """
         Set containedIPdu and return self for chaining.
-        
+
         Args:
             value: The containedIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_contained_i_pdu("value")
         """

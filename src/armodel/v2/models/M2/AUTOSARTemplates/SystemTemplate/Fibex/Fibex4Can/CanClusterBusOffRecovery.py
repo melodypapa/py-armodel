@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanClusterBusOffRecovery(ARObject):
     """
     This element contains the attributes that are used to configure the CAN bus
     off monitoring / recovery at system level.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanClusterBusOffRecovery
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 62, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class CanClusterBusOffRecovery(ARObject):
     def bor_counter_l1_to(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set borCounterL1To with validation.
-        
+
         Args:
             value: The borCounterL1To to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class CanClusterBusOffRecovery(ARObject):
     def bor_time_l1(self, value: Optional["TimeValue"]) -> None:
         """
         Set borTimeL1 with validation.
-        
+
         Args:
             value: The borTimeL1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class CanClusterBusOffRecovery(ARObject):
     def bor_time_l2(self, value: Optional["TimeValue"]) -> None:
         """
         Set borTimeL2 with validation.
-        
+
         Args:
             value: The borTimeL2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class CanClusterBusOffRecovery(ARObject):
     def bor_time_tx(self, value: Optional["TimeValue"]) -> None:
         """
         Set borTimeTx with validation.
-        
+
         Args:
             value: The borTimeTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +147,10 @@ class CanClusterBusOffRecovery(ARObject):
     def main_function(self, value: Optional["TimeValue"]) -> None:
         """
         Set mainFunction with validation.
-        
+
         Args:
             value: The mainFunction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +169,10 @@ class CanClusterBusOffRecovery(ARObject):
     def getBorCounterL1To(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for borCounterL1To.
-        
+
         Returns:
             The borCounterL1To value
-        
+
         Note:
             Delegates to bor_counter_l1_to property (CODING_RULE_V2_00017)
         """
@@ -178,13 +181,13 @@ class CanClusterBusOffRecovery(ARObject):
     def setBorCounterL1To(self, value: "PositiveInteger") -> "CanClusterBusOffRecovery":
         """
         AUTOSAR-compliant setter for borCounterL1To with method chaining.
-        
+
         Args:
             value: The borCounterL1To to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bor_counter_l1_to property setter (gets validation automatically)
         """
@@ -194,10 +197,10 @@ class CanClusterBusOffRecovery(ARObject):
     def getBorTimeL1(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for borTimeL1.
-        
+
         Returns:
             The borTimeL1 value
-        
+
         Note:
             Delegates to bor_time_l1 property (CODING_RULE_V2_00017)
         """
@@ -206,13 +209,13 @@ class CanClusterBusOffRecovery(ARObject):
     def setBorTimeL1(self, value: "TimeValue") -> "CanClusterBusOffRecovery":
         """
         AUTOSAR-compliant setter for borTimeL1 with method chaining.
-        
+
         Args:
             value: The borTimeL1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bor_time_l1 property setter (gets validation automatically)
         """
@@ -222,10 +225,10 @@ class CanClusterBusOffRecovery(ARObject):
     def getBorTimeL2(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for borTimeL2.
-        
+
         Returns:
             The borTimeL2 value
-        
+
         Note:
             Delegates to bor_time_l2 property (CODING_RULE_V2_00017)
         """
@@ -234,13 +237,13 @@ class CanClusterBusOffRecovery(ARObject):
     def setBorTimeL2(self, value: "TimeValue") -> "CanClusterBusOffRecovery":
         """
         AUTOSAR-compliant setter for borTimeL2 with method chaining.
-        
+
         Args:
             value: The borTimeL2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bor_time_l2 property setter (gets validation automatically)
         """
@@ -250,10 +253,10 @@ class CanClusterBusOffRecovery(ARObject):
     def getBorTimeTx(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for borTimeTx.
-        
+
         Returns:
             The borTimeTx value
-        
+
         Note:
             Delegates to bor_time_tx property (CODING_RULE_V2_00017)
         """
@@ -262,13 +265,13 @@ class CanClusterBusOffRecovery(ARObject):
     def setBorTimeTx(self, value: "TimeValue") -> "CanClusterBusOffRecovery":
         """
         AUTOSAR-compliant setter for borTimeTx with method chaining.
-        
+
         Args:
             value: The borTimeTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bor_time_tx property setter (gets validation automatically)
         """
@@ -278,10 +281,10 @@ class CanClusterBusOffRecovery(ARObject):
     def getMainFunction(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for mainFunction.
-        
+
         Returns:
             The mainFunction value
-        
+
         Note:
             Delegates to main_function property (CODING_RULE_V2_00017)
         """
@@ -290,13 +293,13 @@ class CanClusterBusOffRecovery(ARObject):
     def setMainFunction(self, value: "TimeValue") -> "CanClusterBusOffRecovery":
         """
         AUTOSAR-compliant setter for mainFunction with method chaining.
-        
+
         Args:
             value: The mainFunction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to main_function property setter (gets validation automatically)
         """
@@ -308,13 +311,13 @@ class CanClusterBusOffRecovery(ARObject):
     def with_bor_counter_l1_to(self, value: Optional["PositiveInteger"]) -> "CanClusterBusOffRecovery":
         """
         Set borCounterL1To and return self for chaining.
-        
+
         Args:
             value: The borCounterL1To to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bor_counter_l1_to("value")
         """
@@ -324,13 +327,13 @@ class CanClusterBusOffRecovery(ARObject):
     def with_bor_time_l1(self, value: Optional["TimeValue"]) -> "CanClusterBusOffRecovery":
         """
         Set borTimeL1 and return self for chaining.
-        
+
         Args:
             value: The borTimeL1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bor_time_l1("value")
         """
@@ -340,13 +343,13 @@ class CanClusterBusOffRecovery(ARObject):
     def with_bor_time_l2(self, value: Optional["TimeValue"]) -> "CanClusterBusOffRecovery":
         """
         Set borTimeL2 and return self for chaining.
-        
+
         Args:
             value: The borTimeL2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bor_time_l2("value")
         """
@@ -356,13 +359,13 @@ class CanClusterBusOffRecovery(ARObject):
     def with_bor_time_tx(self, value: Optional["TimeValue"]) -> "CanClusterBusOffRecovery":
         """
         Set borTimeTx and return self for chaining.
-        
+
         Args:
             value: The borTimeTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bor_time_tx("value")
         """
@@ -372,13 +375,13 @@ class CanClusterBusOffRecovery(ARObject):
     def with_main_function(self, value: Optional["TimeValue"]) -> "CanClusterBusOffRecovery":
         """
         Set mainFunction and return self for chaining.
-        
+
         Args:
             value: The mainFunction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_main_function("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ParameterDataPrototype(AutosarDataPrototype):
     """
@@ -8,9 +8,9 @@ class ParameterDataPrototype(AutosarDataPrototype):
     but mutable by measurement and calibration tools. ParameterDataPrototype is
     used in various contexts and the specific context gives the otherwise
     generic ParameterDataPrototype a dedicated semantics.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ParameterDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 107, Classic
       Platform R23-11)
@@ -36,10 +36,10 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -70,13 +70,13 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def setInitValue(self, value: "ValueSpecification") -> "ParameterDataPrototype":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -88,13 +88,13 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "ParameterDataPrototype":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """

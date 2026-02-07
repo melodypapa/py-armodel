@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ScheduleTableEntry(ARObject, ABC):
     """
     Table entry in a LinScheduleTable. Specifies what will be done in the frame
     slot.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::ScheduleTableEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 433, Classic Platform R23-11)
     """
@@ -31,10 +35,10 @@ class ScheduleTableEntry(ARObject, ABC):
     def delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set delay with validation.
-        
+
         Args:
             value: The delay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +63,10 @@ class ScheduleTableEntry(ARObject, ABC):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +92,10 @@ class ScheduleTableEntry(ARObject, ABC):
     def position_in_table(self, value: Optional["Integer"]) -> None:
         """
         Set positionInTable with validation.
-        
+
         Args:
             value: The positionInTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +114,10 @@ class ScheduleTableEntry(ARObject, ABC):
     def getDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for delay.
-        
+
         Returns:
             The delay value
-        
+
         Note:
             Delegates to delay property (CODING_RULE_V2_00017)
         """
@@ -122,13 +126,13 @@ class ScheduleTableEntry(ARObject, ABC):
     def setDelay(self, value: "TimeValue") -> "ScheduleTableEntry":
         """
         AUTOSAR-compliant setter for delay with method chaining.
-        
+
         Args:
             value: The delay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to delay property setter (gets validation automatically)
         """
@@ -138,10 +142,10 @@ class ScheduleTableEntry(ARObject, ABC):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -150,13 +154,13 @@ class ScheduleTableEntry(ARObject, ABC):
     def setIntroduction(self, value: "DocumentationBlock") -> "ScheduleTableEntry":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -166,10 +170,10 @@ class ScheduleTableEntry(ARObject, ABC):
     def getPositionInTable(self) -> "Integer":
         """
         AUTOSAR-compliant getter for positionInTable.
-        
+
         Returns:
             The positionInTable value
-        
+
         Note:
             Delegates to position_in_table property (CODING_RULE_V2_00017)
         """
@@ -178,13 +182,13 @@ class ScheduleTableEntry(ARObject, ABC):
     def setPositionInTable(self, value: "Integer") -> "ScheduleTableEntry":
         """
         AUTOSAR-compliant setter for positionInTable with method chaining.
-        
+
         Args:
             value: The positionInTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position_in_table property setter (gets validation automatically)
         """
@@ -196,13 +200,13 @@ class ScheduleTableEntry(ARObject, ABC):
     def with_delay(self, value: Optional["TimeValue"]) -> "ScheduleTableEntry":
         """
         Set delay and return self for chaining.
-        
+
         Args:
             value: The delay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_delay("value")
         """
@@ -212,13 +216,13 @@ class ScheduleTableEntry(ARObject, ABC):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "ScheduleTableEntry":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """
@@ -228,13 +232,13 @@ class ScheduleTableEntry(ARObject, ABC):
     def with_position_in_table(self, value: Optional["Integer"]) -> "ScheduleTableEntry":
         """
         Set positionInTable and return self for chaining.
-        
+
         Args:
             value: The positionInTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position_in_table("value")
         """

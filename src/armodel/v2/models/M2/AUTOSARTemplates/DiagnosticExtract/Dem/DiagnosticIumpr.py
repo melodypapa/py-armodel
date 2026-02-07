@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticIumpr(DiagnosticCommonElement):
     """
@@ -7,9 +7,9 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     performance ratio. The latter computes to the number of times a fault could
     have been found divided by the number of times the vehicle conditions have
     been properly fulfilled.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticIumpr
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 210, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set event with validation.
-        
+
         Args:
             value: The event to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def ratio_kind(self, value: Optional["DiagnosticIumprKind"]) -> None:
         """
         Set ratioKind with validation.
-        
+
         Args:
             value: The ratioKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def getEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def setEvent(self, value: "DiagnosticEvent") -> "DiagnosticIumpr":
         """
         AUTOSAR-compliant setter for event with method chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def getRatioKind(self) -> "DiagnosticIumprKind":
         """
         AUTOSAR-compliant getter for ratioKind.
-        
+
         Returns:
             The ratioKind value
-        
+
         Note:
             Delegates to ratio_kind property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def setRatioKind(self, value: "DiagnosticIumprKind") -> "DiagnosticIumpr":
         """
         AUTOSAR-compliant setter for ratioKind with method chaining.
-        
+
         Args:
             value: The ratioKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ratio_kind property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def with_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticIumpr":
         """
         Set event and return self for chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event("value")
         """
@@ -154,13 +154,13 @@ class DiagnosticIumpr(DiagnosticCommonElement):
     def with_ratio_kind(self, value: Optional["DiagnosticIumprKind"]) -> "DiagnosticIumpr":
         """
         Set ratioKind and return self for chaining.
-        
+
         Args:
             value: The ratioKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ratio_kind("value")
         """

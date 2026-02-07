@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwcInternalBehavior(InternalBehavior):
     """
     The SwcInternalBehavior of an AtomicSwComponentType describes the relevant
     aspects of the software-component with respect to the RTE, i.e. the
     RunnableEntities and the RTEEvents they respond to.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::SwcInternalBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 345, Classic
       Platform R23-11)
@@ -184,10 +187,10 @@ class SwcInternalBehavior(InternalBehavior):
     def supports(self, value: Optional["Boolean"]) -> None:
         """
         Set supports with validation.
-        
+
         Args:
             value: The supports to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -214,10 +217,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getArTypedPer(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for arTypedPer.
-        
+
         Returns:
             The arTypedPer value
-        
+
         Note:
             Delegates to ar_typed_per property (CODING_RULE_V2_00017)
         """
@@ -226,10 +229,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getEvent(self) -> List["RTEEvent"]:
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -238,10 +241,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getExclusiveArea(self) -> List["SwcExclusiveArea"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -250,10 +253,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getExplicitInter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for explicitInter.
-        
+
         Returns:
             The explicitInter value
-        
+
         Note:
             Delegates to explicit_inter property (CODING_RULE_V2_00017)
         """
@@ -262,10 +265,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getImplicitInter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for implicitInter.
-        
+
         Returns:
             The implicitInter value
-        
+
         Note:
             Delegates to implicit_inter property (CODING_RULE_V2_00017)
         """
@@ -274,10 +277,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getIncludedData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for includedData.
-        
+
         Returns:
             The includedData value
-        
+
         Note:
             Delegates to included_data property (CODING_RULE_V2_00017)
         """
@@ -286,10 +289,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getIncludedMode(self) -> List["IncludedMode"]:
         """
         AUTOSAR-compliant getter for includedMode.
-        
+
         Returns:
             The includedMode value
-        
+
         Note:
             Delegates to included_mode property (CODING_RULE_V2_00017)
         """
@@ -298,10 +301,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getInstantiation(self) -> List["InstantiationDataDef"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """
@@ -310,10 +313,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getPerInstance(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for perInstance.
-        
+
         Returns:
             The perInstance value
-        
+
         Note:
             Delegates to per_instance property (CODING_RULE_V2_00017)
         """
@@ -322,10 +325,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getPortAPIOption(self) -> List["PortAPIOption"]:
         """
         AUTOSAR-compliant getter for portAPIOption.
-        
+
         Returns:
             The portAPIOption value
-        
+
         Note:
             Delegates to port_api_option property (CODING_RULE_V2_00017)
         """
@@ -334,10 +337,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getRunnable(self) -> List["RunnableEntity"]:
         """
         AUTOSAR-compliant getter for runnable.
-        
+
         Returns:
             The runnable value
-        
+
         Note:
             Delegates to runnable property (CODING_RULE_V2_00017)
         """
@@ -346,10 +349,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getService(self) -> List["SwcService"]:
         """
         AUTOSAR-compliant getter for service.
-        
+
         Returns:
             The service value
-        
+
         Note:
             Delegates to service property (CODING_RULE_V2_00017)
         """
@@ -358,10 +361,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getShared(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for shared.
-        
+
         Returns:
             The shared value
-        
+
         Note:
             Delegates to shared property (CODING_RULE_V2_00017)
         """
@@ -370,10 +373,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getSupports(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for supports.
-        
+
         Returns:
             The supports value
-        
+
         Note:
             Delegates to supports property (CODING_RULE_V2_00017)
         """
@@ -382,13 +385,13 @@ class SwcInternalBehavior(InternalBehavior):
     def setSupports(self, value: "Boolean") -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant setter for supports with method chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to supports property setter (gets validation automatically)
         """
@@ -398,10 +401,10 @@ class SwcInternalBehavior(InternalBehavior):
     def getVariationPoint(self) -> List["VariationPointProxy"]:
         """
         AUTOSAR-compliant getter for variationPoint.
-        
+
         Returns:
             The variationPoint value
-        
+
         Note:
             Delegates to variation_point property (CODING_RULE_V2_00017)
         """
@@ -412,13 +415,13 @@ class SwcInternalBehavior(InternalBehavior):
     def with_supports(self, value: Optional["Boolean"]) -> "SwcInternalBehavior":
         """
         Set supports and return self for chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_supports("value")
         """

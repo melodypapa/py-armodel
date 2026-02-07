@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DoIpTpConfig(TpConfig):
     """
@@ -7,9 +7,9 @@ class DoIpTpConfig(TpConfig):
     configure all DoIPChannels available in a DoIpInterface. Each DoIPChannel
     describes a connection between a doIpSourceAddress and a doIpTargetAddress
     and the exchange of DcmIPdus between the PduR and DoIP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::DoIpTpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)
     """
@@ -37,10 +37,10 @@ class DoIpTpConfig(TpConfig):
     def getDoIpLogicAddress(self) -> List["DoIpLogicAddress"]:
         """
         AUTOSAR-compliant getter for doIpLogicAddress.
-        
+
         Returns:
             The doIpLogicAddress value
-        
+
         Note:
             Delegates to do_ip_logic_address property (CODING_RULE_V2_00017)
         """
@@ -49,10 +49,10 @@ class DoIpTpConfig(TpConfig):
     def getTpConnection(self) -> List["DoIpTpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """

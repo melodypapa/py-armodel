@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventFrame(TDEventCom):
     """
     This is used to describe timing events related to the exchange of frames
     between the communication controller and the bus specific (FlexRay / CAN /
     LIN) Interface BSW module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 67, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class TDEventFrame(TDEventCom):
     def frame(self, value: Optional["Frame"]) -> None:
         """
         Set frame with validation.
-        
+
         Args:
             value: The frame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class TDEventFrame(TDEventCom):
     def physical(self, value: Optional["PhysicalChannel"]) -> None:
         """
         Set physical with validation.
-        
+
         Args:
             value: The physical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class TDEventFrame(TDEventCom):
     def td_event_type_enum(self, value: Optional["TDEventFrameType"]) -> None:
         """
         Set tdEventTypeEnum with validation.
-        
+
         Args:
             value: The tdEventTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +108,10 @@ class TDEventFrame(TDEventCom):
     def getFrame(self) -> "Frame":
         """
         AUTOSAR-compliant getter for frame.
-        
+
         Returns:
             The frame value
-        
+
         Note:
             Delegates to frame property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class TDEventFrame(TDEventCom):
     def setFrame(self, value: "Frame") -> "TDEventFrame":
         """
         AUTOSAR-compliant setter for frame with method chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame property setter (gets validation automatically)
         """
@@ -136,10 +136,10 @@ class TDEventFrame(TDEventCom):
     def getPhysical(self) -> "PhysicalChannel":
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -148,13 +148,13 @@ class TDEventFrame(TDEventCom):
     def setPhysical(self, value: "PhysicalChannel") -> "TDEventFrame":
         """
         AUTOSAR-compliant setter for physical with method chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical property setter (gets validation automatically)
         """
@@ -164,10 +164,10 @@ class TDEventFrame(TDEventCom):
     def getTdEventTypeEnum(self) -> "TDEventFrameType":
         """
         AUTOSAR-compliant getter for tdEventTypeEnum.
-        
+
         Returns:
             The tdEventTypeEnum value
-        
+
         Note:
             Delegates to td_event_type_enum property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class TDEventFrame(TDEventCom):
     def setTdEventTypeEnum(self, value: "TDEventFrameType") -> "TDEventFrame":
         """
         AUTOSAR-compliant setter for tdEventTypeEnum with method chaining.
-        
+
         Args:
             value: The tdEventTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_type_enum property setter (gets validation automatically)
         """
@@ -194,13 +194,13 @@ class TDEventFrame(TDEventCom):
     def with_frame(self, value: Optional["Frame"]) -> "TDEventFrame":
         """
         Set frame and return self for chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame("value")
         """
@@ -210,13 +210,13 @@ class TDEventFrame(TDEventCom):
     def with_physical(self, value: Optional["PhysicalChannel"]) -> "TDEventFrame":
         """
         Set physical and return self for chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical("value")
         """
@@ -226,13 +226,13 @@ class TDEventFrame(TDEventCom):
     def with_td_event_type_enum(self, value: Optional["TDEventFrameType"]) -> "TDEventFrame":
         """
         Set tdEventTypeEnum and return self for chaining.
-        
+
         Args:
             value: The tdEventTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_type_enum("value")
         """

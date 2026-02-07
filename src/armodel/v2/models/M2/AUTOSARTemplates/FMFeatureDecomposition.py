@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FMFeatureDecomposition(ARObject):
     """
@@ -8,9 +11,9 @@ class FMFeatureDecomposition(ARObject):
     and their parent feature (i.e., the FMFeature that aggregates the
     FMFeatureDecomposition). The kind of dependency is defined by the attribute
     category.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureDecomposition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 27, Foundation
       R23-11)
@@ -32,10 +35,10 @@ class FMFeatureDecomposition(ARObject):
     def category(self, value: Optional["CategoryString"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +74,10 @@ class FMFeatureDecomposition(ARObject):
     def max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +103,10 @@ class FMFeatureDecomposition(ARObject):
     def min(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +125,10 @@ class FMFeatureDecomposition(ARObject):
     def getCategory(self) -> "CategoryString":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -134,13 +137,13 @@ class FMFeatureDecomposition(ARObject):
     def setCategory(self, value: "CategoryString") -> "FMFeatureDecomposition":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -150,10 +153,10 @@ class FMFeatureDecomposition(ARObject):
     def getFeature(self) -> List["FMFeature"]:
         """
         AUTOSAR-compliant getter for feature.
-        
+
         Returns:
             The feature value
-        
+
         Note:
             Delegates to feature property (CODING_RULE_V2_00017)
         """
@@ -162,10 +165,10 @@ class FMFeatureDecomposition(ARObject):
     def getMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class FMFeatureDecomposition(ARObject):
     def setMax(self, value: "PositiveInteger") -> "FMFeatureDecomposition":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -190,10 +193,10 @@ class FMFeatureDecomposition(ARObject):
     def getMin(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -202,13 +205,13 @@ class FMFeatureDecomposition(ARObject):
     def setMin(self, value: "PositiveInteger") -> "FMFeatureDecomposition":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -220,13 +223,13 @@ class FMFeatureDecomposition(ARObject):
     def with_category(self, value: Optional["CategoryString"]) -> "FMFeatureDecomposition":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -236,13 +239,13 @@ class FMFeatureDecomposition(ARObject):
     def with_max(self, value: Optional["PositiveInteger"]) -> "FMFeatureDecomposition":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -252,13 +255,13 @@ class FMFeatureDecomposition(ARObject):
     def with_min(self, value: Optional["PositiveInteger"]) -> "FMFeatureDecomposition":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """

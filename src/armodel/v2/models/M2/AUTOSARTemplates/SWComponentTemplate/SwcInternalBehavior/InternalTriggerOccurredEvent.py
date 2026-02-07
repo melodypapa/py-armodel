@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class InternalTriggerOccurredEvent(RTEEvent):
     """
     This event is raised when the referenced InternalTriggeringPoint has
     occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::InternalTriggerOccurredEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def event_source(self, value: RefType) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +50,10 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def getEventSource(self) -> RefType:
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -59,13 +62,13 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def setEventSource(self, value: RefType) -> "InternalTriggerOccurredEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -77,13 +80,13 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def with_event_source(self, value: Optional[RefType]) -> "InternalTriggerOccurredEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """

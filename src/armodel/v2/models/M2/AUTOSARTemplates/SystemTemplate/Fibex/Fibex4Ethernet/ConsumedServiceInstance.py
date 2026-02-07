@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ConsumedServiceInstance(AbstractServiceInstance):
     """
     Service instances that are consumed by the ECU that is connected via the
     ApplicationEndpoint to a CommunicationConnector.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ConsumedServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 980, Classic Platform
       R23-11)
@@ -41,10 +44,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def auto_require(self, value: Optional["Boolean"]) -> None:
         """
         Set autoRequire with validation.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def event_multicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set eventMulticast with validation.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def instance(self, value: Optional["AnyServiceInstanceId"]) -> None:
         """
         Set instance with validation.
-        
+
         Args:
             value: The instance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +146,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def local_unicast(self, value: "ApplicationEndpoint") -> None:
         """
         Set localUnicast with validation.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -168,10 +171,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def minor_version(self, value: Optional["AnyVersionString"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -198,10 +201,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def provided_service(self, value: Optional["ProvidedService"]) -> None:
         """
         Set providedService with validation.
-        
+
         Args:
             value: The providedService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +231,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def remote_unicast(self, value: "ApplicationEndpoint") -> None:
         """
         Set remoteUnicast with validation.
-        
+
         Args:
             value: The remoteUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -252,10 +255,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def sd_client_config(self, value: Optional["SdClientConfig"]) -> None:
         """
         Set sdClientConfig with validation.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -282,10 +285,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def sd_client_timer(self, value: Optional["SomeipSdClientService"]) -> None:
         """
         Set sdClientTimer with validation.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -311,10 +314,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def service_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceIdentifier with validation.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -341,10 +344,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def version_driven(self, value: Optional["ServiceVersion"]) -> None:
         """
         Set versionDriven with validation.
-        
+
         Args:
             value: The versionDriven to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -363,10 +366,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getAllowedService(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for allowedService.
-        
+
         Returns:
             The allowedService value
-        
+
         Note:
             Delegates to allowed_service property (CODING_RULE_V2_00017)
         """
@@ -375,10 +378,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getAutoRequire(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoRequire.
-        
+
         Returns:
             The autoRequire value
-        
+
         Note:
             Delegates to auto_require property (CODING_RULE_V2_00017)
         """
@@ -387,13 +390,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setAutoRequire(self, value: "Boolean") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for autoRequire with method chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_require property setter (gets validation automatically)
         """
@@ -403,10 +406,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getBlocklisted(self) -> List["SomeipServiceVersion"]:
         """
         AUTOSAR-compliant getter for blocklisted.
-        
+
         Returns:
             The blocklisted value
-        
+
         Note:
             Delegates to blocklisted property (CODING_RULE_V2_00017)
         """
@@ -415,10 +418,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getConsumedEvent(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for consumedEvent.
-        
+
         Returns:
             The consumedEvent value
-        
+
         Note:
             Delegates to consumed_event property (CODING_RULE_V2_00017)
         """
@@ -427,10 +430,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getEventMulticast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for eventMulticast.
-        
+
         Returns:
             The eventMulticast value
-        
+
         Note:
             Delegates to event_multicast property (CODING_RULE_V2_00017)
         """
@@ -439,13 +442,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setEventMulticast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for eventMulticast with method chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_multicast property setter (gets validation automatically)
         """
@@ -455,10 +458,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getInstance(self) -> "AnyServiceInstanceId":
         """
         AUTOSAR-compliant getter for instance.
-        
+
         Returns:
             The instance value
-        
+
         Note:
             Delegates to instance property (CODING_RULE_V2_00017)
         """
@@ -467,13 +470,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setInstance(self, value: "AnyServiceInstanceId") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for instance with method chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to instance property setter (gets validation automatically)
         """
@@ -483,10 +486,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
-        
+
         Returns:
             The localUnicast value
-        
+
         Note:
             Delegates to local_unicast property (CODING_RULE_V2_00017)
         """
@@ -495,13 +498,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setLocalUnicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_unicast property setter (gets validation automatically)
         """
@@ -511,10 +514,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getMinorVersion(self) -> "AnyVersionString":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -523,13 +526,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setMinorVersion(self, value: "AnyVersionString") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -539,10 +542,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getProvidedService(self) -> "ProvidedService":
         """
         AUTOSAR-compliant getter for providedService.
-        
+
         Returns:
             The providedService value
-        
+
         Note:
             Delegates to provided_service property (CODING_RULE_V2_00017)
         """
@@ -551,13 +554,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setProvidedService(self, value: "ProvidedService") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for providedService with method chaining.
-        
+
         Args:
             value: The providedService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided_service property setter (gets validation automatically)
         """
@@ -567,10 +570,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getRemoteUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for remoteUnicast.
-        
+
         Returns:
             The remoteUnicast value
-        
+
         Note:
             Delegates to remote_unicast property (CODING_RULE_V2_00017)
         """
@@ -579,13 +582,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setRemoteUnicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for remoteUnicast with method chaining.
-        
+
         Args:
             value: The remoteUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_unicast property setter (gets validation automatically)
         """
@@ -595,10 +598,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getSdClientConfig(self) -> "SdClientConfig":
         """
         AUTOSAR-compliant getter for sdClientConfig.
-        
+
         Returns:
             The sdClientConfig value
-        
+
         Note:
             Delegates to sd_client_config property (CODING_RULE_V2_00017)
         """
@@ -607,13 +610,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setSdClientConfig(self, value: "SdClientConfig") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for sdClientConfig with method chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_config property setter (gets validation automatically)
         """
@@ -623,10 +626,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getSdClientTimer(self) -> "SomeipSdClientService":
         """
         AUTOSAR-compliant getter for sdClientTimer.
-        
+
         Returns:
             The sdClientTimer value
-        
+
         Note:
             Delegates to sd_client_timer property (CODING_RULE_V2_00017)
         """
@@ -635,13 +638,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setSdClientTimer(self, value: "SomeipSdClientService") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for sdClientTimer with method chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_client_timer property setter (gets validation automatically)
         """
@@ -651,10 +654,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getServiceIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceIdentifier.
-        
+
         Returns:
             The serviceIdentifier value
-        
+
         Note:
             Delegates to service_identifier property (CODING_RULE_V2_00017)
         """
@@ -663,13 +666,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setServiceIdentifier(self, value: "PositiveInteger") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for serviceIdentifier with method chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_identifier property setter (gets validation automatically)
         """
@@ -679,10 +682,10 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def getVersionDriven(self) -> "ServiceVersion":
         """
         AUTOSAR-compliant getter for versionDriven.
-        
+
         Returns:
             The versionDriven value
-        
+
         Note:
             Delegates to version_driven property (CODING_RULE_V2_00017)
         """
@@ -691,13 +694,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def setVersionDriven(self, value: "ServiceVersion") -> "ConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for versionDriven with method chaining.
-        
+
         Args:
             value: The versionDriven to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version_driven property setter (gets validation automatically)
         """
@@ -709,13 +712,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_auto_require(self, value: Optional["Boolean"]) -> "ConsumedServiceInstance":
         """
         Set autoRequire and return self for chaining.
-        
+
         Args:
             value: The autoRequire to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_require("value")
         """
@@ -725,13 +728,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_event_multicast(self, value: Optional["ApplicationEndpoint"]) -> "ConsumedServiceInstance":
         """
         Set eventMulticast and return self for chaining.
-        
+
         Args:
             value: The eventMulticast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_multicast("value")
         """
@@ -741,13 +744,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_instance(self, value: Optional["AnyServiceInstanceId"]) -> "ConsumedServiceInstance":
         """
         Set instance and return self for chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_instance("value")
         """
@@ -757,13 +760,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_local_unicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         Set localUnicast and return self for chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_unicast("value")
         """
@@ -773,13 +776,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_minor_version(self, value: Optional["AnyVersionString"]) -> "ConsumedServiceInstance":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """
@@ -789,13 +792,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_provided_service(self, value: Optional["ProvidedService"]) -> "ConsumedServiceInstance":
         """
         Set providedService and return self for chaining.
-        
+
         Args:
             value: The providedService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided_service("value")
         """
@@ -805,13 +808,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_remote_unicast(self, value: "ApplicationEndpoint") -> "ConsumedServiceInstance":
         """
         Set remoteUnicast and return self for chaining.
-        
+
         Args:
             value: The remoteUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_unicast("value")
         """
@@ -821,13 +824,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_sd_client_config(self, value: Optional["SdClientConfig"]) -> "ConsumedServiceInstance":
         """
         Set sdClientConfig and return self for chaining.
-        
+
         Args:
             value: The sdClientConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_config("value")
         """
@@ -837,13 +840,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_sd_client_timer(self, value: Optional["SomeipSdClientService"]) -> "ConsumedServiceInstance":
         """
         Set sdClientTimer and return self for chaining.
-        
+
         Args:
             value: The sdClientTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_client_timer("value")
         """
@@ -853,13 +856,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_service_identifier(self, value: Optional["PositiveInteger"]) -> "ConsumedServiceInstance":
         """
         Set serviceIdentifier and return self for chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_identifier("value")
         """
@@ -869,13 +872,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     def with_version_driven(self, value: Optional["ServiceVersion"]) -> "ConsumedServiceInstance":
         """
         Set versionDriven and return self for chaining.
-        
+
         Args:
             value: The versionDriven to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version_driven("value")
         """

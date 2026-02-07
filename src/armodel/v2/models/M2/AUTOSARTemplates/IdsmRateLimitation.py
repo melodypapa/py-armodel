@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class IdsmRateLimitation(Identifiable):
     """
@@ -9,9 +9,9 @@ class IdsmRateLimitation(Identifiable):
     security events. This means that security events are dropped if the number
     of events (of any type) processed within a configurable time window is
     greater than a configurable threshold.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmRateLimitation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 28, Foundation R23-11)
     """
@@ -32,10 +32,10 @@ class IdsmRateLimitation(Identifiable):
     def max_events_in(self, value: "PositiveInteger") -> None:
         """
         Set maxEventsIn with validation.
-        
+
         Args:
             value: The maxEventsIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class IdsmRateLimitation(Identifiable):
     def time_interval(self, value: "Float") -> None:
         """
         Set timeInterval with validation.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class IdsmRateLimitation(Identifiable):
     def getMaxEventsIn(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxEventsIn.
-        
+
         Returns:
             The maxEventsIn value
-        
+
         Note:
             Delegates to max_events_in property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class IdsmRateLimitation(Identifiable):
     def setMaxEventsIn(self, value: "PositiveInteger") -> "IdsmRateLimitation":
         """
         AUTOSAR-compliant setter for maxEventsIn with method chaining.
-        
+
         Args:
             value: The maxEventsIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_events_in property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class IdsmRateLimitation(Identifiable):
     def getTimeInterval(self) -> "Float":
         """
         AUTOSAR-compliant getter for timeInterval.
-        
+
         Returns:
             The timeInterval value
-        
+
         Note:
             Delegates to time_interval property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class IdsmRateLimitation(Identifiable):
     def setTimeInterval(self, value: "Float") -> "IdsmRateLimitation":
         """
         AUTOSAR-compliant setter for timeInterval with method chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_interval property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class IdsmRateLimitation(Identifiable):
     def with_max_events_in(self, value: "PositiveInteger") -> "IdsmRateLimitation":
         """
         Set maxEventsIn and return self for chaining.
-        
+
         Args:
             value: The maxEventsIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_events_in("value")
         """
@@ -150,13 +150,13 @@ class IdsmRateLimitation(Identifiable):
     def with_time_interval(self, value: "Float") -> "IdsmRateLimitation":
         """
         Set timeInterval and return self for chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_interval("value")
         """

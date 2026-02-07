@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwComponentPrototypeAssignment(ARObject):
     """
     This meta-class is only required to allow for the variant modeling of an
     instanceRef.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SwComponentPrototypeAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 894, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class SwComponentPrototypeAssignment(ARObject):
     def sw_component(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponent with validation.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class SwComponentPrototypeAssignment(ARObject):
     def getSwComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponent.
-        
+
         Returns:
             The swComponent value
-        
+
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class SwComponentPrototypeAssignment(ARObject):
     def setSwComponent(self, value: "SwComponent") -> "SwComponentPrototypeAssignment":
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class SwComponentPrototypeAssignment(ARObject):
     def with_sw_component(self, value: Optional["SwComponent"]) -> "SwComponentPrototypeAssignment":
         """
         Set swComponent and return self for chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component("value")
         """

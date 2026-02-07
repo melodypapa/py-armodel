@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEcuResetClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Ecu
     Reset" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset::DiagnosticEcuResetClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 102, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticEcuResetClass(DiagnosticServiceClass):
     def respond_to(self, value: Optional["DiagnosticResponseTo"]) -> None:
         """
         Set respondTo with validation.
-        
+
         Args:
             value: The respondTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class DiagnosticEcuResetClass(DiagnosticServiceClass):
     def getRespondTo(self) -> "DiagnosticResponseTo":
         """
         AUTOSAR-compliant getter for respondTo.
-        
+
         Returns:
             The respondTo value
-        
+
         Note:
             Delegates to respond_to property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class DiagnosticEcuResetClass(DiagnosticServiceClass):
     def setRespondTo(self, value: "DiagnosticResponseTo") -> "DiagnosticEcuResetClass":
         """
         AUTOSAR-compliant setter for respondTo with method chaining.
-        
+
         Args:
             value: The respondTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to respond_to property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class DiagnosticEcuResetClass(DiagnosticServiceClass):
     def with_respond_to(self, value: Optional["DiagnosticResponseTo"]) -> "DiagnosticEcuResetClass":
         """
         Set respondTo and return self for chaining.
-        
+
         Args:
             value: The respondTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_respond_to("value")
         """

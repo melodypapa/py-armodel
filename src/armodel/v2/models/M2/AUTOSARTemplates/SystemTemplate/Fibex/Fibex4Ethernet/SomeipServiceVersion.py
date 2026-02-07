@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SomeipServiceVersion(ARObject):
     """
     This meta-class represents the ability to describe a version of a SOME/IP
     Service.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipServiceVersion
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2059, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class SomeipServiceVersion(ARObject):
     def major_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set majorVersion with validation.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class SomeipServiceVersion(ARObject):
     def minor_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class SomeipServiceVersion(ARObject):
     def getMajorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for majorVersion.
-        
+
         Returns:
             The majorVersion value
-        
+
         Note:
             Delegates to major_version property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class SomeipServiceVersion(ARObject):
     def setMajorVersion(self, value: "PositiveInteger") -> "SomeipServiceVersion":
         """
         AUTOSAR-compliant setter for majorVersion with method chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to major_version property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class SomeipServiceVersion(ARObject):
     def getMinorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class SomeipServiceVersion(ARObject):
     def setMinorVersion(self, value: "PositiveInteger") -> "SomeipServiceVersion":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class SomeipServiceVersion(ARObject):
     def with_major_version(self, value: Optional["PositiveInteger"]) -> "SomeipServiceVersion":
         """
         Set majorVersion and return self for chaining.
-        
+
         Args:
             value: The majorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_major_version("value")
         """
@@ -152,13 +155,13 @@ class SomeipServiceVersion(ARObject):
     def with_minor_version(self, value: Optional["PositiveInteger"]) -> "SomeipServiceVersion":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class MeasuredStackUsage(StackUsage):
     """
     The stack usage has been measured.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::MeasuredStackUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 150, Classic
       Platform R23-11)
@@ -28,10 +28,10 @@ class MeasuredStackUsage(StackUsage):
     def average_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set averageMemoryConsumption with validation.
-        
+
         Args:
             value: The averageMemoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class MeasuredStackUsage(StackUsage):
     def maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximumMemoryConsumption with validation.
-        
+
         Args:
             value: The maximumMemoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class MeasuredStackUsage(StackUsage):
     def minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minimumMemoryConsumption with validation.
-        
+
         Args:
             value: The minimumMemoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class MeasuredStackUsage(StackUsage):
     def test_pattern(self, value: Optional["String"]) -> None:
         """
         Set testPattern with validation.
-        
+
         Args:
             value: The testPattern to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +136,10 @@ class MeasuredStackUsage(StackUsage):
     def getAverageMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for averageMemoryConsumption.
-        
+
         Returns:
             The averageMemoryConsumption value
-        
+
         Note:
             Delegates to average_memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -148,13 +148,13 @@ class MeasuredStackUsage(StackUsage):
     def setAverageMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for averageMemoryConsumption with method chaining.
-        
+
         Args:
             value: The averageMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to average_memory_consumption property setter (gets validation automatically)
         """
@@ -164,10 +164,10 @@ class MeasuredStackUsage(StackUsage):
     def getMaximumMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximumMemoryConsumption.
-        
+
         Returns:
             The maximumMemoryConsumption value
-        
+
         Note:
             Delegates to maximum_memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class MeasuredStackUsage(StackUsage):
     def setMaximumMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for maximumMemoryConsumption with method chaining.
-        
+
         Args:
             value: The maximumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum_memory_consumption property setter (gets validation automatically)
         """
@@ -192,10 +192,10 @@ class MeasuredStackUsage(StackUsage):
     def getMinimumMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minimumMemoryConsumption.
-        
+
         Returns:
             The minimumMemoryConsumption value
-        
+
         Note:
             Delegates to minimum_memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class MeasuredStackUsage(StackUsage):
     def setMinimumMemoryConsumption(self, value: "PositiveInteger") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for minimumMemoryConsumption with method chaining.
-        
+
         Args:
             value: The minimumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_memory_consumption property setter (gets validation automatically)
         """
@@ -220,10 +220,10 @@ class MeasuredStackUsage(StackUsage):
     def getTestPattern(self) -> "String":
         """
         AUTOSAR-compliant getter for testPattern.
-        
+
         Returns:
             The testPattern value
-        
+
         Note:
             Delegates to test_pattern property (CODING_RULE_V2_00017)
         """
@@ -232,13 +232,13 @@ class MeasuredStackUsage(StackUsage):
     def setTestPattern(self, value: "String") -> "MeasuredStackUsage":
         """
         AUTOSAR-compliant setter for testPattern with method chaining.
-        
+
         Args:
             value: The testPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to test_pattern property setter (gets validation automatically)
         """
@@ -250,13 +250,13 @@ class MeasuredStackUsage(StackUsage):
     def with_average_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
         """
         Set averageMemoryConsumption and return self for chaining.
-        
+
         Args:
             value: The averageMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_average_memory_consumption("value")
         """
@@ -266,13 +266,13 @@ class MeasuredStackUsage(StackUsage):
     def with_maximum_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
         """
         Set maximumMemoryConsumption and return self for chaining.
-        
+
         Args:
             value: The maximumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum_memory_consumption("value")
         """
@@ -282,13 +282,13 @@ class MeasuredStackUsage(StackUsage):
     def with_minimum_memory_consumption(self, value: Optional["PositiveInteger"]) -> "MeasuredStackUsage":
         """
         Set minimumMemoryConsumption and return self for chaining.
-        
+
         Args:
             value: The minimumMemoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_memory_consumption("value")
         """
@@ -298,13 +298,13 @@ class MeasuredStackUsage(StackUsage):
     def with_test_pattern(self, value: Optional["String"]) -> "MeasuredStackUsage":
         """
         Set testPattern and return self for chaining.
-        
+
         Args:
             value: The testPattern to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_test_pattern("value")
         """

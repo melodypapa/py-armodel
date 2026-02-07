@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
     """
     Attributes used by Configuration Parameters as well as References.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucCommonAttributes
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 48, Classic Platform R23-11)
     """
@@ -38,10 +39,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def origin(self, value: Optional["String"]) -> None:
         """
         Set origin with validation.
-        
+
         Args:
             value: The origin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +69,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def post_build_variant(self, value: Optional["Boolean"]) -> None:
         """
         Set postBuildVariant with validation.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +98,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def requires_index(self, value: Optional["Boolean"]) -> None:
         """
         Set requiresIndex with validation.
-        
+
         Args:
             value: The requiresIndex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -127,10 +128,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def getMultiplicity(self) -> List["EcucMultiplicity"]:
         """
         AUTOSAR-compliant getter for multiplicity.
-        
+
         Returns:
             The multiplicity value
-        
+
         Note:
             Delegates to multiplicity property (CODING_RULE_V2_00017)
         """
@@ -139,10 +140,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def getOrigin(self) -> "String":
         """
         AUTOSAR-compliant getter for origin.
-        
+
         Returns:
             The origin value
-        
+
         Note:
             Delegates to origin property (CODING_RULE_V2_00017)
         """
@@ -151,13 +152,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def setOrigin(self, value: "String") -> "EcucCommonAttributes":
         """
         AUTOSAR-compliant setter for origin with method chaining.
-        
+
         Args:
             value: The origin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to origin property setter (gets validation automatically)
         """
@@ -167,10 +168,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def getPostBuildVariant(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -179,13 +180,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def setPostBuildVariant(self, value: "Boolean") -> "EcucCommonAttributes":
         """
         AUTOSAR-compliant setter for postBuildVariant with method chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to post_build_variant property setter (gets validation automatically)
         """
@@ -195,10 +196,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def getRequiresIndex(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for requiresIndex.
-        
+
         Returns:
             The requiresIndex value
-        
+
         Note:
             Delegates to requires_index property (CODING_RULE_V2_00017)
         """
@@ -207,13 +208,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def setRequiresIndex(self, value: "Boolean") -> "EcucCommonAttributes":
         """
         AUTOSAR-compliant setter for requiresIndex with method chaining.
-        
+
         Args:
             value: The requiresIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to requires_index property setter (gets validation automatically)
         """
@@ -223,10 +224,10 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def getValueConfig(self) -> List["EcucValueConfiguration"]:
         """
         AUTOSAR-compliant getter for valueConfig.
-        
+
         Returns:
             The valueConfig value
-        
+
         Note:
             Delegates to value_config property (CODING_RULE_V2_00017)
         """
@@ -237,13 +238,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def with_origin(self, value: Optional["String"]) -> "EcucCommonAttributes":
         """
         Set origin and return self for chaining.
-        
+
         Args:
             value: The origin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_origin("value")
         """
@@ -253,13 +254,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def with_post_build_variant(self, value: Optional["Boolean"]) -> "EcucCommonAttributes":
         """
         Set postBuildVariant and return self for chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_post_build_variant("value")
         """
@@ -269,13 +270,13 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
     def with_requires_index(self, value: Optional["Boolean"]) -> "EcucCommonAttributes":
         """
         Set requiresIndex and return self for chaining.
-        
+
         Args:
             value: The requiresIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_requires_index("value")
         """

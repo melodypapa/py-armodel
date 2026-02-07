@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ApplicationValueSpecification(ValueSpecification):
     """
@@ -7,9 +7,9 @@ class ApplicationValueSpecification(ValueSpecification):
     ApplicationDataTypes (this includes in particular compound primitives). For
     further details refer to ASAM CDF 2.0. This meta-class corresponds to some
     extent with SW-INSTANCE in ASAM CDF 2.0.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ApplicationValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 299, Classic Platform
       R23-11)
@@ -36,10 +36,10 @@ class ApplicationValueSpecification(ValueSpecification):
     def category(self, value: Optional["Identifier"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class ApplicationValueSpecification(ValueSpecification):
     def sw_value_cont(self, value: Optional["SwValueCont"]) -> None:
         """
         Set swValueCont with validation.
-        
+
         Args:
             value: The swValueCont to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class ApplicationValueSpecification(ValueSpecification):
     def getCategory(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -108,13 +108,13 @@ class ApplicationValueSpecification(ValueSpecification):
     def setCategory(self, value: "Identifier") -> "ApplicationValueSpecification":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -124,10 +124,10 @@ class ApplicationValueSpecification(ValueSpecification):
     def getSwAxisCont(self) -> List["SwAxisCont"]:
         """
         AUTOSAR-compliant getter for swAxisCont.
-        
+
         Returns:
             The swAxisCont value
-        
+
         Note:
             Delegates to sw_axis_cont property (CODING_RULE_V2_00017)
         """
@@ -136,10 +136,10 @@ class ApplicationValueSpecification(ValueSpecification):
     def getSwValueCont(self) -> "SwValueCont":
         """
         AUTOSAR-compliant getter for swValueCont.
-        
+
         Returns:
             The swValueCont value
-        
+
         Note:
             Delegates to sw_value_cont property (CODING_RULE_V2_00017)
         """
@@ -148,13 +148,13 @@ class ApplicationValueSpecification(ValueSpecification):
     def setSwValueCont(self, value: "SwValueCont") -> "ApplicationValueSpecification":
         """
         AUTOSAR-compliant setter for swValueCont with method chaining.
-        
+
         Args:
             value: The swValueCont to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_value_cont property setter (gets validation automatically)
         """
@@ -166,13 +166,13 @@ class ApplicationValueSpecification(ValueSpecification):
     def with_category(self, value: Optional["Identifier"]) -> "ApplicationValueSpecification":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -182,13 +182,13 @@ class ApplicationValueSpecification(ValueSpecification):
     def with_sw_value_cont(self, value: Optional["SwValueCont"]) -> "ApplicationValueSpecification":
         """
         Set swValueCont and return self for chaining.
-        
+
         Args:
             value: The swValueCont to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_value_cont("value")
         """

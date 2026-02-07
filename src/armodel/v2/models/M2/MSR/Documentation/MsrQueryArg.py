@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MsrQueryArg(ARObject):
     """
     This represents an argument to the query. Note that the arguments are not
     standardized and therefore subject to mutual agreement.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryArg
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
@@ -29,10 +30,10 @@ class MsrQueryArg(ARObject):
     def arg(self, value: "String") -> None:
         """
         Set arg with validation.
-        
+
         Args:
             value: The arg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +54,10 @@ class MsrQueryArg(ARObject):
     def si(self, value: "NameToken") -> None:
         """
         Set si with validation.
-        
+
         Args:
             value: The si to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +72,10 @@ class MsrQueryArg(ARObject):
     def getArg(self) -> "String":
         """
         AUTOSAR-compliant getter for arg.
-        
+
         Returns:
             The arg value
-        
+
         Note:
             Delegates to arg property (CODING_RULE_V2_00017)
         """
@@ -83,13 +84,13 @@ class MsrQueryArg(ARObject):
     def setArg(self, value: "String") -> "MsrQueryArg":
         """
         AUTOSAR-compliant setter for arg with method chaining.
-        
+
         Args:
             value: The arg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arg property setter (gets validation automatically)
         """
@@ -99,10 +100,10 @@ class MsrQueryArg(ARObject):
     def getSi(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for si.
-        
+
         Returns:
             The si value
-        
+
         Note:
             Delegates to si property (CODING_RULE_V2_00017)
         """
@@ -111,13 +112,13 @@ class MsrQueryArg(ARObject):
     def setSi(self, value: "NameToken") -> "MsrQueryArg":
         """
         AUTOSAR-compliant setter for si with method chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to si property setter (gets validation automatically)
         """
@@ -129,13 +130,13 @@ class MsrQueryArg(ARObject):
     def with_arg(self, value: "String") -> "MsrQueryArg":
         """
         Set arg and return self for chaining.
-        
+
         Args:
             value: The arg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arg("value")
         """
@@ -145,13 +146,13 @@ class MsrQueryArg(ARObject):
     def with_si(self, value: "NameToken") -> "MsrQueryArg":
         """
         Set si and return self for chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_si("value")
         """

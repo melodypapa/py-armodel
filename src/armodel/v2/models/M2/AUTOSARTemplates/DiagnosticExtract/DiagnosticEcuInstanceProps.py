@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     """
@@ -8,9 +8,9 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     diagnostic-related information. In the spirit of decentralized configuration
     it is therefore possible to specify the diagnostic-related information
     related to a given EcuInstance even if the EcuInstance does not yet exist.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticEcuInstanceProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 207, Classic Platform
       R23-11)
@@ -40,10 +40,10 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     def obd_support(self, value: Optional["DiagnosticObdSupport"]) -> None:
         """
         Set obdSupport with validation.
-        
+
         Args:
             value: The obdSupport to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     def getEcuInstance(self) -> List["EcuInstance"]:
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -74,10 +74,10 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     def getObdSupport(self) -> "DiagnosticObdSupport":
         """
         AUTOSAR-compliant getter for obdSupport.
-        
+
         Returns:
             The obdSupport value
-        
+
         Note:
             Delegates to obd_support property (CODING_RULE_V2_00017)
         """
@@ -86,13 +86,13 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     def setObdSupport(self, value: "DiagnosticObdSupport") -> "DiagnosticEcuInstanceProps":
         """
         AUTOSAR-compliant setter for obdSupport with method chaining.
-        
+
         Args:
             value: The obdSupport to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to obd_support property setter (gets validation automatically)
         """
@@ -104,13 +104,13 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     def with_obd_support(self, value: Optional["DiagnosticObdSupport"]) -> "DiagnosticEcuInstanceProps":
         """
         Set obdSupport and return self for chaining.
-        
+
         Args:
             value: The obdSupport to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_obd_support("value")
         """

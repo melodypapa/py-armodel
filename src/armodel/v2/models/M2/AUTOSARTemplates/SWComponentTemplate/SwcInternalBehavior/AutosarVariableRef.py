@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AutosarVariableRef(ARObject):
     """
@@ -16,9 +21,9 @@ class AutosarVariableRef(ARObject):
     of a composite local variable typed by ImplementationDatatype (e.g.
     nvramData mapping) • an element inside of a composite variable provided via
     Port and typed by ImplementationDatatype (e.g. inputValue for a curve)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::AutosarVariableRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 307, Classic
       Platform R23-11)
@@ -44,10 +49,10 @@ class AutosarVariableRef(ARObject):
     def autosar_variable(self, value: Optional["ArVariableIn"]) -> None:
         """
         Set autosarVariable with validation.
-        
+
         Args:
             value: The autosarVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +81,10 @@ class AutosarVariableRef(ARObject):
     def local_variable(self, value: RefType) -> None:
         """
         Set localVariable with validation.
-        
+
         Args:
             value: The localVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +99,10 @@ class AutosarVariableRef(ARObject):
     def getAutosarVariable(self) -> "ArVariableIn":
         """
         AUTOSAR-compliant getter for autosarVariable.
-        
+
         Returns:
             The autosarVariable value
-        
+
         Note:
             Delegates to autosar_variable property (CODING_RULE_V2_00017)
         """
@@ -106,13 +111,13 @@ class AutosarVariableRef(ARObject):
     def setAutosarVariable(self, value: "ArVariableIn") -> "AutosarVariableRef":
         """
         AUTOSAR-compliant setter for autosarVariable with method chaining.
-        
+
         Args:
             value: The autosarVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to autosar_variable property setter (gets validation automatically)
         """
@@ -122,10 +127,10 @@ class AutosarVariableRef(ARObject):
     def getLocalVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for localVariable.
-        
+
         Returns:
             The localVariable value
-        
+
         Note:
             Delegates to local_variable property (CODING_RULE_V2_00017)
         """
@@ -134,13 +139,13 @@ class AutosarVariableRef(ARObject):
     def setLocalVariable(self, value: RefType) -> "AutosarVariableRef":
         """
         AUTOSAR-compliant setter for localVariable with method chaining.
-        
+
         Args:
             value: The localVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_variable property setter (gets validation automatically)
         """
@@ -152,13 +157,13 @@ class AutosarVariableRef(ARObject):
     def with_autosar_variable(self, value: Optional["ArVariableIn"]) -> "AutosarVariableRef":
         """
         Set autosarVariable and return self for chaining.
-        
+
         Args:
             value: The autosarVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_autosar_variable("value")
         """
@@ -168,13 +173,13 @@ class AutosarVariableRef(ARObject):
     def with_local_variable(self, value: Optional[RefType]) -> "AutosarVariableRef":
         """
         Set localVariable and return self for chaining.
-        
+
         Args:
             value: The localVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_variable("value")
         """

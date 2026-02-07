@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class BuildActionManifest(ARElement):
     """
     This meta-class represents the ability to specify a manifest for processing
     artifacts. An example use case is the processing of ECUC parameter values.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionManifest
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 134, Classic
       Platform R23-11)
@@ -57,10 +57,10 @@ class BuildActionManifest(ARElement):
     def getBuildAction(self) -> List["BuildActionEnvironment"]:
         """
         AUTOSAR-compliant getter for buildAction.
-        
+
         Returns:
             The buildAction value
-        
+
         Note:
             Delegates to build_action property (CODING_RULE_V2_00017)
         """
@@ -69,10 +69,10 @@ class BuildActionManifest(ARElement):
     def getDynamicAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for dynamicAction.
-        
+
         Returns:
             The dynamicAction value
-        
+
         Note:
             Delegates to dynamic_action property (CODING_RULE_V2_00017)
         """
@@ -81,10 +81,10 @@ class BuildActionManifest(ARElement):
     def getStartAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for startAction.
-        
+
         Returns:
             The startAction value
-        
+
         Note:
             Delegates to start_action property (CODING_RULE_V2_00017)
         """
@@ -93,10 +93,10 @@ class BuildActionManifest(ARElement):
     def getTearDownAction(self) -> List["BuildAction"]:
         """
         AUTOSAR-compliant getter for tearDownAction.
-        
+
         Returns:
             The tearDownAction value
-        
+
         Note:
             Delegates to tear_down_action property (CODING_RULE_V2_00017)
         """

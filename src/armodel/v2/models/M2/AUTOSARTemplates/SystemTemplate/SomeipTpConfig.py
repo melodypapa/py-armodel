@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SomeipTpConfig(TpConfig):
     """
     This element defines exactly one SOME/IP TP Configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::SomeipTpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 619, Classic Platform R23-11)
     """
@@ -35,10 +35,10 @@ class SomeipTpConfig(TpConfig):
     def getTpChannel(self) -> List["SomeipTpChannel"]:
         """
         AUTOSAR-compliant getter for tpChannel.
-        
+
         Returns:
             The tpChannel value
-        
+
         Note:
             Delegates to tp_channel property (CODING_RULE_V2_00017)
         """
@@ -47,10 +47,10 @@ class SomeipTpConfig(TpConfig):
     def getTpConnection(self) -> List["SomeipTpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """

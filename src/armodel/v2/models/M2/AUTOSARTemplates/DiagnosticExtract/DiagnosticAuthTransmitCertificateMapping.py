@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to associate a
     CryptoServiceCertificate with a DiagnosticAuth CertificateEvaluation with
     the purpose to configure the evaluation of the certificate.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticAuthTransmitCertificateMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 242, Classic Platform
       R23-11)
@@ -38,10 +38,10 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def service_instance(self, value: Optional["DiagnosticAuthTransmit"]) -> None:
         """
         Set serviceInstance with validation.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def getCryptoService(self) -> List["CryptoService"]:
         """
         AUTOSAR-compliant getter for cryptoService.
-        
+
         Returns:
             The cryptoService value
-        
+
         Note:
             Delegates to crypto_service property (CODING_RULE_V2_00017)
         """
@@ -72,10 +72,10 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def getServiceInstance(self) -> "DiagnosticAuthTransmit":
         """
         AUTOSAR-compliant getter for serviceInstance.
-        
+
         Returns:
             The serviceInstance value
-        
+
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """
@@ -84,13 +84,13 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def setServiceInstance(self, value: "DiagnosticAuthTransmit") -> "DiagnosticAuthTransmitCertificateMapping":
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_instance property setter (gets validation automatically)
         """
@@ -102,13 +102,13 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     def with_service_instance(self, value: Optional["DiagnosticAuthTransmit"]) -> "DiagnosticAuthTransmitCertificateMapping":
         """
         Set serviceInstance and return self for chaining.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_instance("value")
         """

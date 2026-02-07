@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EcucModuleDef(EcucDefinitionElement):
     """
     Used as the top-level element for configuration definition for Software
     Modules, including BSW and RTE as well as ECU Infrastructure.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucModuleDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 314, Classic
       Platform R23-11)
@@ -33,10 +33,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def api_service_prefix(self, value: Optional["CIdentifier"]) -> None:
         """
         Set apiServicePrefix with validation.
-        
+
         Args:
             value: The apiServicePrefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def post_build_variant(self, value: Optional["Boolean"]) -> None:
         """
         Set postBuildVariant with validation.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def refined_module(self, value: Optional["EcucModuleDef"]) -> None:
         """
         Set refinedModule with validation.
-        
+
         Args:
             value: The refinedModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +133,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def getApiServicePrefix(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for apiServicePrefix.
-        
+
         Returns:
             The apiServicePrefix value
-        
+
         Note:
             Delegates to api_service_prefix property (CODING_RULE_V2_00017)
         """
@@ -145,13 +145,13 @@ class EcucModuleDef(EcucDefinitionElement):
     def setApiServicePrefix(self, value: "CIdentifier") -> "EcucModuleDef":
         """
         AUTOSAR-compliant setter for apiServicePrefix with method chaining.
-        
+
         Args:
             value: The apiServicePrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to api_service_prefix property setter (gets validation automatically)
         """
@@ -161,10 +161,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def getContainer(self) -> List["EcucContainerDef"]:
         """
         AUTOSAR-compliant getter for container.
-        
+
         Returns:
             The container value
-        
+
         Note:
             Delegates to container property (CODING_RULE_V2_00017)
         """
@@ -173,10 +173,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def getPostBuildVariant(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for postBuildVariant.
-        
+
         Returns:
             The postBuildVariant value
-        
+
         Note:
             Delegates to post_build_variant property (CODING_RULE_V2_00017)
         """
@@ -185,13 +185,13 @@ class EcucModuleDef(EcucDefinitionElement):
     def setPostBuildVariant(self, value: "Boolean") -> "EcucModuleDef":
         """
         AUTOSAR-compliant setter for postBuildVariant with method chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to post_build_variant property setter (gets validation automatically)
         """
@@ -201,10 +201,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def getRefinedModule(self) -> "EcucModuleDef":
         """
         AUTOSAR-compliant getter for refinedModule.
-        
+
         Returns:
             The refinedModule value
-        
+
         Note:
             Delegates to refined_module property (CODING_RULE_V2_00017)
         """
@@ -213,13 +213,13 @@ class EcucModuleDef(EcucDefinitionElement):
     def setRefinedModule(self, value: "EcucModuleDef") -> "EcucModuleDef":
         """
         AUTOSAR-compliant setter for refinedModule with method chaining.
-        
+
         Args:
             value: The refinedModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to refined_module property setter (gets validation automatically)
         """
@@ -229,10 +229,10 @@ class EcucModuleDef(EcucDefinitionElement):
     def getSupported(self) -> List["EcucConfiguration"]:
         """
         AUTOSAR-compliant getter for supported.
-        
+
         Returns:
             The supported value
-        
+
         Note:
             Delegates to supported property (CODING_RULE_V2_00017)
         """
@@ -243,13 +243,13 @@ class EcucModuleDef(EcucDefinitionElement):
     def with_api_service_prefix(self, value: Optional["CIdentifier"]) -> "EcucModuleDef":
         """
         Set apiServicePrefix and return self for chaining.
-        
+
         Args:
             value: The apiServicePrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_api_service_prefix("value")
         """
@@ -259,13 +259,13 @@ class EcucModuleDef(EcucDefinitionElement):
     def with_post_build_variant(self, value: Optional["Boolean"]) -> "EcucModuleDef":
         """
         Set postBuildVariant and return self for chaining.
-        
+
         Args:
             value: The postBuildVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_post_build_variant("value")
         """
@@ -275,13 +275,13 @@ class EcucModuleDef(EcucDefinitionElement):
     def with_refined_module(self, value: Optional["EcucModuleDef"]) -> "EcucModuleDef":
         """
         Set refinedModule and return self for chaining.
-        
+
         Args:
             value: The refinedModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_refined_module("value")
         """

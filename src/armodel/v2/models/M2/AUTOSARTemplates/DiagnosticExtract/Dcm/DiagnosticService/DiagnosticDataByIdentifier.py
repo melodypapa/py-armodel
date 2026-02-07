@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     """
     This represents an abstract base class for all diagnostic services that
     access data by identifier.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -30,10 +31,10 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def data_identifier(self, value: Optional["DiagnosticAbstractData"]) -> None:
         """
         Set dataIdentifier with validation.
-        
+
         Args:
             value: The dataIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def getDataIdentifier(self) -> "DiagnosticAbstractData":
         """
         AUTOSAR-compliant getter for dataIdentifier.
-        
+
         Returns:
             The dataIdentifier value
-        
+
         Note:
             Delegates to data_identifier property (CODING_RULE_V2_00017)
         """
@@ -64,13 +65,13 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def setDataIdentifier(self, value: "DiagnosticAbstractData") -> "DiagnosticDataByIdentifier":
         """
         AUTOSAR-compliant setter for dataIdentifier with method chaining.
-        
+
         Args:
             value: The dataIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_identifier property setter (gets validation automatically)
         """
@@ -82,13 +83,13 @@ class DiagnosticDataByIdentifier(DiagnosticServiceInstance, ABC):
     def with_data_identifier(self, value: Optional["DiagnosticAbstractData"]) -> "DiagnosticDataByIdentifier":
         """
         Set dataIdentifier and return self for chaining.
-        
+
         Args:
             value: The dataIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_identifier("value")
         """

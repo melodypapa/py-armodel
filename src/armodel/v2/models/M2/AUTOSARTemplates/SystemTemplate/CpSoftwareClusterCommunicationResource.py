@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
     """
     Represents a single resource required or provided by a CP Software Cluster
     which relates to the port based communication on VFB level.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterCommunicationResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 902, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
     def communication(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
     def getCommunication(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
     def setCommunication(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterCommunicationResource":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
     def with_communication(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterCommunicationResource":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """

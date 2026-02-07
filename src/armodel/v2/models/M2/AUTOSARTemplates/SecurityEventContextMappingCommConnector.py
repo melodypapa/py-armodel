@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
     """
@@ -7,9 +7,9 @@ class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context related to a
     CommunicationConnector in which this IdsM instance can receive reports for
     these security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingCommConnector
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 40, Foundation R23-11)
     """
@@ -31,10 +31,10 @@ class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
     def getComm(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for comm.
-        
+
         Returns:
             The comm value
-        
+
         Note:
             Delegates to comm property (CODING_RULE_V2_00017)
         """

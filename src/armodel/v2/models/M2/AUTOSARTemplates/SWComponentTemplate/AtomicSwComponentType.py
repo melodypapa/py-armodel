@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class AtomicSwComponentType(SwComponentType, ABC):
     """
     An atomic software component is atomic in the sense that it cannot be
     further decomposed and distributed across multiple ECUs.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AtomicSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 304, Classic
       Platform R23-11)
@@ -42,10 +43,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set internalBehavior with validation.
-        
+
         Args:
             value: The internalBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +71,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def symbol_props(self, value: Optional["SymbolProps"]) -> None:
         """
         Set symbolProps with validation.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +93,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def getInternalBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for internalBehavior.
-        
+
         Returns:
             The internalBehavior value
-        
+
         Note:
             Delegates to internal_behavior property (CODING_RULE_V2_00017)
         """
@@ -104,13 +105,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def setInternalBehavior(self, value: "SwcInternalBehavior") -> "AtomicSwComponentType":
         """
         AUTOSAR-compliant setter for internalBehavior with method chaining.
-        
+
         Args:
             value: The internalBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to internal_behavior property setter (gets validation automatically)
         """
@@ -120,10 +121,10 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def getSymbolProps(self) -> "SymbolProps":
         """
         AUTOSAR-compliant getter for symbolProps.
-        
+
         Returns:
             The symbolProps value
-        
+
         Note:
             Delegates to symbol_props property (CODING_RULE_V2_00017)
         """
@@ -132,13 +133,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def setSymbolProps(self, value: "SymbolProps") -> "AtomicSwComponentType":
         """
         AUTOSAR-compliant setter for symbolProps with method chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol_props property setter (gets validation automatically)
         """
@@ -150,13 +151,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def with_internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> "AtomicSwComponentType":
         """
         Set internalBehavior and return self for chaining.
-        
+
         Args:
             value: The internalBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_internal_behavior("value")
         """
@@ -166,13 +167,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def with_symbol_props(self, value: Optional["SymbolProps"]) -> "AtomicSwComponentType":
         """
         Set symbolProps and return self for chaining.
-        
+
         Args:
             value: The symbolProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol_props("value")
         """

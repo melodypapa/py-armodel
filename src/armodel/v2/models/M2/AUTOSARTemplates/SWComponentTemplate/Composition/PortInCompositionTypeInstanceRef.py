@@ -1,13 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortInCompositionTypeInstanceRef(ARObject, ABC):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::PortInCompositionTypeInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 950, Classic Platform
       R23-11)
@@ -31,10 +37,10 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def abstract_context(self, value: Optional["SwComponent"]) -> None:
         """
         Set abstractContext with validation.
-        
+
         Args:
             value: The abstractContext to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +66,10 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +94,10 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def target_port(self, value: RefType) -> None:
         """
         Set targetPort with validation.
-        
+
         Args:
             value: The targetPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +112,10 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def getAbstractContext(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for abstractContext.
-        
+
         Returns:
             The abstractContext value
-        
+
         Note:
             Delegates to abstract_context property (CODING_RULE_V2_00017)
         """
@@ -118,13 +124,13 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def setAbstractContext(self, value: "SwComponent") -> "PortInCompositionTypeInstanceRef":
         """
         AUTOSAR-compliant setter for abstractContext with method chaining.
-        
+
         Args:
             value: The abstractContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to abstract_context property setter (gets validation automatically)
         """
@@ -134,10 +140,10 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -146,13 +152,13 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def setBase(self, value: "CompositionSw") -> "PortInCompositionTypeInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -162,10 +168,10 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def getTargetPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetPort.
-        
+
         Returns:
             The targetPort value
-        
+
         Note:
             Delegates to target_port property (CODING_RULE_V2_00017)
         """
@@ -174,13 +180,13 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def setTargetPort(self, value: RefType) -> "PortInCompositionTypeInstanceRef":
         """
         AUTOSAR-compliant setter for targetPort with method chaining.
-        
+
         Args:
             value: The targetPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_port property setter (gets validation automatically)
         """
@@ -192,13 +198,13 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def with_abstract_context(self, value: Optional["SwComponent"]) -> "PortInCompositionTypeInstanceRef":
         """
         Set abstractContext and return self for chaining.
-        
+
         Args:
             value: The abstractContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_abstract_context("value")
         """
@@ -208,13 +214,13 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def with_base(self, value: Optional["CompositionSw"]) -> "PortInCompositionTypeInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -224,13 +230,13 @@ class PortInCompositionTypeInstanceRef(ARObject, ABC):
     def with_target_port(self, value: Optional[RefType]) -> "PortInCompositionTypeInstanceRef":
         """
         Set targetPort and return self for chaining.
-        
+
         Args:
             value: The targetPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_port("value")
         """

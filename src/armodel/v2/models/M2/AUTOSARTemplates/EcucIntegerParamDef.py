@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucIntegerParamDef(EcucParameterDef):
     """
     Configuration parameter type for Integer.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucIntegerParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 60, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 187, Foundation R23-11)
@@ -27,10 +27,10 @@ class EcucIntegerParamDef(EcucParameterDef):
     def default_value(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class EcucIntegerParamDef(EcucParameterDef):
     def max(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class EcucIntegerParamDef(EcucParameterDef):
     def min(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class EcucIntegerParamDef(EcucParameterDef):
     def getDefaultValue(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class EcucIntegerParamDef(EcucParameterDef):
     def setDefaultValue(self, value: "UnlimitedInteger") -> "EcucIntegerParamDef":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -133,10 +133,10 @@ class EcucIntegerParamDef(EcucParameterDef):
     def getMax(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -145,13 +145,13 @@ class EcucIntegerParamDef(EcucParameterDef):
     def setMax(self, value: "UnlimitedInteger") -> "EcucIntegerParamDef":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -161,10 +161,10 @@ class EcucIntegerParamDef(EcucParameterDef):
     def getMin(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -173,13 +173,13 @@ class EcucIntegerParamDef(EcucParameterDef):
     def setMin(self, value: "UnlimitedInteger") -> "EcucIntegerParamDef":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -191,13 +191,13 @@ class EcucIntegerParamDef(EcucParameterDef):
     def with_default_value(self, value: Optional["UnlimitedInteger"]) -> "EcucIntegerParamDef":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """
@@ -207,13 +207,13 @@ class EcucIntegerParamDef(EcucParameterDef):
     def with_max(self, value: Optional["UnlimitedInteger"]) -> "EcucIntegerParamDef":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -223,13 +223,13 @@ class EcucIntegerParamDef(EcucParameterDef):
     def with_min(self, value: Optional["UnlimitedInteger"]) -> "EcucIntegerParamDef":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """

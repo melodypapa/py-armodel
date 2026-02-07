@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component to provide the
     capability to set an enable condition.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEnableConditionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 762, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def initial_status(self, value: Optional["EventAcceptanceStatus"]) -> None:
         """
         Set initialStatus with validation.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def getInitialStatus(self) -> "EventAcceptanceStatus":
         """
         AUTOSAR-compliant getter for initialStatus.
-        
+
         Returns:
             The initialStatus value
-        
+
         Note:
             Delegates to initial_status property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def setInitialStatus(self, value: "EventAcceptanceStatus") -> "DiagnosticEnableConditionNeeds":
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_status property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     def with_initial_status(self, value: Optional["EventAcceptanceStatus"]) -> "DiagnosticEnableConditionNeeds":
         """
         Set initialStatus and return self for chaining.
-        
+
         Args:
             value: The initialStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_status("value")
         """

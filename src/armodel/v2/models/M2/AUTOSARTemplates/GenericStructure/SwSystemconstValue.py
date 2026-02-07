@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwSystemconstValue(ARObject):
     """
     This meta-class assigns a particular value to a system constant.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2068, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 80, Foundation
@@ -38,10 +41,10 @@ class SwSystemconstValue(ARObject):
     def sw_systemconst(self, value: "SwSystemconst") -> None:
         """
         Set swSystemconst with validation.
-        
+
         Args:
             value: The swSystemconst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +69,10 @@ class SwSystemconstValue(ARObject):
     def value(self, value: "Numerical") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class SwSystemconstValue(ARObject):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -96,10 +99,10 @@ class SwSystemconstValue(ARObject):
     def getSwSystemconst(self) -> "SwSystemconst":
         """
         AUTOSAR-compliant getter for swSystemconst.
-        
+
         Returns:
             The swSystemconst value
-        
+
         Note:
             Delegates to sw_systemconst property (CODING_RULE_V2_00017)
         """
@@ -108,13 +111,13 @@ class SwSystemconstValue(ARObject):
     def setSwSystemconst(self, value: "SwSystemconst") -> "SwSystemconstValue":
         """
         AUTOSAR-compliant setter for swSystemconst with method chaining.
-        
+
         Args:
             value: The swSystemconst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_systemconst property setter (gets validation automatically)
         """
@@ -124,10 +127,10 @@ class SwSystemconstValue(ARObject):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -136,13 +139,13 @@ class SwSystemconstValue(ARObject):
     def setValue(self, value: "Numerical") -> "SwSystemconstValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -154,13 +157,13 @@ class SwSystemconstValue(ARObject):
     def with_sw_systemconst(self, value: "SwSystemconst") -> "SwSystemconstValue":
         """
         Set swSystemconst and return self for chaining.
-        
+
         Args:
             value: The swSystemconst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_systemconst("value")
         """
@@ -170,13 +173,13 @@ class SwSystemconstValue(ARObject):
     def with_value(self, value: "Numerical") -> "SwSystemconstValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

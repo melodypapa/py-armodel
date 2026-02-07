@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class IndexEntry(ARObject):
     """
     This class represents an index entry.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::IndexEntry
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 317, Foundation
       R23-11)
@@ -28,10 +29,10 @@ class IndexEntry(ARObject):
     def sub(self, value: "Superscript") -> None:
         """
         Set sub with validation.
-        
+
         Args:
             value: The sub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class IndexEntry(ARObject):
     def sup(self, value: "Superscript") -> None:
         """
         Set sup with validation.
-        
+
         Args:
             value: The sup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +71,10 @@ class IndexEntry(ARObject):
     def getSub(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sub.
-        
+
         Returns:
             The sub value
-        
+
         Note:
             Delegates to sub property (CODING_RULE_V2_00017)
         """
@@ -82,13 +83,13 @@ class IndexEntry(ARObject):
     def setSub(self, value: "Superscript") -> "IndexEntry":
         """
         AUTOSAR-compliant setter for sub with method chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub property setter (gets validation automatically)
         """
@@ -98,10 +99,10 @@ class IndexEntry(ARObject):
     def getSup(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sup.
-        
+
         Returns:
             The sup value
-        
+
         Note:
             Delegates to sup property (CODING_RULE_V2_00017)
         """
@@ -110,13 +111,13 @@ class IndexEntry(ARObject):
     def setSup(self, value: "Superscript") -> "IndexEntry":
         """
         AUTOSAR-compliant setter for sup with method chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sup property setter (gets validation automatically)
         """
@@ -128,13 +129,13 @@ class IndexEntry(ARObject):
     def with_sub(self, value: "Superscript") -> "IndexEntry":
         """
         Set sub and return self for chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub("value")
         """
@@ -144,13 +145,13 @@ class IndexEntry(ARObject):
     def with_sup(self, value: "Superscript") -> "IndexEntry":
         """
         Set sup and return self for chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sup("value")
         """

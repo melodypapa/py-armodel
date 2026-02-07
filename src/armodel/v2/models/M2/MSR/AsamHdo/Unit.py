@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Unit(ARElement):
     """
@@ -12,9 +12,9 @@ class Unit(ARElement):
     reciprocal of the factor (factorSiToUnit ) and the negation of the offset
     (offsetSiToUnit ) are applied. y {siUnit} := (x*{unit} - offsetSiToUnit
     [{unit}]) / (factorSiToUnit [[unit]/{siUnit}]
-    
+
     Package: M2::MSR::AsamHdo::Units::Unit
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 333, Classic Platform
       R23-11)
@@ -44,10 +44,10 @@ class Unit(ARElement):
     def display_name(self, value: Optional["SingleLanguageUnit"]) -> None:
         """
         Set displayName with validation.
-        
+
         Args:
             value: The displayName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class Unit(ARElement):
     def factor_si_to_unit(self, value: Optional["Float"]) -> None:
         """
         Set factorSiToUnit with validation.
-        
+
         Args:
             value: The factorSiToUnit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class Unit(ARElement):
     def offset_si_to_unit(self, value: Optional["Float"]) -> None:
         """
         Set offsetSiToUnit with validation.
-        
+
         Args:
             value: The offsetSiToUnit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +130,10 @@ class Unit(ARElement):
     def physical(self, value: Optional["PhysicalDimension"]) -> None:
         """
         Set physical with validation.
-        
+
         Args:
             value: The physical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +152,10 @@ class Unit(ARElement):
     def getDisplayName(self) -> "SingleLanguageUnit":
         """
         AUTOSAR-compliant getter for displayName.
-        
+
         Returns:
             The displayName value
-        
+
         Note:
             Delegates to display_name property (CODING_RULE_V2_00017)
         """
@@ -164,13 +164,13 @@ class Unit(ARElement):
     def setDisplayName(self, value: "SingleLanguageUnit") -> "Unit":
         """
         AUTOSAR-compliant setter for displayName with method chaining.
-        
+
         Args:
             value: The displayName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to display_name property setter (gets validation automatically)
         """
@@ -180,10 +180,10 @@ class Unit(ARElement):
     def getFactorSiToUnit(self) -> "Float":
         """
         AUTOSAR-compliant getter for factorSiToUnit.
-        
+
         Returns:
             The factorSiToUnit value
-        
+
         Note:
             Delegates to factor_si_to_unit property (CODING_RULE_V2_00017)
         """
@@ -192,13 +192,13 @@ class Unit(ARElement):
     def setFactorSiToUnit(self, value: "Float") -> "Unit":
         """
         AUTOSAR-compliant setter for factorSiToUnit with method chaining.
-        
+
         Args:
             value: The factorSiToUnit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to factor_si_to_unit property setter (gets validation automatically)
         """
@@ -208,10 +208,10 @@ class Unit(ARElement):
     def getOffsetSiToUnit(self) -> "Float":
         """
         AUTOSAR-compliant getter for offsetSiToUnit.
-        
+
         Returns:
             The offsetSiToUnit value
-        
+
         Note:
             Delegates to offset_si_to_unit property (CODING_RULE_V2_00017)
         """
@@ -220,13 +220,13 @@ class Unit(ARElement):
     def setOffsetSiToUnit(self, value: "Float") -> "Unit":
         """
         AUTOSAR-compliant setter for offsetSiToUnit with method chaining.
-        
+
         Args:
             value: The offsetSiToUnit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset_si_to_unit property setter (gets validation automatically)
         """
@@ -236,10 +236,10 @@ class Unit(ARElement):
     def getPhysical(self) -> "PhysicalDimension":
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -248,13 +248,13 @@ class Unit(ARElement):
     def setPhysical(self, value: "PhysicalDimension") -> "Unit":
         """
         AUTOSAR-compliant setter for physical with method chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical property setter (gets validation automatically)
         """
@@ -266,13 +266,13 @@ class Unit(ARElement):
     def with_display_name(self, value: Optional["SingleLanguageUnit"]) -> "Unit":
         """
         Set displayName and return self for chaining.
-        
+
         Args:
             value: The displayName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_display_name("value")
         """
@@ -282,13 +282,13 @@ class Unit(ARElement):
     def with_factor_si_to_unit(self, value: Optional["Float"]) -> "Unit":
         """
         Set factorSiToUnit and return self for chaining.
-        
+
         Args:
             value: The factorSiToUnit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_factor_si_to_unit("value")
         """
@@ -298,13 +298,13 @@ class Unit(ARElement):
     def with_offset_si_to_unit(self, value: Optional["Float"]) -> "Unit":
         """
         Set offsetSiToUnit and return self for chaining.
-        
+
         Args:
             value: The offsetSiToUnit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset_si_to_unit("value")
         """
@@ -314,13 +314,13 @@ class Unit(ARElement):
     def with_physical(self, value: Optional["PhysicalDimension"]) -> "Unit":
         """
         Set physical and return self for chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical("value")
         """

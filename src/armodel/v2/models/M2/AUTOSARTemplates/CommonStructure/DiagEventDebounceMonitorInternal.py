@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     """
@@ -7,9 +5,9 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     algorithm shall be used for this diagnostic monitor. The SWC might implement
     an internal debouncing algorithm and report qualified (debounced) results to
     the Dem/DM.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceMonitorInternal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 260, Classic
       Platform R23-11)

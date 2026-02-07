@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     """
     This meta class maps a Software Cluster resource to an Application Partition
     to restrict the usage.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResourceToApplicationPartitionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 284, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def application(self, value: Optional["ApplicationPartition"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +59,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def resource(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set resource with validation.
-        
+
         Args:
             value: The resource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +81,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def getApplication(self) -> "ApplicationPartition":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -91,13 +93,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def setApplication(self, value: "ApplicationPartition") -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -107,10 +109,10 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def getResource(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -119,13 +121,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def setResource(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -137,13 +139,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def with_application(self, value: Optional["ApplicationPartition"]) -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -153,13 +155,13 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     def with_resource(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
         """
         Set resource and return self for chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource("value")
         """

@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     """
     This meta-class represents the ability to map a piece of application
     software to a J1939DiagnosticNode. By this means the diagnostic
     configuration can be associated with the application software.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticJ1939SwMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 268, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def node(self, value: Optional["DiagnosticJ1939Node"]) -> None:
         """
         Set node with validation.
-        
+
         Args:
             value: The node to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def sw_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponentCompositionInstanceRef with validation.
-        
+
         Args:
             value: The swComponentCompositionInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def getNode(self) -> "DiagnosticJ1939Node":
         """
         AUTOSAR-compliant getter for node.
-        
+
         Returns:
             The node value
-        
+
         Note:
             Delegates to node property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticJ1939SwMapping":
         """
         AUTOSAR-compliant setter for node with method chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to node property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def getSwComponentCompositionInstanceRef(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponentCompositionInstanceRef.
-        
+
         Returns:
             The swComponentCompositionInstanceRef value
-        
+
         Note:
             Delegates to sw_component_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def setSwComponentCompositionInstanceRef(self, value: "SwComponent") -> "DiagnosticJ1939SwMapping":
         """
         AUTOSAR-compliant setter for swComponentCompositionInstanceRef with method chaining.
-        
+
         Args:
             value: The swComponentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component_composition_instance_ref property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticJ1939SwMapping":
         """
         Set node and return self for chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_node("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     def with_sw_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "DiagnosticJ1939SwMapping":
         """
         Set swComponentCompositionInstanceRef and return self for chaining.
-        
+
         Args:
             value: The swComponentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component_composition_instance_ref("value")
         """

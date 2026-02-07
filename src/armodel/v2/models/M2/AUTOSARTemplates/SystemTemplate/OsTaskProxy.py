@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class OsTaskProxy(ARElement):
     """
     This meta-class represents a proxy for an OsTask in the System Description.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::OsTaskProxy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 208, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class OsTaskProxy(ARElement):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class OsTaskProxy(ARElement):
     def preemptability(self, value: Optional["OsTaskPreemptability"]) -> None:
         """
         Set preemptability with validation.
-        
+
         Args:
             value: The preemptability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class OsTaskProxy(ARElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class OsTaskProxy(ARElement):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class OsTaskProxy(ARElement):
     def setPeriod(self, value: "TimeValue") -> "OsTaskProxy":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -137,10 +137,10 @@ class OsTaskProxy(ARElement):
     def getPreemptability(self) -> "OsTaskPreemptability":
         """
         AUTOSAR-compliant getter for preemptability.
-        
+
         Returns:
             The preemptability value
-        
+
         Note:
             Delegates to preemptability property (CODING_RULE_V2_00017)
         """
@@ -149,13 +149,13 @@ class OsTaskProxy(ARElement):
     def setPreemptability(self, value: "OsTaskPreemptability") -> "OsTaskProxy":
         """
         AUTOSAR-compliant setter for preemptability with method chaining.
-        
+
         Args:
             value: The preemptability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to preemptability property setter (gets validation automatically)
         """
@@ -165,10 +165,10 @@ class OsTaskProxy(ARElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class OsTaskProxy(ARElement):
     def setPriority(self, value: "PositiveInteger") -> "OsTaskProxy":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -195,13 +195,13 @@ class OsTaskProxy(ARElement):
     def with_period(self, value: Optional["TimeValue"]) -> "OsTaskProxy":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """
@@ -211,13 +211,13 @@ class OsTaskProxy(ARElement):
     def with_preemptability(self, value: Optional["OsTaskPreemptability"]) -> "OsTaskProxy":
         """
         Set preemptability and return self for chaining.
-        
+
         Args:
             value: The preemptability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_preemptability("value")
         """
@@ -227,13 +227,13 @@ class OsTaskProxy(ARElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "OsTaskProxy":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """

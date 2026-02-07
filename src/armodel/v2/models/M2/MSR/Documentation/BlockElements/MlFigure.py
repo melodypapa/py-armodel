@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class MlFigure(Paginateable):
     """
     This metaclass represents the ability to embed a figure.
-    
+
     Package: M2::MSR::Documentation::BlockElements::Figure::MlFigure
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 307, Foundation
       R23-11)
@@ -27,10 +27,10 @@ class MlFigure(Paginateable):
     def figure_caption(self, value: Optional["Caption"]) -> None:
         """
         Set figureCaption with validation.
-        
+
         Args:
             value: The figureCaption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class MlFigure(Paginateable):
     def frame(self, value: Optional["FrameEnum"]) -> None:
         """
         Set frame with validation.
-        
+
         Args:
             value: The frame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class MlFigure(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class MlFigure(Paginateable):
     def pgwide(self, value: Optional["PgwideEnum"]) -> None:
         """
         Set pgwide with validation.
-        
+
         Args:
             value: The pgwide to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -156,10 +156,10 @@ class MlFigure(Paginateable):
     def verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> None:
         """
         Set verbatim with validation.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +178,10 @@ class MlFigure(Paginateable):
     def getFigureCaption(self) -> "Caption":
         """
         AUTOSAR-compliant getter for figureCaption.
-        
+
         Returns:
             The figureCaption value
-        
+
         Note:
             Delegates to figure_caption property (CODING_RULE_V2_00017)
         """
@@ -190,13 +190,13 @@ class MlFigure(Paginateable):
     def setFigureCaption(self, value: "Caption") -> "MlFigure":
         """
         AUTOSAR-compliant setter for figureCaption with method chaining.
-        
+
         Args:
             value: The figureCaption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to figure_caption property setter (gets validation automatically)
         """
@@ -206,10 +206,10 @@ class MlFigure(Paginateable):
     def getFrame(self) -> "FrameEnum":
         """
         AUTOSAR-compliant getter for frame.
-        
+
         Returns:
             The frame value
-        
+
         Note:
             Delegates to frame property (CODING_RULE_V2_00017)
         """
@@ -218,13 +218,13 @@ class MlFigure(Paginateable):
     def setFrame(self, value: "FrameEnum") -> "MlFigure":
         """
         AUTOSAR-compliant setter for frame with method chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame property setter (gets validation automatically)
         """
@@ -234,10 +234,10 @@ class MlFigure(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -246,13 +246,13 @@ class MlFigure(Paginateable):
     def setHelpEntry(self, value: "String") -> "MlFigure":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -262,10 +262,10 @@ class MlFigure(Paginateable):
     def getLGraphic(self) -> List["LGraphic"]:
         """
         AUTOSAR-compliant getter for lGraphic.
-        
+
         Returns:
             The lGraphic value
-        
+
         Note:
             Delegates to l_graphic property (CODING_RULE_V2_00017)
         """
@@ -274,10 +274,10 @@ class MlFigure(Paginateable):
     def getPgwide(self) -> "PgwideEnum":
         """
         AUTOSAR-compliant getter for pgwide.
-        
+
         Returns:
             The pgwide value
-        
+
         Note:
             Delegates to pgwide property (CODING_RULE_V2_00017)
         """
@@ -286,13 +286,13 @@ class MlFigure(Paginateable):
     def setPgwide(self, value: "PgwideEnum") -> "MlFigure":
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
-        
+
         Args:
             value: The pgwide to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pgwide property setter (gets validation automatically)
         """
@@ -302,10 +302,10 @@ class MlFigure(Paginateable):
     def getVerbatim(self) -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant getter for verbatim.
-        
+
         Returns:
             The verbatim value
-        
+
         Note:
             Delegates to verbatim property (CODING_RULE_V2_00017)
         """
@@ -314,13 +314,13 @@ class MlFigure(Paginateable):
     def setVerbatim(self, value: "MultiLanguageVerbatim") -> "MlFigure":
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to verbatim property setter (gets validation automatically)
         """
@@ -332,13 +332,13 @@ class MlFigure(Paginateable):
     def with_figure_caption(self, value: Optional["Caption"]) -> "MlFigure":
         """
         Set figureCaption and return self for chaining.
-        
+
         Args:
             value: The figureCaption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_figure_caption("value")
         """
@@ -348,13 +348,13 @@ class MlFigure(Paginateable):
     def with_frame(self, value: Optional["FrameEnum"]) -> "MlFigure":
         """
         Set frame and return self for chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame("value")
         """
@@ -364,13 +364,13 @@ class MlFigure(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "MlFigure":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """
@@ -380,13 +380,13 @@ class MlFigure(Paginateable):
     def with_pgwide(self, value: Optional["PgwideEnum"]) -> "MlFigure":
         """
         Set pgwide and return self for chaining.
-        
+
         Args:
             value: The pgwide to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pgwide("value")
         """
@@ -396,13 +396,13 @@ class MlFigure(Paginateable):
     def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> "MlFigure":
         """
         Set verbatim and return self for chaining.
-        
+
         Args:
             value: The verbatim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_verbatim("value")
         """

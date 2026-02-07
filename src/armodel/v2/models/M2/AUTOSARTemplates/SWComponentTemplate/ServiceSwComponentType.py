@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ServiceSwComponentType(AtomicSwComponentType):
     """
     ServiceSwComponentType is used for configuring services for a given ECU.
     Instances of this class are only to be created in ECU Configuration phase
     for the specific purpose of the service configuration.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ServiceSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 336, Classic
       Platform R23-11)

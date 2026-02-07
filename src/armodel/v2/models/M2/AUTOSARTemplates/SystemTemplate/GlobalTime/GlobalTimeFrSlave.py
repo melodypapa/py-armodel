@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class GlobalTimeFrSlave(GlobalTimeSlave):
     """
     This represents the specialization of the GlobalTimeSlave for Flexray
     communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::GlobalTimeFrSlave
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 878, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def crc_validated(self, value: Optional["GlobalTimeCrc"]) -> None:
         """
         Set crcValidated with validation.
-        
+
         Args:
             value: The crcValidated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def sequence(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sequence with validation.
-        
+
         Args:
             value: The sequence to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def getCrcValidated(self) -> "GlobalTimeCrc":
         """
         AUTOSAR-compliant getter for crcValidated.
-        
+
         Returns:
             The crcValidated value
-        
+
         Note:
             Delegates to crc_validated property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def setCrcValidated(self, value: "GlobalTimeCrc") -> "GlobalTimeFrSlave":
         """
         AUTOSAR-compliant setter for crcValidated with method chaining.
-        
+
         Args:
             value: The crcValidated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_validated property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def getSequence(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sequence.
-        
+
         Returns:
             The sequence value
-        
+
         Note:
             Delegates to sequence property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def setSequence(self, value: "PositiveInteger") -> "GlobalTimeFrSlave":
         """
         AUTOSAR-compliant setter for sequence with method chaining.
-        
+
         Args:
             value: The sequence to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sequence property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> "GlobalTimeFrSlave":
         """
         Set crcValidated and return self for chaining.
-        
+
         Args:
             value: The crcValidated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_validated("value")
         """
@@ -152,13 +152,13 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
     def with_sequence(self, value: Optional["PositiveInteger"]) -> "GlobalTimeFrSlave":
         """
         Set sequence and return self for chaining.
-        
+
         Args:
             value: The sequence to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sequence("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SoAdConfig(ARObject):
     """
     SoAd Configuration for one specific Physical Channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SoAdConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 451, Classic Platform R23-11)
     """
@@ -38,10 +41,10 @@ class SoAdConfig(ARObject):
     def getConnection(self) -> List["SocketConnection"]:
         """
         AUTOSAR-compliant getter for connection.
-        
+
         Returns:
             The connection value
-        
+
         Note:
             Delegates to connection property (CODING_RULE_V2_00017)
         """
@@ -50,10 +53,10 @@ class SoAdConfig(ARObject):
     def getSocketAddress(self) -> List["SocketAddress"]:
         """
         AUTOSAR-compliant getter for socketAddress.
-        
+
         Returns:
             The socketAddress value
-        
+
         Note:
             Delegates to socket_address property (CODING_RULE_V2_00017)
         """

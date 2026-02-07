@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DiagnosticConditionGroup(DiagnosticCommonElement, ABC):
     """
     Abstract element for StorageConditionGroups and EnableConditionGroups.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticConditionGroup::DiagnosticConditionGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 200, Classic Platform
       R23-11)

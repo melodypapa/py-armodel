@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     """
     This meta-class represents the ability to model specific trouble-code
     related properties for J1939.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeJ1939
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 221, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set dtcPropsProps with validation.
-        
+
         Args:
             value: The dtcPropsProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def fmi(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set fmi with validation.
-        
+
         Args:
             value: The fmi to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def kind(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set kind with validation.
-        
+
         Args:
             value: The kind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +113,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def node(self, value: Optional["DiagnosticJ1939Node"]) -> None:
         """
         Set node with validation.
-        
+
         Args:
             value: The node to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +141,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def spn(self, value: Optional["DiagnosticJ1939Spn"]) -> None:
         """
         Set spn with validation.
-        
+
         Args:
             value: The spn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +163,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def getDtcPropsProps(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for dtcPropsProps.
-        
+
         Returns:
             The dtcPropsProps value
-        
+
         Note:
             Delegates to dtc_props_props property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def setDtcPropsProps(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeJ1939":
         """
         AUTOSAR-compliant setter for dtcPropsProps with method chaining.
-        
+
         Args:
             value: The dtcPropsProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dtc_props_props property setter (gets validation automatically)
         """
@@ -191,10 +191,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def getFmi(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for fmi.
-        
+
         Returns:
             The fmi value
-        
+
         Note:
             Delegates to fmi property (CODING_RULE_V2_00017)
         """
@@ -203,13 +203,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def setFmi(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeJ1939":
         """
         AUTOSAR-compliant setter for fmi with method chaining.
-        
+
         Args:
             value: The fmi to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fmi property setter (gets validation automatically)
         """
@@ -219,10 +219,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def getKind(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for kind.
-        
+
         Returns:
             The kind value
-        
+
         Note:
             Delegates to kind property (CODING_RULE_V2_00017)
         """
@@ -231,13 +231,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def setKind(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeJ1939":
         """
         AUTOSAR-compliant setter for kind with method chaining.
-        
+
         Args:
             value: The kind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to kind property setter (gets validation automatically)
         """
@@ -247,10 +247,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def getNode(self) -> "DiagnosticJ1939Node":
         """
         AUTOSAR-compliant getter for node.
-        
+
         Returns:
             The node value
-        
+
         Note:
             Delegates to node property (CODING_RULE_V2_00017)
         """
@@ -259,13 +259,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def setNode(self, value: "DiagnosticJ1939Node") -> "DiagnosticTroubleCodeJ1939":
         """
         AUTOSAR-compliant setter for node with method chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to node property setter (gets validation automatically)
         """
@@ -275,10 +275,10 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def getSpn(self) -> "DiagnosticJ1939Spn":
         """
         AUTOSAR-compliant getter for spn.
-        
+
         Returns:
             The spn value
-        
+
         Note:
             Delegates to spn property (CODING_RULE_V2_00017)
         """
@@ -287,13 +287,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def setSpn(self, value: "DiagnosticJ1939Spn") -> "DiagnosticTroubleCodeJ1939":
         """
         AUTOSAR-compliant setter for spn with method chaining.
-        
+
         Args:
             value: The spn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to spn property setter (gets validation automatically)
         """
@@ -305,13 +305,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def with_dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeJ1939":
         """
         Set dtcPropsProps and return self for chaining.
-        
+
         Args:
             value: The dtcPropsProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dtc_props_props("value")
         """
@@ -321,13 +321,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def with_fmi(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeJ1939":
         """
         Set fmi and return self for chaining.
-        
+
         Args:
             value: The fmi to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fmi("value")
         """
@@ -337,13 +337,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def with_kind(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeJ1939":
         """
         Set kind and return self for chaining.
-        
+
         Args:
             value: The kind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_kind("value")
         """
@@ -353,13 +353,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def with_node(self, value: Optional["DiagnosticJ1939Node"]) -> "DiagnosticTroubleCodeJ1939":
         """
         Set node and return self for chaining.
-        
+
         Args:
             value: The node to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_node("value")
         """
@@ -369,13 +369,13 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     def with_spn(self, value: Optional["DiagnosticJ1939Spn"]) -> "DiagnosticTroubleCodeJ1939":
         """
         Set spn and return self for chaining.
-        
+
         Args:
             value: The spn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_spn("value")
         """

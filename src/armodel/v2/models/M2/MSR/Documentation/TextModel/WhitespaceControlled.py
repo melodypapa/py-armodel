@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class WhitespaceControlled(ARObject, ABC):
     """
     This meta-class represents the ability to control the white-space handling
     e.g. in xml serialization. This is implemented by adding the attribute
     "space".
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::WhitespaceControlled
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 292, Foundation
       R23-11)
@@ -33,10 +36,10 @@ class WhitespaceControlled(ARObject, ABC):
     def xml_space(self, value: "XmlSpaceEnum") -> None:
         """
         Set xmlSpace with validation.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class WhitespaceControlled(ARObject, ABC):
     def getXmlSpace(self) -> "XmlSpaceEnum":
         """
         AUTOSAR-compliant getter for xmlSpace.
-        
+
         Returns:
             The xmlSpace value
-        
+
         Note:
             Delegates to xml_space property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class WhitespaceControlled(ARObject, ABC):
     def setXmlSpace(self, value: "XmlSpaceEnum") -> "WhitespaceControlled":
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to xml_space property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class WhitespaceControlled(ARObject, ABC):
     def with_xml_space(self, value: "XmlSpaceEnum") -> "WhitespaceControlled":
         """
         Set xmlSpace and return self for chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_xml_space("value")
         """

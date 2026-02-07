@@ -1,7 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import MultilanguageReferrable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import (
+    MultilanguageReferrable,
+)
+
 
 class Traceable(MultilanguageReferrable, ABC):
     """
@@ -9,9 +12,9 @@ class Traceable(MultilanguageReferrable, ABC):
     MultilanguageReferrable or from Identifiable. Nevertheless it also inherits
     from MultilanguageReferrable in order to provide a common reference target
     for all Traceables.
-    
+
     Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::Traceable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 312, Foundation
       R23-11)
@@ -37,10 +40,10 @@ class Traceable(MultilanguageReferrable, ABC):
     def getTrace(self) -> List["Traceable"]:
         """
         AUTOSAR-compliant getter for trace.
-        
+
         Returns:
             The trace value
-        
+
         Note:
             Delegates to trace property (CODING_RULE_V2_00017)
         """

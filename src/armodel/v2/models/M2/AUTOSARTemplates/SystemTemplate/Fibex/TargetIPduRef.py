@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TargetIPduRef(ARObject):
     """
     Target destination of the referencing mapping.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::TargetIPduRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 841, Classic Platform R23-11)
     """
@@ -28,10 +33,10 @@ class TargetIPduRef(ARObject):
     def default_value(self, value: RefType) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +57,10 @@ class TargetIPduRef(ARObject):
     def target_i_pdu(self, value: RefType) -> None:
         """
         Set targetIPdu with validation.
-        
+
         Args:
             value: The targetIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +75,10 @@ class TargetIPduRef(ARObject):
     def getDefaultValue(self) -> RefType:
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -82,13 +87,13 @@ class TargetIPduRef(ARObject):
     def setDefaultValue(self, value: RefType) -> "TargetIPduRef":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -98,10 +103,10 @@ class TargetIPduRef(ARObject):
     def getTargetIPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetIPdu.
-        
+
         Returns:
             The targetIPdu value
-        
+
         Note:
             Delegates to target_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -110,13 +115,13 @@ class TargetIPduRef(ARObject):
     def setTargetIPdu(self, value: RefType) -> "TargetIPduRef":
         """
         AUTOSAR-compliant setter for targetIPdu with method chaining.
-        
+
         Args:
             value: The targetIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_i_pdu property setter (gets validation automatically)
         """
@@ -128,13 +133,13 @@ class TargetIPduRef(ARObject):
     def with_default_value(self, value: Optional[RefType]) -> "TargetIPduRef":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """
@@ -144,13 +149,13 @@ class TargetIPduRef(ARObject):
     def with_target_i_pdu(self, value: Optional[RefType]) -> "TargetIPduRef":
         """
         Set targetIPdu and return self for chaining.
-        
+
         Args:
             value: The targetIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_i_pdu("value")
         """

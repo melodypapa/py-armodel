@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwcServiceDependency(ServiceDependency):
     """
@@ -10,9 +13,9 @@ class SwcServiceDependency(ServiceDependency):
     ServiceNeeds element. (cid:53) 224 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::SwcServiceDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 224, Classic Platform
       R23-11)
@@ -53,10 +56,10 @@ class SwcServiceDependency(ServiceDependency):
     def represented_port(self, value: RefType) -> None:
         """
         Set representedPort with validation.
-        
+
         Args:
             value: The representedPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class SwcServiceDependency(ServiceDependency):
     def service_needs(self, value: Optional["ServiceNeeds"]) -> None:
         """
         Set serviceNeeds with validation.
-        
+
         Args:
             value: The serviceNeeds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +102,10 @@ class SwcServiceDependency(ServiceDependency):
     def getAssignedData(self) -> List["RoleBasedData"]:
         """
         AUTOSAR-compliant getter for assignedData.
-        
+
         Returns:
             The assignedData value
-        
+
         Note:
             Delegates to assigned_data property (CODING_RULE_V2_00017)
         """
@@ -111,10 +114,10 @@ class SwcServiceDependency(ServiceDependency):
     def getAssignedPort(self) -> List["RoleBasedPort"]:
         """
         AUTOSAR-compliant getter for assignedPort.
-        
+
         Returns:
             The assignedPort value
-        
+
         Note:
             Delegates to assigned_port property (CODING_RULE_V2_00017)
         """
@@ -123,10 +126,10 @@ class SwcServiceDependency(ServiceDependency):
     def getRepresentedPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for representedPort.
-        
+
         Returns:
             The representedPort value
-        
+
         Note:
             Delegates to represented_port property (CODING_RULE_V2_00017)
         """
@@ -135,13 +138,13 @@ class SwcServiceDependency(ServiceDependency):
     def setRepresentedPort(self, value: RefType) -> "SwcServiceDependency":
         """
         AUTOSAR-compliant setter for representedPort with method chaining.
-        
+
         Args:
             value: The representedPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to represented_port property setter (gets validation automatically)
         """
@@ -151,10 +154,10 @@ class SwcServiceDependency(ServiceDependency):
     def getServiceNeeds(self) -> "ServiceNeeds":
         """
         AUTOSAR-compliant getter for serviceNeeds.
-        
+
         Returns:
             The serviceNeeds value
-        
+
         Note:
             Delegates to service_needs property (CODING_RULE_V2_00017)
         """
@@ -163,13 +166,13 @@ class SwcServiceDependency(ServiceDependency):
     def setServiceNeeds(self, value: "ServiceNeeds") -> "SwcServiceDependency":
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
-        
+
         Args:
             value: The serviceNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_needs property setter (gets validation automatically)
         """
@@ -181,13 +184,13 @@ class SwcServiceDependency(ServiceDependency):
     def with_represented_port(self, value: Optional[RefType]) -> "SwcServiceDependency":
         """
         Set representedPort and return self for chaining.
-        
+
         Args:
             value: The representedPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_represented_port("value")
         """
@@ -197,13 +200,13 @@ class SwcServiceDependency(ServiceDependency):
     def with_service_needs(self, value: Optional["ServiceNeeds"]) -> "SwcServiceDependency":
         """
         Set serviceNeeds and return self for chaining.
-        
+
         Args:
             value: The serviceNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_needs("value")
         """

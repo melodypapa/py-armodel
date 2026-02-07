@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class SpecElementScope(SpecElementReference, ABC):
     """
     This class defines if a specification element is relevant within the context
     of this data exchange point.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::SpecElementScope
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 84, Foundation R23-11)
     """
@@ -31,10 +32,10 @@ class SpecElementScope(SpecElementReference, ABC):
     def in_scope(self, value: Optional["Boolean"]) -> None:
         """
         Set inScope with validation.
-        
+
         Args:
             value: The inScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +54,10 @@ class SpecElementScope(SpecElementReference, ABC):
     def getInScope(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for inScope.
-        
+
         Returns:
             The inScope value
-        
+
         Note:
             Delegates to in_scope property (CODING_RULE_V2_00017)
         """
@@ -65,13 +66,13 @@ class SpecElementScope(SpecElementReference, ABC):
     def setInScope(self, value: "Boolean") -> "SpecElementScope":
         """
         AUTOSAR-compliant setter for inScope with method chaining.
-        
+
         Args:
             value: The inScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to in_scope property setter (gets validation automatically)
         """
@@ -83,13 +84,13 @@ class SpecElementScope(SpecElementReference, ABC):
     def with_in_scope(self, value: Optional["Boolean"]) -> "SpecElementScope":
         """
         Set inScope and return self for chaining.
-        
+
         Args:
             value: The inScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_in_scope("value")
         """

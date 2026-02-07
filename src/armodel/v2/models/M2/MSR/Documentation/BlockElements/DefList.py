@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DefList(Paginateable):
     """
     This meta-class represents the ability to express a list of definitions.
     Note that a definition list might be rendered similar to a labeled list but
     has a particular semantics to denote definitions.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::DefList
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 297, Foundation
       R23-11)
@@ -29,10 +27,10 @@ class DefList(Paginateable):
     def def_item(self, value: "DefItem") -> None:
         """
         Set defItem with validation.
-        
+
         Args:
             value: The defItem to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +45,10 @@ class DefList(Paginateable):
     def getDefItem(self) -> "DefItem":
         """
         AUTOSAR-compliant getter for defItem.
-        
+
         Returns:
             The defItem value
-        
+
         Note:
             Delegates to def_item property (CODING_RULE_V2_00017)
         """
@@ -59,13 +57,13 @@ class DefList(Paginateable):
     def setDefItem(self, value: "DefItem") -> "DefList":
         """
         AUTOSAR-compliant setter for defItem with method chaining.
-        
+
         Args:
             value: The defItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to def_item property setter (gets validation automatically)
         """
@@ -77,13 +75,13 @@ class DefList(Paginateable):
     def with_def_item(self, value: "DefItem") -> "DefList":
         """
         Set defItem and return self for chaining.
-        
+
         Args:
             value: The defItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_def_item("value")
         """

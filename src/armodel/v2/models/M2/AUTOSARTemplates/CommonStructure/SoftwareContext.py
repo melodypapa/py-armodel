@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SoftwareContext(ARObject):
     """
     Specifies the context of the software for this resource consumption.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::SoftwareContext
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 163, Classic
       Platform R23-11)
@@ -28,10 +31,10 @@ class SoftwareContext(ARObject):
     def input(self, value: Optional["String"]) -> None:
         """
         Set input with validation.
-        
+
         Args:
             value: The input to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class SoftwareContext(ARObject):
     def state(self, value: Optional["String"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class SoftwareContext(ARObject):
     def getInput(self) -> "String":
         """
         AUTOSAR-compliant getter for input.
-        
+
         Returns:
             The input value
-        
+
         Note:
             Delegates to input property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class SoftwareContext(ARObject):
     def setInput(self, value: "String") -> "SoftwareContext":
         """
         AUTOSAR-compliant setter for input with method chaining.
-        
+
         Args:
             value: The input to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to input property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class SoftwareContext(ARObject):
     def getState(self) -> "String":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class SoftwareContext(ARObject):
     def setState(self, value: "String") -> "SoftwareContext":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class SoftwareContext(ARObject):
     def with_input(self, value: Optional["String"]) -> "SoftwareContext":
         """
         Set input and return self for chaining.
-        
+
         Args:
             value: The input to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_input("value")
         """
@@ -152,13 +155,13 @@ class SoftwareContext(ARObject):
     def with_state(self, value: Optional["String"]) -> "SoftwareContext":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """

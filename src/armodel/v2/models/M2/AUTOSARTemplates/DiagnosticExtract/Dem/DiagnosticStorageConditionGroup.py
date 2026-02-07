@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
     """
     Storage condition group which includes one or several storage conditions.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticConditionGroup::DiagnosticStorageConditionGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 200, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
     def getStorage(self) -> List["DiagnosticStorage"]:
         """
         AUTOSAR-compliant getter for storage.
-        
+
         Returns:
             The storage value
-        
+
         Note:
             Delegates to storage property (CODING_RULE_V2_00017)
         """

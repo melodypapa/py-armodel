@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class AtpDefinition(Referrable, ABC):
     """
     This abstract meta class represents "definition"-elements which identify the
     respective values. For example the value of a particular system constant is
     identified by the definition of this system constant.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AtpDefinition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 383, Foundation
       R23-11)

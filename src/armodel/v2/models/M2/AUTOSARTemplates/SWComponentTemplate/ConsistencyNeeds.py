@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ConsistencyNeeds(Identifiable):
     """
     This meta-class represents the ability to define requirements on the
     implicit communication behavior.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::ConsistencyNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 221, Classic Platform
       R23-11)
@@ -66,10 +70,10 @@ class ConsistencyNeeds(Identifiable):
     def getDpgDoesNot(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dpgDoesNot.
-        
+
         Returns:
             The dpgDoesNot value
-        
+
         Note:
             Delegates to dpg_does_not property (CODING_RULE_V2_00017)
         """
@@ -78,10 +82,10 @@ class ConsistencyNeeds(Identifiable):
     def getDpgRequires(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dpgRequires.
-        
+
         Returns:
             The dpgRequires value
-        
+
         Note:
             Delegates to dpg_requires property (CODING_RULE_V2_00017)
         """
@@ -90,10 +94,10 @@ class ConsistencyNeeds(Identifiable):
     def getRegDoesNot(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for regDoesNot.
-        
+
         Returns:
             The regDoesNot value
-        
+
         Note:
             Delegates to reg_does_not property (CODING_RULE_V2_00017)
         """
@@ -102,10 +106,10 @@ class ConsistencyNeeds(Identifiable):
     def getRegRequires(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for regRequires.
-        
+
         Returns:
             The regRequires value
-        
+
         Note:
             Delegates to reg_requires property (CODING_RULE_V2_00017)
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     """
     This meta-class represents the ability to formulate a diagnostic environment
     condition based on the value of a data element owned by the application
     software.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvDataElementCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 85, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def compare_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set compareValue with validation.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def data_prototype(self, value: RefType) -> None:
         """
         Set dataPrototype with validation.
-        
+
         Args:
             value: The dataPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +110,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def getCompareValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for compareValue.
-        
+
         Returns:
             The compareValue value
-        
+
         Note:
             Delegates to compare_value property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def setCompareValue(self, value: "ValueSpecification") -> "DiagnosticEnvDataElementCondition":
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compare_value property setter (gets validation automatically)
         """
@@ -135,10 +138,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def getDataPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataPrototype.
-        
+
         Returns:
             The dataPrototype value
-        
+
         Note:
             Delegates to data_prototype property (CODING_RULE_V2_00017)
         """
@@ -147,13 +150,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def setDataPrototype(self, value: RefType) -> "DiagnosticEnvDataElementCondition":
         """
         AUTOSAR-compliant setter for dataPrototype with method chaining.
-        
+
         Args:
             value: The dataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_prototype property setter (gets validation automatically)
         """
@@ -163,10 +166,10 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -175,13 +178,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def setSwDataDef(self, value: "SwDataDefProps") -> "DiagnosticEnvDataElementCondition":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -193,13 +196,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def with_compare_value(self, value: Optional["ValueSpecification"]) -> "DiagnosticEnvDataElementCondition":
         """
         Set compareValue and return self for chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compare_value("value")
         """
@@ -209,13 +212,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def with_data_prototype(self, value: Optional[RefType]) -> "DiagnosticEnvDataElementCondition":
         """
         Set dataPrototype and return self for chaining.
-        
+
         Args:
             value: The dataPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_prototype("value")
         """
@@ -225,13 +228,13 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DiagnosticEnvDataElementCondition":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """

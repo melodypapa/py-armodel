@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class InternalBehavior(Identifiable, ABC):
     """
     Common base class (abstract) for the internal behavior of both software
     components and basic software modules/clusters.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::InternalBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 64, Classic
       Platform R23-11)
@@ -90,10 +95,10 @@ class InternalBehavior(Identifiable, ABC):
     def getConstant(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for constant.
-        
+
         Returns:
             The constant value
-        
+
         Note:
             Delegates to constant property (CODING_RULE_V2_00017)
         """
@@ -102,10 +107,10 @@ class InternalBehavior(Identifiable, ABC):
     def getConstantValue(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constantValue.
-        
+
         Returns:
             The constantValue value
-        
+
         Note:
             Delegates to constant_value property (CODING_RULE_V2_00017)
         """
@@ -114,10 +119,10 @@ class InternalBehavior(Identifiable, ABC):
     def getDataType(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -126,10 +131,10 @@ class InternalBehavior(Identifiable, ABC):
     def getExclusiveArea(self) -> List["ExclusiveAreaNesting"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -138,10 +143,10 @@ class InternalBehavior(Identifiable, ABC):
     def getStaticMemory(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for staticMemory.
-        
+
         Returns:
             The staticMemory value
-        
+
         Note:
             Delegates to static_memory property (CODING_RULE_V2_00017)
         """

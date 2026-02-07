@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SOMEIPTransformationDescription(TransformationDescription):
     """
     The SOMEIPTransformationDescription is used to specify SOME/IP transformer
     specific attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::SOMEIPTransformationDescription
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 777, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def alignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set alignment with validation.
-        
+
         Args:
             value: The alignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def byte_order(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set byteOrder with validation.
-        
+
         Args:
             value: The byteOrder to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def interface_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set interfaceVersion with validation.
-        
+
         Args:
             value: The interfaceVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def getAlignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for alignment.
-        
+
         Returns:
             The alignment value
-        
+
         Note:
             Delegates to alignment property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def setAlignment(self, value: "PositiveInteger") -> "SOMEIPTransformationDescription":
         """
         AUTOSAR-compliant setter for alignment with method chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alignment property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def getByteOrder(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for byteOrder.
-        
+
         Returns:
             The byteOrder value
-        
+
         Note:
             Delegates to byte_order property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def setByteOrder(self, value: "ByteOrderEnum") -> "SOMEIPTransformationDescription":
         """
         AUTOSAR-compliant setter for byteOrder with method chaining.
-        
+
         Args:
             value: The byteOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to byte_order property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def getInterfaceVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for interfaceVersion.
-        
+
         Returns:
             The interfaceVersion value
-        
+
         Note:
             Delegates to interface_version property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def setInterfaceVersion(self, value: "PositiveInteger") -> "SOMEIPTransformationDescription":
         """
         AUTOSAR-compliant setter for interfaceVersion with method chaining.
-        
+
         Args:
             value: The interfaceVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interface_version property setter (gets validation automatically)
         """
@@ -193,13 +193,13 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def with_alignment(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationDescription":
         """
         Set alignment and return self for chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alignment("value")
         """
@@ -209,13 +209,13 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> "SOMEIPTransformationDescription":
         """
         Set byteOrder and return self for chaining.
-        
+
         Args:
             value: The byteOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_byte_order("value")
         """
@@ -225,13 +225,13 @@ class SOMEIPTransformationDescription(TransformationDescription):
     def with_interface_version(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationDescription":
         """
         Set interfaceVersion and return self for chaining.
-        
+
         Args:
             value: The interfaceVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interface_version("value")
         """

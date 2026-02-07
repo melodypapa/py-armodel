@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IEEE1722TpAcfBusPart(Identifiable, ABC):
     """
     Definition of one IEEE1722Tp ACF part transported over the IEEE1722Tp
     channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfBusPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 657, Classic Platform R23-11)
     """
@@ -33,10 +38,10 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
     def collection_trigger(self, value: RefType) -> None:
         """
         Set collectionTrigger with validation.
-        
+
         Args:
             value: The collectionTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +56,10 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
     def getCollectionTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for collectionTrigger.
-        
+
         Returns:
             The collectionTrigger value
-        
+
         Note:
             Delegates to collection_trigger property (CODING_RULE_V2_00017)
         """
@@ -63,13 +68,13 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
     def setCollectionTrigger(self, value: RefType) -> "IEEE1722TpAcfBusPart":
         """
         AUTOSAR-compliant setter for collectionTrigger with method chaining.
-        
+
         Args:
             value: The collectionTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection_trigger property setter (gets validation automatically)
         """
@@ -81,13 +86,13 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
     def with_collection_trigger(self, value: Optional[RefType]) -> "IEEE1722TpAcfBusPart":
         """
         Set collectionTrigger and return self for chaining.
-        
+
         Args:
             value: The collectionTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection_trigger("value")
         """

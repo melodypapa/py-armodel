@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ConstantSpecificationMappingSet(ARElement):
     """
@@ -7,9 +7,9 @@ class ConstantSpecificationMappingSet(ARElement):
     each others. One Constant Specification is supposed to be described in the
     application domain and the other should be described in the implementation
     domain.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantSpecificationMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 445, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class ConstantSpecificationMappingSet(ARElement):
     def getMapping(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """

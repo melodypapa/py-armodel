@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MixedContentForLongName(ARObject, ABC):
     """
@@ -9,9 +12,9 @@ class MixedContentForLongName(ARObject, ABC):
     in question). It is intended that the content model can also be rendered as
     plain text. The abstract class can be used for single language as well as
     for multi language elements.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForLongName
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 62, Foundation R23-11)
     """
@@ -33,10 +36,10 @@ class MixedContentForLongName(ARObject, ABC):
     def e(self, value: "EmphasisText") -> None:
         """
         Set e with validation.
-        
+
         Args:
             value: The e to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class MixedContentForLongName(ARObject, ABC):
     def ie(self, value: "IndexEntry") -> None:
         """
         Set ie with validation.
-        
+
         Args:
             value: The ie to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class MixedContentForLongName(ARObject, ABC):
     def sub(self, value: "Superscript") -> None:
         """
         Set sub with validation.
-        
+
         Args:
             value: The sub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class MixedContentForLongName(ARObject, ABC):
     def sup(self, value: "Superscript") -> None:
         """
         Set sup with validation.
-        
+
         Args:
             value: The sup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -129,10 +132,10 @@ class MixedContentForLongName(ARObject, ABC):
     def tt(self, value: "Tt") -> None:
         """
         Set tt with validation.
-        
+
         Args:
             value: The tt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class MixedContentForLongName(ARObject, ABC):
     def getE(self) -> "EmphasisText":
         """
         AUTOSAR-compliant getter for e.
-        
+
         Returns:
             The e value
-        
+
         Note:
             Delegates to e property (CODING_RULE_V2_00017)
         """
@@ -159,13 +162,13 @@ class MixedContentForLongName(ARObject, ABC):
     def setE(self, value: "EmphasisText") -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for e with method chaining.
-        
+
         Args:
             value: The e to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to e property setter (gets validation automatically)
         """
@@ -175,10 +178,10 @@ class MixedContentForLongName(ARObject, ABC):
     def getIe(self) -> "IndexEntry":
         """
         AUTOSAR-compliant getter for ie.
-        
+
         Returns:
             The ie value
-        
+
         Note:
             Delegates to ie property (CODING_RULE_V2_00017)
         """
@@ -187,13 +190,13 @@ class MixedContentForLongName(ARObject, ABC):
     def setIe(self, value: "IndexEntry") -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for ie with method chaining.
-        
+
         Args:
             value: The ie to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ie property setter (gets validation automatically)
         """
@@ -203,10 +206,10 @@ class MixedContentForLongName(ARObject, ABC):
     def getSub(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sub.
-        
+
         Returns:
             The sub value
-        
+
         Note:
             Delegates to sub property (CODING_RULE_V2_00017)
         """
@@ -215,13 +218,13 @@ class MixedContentForLongName(ARObject, ABC):
     def setSub(self, value: "Superscript") -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for sub with method chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub property setter (gets validation automatically)
         """
@@ -231,10 +234,10 @@ class MixedContentForLongName(ARObject, ABC):
     def getSup(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sup.
-        
+
         Returns:
             The sup value
-        
+
         Note:
             Delegates to sup property (CODING_RULE_V2_00017)
         """
@@ -243,13 +246,13 @@ class MixedContentForLongName(ARObject, ABC):
     def setSup(self, value: "Superscript") -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for sup with method chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sup property setter (gets validation automatically)
         """
@@ -259,10 +262,10 @@ class MixedContentForLongName(ARObject, ABC):
     def getTt(self) -> "Tt":
         """
         AUTOSAR-compliant getter for tt.
-        
+
         Returns:
             The tt value
-        
+
         Note:
             Delegates to tt property (CODING_RULE_V2_00017)
         """
@@ -271,13 +274,13 @@ class MixedContentForLongName(ARObject, ABC):
     def setTt(self, value: "Tt") -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for tt with method chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tt property setter (gets validation automatically)
         """
@@ -289,13 +292,13 @@ class MixedContentForLongName(ARObject, ABC):
     def with_e(self, value: "EmphasisText") -> "MixedContentForLongName":
         """
         Set e and return self for chaining.
-        
+
         Args:
             value: The e to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_e("value")
         """
@@ -305,13 +308,13 @@ class MixedContentForLongName(ARObject, ABC):
     def with_ie(self, value: "IndexEntry") -> "MixedContentForLongName":
         """
         Set ie and return self for chaining.
-        
+
         Args:
             value: The ie to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ie("value")
         """
@@ -321,13 +324,13 @@ class MixedContentForLongName(ARObject, ABC):
     def with_sub(self, value: "Superscript") -> "MixedContentForLongName":
         """
         Set sub and return self for chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub("value")
         """
@@ -337,13 +340,13 @@ class MixedContentForLongName(ARObject, ABC):
     def with_sup(self, value: "Superscript") -> "MixedContentForLongName":
         """
         Set sup and return self for chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sup("value")
         """
@@ -353,13 +356,13 @@ class MixedContentForLongName(ARObject, ABC):
     def with_tt(self, value: "Tt") -> "MixedContentForLongName":
         """
         Set tt and return self for chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tt("value")
         """

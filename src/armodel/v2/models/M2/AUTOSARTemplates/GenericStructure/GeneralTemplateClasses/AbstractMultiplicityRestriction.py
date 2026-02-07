@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbstractMultiplicityRestriction(ARObject, ABC):
     """
     Restriction that specifies the valid number of occurrences of an element in
     the current context.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractMultiplicityRestriction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 422, Foundation
       R23-11)
@@ -33,10 +37,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def lower_multiplicity(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set lowerMultiplicity with validation.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +66,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def upper_multiplicity(self, value: Optional["Boolean"]) -> None:
         """
         Set upperMultiplicity with validation.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +88,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def getLowerMultiplicity(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for lowerMultiplicity.
-        
+
         Returns:
             The lowerMultiplicity value
-        
+
         Note:
             Delegates to lower_multiplicity property (CODING_RULE_V2_00017)
         """
@@ -96,13 +100,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def setLowerMultiplicity(self, value: "PositiveInteger") -> "AbstractMultiplicityRestriction":
         """
         AUTOSAR-compliant setter for lowerMultiplicity with method chaining.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_multiplicity property setter (gets validation automatically)
         """
@@ -112,10 +116,10 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def getUpperMultiplicity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for upperMultiplicity.
-        
+
         Returns:
             The upperMultiplicity value
-        
+
         Note:
             Delegates to upper_multiplicity property (CODING_RULE_V2_00017)
         """
@@ -124,13 +128,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def setUpperMultiplicity(self, value: "Boolean") -> "AbstractMultiplicityRestriction":
         """
         AUTOSAR-compliant setter for upperMultiplicity with method chaining.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_multiplicity property setter (gets validation automatically)
         """
@@ -142,13 +146,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def with_lower_multiplicity(self, value: Optional["PositiveInteger"]) -> "AbstractMultiplicityRestriction":
         """
         Set lowerMultiplicity and return self for chaining.
-        
+
         Args:
             value: The lowerMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_multiplicity("value")
         """
@@ -158,13 +162,13 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     def with_upper_multiplicity(self, value: Optional["Boolean"]) -> "AbstractMultiplicityRestriction":
         """
         Set upperMultiplicity and return self for chaining.
-        
+
         Args:
             value: The upperMultiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_multiplicity("value")
         """

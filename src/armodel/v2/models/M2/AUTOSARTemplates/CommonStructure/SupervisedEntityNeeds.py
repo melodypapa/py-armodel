@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class SupervisedEntityNeeds(ServiceNeeds):
     """
@@ -7,9 +7,9 @@ class SupervisedEntityNeeds(ServiceNeeds):
     time for ECU configuration. Table 12.12: SupervisedEntityNeeds 234 of 381
     Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software
     Module Description Template AUTOSAR CP R23-11
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SupervisedEntityNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 234, Classic
       Platform R23-11)
@@ -33,10 +33,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def activate_at_start(self, value: Optional["Boolean"]) -> None:
         """
         Set activateAtStart with validation.
-        
+
         Args:
             value: The activateAtStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +70,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def enable(self, value: Optional["Boolean"]) -> None:
         """
         Set enable with validation.
-        
+
         Args:
             value: The enable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def expected_alive(self, value: Optional["TimeValue"]) -> None:
         """
         Set expectedAlive with validation.
-        
+
         Args:
             value: The expectedAlive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +126,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def max_alive_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxAliveCycle with validation.
-        
+
         Args:
             value: The maxAliveCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +154,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def min_alive_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set minAliveCycle with validation.
-        
+
         Args:
             value: The minAliveCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -183,10 +183,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def tolerated_failed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set toleratedFailed with validation.
-        
+
         Args:
             value: The toleratedFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +205,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getActivateAtStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for activateAtStart.
-        
+
         Returns:
             The activateAtStart value
-        
+
         Note:
             Delegates to activate_at_start property (CODING_RULE_V2_00017)
         """
@@ -217,13 +217,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setActivateAtStart(self, value: "Boolean") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for activateAtStart with method chaining.
-        
+
         Args:
             value: The activateAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to activate_at_start property setter (gets validation automatically)
         """
@@ -233,10 +233,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getCheckpoints(self) -> List["SupervisedEntity"]:
         """
         AUTOSAR-compliant getter for checkpoints.
-        
+
         Returns:
             The checkpoints value
-        
+
         Note:
             Delegates to checkpoints property (CODING_RULE_V2_00017)
         """
@@ -245,10 +245,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getEnable(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enable.
-        
+
         Returns:
             The enable value
-        
+
         Note:
             Delegates to enable property (CODING_RULE_V2_00017)
         """
@@ -257,13 +257,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setEnable(self, value: "Boolean") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for enable with method chaining.
-        
+
         Args:
             value: The enable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable property setter (gets validation automatically)
         """
@@ -273,10 +273,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getExpectedAlive(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for expectedAlive.
-        
+
         Returns:
             The expectedAlive value
-        
+
         Note:
             Delegates to expected_alive property (CODING_RULE_V2_00017)
         """
@@ -285,13 +285,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setExpectedAlive(self, value: "TimeValue") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for expectedAlive with method chaining.
-        
+
         Args:
             value: The expectedAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to expected_alive property setter (gets validation automatically)
         """
@@ -301,10 +301,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getMaxAliveCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxAliveCycle.
-        
+
         Returns:
             The maxAliveCycle value
-        
+
         Note:
             Delegates to max_alive_cycle property (CODING_RULE_V2_00017)
         """
@@ -313,13 +313,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setMaxAliveCycle(self, value: "TimeValue") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for maxAliveCycle with method chaining.
-        
+
         Args:
             value: The maxAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_alive_cycle property setter (gets validation automatically)
         """
@@ -329,10 +329,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getMinAliveCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minAliveCycle.
-        
+
         Returns:
             The minAliveCycle value
-        
+
         Note:
             Delegates to min_alive_cycle property (CODING_RULE_V2_00017)
         """
@@ -341,13 +341,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setMinAliveCycle(self, value: "TimeValue") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for minAliveCycle with method chaining.
-        
+
         Args:
             value: The minAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_alive_cycle property setter (gets validation automatically)
         """
@@ -357,10 +357,10 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def getToleratedFailed(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for toleratedFailed.
-        
+
         Returns:
             The toleratedFailed value
-        
+
         Note:
             Delegates to tolerated_failed property (CODING_RULE_V2_00017)
         """
@@ -369,13 +369,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def setToleratedFailed(self, value: "PositiveInteger") -> "SupervisedEntityNeeds":
         """
         AUTOSAR-compliant setter for toleratedFailed with method chaining.
-        
+
         Args:
             value: The toleratedFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tolerated_failed property setter (gets validation automatically)
         """
@@ -387,13 +387,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_activate_at_start(self, value: Optional["Boolean"]) -> "SupervisedEntityNeeds":
         """
         Set activateAtStart and return self for chaining.
-        
+
         Args:
             value: The activateAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_activate_at_start("value")
         """
@@ -403,13 +403,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_enable(self, value: Optional["Boolean"]) -> "SupervisedEntityNeeds":
         """
         Set enable and return self for chaining.
-        
+
         Args:
             value: The enable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable("value")
         """
@@ -419,13 +419,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_expected_alive(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
         """
         Set expectedAlive and return self for chaining.
-        
+
         Args:
             value: The expectedAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_expected_alive("value")
         """
@@ -435,13 +435,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_max_alive_cycle(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
         """
         Set maxAliveCycle and return self for chaining.
-        
+
         Args:
             value: The maxAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_alive_cycle("value")
         """
@@ -451,13 +451,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_min_alive_cycle(self, value: Optional["TimeValue"]) -> "SupervisedEntityNeeds":
         """
         Set minAliveCycle and return self for chaining.
-        
+
         Args:
             value: The minAliveCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_alive_cycle("value")
         """
@@ -467,13 +467,13 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def with_tolerated_failed(self, value: Optional["PositiveInteger"]) -> "SupervisedEntityNeeds":
         """
         Set toleratedFailed and return self for chaining.
-        
+
         Args:
             value: The toleratedFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tolerated_failed("value")
         """

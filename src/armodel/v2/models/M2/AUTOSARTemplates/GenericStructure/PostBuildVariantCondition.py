@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PostBuildVariantCondition(ARObject):
     """
@@ -9,9 +10,9 @@ class PostBuildVariantCondition(ARObject):
     criterion/value pairs are specified, they shall all match to bind the
     variation point. In other words binding can be represented by (criterion1 ==
     value1) && (condition2 == value2) ...
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 614, Classic Platform
       R23-11)
@@ -37,10 +38,10 @@ class PostBuildVariantCondition(ARObject):
     def matching(self, value: "PostBuildVariant") -> None:
         """
         Set matching with validation.
-        
+
         Args:
             value: The matching to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +62,10 @@ class PostBuildVariantCondition(ARObject):
     def value(self, value: "Integer") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +80,10 @@ class PostBuildVariantCondition(ARObject):
     def getMatching(self) -> "PostBuildVariant":
         """
         AUTOSAR-compliant getter for matching.
-        
+
         Returns:
             The matching value
-        
+
         Note:
             Delegates to matching property (CODING_RULE_V2_00017)
         """
@@ -91,13 +92,13 @@ class PostBuildVariantCondition(ARObject):
     def setMatching(self, value: "PostBuildVariant") -> "PostBuildVariantCondition":
         """
         AUTOSAR-compliant setter for matching with method chaining.
-        
+
         Args:
             value: The matching to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to matching property setter (gets validation automatically)
         """
@@ -107,10 +108,10 @@ class PostBuildVariantCondition(ARObject):
     def getValue(self) -> "Integer":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -119,13 +120,13 @@ class PostBuildVariantCondition(ARObject):
     def setValue(self, value: "Integer") -> "PostBuildVariantCondition":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -137,13 +138,13 @@ class PostBuildVariantCondition(ARObject):
     def with_matching(self, value: "PostBuildVariant") -> "PostBuildVariantCondition":
         """
         Set matching and return self for chaining.
-        
+
         Args:
             value: The matching to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_matching("value")
         """
@@ -153,13 +154,13 @@ class PostBuildVariantCondition(ARObject):
     def with_value(self, value: "Integer") -> "PostBuildVariantCondition":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

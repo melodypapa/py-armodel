@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AnyInstanceRef(ARObject):
     """
     Describes a reference to any instance in an AUTOSAR model. This is the most
     generic form of an instance ref. Refer to the superclass notes for more
     details.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef::AnyInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 289, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 970, Classic Platform
@@ -34,10 +37,10 @@ class AnyInstanceRef(ARObject):
     def base(self, value: "AtpClassifier") -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class AnyInstanceRef(ARObject):
     def target(self, value: "AtpFeature") -> None:
         """
         Set target with validation.
-        
+
         Args:
             value: The target to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class AnyInstanceRef(ARObject):
     def getBase(self) -> "AtpClassifier":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class AnyInstanceRef(ARObject):
     def setBase(self, value: "AtpClassifier") -> "AnyInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class AnyInstanceRef(ARObject):
     def getContextElement(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for contextElement.
-        
+
         Returns:
             The contextElement value
-        
+
         Note:
             Delegates to context_element property (CODING_RULE_V2_00017)
         """
@@ -123,10 +126,10 @@ class AnyInstanceRef(ARObject):
     def getTarget(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -135,13 +138,13 @@ class AnyInstanceRef(ARObject):
     def setTarget(self, value: "AtpFeature") -> "AnyInstanceRef":
         """
         AUTOSAR-compliant setter for target with method chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target property setter (gets validation automatically)
         """
@@ -153,13 +156,13 @@ class AnyInstanceRef(ARObject):
     def with_base(self, value: "AtpClassifier") -> "AnyInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -169,13 +172,13 @@ class AnyInstanceRef(ARObject):
     def with_target(self, value: "AtpFeature") -> "AnyInstanceRef":
         """
         Set target and return self for chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target("value")
         """

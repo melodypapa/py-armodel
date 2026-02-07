@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DdsCpServiceInstanceEvent(ARObject):
     """
     This element represents an event as part of the Provided Service Instance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpServiceInstanceEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 475, Classic Platform R23-11)
     """
@@ -29,10 +34,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def dds_event(self, value: RefType) -> None:
         """
         Set ddsEvent with validation.
-        
+
         Args:
             value: The ddsEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +60,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def dds_event_qos(self, value: Optional["DdsCpQosProfile"]) -> None:
         """
         Set ddsEventQos with validation.
-        
+
         Args:
             value: The ddsEventQos to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +88,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def dds_event_topic(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsEventTopic with validation.
-        
+
         Args:
             value: The ddsEventTopic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +110,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def getDdsEvent(self) -> RefType:
         """
         AUTOSAR-compliant getter for ddsEvent.
-        
+
         Returns:
             The ddsEvent value
-        
+
         Note:
             Delegates to dds_event property (CODING_RULE_V2_00017)
         """
@@ -117,13 +122,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def setDdsEvent(self, value: RefType) -> "DdsCpServiceInstanceEvent":
         """
         AUTOSAR-compliant setter for ddsEvent with method chaining.
-        
+
         Args:
             value: The ddsEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_event property setter (gets validation automatically)
         """
@@ -133,10 +138,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def getDdsEventQos(self) -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant getter for ddsEventQos.
-        
+
         Returns:
             The ddsEventQos value
-        
+
         Note:
             Delegates to dds_event_qos property (CODING_RULE_V2_00017)
         """
@@ -145,13 +150,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def setDdsEventQos(self, value: "DdsCpQosProfile") -> "DdsCpServiceInstanceEvent":
         """
         AUTOSAR-compliant setter for ddsEventQos with method chaining.
-        
+
         Args:
             value: The ddsEventQos to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_event_qos property setter (gets validation automatically)
         """
@@ -161,10 +166,10 @@ class DdsCpServiceInstanceEvent(ARObject):
     def getDdsEventTopic(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsEventTopic.
-        
+
         Returns:
             The ddsEventTopic value
-        
+
         Note:
             Delegates to dds_event_topic property (CODING_RULE_V2_00017)
         """
@@ -173,13 +178,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def setDdsEventTopic(self, value: "DdsCpTopic") -> "DdsCpServiceInstanceEvent":
         """
         AUTOSAR-compliant setter for ddsEventTopic with method chaining.
-        
+
         Args:
             value: The ddsEventTopic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_event_topic property setter (gets validation automatically)
         """
@@ -191,13 +196,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def with_dds_event(self, value: Optional[RefType]) -> "DdsCpServiceInstanceEvent":
         """
         Set ddsEvent and return self for chaining.
-        
+
         Args:
             value: The ddsEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_event("value")
         """
@@ -207,13 +212,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def with_dds_event_qos(self, value: Optional["DdsCpQosProfile"]) -> "DdsCpServiceInstanceEvent":
         """
         Set ddsEventQos and return self for chaining.
-        
+
         Args:
             value: The ddsEventQos to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_event_qos("value")
         """
@@ -223,13 +228,13 @@ class DdsCpServiceInstanceEvent(ARObject):
     def with_dds_event_topic(self, value: Optional["DdsCpTopic"]) -> "DdsCpServiceInstanceEvent":
         """
         Set ddsEventTopic and return self for chaining.
-        
+
         Args:
             value: The ddsEventTopic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_event_topic("value")
         """

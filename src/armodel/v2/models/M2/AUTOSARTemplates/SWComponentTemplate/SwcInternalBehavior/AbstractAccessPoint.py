@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class AbstractAccessPoint(Identifiable, ABC):
     """
     Abstract class indicating an access point from an ExecutableEntity.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount::AbstractAccessPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 57, Classic
       Platform R23-11)
@@ -34,10 +37,10 @@ class AbstractAccessPoint(Identifiable, ABC):
     def return_value(self, value: Optional["RteApiReturnValue"]) -> None:
         """
         Set returnValue with validation.
-        
+
         Args:
             value: The returnValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class AbstractAccessPoint(Identifiable, ABC):
     def getReturnValue(self) -> "RteApiReturnValue":
         """
         AUTOSAR-compliant getter for returnValue.
-        
+
         Returns:
             The returnValue value
-        
+
         Note:
             Delegates to return_value property (CODING_RULE_V2_00017)
         """
@@ -68,13 +71,13 @@ class AbstractAccessPoint(Identifiable, ABC):
     def setReturnValue(self, value: "RteApiReturnValue") -> "AbstractAccessPoint":
         """
         AUTOSAR-compliant setter for returnValue with method chaining.
-        
+
         Args:
             value: The returnValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to return_value property setter (gets validation automatically)
         """
@@ -86,13 +89,13 @@ class AbstractAccessPoint(Identifiable, ABC):
     def with_return_value(self, value: Optional["RteApiReturnValue"]) -> "AbstractAccessPoint":
         """
         Set returnValue and return self for chaining.
-        
+
         Args:
             value: The returnValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_return_value("value")
         """

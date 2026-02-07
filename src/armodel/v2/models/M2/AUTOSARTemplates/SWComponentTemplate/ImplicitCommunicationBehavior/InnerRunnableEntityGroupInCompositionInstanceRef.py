@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     """
     This meta-class represents the ability to define an InstanceRef to a nested
     RunnableEntityGroup.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::InnerRunnableEntityGroupInCompositionInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 956, Classic Platform
       R23-11)
@@ -31,10 +36,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +75,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def target_runnable(self, value: RefType) -> None:
         """
         Set targetRunnable with validation.
-        
+
         Args:
             value: The targetRunnable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -96,13 +101,13 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -112,10 +117,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-        
+
         Returns:
             The contextSw value
-        
+
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
@@ -124,10 +129,10 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def getTargetRunnable(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetRunnable.
-        
+
         Returns:
             The targetRunnable value
-        
+
         Note:
             Delegates to target_runnable property (CODING_RULE_V2_00017)
         """
@@ -136,13 +141,13 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def setTargetRunnable(self, value: RefType) -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetRunnable with method chaining.
-        
+
         Args:
             value: The targetRunnable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_runnable property setter (gets validation automatically)
         """
@@ -154,13 +159,13 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -170,13 +175,13 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
     def with_target_runnable(self, value: RefType) -> "InnerRunnableEntityGroupInCompositionInstanceRef":
         """
         Set targetRunnable and return self for chaining.
-        
+
         Args:
             value: The targetRunnable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_runnable("value")
         """

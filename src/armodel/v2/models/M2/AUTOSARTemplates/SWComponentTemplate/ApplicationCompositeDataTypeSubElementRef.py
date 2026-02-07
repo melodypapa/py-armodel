@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     """
     This meta-class represents the specialization of SubElementMapping with
     respect to Application CompositeDataTypes.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ApplicationCompositeDataTypeSubElementRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def application(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def getApplication(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def setApplication(self, value: "ApplicationComposite") -> "ApplicationCompositeDataTypeSubElementRef":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     def with_application(self, value: Optional["ApplicationComposite"]) -> "ApplicationCompositeDataTypeSubElementRef":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """

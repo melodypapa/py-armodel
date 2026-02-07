@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderComSpec(PPortComSpec, ABC):
     """
     Communication attributes for a sender port (PPortPrototype typed by
     SenderReceiverInterface).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::SenderComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 178, Classic Platform
       R23-11)
@@ -41,10 +45,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +69,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def handle_out_of(self, value: Optional["HandleOutOfRange"]) -> None:
         """
         Set handleOutOf with validation.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +98,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +129,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def transmission(self, value: Optional["TransmissionComSpec"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +158,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def uses_end_to_end(self, value: Optional["Boolean"]) -> None:
         """
         Set usesEndToEnd with validation.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +180,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getComposite(self) -> List["CompositeNetwork"]:
         """
         AUTOSAR-compliant getter for composite.
-        
+
         Returns:
             The composite value
-        
+
         Note:
             Delegates to composite property (CODING_RULE_V2_00017)
         """
@@ -188,10 +192,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -200,13 +204,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setDataElement(self, value: RefType) -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -216,10 +220,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getHandleOutOf(self) -> "HandleOutOfRange":
         """
         AUTOSAR-compliant getter for handleOutOf.
-        
+
         Returns:
             The handleOutOf value
-        
+
         Note:
             Delegates to handle_out_of property (CODING_RULE_V2_00017)
         """
@@ -228,13 +232,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setHandleOutOf(self, value: "HandleOutOfRange") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_out_of property setter (gets validation automatically)
         """
@@ -244,10 +248,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -256,13 +260,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setNetwork(self, value: "SwDataDefProps") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -272,10 +276,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getTransmission(self) -> "TransmissionComSpec":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -284,13 +288,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setTransmission(self, value: "TransmissionComSpec") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -300,10 +304,10 @@ class SenderComSpec(PPortComSpec, ABC):
     def getUsesEndToEnd(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesEndToEnd.
-        
+
         Returns:
             The usesEndToEnd value
-        
+
         Note:
             Delegates to uses_end_to_end property (CODING_RULE_V2_00017)
         """
@@ -312,13 +316,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def setUsesEndToEnd(self, value: "Boolean") -> "SenderComSpec":
         """
         AUTOSAR-compliant setter for usesEndToEnd with method chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_end_to_end property setter (gets validation automatically)
         """
@@ -330,13 +334,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_data_element(self, value: Optional[RefType]) -> "SenderComSpec":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -346,13 +350,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "SenderComSpec":
         """
         Set handleOutOf and return self for chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_out_of("value")
         """
@@ -362,13 +366,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "SenderComSpec":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -378,13 +382,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_transmission(self, value: Optional["TransmissionComSpec"]) -> "SenderComSpec":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """
@@ -394,13 +398,13 @@ class SenderComSpec(PPortComSpec, ABC):
     def with_uses_end_to_end(self, value: Optional["Boolean"]) -> "SenderComSpec":
         """
         Set usesEndToEnd and return self for chaining.
-        
+
         Args:
             value: The usesEndToEnd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_end_to_end("value")
         """

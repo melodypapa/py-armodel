@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ReferenceCondition(AttributeCondition):
     """
     The ReferenceCondition evaluates to true, if the referenced reference is
     accepted by all rules of this condition.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ReferenceCondition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 104, Foundation R23-11)
     """
@@ -28,10 +29,10 @@ class ReferenceCondition(AttributeCondition):
     def reference(self, value: RefType) -> None:
         """
         Set reference with validation.
-        
+
         Args:
             value: The reference to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -42,10 +43,10 @@ class ReferenceCondition(AttributeCondition):
     def getReference(self) -> RefType:
         """
         AUTOSAR-compliant getter for reference.
-        
+
         Returns:
             The reference value
-        
+
         Note:
             Delegates to reference property (CODING_RULE_V2_00017)
         """
@@ -54,13 +55,13 @@ class ReferenceCondition(AttributeCondition):
     def setReference(self, value: RefType) -> "ReferenceCondition":
         """
         AUTOSAR-compliant setter for reference with method chaining.
-        
+
         Args:
             value: The reference to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reference property setter (gets validation automatically)
         """
@@ -72,13 +73,13 @@ class ReferenceCondition(AttributeCondition):
     def with_reference(self, value: RefType) -> "ReferenceCondition":
         """
         Set reference and return self for chaining.
-        
+
         Args:
             value: The reference to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reference("value")
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AUTOSAR(ARObject):
     """
     Root element of an AUTOSAR description, also the root element in
     corresponding XML documents.
-    
+
     Package: M2::AUTOSARTemplates::AutosarTopLevelStructure::AUTOSAR
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 301, Classic
       Platform R23-11)
@@ -48,10 +51,10 @@ class AUTOSAR(ARObject):
     def admin_data(self, value: Optional["AdminData"]) -> None:
         """
         Set adminData with validation.
-        
+
         Args:
             value: The adminData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class AUTOSAR(ARObject):
     def file_info(self, value: Optional["FileInfoComment"]) -> None:
         """
         Set fileInfo with validation.
-        
+
         Args:
             value: The fileInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +118,10 @@ class AUTOSAR(ARObject):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +140,10 @@ class AUTOSAR(ARObject):
     def getAdminData(self) -> "AdminData":
         """
         AUTOSAR-compliant getter for adminData.
-        
+
         Returns:
             The adminData value
-        
+
         Note:
             Delegates to admin_data property (CODING_RULE_V2_00017)
         """
@@ -149,13 +152,13 @@ class AUTOSAR(ARObject):
     def setAdminData(self, value: "AdminData") -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for adminData with method chaining.
-        
+
         Args:
             value: The adminData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to admin_data property setter (gets validation automatically)
         """
@@ -165,10 +168,10 @@ class AUTOSAR(ARObject):
     def getArPackage(self) -> List["ARPackage"]:
         """
         AUTOSAR-compliant getter for arPackage.
-        
+
         Returns:
             The arPackage value
-        
+
         Note:
             Delegates to ar_package property (CODING_RULE_V2_00017)
         """
@@ -177,10 +180,10 @@ class AUTOSAR(ARObject):
     def getFileInfo(self) -> "FileInfoComment":
         """
         AUTOSAR-compliant getter for fileInfo.
-        
+
         Returns:
             The fileInfo value
-        
+
         Note:
             Delegates to file_info property (CODING_RULE_V2_00017)
         """
@@ -189,13 +192,13 @@ class AUTOSAR(ARObject):
     def setFileInfo(self, value: "FileInfoComment") -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for fileInfo with method chaining.
-        
+
         Args:
             value: The fileInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to file_info property setter (gets validation automatically)
         """
@@ -205,10 +208,10 @@ class AUTOSAR(ARObject):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -217,13 +220,13 @@ class AUTOSAR(ARObject):
     def setIntroduction(self, value: "DocumentationBlock") -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -235,13 +238,13 @@ class AUTOSAR(ARObject):
     def with_admin_data(self, value: Optional["AdminData"]) -> "AUTOSAR":
         """
         Set adminData and return self for chaining.
-        
+
         Args:
             value: The adminData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_admin_data("value")
         """
@@ -251,13 +254,13 @@ class AUTOSAR(ARObject):
     def with_file_info(self, value: Optional["FileInfoComment"]) -> "AUTOSAR":
         """
         Set fileInfo and return self for chaining.
-        
+
         Args:
             value: The fileInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_file_info("value")
         """
@@ -267,13 +270,13 @@ class AUTOSAR(ARObject):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "AUTOSAR":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """

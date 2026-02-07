@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PlcaProps(ARObject):
     """
     This meta-class allows to configure the PLCA (Physical Layer Collision
     Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the
     CouplingPort (PHY).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::PlcaProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 169, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class PlcaProps(ARObject):
     def plca_local_node(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaLocalNode with validation.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class PlcaProps(ARObject):
     def plca_max_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set plcaMaxBurst with validation.
-        
+
         Args:
             value: The plcaMaxBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class PlcaProps(ARObject):
     def getPlcaLocalNode(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaLocalNode.
-        
+
         Returns:
             The plcaLocalNode value
-        
+
         Note:
             Delegates to plca_local_node property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class PlcaProps(ARObject):
     def setPlcaLocalNode(self, value: "PositiveInteger") -> "PlcaProps":
         """
         AUTOSAR-compliant setter for plcaLocalNode with method chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_local_node property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class PlcaProps(ARObject):
     def getPlcaMaxBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for plcaMaxBurst.
-        
+
         Returns:
             The plcaMaxBurst value
-        
+
         Note:
             Delegates to plca_max_burst property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class PlcaProps(ARObject):
     def setPlcaMaxBurst(self, value: "PositiveInteger") -> "PlcaProps":
         """
         AUTOSAR-compliant setter for plcaMaxBurst with method chaining.
-        
+
         Args:
             value: The plcaMaxBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_max_burst property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class PlcaProps(ARObject):
     def with_plca_local_node(self, value: Optional["PositiveInteger"]) -> "PlcaProps":
         """
         Set plcaLocalNode and return self for chaining.
-        
+
         Args:
             value: The plcaLocalNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_local_node("value")
         """
@@ -155,13 +158,13 @@ class PlcaProps(ARObject):
     def with_plca_max_burst(self, value: Optional["PositiveInteger"]) -> "PlcaProps":
         """
         Set plcaMaxBurst and return self for chaining.
-        
+
         Args:
             value: The plcaMaxBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_max_burst("value")
         """

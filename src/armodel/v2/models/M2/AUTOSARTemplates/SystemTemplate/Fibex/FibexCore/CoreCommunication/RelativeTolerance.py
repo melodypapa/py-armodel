@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RelativeTolerance(ARObject):
     """
     Maximum allowable deviation
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::RelativeTolerance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 398, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class RelativeTolerance(ARObject):
     def relative(self, value: Optional["Integer"]) -> None:
         """
         Set relative with validation.
-        
+
         Args:
             value: The relative to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class RelativeTolerance(ARObject):
     def getRelative(self) -> "Integer":
         """
         AUTOSAR-compliant getter for relative.
-        
+
         Returns:
             The relative value
-        
+
         Note:
             Delegates to relative property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class RelativeTolerance(ARObject):
     def setRelative(self, value: "Integer") -> "RelativeTolerance":
         """
         AUTOSAR-compliant setter for relative with method chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to relative property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class RelativeTolerance(ARObject):
     def with_relative(self, value: Optional["Integer"]) -> "RelativeTolerance":
         """
         Set relative and return self for chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_relative("value")
         """

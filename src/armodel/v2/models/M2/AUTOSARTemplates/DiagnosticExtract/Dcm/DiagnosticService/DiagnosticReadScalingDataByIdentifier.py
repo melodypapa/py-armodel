@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     """
     This represents an instance of the "Read Scaling Data by Identifier"
     diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadScalingDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 116, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def read_scaling(self, value: Optional["DiagnosticReadScaling"]) -> None:
         """
         Set readScaling with validation.
-        
+
         Args:
             value: The readScaling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def getReadScaling(self) -> "DiagnosticReadScaling":
         """
         AUTOSAR-compliant getter for readScaling.
-        
+
         Returns:
             The readScaling value
-        
+
         Note:
             Delegates to read_scaling property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def setReadScaling(self, value: "DiagnosticReadScaling") -> "DiagnosticReadScalingDataByIdentifier":
         """
         AUTOSAR-compliant setter for readScaling with method chaining.
-        
+
         Args:
             value: The readScaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_scaling property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     def with_read_scaling(self, value: Optional["DiagnosticReadScaling"]) -> "DiagnosticReadScalingDataByIdentifier":
         """
         Set readScaling and return self for chaining.
-        
+
         Args:
             value: The readScaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_scaling("value")
         """

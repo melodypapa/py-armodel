@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AutosarParameterRef(ARObject):
     """
@@ -16,9 +21,9 @@ class AutosarParameterRef(ARObject):
     of a composite local parameter typed by ImplementationDatatype • an element
     inside of a composite parameter provided via PortPrototype and typed by
     Implementation Datatype
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::AutosarParameterRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 306, Classic
       Platform R23-11)
@@ -44,10 +49,10 @@ class AutosarParameterRef(ARObject):
     def autosar(self, value: RefType) -> None:
         """
         Set autosar with validation.
-        
+
         Args:
             value: The autosar to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +83,10 @@ class AutosarParameterRef(ARObject):
     def local_parameter(self, value: RefType) -> None:
         """
         Set localParameter with validation.
-        
+
         Args:
             value: The localParameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +101,10 @@ class AutosarParameterRef(ARObject):
     def getAutosar(self) -> RefType:
         """
         AUTOSAR-compliant getter for autosar.
-        
+
         Returns:
             The autosar value
-        
+
         Note:
             Delegates to autosar property (CODING_RULE_V2_00017)
         """
@@ -108,13 +113,13 @@ class AutosarParameterRef(ARObject):
     def setAutosar(self, value: RefType) -> "AutosarParameterRef":
         """
         AUTOSAR-compliant setter for autosar with method chaining.
-        
+
         Args:
             value: The autosar to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to autosar property setter (gets validation automatically)
         """
@@ -124,10 +129,10 @@ class AutosarParameterRef(ARObject):
     def getLocalParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for localParameter.
-        
+
         Returns:
             The localParameter value
-        
+
         Note:
             Delegates to local_parameter property (CODING_RULE_V2_00017)
         """
@@ -136,13 +141,13 @@ class AutosarParameterRef(ARObject):
     def setLocalParameter(self, value: RefType) -> "AutosarParameterRef":
         """
         AUTOSAR-compliant setter for localParameter with method chaining.
-        
+
         Args:
             value: The localParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_parameter property setter (gets validation automatically)
         """
@@ -154,13 +159,13 @@ class AutosarParameterRef(ARObject):
     def with_autosar(self, value: Optional[RefType]) -> "AutosarParameterRef":
         """
         Set autosar and return self for chaining.
-        
+
         Args:
             value: The autosar to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_autosar("value")
         """
@@ -170,13 +175,13 @@ class AutosarParameterRef(ARObject):
     def with_local_parameter(self, value: Optional[RefType]) -> "AutosarParameterRef":
         """
         Set localParameter and return self for chaining.
-        
+
         Args:
             value: The localParameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_parameter("value")
         """

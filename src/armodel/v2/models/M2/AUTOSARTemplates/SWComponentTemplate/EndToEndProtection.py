@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EndToEndProtection(Identifiable):
     """
     This meta-class represents the ability to describe a particular end to end
     protection.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection::EndToEndProtection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 214, Classic Platform
       R23-11)
@@ -41,10 +43,10 @@ class EndToEndProtection(Identifiable):
     def getEndToEnd(self) -> List["EndToEndProtection"]:
         """
         AUTOSAR-compliant getter for endToEnd.
-        
+
         Returns:
             The endToEnd value
-        
+
         Note:
             Delegates to end_to_end property (CODING_RULE_V2_00017)
         """

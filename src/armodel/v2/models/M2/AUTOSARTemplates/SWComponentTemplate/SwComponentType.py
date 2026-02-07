@@ -1,14 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import ARElement
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
+    ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwComponentType(ARElement, ABC):
     """
     Base class for AUTOSAR software components.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 330, Classic Platform
       R23-11)
@@ -74,10 +80,10 @@ class SwComponentType(ARElement, ABC):
     def sw_component(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponent with validation.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +110,10 @@ class SwComponentType(ARElement, ABC):
     def getConsistency(self) -> List["ConsistencyNeeds"]:
         """
         AUTOSAR-compliant getter for consistency.
-        
+
         Returns:
             The consistency value
-        
+
         Note:
             Delegates to consistency property (CODING_RULE_V2_00017)
         """
@@ -116,10 +122,10 @@ class SwComponentType(ARElement, ABC):
     def getPort(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for port.
-        
+
         Returns:
             The port value
-        
+
         Note:
             Delegates to port property (CODING_RULE_V2_00017)
         """
@@ -128,10 +134,10 @@ class SwComponentType(ARElement, ABC):
     def getPortGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for portGroup.
-        
+
         Returns:
             The portGroup value
-        
+
         Note:
             Delegates to port_group property (CODING_RULE_V2_00017)
         """
@@ -140,10 +146,10 @@ class SwComponentType(ARElement, ABC):
     def getSwcMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for swcMapping.
-        
+
         Returns:
             The swcMapping value
-        
+
         Note:
             Delegates to swc_mapping property (CODING_RULE_V2_00017)
         """
@@ -152,10 +158,10 @@ class SwComponentType(ARElement, ABC):
     def getSwComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponent.
-        
+
         Returns:
             The swComponent value
-        
+
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -164,13 +170,13 @@ class SwComponentType(ARElement, ABC):
     def setSwComponent(self, value: "SwComponent") -> "SwComponentType":
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component property setter (gets validation automatically)
         """
@@ -180,10 +186,10 @@ class SwComponentType(ARElement, ABC):
     def getUnitGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for unitGroup.
-        
+
         Returns:
             The unitGroup value
-        
+
         Note:
             Delegates to unit_group property (CODING_RULE_V2_00017)
         """
@@ -194,13 +200,13 @@ class SwComponentType(ARElement, ABC):
     def with_sw_component(self, value: Optional["SwComponent"]) -> "SwComponentType":
         """
         Set swComponent and return self for chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PrivacyLevel(ARObject):
     """
     This meta-class defines the Privacy Level for a Log and Trace content.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::PrivacyLevel
-    
+
     Sources:
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 18, Foundation R23-11)
     """
@@ -28,10 +31,10 @@ class PrivacyLevel(ARObject):
     def compu_method(self, value: Optional["CompuMethod"]) -> None:
         """
         Set compuMethod with validation.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class PrivacyLevel(ARObject):
     def privacy_level(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set privacyLevel with validation.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class PrivacyLevel(ARObject):
     def getCompuMethod(self) -> "CompuMethod":
         """
         AUTOSAR-compliant getter for compuMethod.
-        
+
         Returns:
             The compuMethod value
-        
+
         Note:
             Delegates to compu_method property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class PrivacyLevel(ARObject):
     def setCompuMethod(self, value: "CompuMethod") -> "PrivacyLevel":
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_method property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class PrivacyLevel(ARObject):
     def getPrivacyLevel(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for privacyLevel.
-        
+
         Returns:
             The privacyLevel value
-        
+
         Note:
             Delegates to privacy_level property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class PrivacyLevel(ARObject):
     def setPrivacyLevel(self, value: "PositiveInteger") -> "PrivacyLevel":
         """
         AUTOSAR-compliant setter for privacyLevel with method chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to privacy_level property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class PrivacyLevel(ARObject):
     def with_compu_method(self, value: Optional["CompuMethod"]) -> "PrivacyLevel":
         """
         Set compuMethod and return self for chaining.
-        
+
         Args:
             value: The compuMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_method("value")
         """
@@ -152,13 +155,13 @@ class PrivacyLevel(ARObject):
     def with_privacy_level(self, value: Optional["PositiveInteger"]) -> "PrivacyLevel":
         """
         Set privacyLevel and return self for chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_privacy_level("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class BinaryManifestItem(BinaryManifestAddressableObject):
     """
     This meta-class represents the ability to describe a specific handle or
     auxiliary field in the context of binary manifest resource.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItem
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 919, Classic Platform R23-11)
     """
@@ -36,10 +36,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def default_value(self, value: Optional["BinaryManifestItem"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def is_unused(self, value: Optional["Boolean"]) -> None:
         """
         Set isUnused with validation.
-        
+
         Args:
             value: The isUnused to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def value(self, value: Optional["BinaryManifestItem"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def getAuxiliaryField(self) -> List["BinaryManifestItem"]:
         """
         AUTOSAR-compliant getter for auxiliaryField.
-        
+
         Returns:
             The auxiliaryField value
-        
+
         Note:
             Delegates to auxiliary_field property (CODING_RULE_V2_00017)
         """
@@ -129,10 +129,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def getDefaultValue(self) -> "BinaryManifestItem":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -141,13 +141,13 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def setDefaultValue(self, value: "BinaryManifestItem") -> "BinaryManifestItem":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -157,10 +157,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def getIsUnused(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isUnused.
-        
+
         Returns:
             The isUnused value
-        
+
         Note:
             Delegates to is_unused property (CODING_RULE_V2_00017)
         """
@@ -169,13 +169,13 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def setIsUnused(self, value: "Boolean") -> "BinaryManifestItem":
         """
         AUTOSAR-compliant setter for isUnused with method chaining.
-        
+
         Args:
             value: The isUnused to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_unused property setter (gets validation automatically)
         """
@@ -185,10 +185,10 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def getValue(self) -> "BinaryManifestItem":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -197,13 +197,13 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def setValue(self, value: "BinaryManifestItem") -> "BinaryManifestItem":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -215,13 +215,13 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def with_default_value(self, value: Optional["BinaryManifestItem"]) -> "BinaryManifestItem":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """
@@ -231,13 +231,13 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def with_is_unused(self, value: Optional["Boolean"]) -> "BinaryManifestItem":
         """
         Set isUnused and return self for chaining.
-        
+
         Args:
             value: The isUnused to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_unused("value")
         """
@@ -247,13 +247,13 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     def with_value(self, value: Optional["BinaryManifestItem"]) -> "BinaryManifestItem":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

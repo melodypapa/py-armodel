@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticTestIdentifier(ARObject):
     """
     This meta-class represents the ability to create a diagnostic test
     identifier.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult::DiagnosticTestIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 205, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class DiagnosticTestIdentifier(ARObject):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class DiagnosticTestIdentifier(ARObject):
     def uas_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set uasId with validation.
-        
+
         Args:
             value: The uasId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class DiagnosticTestIdentifier(ARObject):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class DiagnosticTestIdentifier(ARObject):
     def setId(self, value: "PositiveInteger") -> "DiagnosticTestIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class DiagnosticTestIdentifier(ARObject):
     def getUasId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for uasId.
-        
+
         Returns:
             The uasId value
-        
+
         Note:
             Delegates to uas_id property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class DiagnosticTestIdentifier(ARObject):
     def setUasId(self, value: "PositiveInteger") -> "DiagnosticTestIdentifier":
         """
         AUTOSAR-compliant setter for uasId with method chaining.
-        
+
         Args:
             value: The uasId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uas_id property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class DiagnosticTestIdentifier(ARObject):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -153,13 +156,13 @@ class DiagnosticTestIdentifier(ARObject):
     def with_uas_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticTestIdentifier":
         """
         Set uasId and return self for chaining.
-        
+
         Args:
             value: The uasId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uas_id("value")
         """

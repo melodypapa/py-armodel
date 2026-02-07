@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TcpOptionFilterList(Identifiable):
     """
     Permitted list for the filtering of TCP options.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet::TcpOptionFilterList
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 457, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class TcpOptionFilterList(Identifiable):
     def getAllowedTcpOption(self) -> List["PositiveInteger"]:
         """
         AUTOSAR-compliant getter for allowedTcpOption.
-        
+
         Returns:
             The allowedTcpOption value
-        
+
         Note:
             Delegates to allowed_tcp_option property (CODING_RULE_V2_00017)
         """

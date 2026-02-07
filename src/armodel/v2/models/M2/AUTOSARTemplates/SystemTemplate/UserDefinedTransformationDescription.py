@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class UserDefinedTransformationDescription(TransformationDescription):
     """
     The UserDefinedTransformationDescription is used to specify details and
     documentation for custom transformers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::UserDefinedTransformationDescription
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 771, Classic Platform R23-11)
     """

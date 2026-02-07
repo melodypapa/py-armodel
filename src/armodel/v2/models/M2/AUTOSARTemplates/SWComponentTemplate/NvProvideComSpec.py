@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class NvProvideComSpec(PPortComSpec):
     """
     Communication attributes of PPortPrototypes with respect to Nv data
     communication on the provided side.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NvProvideComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 195, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class NvProvideComSpec(PPortComSpec):
     def ram_block_init(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set ramBlockInit with validation.
-        
+
         Args:
             value: The ramBlockInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class NvProvideComSpec(PPortComSpec):
     def rom_block_init(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set romBlockInit with validation.
-        
+
         Args:
             value: The romBlockInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class NvProvideComSpec(PPortComSpec):
     def variable(self, value: RefType) -> None:
         """
         Set variable with validation.
-        
+
         Args:
             value: The variable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class NvProvideComSpec(PPortComSpec):
     def getRamBlockInit(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for ramBlockInit.
-        
+
         Returns:
             The ramBlockInit value
-        
+
         Note:
             Delegates to ram_block_init property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class NvProvideComSpec(PPortComSpec):
     def setRamBlockInit(self, value: "ValueSpecification") -> "NvProvideComSpec":
         """
         AUTOSAR-compliant setter for ramBlockInit with method chaining.
-        
+
         Args:
             value: The ramBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ram_block_init property setter (gets validation automatically)
         """
@@ -133,10 +136,10 @@ class NvProvideComSpec(PPortComSpec):
     def getRomBlockInit(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for romBlockInit.
-        
+
         Returns:
             The romBlockInit value
-        
+
         Note:
             Delegates to rom_block_init property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class NvProvideComSpec(PPortComSpec):
     def setRomBlockInit(self, value: "ValueSpecification") -> "NvProvideComSpec":
         """
         AUTOSAR-compliant setter for romBlockInit with method chaining.
-        
+
         Args:
             value: The romBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rom_block_init property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class NvProvideComSpec(PPortComSpec):
     def getVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for variable.
-        
+
         Returns:
             The variable value
-        
+
         Note:
             Delegates to variable property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class NvProvideComSpec(PPortComSpec):
     def setVariable(self, value: RefType) -> "NvProvideComSpec":
         """
         AUTOSAR-compliant setter for variable with method chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable property setter (gets validation automatically)
         """
@@ -191,13 +194,13 @@ class NvProvideComSpec(PPortComSpec):
     def with_ram_block_init(self, value: Optional["ValueSpecification"]) -> "NvProvideComSpec":
         """
         Set ramBlockInit and return self for chaining.
-        
+
         Args:
             value: The ramBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ram_block_init("value")
         """
@@ -207,13 +210,13 @@ class NvProvideComSpec(PPortComSpec):
     def with_rom_block_init(self, value: Optional["ValueSpecification"]) -> "NvProvideComSpec":
         """
         Set romBlockInit and return self for chaining.
-        
+
         Args:
             value: The romBlockInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rom_block_init("value")
         """
@@ -223,13 +226,13 @@ class NvProvideComSpec(PPortComSpec):
     def with_variable(self, value: Optional[RefType]) -> "NvProvideComSpec":
         """
         Set variable and return self for chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable("value")
         """

@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     """
@@ -10,9 +14,9 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     mapping can be used in an early process stage in which the DataMapping
     linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to
     SystemSignals of a SystemSignalGroup is not yet available.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SystemSignalGroupToCommunicationResourceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 290, Classic Platform R23-11)
     """
@@ -32,10 +36,10 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def software_cluster(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set softwareCluster with validation.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def system_signal(self, value: RefType) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +82,10 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def getSoftwareCluster(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -90,13 +94,13 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def setSoftwareCluster(self, value: "CpSoftwareCluster") -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -106,10 +110,10 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def getSystemSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -118,13 +122,13 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def setSystemSignal(self, value: RefType) -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -136,13 +140,13 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def with_software_cluster(self, value: Optional["CpSoftwareCluster"]) -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         Set softwareCluster and return self for chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_cluster("value")
         """
@@ -152,13 +156,13 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     def with_system_signal(self, value: Optional[RefType]) -> "SystemSignalGroupToCommunicationResourceMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """

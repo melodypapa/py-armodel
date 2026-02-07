@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CouplingPortDetails(ARObject):
     """
     Defines details of a CouplingPort. May be used to configure the structures
     of a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortDetails
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 121, Classic Platform R23-11)
     """
@@ -36,10 +39,10 @@ class CouplingPortDetails(ARObject):
     def ethernet_priority(self, value: "EthernetPriority") -> None:
         """
         Set ethernetPriority with validation.
-        
+
         Args:
             value: The ethernetPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class CouplingPortDetails(ARObject):
     def ethernet_traffic(self, value: "CouplingPortTraffic") -> None:
         """
         Set ethernetTraffic with validation.
-        
+
         Args:
             value: The ethernetTraffic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class CouplingPortDetails(ARObject):
     def global_time(self, value: Optional["GlobalTimeCoupling"]) -> None:
         """
         Set globalTime with validation.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class CouplingPortDetails(ARObject):
     def last_egress(self, value: Optional["CouplingPortScheduler"]) -> None:
         """
         Set lastEgress with validation.
-        
+
         Args:
             value: The lastEgress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +145,10 @@ class CouplingPortDetails(ARObject):
     def getCouplingPort(self) -> List["CouplingPortStructural"]:
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -154,10 +157,10 @@ class CouplingPortDetails(ARObject):
     def getEthernetPriority(self) -> "EthernetPriority":
         """
         AUTOSAR-compliant getter for ethernetPriority.
-        
+
         Returns:
             The ethernetPriority value
-        
+
         Note:
             Delegates to ethernet_priority property (CODING_RULE_V2_00017)
         """
@@ -166,13 +169,13 @@ class CouplingPortDetails(ARObject):
     def setEthernetPriority(self, value: "EthernetPriority") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for ethernetPriority with method chaining.
-        
+
         Args:
             value: The ethernetPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ethernet_priority property setter (gets validation automatically)
         """
@@ -182,10 +185,10 @@ class CouplingPortDetails(ARObject):
     def getEthernetTraffic(self) -> "CouplingPortTraffic":
         """
         AUTOSAR-compliant getter for ethernetTraffic.
-        
+
         Returns:
             The ethernetTraffic value
-        
+
         Note:
             Delegates to ethernet_traffic property (CODING_RULE_V2_00017)
         """
@@ -194,13 +197,13 @@ class CouplingPortDetails(ARObject):
     def setEthernetTraffic(self, value: "CouplingPortTraffic") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for ethernetTraffic with method chaining.
-        
+
         Args:
             value: The ethernetTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ethernet_traffic property setter (gets validation automatically)
         """
@@ -210,10 +213,10 @@ class CouplingPortDetails(ARObject):
     def getGlobalTime(self) -> "GlobalTimeCoupling":
         """
         AUTOSAR-compliant getter for globalTime.
-        
+
         Returns:
             The globalTime value
-        
+
         Note:
             Delegates to global_time property (CODING_RULE_V2_00017)
         """
@@ -222,13 +225,13 @@ class CouplingPortDetails(ARObject):
     def setGlobalTime(self, value: "GlobalTimeCoupling") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for globalTime with method chaining.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_time property setter (gets validation automatically)
         """
@@ -238,10 +241,10 @@ class CouplingPortDetails(ARObject):
     def getLastEgress(self) -> "CouplingPortScheduler":
         """
         AUTOSAR-compliant getter for lastEgress.
-        
+
         Returns:
             The lastEgress value
-        
+
         Note:
             Delegates to last_egress property (CODING_RULE_V2_00017)
         """
@@ -250,13 +253,13 @@ class CouplingPortDetails(ARObject):
     def setLastEgress(self, value: "CouplingPortScheduler") -> "CouplingPortDetails":
         """
         AUTOSAR-compliant setter for lastEgress with method chaining.
-        
+
         Args:
             value: The lastEgress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to last_egress property setter (gets validation automatically)
         """
@@ -266,10 +269,10 @@ class CouplingPortDetails(ARObject):
     def getRatePolicy(self) -> List["CouplingPortRatePolicy"]:
         """
         AUTOSAR-compliant getter for ratePolicy.
-        
+
         Returns:
             The ratePolicy value
-        
+
         Note:
             Delegates to rate_policy property (CODING_RULE_V2_00017)
         """
@@ -280,13 +283,13 @@ class CouplingPortDetails(ARObject):
     def with_ethernet_priority(self, value: "EthernetPriority") -> "CouplingPortDetails":
         """
         Set ethernetPriority and return self for chaining.
-        
+
         Args:
             value: The ethernetPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ethernet_priority("value")
         """
@@ -296,13 +299,13 @@ class CouplingPortDetails(ARObject):
     def with_ethernet_traffic(self, value: "CouplingPortTraffic") -> "CouplingPortDetails":
         """
         Set ethernetTraffic and return self for chaining.
-        
+
         Args:
             value: The ethernetTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ethernet_traffic("value")
         """
@@ -312,13 +315,13 @@ class CouplingPortDetails(ARObject):
     def with_global_time(self, value: Optional["GlobalTimeCoupling"]) -> "CouplingPortDetails":
         """
         Set globalTime and return self for chaining.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_time("value")
         """
@@ -328,13 +331,13 @@ class CouplingPortDetails(ARObject):
     def with_last_egress(self, value: Optional["CouplingPortScheduler"]) -> "CouplingPortDetails":
         """
         Set lastEgress and return self for chaining.
-        
+
         Args:
             value: The lastEgress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_last_egress("value")
         """

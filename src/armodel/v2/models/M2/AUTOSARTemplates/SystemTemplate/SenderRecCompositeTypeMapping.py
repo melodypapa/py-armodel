@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SenderRecCompositeTypeMapping(ARObject, ABC):
     """
@@ -13,9 +16,9 @@ class SenderRecCompositeTypeMapping(ARObject, ABC):
     composite one, the "CompositeTypeMapping" element will be used one more time
     (aggregation between the ArrayElementMapping and CompositeType Mapping or
     aggregation between the RecordElementMapping and CompositeTypeMapping).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecCompositeTypeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 235, Classic Platform R23-11)
     """

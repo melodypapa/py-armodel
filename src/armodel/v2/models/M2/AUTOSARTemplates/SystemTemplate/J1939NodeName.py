@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class J1939NodeName(ARObject):
     """
     This element contains attributes to configure the J1939NmNode NAME.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NodeName
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 691, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class J1939NodeName(ARObject):
     def arbitrary(self, value: Optional["Boolean"]) -> None:
         """
         Set arbitrary with validation.
-        
+
         Args:
             value: The arbitrary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class J1939NodeName(ARObject):
     def ecu_instance(self, value: Optional["Integer"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class J1939NodeName(ARObject):
     def function(self, value: Optional["Integer"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +114,10 @@ class J1939NodeName(ARObject):
     def function_instance(self, value: Optional["Integer"]) -> None:
         """
         Set functionInstance with validation.
-        
+
         Args:
             value: The functionInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +142,10 @@ class J1939NodeName(ARObject):
     def identitiy_number(self, value: Optional["Integer"]) -> None:
         """
         Set identitiyNumber with validation.
-        
+
         Args:
             value: The identitiyNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +170,10 @@ class J1939NodeName(ARObject):
     def industry_group(self, value: Optional["Integer"]) -> None:
         """
         Set industryGroup with validation.
-        
+
         Args:
             value: The industryGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -196,10 +199,10 @@ class J1939NodeName(ARObject):
     def manufacturer_code(self, value: Optional["Integer"]) -> None:
         """
         Set manufacturerCode with validation.
-        
+
         Args:
             value: The manufacturerCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +227,10 @@ class J1939NodeName(ARObject):
     def vehicle_system(self, value: Optional["Integer"]) -> None:
         """
         Set vehicleSystem with validation.
-        
+
         Args:
             value: The vehicleSystem to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -246,10 +249,10 @@ class J1939NodeName(ARObject):
     def getArbitrary(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for arbitrary.
-        
+
         Returns:
             The arbitrary value
-        
+
         Note:
             Delegates to arbitrary property (CODING_RULE_V2_00017)
         """
@@ -258,13 +261,13 @@ class J1939NodeName(ARObject):
     def setArbitrary(self, value: "Boolean") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for arbitrary with method chaining.
-        
+
         Args:
             value: The arbitrary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arbitrary property setter (gets validation automatically)
         """
@@ -274,10 +277,10 @@ class J1939NodeName(ARObject):
     def getEcuInstance(self) -> "Integer":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -286,13 +289,13 @@ class J1939NodeName(ARObject):
     def setEcuInstance(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -302,10 +305,10 @@ class J1939NodeName(ARObject):
     def getFunction(self) -> "Integer":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -314,13 +317,13 @@ class J1939NodeName(ARObject):
     def setFunction(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -330,10 +333,10 @@ class J1939NodeName(ARObject):
     def getFunctionInstance(self) -> "Integer":
         """
         AUTOSAR-compliant getter for functionInstance.
-        
+
         Returns:
             The functionInstance value
-        
+
         Note:
             Delegates to function_instance property (CODING_RULE_V2_00017)
         """
@@ -342,13 +345,13 @@ class J1939NodeName(ARObject):
     def setFunctionInstance(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for functionInstance with method chaining.
-        
+
         Args:
             value: The functionInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function_instance property setter (gets validation automatically)
         """
@@ -358,10 +361,10 @@ class J1939NodeName(ARObject):
     def getIdentitiyNumber(self) -> "Integer":
         """
         AUTOSAR-compliant getter for identitiyNumber.
-        
+
         Returns:
             The identitiyNumber value
-        
+
         Note:
             Delegates to identitiy_number property (CODING_RULE_V2_00017)
         """
@@ -370,13 +373,13 @@ class J1939NodeName(ARObject):
     def setIdentitiyNumber(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for identitiyNumber with method chaining.
-        
+
         Args:
             value: The identitiyNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identitiy_number property setter (gets validation automatically)
         """
@@ -386,10 +389,10 @@ class J1939NodeName(ARObject):
     def getIndustryGroup(self) -> "Integer":
         """
         AUTOSAR-compliant getter for industryGroup.
-        
+
         Returns:
             The industryGroup value
-        
+
         Note:
             Delegates to industry_group property (CODING_RULE_V2_00017)
         """
@@ -398,13 +401,13 @@ class J1939NodeName(ARObject):
     def setIndustryGroup(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for industryGroup with method chaining.
-        
+
         Args:
             value: The industryGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to industry_group property setter (gets validation automatically)
         """
@@ -414,10 +417,10 @@ class J1939NodeName(ARObject):
     def getManufacturerCode(self) -> "Integer":
         """
         AUTOSAR-compliant getter for manufacturerCode.
-        
+
         Returns:
             The manufacturerCode value
-        
+
         Note:
             Delegates to manufacturer_code property (CODING_RULE_V2_00017)
         """
@@ -426,13 +429,13 @@ class J1939NodeName(ARObject):
     def setManufacturerCode(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for manufacturerCode with method chaining.
-        
+
         Args:
             value: The manufacturerCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to manufacturer_code property setter (gets validation automatically)
         """
@@ -442,10 +445,10 @@ class J1939NodeName(ARObject):
     def getVehicleSystem(self) -> "Integer":
         """
         AUTOSAR-compliant getter for vehicleSystem.
-        
+
         Returns:
             The vehicleSystem value
-        
+
         Note:
             Delegates to vehicle_system property (CODING_RULE_V2_00017)
         """
@@ -454,13 +457,13 @@ class J1939NodeName(ARObject):
     def setVehicleSystem(self, value: "Integer") -> "J1939NodeName":
         """
         AUTOSAR-compliant setter for vehicleSystem with method chaining.
-        
+
         Args:
             value: The vehicleSystem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vehicle_system property setter (gets validation automatically)
         """
@@ -472,13 +475,13 @@ class J1939NodeName(ARObject):
     def with_arbitrary(self, value: Optional["Boolean"]) -> "J1939NodeName":
         """
         Set arbitrary and return self for chaining.
-        
+
         Args:
             value: The arbitrary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arbitrary("value")
         """
@@ -488,13 +491,13 @@ class J1939NodeName(ARObject):
     def with_ecu_instance(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -504,13 +507,13 @@ class J1939NodeName(ARObject):
     def with_function(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """
@@ -520,13 +523,13 @@ class J1939NodeName(ARObject):
     def with_function_instance(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set functionInstance and return self for chaining.
-        
+
         Args:
             value: The functionInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function_instance("value")
         """
@@ -536,13 +539,13 @@ class J1939NodeName(ARObject):
     def with_identitiy_number(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set identitiyNumber and return self for chaining.
-        
+
         Args:
             value: The identitiyNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identitiy_number("value")
         """
@@ -552,13 +555,13 @@ class J1939NodeName(ARObject):
     def with_industry_group(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set industryGroup and return self for chaining.
-        
+
         Args:
             value: The industryGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_industry_group("value")
         """
@@ -568,13 +571,13 @@ class J1939NodeName(ARObject):
     def with_manufacturer_code(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set manufacturerCode and return self for chaining.
-        
+
         Args:
             value: The manufacturerCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_manufacturer_code("value")
         """
@@ -584,13 +587,13 @@ class J1939NodeName(ARObject):
     def with_vehicle_system(self, value: Optional["Integer"]) -> "J1939NodeName":
         """
         Set vehicleSystem and return self for chaining.
-        
+
         Args:
             value: The vehicleSystem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vehicle_system("value")
         """

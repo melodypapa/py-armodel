@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SegmentPosition(ARObject):
     """
@@ -154,9 +157,9 @@ class SegmentPosition(ARObject):
     discarded due to a failing minimum length check.(cid:99)() 417 of 2090
     Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP
     R23-11
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SegmentPosition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 412, Classic Platform R23-11)
     """
@@ -178,10 +181,10 @@ class SegmentPosition(ARObject):
     def segment_byte(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set segmentByte with validation.
-        
+
         Args:
             value: The segmentByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +209,10 @@ class SegmentPosition(ARObject):
     def segment_length(self, value: Optional["Integer"]) -> None:
         """
         Set segmentLength with validation.
-        
+
         Args:
             value: The segmentLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +237,10 @@ class SegmentPosition(ARObject):
     def segment(self, value: Optional["Integer"]) -> None:
         """
         Set segment with validation.
-        
+
         Args:
             value: The segment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -256,10 +259,10 @@ class SegmentPosition(ARObject):
     def getSegmentByte(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for segmentByte.
-        
+
         Returns:
             The segmentByte value
-        
+
         Note:
             Delegates to segment_byte property (CODING_RULE_V2_00017)
         """
@@ -268,13 +271,13 @@ class SegmentPosition(ARObject):
     def setSegmentByte(self, value: "ByteOrderEnum") -> "SegmentPosition":
         """
         AUTOSAR-compliant setter for segmentByte with method chaining.
-        
+
         Args:
             value: The segmentByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to segment_byte property setter (gets validation automatically)
         """
@@ -284,10 +287,10 @@ class SegmentPosition(ARObject):
     def getSegmentLength(self) -> "Integer":
         """
         AUTOSAR-compliant getter for segmentLength.
-        
+
         Returns:
             The segmentLength value
-        
+
         Note:
             Delegates to segment_length property (CODING_RULE_V2_00017)
         """
@@ -296,13 +299,13 @@ class SegmentPosition(ARObject):
     def setSegmentLength(self, value: "Integer") -> "SegmentPosition":
         """
         AUTOSAR-compliant setter for segmentLength with method chaining.
-        
+
         Args:
             value: The segmentLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to segment_length property setter (gets validation automatically)
         """
@@ -312,10 +315,10 @@ class SegmentPosition(ARObject):
     def getSegment(self) -> "Integer":
         """
         AUTOSAR-compliant getter for segment.
-        
+
         Returns:
             The segment value
-        
+
         Note:
             Delegates to segment property (CODING_RULE_V2_00017)
         """
@@ -324,13 +327,13 @@ class SegmentPosition(ARObject):
     def setSegment(self, value: "Integer") -> "SegmentPosition":
         """
         AUTOSAR-compliant setter for segment with method chaining.
-        
+
         Args:
             value: The segment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to segment property setter (gets validation automatically)
         """
@@ -342,13 +345,13 @@ class SegmentPosition(ARObject):
     def with_segment_byte(self, value: Optional["ByteOrderEnum"]) -> "SegmentPosition":
         """
         Set segmentByte and return self for chaining.
-        
+
         Args:
             value: The segmentByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_segment_byte("value")
         """
@@ -358,13 +361,13 @@ class SegmentPosition(ARObject):
     def with_segment_length(self, value: Optional["Integer"]) -> "SegmentPosition":
         """
         Set segmentLength and return self for chaining.
-        
+
         Args:
             value: The segmentLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_segment_length("value")
         """
@@ -374,13 +377,13 @@ class SegmentPosition(ARObject):
     def with_segment(self, value: Optional["Integer"]) -> "SegmentPosition":
         """
         Set segment and return self for chaining.
-        
+
         Args:
             value: The segment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_segment("value")
         """

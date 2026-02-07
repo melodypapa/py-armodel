@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class NvBlockNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of a single NVRAM Block.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::NvBlockNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 231, Classic
       Platform R23-11)
@@ -29,10 +29,10 @@ class NvBlockNeeds(ServiceNeeds):
     def calc_ram_block(self, value: Optional["Boolean"]) -> None:
         """
         Set calcRamBlock with validation.
-        
+
         Args:
             value: The calcRamBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class NvBlockNeeds(ServiceNeeds):
     def check_static(self, value: Optional["Boolean"]) -> None:
         """
         Set checkStatic with validation.
-        
+
         Args:
             value: The checkStatic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class NvBlockNeeds(ServiceNeeds):
     def cyclic_writing(self, value: Optional["TimeValue"]) -> None:
         """
         Set cyclicWriting with validation.
-        
+
         Args:
             value: The cyclicWriting to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class NvBlockNeeds(ServiceNeeds):
     def n_data_sets(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nDataSets with validation.
-        
+
         Args:
             value: The nDataSets to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class NvBlockNeeds(ServiceNeeds):
     def n_rom_blocks(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nRomBlocks with validation.
-        
+
         Args:
             value: The nRomBlocks to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class NvBlockNeeds(ServiceNeeds):
     def ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> None:
         """
         Set ramBlockStatus with validation.
-        
+
         Args:
             value: The ramBlockStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -204,10 +204,10 @@ class NvBlockNeeds(ServiceNeeds):
     def readonly(self, value: Optional["Boolean"]) -> None:
         """
         Set readonly with validation.
-        
+
         Args:
             value: The readonly to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +232,10 @@ class NvBlockNeeds(ServiceNeeds):
     def reliability(self, value: Optional["NvBlockNeeds"]) -> None:
         """
         Set reliability with validation.
-        
+
         Args:
             value: The reliability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -262,10 +262,10 @@ class NvBlockNeeds(ServiceNeeds):
     def resistant_to(self, value: Optional["Boolean"]) -> None:
         """
         Set resistantTo with validation.
-        
+
         Args:
             value: The resistantTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -291,10 +291,10 @@ class NvBlockNeeds(ServiceNeeds):
     def restore_at_start(self, value: Optional["Boolean"]) -> None:
         """
         Set restoreAtStart with validation.
-        
+
         Args:
             value: The restoreAtStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -320,10 +320,10 @@ class NvBlockNeeds(ServiceNeeds):
     def select_block_for(self, value: Optional["Boolean"]) -> None:
         """
         Set selectBlockFor with validation.
-        
+
         Args:
             value: The selectBlockFor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -349,10 +349,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_at(self, value: Optional["Boolean"]) -> None:
         """
         Set storeAt with validation.
-        
+
         Args:
             value: The storeAt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -378,10 +378,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_cyclic(self, value: Optional["Boolean"]) -> None:
         """
         Set storeCyclic with validation.
-        
+
         Args:
             value: The storeCyclic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -411,10 +411,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store(self, value: Optional["Boolean"]) -> None:
         """
         Set store with validation.
-        
+
         Args:
             value: The store to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -440,10 +440,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_immediate(self, value: Optional["Boolean"]) -> None:
         """
         Set storeImmediate with validation.
-        
+
         Args:
             value: The storeImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -470,10 +470,10 @@ class NvBlockNeeds(ServiceNeeds):
     def store_on_change(self, value: Optional["Boolean"]) -> None:
         """
         Set storeOnChange with validation.
-        
+
         Args:
             value: The storeOnChange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -498,10 +498,10 @@ class NvBlockNeeds(ServiceNeeds):
     def use_auto(self, value: Optional["Boolean"]) -> None:
         """
         Set useAuto with validation.
-        
+
         Args:
             value: The useAuto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -528,10 +528,10 @@ class NvBlockNeeds(ServiceNeeds):
     def use_crc_comp(self, value: Optional["Boolean"]) -> None:
         """
         Set useCRCComp with validation.
-        
+
         Args:
             value: The useCRCComp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -559,10 +559,10 @@ class NvBlockNeeds(ServiceNeeds):
     def write_only_once(self, value: Optional["Boolean"]) -> None:
         """
         Set writeOnlyOnce with validation.
-        
+
         Args:
             value: The writeOnlyOnce to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -587,10 +587,10 @@ class NvBlockNeeds(ServiceNeeds):
     def write_verification(self, value: Optional["Boolean"]) -> None:
         """
         Set writeVerification with validation.
-        
+
         Args:
             value: The writeVerification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -616,10 +616,10 @@ class NvBlockNeeds(ServiceNeeds):
     def writing(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set writing with validation.
-        
+
         Args:
             value: The writing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -645,10 +645,10 @@ class NvBlockNeeds(ServiceNeeds):
     def writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> None:
         """
         Set writingPriority with validation.
-        
+
         Args:
             value: The writingPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -667,10 +667,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getCalcRamBlock(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for calcRamBlock.
-        
+
         Returns:
             The calcRamBlock value
-        
+
         Note:
             Delegates to calc_ram_block property (CODING_RULE_V2_00017)
         """
@@ -679,13 +679,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setCalcRamBlock(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for calcRamBlock with method chaining.
-        
+
         Args:
             value: The calcRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to calc_ram_block property setter (gets validation automatically)
         """
@@ -695,10 +695,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getCheckStatic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for checkStatic.
-        
+
         Returns:
             The checkStatic value
-        
+
         Note:
             Delegates to check_static property (CODING_RULE_V2_00017)
         """
@@ -707,13 +707,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setCheckStatic(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for checkStatic with method chaining.
-        
+
         Args:
             value: The checkStatic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to check_static property setter (gets validation automatically)
         """
@@ -723,10 +723,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getCyclicWriting(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for cyclicWriting.
-        
+
         Returns:
             The cyclicWriting value
-        
+
         Note:
             Delegates to cyclic_writing property (CODING_RULE_V2_00017)
         """
@@ -735,13 +735,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setCyclicWriting(self, value: "TimeValue") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for cyclicWriting with method chaining.
-        
+
         Args:
             value: The cyclicWriting to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cyclic_writing property setter (gets validation automatically)
         """
@@ -751,10 +751,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getNDataSets(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nDataSets.
-        
+
         Returns:
             The nDataSets value
-        
+
         Note:
             Delegates to n_data_sets property (CODING_RULE_V2_00017)
         """
@@ -763,13 +763,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setNDataSets(self, value: "PositiveInteger") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for nDataSets with method chaining.
-        
+
         Args:
             value: The nDataSets to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to n_data_sets property setter (gets validation automatically)
         """
@@ -779,10 +779,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getNRomBlocks(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nRomBlocks.
-        
+
         Returns:
             The nRomBlocks value
-        
+
         Note:
             Delegates to n_rom_blocks property (CODING_RULE_V2_00017)
         """
@@ -791,13 +791,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setNRomBlocks(self, value: "PositiveInteger") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for nRomBlocks with method chaining.
-        
+
         Args:
             value: The nRomBlocks to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to n_rom_blocks property setter (gets validation automatically)
         """
@@ -807,10 +807,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getRamBlockStatus(self) -> "RamBlockStatusControl":
         """
         AUTOSAR-compliant getter for ramBlockStatus.
-        
+
         Returns:
             The ramBlockStatus value
-        
+
         Note:
             Delegates to ram_block_status property (CODING_RULE_V2_00017)
         """
@@ -819,13 +819,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setRamBlockStatus(self, value: "RamBlockStatusControl") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for ramBlockStatus with method chaining.
-        
+
         Args:
             value: The ramBlockStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ram_block_status property setter (gets validation automatically)
         """
@@ -835,10 +835,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getReadonly(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for readonly.
-        
+
         Returns:
             The readonly value
-        
+
         Note:
             Delegates to readonly property (CODING_RULE_V2_00017)
         """
@@ -847,13 +847,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setReadonly(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for readonly with method chaining.
-        
+
         Args:
             value: The readonly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to readonly property setter (gets validation automatically)
         """
@@ -863,10 +863,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getReliability(self) -> "NvBlockNeeds":
         """
         AUTOSAR-compliant getter for reliability.
-        
+
         Returns:
             The reliability value
-        
+
         Note:
             Delegates to reliability property (CODING_RULE_V2_00017)
         """
@@ -875,13 +875,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setReliability(self, value: "NvBlockNeeds") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for reliability with method chaining.
-        
+
         Args:
             value: The reliability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reliability property setter (gets validation automatically)
         """
@@ -891,10 +891,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getResistantTo(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resistantTo.
-        
+
         Returns:
             The resistantTo value
-        
+
         Note:
             Delegates to resistant_to property (CODING_RULE_V2_00017)
         """
@@ -903,13 +903,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setResistantTo(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for resistantTo with method chaining.
-        
+
         Args:
             value: The resistantTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resistant_to property setter (gets validation automatically)
         """
@@ -919,10 +919,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getRestoreAtStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for restoreAtStart.
-        
+
         Returns:
             The restoreAtStart value
-        
+
         Note:
             Delegates to restore_at_start property (CODING_RULE_V2_00017)
         """
@@ -931,13 +931,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setRestoreAtStart(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for restoreAtStart with method chaining.
-        
+
         Args:
             value: The restoreAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to restore_at_start property setter (gets validation automatically)
         """
@@ -947,10 +947,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getSelectBlockFor(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for selectBlockFor.
-        
+
         Returns:
             The selectBlockFor value
-        
+
         Note:
             Delegates to select_block_for property (CODING_RULE_V2_00017)
         """
@@ -959,13 +959,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setSelectBlockFor(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for selectBlockFor with method chaining.
-        
+
         Args:
             value: The selectBlockFor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to select_block_for property setter (gets validation automatically)
         """
@@ -975,10 +975,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreAt(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeAt.
-        
+
         Returns:
             The storeAt value
-        
+
         Note:
             Delegates to store_at property (CODING_RULE_V2_00017)
         """
@@ -987,13 +987,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreAt(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeAt with method chaining.
-        
+
         Args:
             value: The storeAt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_at property setter (gets validation automatically)
         """
@@ -1003,10 +1003,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreCyclic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeCyclic.
-        
+
         Returns:
             The storeCyclic value
-        
+
         Note:
             Delegates to store_cyclic property (CODING_RULE_V2_00017)
         """
@@ -1015,13 +1015,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreCyclic(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeCyclic with method chaining.
-        
+
         Args:
             value: The storeCyclic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_cyclic property setter (gets validation automatically)
         """
@@ -1031,10 +1031,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStore(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for store.
-        
+
         Returns:
             The store value
-        
+
         Note:
             Delegates to store property (CODING_RULE_V2_00017)
         """
@@ -1043,13 +1043,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStore(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for store with method chaining.
-        
+
         Args:
             value: The store to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store property setter (gets validation automatically)
         """
@@ -1059,10 +1059,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreImmediate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeImmediate.
-        
+
         Returns:
             The storeImmediate value
-        
+
         Note:
             Delegates to store_immediate property (CODING_RULE_V2_00017)
         """
@@ -1071,13 +1071,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreImmediate(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeImmediate with method chaining.
-        
+
         Args:
             value: The storeImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_immediate property setter (gets validation automatically)
         """
@@ -1087,10 +1087,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getStoreOnChange(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for storeOnChange.
-        
+
         Returns:
             The storeOnChange value
-        
+
         Note:
             Delegates to store_on_change property (CODING_RULE_V2_00017)
         """
@@ -1099,13 +1099,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setStoreOnChange(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for storeOnChange with method chaining.
-        
+
         Args:
             value: The storeOnChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to store_on_change property setter (gets validation automatically)
         """
@@ -1115,10 +1115,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getUseAuto(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useAuto.
-        
+
         Returns:
             The useAuto value
-        
+
         Note:
             Delegates to use_auto property (CODING_RULE_V2_00017)
         """
@@ -1127,13 +1127,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setUseAuto(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for useAuto with method chaining.
-        
+
         Args:
             value: The useAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_auto property setter (gets validation automatically)
         """
@@ -1143,10 +1143,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getUseCRCComp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useCRCComp.
-        
+
         Returns:
             The useCRCComp value
-        
+
         Note:
             Delegates to use_crc_comp property (CODING_RULE_V2_00017)
         """
@@ -1155,13 +1155,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setUseCRCComp(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for useCRCComp with method chaining.
-        
+
         Args:
             value: The useCRCComp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_crc_comp property setter (gets validation automatically)
         """
@@ -1171,10 +1171,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWriteOnlyOnce(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for writeOnlyOnce.
-        
+
         Returns:
             The writeOnlyOnce value
-        
+
         Note:
             Delegates to write_only_once property (CODING_RULE_V2_00017)
         """
@@ -1183,13 +1183,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWriteOnlyOnce(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writeOnlyOnce with method chaining.
-        
+
         Args:
             value: The writeOnlyOnce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to write_only_once property setter (gets validation automatically)
         """
@@ -1199,10 +1199,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWriteVerification(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for writeVerification.
-        
+
         Returns:
             The writeVerification value
-        
+
         Note:
             Delegates to write_verification property (CODING_RULE_V2_00017)
         """
@@ -1211,13 +1211,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWriteVerification(self, value: "Boolean") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writeVerification with method chaining.
-        
+
         Args:
             value: The writeVerification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to write_verification property setter (gets validation automatically)
         """
@@ -1227,10 +1227,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWriting(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for writing.
-        
+
         Returns:
             The writing value
-        
+
         Note:
             Delegates to writing property (CODING_RULE_V2_00017)
         """
@@ -1239,13 +1239,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWriting(self, value: "PositiveInteger") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writing with method chaining.
-        
+
         Args:
             value: The writing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to writing property setter (gets validation automatically)
         """
@@ -1255,10 +1255,10 @@ class NvBlockNeeds(ServiceNeeds):
     def getWritingPriority(self) -> "NvBlockNeedsWriting":
         """
         AUTOSAR-compliant getter for writingPriority.
-        
+
         Returns:
             The writingPriority value
-        
+
         Note:
             Delegates to writing_priority property (CODING_RULE_V2_00017)
         """
@@ -1267,13 +1267,13 @@ class NvBlockNeeds(ServiceNeeds):
     def setWritingPriority(self, value: "NvBlockNeedsWriting") -> "NvBlockNeeds":
         """
         AUTOSAR-compliant setter for writingPriority with method chaining.
-        
+
         Args:
             value: The writingPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to writing_priority property setter (gets validation automatically)
         """
@@ -1285,13 +1285,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_calc_ram_block(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set calcRamBlock and return self for chaining.
-        
+
         Args:
             value: The calcRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_calc_ram_block("value")
         """
@@ -1301,13 +1301,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_check_static(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set checkStatic and return self for chaining.
-        
+
         Args:
             value: The checkStatic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_check_static("value")
         """
@@ -1317,13 +1317,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_cyclic_writing(self, value: Optional["TimeValue"]) -> "NvBlockNeeds":
         """
         Set cyclicWriting and return self for chaining.
-        
+
         Args:
             value: The cyclicWriting to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cyclic_writing("value")
         """
@@ -1333,13 +1333,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_n_data_sets(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
         """
         Set nDataSets and return self for chaining.
-        
+
         Args:
             value: The nDataSets to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_n_data_sets("value")
         """
@@ -1349,13 +1349,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_n_rom_blocks(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
         """
         Set nRomBlocks and return self for chaining.
-        
+
         Args:
             value: The nRomBlocks to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_n_rom_blocks("value")
         """
@@ -1365,13 +1365,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> "NvBlockNeeds":
         """
         Set ramBlockStatus and return self for chaining.
-        
+
         Args:
             value: The ramBlockStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ram_block_status("value")
         """
@@ -1381,13 +1381,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_readonly(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set readonly and return self for chaining.
-        
+
         Args:
             value: The readonly to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_readonly("value")
         """
@@ -1397,13 +1397,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_reliability(self, value: Optional["NvBlockNeeds"]) -> "NvBlockNeeds":
         """
         Set reliability and return self for chaining.
-        
+
         Args:
             value: The reliability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reliability("value")
         """
@@ -1413,13 +1413,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_resistant_to(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set resistantTo and return self for chaining.
-        
+
         Args:
             value: The resistantTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resistant_to("value")
         """
@@ -1429,13 +1429,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_restore_at_start(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set restoreAtStart and return self for chaining.
-        
+
         Args:
             value: The restoreAtStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_restore_at_start("value")
         """
@@ -1445,13 +1445,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_select_block_for(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set selectBlockFor and return self for chaining.
-        
+
         Args:
             value: The selectBlockFor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_select_block_for("value")
         """
@@ -1461,13 +1461,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_at(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeAt and return self for chaining.
-        
+
         Args:
             value: The storeAt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_at("value")
         """
@@ -1477,13 +1477,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_cyclic(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeCyclic and return self for chaining.
-        
+
         Args:
             value: The storeCyclic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_cyclic("value")
         """
@@ -1493,13 +1493,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set store and return self for chaining.
-        
+
         Args:
             value: The store to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store("value")
         """
@@ -1509,13 +1509,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_immediate(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeImmediate and return self for chaining.
-        
+
         Args:
             value: The storeImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_immediate("value")
         """
@@ -1525,13 +1525,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_store_on_change(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set storeOnChange and return self for chaining.
-        
+
         Args:
             value: The storeOnChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_store_on_change("value")
         """
@@ -1541,13 +1541,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_use_auto(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set useAuto and return self for chaining.
-        
+
         Args:
             value: The useAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_auto("value")
         """
@@ -1557,13 +1557,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_use_crc_comp(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set useCRCComp and return self for chaining.
-        
+
         Args:
             value: The useCRCComp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_crc_comp("value")
         """
@@ -1573,13 +1573,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_write_only_once(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set writeOnlyOnce and return self for chaining.
-        
+
         Args:
             value: The writeOnlyOnce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_write_only_once("value")
         """
@@ -1589,13 +1589,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_write_verification(self, value: Optional["Boolean"]) -> "NvBlockNeeds":
         """
         Set writeVerification and return self for chaining.
-        
+
         Args:
             value: The writeVerification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_write_verification("value")
         """
@@ -1605,13 +1605,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_writing(self, value: Optional["PositiveInteger"]) -> "NvBlockNeeds":
         """
         Set writing and return self for chaining.
-        
+
         Args:
             value: The writing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_writing("value")
         """
@@ -1621,13 +1621,13 @@ class NvBlockNeeds(ServiceNeeds):
     def with_writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> "NvBlockNeeds":
         """
         Set writingPriority and return self for chaining.
-        
+
         Args:
             value: The writingPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_writing_priority("value")
         """

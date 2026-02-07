@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class QueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to queued receiving.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::QueuedReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 173, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def setQueueLength(self, value: "PositiveInteger") -> "QueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "QueuedReceiverComSpec":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """

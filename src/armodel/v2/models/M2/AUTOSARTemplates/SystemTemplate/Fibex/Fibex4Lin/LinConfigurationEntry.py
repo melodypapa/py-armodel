@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class LinConfigurationEntry(ScheduleTableEntry, ABC):
     """
     A ScheduleTableEntry which contains LIN specific assignments.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinConfigurationEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 434, Classic Platform R23-11)
     """
@@ -30,10 +31,10 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def assigned(self, value: Optional["LinSlave"]) -> None:
         """
         Set assigned with validation.
-        
+
         Args:
             value: The assigned to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +63,10 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def assigned_lin(self, value: Optional["LinSlaveConfigIdent"]) -> None:
         """
         Set assignedLin with validation.
-        
+
         Args:
             value: The assignedLin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +85,10 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def getAssigned(self) -> "LinSlave":
         """
         AUTOSAR-compliant getter for assigned.
-        
+
         Returns:
             The assigned value
-        
+
         Note:
             Delegates to assigned property (CODING_RULE_V2_00017)
         """
@@ -96,13 +97,13 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def setAssigned(self, value: "LinSlave") -> "LinConfigurationEntry":
         """
         AUTOSAR-compliant setter for assigned with method chaining.
-        
+
         Args:
             value: The assigned to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned property setter (gets validation automatically)
         """
@@ -112,10 +113,10 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def getAssignedLin(self) -> "LinSlaveConfigIdent":
         """
         AUTOSAR-compliant getter for assignedLin.
-        
+
         Returns:
             The assignedLin value
-        
+
         Note:
             Delegates to assigned_lin property (CODING_RULE_V2_00017)
         """
@@ -124,13 +125,13 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def setAssignedLin(self, value: "LinSlaveConfigIdent") -> "LinConfigurationEntry":
         """
         AUTOSAR-compliant setter for assignedLin with method chaining.
-        
+
         Args:
             value: The assignedLin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_lin property setter (gets validation automatically)
         """
@@ -142,13 +143,13 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def with_assigned(self, value: Optional["LinSlave"]) -> "LinConfigurationEntry":
         """
         Set assigned and return self for chaining.
-        
+
         Args:
             value: The assigned to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned("value")
         """
@@ -158,13 +159,13 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     def with_assigned_lin(self, value: Optional["LinSlaveConfigIdent"]) -> "LinConfigurationEntry":
         """
         Set assignedLin and return self for chaining.
-        
+
         Args:
             value: The assignedLin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_lin("value")
         """

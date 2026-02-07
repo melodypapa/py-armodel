@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SdgReference(SdgAttribute):
     """
     Describes an attribute of a SdgClass which is used on the definition side to
     model a reference from one Sdg to another Sdg on the value side.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation
       R23-11)
@@ -31,10 +31,10 @@ class SdgReference(SdgAttribute):
     def dest_sdg(self, value: Optional["SdgClass"]) -> None:
         """
         Set destSdg with validation.
-        
+
         Args:
             value: The destSdg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class SdgReference(SdgAttribute):
     def getDestSdg(self) -> "SdgClass":
         """
         AUTOSAR-compliant getter for destSdg.
-        
+
         Returns:
             The destSdg value
-        
+
         Note:
             Delegates to dest_sdg property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class SdgReference(SdgAttribute):
     def setDestSdg(self, value: "SdgClass") -> "SdgReference":
         """
         AUTOSAR-compliant setter for destSdg with method chaining.
-        
+
         Args:
             value: The destSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dest_sdg property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class SdgReference(SdgAttribute):
     def with_dest_sdg(self, value: Optional["SdgClass"]) -> "SdgReference":
         """
         Set destSdg and return self for chaining.
-        
+
         Args:
             value: The destSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dest_sdg("value")
         """

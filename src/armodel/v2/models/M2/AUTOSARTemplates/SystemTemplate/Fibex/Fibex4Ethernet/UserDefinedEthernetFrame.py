@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class UserDefinedEthernetFrame(AbstractEthernetFrame):
     """
     UserDefinedEthernetFrame allows the description of a frame-based
     communication to Complex Drivers that are located above the EthDrv.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::UserDefinedEthernetFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 579, Classic Platform R23-11)
     """

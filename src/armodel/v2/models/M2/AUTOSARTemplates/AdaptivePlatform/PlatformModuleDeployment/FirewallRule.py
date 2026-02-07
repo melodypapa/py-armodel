@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FirewallRule(ARElement):
     """
     Firewall Rule that defines the control information in individual packets.
-    
+
     Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 584, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class FirewallRule(ARElement):
     def bucket_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bucketSize with validation.
-        
+
         Args:
             value: The bucketSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class FirewallRule(ARElement):
     def data_link_layer(self, value: Optional["DataLinkLayerRule"]) -> None:
         """
         Set dataLinkLayer with validation.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class FirewallRule(ARElement):
     def dds_rule(self, value: Optional["DdsRule"]) -> None:
         """
         Set ddsRule with validation.
-        
+
         Args:
             value: The ddsRule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class FirewallRule(ARElement):
     def do_ip_rule(self, value: Optional["DoIpRule"]) -> None:
         """
         Set doIpRule with validation.
-        
+
         Args:
             value: The doIpRule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +141,10 @@ class FirewallRule(ARElement):
     def network_layer(self, value: Optional["NetworkLayerRule"]) -> None:
         """
         Set networkLayer with validation.
-        
+
         Args:
             value: The networkLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +178,10 @@ class FirewallRule(ARElement):
     def refill_amount(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set refillAmount with validation.
-        
+
         Args:
             value: The refillAmount to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +206,10 @@ class FirewallRule(ARElement):
     def someip_rule(self, value: Optional["SomeipProtocolRule"]) -> None:
         """
         Set someipRule with validation.
-        
+
         Args:
             value: The someipRule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +234,10 @@ class FirewallRule(ARElement):
     def someip_sd_rule(self, value: Optional["SomeipSdRule"]) -> None:
         """
         Set someipSdRule with validation.
-        
+
         Args:
             value: The someipSdRule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -263,10 +263,10 @@ class FirewallRule(ARElement):
     def transport_layer(self, value: Optional["TransportLayerRule"]) -> None:
         """
         Set transportLayer with validation.
-        
+
         Args:
             value: The transportLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -285,10 +285,10 @@ class FirewallRule(ARElement):
     def getBucketSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bucketSize.
-        
+
         Returns:
             The bucketSize value
-        
+
         Note:
             Delegates to bucket_size property (CODING_RULE_V2_00017)
         """
@@ -297,13 +297,13 @@ class FirewallRule(ARElement):
     def setBucketSize(self, value: "PositiveInteger") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for bucketSize with method chaining.
-        
+
         Args:
             value: The bucketSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bucket_size property setter (gets validation automatically)
         """
@@ -313,10 +313,10 @@ class FirewallRule(ARElement):
     def getDataLinkLayer(self) -> "DataLinkLayerRule":
         """
         AUTOSAR-compliant getter for dataLinkLayer.
-        
+
         Returns:
             The dataLinkLayer value
-        
+
         Note:
             Delegates to data_link_layer property (CODING_RULE_V2_00017)
         """
@@ -325,13 +325,13 @@ class FirewallRule(ARElement):
     def setDataLinkLayer(self, value: "DataLinkLayerRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for dataLinkLayer with method chaining.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_link_layer property setter (gets validation automatically)
         """
@@ -341,10 +341,10 @@ class FirewallRule(ARElement):
     def getDdsRule(self) -> "DdsRule":
         """
         AUTOSAR-compliant getter for ddsRule.
-        
+
         Returns:
             The ddsRule value
-        
+
         Note:
             Delegates to dds_rule property (CODING_RULE_V2_00017)
         """
@@ -353,13 +353,13 @@ class FirewallRule(ARElement):
     def setDdsRule(self, value: "DdsRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for ddsRule with method chaining.
-        
+
         Args:
             value: The ddsRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_rule property setter (gets validation automatically)
         """
@@ -369,10 +369,10 @@ class FirewallRule(ARElement):
     def getDoIpRule(self) -> "DoIpRule":
         """
         AUTOSAR-compliant getter for doIpRule.
-        
+
         Returns:
             The doIpRule value
-        
+
         Note:
             Delegates to do_ip_rule property (CODING_RULE_V2_00017)
         """
@@ -381,13 +381,13 @@ class FirewallRule(ARElement):
     def setDoIpRule(self, value: "DoIpRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for doIpRule with method chaining.
-        
+
         Args:
             value: The doIpRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_rule property setter (gets validation automatically)
         """
@@ -397,10 +397,10 @@ class FirewallRule(ARElement):
     def getNetworkLayer(self) -> "NetworkLayerRule":
         """
         AUTOSAR-compliant getter for networkLayer.
-        
+
         Returns:
             The networkLayer value
-        
+
         Note:
             Delegates to network_layer property (CODING_RULE_V2_00017)
         """
@@ -409,13 +409,13 @@ class FirewallRule(ARElement):
     def setNetworkLayer(self, value: "NetworkLayerRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for networkLayer with method chaining.
-        
+
         Args:
             value: The networkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_layer property setter (gets validation automatically)
         """
@@ -425,10 +425,10 @@ class FirewallRule(ARElement):
     def getPayloadByte(self) -> List["PayloadBytePattern"]:
         """
         AUTOSAR-compliant getter for payloadByte.
-        
+
         Returns:
             The payloadByte value
-        
+
         Note:
             Delegates to payload_byte property (CODING_RULE_V2_00017)
         """
@@ -437,10 +437,10 @@ class FirewallRule(ARElement):
     def getRefillAmount(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for refillAmount.
-        
+
         Returns:
             The refillAmount value
-        
+
         Note:
             Delegates to refill_amount property (CODING_RULE_V2_00017)
         """
@@ -449,13 +449,13 @@ class FirewallRule(ARElement):
     def setRefillAmount(self, value: "PositiveInteger") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for refillAmount with method chaining.
-        
+
         Args:
             value: The refillAmount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to refill_amount property setter (gets validation automatically)
         """
@@ -465,10 +465,10 @@ class FirewallRule(ARElement):
     def getSomeipRule(self) -> "SomeipProtocolRule":
         """
         AUTOSAR-compliant getter for someipRule.
-        
+
         Returns:
             The someipRule value
-        
+
         Note:
             Delegates to someip_rule property (CODING_RULE_V2_00017)
         """
@@ -477,13 +477,13 @@ class FirewallRule(ARElement):
     def setSomeipRule(self, value: "SomeipProtocolRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for someipRule with method chaining.
-        
+
         Args:
             value: The someipRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to someip_rule property setter (gets validation automatically)
         """
@@ -493,10 +493,10 @@ class FirewallRule(ARElement):
     def getSomeipSdRule(self) -> "SomeipSdRule":
         """
         AUTOSAR-compliant getter for someipSdRule.
-        
+
         Returns:
             The someipSdRule value
-        
+
         Note:
             Delegates to someip_sd_rule property (CODING_RULE_V2_00017)
         """
@@ -505,13 +505,13 @@ class FirewallRule(ARElement):
     def setSomeipSdRule(self, value: "SomeipSdRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for someipSdRule with method chaining.
-        
+
         Args:
             value: The someipSdRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to someip_sd_rule property setter (gets validation automatically)
         """
@@ -521,10 +521,10 @@ class FirewallRule(ARElement):
     def getTransportLayer(self) -> "TransportLayerRule":
         """
         AUTOSAR-compliant getter for transportLayer.
-        
+
         Returns:
             The transportLayer value
-        
+
         Note:
             Delegates to transport_layer property (CODING_RULE_V2_00017)
         """
@@ -533,13 +533,13 @@ class FirewallRule(ARElement):
     def setTransportLayer(self, value: "TransportLayerRule") -> "FirewallRule":
         """
         AUTOSAR-compliant setter for transportLayer with method chaining.
-        
+
         Args:
             value: The transportLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transport_layer property setter (gets validation automatically)
         """
@@ -551,13 +551,13 @@ class FirewallRule(ARElement):
     def with_bucket_size(self, value: Optional["PositiveInteger"]) -> "FirewallRule":
         """
         Set bucketSize and return self for chaining.
-        
+
         Args:
             value: The bucketSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bucket_size("value")
         """
@@ -567,13 +567,13 @@ class FirewallRule(ARElement):
     def with_data_link_layer(self, value: Optional["DataLinkLayerRule"]) -> "FirewallRule":
         """
         Set dataLinkLayer and return self for chaining.
-        
+
         Args:
             value: The dataLinkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_link_layer("value")
         """
@@ -583,13 +583,13 @@ class FirewallRule(ARElement):
     def with_dds_rule(self, value: Optional["DdsRule"]) -> "FirewallRule":
         """
         Set ddsRule and return self for chaining.
-        
+
         Args:
             value: The ddsRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_rule("value")
         """
@@ -599,13 +599,13 @@ class FirewallRule(ARElement):
     def with_do_ip_rule(self, value: Optional["DoIpRule"]) -> "FirewallRule":
         """
         Set doIpRule and return self for chaining.
-        
+
         Args:
             value: The doIpRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_rule("value")
         """
@@ -615,13 +615,13 @@ class FirewallRule(ARElement):
     def with_network_layer(self, value: Optional["NetworkLayerRule"]) -> "FirewallRule":
         """
         Set networkLayer and return self for chaining.
-        
+
         Args:
             value: The networkLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_layer("value")
         """
@@ -631,13 +631,13 @@ class FirewallRule(ARElement):
     def with_refill_amount(self, value: Optional["PositiveInteger"]) -> "FirewallRule":
         """
         Set refillAmount and return self for chaining.
-        
+
         Args:
             value: The refillAmount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_refill_amount("value")
         """
@@ -647,13 +647,13 @@ class FirewallRule(ARElement):
     def with_someip_rule(self, value: Optional["SomeipProtocolRule"]) -> "FirewallRule":
         """
         Set someipRule and return self for chaining.
-        
+
         Args:
             value: The someipRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_someip_rule("value")
         """
@@ -663,13 +663,13 @@ class FirewallRule(ARElement):
     def with_someip_sd_rule(self, value: Optional["SomeipSdRule"]) -> "FirewallRule":
         """
         Set someipSdRule and return self for chaining.
-        
+
         Args:
             value: The someipSdRule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_someip_sd_rule("value")
         """
@@ -679,13 +679,13 @@ class FirewallRule(ARElement):
     def with_transport_layer(self, value: Optional["TransportLayerRule"]) -> "FirewallRule":
         """
         Set transportLayer and return self for chaining.
-        
+
         Args:
             value: The transportLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transport_layer("value")
         """

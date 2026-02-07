@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
     Common abstract class to gather attributes for external references (where
     the destination is not located in the ECU Configuration Description but in
     an another AUTOSAR Template).
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractExternalReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 72, Classic Platform R23-11)
     """

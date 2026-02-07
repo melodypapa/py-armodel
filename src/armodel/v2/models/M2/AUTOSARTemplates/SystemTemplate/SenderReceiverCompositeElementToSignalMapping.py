@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     """
     Mapping of an Variable Data Prototype which is aggregated within a composite
     datatype to a System Signal (only one element of the composite data type is
     mapped).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderReceiverCompositeElementToSignalMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 247, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def type_mapping(self, value: Optional["SenderRecComposite"]) -> None:
         """
         Set typeMapping with validation.
-        
+
         Args:
             value: The typeMapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def setDataElement(self, value: RefType) -> "SenderReceiverCompositeElementToSignalMapping":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -133,10 +136,10 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def setSystemSignal(self, value: "SystemSignal") -> "SenderReceiverCompositeElementToSignalMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def getTypeMapping(self) -> "SenderRecComposite":
         """
         AUTOSAR-compliant getter for typeMapping.
-        
+
         Returns:
             The typeMapping value
-        
+
         Note:
             Delegates to type_mapping property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def setTypeMapping(self, value: "SenderRecComposite") -> "SenderReceiverCompositeElementToSignalMapping":
         """
         AUTOSAR-compliant setter for typeMapping with method chaining.
-        
+
         Args:
             value: The typeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_mapping property setter (gets validation automatically)
         """
@@ -191,13 +194,13 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def with_data_element(self, value: Optional[RefType]) -> "SenderReceiverCompositeElementToSignalMapping":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -207,13 +210,13 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "SenderReceiverCompositeElementToSignalMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """
@@ -223,13 +226,13 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     def with_type_mapping(self, value: Optional["SenderRecComposite"]) -> "SenderReceiverCompositeElementToSignalMapping":
         """
         Set typeMapping and return self for chaining.
-        
+
         Args:
             value: The typeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_mapping("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class RPortPrototype(AbstractRequiredPortPrototype):
     """
     Component port requiring a certain port interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::RPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 68, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def may_be(self, value: Optional["Boolean"]) -> None:
         """
         Set mayBe with validation.
-        
+
         Args:
             value: The mayBe to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def required(self, value: Optional["PortInterface"]) -> None:
         """
         Set required with validation.
-        
+
         Args:
             value: The required to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def getMayBe(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for mayBe.
-        
+
         Returns:
             The mayBe value
-        
+
         Note:
             Delegates to may_be property (CODING_RULE_V2_00017)
         """
@@ -95,13 +95,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setMayBe(self, value: "Boolean") -> "RPortPrototype":
         """
         AUTOSAR-compliant setter for mayBe with method chaining.
-        
+
         Args:
             value: The mayBe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to may_be property setter (gets validation automatically)
         """
@@ -111,10 +111,10 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def getRequired(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setRequired(self, value: "PortInterface") -> "RPortPrototype":
         """
         AUTOSAR-compliant setter for required with method chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required property setter (gets validation automatically)
         """
@@ -141,13 +141,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def with_may_be(self, value: Optional["Boolean"]) -> "RPortPrototype":
         """
         Set mayBe and return self for chaining.
-        
+
         Args:
             value: The mayBe to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_may_be("value")
         """
@@ -157,13 +157,13 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def with_required(self, value: Optional["PortInterface"]) -> "RPortPrototype":
         """
         Set required and return self for chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required("value")
         """

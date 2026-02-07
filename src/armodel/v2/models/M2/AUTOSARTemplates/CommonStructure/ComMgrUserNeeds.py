@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ComMgrUserNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Communication
     Manager for one "user".
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ComMgrUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class ComMgrUserNeeds(ServiceNeeds):
     def max_comm(self, value: Optional["MaxCommModeEnum"]) -> None:
         """
         Set maxComm with validation.
-        
+
         Args:
             value: The maxComm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class ComMgrUserNeeds(ServiceNeeds):
     def getMaxComm(self) -> "MaxCommModeEnum":
         """
         AUTOSAR-compliant getter for maxComm.
-        
+
         Returns:
             The maxComm value
-        
+
         Note:
             Delegates to max_comm property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class ComMgrUserNeeds(ServiceNeeds):
     def setMaxComm(self, value: "MaxCommModeEnum") -> "ComMgrUserNeeds":
         """
         AUTOSAR-compliant setter for maxComm with method chaining.
-        
+
         Args:
             value: The maxComm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_comm property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class ComMgrUserNeeds(ServiceNeeds):
     def with_max_comm(self, value: Optional["MaxCommModeEnum"]) -> "ComMgrUserNeeds":
         """
         Set maxComm and return self for chaining.
-        
+
         Args:
             value: The maxComm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_comm("value")
         """

@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticRoutineControlClass(DiagnosticServiceClass):
     """
@@ -7,9 +5,9 @@ class DiagnosticRoutineControlClass(DiagnosticServiceClass):
     Control" diagnostic service. (cid:53) 125 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RoutineControl::DiagnosticRoutineControlClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform
       R23-11)

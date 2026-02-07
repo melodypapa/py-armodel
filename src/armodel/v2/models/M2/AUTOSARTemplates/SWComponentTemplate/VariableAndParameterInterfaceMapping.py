@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in
     context of two different SenderReceiverInterfaces, NvDataInterfaces or
     ParameterInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::VariableAndParameterInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 124, Classic Platform
       R23-11)
@@ -34,10 +37,10 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     def getDataMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataMapping.
-        
+
         Returns:
             The dataMapping value
-        
+
         Note:
             Delegates to data_mapping property (CODING_RULE_V2_00017)
         """

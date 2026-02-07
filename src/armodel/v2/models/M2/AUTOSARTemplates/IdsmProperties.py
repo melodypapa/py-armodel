@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class IdsmProperties(IdsCommonElement):
     """
     This meta-class provides the ability to aggregate filters for security
     events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmProperties
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """
@@ -38,10 +38,10 @@ class IdsmProperties(IdsCommonElement):
     def getRateLimitation(self) -> List["IdsmRateLimitation"]:
         """
         AUTOSAR-compliant getter for rateLimitation.
-        
+
         Returns:
             The rateLimitation value
-        
+
         Note:
             Delegates to rate_limitation property (CODING_RULE_V2_00017)
         """
@@ -50,10 +50,10 @@ class IdsmProperties(IdsCommonElement):
     def getTrafficLimitation(self) -> List["IdsmTrafficLimitation"]:
         """
         AUTOSAR-compliant getter for trafficLimitation.
-        
+
         Returns:
             The trafficLimitation value
-        
+
         Note:
             Delegates to traffic_limitation property (CODING_RULE_V2_00017)
         """

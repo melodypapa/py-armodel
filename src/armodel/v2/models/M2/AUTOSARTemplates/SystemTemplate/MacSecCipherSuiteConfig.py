@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MacSecCipherSuiteConfig(ARObject):
     """
@@ -9,9 +12,9 @@ class MacSecCipherSuiteConfig(ARObject):
     to select the cipher suite to use for MACsec. (cid:53) 175 of 2090 Document
     ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11
     (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecCipherSuiteConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)
     """
@@ -32,10 +35,10 @@ class MacSecCipherSuiteConfig(ARObject):
     def cipher_suite(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set cipherSuite with validation.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class MacSecCipherSuiteConfig(ARObject):
     def getCipherSuite(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for cipherSuite.
-        
+
         Returns:
             The cipherSuite value
-        
+
         Note:
             Delegates to cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -66,13 +69,13 @@ class MacSecCipherSuiteConfig(ARObject):
     def setCipherSuite(self, value: "PositiveInteger") -> "MacSecCipherSuiteConfig":
         """
         AUTOSAR-compliant setter for cipherSuite with method chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cipher_suite property setter (gets validation automatically)
         """
@@ -84,13 +87,13 @@ class MacSecCipherSuiteConfig(ARObject):
     def with_cipher_suite(self, value: Optional["PositiveInteger"]) -> "MacSecCipherSuiteConfig":
         """
         Set cipherSuite and return self for chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cipher_suite("value")
         """

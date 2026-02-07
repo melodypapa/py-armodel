@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FlexrayFrameTriggering(FrameTriggering):
     """
     FlexRay specific attributes to the FrameTriggering
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication::FlexrayFrameTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 422, Classic Platform R23-11)
     """
@@ -37,10 +37,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def allow_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set allowDynamic with validation.
-        
+
         Args:
             value: The allowDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def message_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageId with validation.
-        
+
         Args:
             value: The messageId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def payload_preamble_indicator(self, value: Optional["Boolean"]) -> None:
         """
         Set payloadPreambleIndicator with validation.
-        
+
         Args:
             value: The payloadPreambleIndicator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getAbsolutely(self) -> List["FlexrayAbsolutely"]:
         """
         AUTOSAR-compliant getter for absolutely.
-        
+
         Returns:
             The absolutely value
-        
+
         Note:
             Delegates to absolutely property (CODING_RULE_V2_00017)
         """
@@ -128,10 +128,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getAllowDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allowDynamic.
-        
+
         Returns:
             The allowDynamic value
-        
+
         Note:
             Delegates to allow_dynamic property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def setAllowDynamic(self, value: "Boolean") -> "FlexrayFrameTriggering":
         """
         AUTOSAR-compliant setter for allowDynamic with method chaining.
-        
+
         Args:
             value: The allowDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allow_dynamic property setter (gets validation automatically)
         """
@@ -156,10 +156,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getMessageId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageId.
-        
+
         Returns:
             The messageId value
-        
+
         Note:
             Delegates to message_id property (CODING_RULE_V2_00017)
         """
@@ -168,13 +168,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def setMessageId(self, value: "PositiveInteger") -> "FlexrayFrameTriggering":
         """
         AUTOSAR-compliant setter for messageId with method chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_id property setter (gets validation automatically)
         """
@@ -184,10 +184,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def getPayloadPreambleIndicator(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for payloadPreambleIndicator.
-        
+
         Returns:
             The payloadPreambleIndicator value
-        
+
         Note:
             Delegates to payload_preamble_indicator property (CODING_RULE_V2_00017)
         """
@@ -196,13 +196,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def setPayloadPreambleIndicator(self, value: "Boolean") -> "FlexrayFrameTriggering":
         """
         AUTOSAR-compliant setter for payloadPreambleIndicator with method chaining.
-        
+
         Args:
             value: The payloadPreambleIndicator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to payload_preamble_indicator property setter (gets validation automatically)
         """
@@ -214,13 +214,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def with_allow_dynamic(self, value: Optional["Boolean"]) -> "FlexrayFrameTriggering":
         """
         Set allowDynamic and return self for chaining.
-        
+
         Args:
             value: The allowDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allow_dynamic("value")
         """
@@ -230,13 +230,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def with_message_id(self, value: Optional["PositiveInteger"]) -> "FlexrayFrameTriggering":
         """
         Set messageId and return self for chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_id("value")
         """
@@ -246,13 +246,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     def with_payload_preamble_indicator(self, value: Optional["Boolean"]) -> "FlexrayFrameTriggering":
         """
         Set payloadPreambleIndicator and return self for chaining.
-        
+
         Args:
             value: The payloadPreambleIndicator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_payload_preamble_indicator("value")
         """

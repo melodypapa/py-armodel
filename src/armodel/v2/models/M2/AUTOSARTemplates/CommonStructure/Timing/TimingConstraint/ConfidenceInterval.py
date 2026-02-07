@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ConfidenceInterval(ARObject):
     """
     Additionally to the list of measured distances of event occurrences, a
     confidence interval can be specified for the expected distance of two
     consecutive event occurrences with a given probability.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::ConfidenceInterval
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 112, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class ConfidenceInterval(ARObject):
     def lower_bound(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set lowerBound with validation.
-        
+
         Args:
             value: The lowerBound to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class ConfidenceInterval(ARObject):
     def propability(self, value: Optional["Float"]) -> None:
         """
         Set propability with validation.
-        
+
         Args:
             value: The propability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class ConfidenceInterval(ARObject):
     def upper_bound(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set upperBound with validation.
-        
+
         Args:
             value: The upperBound to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +110,10 @@ class ConfidenceInterval(ARObject):
     def getLowerBound(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for lowerBound.
-        
+
         Returns:
             The lowerBound value
-        
+
         Note:
             Delegates to lower_bound property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class ConfidenceInterval(ARObject):
     def setLowerBound(self, value: "MultidimensionalTime") -> "ConfidenceInterval":
         """
         AUTOSAR-compliant setter for lowerBound with method chaining.
-        
+
         Args:
             value: The lowerBound to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_bound property setter (gets validation automatically)
         """
@@ -135,10 +138,10 @@ class ConfidenceInterval(ARObject):
     def getPropability(self) -> "Float":
         """
         AUTOSAR-compliant getter for propability.
-        
+
         Returns:
             The propability value
-        
+
         Note:
             Delegates to propability property (CODING_RULE_V2_00017)
         """
@@ -147,13 +150,13 @@ class ConfidenceInterval(ARObject):
     def setPropability(self, value: "Float") -> "ConfidenceInterval":
         """
         AUTOSAR-compliant setter for propability with method chaining.
-        
+
         Args:
             value: The propability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to propability property setter (gets validation automatically)
         """
@@ -163,10 +166,10 @@ class ConfidenceInterval(ARObject):
     def getUpperBound(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for upperBound.
-        
+
         Returns:
             The upperBound value
-        
+
         Note:
             Delegates to upper_bound property (CODING_RULE_V2_00017)
         """
@@ -175,13 +178,13 @@ class ConfidenceInterval(ARObject):
     def setUpperBound(self, value: "MultidimensionalTime") -> "ConfidenceInterval":
         """
         AUTOSAR-compliant setter for upperBound with method chaining.
-        
+
         Args:
             value: The upperBound to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_bound property setter (gets validation automatically)
         """
@@ -193,13 +196,13 @@ class ConfidenceInterval(ARObject):
     def with_lower_bound(self, value: Optional["MultidimensionalTime"]) -> "ConfidenceInterval":
         """
         Set lowerBound and return self for chaining.
-        
+
         Args:
             value: The lowerBound to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_bound("value")
         """
@@ -209,13 +212,13 @@ class ConfidenceInterval(ARObject):
     def with_propability(self, value: Optional["Float"]) -> "ConfidenceInterval":
         """
         Set propability and return self for chaining.
-        
+
         Args:
             value: The propability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_propability("value")
         """
@@ -225,13 +228,13 @@ class ConfidenceInterval(ARObject):
     def with_upper_bound(self, value: Optional["MultidimensionalTime"]) -> "ConfidenceInterval":
         """
         Set upperBound and return self for chaining.
-        
+
         Args:
             value: The upperBound to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_bound("value")
         """

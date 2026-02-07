@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EthTcpIpProps(ARElement):
     """
     This meta-class is used to configure the EcuInstance specific TcpIp Stack
     attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthTcpIpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 153, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class EthTcpIpProps(ARElement):
     def tcp_props(self, value: Optional["TcpProps"]) -> None:
         """
         Set tcpProps with validation.
-        
+
         Args:
             value: The tcpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class EthTcpIpProps(ARElement):
     def udp_props(self, value: Optional["UdpProps"]) -> None:
         """
         Set udpProps with validation.
-        
+
         Args:
             value: The udpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class EthTcpIpProps(ARElement):
     def getTcpProps(self) -> "TcpProps":
         """
         AUTOSAR-compliant getter for tcpProps.
-        
+
         Returns:
             The tcpProps value
-        
+
         Note:
             Delegates to tcp_props property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class EthTcpIpProps(ARElement):
     def setTcpProps(self, value: "TcpProps") -> "EthTcpIpProps":
         """
         AUTOSAR-compliant setter for tcpProps with method chaining.
-        
+
         Args:
             value: The tcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_props property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class EthTcpIpProps(ARElement):
     def getUdpProps(self) -> "UdpProps":
         """
         AUTOSAR-compliant getter for udpProps.
-        
+
         Returns:
             The udpProps value
-        
+
         Note:
             Delegates to udp_props property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class EthTcpIpProps(ARElement):
     def setUdpProps(self, value: "UdpProps") -> "EthTcpIpProps":
         """
         AUTOSAR-compliant setter for udpProps with method chaining.
-        
+
         Args:
             value: The udpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_props property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class EthTcpIpProps(ARElement):
     def with_tcp_props(self, value: Optional["TcpProps"]) -> "EthTcpIpProps":
         """
         Set tcpProps and return self for chaining.
-        
+
         Args:
             value: The tcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_props("value")
         """
@@ -151,13 +151,13 @@ class EthTcpIpProps(ARElement):
     def with_udp_props(self, value: Optional["UdpProps"]) -> "EthTcpIpProps":
         """
         Set udpProps and return self for chaining.
-        
+
         Args:
             value: The udpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_props("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class NvDataPortAnnotation(GeneralAnnotation):
     """
     Annotation to a port regarding a certain VariableDataPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::NvDataPortAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 160, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class NvDataPortAnnotation(GeneralAnnotation):
     def variable(self, value: RefType) -> None:
         """
         Set variable with validation.
-        
+
         Args:
             value: The variable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -46,10 +49,10 @@ class NvDataPortAnnotation(GeneralAnnotation):
     def getVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for variable.
-        
+
         Returns:
             The variable value
-        
+
         Note:
             Delegates to variable property (CODING_RULE_V2_00017)
         """
@@ -58,13 +61,13 @@ class NvDataPortAnnotation(GeneralAnnotation):
     def setVariable(self, value: RefType) -> "NvDataPortAnnotation":
         """
         AUTOSAR-compliant setter for variable with method chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable property setter (gets validation automatically)
         """
@@ -76,13 +79,13 @@ class NvDataPortAnnotation(GeneralAnnotation):
     def with_variable(self, value: Optional[RefType]) -> "NvDataPortAnnotation":
         """
         Set variable and return self for chaining.
-        
+
         Args:
             value: The variable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable("value")
         """

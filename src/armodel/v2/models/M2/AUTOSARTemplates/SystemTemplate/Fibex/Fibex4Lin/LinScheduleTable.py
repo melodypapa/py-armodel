@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class LinScheduleTable(Identifiable):
     """
@@ -9,9 +11,9 @@ class LinScheduleTable(Identifiable):
     schedule table. The schedule table specifies the identifiers for each header
     and the interval between the start of a frame and the start of the following
     frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinScheduleTable
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 432, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class LinScheduleTable(Identifiable):
     def resume_position(self, value: Optional["ResumePosition"]) -> None:
         """
         Set resumePosition with validation.
-        
+
         Args:
             value: The resumePosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class LinScheduleTable(Identifiable):
     def run_mode(self, value: Optional["RunMode"]) -> None:
         """
         Set runMode with validation.
-        
+
         Args:
             value: The runMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +91,10 @@ class LinScheduleTable(Identifiable):
     def getResumePosition(self) -> "ResumePosition":
         """
         AUTOSAR-compliant getter for resumePosition.
-        
+
         Returns:
             The resumePosition value
-        
+
         Note:
             Delegates to resume_position property (CODING_RULE_V2_00017)
         """
@@ -101,13 +103,13 @@ class LinScheduleTable(Identifiable):
     def setResumePosition(self, value: "ResumePosition") -> "LinScheduleTable":
         """
         AUTOSAR-compliant setter for resumePosition with method chaining.
-        
+
         Args:
             value: The resumePosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resume_position property setter (gets validation automatically)
         """
@@ -117,10 +119,10 @@ class LinScheduleTable(Identifiable):
     def getRunMode(self) -> "RunMode":
         """
         AUTOSAR-compliant getter for runMode.
-        
+
         Returns:
             The runMode value
-        
+
         Note:
             Delegates to run_mode property (CODING_RULE_V2_00017)
         """
@@ -129,13 +131,13 @@ class LinScheduleTable(Identifiable):
     def setRunMode(self, value: "RunMode") -> "LinScheduleTable":
         """
         AUTOSAR-compliant setter for runMode with method chaining.
-        
+
         Args:
             value: The runMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to run_mode property setter (gets validation automatically)
         """
@@ -145,10 +147,10 @@ class LinScheduleTable(Identifiable):
     def getTableEntry(self) -> List["ScheduleTableEntry"]:
         """
         AUTOSAR-compliant getter for tableEntry.
-        
+
         Returns:
             The tableEntry value
-        
+
         Note:
             Delegates to table_entry property (CODING_RULE_V2_00017)
         """
@@ -159,13 +161,13 @@ class LinScheduleTable(Identifiable):
     def with_resume_position(self, value: Optional["ResumePosition"]) -> "LinScheduleTable":
         """
         Set resumePosition and return self for chaining.
-        
+
         Args:
             value: The resumePosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resume_position("value")
         """
@@ -175,13 +177,13 @@ class LinScheduleTable(Identifiable):
     def with_run_mode(self, value: Optional["RunMode"]) -> "LinScheduleTable":
         """
         Set runMode and return self for chaining.
-        
+
         Args:
             value: The runMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_run_mode("value")
         """

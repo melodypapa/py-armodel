@@ -1,13 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::OperationInAtomicSwcInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 946, Classic Platform
       R23-11)
@@ -31,10 +37,10 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +65,10 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +89,10 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def target_operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set targetOperation with validation.
-        
+
         Args:
             value: The targetOperation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +111,10 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -117,13 +123,13 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def setBase(self, value: "AtomicSwComponent") -> "OperationInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -133,10 +139,10 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -145,13 +151,13 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def setContextPort(self, value: RefType) -> "OperationInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -161,10 +167,10 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def getTargetOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for targetOperation.
-        
+
         Returns:
             The targetOperation value
-        
+
         Note:
             Delegates to target_operation property (CODING_RULE_V2_00017)
         """
@@ -173,13 +179,13 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def setTargetOperation(self, value: "ClientServerOperation") -> "OperationInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for targetOperation with method chaining.
-        
+
         Args:
             value: The targetOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_operation property setter (gets validation automatically)
         """
@@ -191,13 +197,13 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def with_base(self, value: Optional["AtomicSwComponent"]) -> "OperationInAtomicSwcInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -207,13 +213,13 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def with_context_port(self, value: Optional[RefType]) -> "OperationInAtomicSwcInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -223,13 +229,13 @@ class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     def with_target_operation(self, value: Optional["ClientServerOperation"]) -> "OperationInAtomicSwcInstanceRef":
         """
         Set targetOperation and return self for chaining.
-        
+
         Args:
             value: The targetOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_operation("value")
         """

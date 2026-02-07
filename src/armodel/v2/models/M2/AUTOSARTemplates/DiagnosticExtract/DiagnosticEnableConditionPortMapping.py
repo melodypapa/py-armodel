@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticEnableCondition is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEnableConditionPortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 251, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def enable_condition(self, value: Optional["DiagnosticEnable"]) -> None:
         """
         Set enableCondition with validation.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def getEnableCondition(self) -> "DiagnosticEnable":
         """
         AUTOSAR-compliant getter for enableCondition.
-        
+
         Returns:
             The enableCondition value
-        
+
         Note:
             Delegates to enable_condition property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def setEnableCondition(self, value: "DiagnosticEnable") -> "DiagnosticEnableConditionPortMapping":
         """
         AUTOSAR-compliant setter for enableCondition with method chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_condition property setter (gets validation automatically)
         """
@@ -137,10 +137,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -149,13 +149,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticEnableConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -165,10 +165,10 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticEnableConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -195,13 +195,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def with_enable_condition(self, value: Optional["DiagnosticEnable"]) -> "DiagnosticEnableConditionPortMapping":
         """
         Set enableCondition and return self for chaining.
-        
+
         Args:
             value: The enableCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_condition("value")
         """
@@ -211,13 +211,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticEnableConditionPortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -227,13 +227,13 @@ class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticEnableConditionPortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """

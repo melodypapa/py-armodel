@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeDeclarationGroupPrototype(Identifiable):
     """
     The ModeDeclarationGroupPrototype specifies a set of Modes
     (ModeDeclarationGroup) which is provided or required in the given context.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeDeclarationGroupPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 42, Classic
       Platform R23-11)
@@ -38,10 +42,10 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> None:
         """
         Set swCalibration with validation.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +70,10 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def type(self, value: RefType) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +88,10 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def getSwCalibration(self) -> "SwCalibrationAccess":
         """
         AUTOSAR-compliant getter for swCalibration.
-        
+
         Returns:
             The swCalibration value
-        
+
         Note:
             Delegates to sw_calibration property (CODING_RULE_V2_00017)
         """
@@ -96,13 +100,13 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def setSwCalibration(self, value: "SwCalibrationAccess") -> "ModeDeclarationGroupPrototype":
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_calibration property setter (gets validation automatically)
         """
@@ -112,10 +116,10 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def getType(self) -> RefType:
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -124,13 +128,13 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def setType(self, value: RefType) -> "ModeDeclarationGroupPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -142,13 +146,13 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> "ModeDeclarationGroupPrototype":
         """
         Set swCalibration and return self for chaining.
-        
+
         Args:
             value: The swCalibration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_calibration("value")
         """
@@ -158,13 +162,13 @@ class ModeDeclarationGroupPrototype(Identifiable):
     def with_type(self, value: Optional[RefType]) -> "ModeDeclarationGroupPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

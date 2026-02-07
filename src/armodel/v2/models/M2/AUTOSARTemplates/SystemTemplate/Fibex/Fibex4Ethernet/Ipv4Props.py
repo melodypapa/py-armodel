@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv4Props(ARObject):
     """
     This meta-class specifies the configuration options for IPv4.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 146, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class Ipv4Props(ARObject):
     def arp_props(self, value: Optional["Ipv4ArpProps"]) -> None:
         """
         Set arpProps with validation.
-        
+
         Args:
             value: The arpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class Ipv4Props(ARObject):
     def auto_ip_props(self, value: Optional["Ipv4AutoIpProps"]) -> None:
         """
         Set autoIpProps with validation.
-        
+
         Args:
             value: The autoIpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class Ipv4Props(ARObject):
     def fragmentation(self, value: Optional["Ipv4Fragmentation"]) -> None:
         """
         Set fragmentation with validation.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class Ipv4Props(ARObject):
     def getArpProps(self) -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant getter for arpProps.
-        
+
         Returns:
             The arpProps value
-        
+
         Note:
             Delegates to arp_props property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class Ipv4Props(ARObject):
     def setArpProps(self, value: "Ipv4ArpProps") -> "Ipv4Props":
         """
         AUTOSAR-compliant setter for arpProps with method chaining.
-        
+
         Args:
             value: The arpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to arp_props property setter (gets validation automatically)
         """
@@ -133,10 +136,10 @@ class Ipv4Props(ARObject):
     def getAutoIpProps(self) -> "Ipv4AutoIpProps":
         """
         AUTOSAR-compliant getter for autoIpProps.
-        
+
         Returns:
             The autoIpProps value
-        
+
         Note:
             Delegates to auto_ip_props property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class Ipv4Props(ARObject):
     def setAutoIpProps(self, value: "Ipv4AutoIpProps") -> "Ipv4Props":
         """
         AUTOSAR-compliant setter for autoIpProps with method chaining.
-        
+
         Args:
             value: The autoIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_ip_props property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class Ipv4Props(ARObject):
     def getFragmentation(self) -> "Ipv4Fragmentation":
         """
         AUTOSAR-compliant getter for fragmentation.
-        
+
         Returns:
             The fragmentation value
-        
+
         Note:
             Delegates to fragmentation property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class Ipv4Props(ARObject):
     def setFragmentation(self, value: "Ipv4Fragmentation") -> "Ipv4Props":
         """
         AUTOSAR-compliant setter for fragmentation with method chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fragmentation property setter (gets validation automatically)
         """
@@ -191,13 +194,13 @@ class Ipv4Props(ARObject):
     def with_arp_props(self, value: Optional["Ipv4ArpProps"]) -> "Ipv4Props":
         """
         Set arpProps and return self for chaining.
-        
+
         Args:
             value: The arpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_arp_props("value")
         """
@@ -207,13 +210,13 @@ class Ipv4Props(ARObject):
     def with_auto_ip_props(self, value: Optional["Ipv4AutoIpProps"]) -> "Ipv4Props":
         """
         Set autoIpProps and return self for chaining.
-        
+
         Args:
             value: The autoIpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_ip_props("value")
         """
@@ -223,13 +226,13 @@ class Ipv4Props(ARObject):
     def with_fragmentation(self, value: Optional["Ipv4Fragmentation"]) -> "Ipv4Props":
         """
         Set fragmentation and return self for chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fragmentation("value")
         """

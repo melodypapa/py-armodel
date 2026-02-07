@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class AggregationCondition(AttributeCondition):
     """
     The AggregationCondition evaluates to true, if the referenced aggregation is
     accepted by all rules of this condition.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::AggregationCondition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 102, Foundation R23-11)
     """
@@ -27,10 +25,10 @@ class AggregationCondition(AttributeCondition):
     def aggregation(self, value: "AggregationTailoring") -> None:
         """
         Set aggregation with validation.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -45,10 +43,10 @@ class AggregationCondition(AttributeCondition):
     def getAggregation(self) -> "AggregationTailoring":
         """
         AUTOSAR-compliant getter for aggregation.
-        
+
         Returns:
             The aggregation value
-        
+
         Note:
             Delegates to aggregation property (CODING_RULE_V2_00017)
         """
@@ -57,13 +55,13 @@ class AggregationCondition(AttributeCondition):
     def setAggregation(self, value: "AggregationTailoring") -> "AggregationCondition":
         """
         AUTOSAR-compliant setter for aggregation with method chaining.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to aggregation property setter (gets validation automatically)
         """
@@ -75,13 +73,13 @@ class AggregationCondition(AttributeCondition):
     def with_aggregation(self, value: "AggregationTailoring") -> "AggregationCondition":
         """
         Set aggregation and return self for chaining.
-        
+
         Args:
             value: The aggregation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_aggregation("value")
         """

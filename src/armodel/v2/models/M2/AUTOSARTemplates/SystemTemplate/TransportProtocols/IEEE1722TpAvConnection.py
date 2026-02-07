@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     """
     AV IEEE1722Tp connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAvConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 639, Classic Platform R23-11)
     """
@@ -30,10 +34,10 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     def max_transit_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxTransitTime with validation.
-        
+
         Args:
             value: The maxTransitTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +63,10 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     def getMaxTransitTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxTransitTime.
-        
+
         Returns:
             The maxTransitTime value
-        
+
         Note:
             Delegates to max_transit_time property (CODING_RULE_V2_00017)
         """
@@ -71,13 +75,13 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     def setMaxTransitTime(self, value: "TimeValue") -> "IEEE1722TpAvConnection":
         """
         AUTOSAR-compliant setter for maxTransitTime with method chaining.
-        
+
         Args:
             value: The maxTransitTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_transit_time property setter (gets validation automatically)
         """
@@ -87,10 +91,10 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     def getSdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for sdu.
-        
+
         Returns:
             The sdu value
-        
+
         Note:
             Delegates to sdu property (CODING_RULE_V2_00017)
         """
@@ -101,13 +105,13 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     def with_max_transit_time(self, value: Optional["TimeValue"]) -> "IEEE1722TpAvConnection":
         """
         Set maxTransitTime and return self for chaining.
-        
+
         Args:
             value: The maxTransitTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_transit_time("value")
         """

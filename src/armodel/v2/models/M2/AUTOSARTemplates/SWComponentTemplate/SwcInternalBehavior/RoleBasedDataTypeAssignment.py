@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RoleBasedDataTypeAssignment(ARObject):
     """
@@ -9,9 +12,9 @@ class RoleBasedDataTypeAssignment(ARObject):
     the context of an AUTOSAR Service. With this assignment, the role of the
     data type can be mapped to a specific ServiceNeeds element, so that a tool
     is able to create the correct access.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::RoleBasedDataTypeAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 227, Classic
       Platform R23-11)
@@ -34,10 +37,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def used(self, value: Optional["ImplementationData"]) -> None:
         """
         Set used with validation.
-        
+
         Args:
             value: The used to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -96,13 +99,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedDataTypeAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -112,10 +115,10 @@ class RoleBasedDataTypeAssignment(ARObject):
     def getUsed(self) -> "ImplementationData":
         """
         AUTOSAR-compliant getter for used.
-        
+
         Returns:
             The used value
-        
+
         Note:
             Delegates to used property (CODING_RULE_V2_00017)
         """
@@ -124,13 +127,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def setUsed(self, value: "ImplementationData") -> "RoleBasedDataTypeAssignment":
         """
         AUTOSAR-compliant setter for used with method chaining.
-        
+
         Args:
             value: The used to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used property setter (gets validation automatically)
         """
@@ -142,13 +145,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedDataTypeAssignment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -158,13 +161,13 @@ class RoleBasedDataTypeAssignment(ARObject):
     def with_used(self, value: Optional["ImplementationData"]) -> "RoleBasedDataTypeAssignment":
         """
         Set used and return self for chaining.
-        
+
         Args:
             value: The used to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used("value")
         """

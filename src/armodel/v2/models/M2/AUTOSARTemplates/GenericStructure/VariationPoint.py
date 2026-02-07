@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class VariationPoint(ARObject):
     """
@@ -19,9 +22,9 @@ class VariationPoint(ARObject):
     atpIdentityContributor (cid:53) 315 of 318 Document ID 87:
     AUTOSAR_CP_TPS_ECUConfiguration Specification of ECU Configuration AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::VariationPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 315, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1010, Classic
@@ -50,10 +53,10 @@ class VariationPoint(ARObject):
     def blueprint(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set blueprint with validation.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class VariationPoint(ARObject):
     def sw_syscond(self, value: Optional["ConditionByFormula"]) -> None:
         """
         Set swSyscond with validation.
-        
+
         Args:
             value: The swSyscond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +105,10 @@ class VariationPoint(ARObject):
     def getBlueprint(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for blueprint.
-        
+
         Returns:
             The blueprint value
-        
+
         Note:
             Delegates to blueprint property (CODING_RULE_V2_00017)
         """
@@ -114,13 +117,13 @@ class VariationPoint(ARObject):
     def setBlueprint(self, value: "DocumentationBlock") -> "VariationPoint":
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint property setter (gets validation automatically)
         """
@@ -130,10 +133,10 @@ class VariationPoint(ARObject):
     def getSwSyscond(self) -> "ConditionByFormula":
         """
         AUTOSAR-compliant getter for swSyscond.
-        
+
         Returns:
             The swSyscond value
-        
+
         Note:
             Delegates to sw_syscond property (CODING_RULE_V2_00017)
         """
@@ -142,13 +145,13 @@ class VariationPoint(ARObject):
     def setSwSyscond(self, value: "ConditionByFormula") -> "VariationPoint":
         """
         AUTOSAR-compliant setter for swSyscond with method chaining.
-        
+
         Args:
             value: The swSyscond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_syscond property setter (gets validation automatically)
         """
@@ -160,13 +163,13 @@ class VariationPoint(ARObject):
     def with_blueprint(self, value: Optional["DocumentationBlock"]) -> "VariationPoint":
         """
         Set blueprint and return self for chaining.
-        
+
         Args:
             value: The blueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint("value")
         """
@@ -176,13 +179,13 @@ class VariationPoint(ARObject):
     def with_sw_syscond(self, value: Optional["ConditionByFormula"]) -> "VariationPoint":
         """
         Set swSyscond and return self for chaining.
-        
+
         Args:
             value: The swSyscond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_syscond("value")
         """

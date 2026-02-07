@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     """
     Represents a single resource required or provided by a CP Software Cluster
     which relates to the port based communication on VFB level.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::DataComProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def data(self, value: Optional["DataConsistencyPolicy"]) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def send_indication(self, value: Optional["SendIndicationEnum"]) -> None:
         """
         Set sendIndication with validation.
-        
+
         Args:
             value: The sendIndication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def getData(self) -> "DataConsistencyPolicy":
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def setData(self, value: "DataConsistencyPolicy") -> "DataComProps":
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def getSendIndication(self) -> "SendIndicationEnum":
         """
         AUTOSAR-compliant getter for sendIndication.
-        
+
         Returns:
             The sendIndication value
-        
+
         Note:
             Delegates to send_indication property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def setSendIndication(self, value: "SendIndicationEnum") -> "DataComProps":
         """
         AUTOSAR-compliant setter for sendIndication with method chaining.
-        
+
         Args:
             value: The sendIndication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to send_indication property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def with_data(self, value: Optional["DataConsistencyPolicy"]) -> "DataComProps":
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """
@@ -152,13 +152,13 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     def with_send_indication(self, value: Optional["SendIndicationEnum"]) -> "DataComProps":
         """
         Set sendIndication and return self for chaining.
-        
+
         Args:
             value: The sendIndication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_send_indication("value")
         """

@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DataPrototypeReference(ARObject, ABC):
     """
     This meta-class provides the ability to reference a DataPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeReference
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 787, Classic Platform R23-11)
     """
@@ -31,10 +35,10 @@ class DataPrototypeReference(ARObject, ABC):
     def tag_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tagId with validation.
-        
+
         Args:
             value: The tagId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +57,10 @@ class DataPrototypeReference(ARObject, ABC):
     def getTagId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tagId.
-        
+
         Returns:
             The tagId value
-        
+
         Note:
             Delegates to tag_id property (CODING_RULE_V2_00017)
         """
@@ -65,13 +69,13 @@ class DataPrototypeReference(ARObject, ABC):
     def setTagId(self, value: "PositiveInteger") -> "DataPrototypeReference":
         """
         AUTOSAR-compliant setter for tagId with method chaining.
-        
+
         Args:
             value: The tagId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tag_id property setter (gets validation automatically)
         """
@@ -83,13 +87,13 @@ class DataPrototypeReference(ARObject, ABC):
     def with_tag_id(self, value: Optional["PositiveInteger"]) -> "DataPrototypeReference":
         """
         Set tagId and return self for chaining.
-        
+
         Args:
             value: The tagId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tag_id("value")
         """

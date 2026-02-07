@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ModeErrorBehavior(ARObject):
     """
     This represents the ability to define the error behavior in the context of
     mode handling.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeErrorBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 44, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class ModeErrorBehavior(ARObject):
     def default_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set defaultMode with validation.
-        
+
         Args:
             value: The defaultMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class ModeErrorBehavior(ARObject):
     def error_reaction(self, value: Optional["ModeErrorReaction"]) -> None:
         """
         Set errorReaction with validation.
-        
+
         Args:
             value: The errorReaction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class ModeErrorBehavior(ARObject):
     def getDefaultMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for defaultMode.
-        
+
         Returns:
             The defaultMode value
-        
+
         Note:
             Delegates to default_mode property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class ModeErrorBehavior(ARObject):
     def setDefaultMode(self, value: "ModeDeclaration") -> "ModeErrorBehavior":
         """
         AUTOSAR-compliant setter for defaultMode with method chaining.
-        
+
         Args:
             value: The defaultMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_mode property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class ModeErrorBehavior(ARObject):
     def getErrorReaction(self) -> "ModeErrorReaction":
         """
         AUTOSAR-compliant getter for errorReaction.
-        
+
         Returns:
             The errorReaction value
-        
+
         Note:
             Delegates to error_reaction property (CODING_RULE_V2_00017)
         """
@@ -123,13 +126,13 @@ class ModeErrorBehavior(ARObject):
     def setErrorReaction(self, value: "ModeErrorReaction") -> "ModeErrorBehavior":
         """
         AUTOSAR-compliant setter for errorReaction with method chaining.
-        
+
         Args:
             value: The errorReaction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to error_reaction property setter (gets validation automatically)
         """
@@ -141,13 +144,13 @@ class ModeErrorBehavior(ARObject):
     def with_default_mode(self, value: Optional["ModeDeclaration"]) -> "ModeErrorBehavior":
         """
         Set defaultMode and return self for chaining.
-        
+
         Args:
             value: The defaultMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_mode("value")
         """
@@ -157,13 +160,13 @@ class ModeErrorBehavior(ARObject):
     def with_error_reaction(self, value: Optional["ModeErrorReaction"]) -> "ModeErrorBehavior":
         """
         Set errorReaction and return self for chaining.
-        
+
         Args:
             value: The errorReaction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_error_reaction("value")
         """

@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EthernetPhysicalChannel(PhysicalChannel):
     """
     The EthernetPhysicalChannel represents a VLAN or an untagged channel. An
     untagged channel is modeled as an EthernetPhysicalChannel without an
     aggregated VLAN.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 314, Classic Platform
       R23-11)
@@ -38,10 +38,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def so_ad_config(self, value: Optional["SoAdConfig"]) -> None:
         """
         Set soAdConfig with validation.
-        
+
         Args:
             value: The soAdConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def vlan(self, value: Optional["VlanConfig"]) -> None:
         """
         Set vlan with validation.
-        
+
         Args:
             value: The vlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getNetwork(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -100,10 +100,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getSoAdConfig(self) -> "SoAdConfig":
         """
         AUTOSAR-compliant getter for soAdConfig.
-        
+
         Returns:
             The soAdConfig value
-        
+
         Note:
             Delegates to so_ad_config property (CODING_RULE_V2_00017)
         """
@@ -112,13 +112,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def setSoAdConfig(self, value: "SoAdConfig") -> "EthernetPhysicalChannel":
         """
         AUTOSAR-compliant setter for soAdConfig with method chaining.
-        
+
         Args:
             value: The soAdConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to so_ad_config property setter (gets validation automatically)
         """
@@ -128,10 +128,10 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getVlan(self) -> "VlanConfig":
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def setVlan(self, value: "VlanConfig") -> "EthernetPhysicalChannel":
         """
         AUTOSAR-compliant setter for vlan with method chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan property setter (gets validation automatically)
         """
@@ -158,13 +158,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def with_so_ad_config(self, value: Optional["SoAdConfig"]) -> "EthernetPhysicalChannel":
         """
         Set soAdConfig and return self for chaining.
-        
+
         Args:
             value: The soAdConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_so_ad_config("value")
         """
@@ -174,13 +174,13 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def with_vlan(self, value: Optional["VlanConfig"]) -> "EthernetPhysicalChannel":
         """
         Set vlan and return self for chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan("value")
         """

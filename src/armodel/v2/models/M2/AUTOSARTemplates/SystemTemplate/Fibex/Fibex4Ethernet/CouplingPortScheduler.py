@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CouplingPortScheduler(CouplingPortStructuralElement):
     """
     Defines a scheduler for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortScheduler
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 123, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def port_scheduler_scheduler_enum(self, value: Optional["EthernetCouplingPort"]) -> None:
         """
         Set portSchedulerSchedulerEnum with validation.
-        
+
         Args:
             value: The portSchedulerSchedulerEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def getPortSchedulerSchedulerEnum(self) -> "EthernetCouplingPort":
         """
         AUTOSAR-compliant getter for portSchedulerSchedulerEnum.
-        
+
         Returns:
             The portSchedulerSchedulerEnum value
-        
+
         Note:
             Delegates to port_scheduler_scheduler_enum property (CODING_RULE_V2_00017)
         """
@@ -69,13 +69,13 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def setPortSchedulerSchedulerEnum(self, value: "EthernetCouplingPort") -> "CouplingPortScheduler":
         """
         AUTOSAR-compliant setter for portSchedulerSchedulerEnum with method chaining.
-        
+
         Args:
             value: The portSchedulerSchedulerEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_scheduler_scheduler_enum property setter (gets validation automatically)
         """
@@ -85,10 +85,10 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def getPredecessor(self) -> List["CouplingPortStructural"]:
         """
         AUTOSAR-compliant getter for predecessor.
-        
+
         Returns:
             The predecessor value
-        
+
         Note:
             Delegates to predecessor property (CODING_RULE_V2_00017)
         """
@@ -99,13 +99,13 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def with_port_scheduler_scheduler_enum(self, value: Optional["EthernetCouplingPort"]) -> "CouplingPortScheduler":
         """
         Set portSchedulerSchedulerEnum and return self for chaining.
-        
+
         Args:
             value: The portSchedulerSchedulerEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_scheduler_scheduler_enum("value")
         """

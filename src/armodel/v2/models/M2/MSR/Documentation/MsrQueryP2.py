@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MsrQueryP2(ARObject):
     """
     This meta-class represents the ability to express a query which yields the
     content of a Documentation Block as a result.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryP2
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 456, Foundation
       R23-11)
@@ -29,10 +32,10 @@ class MsrQueryP2(ARObject):
     def msr_query_props(self, value: "MsrQueryProps") -> None:
         """
         Set msrQueryProps with validation.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class MsrQueryP2(ARObject):
     def msr_query_result(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set msrQueryResult with validation.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class MsrQueryP2(ARObject):
     def getMsrQueryProps(self) -> "MsrQueryProps":
         """
         AUTOSAR-compliant getter for msrQueryProps.
-        
+
         Returns:
             The msrQueryProps value
-        
+
         Note:
             Delegates to msr_query_props property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class MsrQueryP2(ARObject):
     def setMsrQueryProps(self, value: "MsrQueryProps") -> "MsrQueryP2":
         """
         AUTOSAR-compliant setter for msrQueryProps with method chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_props property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class MsrQueryP2(ARObject):
     def getMsrQueryResult(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for msrQueryResult.
-        
+
         Returns:
             The msrQueryResult value
-        
+
         Note:
             Delegates to msr_query_result property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class MsrQueryP2(ARObject):
     def setMsrQueryResult(self, value: "DocumentationBlock") -> "MsrQueryP2":
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_result property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class MsrQueryP2(ARObject):
     def with_msr_query_props(self, value: "MsrQueryProps") -> "MsrQueryP2":
         """
         Set msrQueryProps and return self for chaining.
-        
+
         Args:
             value: The msrQueryProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_props("value")
         """
@@ -151,13 +154,13 @@ class MsrQueryP2(ARObject):
     def with_msr_query_result(self, value: Optional["DocumentationBlock"]) -> "MsrQueryP2":
         """
         Set msrQueryResult and return self for chaining.
-        
+
         Args:
             value: The msrQueryResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_result("value")
         """

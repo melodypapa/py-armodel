@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     """
     This meta-class represents the aggregation filter that aggregates all
     security events occurring within a configured time frame into one (i.e. the
     last reported) security event.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventAggregationFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 24, Foundation R23-11)
     """
@@ -29,10 +29,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def context_data(self, value: Optional["SecurityEventContext"]) -> None:
         """
         Set contextData with validation.
-        
+
         Args:
             value: The contextData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def minimum(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def getContextData(self) -> "SecurityEventContext":
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def setContextData(self, value: "SecurityEventContext") -> "SecurityEventAggregationFilter":
         """
         AUTOSAR-compliant setter for contextData with method chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_data property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def getMinimum(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def setMinimum(self, value: "TimeValue") -> "SecurityEventAggregationFilter":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def with_context_data(self, value: Optional["SecurityEventContext"]) -> "SecurityEventAggregationFilter":
         """
         Set contextData and return self for chaining.
-        
+
         Args:
             value: The contextData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_data("value")
         """
@@ -154,13 +154,13 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     def with_minimum(self, value: Optional["TimeValue"]) -> "SecurityEventAggregationFilter":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """

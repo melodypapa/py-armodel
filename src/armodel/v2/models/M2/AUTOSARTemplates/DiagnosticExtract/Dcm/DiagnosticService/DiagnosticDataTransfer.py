@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
     """
     This represents an instance of the "Data Transfer" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticDataTransfer
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 143, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
     def data_transfer(self, value: Optional["DiagnosticDataTransfer"]) -> None:
         """
         Set dataTransfer with validation.
-        
+
         Args:
             value: The dataTransfer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
     def getDataTransfer(self) -> "DiagnosticDataTransfer":
         """
         AUTOSAR-compliant getter for dataTransfer.
-        
+
         Returns:
             The dataTransfer value
-        
+
         Note:
             Delegates to data_transfer property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
     def setDataTransfer(self, value: "DiagnosticDataTransfer") -> "DiagnosticDataTransfer":
         """
         AUTOSAR-compliant setter for dataTransfer with method chaining.
-        
+
         Args:
             value: The dataTransfer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_transfer property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticDataTransfer(DiagnosticMemoryByAddress):
     def with_data_transfer(self, value: Optional["DiagnosticDataTransfer"]) -> "DiagnosticDataTransfer":
         """
         Set dataTransfer and return self for chaining.
-        
+
         Args:
             value: The dataTransfer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_transfer("value")
         """

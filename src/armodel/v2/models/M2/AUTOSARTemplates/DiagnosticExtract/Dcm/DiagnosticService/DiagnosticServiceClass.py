@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DiagnosticServiceClass(DiagnosticCommonElement, ABC):
     """
     This meta-class provides the ability to define common properties that are
     shared among all instances of sub-classes of DiagnosticServiceInstance.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService::DiagnosticServiceClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 69, Classic Platform
       R23-11)

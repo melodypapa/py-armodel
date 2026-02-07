@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ImplementationDataTypeSubElementRef(SubElementRef):
     """
     This meta-class represents the specialization of SubElementMapping with
     respect to Implementation DataTypes.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ImplementationDataTypeSubElementRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def implementation(self, value: Optional["ArVariableIn"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def parameter(self, value: Optional["ArParameterIn"]) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def getImplementation(self) -> "ArVariableIn":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def setImplementation(self, value: "ArVariableIn") -> "ImplementationDataTypeSubElementRef":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def getParameter(self) -> "ArParameterIn":
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def setParameter(self, value: "ArParameterIn") -> "ImplementationDataTypeSubElementRef":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def with_implementation(self, value: Optional["ArVariableIn"]) -> "ImplementationDataTypeSubElementRef":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -152,13 +152,13 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     def with_parameter(self, value: Optional["ArParameterIn"]) -> "ImplementationDataTypeSubElementRef":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """

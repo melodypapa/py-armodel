@@ -1,17 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataPrototypeGroup(Identifiable):
     """
     This meta-class represents the ability to define a collection of
     DataPrototypes that are subject to the formal definition of implicit
     communication behavior. The definition of the collection can be nested.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::DataPrototypeGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 223, Classic Platform
       R23-11)
@@ -42,10 +46,10 @@ class DataPrototypeGroup(Identifiable):
     def getDataPrototypeGroupInCompositionInstanceRef(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataPrototypeGroupInCompositionInstanceRef.
-        
+
         Returns:
             The dataPrototypeGroupInCompositionInstanceRef value
-        
+
         Note:
             Delegates to data_prototype_group_in_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -54,10 +58,10 @@ class DataPrototypeGroup(Identifiable):
     def getImplicitData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for implicitData.
-        
+
         Returns:
             The implicitData value
-        
+
         Note:
             Delegates to implicit_data property (CODING_RULE_V2_00017)
         """

@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AttributeValueVariationPoint(ARObject, ABC):
     """
     This class represents the ability to derive the value of the Attribute from
     a system constant (by Sw SystemconstDependentFormula). It also provides a
     bindingTime.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AttributeValueVariationPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 617, Classic Platform
       R23-11)
@@ -38,10 +42,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def binding_time(self, value: Optional["BindingTimeEnum"]) -> None:
         """
         Set bindingTime with validation.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +71,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def blueprint_value(self, value: Optional["String"]) -> None:
         """
         Set blueprintValue with validation.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +100,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def sd(self, value: Optional["String"]) -> None:
         """
         Set sd with validation.
-        
+
         Args:
             value: The sd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +129,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def short_label(self, value: Optional["PrimitiveIdentifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +151,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getBindingTime(self) -> "BindingTimeEnum":
         """
         AUTOSAR-compliant getter for bindingTime.
-        
+
         Returns:
             The bindingTime value
-        
+
         Note:
             Delegates to binding_time property (CODING_RULE_V2_00017)
         """
@@ -159,13 +163,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setBindingTime(self, value: "BindingTimeEnum") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for bindingTime with method chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to binding_time property setter (gets validation automatically)
         """
@@ -175,10 +179,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getBlueprintValue(self) -> "String":
         """
         AUTOSAR-compliant getter for blueprintValue.
-        
+
         Returns:
             The blueprintValue value
-        
+
         Note:
             Delegates to blueprint_value property (CODING_RULE_V2_00017)
         """
@@ -187,13 +191,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setBlueprintValue(self, value: "String") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint_value property setter (gets validation automatically)
         """
@@ -203,10 +207,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getSd(self) -> "String":
         """
         AUTOSAR-compliant getter for sd.
-        
+
         Returns:
             The sd value
-        
+
         Note:
             Delegates to sd property (CODING_RULE_V2_00017)
         """
@@ -215,13 +219,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setSd(self, value: "String") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for sd with method chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd property setter (gets validation automatically)
         """
@@ -231,10 +235,10 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def getShortLabel(self) -> "PrimitiveIdentifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -243,13 +247,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def setShortLabel(self, value: "PrimitiveIdentifier") -> "AttributeValueVariationPoint":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -261,13 +265,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_binding_time(self, value: Optional["BindingTimeEnum"]) -> "AttributeValueVariationPoint":
         """
         Set bindingTime and return self for chaining.
-        
+
         Args:
             value: The bindingTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_binding_time("value")
         """
@@ -277,13 +281,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_blueprint_value(self, value: Optional["String"]) -> "AttributeValueVariationPoint":
         """
         Set blueprintValue and return self for chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint_value("value")
         """
@@ -293,13 +297,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_sd(self, value: Optional["String"]) -> "AttributeValueVariationPoint":
         """
         Set sd and return self for chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd("value")
         """
@@ -309,13 +313,13 @@ class AttributeValueVariationPoint(ARObject, ABC):
     def with_short_label(self, value: Optional["PrimitiveIdentifier"]) -> "AttributeValueVariationPoint":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

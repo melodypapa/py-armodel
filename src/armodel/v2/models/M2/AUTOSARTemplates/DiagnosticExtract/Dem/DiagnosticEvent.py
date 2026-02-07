@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticEvent(DiagnosticCommonElement):
     """
     This element is used to configure DiagnosticEvents. (cid:53) 164 of 719
     Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract
     Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 164, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def associated(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set associated with validation.
-        
+
         Args:
             value: The associated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def clear_event(self, value: Optional["DiagnosticClearEvent"]) -> None:
         """
         Set clearEvent with validation.
-        
+
         Args:
             value: The clearEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +98,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def confirmation(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set confirmation with validation.
-        
+
         Args:
             value: The confirmation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -135,10 +135,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def event_clear(self, value: Optional["DiagnosticEventClear"]) -> None:
         """
         Set eventClear with validation.
-        
+
         Args:
             value: The eventClear to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +163,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def event_kind(self, value: Optional["DiagnosticEventKind"]) -> None:
         """
         Set eventKind with validation.
-        
+
         Args:
             value: The eventKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -193,10 +193,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def prestorage(self, value: Optional["Boolean"]) -> None:
         """
         Set prestorage with validation.
-        
+
         Args:
             value: The prestorage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -225,10 +225,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def prestored(self, value: Optional["Boolean"]) -> None:
         """
         Set prestored with validation.
-        
+
         Args:
             value: The prestored to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -255,10 +255,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def recoverable_in(self, value: Optional["Boolean"]) -> None:
         """
         Set recoverableIn with validation.
-        
+
         Args:
             value: The recoverableIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -277,10 +277,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getAssociated(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for associated.
-        
+
         Returns:
             The associated value
-        
+
         Note:
             Delegates to associated property (CODING_RULE_V2_00017)
         """
@@ -289,13 +289,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setAssociated(self, value: "PositiveInteger") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for associated with method chaining.
-        
+
         Args:
             value: The associated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to associated property setter (gets validation automatically)
         """
@@ -305,10 +305,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getClearEvent(self) -> "DiagnosticClearEvent":
         """
         AUTOSAR-compliant getter for clearEvent.
-        
+
         Returns:
             The clearEvent value
-        
+
         Note:
             Delegates to clear_event property (CODING_RULE_V2_00017)
         """
@@ -317,13 +317,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setClearEvent(self, value: "DiagnosticClearEvent") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for clearEvent with method chaining.
-        
+
         Args:
             value: The clearEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clear_event property setter (gets validation automatically)
         """
@@ -333,10 +333,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getConfirmation(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for confirmation.
-        
+
         Returns:
             The confirmation value
-        
+
         Note:
             Delegates to confirmation property (CODING_RULE_V2_00017)
         """
@@ -345,13 +345,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setConfirmation(self, value: "PositiveInteger") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for confirmation with method chaining.
-        
+
         Args:
             value: The confirmation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to confirmation property setter (gets validation automatically)
         """
@@ -361,10 +361,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getConnected(self) -> List["DiagnosticConnected"]:
         """
         AUTOSAR-compliant getter for connected.
-        
+
         Returns:
             The connected value
-        
+
         Note:
             Delegates to connected property (CODING_RULE_V2_00017)
         """
@@ -373,10 +373,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getEventClear(self) -> "DiagnosticEventClear":
         """
         AUTOSAR-compliant getter for eventClear.
-        
+
         Returns:
             The eventClear value
-        
+
         Note:
             Delegates to event_clear property (CODING_RULE_V2_00017)
         """
@@ -385,13 +385,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setEventClear(self, value: "DiagnosticEventClear") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for eventClear with method chaining.
-        
+
         Args:
             value: The eventClear to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_clear property setter (gets validation automatically)
         """
@@ -401,10 +401,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getEventKind(self) -> "DiagnosticEventKind":
         """
         AUTOSAR-compliant getter for eventKind.
-        
+
         Returns:
             The eventKind value
-        
+
         Note:
             Delegates to event_kind property (CODING_RULE_V2_00017)
         """
@@ -413,13 +413,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setEventKind(self, value: "DiagnosticEventKind") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for eventKind with method chaining.
-        
+
         Args:
             value: The eventKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_kind property setter (gets validation automatically)
         """
@@ -429,10 +429,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getPrestorage(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for prestorage.
-        
+
         Returns:
             The prestorage value
-        
+
         Note:
             Delegates to prestorage property (CODING_RULE_V2_00017)
         """
@@ -441,13 +441,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setPrestorage(self, value: "Boolean") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for prestorage with method chaining.
-        
+
         Args:
             value: The prestorage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prestorage property setter (gets validation automatically)
         """
@@ -457,10 +457,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getPrestored(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for prestored.
-        
+
         Returns:
             The prestored value
-        
+
         Note:
             Delegates to prestored property (CODING_RULE_V2_00017)
         """
@@ -469,13 +469,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setPrestored(self, value: "Boolean") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for prestored with method chaining.
-        
+
         Args:
             value: The prestored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prestored property setter (gets validation automatically)
         """
@@ -485,10 +485,10 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def getRecoverableIn(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for recoverableIn.
-        
+
         Returns:
             The recoverableIn value
-        
+
         Note:
             Delegates to recoverable_in property (CODING_RULE_V2_00017)
         """
@@ -497,13 +497,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def setRecoverableIn(self, value: "Boolean") -> "DiagnosticEvent":
         """
         AUTOSAR-compliant setter for recoverableIn with method chaining.
-        
+
         Args:
             value: The recoverableIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to recoverable_in property setter (gets validation automatically)
         """
@@ -515,13 +515,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_associated(self, value: Optional["PositiveInteger"]) -> "DiagnosticEvent":
         """
         Set associated and return self for chaining.
-        
+
         Args:
             value: The associated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_associated("value")
         """
@@ -531,13 +531,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_clear_event(self, value: Optional["DiagnosticClearEvent"]) -> "DiagnosticEvent":
         """
         Set clearEvent and return self for chaining.
-        
+
         Args:
             value: The clearEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clear_event("value")
         """
@@ -547,13 +547,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_confirmation(self, value: Optional["PositiveInteger"]) -> "DiagnosticEvent":
         """
         Set confirmation and return self for chaining.
-        
+
         Args:
             value: The confirmation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_confirmation("value")
         """
@@ -563,13 +563,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_event_clear(self, value: Optional["DiagnosticEventClear"]) -> "DiagnosticEvent":
         """
         Set eventClear and return self for chaining.
-        
+
         Args:
             value: The eventClear to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_clear("value")
         """
@@ -579,13 +579,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_event_kind(self, value: Optional["DiagnosticEventKind"]) -> "DiagnosticEvent":
         """
         Set eventKind and return self for chaining.
-        
+
         Args:
             value: The eventKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_kind("value")
         """
@@ -595,13 +595,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_prestorage(self, value: Optional["Boolean"]) -> "DiagnosticEvent":
         """
         Set prestorage and return self for chaining.
-        
+
         Args:
             value: The prestorage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prestorage("value")
         """
@@ -611,13 +611,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_prestored(self, value: Optional["Boolean"]) -> "DiagnosticEvent":
         """
         Set prestored and return self for chaining.
-        
+
         Args:
             value: The prestored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prestored("value")
         """
@@ -627,13 +627,13 @@ class DiagnosticEvent(DiagnosticCommonElement):
     def with_recoverable_in(self, value: Optional["Boolean"]) -> "DiagnosticEvent":
         """
         Set recoverableIn and return self for chaining.
-        
+
         Args:
             value: The recoverableIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_recoverable_in("value")
         """

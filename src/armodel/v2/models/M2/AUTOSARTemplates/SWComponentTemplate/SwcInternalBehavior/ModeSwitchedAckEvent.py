@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ModeSwitchedAckEvent(RTEEvent):
     """
     This event is raised when the referenced ModeSwitchPoint has been processed
     or an error occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::ModeSwitchedAckEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 545, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class ModeSwitchedAckEvent(RTEEvent):
     def event_source(self, value: Optional["ModeSwitchPoint"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class ModeSwitchedAckEvent(RTEEvent):
     def getEventSource(self) -> "ModeSwitchPoint":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class ModeSwitchedAckEvent(RTEEvent):
     def setEventSource(self, value: "ModeSwitchPoint") -> "ModeSwitchedAckEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class ModeSwitchedAckEvent(RTEEvent):
     def with_event_source(self, value: Optional["ModeSwitchPoint"]) -> "ModeSwitchedAckEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """

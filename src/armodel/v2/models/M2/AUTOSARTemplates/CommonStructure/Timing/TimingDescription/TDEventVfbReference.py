@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventVfbReference(TDEventVfb):
     """
     This is used to reference timing description events related to the Virtual
     Functional Bus (VFB) view which are specified in other timing views.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVfbReference
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 52, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventVfbReference(TDEventVfb):
     def referenced_td_event_vfb(self, value: Optional["TDEventVfb"]) -> None:
         """
         Set referencedTDEventVfb with validation.
-        
+
         Args:
             value: The referencedTDEventVfb to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class TDEventVfbReference(TDEventVfb):
     def getReferencedTDEventVfb(self) -> "TDEventVfb":
         """
         AUTOSAR-compliant getter for referencedTDEventVfb.
-        
+
         Returns:
             The referencedTDEventVfb value
-        
+
         Note:
             Delegates to referenced_td_event_vfb property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class TDEventVfbReference(TDEventVfb):
     def setReferencedTDEventVfb(self, value: "TDEventVfb") -> "TDEventVfbReference":
         """
         AUTOSAR-compliant setter for referencedTDEventVfb with method chaining.
-        
+
         Args:
             value: The referencedTDEventVfb to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to referenced_td_event_vfb property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class TDEventVfbReference(TDEventVfb):
     def with_referenced_td_event_vfb(self, value: Optional["TDEventVfb"]) -> "TDEventVfbReference":
         """
         Set referencedTDEventVfb and return self for chaining.
-        
+
         Args:
             value: The referencedTDEventVfb to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_referenced_td_event_vfb("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class OrderedMaster(ARObject):
     """
     Element in the network endpoint list.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::OrderedMaster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 470, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class OrderedMaster(ARObject):
     def index(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class OrderedMaster(ARObject):
     def time_sync_server_configuration(self, value: Optional["TimeSyncServer"]) -> None:
         """
         Set timeSyncServerConfiguration with validation.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class OrderedMaster(ARObject):
     def getIndex(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class OrderedMaster(ARObject):
     def setIndex(self, value: "PositiveInteger") -> "OrderedMaster":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class OrderedMaster(ARObject):
     def getTimeSyncServerConfiguration(self) -> "TimeSyncServer":
         """
         AUTOSAR-compliant getter for timeSyncServerConfiguration.
-        
+
         Returns:
             The timeSyncServerConfiguration value
-        
+
         Note:
             Delegates to time_sync_server_configuration property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class OrderedMaster(ARObject):
     def setTimeSyncServerConfiguration(self, value: "TimeSyncServer") -> "OrderedMaster":
         """
         AUTOSAR-compliant setter for timeSyncServerConfiguration with method chaining.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync_server_configuration property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class OrderedMaster(ARObject):
     def with_index(self, value: Optional["PositiveInteger"]) -> "OrderedMaster":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """
@@ -153,13 +156,13 @@ class OrderedMaster(ARObject):
     def with_time_sync_server_configuration(self, value: Optional["TimeSyncServer"]) -> "OrderedMaster":
         """
         Set timeSyncServerConfiguration and return self for chaining.
-        
+
         Args:
             value: The timeSyncServerConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync_server_configuration("value")
         """

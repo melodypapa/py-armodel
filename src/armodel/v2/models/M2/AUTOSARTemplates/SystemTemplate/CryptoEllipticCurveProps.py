@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CryptoEllipticCurveProps(ARElement):
     """
     This meta-class provides attributes to specify the properties of elliptic
     curves.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoEllipticCurveProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 564, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class CryptoEllipticCurveProps(ARElement):
     def named_curve_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set namedCurveId with validation.
-        
+
         Args:
             value: The namedCurveId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class CryptoEllipticCurveProps(ARElement):
     def getNamedCurveId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for namedCurveId.
-        
+
         Returns:
             The namedCurveId value
-        
+
         Note:
             Delegates to named_curve_id property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class CryptoEllipticCurveProps(ARElement):
     def setNamedCurveId(self, value: "PositiveInteger") -> "CryptoEllipticCurveProps":
         """
         AUTOSAR-compliant setter for namedCurveId with method chaining.
-        
+
         Args:
             value: The namedCurveId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to named_curve_id property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class CryptoEllipticCurveProps(ARElement):
     def with_named_curve_id(self, value: Optional["PositiveInteger"]) -> "CryptoEllipticCurveProps":
         """
         Set namedCurveId and return self for chaining.
-        
+
         Args:
             value: The namedCurveId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_named_curve_id("value")
         """

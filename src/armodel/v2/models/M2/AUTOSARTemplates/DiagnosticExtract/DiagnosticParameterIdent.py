@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticParameterIdent(IdentCaption):
     """
     This meta-class has been created to introduce the ability to become
     referenced into the meta-class AbstractDiagnosticParameter without breaking
     backwards compatibility.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 37, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DiagnosticParameterIdent(IdentCaption):
     def getSubElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for subElement.
-        
+
         Returns:
             The subElement value
-        
+
         Note:
             Delegates to sub_element property (CODING_RULE_V2_00017)
         """

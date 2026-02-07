@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SdgElementWithGid(ARObject, ABC):
     """
     A special data group element with gid is an abstract element that shall have
     a name (gid, "Generic Identifier").
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgElementWithGid
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)
     """
@@ -30,10 +34,10 @@ class SdgElementWithGid(ARObject, ABC):
     def gid(self, value: Optional["NameToken"]) -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +56,10 @@ class SdgElementWithGid(ARObject, ABC):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -64,13 +68,13 @@ class SdgElementWithGid(ARObject, ABC):
     def setGid(self, value: "NameToken") -> "SdgElementWithGid":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -82,13 +86,13 @@ class SdgElementWithGid(ARObject, ABC):
     def with_gid(self, value: Optional["NameToken"]) -> "SdgElementWithGid":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MsrQueryProps(ARObject):
     """
     This metaclass represents the ability to specificy a query which yields some
     documentation text. The qualities of the result are determined by the
     context in which the query is used.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryProps
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class MsrQueryProps(ARObject):
     def comment(self, value: Optional["String"]) -> None:
         """
         Set comment with validation.
-        
+
         Args:
             value: The comment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class MsrQueryProps(ARObject):
     def msr_query_name(self, value: "String") -> None:
         """
         Set msrQueryName with validation.
-        
+
         Args:
             value: The msrQueryName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class MsrQueryProps(ARObject):
     def getComment(self) -> "String":
         """
         AUTOSAR-compliant getter for comment.
-        
+
         Returns:
             The comment value
-        
+
         Note:
             Delegates to comment property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class MsrQueryProps(ARObject):
     def setComment(self, value: "String") -> "MsrQueryProps":
         """
         AUTOSAR-compliant setter for comment with method chaining.
-        
+
         Args:
             value: The comment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to comment property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class MsrQueryProps(ARObject):
     def getMsrQueryArg(self) -> List["MsrQueryArg"]:
         """
         AUTOSAR-compliant getter for msrQueryArg.
-        
+
         Returns:
             The msrQueryArg value
-        
+
         Note:
             Delegates to msr_query_arg property (CODING_RULE_V2_00017)
         """
@@ -123,10 +126,10 @@ class MsrQueryProps(ARObject):
     def getMsrQueryName(self) -> "String":
         """
         AUTOSAR-compliant getter for msrQueryName.
-        
+
         Returns:
             The msrQueryName value
-        
+
         Note:
             Delegates to msr_query_name property (CODING_RULE_V2_00017)
         """
@@ -135,13 +138,13 @@ class MsrQueryProps(ARObject):
     def setMsrQueryName(self, value: "String") -> "MsrQueryProps":
         """
         AUTOSAR-compliant setter for msrQueryName with method chaining.
-        
+
         Args:
             value: The msrQueryName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_name property setter (gets validation automatically)
         """
@@ -153,13 +156,13 @@ class MsrQueryProps(ARObject):
     def with_comment(self, value: Optional["String"]) -> "MsrQueryProps":
         """
         Set comment and return self for chaining.
-        
+
         Args:
             value: The comment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_comment("value")
         """
@@ -169,13 +172,13 @@ class MsrQueryProps(ARObject):
     def with_msr_query_name(self, value: "String") -> "MsrQueryProps":
         """
         Set msrQueryName and return self for chaining.
-        
+
         Args:
             value: The msrQueryName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_name("value")
         """

@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbstractCanCommunicationController(ARObject, ABC):
     """
     Abstract class that is used to collect the common TtCAN and CAN Controller
     attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::AbstractCanCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 63, Classic Platform R23-11)
     """
@@ -30,10 +34,10 @@ class AbstractCanCommunicationController(ARObject, ABC):
     def can_controller_controller_attributes(self, value: Optional["AbstractCan"]) -> None:
         """
         Set canControllerControllerAttributes with validation.
-        
+
         Args:
             value: The canControllerControllerAttributes to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +56,10 @@ class AbstractCanCommunicationController(ARObject, ABC):
     def getCanControllerControllerAttributes(self) -> "AbstractCan":
         """
         AUTOSAR-compliant getter for canControllerControllerAttributes.
-        
+
         Returns:
             The canControllerControllerAttributes value
-        
+
         Note:
             Delegates to can_controller_controller_attributes property (CODING_RULE_V2_00017)
         """
@@ -64,13 +68,13 @@ class AbstractCanCommunicationController(ARObject, ABC):
     def setCanControllerControllerAttributes(self, value: "AbstractCan") -> "AbstractCanCommunicationController":
         """
         AUTOSAR-compliant setter for canControllerControllerAttributes with method chaining.
-        
+
         Args:
             value: The canControllerControllerAttributes to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_controller_controller_attributes property setter (gets validation automatically)
         """
@@ -82,13 +86,13 @@ class AbstractCanCommunicationController(ARObject, ABC):
     def with_can_controller_controller_attributes(self, value: Optional["AbstractCan"]) -> "AbstractCanCommunicationController":
         """
         Set canControllerControllerAttributes and return self for chaining.
-        
+
         Args:
             value: The canControllerControllerAttributes to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_controller_controller_attributes("value")
         """

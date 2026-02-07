@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class BswEntryRelationshipSet(ARElement):
     """
     Describes a set of relationships between two BswModuleEntrys.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswEntryRelationshipSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 51, Classic
       Platform R23-11)
@@ -29,10 +29,10 @@ class BswEntryRelationshipSet(ARElement):
     def getBswEntryRelationship(self) -> List["BswEntryRelationship"]:
         """
         AUTOSAR-compliant getter for bswEntryRelationship.
-        
+
         Returns:
             The bswEntryRelationship value
-        
+
         Note:
             Delegates to bsw_entry_relationship property (CODING_RULE_V2_00017)
         """

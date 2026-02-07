@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     """
     Defines which StorageConditionGroup is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToStorageConditionGroupMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 248, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def storage(self, value: Optional["DiagnosticStorage"]) -> None:
         """
         Set storage with validation.
-        
+
         Args:
             value: The storage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def getStorage(self) -> "DiagnosticStorage":
         """
         AUTOSAR-compliant getter for storage.
-        
+
         Returns:
             The storage value
-        
+
         Note:
             Delegates to storage property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def setStorage(self, value: "DiagnosticStorage") -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         AUTOSAR-compliant setter for storage with method chaining.
-        
+
         Args:
             value: The storage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to storage property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -151,13 +151,13 @@ class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     def with_storage(self, value: Optional["DiagnosticStorage"]) -> "DiagnosticEventToStorageConditionGroupMapping":
         """
         Set storage and return self for chaining.
-        
+
         Args:
             value: The storage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_storage("value")
         """

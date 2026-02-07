@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BurstPatternEventTriggering(EventTriggeringConstraint):
     """
     Describes the maximum number of occurrences of the same event in a given
     time interval. Typically used to model a worst case activation scenario.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::BurstPatternEventTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 109, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def minimum_inter(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimumInter with validation.
-        
+
         Args:
             value: The minimumInter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def min_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minNumberOf with validation.
-        
+
         Args:
             value: The minNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set patternJitter with validation.
-        
+
         Args:
             value: The patternJitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +145,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def pattern_length(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set patternLength with validation.
-        
+
         Args:
             value: The patternLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +174,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def pattern_period(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set patternPeriod with validation.
-        
+
         Args:
             value: The patternPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -196,10 +196,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -208,13 +208,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "BurstPatternEventTriggering":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -224,10 +224,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def getMinimumInter(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimumInter.
-        
+
         Returns:
             The minimumInter value
-        
+
         Note:
             Delegates to minimum_inter property (CODING_RULE_V2_00017)
         """
@@ -236,13 +236,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def setMinimumInter(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
         """
         AUTOSAR-compliant setter for minimumInter with method chaining.
-        
+
         Args:
             value: The minimumInter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_inter property setter (gets validation automatically)
         """
@@ -252,10 +252,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def getMinNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minNumberOf.
-        
+
         Returns:
             The minNumberOf value
-        
+
         Note:
             Delegates to min_number_of property (CODING_RULE_V2_00017)
         """
@@ -264,13 +264,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def setMinNumberOf(self, value: "PositiveInteger") -> "BurstPatternEventTriggering":
         """
         AUTOSAR-compliant setter for minNumberOf with method chaining.
-        
+
         Args:
             value: The minNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_number_of property setter (gets validation automatically)
         """
@@ -280,10 +280,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def getPatternJitter(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for patternJitter.
-        
+
         Returns:
             The patternJitter value
-        
+
         Note:
             Delegates to pattern_jitter property (CODING_RULE_V2_00017)
         """
@@ -292,13 +292,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def setPatternJitter(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
         """
         AUTOSAR-compliant setter for patternJitter with method chaining.
-        
+
         Args:
             value: The patternJitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern_jitter property setter (gets validation automatically)
         """
@@ -308,10 +308,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def getPatternLength(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for patternLength.
-        
+
         Returns:
             The patternLength value
-        
+
         Note:
             Delegates to pattern_length property (CODING_RULE_V2_00017)
         """
@@ -320,13 +320,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def setPatternLength(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
         """
         AUTOSAR-compliant setter for patternLength with method chaining.
-        
+
         Args:
             value: The patternLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern_length property setter (gets validation automatically)
         """
@@ -336,10 +336,10 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def getPatternPeriod(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for patternPeriod.
-        
+
         Returns:
             The patternPeriod value
-        
+
         Note:
             Delegates to pattern_period property (CODING_RULE_V2_00017)
         """
@@ -348,13 +348,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def setPatternPeriod(self, value: "MultidimensionalTime") -> "BurstPatternEventTriggering":
         """
         AUTOSAR-compliant setter for patternPeriod with method chaining.
-        
+
         Args:
             value: The patternPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern_period property setter (gets validation automatically)
         """
@@ -366,13 +366,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "BurstPatternEventTriggering":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -382,13 +382,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
         """
         Set minimumInter and return self for chaining.
-        
+
         Args:
             value: The minimumInter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_inter("value")
         """
@@ -398,13 +398,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def with_min_number_of(self, value: Optional["PositiveInteger"]) -> "BurstPatternEventTriggering":
         """
         Set minNumberOf and return self for chaining.
-        
+
         Args:
             value: The minNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_number_of("value")
         """
@@ -414,13 +414,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def with_pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
         """
         Set patternJitter and return self for chaining.
-        
+
         Args:
             value: The patternJitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern_jitter("value")
         """
@@ -430,13 +430,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def with_pattern_length(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
         """
         Set patternLength and return self for chaining.
-        
+
         Args:
             value: The patternLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern_length("value")
         """
@@ -446,13 +446,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     def with_pattern_period(self, value: Optional["MultidimensionalTime"]) -> "BurstPatternEventTriggering":
         """
         Set patternPeriod and return self for chaining.
-        
+
         Args:
             value: The patternPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern_period("value")
         """

@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     """
@@ -9,9 +7,9 @@ class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     or before announcement via service 0x0004 according to ISO 13400-2:2012 if
     necessary. Note that this need is only relevant for DoIP synchronization
     masters.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpGidSynchronizationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 805, Classic Platform
       R23-11)

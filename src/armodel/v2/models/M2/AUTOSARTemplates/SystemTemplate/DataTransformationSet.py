@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DataTransformationSet(ARElement):
     """
     This element is the system wide container of DataTransformations which
     represent transformer chains.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataTransformationSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 762, Classic Platform R23-11)
     """
@@ -39,10 +39,10 @@ class DataTransformationSet(ARElement):
     def getData(self) -> List["DataTransformation"]:
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -51,10 +51,10 @@ class DataTransformationSet(ARElement):
     def getTransformation(self) -> List["Transformation"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """

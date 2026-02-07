@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LinMaster(ARObject):
     """
     Describing the properties of the refering ecu as a LIN master.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinMaster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 94, Classic Platform R23-11)
     """
@@ -37,10 +40,10 @@ class LinMaster(ARObject):
     def time_base(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBase with validation.
-        
+
         Args:
             value: The timeBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +72,10 @@ class LinMaster(ARObject):
     def time_base_jitter(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBaseJitter with validation.
-        
+
         Args:
             value: The timeBaseJitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class LinMaster(ARObject):
     def getLinSlave(self) -> List["LinSlaveConfig"]:
         """
         AUTOSAR-compliant getter for linSlave.
-        
+
         Returns:
             The linSlave value
-        
+
         Note:
             Delegates to lin_slave property (CODING_RULE_V2_00017)
         """
@@ -103,10 +106,10 @@ class LinMaster(ARObject):
     def getTimeBase(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBase.
-        
+
         Returns:
             The timeBase value
-        
+
         Note:
             Delegates to time_base property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class LinMaster(ARObject):
     def setTimeBase(self, value: "TimeValue") -> "LinMaster":
         """
         AUTOSAR-compliant setter for timeBase with method chaining.
-        
+
         Args:
             value: The timeBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_base property setter (gets validation automatically)
         """
@@ -131,10 +134,10 @@ class LinMaster(ARObject):
     def getTimeBaseJitter(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBaseJitter.
-        
+
         Returns:
             The timeBaseJitter value
-        
+
         Note:
             Delegates to time_base_jitter property (CODING_RULE_V2_00017)
         """
@@ -143,13 +146,13 @@ class LinMaster(ARObject):
     def setTimeBaseJitter(self, value: "TimeValue") -> "LinMaster":
         """
         AUTOSAR-compliant setter for timeBaseJitter with method chaining.
-        
+
         Args:
             value: The timeBaseJitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_base_jitter property setter (gets validation automatically)
         """
@@ -161,13 +164,13 @@ class LinMaster(ARObject):
     def with_time_base(self, value: Optional["TimeValue"]) -> "LinMaster":
         """
         Set timeBase and return self for chaining.
-        
+
         Args:
             value: The timeBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_base("value")
         """
@@ -177,13 +180,13 @@ class LinMaster(ARObject):
     def with_time_base_jitter(self, value: Optional["TimeValue"]) -> "LinMaster":
         """
         Set timeBaseJitter and return self for chaining.
-        
+
         Args:
             value: The timeBaseJitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_base_jitter("value")
         """

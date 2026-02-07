@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FlatInstanceDescriptor(Identifiable):
     """
     that in addition it is possible to assign alias names via
     AliasNameAssignment.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatInstanceDescriptor
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 316, Classic
       Platform R23-11)
@@ -40,10 +42,10 @@ class FlatInstanceDescriptor(Identifiable):
     def ecu_extract(self, value: Optional["AtpFeature"]) -> None:
         """
         Set ecuExtract with validation.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +75,10 @@ class FlatInstanceDescriptor(Identifiable):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +104,10 @@ class FlatInstanceDescriptor(Identifiable):
     def rte_plugin_props(self, value: Optional["RtePluginProps"]) -> None:
         """
         Set rtePluginProps with validation.
-        
+
         Args:
             value: The rtePluginProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +133,10 @@ class FlatInstanceDescriptor(Identifiable):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +171,10 @@ class FlatInstanceDescriptor(Identifiable):
     def upstream(self, value: Optional["AtpFeature"]) -> None:
         """
         Set upstream with validation.
-        
+
         Args:
             value: The upstream to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +193,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getEcuExtract(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for ecuExtract.
-        
+
         Returns:
             The ecuExtract value
-        
+
         Note:
             Delegates to ecu_extract property (CODING_RULE_V2_00017)
         """
@@ -203,13 +205,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setEcuExtract(self, value: "AtpFeature") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for ecuExtract with method chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_extract property setter (gets validation automatically)
         """
@@ -219,10 +221,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -231,13 +233,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setRole(self, value: "Identifier") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -247,10 +249,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getRtePluginProps(self) -> "RtePluginProps":
         """
         AUTOSAR-compliant getter for rtePluginProps.
-        
+
         Returns:
             The rtePluginProps value
-        
+
         Note:
             Delegates to rte_plugin_props property (CODING_RULE_V2_00017)
         """
@@ -259,13 +261,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setRtePluginProps(self, value: "RtePluginProps") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for rtePluginProps with method chaining.
-        
+
         Args:
             value: The rtePluginProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rte_plugin_props property setter (gets validation automatically)
         """
@@ -275,10 +277,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -287,13 +289,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setSwDataDef(self, value: "SwDataDefProps") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -303,10 +305,10 @@ class FlatInstanceDescriptor(Identifiable):
     def getUpstream(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for upstream.
-        
+
         Returns:
             The upstream value
-        
+
         Note:
             Delegates to upstream property (CODING_RULE_V2_00017)
         """
@@ -315,13 +317,13 @@ class FlatInstanceDescriptor(Identifiable):
     def setUpstream(self, value: "AtpFeature") -> "FlatInstanceDescriptor":
         """
         AUTOSAR-compliant setter for upstream with method chaining.
-        
+
         Args:
             value: The upstream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upstream property setter (gets validation automatically)
         """
@@ -333,13 +335,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_ecu_extract(self, value: Optional["AtpFeature"]) -> "FlatInstanceDescriptor":
         """
         Set ecuExtract and return self for chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_extract("value")
         """
@@ -349,13 +351,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_role(self, value: Optional["Identifier"]) -> "FlatInstanceDescriptor":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -365,13 +367,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_rte_plugin_props(self, value: Optional["RtePluginProps"]) -> "FlatInstanceDescriptor":
         """
         Set rtePluginProps and return self for chaining.
-        
+
         Args:
             value: The rtePluginProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rte_plugin_props("value")
         """
@@ -381,13 +383,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "FlatInstanceDescriptor":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -397,13 +399,13 @@ class FlatInstanceDescriptor(Identifiable):
     def with_upstream(self, value: Optional["AtpFeature"]) -> "FlatInstanceDescriptor":
         """
         Set upstream and return self for chaining.
-        
+
         Args:
             value: The upstream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upstream("value")
         """

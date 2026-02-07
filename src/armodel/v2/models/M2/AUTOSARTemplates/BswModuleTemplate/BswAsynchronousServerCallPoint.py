@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     """
     Represents an asynchronous procedure call point via the BSW Scheduler.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswAsynchronousServerCallPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 80, Classic
       Platform R23-11)
@@ -27,10 +27,10 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     def called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> None:
         """
         Set calledEntryEntry with validation.
-        
+
         Args:
             value: The calledEntryEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     def getCalledEntryEntry(self) -> "BswModuleClientServer":
         """
         AUTOSAR-compliant getter for calledEntryEntry.
-        
+
         Returns:
             The calledEntryEntry value
-        
+
         Note:
             Delegates to called_entry_entry property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     def setCalledEntryEntry(self, value: "BswModuleClientServer") -> "BswAsynchronousServerCallPoint":
         """
         AUTOSAR-compliant setter for calledEntryEntry with method chaining.
-        
+
         Args:
             value: The calledEntryEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to called_entry_entry property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     def with_called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> "BswAsynchronousServerCallPoint":
         """
         Set calledEntryEntry and return self for chaining.
-        
+
         Args:
             value: The calledEntryEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_called_entry_entry("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ServerComSpec(PPortComSpec):
     """
     Communication attributes for a server port (PPortPrototype and
     ClientServerInterface).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ServerComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 188, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class ServerComSpec(PPortComSpec):
     def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class ServerComSpec(PPortComSpec):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +90,10 @@ class ServerComSpec(PPortComSpec):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -102,13 +102,13 @@ class ServerComSpec(PPortComSpec):
     def setOperation(self, value: "ClientServerOperation") -> "ServerComSpec":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -118,10 +118,10 @@ class ServerComSpec(PPortComSpec):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -130,13 +130,13 @@ class ServerComSpec(PPortComSpec):
     def setQueueLength(self, value: "PositiveInteger") -> "ServerComSpec":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -146,10 +146,10 @@ class ServerComSpec(PPortComSpec):
     def getTransformation(self) -> List["TransformationCom"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -160,13 +160,13 @@ class ServerComSpec(PPortComSpec):
     def with_operation(self, value: Optional["ClientServerOperation"]) -> "ServerComSpec":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """
@@ -176,13 +176,13 @@ class ServerComSpec(PPortComSpec):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ServerComSpec":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventFrClusterCycleStart(TDEventCycleStart):
     """
     This is used to describe the timing event related to a point in time where a
     communication cycle starts on a FlexRay cluster.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventFrClusterCycleStart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 71, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
     def fr_cluster(self, value: Optional["FlexrayCluster"]) -> None:
         """
         Set frCluster with validation.
-        
+
         Args:
             value: The frCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
     def getFrCluster(self) -> "FlexrayCluster":
         """
         AUTOSAR-compliant getter for frCluster.
-        
+
         Returns:
             The frCluster value
-        
+
         Note:
             Delegates to fr_cluster property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
     def setFrCluster(self, value: "FlexrayCluster") -> "TDEventFrClusterCycleStart":
         """
         AUTOSAR-compliant setter for frCluster with method chaining.
-        
+
         Args:
             value: The frCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fr_cluster property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
     def with_fr_cluster(self, value: Optional["FlexrayCluster"]) -> "TDEventFrClusterCycleStart":
         """
         Set frCluster and return self for chaining.
-        
+
         Args:
             value: The frCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fr_cluster("value")
         """

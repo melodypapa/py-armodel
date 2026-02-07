@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EcucDestinationUriPolicy(ARObject):
     """
     The EcucDestinationUriPolicy describes the EcucContainerDef that will be
     targeted by EcucUriReference Defs. The type of the description is dependent
     of the destinationUriNestingContract attribute.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 83, Classic Platform R23-11)
     """
@@ -39,10 +44,10 @@ class EcucDestinationUriPolicy(ARObject):
     def destination_uri(self, value: Optional["EcucDestinationUri"]) -> None:
         """
         Set destinationUri with validation.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +80,10 @@ class EcucDestinationUriPolicy(ARObject):
     def getContainer(self) -> List["EcucContainerDef"]:
         """
         AUTOSAR-compliant getter for container.
-        
+
         Returns:
             The container value
-        
+
         Note:
             Delegates to container property (CODING_RULE_V2_00017)
         """
@@ -87,10 +92,10 @@ class EcucDestinationUriPolicy(ARObject):
     def getDestinationUri(self) -> "EcucDestinationUri":
         """
         AUTOSAR-compliant getter for destinationUri.
-        
+
         Returns:
             The destinationUri value
-        
+
         Note:
             Delegates to destination_uri property (CODING_RULE_V2_00017)
         """
@@ -99,13 +104,13 @@ class EcucDestinationUriPolicy(ARObject):
     def setDestinationUri(self, value: "EcucDestinationUri") -> "EcucDestinationUriPolicy":
         """
         AUTOSAR-compliant setter for destinationUri with method chaining.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_uri property setter (gets validation automatically)
         """
@@ -115,10 +120,10 @@ class EcucDestinationUriPolicy(ARObject):
     def getParameter(self) -> List["EcucParameterDef"]:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -127,10 +132,10 @@ class EcucDestinationUriPolicy(ARObject):
     def getReference(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for reference.
-        
+
         Returns:
             The reference value
-        
+
         Note:
             Delegates to reference property (CODING_RULE_V2_00017)
         """
@@ -141,13 +146,13 @@ class EcucDestinationUriPolicy(ARObject):
     def with_destination_uri(self, value: Optional["EcucDestinationUri"]) -> "EcucDestinationUriPolicy":
         """
         Set destinationUri and return self for chaining.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_uri("value")
         """

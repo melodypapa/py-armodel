@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class FlexrayTpConfig(TpConfig):
     """
     This element defines exactly one FlexRay ISO TP Configuration. One
     FlexRayTpConfig element shall be created for each FlexRay Network in the
     System that uses Flex Ray Iso Tp.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 592, Classic Platform R23-11)
     """
@@ -64,10 +64,10 @@ class FlexrayTpConfig(TpConfig):
     def getPduPool(self) -> List["FlexrayTpPduPool"]:
         """
         AUTOSAR-compliant getter for pduPool.
-        
+
         Returns:
             The pduPool value
-        
+
         Note:
             Delegates to pdu_pool property (CODING_RULE_V2_00017)
         """
@@ -76,10 +76,10 @@ class FlexrayTpConfig(TpConfig):
     def getTpAddress(self) -> List["TpAddress"]:
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -88,10 +88,10 @@ class FlexrayTpConfig(TpConfig):
     def getTpConnection(self) -> List["FlexrayTpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """
@@ -100,10 +100,10 @@ class FlexrayTpConfig(TpConfig):
     def getTpEcu(self) -> List["FlexrayTpEcu"]:
         """
         AUTOSAR-compliant getter for tpEcu.
-        
+
         Returns:
             The tpEcu value
-        
+
         Note:
             Delegates to tp_ecu property (CODING_RULE_V2_00017)
         """
@@ -112,10 +112,10 @@ class FlexrayTpConfig(TpConfig):
     def getTpNode(self) -> List["FlexrayTpNode"]:
         """
         AUTOSAR-compliant getter for tpNode.
-        
+
         Returns:
             The tpNode value
-        
+
         Note:
             Delegates to tp_node property (CODING_RULE_V2_00017)
         """

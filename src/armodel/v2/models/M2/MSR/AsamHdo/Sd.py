@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Sd(ARObject):
     """
     This class represents a primitive element in a special data group.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::Sd
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 91, Foundation R23-11)
     """
@@ -29,10 +32,10 @@ class Sd(ARObject):
     def gid(self, value: "NameToken") -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +56,10 @@ class Sd(ARObject):
     def value(self, value: "VerbatimStringPlain") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class Sd(ARObject):
     def xml_space(self, value: Optional["XmlSpaceEnum"]) -> None:
         """
         Set xmlSpace with validation.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +103,10 @@ class Sd(ARObject):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -112,13 +115,13 @@ class Sd(ARObject):
     def setGid(self, value: "NameToken") -> "Sd":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -128,10 +131,10 @@ class Sd(ARObject):
     def getValue(self) -> "VerbatimStringPlain":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -140,13 +143,13 @@ class Sd(ARObject):
     def setValue(self, value: "VerbatimStringPlain") -> "Sd":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -156,10 +159,10 @@ class Sd(ARObject):
     def getXmlSpace(self) -> "XmlSpaceEnum":
         """
         AUTOSAR-compliant getter for xmlSpace.
-        
+
         Returns:
             The xmlSpace value
-        
+
         Note:
             Delegates to xml_space property (CODING_RULE_V2_00017)
         """
@@ -168,13 +171,13 @@ class Sd(ARObject):
     def setXmlSpace(self, value: "XmlSpaceEnum") -> "Sd":
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to xml_space property setter (gets validation automatically)
         """
@@ -186,13 +189,13 @@ class Sd(ARObject):
     def with_gid(self, value: "NameToken") -> "Sd":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """
@@ -202,13 +205,13 @@ class Sd(ARObject):
     def with_value(self, value: "VerbatimStringPlain") -> "Sd":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -218,13 +221,13 @@ class Sd(ARObject):
     def with_xml_space(self, value: Optional["XmlSpaceEnum"]) -> "Sd":
         """
         Set xmlSpace and return self for chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_xml_space("value")
         """

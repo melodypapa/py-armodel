@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TimingClock(Identifiable, ABC):
     """
     Describes an abstract clock.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TimingClock
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 252, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class TimingClock(Identifiable, ABC):
     def platform_time(self, value: Optional["GlobalTimeDomain"]) -> None:
         """
         Set platformTime with validation.
-        
+
         Args:
             value: The platformTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class TimingClock(Identifiable, ABC):
     def getPlatformTime(self) -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant getter for platformTime.
-        
+
         Returns:
             The platformTime value
-        
+
         Note:
             Delegates to platform_time property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class TimingClock(Identifiable, ABC):
     def setPlatformTime(self, value: "GlobalTimeDomain") -> "TimingClock":
         """
         AUTOSAR-compliant setter for platformTime with method chaining.
-        
+
         Args:
             value: The platformTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to platform_time property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class TimingClock(Identifiable, ABC):
     def with_platform_time(self, value: Optional["GlobalTimeDomain"]) -> "TimingClock":
         """
         Set platformTime and return self for chaining.
-        
+
         Args:
             value: The platformTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_platform_time("value")
         """

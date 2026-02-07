@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     """
@@ -7,9 +7,9 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     (cid:53) 205 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult::DiagnosticMeasurementIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 205, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def obd_mid(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set obdMid with validation.
-        
+
         Args:
             value: The obdMid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def getObdMid(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for obdMid.
-        
+
         Returns:
             The obdMid value
-        
+
         Note:
             Delegates to obd_mid property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def setObdMid(self, value: "PositiveInteger") -> "DiagnosticMeasurementIdentifier":
         """
         AUTOSAR-compliant setter for obdMid with method chaining.
-        
+
         Args:
             value: The obdMid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to obd_mid property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class DiagnosticMeasurementIdentifier(DiagnosticCommonElement):
     def with_obd_mid(self, value: Optional["PositiveInteger"]) -> "DiagnosticMeasurementIdentifier":
         """
         Set obdMid and return self for chaining.
-        
+
         Args:
             value: The obdMid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_obd_mid("value")
         """

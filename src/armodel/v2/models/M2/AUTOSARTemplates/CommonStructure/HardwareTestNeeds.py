@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class HardwareTestNeeds(ServiceNeeds):
     """
     This meta-class represents the ability to indicate that a software-component
     is interested in the results of the hardware test and will establish a
     PortPrototype to query the hardware test manager.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::HardwareTestNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 264, Classic
       Platform R23-11)

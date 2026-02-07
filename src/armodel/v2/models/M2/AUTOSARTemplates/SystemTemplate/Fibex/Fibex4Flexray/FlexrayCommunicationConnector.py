@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class FlexrayCommunicationConnector(CommunicationConnector):
     """
     FlexRay specific attributes to the CommunicationConnector
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 89, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def nm_ready_sleep(self, value: Optional["Float"]) -> None:
         """
         Set nmReadySleep with validation.
-        
+
         Args:
             value: The nmReadySleep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def wake_up(self, value: Optional["Boolean"]) -> None:
         """
         Set wakeUp with validation.
-        
+
         Args:
             value: The wakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def getNmReadySleep(self) -> "Float":
         """
         AUTOSAR-compliant getter for nmReadySleep.
-        
+
         Returns:
             The nmReadySleep value
-        
+
         Note:
             Delegates to nm_ready_sleep property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def setNmReadySleep(self, value: "Float") -> "FlexrayCommunicationConnector":
         """
         AUTOSAR-compliant setter for nmReadySleep with method chaining.
-        
+
         Args:
             value: The nmReadySleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_ready_sleep property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def getWakeUp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for wakeUp.
-        
+
         Returns:
             The wakeUp value
-        
+
         Note:
             Delegates to wake_up property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def setWakeUp(self, value: "Boolean") -> "FlexrayCommunicationConnector":
         """
         AUTOSAR-compliant setter for wakeUp with method chaining.
-        
+
         Args:
             value: The wakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wake_up property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def with_nm_ready_sleep(self, value: Optional["Float"]) -> "FlexrayCommunicationConnector":
         """
         Set nmReadySleep and return self for chaining.
-        
+
         Args:
             value: The nmReadySleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_ready_sleep("value")
         """
@@ -152,13 +152,13 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def with_wake_up(self, value: Optional["Boolean"]) -> "FlexrayCommunicationConnector":
         """
         Set wakeUp and return self for chaining.
-        
+
         Args:
             value: The wakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wake_up("value")
         """

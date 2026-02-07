@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FlexrayNmClusterCoupling(NmClusterCoupling):
     """
     FlexRay attributes that are valid for each of the referenced (coupled)
     FlexRay clusters.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmClusterCoupling
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def nm_schedule(self, value: Optional["FlexrayNmSchedule"]) -> None:
         """
         Set nmSchedule with validation.
-        
+
         Args:
             value: The nmSchedule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def getCoupledCluster(self) -> List["FlexrayNmCluster"]:
         """
         AUTOSAR-compliant getter for coupledCluster.
-        
+
         Returns:
             The coupledCluster value
-        
+
         Note:
             Delegates to coupled_cluster property (CODING_RULE_V2_00017)
         """
@@ -68,10 +68,10 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def getNmSchedule(self) -> "FlexrayNmSchedule":
         """
         AUTOSAR-compliant getter for nmSchedule.
-        
+
         Returns:
             The nmSchedule value
-        
+
         Note:
             Delegates to nm_schedule property (CODING_RULE_V2_00017)
         """
@@ -80,13 +80,13 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def setNmSchedule(self, value: "FlexrayNmSchedule") -> "FlexrayNmClusterCoupling":
         """
         AUTOSAR-compliant setter for nmSchedule with method chaining.
-        
+
         Args:
             value: The nmSchedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_schedule property setter (gets validation automatically)
         """
@@ -98,13 +98,13 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def with_nm_schedule(self, value: Optional["FlexrayNmSchedule"]) -> "FlexrayNmClusterCoupling":
         """
         Set nmSchedule and return self for chaining.
-        
+
         Args:
             value: The nmSchedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_schedule("value")
         """

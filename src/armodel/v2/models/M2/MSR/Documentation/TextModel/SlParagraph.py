@@ -1,15 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SlParagraph(ARObject):
     """
     This is the text for a paragraph in one particular language. The language is
     defined by the context. The attribute l is there only for backwards
     compatibility and shall be ignored.
-    
+
     Package: M2::MSR::Documentation::TextModel::SingleLanguageData::SlParagraph
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 465, Foundation
       R23-11)

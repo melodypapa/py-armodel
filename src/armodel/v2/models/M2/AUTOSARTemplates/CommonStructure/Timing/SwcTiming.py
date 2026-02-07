@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SwcTiming(TimingExtension):
     """
@@ -7,9 +7,9 @@ class SwcTiming(TimingExtension):
     component. TimingDescriptions aggregated by SwcTiming are restricted to
     event chains referring to events which are derived from the classes
     TDEventVfb and TDEventSwcInternalBehavior.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::SwcTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 25, Classic Platform R23-11)
     """
@@ -32,10 +32,10 @@ class SwcTiming(TimingExtension):
     def behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set behavior with validation.
-        
+
         Args:
             value: The behavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class SwcTiming(TimingExtension):
     def getBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
-        
+
         Returns:
             The behavior value
-        
+
         Note:
             Delegates to behavior property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class SwcTiming(TimingExtension):
     def setBehavior(self, value: "SwcInternalBehavior") -> "SwcTiming":
         """
         AUTOSAR-compliant setter for behavior with method chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to behavior property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class SwcTiming(TimingExtension):
     def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcTiming":
         """
         Set behavior and return self for chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_behavior("value")
         """

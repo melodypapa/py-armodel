@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticTransferExit(DiagnosticMemoryByAddress):
     """
     This represents an instance of the "Transfer Exit" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticTransferExit
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 142, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
     def transfer_exit(self, value: Optional["DiagnosticTransferExit"]) -> None:
         """
         Set transferExit with validation.
-        
+
         Args:
             value: The transferExit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
     def getTransferExit(self) -> "DiagnosticTransferExit":
         """
         AUTOSAR-compliant getter for transferExit.
-        
+
         Returns:
             The transferExit value
-        
+
         Note:
             Delegates to transfer_exit property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
     def setTransferExit(self, value: "DiagnosticTransferExit") -> "DiagnosticTransferExit":
         """
         AUTOSAR-compliant setter for transferExit with method chaining.
-        
+
         Args:
             value: The transferExit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transfer_exit property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
     def with_transfer_exit(self, value: Optional["DiagnosticTransferExit"]) -> "DiagnosticTransferExit":
         """
         Set transferExit and return self for chaining.
-        
+
         Args:
             value: The transferExit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transfer_exit("value")
         """

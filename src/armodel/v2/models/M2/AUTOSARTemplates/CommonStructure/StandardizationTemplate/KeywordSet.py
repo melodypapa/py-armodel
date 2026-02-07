@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class KeywordSet(ARElement):
     """
     This meta–class represents the ability to collect a set of predefined
     keywords.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword::KeywordSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 194, Foundation R23-11)
     """
@@ -28,10 +28,10 @@ class KeywordSet(ARElement):
     def getKeyword(self) -> List["Keyword"]:
         """
         AUTOSAR-compliant getter for keyword.
-        
+
         Returns:
             The keyword value
-        
+
         Note:
             Delegates to keyword property (CODING_RULE_V2_00017)
         """

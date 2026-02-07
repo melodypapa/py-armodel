@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EndToEndTransformationDescription(TransformationDescription):
     """
     EndToEndTransformationDescription holds these attributes which are profile
     specific and have the same value for all E2E transformers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationDescription
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 987, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def clear_from_valid(self, value: Optional["Boolean"]) -> None:
         """
         Set clearFromValid with validation.
-        
+
         Args:
             value: The clearFromValid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def counter_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set counterOffset with validation.
-        
+
         Args:
             value: The counterOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def crc_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set crcOffset with validation.
-        
+
         Args:
             value: The crcOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def data_id_mode(self, value: Optional["DataIdModeEnum"]) -> None:
         """
         Set dataIdMode with validation.
-        
+
         Args:
             value: The dataIdMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def data_id_nibble(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataIdNibble with validation.
-        
+
         Args:
             value: The dataIdNibble to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +172,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> None:
         """
         Set e2eProfile with validation.
-        
+
         Args:
             value: The e2eProfile to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +203,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def max_delta(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDelta with validation.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +232,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def max_error_state(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxErrorState with validation.
-        
+
         Args:
             value: The maxErrorState to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -260,10 +260,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def max_no_new_or(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNoNewOr with validation.
-        
+
         Args:
             value: The maxNoNewOr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -289,10 +289,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def min_ok_state_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minOkStateInit with validation.
-        
+
         Args:
             value: The minOkStateInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -318,10 +318,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def min_ok_state(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minOkState with validation.
-        
+
         Args:
             value: The minOkState to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -346,10 +346,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -374,10 +374,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def profile_behavior_behavior_enum(self, value: Optional["EndToEndProfile"]) -> None:
         """
         Set profileBehaviorBehaviorEnum with validation.
-        
+
         Args:
             value: The profileBehaviorBehaviorEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -402,10 +402,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def profile_name(self, value: Optional["NameToken"]) -> None:
         """
         Set profileName with validation.
-        
+
         Args:
             value: The profileName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -432,10 +432,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def sync_counter_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set syncCounterInit with validation.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -468,10 +468,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def upper_header(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set upperHeader with validation.
-        
+
         Args:
             value: The upperHeader to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -497,10 +497,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def window_size_init(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set windowSizeInit with validation.
-        
+
         Args:
             value: The windowSizeInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -525,10 +525,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def window_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set windowSize with validation.
-        
+
         Args:
             value: The windowSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -547,10 +547,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getClearFromValid(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for clearFromValid.
-        
+
         Returns:
             The clearFromValid value
-        
+
         Note:
             Delegates to clear_from_valid property (CODING_RULE_V2_00017)
         """
@@ -559,13 +559,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setClearFromValid(self, value: "Boolean") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for clearFromValid with method chaining.
-        
+
         Args:
             value: The clearFromValid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clear_from_valid property setter (gets validation automatically)
         """
@@ -575,10 +575,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getCounterOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for counterOffset.
-        
+
         Returns:
             The counterOffset value
-        
+
         Note:
             Delegates to counter_offset property (CODING_RULE_V2_00017)
         """
@@ -587,13 +587,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setCounterOffset(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for counterOffset with method chaining.
-        
+
         Args:
             value: The counterOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_offset property setter (gets validation automatically)
         """
@@ -603,10 +603,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getCrcOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for crcOffset.
-        
+
         Returns:
             The crcOffset value
-        
+
         Note:
             Delegates to crc_offset property (CODING_RULE_V2_00017)
         """
@@ -615,13 +615,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setCrcOffset(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for crcOffset with method chaining.
-        
+
         Args:
             value: The crcOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_offset property setter (gets validation automatically)
         """
@@ -631,10 +631,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getDataIdMode(self) -> "DataIdModeEnum":
         """
         AUTOSAR-compliant getter for dataIdMode.
-        
+
         Returns:
             The dataIdMode value
-        
+
         Note:
             Delegates to data_id_mode property (CODING_RULE_V2_00017)
         """
@@ -643,13 +643,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setDataIdMode(self, value: "DataIdModeEnum") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for dataIdMode with method chaining.
-        
+
         Args:
             value: The dataIdMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_id_mode property setter (gets validation automatically)
         """
@@ -659,10 +659,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getDataIdNibble(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataIdNibble.
-        
+
         Returns:
             The dataIdNibble value
-        
+
         Note:
             Delegates to data_id_nibble property (CODING_RULE_V2_00017)
         """
@@ -671,13 +671,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setDataIdNibble(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for dataIdNibble with method chaining.
-        
+
         Args:
             value: The dataIdNibble to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_id_nibble property setter (gets validation automatically)
         """
@@ -687,10 +687,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getE2eProfile(self) -> "E2EProfileCompatibility":
         """
         AUTOSAR-compliant getter for e2eProfile.
-        
+
         Returns:
             The e2eProfile value
-        
+
         Note:
             Delegates to e2e_profile property (CODING_RULE_V2_00017)
         """
@@ -699,13 +699,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setE2eProfile(self, value: "E2EProfileCompatibility") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for e2eProfile with method chaining.
-        
+
         Args:
             value: The e2eProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to e2e_profile property setter (gets validation automatically)
         """
@@ -715,10 +715,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getMaxDelta(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDelta.
-        
+
         Returns:
             The maxDelta value
-        
+
         Note:
             Delegates to max_delta property (CODING_RULE_V2_00017)
         """
@@ -727,13 +727,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setMaxDelta(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_delta property setter (gets validation automatically)
         """
@@ -743,10 +743,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getMaxErrorState(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxErrorState.
-        
+
         Returns:
             The maxErrorState value
-        
+
         Note:
             Delegates to max_error_state property (CODING_RULE_V2_00017)
         """
@@ -755,13 +755,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setMaxErrorState(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for maxErrorState with method chaining.
-        
+
         Args:
             value: The maxErrorState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_error_state property setter (gets validation automatically)
         """
@@ -771,10 +771,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getMaxNoNewOr(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNoNewOr.
-        
+
         Returns:
             The maxNoNewOr value
-        
+
         Note:
             Delegates to max_no_new_or property (CODING_RULE_V2_00017)
         """
@@ -783,13 +783,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setMaxNoNewOr(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for maxNoNewOr with method chaining.
-        
+
         Args:
             value: The maxNoNewOr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_no_new_or property setter (gets validation automatically)
         """
@@ -799,10 +799,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getMinOkStateInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minOkStateInit.
-        
+
         Returns:
             The minOkStateInit value
-        
+
         Note:
             Delegates to min_ok_state_init property (CODING_RULE_V2_00017)
         """
@@ -811,13 +811,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setMinOkStateInit(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for minOkStateInit with method chaining.
-        
+
         Args:
             value: The minOkStateInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_ok_state_init property setter (gets validation automatically)
         """
@@ -827,10 +827,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getMinOkState(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minOkState.
-        
+
         Returns:
             The minOkState value
-        
+
         Note:
             Delegates to min_ok_state property (CODING_RULE_V2_00017)
         """
@@ -839,13 +839,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setMinOkState(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for minOkState with method chaining.
-        
+
         Args:
             value: The minOkState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_ok_state property setter (gets validation automatically)
         """
@@ -855,10 +855,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -867,13 +867,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setOffset(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -883,10 +883,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getProfileBehaviorBehaviorEnum(self) -> "EndToEndProfile":
         """
         AUTOSAR-compliant getter for profileBehaviorBehaviorEnum.
-        
+
         Returns:
             The profileBehaviorBehaviorEnum value
-        
+
         Note:
             Delegates to profile_behavior_behavior_enum property (CODING_RULE_V2_00017)
         """
@@ -895,13 +895,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setProfileBehaviorBehaviorEnum(self, value: "EndToEndProfile") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for profileBehaviorBehaviorEnum with method chaining.
-        
+
         Args:
             value: The profileBehaviorBehaviorEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to profile_behavior_behavior_enum property setter (gets validation automatically)
         """
@@ -911,10 +911,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getProfileName(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for profileName.
-        
+
         Returns:
             The profileName value
-        
+
         Note:
             Delegates to profile_name property (CODING_RULE_V2_00017)
         """
@@ -923,13 +923,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setProfileName(self, value: "NameToken") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for profileName with method chaining.
-        
+
         Args:
             value: The profileName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to profile_name property setter (gets validation automatically)
         """
@@ -939,10 +939,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getSyncCounterInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncCounterInit.
-        
+
         Returns:
             The syncCounterInit value
-        
+
         Note:
             Delegates to sync_counter_init property (CODING_RULE_V2_00017)
         """
@@ -951,13 +951,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setSyncCounterInit(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_counter_init property setter (gets validation automatically)
         """
@@ -967,10 +967,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getUpperHeader(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for upperHeader.
-        
+
         Returns:
             The upperHeader value
-        
+
         Note:
             Delegates to upper_header property (CODING_RULE_V2_00017)
         """
@@ -979,13 +979,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setUpperHeader(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for upperHeader with method chaining.
-        
+
         Args:
             value: The upperHeader to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_header property setter (gets validation automatically)
         """
@@ -995,10 +995,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getWindowSizeInit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for windowSizeInit.
-        
+
         Returns:
             The windowSizeInit value
-        
+
         Note:
             Delegates to window_size_init property (CODING_RULE_V2_00017)
         """
@@ -1007,13 +1007,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setWindowSizeInit(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for windowSizeInit with method chaining.
-        
+
         Args:
             value: The windowSizeInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to window_size_init property setter (gets validation automatically)
         """
@@ -1023,10 +1023,10 @@ class EndToEndTransformationDescription(TransformationDescription):
     def getWindowSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for windowSize.
-        
+
         Returns:
             The windowSize value
-        
+
         Note:
             Delegates to window_size property (CODING_RULE_V2_00017)
         """
@@ -1035,13 +1035,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def setWindowSize(self, value: "PositiveInteger") -> "EndToEndTransformationDescription":
         """
         AUTOSAR-compliant setter for windowSize with method chaining.
-        
+
         Args:
             value: The windowSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to window_size property setter (gets validation automatically)
         """
@@ -1053,13 +1053,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_clear_from_valid(self, value: Optional["Boolean"]) -> "EndToEndTransformationDescription":
         """
         Set clearFromValid and return self for chaining.
-        
+
         Args:
             value: The clearFromValid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clear_from_valid("value")
         """
@@ -1069,13 +1069,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_counter_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set counterOffset and return self for chaining.
-        
+
         Args:
             value: The counterOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_offset("value")
         """
@@ -1085,13 +1085,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_crc_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set crcOffset and return self for chaining.
-        
+
         Args:
             value: The crcOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_offset("value")
         """
@@ -1101,13 +1101,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_data_id_mode(self, value: Optional["DataIdModeEnum"]) -> "EndToEndTransformationDescription":
         """
         Set dataIdMode and return self for chaining.
-        
+
         Args:
             value: The dataIdMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_id_mode("value")
         """
@@ -1117,13 +1117,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set dataIdNibble and return self for chaining.
-        
+
         Args:
             value: The dataIdNibble to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_id_nibble("value")
         """
@@ -1133,13 +1133,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_e2e_profile(self, value: Optional["E2EProfileCompatibility"]) -> "EndToEndTransformationDescription":
         """
         Set e2eProfile and return self for chaining.
-        
+
         Args:
             value: The e2eProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_e2e_profile("value")
         """
@@ -1149,13 +1149,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_max_delta(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set maxDelta and return self for chaining.
-        
+
         Args:
             value: The maxDelta to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_delta("value")
         """
@@ -1165,13 +1165,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_max_error_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set maxErrorState and return self for chaining.
-        
+
         Args:
             value: The maxErrorState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_error_state("value")
         """
@@ -1181,13 +1181,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set maxNoNewOr and return self for chaining.
-        
+
         Args:
             value: The maxNoNewOr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_no_new_or("value")
         """
@@ -1197,13 +1197,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set minOkStateInit and return self for chaining.
-        
+
         Args:
             value: The minOkStateInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_ok_state_init("value")
         """
@@ -1213,13 +1213,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set minOkState and return self for chaining.
-        
+
         Args:
             value: The minOkState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_ok_state("value")
         """
@@ -1229,13 +1229,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_offset(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -1245,13 +1245,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_profile_behavior_behavior_enum(self, value: Optional["EndToEndProfile"]) -> "EndToEndTransformationDescription":
         """
         Set profileBehaviorBehaviorEnum and return self for chaining.
-        
+
         Args:
             value: The profileBehaviorBehaviorEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_profile_behavior_behavior_enum("value")
         """
@@ -1261,13 +1261,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_profile_name(self, value: Optional["NameToken"]) -> "EndToEndTransformationDescription":
         """
         Set profileName and return self for chaining.
-        
+
         Args:
             value: The profileName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_profile_name("value")
         """
@@ -1277,13 +1277,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set syncCounterInit and return self for chaining.
-        
+
         Args:
             value: The syncCounterInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_counter_init("value")
         """
@@ -1293,13 +1293,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_upper_header(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set upperHeader and return self for chaining.
-        
+
         Args:
             value: The upperHeader to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_header("value")
         """
@@ -1309,13 +1309,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_window_size_init(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set windowSizeInit and return self for chaining.
-        
+
         Args:
             value: The windowSizeInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_window_size_init("value")
         """
@@ -1325,13 +1325,13 @@ class EndToEndTransformationDescription(TransformationDescription):
     def with_window_size(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationDescription":
         """
         Set windowSize and return self for chaining.
-        
+
         Args:
             value: The windowSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_window_size("value")
         """

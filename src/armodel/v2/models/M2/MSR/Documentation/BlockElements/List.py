@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class List(Paginateable):
     """
     This meta-class represents the ability to express a list. The kind of list
     is specified in the attribute.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::List
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 295, Foundation
       R23-11)
@@ -32,10 +35,10 @@ class List(Paginateable):
     def item(self, value: "Item") -> None:
         """
         Set item with validation.
-        
+
         Args:
             value: The item to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class List(Paginateable):
     def type(self, value: RefType) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class List(Paginateable):
     def getItem(self) -> "Item":
         """
         AUTOSAR-compliant getter for item.
-        
+
         Returns:
             The item value
-        
+
         Note:
             Delegates to item property (CODING_RULE_V2_00017)
         """
@@ -87,13 +90,13 @@ class List(Paginateable):
     def setItem(self, value: "Item") -> "List":
         """
         AUTOSAR-compliant setter for item with method chaining.
-        
+
         Args:
             value: The item to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item property setter (gets validation automatically)
         """
@@ -103,10 +106,10 @@ class List(Paginateable):
     def getType(self) -> RefType:
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class List(Paginateable):
     def setType(self, value: RefType) -> "List":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -133,13 +136,13 @@ class List(Paginateable):
     def with_item(self, value: "Item") -> "List":
         """
         Set item and return self for chaining.
-        
+
         Args:
             value: The item to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item("value")
         """
@@ -149,13 +152,13 @@ class List(Paginateable):
     def with_type(self, value: Optional[RefType]) -> "List":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

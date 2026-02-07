@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SomeipTpConnection(ARObject):
     """
     A connection identifies the sender and the receiver of this particular
     communication. The SOME/IP TP module routes a Pdu through this connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::SomeipTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 620, Classic Platform R23-11)
     """
@@ -29,10 +34,10 @@ class SomeipTpConnection(ARObject):
     def tp_channel(self, value: Optional["SomeipTpChannel"]) -> None:
         """
         Set tpChannel with validation.
-        
+
         Args:
             value: The tpChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +62,10 @@ class SomeipTpConnection(ARObject):
     def tp_sdu(self, value: RefType) -> None:
         """
         Set tpSdu with validation.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +86,10 @@ class SomeipTpConnection(ARObject):
     def transport_pdu(self, value: RefType) -> None:
         """
         Set transportPdu with validation.
-        
+
         Args:
             value: The transportPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +104,10 @@ class SomeipTpConnection(ARObject):
     def getTpChannel(self) -> "SomeipTpChannel":
         """
         AUTOSAR-compliant getter for tpChannel.
-        
+
         Returns:
             The tpChannel value
-        
+
         Note:
             Delegates to tp_channel property (CODING_RULE_V2_00017)
         """
@@ -111,13 +116,13 @@ class SomeipTpConnection(ARObject):
     def setTpChannel(self, value: "SomeipTpChannel") -> "SomeipTpConnection":
         """
         AUTOSAR-compliant setter for tpChannel with method chaining.
-        
+
         Args:
             value: The tpChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_channel property setter (gets validation automatically)
         """
@@ -127,10 +132,10 @@ class SomeipTpConnection(ARObject):
     def getTpSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for tpSdu.
-        
+
         Returns:
             The tpSdu value
-        
+
         Note:
             Delegates to tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -139,13 +144,13 @@ class SomeipTpConnection(ARObject):
     def setTpSdu(self, value: RefType) -> "SomeipTpConnection":
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_sdu property setter (gets validation automatically)
         """
@@ -155,10 +160,10 @@ class SomeipTpConnection(ARObject):
     def getTransportPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for transportPdu.
-        
+
         Returns:
             The transportPdu value
-        
+
         Note:
             Delegates to transport_pdu property (CODING_RULE_V2_00017)
         """
@@ -167,13 +172,13 @@ class SomeipTpConnection(ARObject):
     def setTransportPdu(self, value: RefType) -> "SomeipTpConnection":
         """
         AUTOSAR-compliant setter for transportPdu with method chaining.
-        
+
         Args:
             value: The transportPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transport_pdu property setter (gets validation automatically)
         """
@@ -185,13 +190,13 @@ class SomeipTpConnection(ARObject):
     def with_tp_channel(self, value: Optional["SomeipTpChannel"]) -> "SomeipTpConnection":
         """
         Set tpChannel and return self for chaining.
-        
+
         Args:
             value: The tpChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_channel("value")
         """
@@ -201,13 +206,13 @@ class SomeipTpConnection(ARObject):
     def with_tp_sdu(self, value: Optional[RefType]) -> "SomeipTpConnection":
         """
         Set tpSdu and return self for chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_sdu("value")
         """
@@ -217,13 +222,13 @@ class SomeipTpConnection(ARObject):
     def with_transport_pdu(self, value: Optional[RefType]) -> "SomeipTpConnection":
         """
         Set transportPdu and return self for chaining.
-        
+
         Args:
             value: The transportPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transport_pdu("value")
         """

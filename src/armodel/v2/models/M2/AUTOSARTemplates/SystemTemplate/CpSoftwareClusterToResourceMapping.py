@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CpSoftwareClusterToResourceMapping(Identifiable):
     """
     This meta class maps a service resource to CP Software Clusters. By this
     mapping it’s specified whether the Software Cluster has to provide or to
     require the resource.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterToResourceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 907, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def provider(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set provider with validation.
-        
+
         Args:
             value: The provider to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +67,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def service(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set service with validation.
-        
+
         Args:
             value: The service to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +89,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def getProvider(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for provider.
-        
+
         Returns:
             The provider value
-        
+
         Note:
             Delegates to provider property (CODING_RULE_V2_00017)
         """
@@ -99,13 +101,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def setProvider(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterToResourceMapping":
         """
         AUTOSAR-compliant setter for provider with method chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provider property setter (gets validation automatically)
         """
@@ -115,10 +117,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def getRequester(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for requester.
-        
+
         Returns:
             The requester value
-        
+
         Note:
             Delegates to requester property (CODING_RULE_V2_00017)
         """
@@ -127,10 +129,10 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def getService(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for service.
-        
+
         Returns:
             The service value
-        
+
         Note:
             Delegates to service property (CODING_RULE_V2_00017)
         """
@@ -139,13 +141,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def setService(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterToResourceMapping":
         """
         AUTOSAR-compliant setter for service with method chaining.
-        
+
         Args:
             value: The service to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service property setter (gets validation automatically)
         """
@@ -157,13 +159,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def with_provider(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterToResourceMapping":
         """
         Set provider and return self for chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provider("value")
         """
@@ -173,13 +175,13 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
     def with_service(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterToResourceMapping":
         """
         Set service and return self for chaining.
-        
+
         Args:
             value: The service to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service("value")
         """

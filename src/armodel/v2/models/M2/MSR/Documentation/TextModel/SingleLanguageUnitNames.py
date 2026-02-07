@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SingleLanguageUnitNames(ARObject):
     """
     This represents the ability to express a display name.
-    
+
     Package: M2::MSR::Documentation::TextModel::SingleLanguageData::SingleLanguageUnitNames
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 400, Classic Platform
       R23-11)

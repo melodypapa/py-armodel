@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class IEEE1722TpAcfBus(Identifiable, ABC):
     """
     Abstract class to define various busses to be transported over a IEEE1722TP
     ACF connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfBus
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 657, Classic Platform R23-11)
     """
@@ -39,10 +42,10 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
     def bus_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set busId with validation.
-        
+
         Args:
             value: The busId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
     def getAcfPart(self) -> List["IEEE1722TpAcfBusPart"]:
         """
         AUTOSAR-compliant getter for acfPart.
-        
+
         Returns:
             The acfPart value
-        
+
         Note:
             Delegates to acf_part property (CODING_RULE_V2_00017)
         """
@@ -73,10 +76,10 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
     def getBusId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for busId.
-        
+
         Returns:
             The busId value
-        
+
         Note:
             Delegates to bus_id property (CODING_RULE_V2_00017)
         """
@@ -85,13 +88,13 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
     def setBusId(self, value: "PositiveInteger") -> "IEEE1722TpAcfBus":
         """
         AUTOSAR-compliant setter for busId with method chaining.
-        
+
         Args:
             value: The busId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bus_id property setter (gets validation automatically)
         """
@@ -103,13 +106,13 @@ class IEEE1722TpAcfBus(Identifiable, ABC):
     def with_bus_id(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAcfBus":
         """
         Set busId and return self for chaining.
-        
+
         Args:
             value: The busId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bus_id("value")
         """

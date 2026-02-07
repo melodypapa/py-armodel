@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class NmCoordinator(ARObject):
     """
@@ -8,9 +11,9 @@ class NmCoordinator(ARObject):
     where the requirement exists that shutdown of NM of at least two of these
     busses (also referred to as coordinated busses) has to be performed
     synchronously.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmCoordinator
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 675, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class NmCoordinator(ARObject):
     def index(self, value: Optional["Integer"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class NmCoordinator(ARObject):
     def nm_coord_sync(self, value: Optional["Boolean"]) -> None:
         """
         Set nmCoordSync with validation.
-        
+
         Args:
             value: The nmCoordSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class NmCoordinator(ARObject):
     def nm_global(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmGlobal with validation.
-        
+
         Args:
             value: The nmGlobal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class NmCoordinator(ARObject):
     def getIndex(self) -> "Integer":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -128,13 +131,13 @@ class NmCoordinator(ARObject):
     def setIndex(self, value: "Integer") -> "NmCoordinator":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -144,10 +147,10 @@ class NmCoordinator(ARObject):
     def getNmCoordSync(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmCoordSync.
-        
+
         Returns:
             The nmCoordSync value
-        
+
         Note:
             Delegates to nm_coord_sync property (CODING_RULE_V2_00017)
         """
@@ -156,13 +159,13 @@ class NmCoordinator(ARObject):
     def setNmCoordSync(self, value: "Boolean") -> "NmCoordinator":
         """
         AUTOSAR-compliant setter for nmCoordSync with method chaining.
-        
+
         Args:
             value: The nmCoordSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coord_sync property setter (gets validation automatically)
         """
@@ -172,10 +175,10 @@ class NmCoordinator(ARObject):
     def getNmGlobal(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmGlobal.
-        
+
         Returns:
             The nmGlobal value
-        
+
         Note:
             Delegates to nm_global property (CODING_RULE_V2_00017)
         """
@@ -184,13 +187,13 @@ class NmCoordinator(ARObject):
     def setNmGlobal(self, value: "TimeValue") -> "NmCoordinator":
         """
         AUTOSAR-compliant setter for nmGlobal with method chaining.
-        
+
         Args:
             value: The nmGlobal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_global property setter (gets validation automatically)
         """
@@ -200,10 +203,10 @@ class NmCoordinator(ARObject):
     def getNmNode(self) -> List["NmNode"]:
         """
         AUTOSAR-compliant getter for nmNode.
-        
+
         Returns:
             The nmNode value
-        
+
         Note:
             Delegates to nm_node property (CODING_RULE_V2_00017)
         """
@@ -214,13 +217,13 @@ class NmCoordinator(ARObject):
     def with_index(self, value: Optional["Integer"]) -> "NmCoordinator":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """
@@ -230,13 +233,13 @@ class NmCoordinator(ARObject):
     def with_nm_coord_sync(self, value: Optional["Boolean"]) -> "NmCoordinator":
         """
         Set nmCoordSync and return self for chaining.
-        
+
         Args:
             value: The nmCoordSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coord_sync("value")
         """
@@ -246,13 +249,13 @@ class NmCoordinator(ARObject):
     def with_nm_global(self, value: Optional["TimeValue"]) -> "NmCoordinator":
         """
         Set nmGlobal and return self for chaining.
-        
+
         Args:
             value: The nmGlobal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_global("value")
         """

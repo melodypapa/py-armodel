@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Ethernet Global Time specific properties.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthGlobalTimeDomainProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 867, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def crc_flags(self, value: Optional["EthTSynCrcFlags"]) -> None:
         """
         Set crcFlags with validation.
-        
+
         Args:
             value: The crcFlags to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def destination(self, value: Optional["MacAddressString"]) -> None:
         """
         Set destination with validation.
-        
+
         Args:
             value: The destination to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def fup_data_id_list(self, value: "PositiveInteger") -> None:
         """
         Set fupDataIDList with validation.
-        
+
         Args:
             value: The fupDataIDList to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def message(self, value: Optional["EthGlobalTimeMessage"]) -> None:
         """
         Set message with validation.
-        
+
         Args:
             value: The message to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +145,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def vlan_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanPriority with validation.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +167,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getCrcFlags(self) -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant getter for crcFlags.
-        
+
         Returns:
             The crcFlags value
-        
+
         Note:
             Delegates to crc_flags property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setCrcFlags(self, value: "EthTSynCrcFlags") -> "EthGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for crcFlags with method chaining.
-        
+
         Args:
             value: The crcFlags to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_flags property setter (gets validation automatically)
         """
@@ -195,10 +195,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getDestination(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -207,13 +207,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setDestination(self, value: "MacAddressString") -> "EthGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -223,10 +223,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getFupDataIDList(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for fupDataIDList.
-        
+
         Returns:
             The fupDataIDList value
-        
+
         Note:
             Delegates to fup_data_id_list property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setFupDataIDList(self, value: "PositiveInteger") -> "EthGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for fupDataIDList with method chaining.
-        
+
         Args:
             value: The fupDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fup_data_id_list property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getManaged(self) -> List["EthGlobalTime"]:
         """
         AUTOSAR-compliant getter for managed.
-        
+
         Returns:
             The managed value
-        
+
         Note:
             Delegates to managed property (CODING_RULE_V2_00017)
         """
@@ -263,10 +263,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getMessage(self) -> "EthGlobalTimeMessage":
         """
         AUTOSAR-compliant getter for message.
-        
+
         Returns:
             The message value
-        
+
         Note:
             Delegates to message property (CODING_RULE_V2_00017)
         """
@@ -275,13 +275,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setMessage(self, value: "EthGlobalTimeMessage") -> "EthGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for message with method chaining.
-        
+
         Args:
             value: The message to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message property setter (gets validation automatically)
         """
@@ -291,10 +291,10 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def getVlanPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanPriority.
-        
+
         Returns:
             The vlanPriority value
-        
+
         Note:
             Delegates to vlan_priority property (CODING_RULE_V2_00017)
         """
@@ -303,13 +303,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def setVlanPriority(self, value: "PositiveInteger") -> "EthGlobalTimeDomainProps":
         """
         AUTOSAR-compliant setter for vlanPriority with method chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_priority property setter (gets validation automatically)
         """
@@ -321,13 +321,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_crc_flags(self, value: Optional["EthTSynCrcFlags"]) -> "EthGlobalTimeDomainProps":
         """
         Set crcFlags and return self for chaining.
-        
+
         Args:
             value: The crcFlags to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_flags("value")
         """
@@ -337,13 +337,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_destination(self, value: Optional["MacAddressString"]) -> "EthGlobalTimeDomainProps":
         """
         Set destination and return self for chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination("value")
         """
@@ -353,13 +353,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_fup_data_id_list(self, value: "PositiveInteger") -> "EthGlobalTimeDomainProps":
         """
         Set fupDataIDList and return self for chaining.
-        
+
         Args:
             value: The fupDataIDList to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fup_data_id_list("value")
         """
@@ -369,13 +369,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_message(self, value: Optional["EthGlobalTimeMessage"]) -> "EthGlobalTimeDomainProps":
         """
         Set message and return self for chaining.
-        
+
         Args:
             value: The message to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message("value")
         """
@@ -385,13 +385,13 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     def with_vlan_priority(self, value: Optional["PositiveInteger"]) -> "EthGlobalTimeDomainProps":
         """
         Set vlanPriority and return self for chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_priority("value")
         """

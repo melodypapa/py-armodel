@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class UserDefinedTransformationComSpecProps(TransformationComSpecProps):
     """
     The UserDefinedTransformationComSpecProps is used to specify port specific
     configuration properties for custom transformers.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::UserDefinedTransformationComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 200, Classic Platform
       R23-11)
