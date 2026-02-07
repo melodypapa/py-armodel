@@ -710,10 +710,10 @@ class BswInterruptCategory(AREnum):
         """
         Initializes the BswInterruptCategory with valid values.
         """
-        super().__init__((
+        super().__init__([
             BswInterruptCategory.CAT1,
             BswInterruptCategory.CAT2,
-        ))
+        ])
 
 
 class BswInterruptEntity(BswModuleEntity):
@@ -2294,11 +2294,11 @@ class BswExclusiveAreaPolicy(AREnum):
     EXTERNAL = "external"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswExclusiveAreaPolicy.NONE,
             BswExclusiveAreaPolicy.INTERNAL,
             BswExclusiveAreaPolicy.EXTERNAL,
-        ))
+        ])
 
 """
 This module defines BSW interrupt event in AUTOSAR.
@@ -2349,11 +2349,11 @@ class BswModeReceiverPolicy(AREnum):
     DEFERRED = "deferred"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswModeReceiverPolicy.NONE,
             BswModeReceiverPolicy.IMMEDIATE,
             BswModeReceiverPolicy.DEFERRED,
-        ))
+        ])
 
 """
 This module defines BSW scheduler name prefix in AUTOSAR.
@@ -2421,10 +2421,10 @@ class BswTriggerDirectImplementation(AREnum):
     ALLOWED = "allowed"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswTriggerDirectImplementation.NOT_ALLOWED,
             BswTriggerDirectImplementation.ALLOWED,
-        ))
+        ])
 
 """
 This module defines role-based BSW module entry assignment in AUTOSAR.

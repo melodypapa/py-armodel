@@ -331,10 +331,10 @@ class ArrayImplPolicyEnum(AREnum):
     STATIC = "static"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ArrayImplPolicyEnum.DYNAMIC,
             ArrayImplPolicyEnum.STATIC,
-        ))
+        ])
 
 
 class ArraySizeSemanticsEnum(AREnum):
@@ -346,7 +346,7 @@ class ArraySizeSemanticsEnum(AREnum):
     VARIABLE_SIZE = "variable-size"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ArraySizeSemanticsEnum.FIXED_SIZE,
             ArraySizeSemanticsEnum.VARIABLE_SIZE,
-        ))
+        ])

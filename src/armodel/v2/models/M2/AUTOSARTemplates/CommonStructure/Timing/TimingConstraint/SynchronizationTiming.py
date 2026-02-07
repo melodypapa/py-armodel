@@ -30,11 +30,11 @@ class SynchronizationTypeEnum(AREnum):
     NO_SYNCHRONIZATION = "no-synchronization"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             SynchronizationTypeEnum.HARD_SYNCHRONIZATION,
             SynchronizationTypeEnum.SOFT_SYNCHRONIZATION,
             SynchronizationTypeEnum.NO_SYNCHRONIZATION,
-        ))
+        ])
 
 
 class EventOccurrenceKindEnum(AREnum):
@@ -47,11 +47,11 @@ class EventOccurrenceKindEnum(AREnum):
     START_AND_END = "start-and-end"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             EventOccurrenceKindEnum.START,
             EventOccurrenceKindEnum.END,
             EventOccurrenceKindEnum.START_AND_END,
-        ))
+        ])
 
 
 class SynchronizationTimingConstraint(TimingConstraint):

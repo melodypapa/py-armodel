@@ -780,10 +780,10 @@ class DiagnosticRoutineTypeEnum(AREnum):
         """
         Initializes the DiagnosticRoutineTypeEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             DiagnosticRoutineTypeEnum.ASYNCHRONOUS,
             DiagnosticRoutineTypeEnum.SYNCHRONOUS,
-        ))
+        ])
 
 
 class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
@@ -913,11 +913,11 @@ class DiagnosticValueAccessEnum(AREnum):
         """
         Initializes the DiagnosticValueAccessEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             DiagnosticValueAccessEnum.READ_ONLY,
             DiagnosticValueAccessEnum.READ_WRITE,
             DiagnosticValueAccessEnum.WRITE_ONLY,
-        ))
+        ])
 
 
 class DiagnosticProcessingStyleEnum(AREnum):
@@ -936,11 +936,11 @@ class DiagnosticProcessingStyleEnum(AREnum):
         """
         Initializes the DiagnosticProcessingStyleEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR,
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS,
-        ))
+        ])
 
 
 class DiagnosticValueNeeds(DiagnosticCapabilityElement):
@@ -2018,10 +2018,10 @@ class DiagnosticDenominatorConditionEnum(AREnum):
     DENOMINATOR_ON = "denominator-on"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             DiagnosticDenominatorConditionEnum.DENOMINATOR_OFF,
             DiagnosticDenominatorConditionEnum.DENOMINATOR_ON,
-        ))
+        ])
 
 
 class DiagnosticEnableConditionNeeds(ServiceNeeds):
@@ -2084,10 +2084,10 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
     ON_REQUEST = "on-request"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             DiagnosticMonitorUpdateKindEnum.IMMEDIATE,
             DiagnosticMonitorUpdateKindEnum.ON_REQUEST,
-        ))
+        ])
 
 
 class DiagnosticOperationCycleNeeds(ServiceNeeds):
@@ -2320,10 +2320,10 @@ class EventAcceptanceStatusEnum(AREnum):
     REJECTED = "rejected"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             EventAcceptanceStatusEnum.ACCEPTED,
             EventAcceptanceStatusEnum.REJECTED,
-        ))
+        ])
 
 
 class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
@@ -2523,11 +2523,11 @@ class MaxCommModeEnum(AREnum):
     SILENT_COMMUNICATION = "silent-communication"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             MaxCommModeEnum.FULL_COMMUNICATION,
             MaxCommModeEnum.NO_COMMUNICATION,
             MaxCommModeEnum.SILENT_COMMUNICATION,
-        ))
+        ])
 
 
 class ObdControlServiceNeeds(ServiceNeeds):
@@ -2607,10 +2607,10 @@ class ObdRatioConnectionKindEnum(AREnum):
     LOGICAL_OR = "logical-or"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ObdRatioConnectionKindEnum.LOGICAL_AND,
             ObdRatioConnectionKindEnum.LOGICAL_OR,
-        ))
+        ])
 
 
 class ObdRatioDenominatorNeeds(ServiceNeeds):
@@ -2657,11 +2657,11 @@ class OperationCycleTypeEnum(AREnum):
     POWER_CYCLE = "power-cycle"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             OperationCycleTypeEnum.ALL_CYCLES,
             OperationCycleTypeEnum.IGNITION_CYCLE,
             OperationCycleTypeEnum.POWER_CYCLE,
-        ))
+        ])
 
 
 class RuntimeError(ARObject):
@@ -2721,11 +2721,11 @@ class ServiceProviderEnum(AREnum):
     SWC = "swc"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ServiceProviderEnum.BSW,
             ServiceProviderEnum.RTE,
             ServiceProviderEnum.SWC,
-        ))
+        ])
 
 
 class StorageConditionStatusEnum(AREnum):
@@ -2737,10 +2737,10 @@ class StorageConditionStatusEnum(AREnum):
     CONDITION_TRUE = "condition-true"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             StorageConditionStatusEnum.CONDITION_FALSE,
             StorageConditionStatusEnum.CONDITION_TRUE,
-        ))
+        ])
 
 
 class SupervisedEntityCheckpointNeeds(ServiceNeeds):
@@ -2953,10 +2953,10 @@ class VerificationStatusIndicationModeEnum(AREnum):
     INDIRECT = "indirect"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             VerificationStatusIndicationModeEnum.DIRECT,
             VerificationStatusIndicationModeEnum.INDIRECT,
-        ))
+        ])
 
 
 class WarningIndicatorRequestedBitNeeds(ServiceNeeds):

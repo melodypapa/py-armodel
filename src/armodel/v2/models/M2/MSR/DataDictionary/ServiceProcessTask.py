@@ -61,9 +61,9 @@ class SwServiceImplPolicyEnum(AREnum):
     STANDARD = "STANDARD"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             SwServiceImplPolicyEnum.INLINE,
             SwServiceImplPolicyEnum.INLINE_CONDITIONAL,
             SwServiceImplPolicyEnum.MACRO,
             SwServiceImplPolicyEnum.STANDARD,
-        ))
+        ])

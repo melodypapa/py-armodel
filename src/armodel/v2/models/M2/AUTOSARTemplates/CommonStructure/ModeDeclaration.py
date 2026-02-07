@@ -36,11 +36,11 @@ class ModeActivationKind(AREnum):
     ON_TRANSITION = "onTransition"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ModeActivationKind.ON_ENTRY,
             ModeActivationKind.ON_EXIT,
             ModeActivationKind.ON_TRANSITION,
-        ))
+        ])
 
 
 class ModeDeclarationGroupPrototypeMapping(ARObject):
@@ -505,8 +505,8 @@ class ModeErrorReactionPolicyEnum(AREnum):
     TRANSITION_TO_SAFE_MODE = "transition-to-safe-mode"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ModeErrorReactionPolicyEnum.KEEP_MODE,
             ModeErrorReactionPolicyEnum.TRANSITION_TO_DEFAULT_MODE,
             ModeErrorReactionPolicyEnum.TRANSITION_TO_SAFE_MODE,
-        ))
+        ])

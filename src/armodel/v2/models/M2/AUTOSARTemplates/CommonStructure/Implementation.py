@@ -720,10 +720,10 @@ class DependencyUsageEnum(AREnum):
     REQUIRED = "required"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             DependencyUsageEnum.OPTIONAL,
             DependencyUsageEnum.REQUIRED,
-        ))
+        ])
 
 
 class Linker(ARObject):
@@ -767,9 +767,9 @@ class ProgramminglanguageEnum(AREnum):
     PYTHON = "Python"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ProgramminglanguageEnum.C,
             ProgramminglanguageEnum.CPP,
             ProgramminglanguageEnum.JAVA,
             ProgramminglanguageEnum.PYTHON,
-        ))
+        ])

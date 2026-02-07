@@ -40,11 +40,11 @@ class ReentrancyLevelEnum(AREnum):
     ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT,
             ReentrancyLevelEnum.ENUM_NON_REENTRANT,
             ReentrancyLevelEnum.ENUM_SINGLE_CORE_REENTRANT,
-        ))
+        ])
 
 
 class ExclusiveArea(Identifiable):
@@ -403,10 +403,10 @@ class ApiPrincipleEnum(AREnum):
     CALLER = "caller"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ApiPrincipleEnum.CALLEE,
             ApiPrincipleEnum.CALLER,
-        ))
+        ])
 
 
 class ExclusiveAreaNestingOrder(ARObject):
