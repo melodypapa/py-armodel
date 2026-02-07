@@ -36,7 +36,7 @@ class StandardNameEnum(AREnum):
 
 
 # Use factory function to create Documentation instances
-def createDocumentation(parent: ARObject, short_name: str):
+def createDocumentation(parent: ARObject, short_name: str) -> ARObject:
     """
     Factory function to create Documentation instances.
     This avoids circular import with Identifiable module.
@@ -69,15 +69,15 @@ def createDocumentation(parent: ARObject, short_name: str):
         def getAnnotations(self) -> List[Annotation]:
             return self.annotations
 
-        def addAnnotation(self, value: Annotation):
+        def addAnnotation(self, value: Annotation) -> "_Documentation":
             if value is not None:
                 self.annotations.append(value)
             return self
 
-        def getDescription(self) -> String:
+        def getDescription(self) -> Union[String, None]:
             return self.description
 
-        def setDescription(self, value: String):
+        def setDescription(self, value: String) -> "_Documentation":
             if value is not None:
                 self.description = value
             return self
