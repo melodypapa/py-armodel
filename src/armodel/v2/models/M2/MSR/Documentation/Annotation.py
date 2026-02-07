@@ -27,24 +27,24 @@ class GeneralAnnotation(ARObject, ABC):
         self.annotationText: Union["DocumentationBlock", None] = None
         self.label: Union[MultilanguageLongName, None] = None
 
-    def getAnnotationOrigin(self) -> ARLiteral:
+    def getAnnotationOrigin(self) -> Union[ARLiteral, None]:
         return self.annotationOrigin
 
-    def setAnnotationOrigin(self, value: ARLiteral):
+    def setAnnotationOrigin(self, value: ARLiteral) -> "GeneralAnnotation":
         self.annotationOrigin = value
         return self
 
-    def getAnnotationText(self) -> "DocumentationBlock":
+    def getAnnotationText(self) -> Union["DocumentationBlock", None]:
         return self.annotationText
 
-    def setAnnotationText(self, value: "DocumentationBlock"):
+    def setAnnotationText(self, value: "DocumentationBlock") -> "GeneralAnnotation":
         self.annotationText = value
         return self
 
-    def getLabel(self) -> MultilanguageLongName:
+    def getLabel(self) -> Union[MultilanguageLongName, None]:
         return self.label
 
-    def setLabel(self, value: MultilanguageLongName):
+    def setLabel(self, value: MultilanguageLongName) -> "GeneralAnnotation":
         self.label = value
         return  self
 

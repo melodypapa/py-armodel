@@ -11,6 +11,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
     Paginateable,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LOverviewParagraph,
+)
 
 
 class ListEnum(AREnum):
