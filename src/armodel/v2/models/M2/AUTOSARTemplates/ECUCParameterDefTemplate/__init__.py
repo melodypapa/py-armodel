@@ -127,10 +127,10 @@ class EcucDefinitionElement(Identifiable, ABC):
         self.upperMultiplicity: Union[Union[PositiveInteger, None] , None] = None
         self.upperMultiplicityInfinite: Union[Union[Boolean, None] , None] = None
 
-    def getEcucCond(self) -> EcucConditionSpecification:
+    def getEcucCond(self) -> Union[EcucConditionSpecification, None]:
         return self.ecucCond
 
-    def setEcucCond(self, value: EcucConditionSpecification):
+    def setEcucCond(self, value: EcucConditionSpecification) -> "EcucDefinitionElement":
         if value is not None:
             self.ecucCond = value
         return self
@@ -143,42 +143,42 @@ class EcucDefinitionElement(Identifiable, ABC):
             self.ecucValidationConds.append(value)
         return self
 
-    def getLowerMultiplicity(self) -> PositiveInteger:
+    def getLowerMultiplicity(self) -> Union[PositiveInteger, None]:
         return self.lowerMultiplicity
 
-    def setLowerMultiplicity(self, value: PositiveInteger):
+    def setLowerMultiplicity(self, value: PositiveInteger) -> "EcucDefinitionElement":
         if value is not None:
             self.lowerMultiplicity = value
         return self
 
-    def getRelatedTraceItemRef(self) -> RefType:
+    def getRelatedTraceItemRef(self) -> Union[RefType, None]:
         return self.relatedTraceItemRef
 
-    def setRelatedTraceItemRef(self, value: RefType):
+    def setRelatedTraceItemRef(self, value: RefType) -> "EcucDefinitionElement":
         if value is not None:
             self.relatedTraceItemRef = value
         return self
 
-    def getScope(self) -> EcucScopeEnum:
+    def getScope(self) -> Union[EcucScopeEnum, None]:
         return self.scope
 
-    def setScope(self, value: EcucScopeEnum):
+    def setScope(self, value: EcucScopeEnum) -> "EcucDefinitionElement":
         if value is not None:
             self.scope = value
         return self
 
-    def getUpperMultiplicity(self) -> PositiveInteger:
+    def getUpperMultiplicity(self) -> Union[PositiveInteger, None]:
         return self.upperMultiplicity
 
-    def setUpperMultiplicity(self, value: PositiveInteger):
+    def setUpperMultiplicity(self, value: PositiveInteger) -> "EcucDefinitionElement":
         if value is not None:
             self.upperMultiplicity = value
         return self
 
-    def getUpperMultiplicityInfinite(self) -> Boolean:
+    def getUpperMultiplicityInfinite(self) -> Union[Boolean, None]:
         return self.upperMultiplicityInfinite
 
-    def setUpperMultiplicityInfinite(self, value: Boolean):
+    def setUpperMultiplicityInfinite(self, value: Boolean) -> "EcucDefinitionElement":
         if value is not None:
             self.upperMultiplicityInfinite = value
         return self
@@ -237,18 +237,18 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
         self.configClass: Union[Union[EcucConfigurationClassEnum, None] , None] = None
         self.configVariant: Union[Union[EcucConfigurationVariantEnum, None] , None] = None
 
-    def getConfigClass(self) -> EcucConfigurationClassEnum:
+    def getConfigClass(self) -> Union[EcucConfigurationClassEnum, None]:
         return self.configClass
 
-    def setConfigClass(self, value: EcucConfigurationClassEnum):
+    def setConfigClass(self, value: EcucConfigurationClassEnum) -> "EcucAbstractConfigurationClass":
         if value is not None:
             self.configClass = value
         return self
 
-    def getConfigVariant(self) -> EcucConfigurationVariantEnum:
+    def getConfigVariant(self) -> Union[EcucConfigurationVariantEnum, None]:
         return self.configVariant
 
-    def setConfigVariant(self, value: EcucConfigurationVariantEnum):
+    def setConfigVariant(self, value: EcucConfigurationVariantEnum) -> "EcucAbstractConfigurationClass":
         if value is not None:
             self.configVariant = value
         return self
@@ -325,10 +325,10 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         self.requiresIndex: Union[Union[Boolean, None] , None] = None
         self.multipleConfigurationContainer: Union[Union[Boolean, None] , None] = None
 
-    def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
+    def getDestinationUriRef(self) -> Union[EcucDestinationUriDefRefType, None]:
         return self.destinationUriRef
 
-    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType):
+    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucContainerDef":
         if value is not None:
             self.destinationUriRef = value
         return self
@@ -341,34 +341,34 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.multiplicityConfigClasses.append(value)
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Union[String, None]:
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: String) -> "EcucContainerDef":
         if value is not None:
             self.origin = value
         return self
 
-    def getPostBuildVariantMultiplicity(self) -> Boolean:
+    def getPostBuildVariantMultiplicity(self) -> Union[Boolean, None]:
         return self.postBuildVariantMultiplicity
 
-    def setPostBuildVariantMultiplicity(self, value: Boolean):
+    def setPostBuildVariantMultiplicity(self, value: Boolean) -> "EcucContainerDef":
         if value is not None:
             self.postBuildVariantMultiplicity = value
         return self
 
-    def getRequiresIndex(self) -> Boolean:
+    def getRequiresIndex(self) -> Union[Boolean, None]:
         return self.requiresIndex
 
-    def setRequiresIndex(self, value: Boolean):
+    def setRequiresIndex(self, value: Boolean) -> "EcucContainerDef":
         if value is not None:
             self.requiresIndex = value
         return self
 
-    def getMultipleConfigurationContainer(self) -> Boolean:
+    def getMultipleConfigurationContainer(self) -> Union[Boolean, None]:
         return self.multipleConfigurationContainer
 
-    def setMultipleConfigurationContainer(self, value: Boolean):
+    def setMultipleConfigurationContainer(self, value: Boolean) -> "EcucContainerDef":
         if value is not None:
             self.multipleConfigurationContainer = value
         return self
@@ -454,34 +454,34 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
             self.multiplicityConfigClasses.append(value)
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Union[String, None]:
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: String) -> "EcucCommonAttributes":
         if value is not None:
             self.origin = value
         return self
 
-    def getPostBuildVariantMultiplicity(self) -> Boolean:
+    def getPostBuildVariantMultiplicity(self) -> Union[Boolean, None]:
         return self.postBuildVariantMultiplicity
 
-    def setPostBuildVariantMultiplicity(self, value: Boolean):
+    def setPostBuildVariantMultiplicity(self, value: Boolean) -> "EcucCommonAttributes":
         if value is not None:
             self.postBuildVariantMultiplicity = value
         return self
 
-    def getPostBuildVariantValue(self) -> Boolean:
+    def getPostBuildVariantValue(self) -> Union[Boolean, None]:
         return self.postBuildVariantValue
 
-    def setPostBuildVariantValue(self, value: Boolean):
+    def setPostBuildVariantValue(self, value: Boolean) -> "EcucCommonAttributes":
         if value is not None:
             self.postBuildVariantValue = value
         return self
 
-    def getRequiresIndex(self) -> Boolean:
+    def getRequiresIndex(self) -> Union[Boolean, None]:
         return self.requiresIndex
 
-    def setRequiresIndex(self, value: Boolean):
+    def setRequiresIndex(self, value: Boolean) -> "EcucCommonAttributes":
         if value is not None:
             self.requiresIndex = value
         return self
@@ -543,26 +543,26 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
         self.symbolicNameValue: Union[Union[Boolean, None] , None] = None
         self.withAuto: Union[Union[Boolean, None] , None] = None
 
-    def getDerivation(self) -> EcucDerivationSpecification:
+    def getDerivation(self) -> Union[EcucDerivationSpecification, None]:
         return self.derivation
 
-    def setDerivation(self, value: EcucDerivationSpecification):
+    def setDerivation(self, value: EcucDerivationSpecification) -> "EcucParameterDef":
         if value is not None:
             self.derivation = value
         return self
 
-    def getSymbolicNameValue(self) -> Boolean:
+    def getSymbolicNameValue(self) -> Union[Boolean, None]:
         return self.symbolicNameValue
 
-    def setSymbolicNameValue(self, value: Boolean):
+    def setSymbolicNameValue(self, value: Boolean) -> "EcucParameterDef":
         if value is not None:
             self.symbolicNameValue = value
         return self
 
-    def getWithAuto(self) -> Boolean:
+    def getWithAuto(self) -> Union[Boolean, None]:
         return self.withAuto
 
-    def setWithAuto(self, value: Boolean):
+    def setWithAuto(self, value: Boolean) -> "EcucParameterDef":
         if value is not None:
             self.withAuto = value
         return self
@@ -584,10 +584,10 @@ class EcucBooleanParamDef(EcucParameterDef):
 
         self.defaultValue: Union[Union[Boolean, None] , None] = None
 
-    def getDefaultValue(self) -> Boolean:
+    def getDefaultValue(self) -> Union[Boolean, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: Boolean):
+    def setDefaultValue(self, value: Boolean) -> "EcucBooleanParamDef":
         if value is not None:
             self.defaultValue = value
         return self
@@ -616,10 +616,10 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
         self.withAuto: Union[Union[Boolean, None] , None] = None
 
-    def getWithAuto(self) -> Boolean:
+    def getWithAuto(self) -> Union[Boolean, None]:
         return self.withAuto
 
-    def setWithAuto(self, value: Boolean):
+    def setWithAuto(self, value: Boolean) -> "EcucAbstractReferenceDef":
         if value is not None:
             self.withAuto = value
         return self
@@ -646,10 +646,10 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
         self.requiresSymbolicNameValue: Union[Union[Boolean, None] , None] = None
 
-    def getRequiresSymbolicNameValue(self) -> Boolean:
+    def getRequiresSymbolicNameValue(self) -> Union[Boolean, None]:
         return self.requiresSymbolicNameValue
 
-    def setRequiresSymbolicNameValue(self, value: Boolean):
+    def setRequiresSymbolicNameValue(self, value: Boolean) -> "EcucAbstractInternalReferenceDef":
         if value is not None:
             self.requiresSymbolicNameValue = value
         return self
@@ -669,10 +669,10 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
         self.destinationRef: Union[Union[RefType, None] , None] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Union[RefType, None]:
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType):
+    def setDestinationRef(self, value: RefType) -> "EcucSymbolicNameReferenceDef":
         if value is not None:
             self.destinationRef = value
         return self
@@ -684,10 +684,10 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
         self.destinationRef: Union[Union[RefType, None] , None] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Union[RefType, None]:
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType):
+    def setDestinationRef(self, value: RefType) -> "EcucChoiceReferenceDef":
         if value is not None:
             self.destinationRef = value
         return self
@@ -699,10 +699,10 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
         self.destinationRef: Union[Union[RefType, None] , None] = None
 
-    def getDestinationRef(self) -> RefType:
+    def getDestinationRef(self) -> Union[RefType, None]:
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType):
+    def setDestinationRef(self, value: RefType) -> "EcucReferenceDef":
         if value is not None:
             self.destinationRef = value
         return self
@@ -714,10 +714,10 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
         self.destinationUriRef: Union[Union[EcucDestinationUriDefRefType, None] , None] = None
 
-    def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
+    def getDestinationUriRef(self) -> Union[EcucDestinationUriDefRefType, None]:
         return self.destinationUriRef
 
-    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType):
+    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucUriReferenceDef":
         if value is not None:
             self.destinationUriRef = value
         return self
@@ -730,18 +730,18 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
         self.destinationContext: Union[Union[String, None] , None] = None
         self.destinationType: Union[Union[String, None] , None] = None
 
-    def getDestinationContext(self) -> String:
+    def getDestinationContext(self) -> Union[String, None]:
         return self.destinationContext
 
-    def setDestinationContext(self, value: String):
+    def setDestinationContext(self, value: String) -> "EcucForeignReferenceDef":
         if value is not None:
             self.destinationContext = value
         return self
 
-    def getDestinationType(self) -> String:
+    def getDestinationType(self) -> Union[String, None]:
         return self.destinationType
 
-    def setDestinationType(self, value: String):
+    def setDestinationType(self, value: String) -> "EcucForeignReferenceDef":
         if value is not None:
             self.destinationType = value
         return self
@@ -753,10 +753,10 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
         self.destinationType: Union[Union[String, None] , None] = None
 
-    def getDestinationType(self) -> String:
+    def getDestinationType(self) -> Union[String, None]:
         return self.destinationType
 
-    def setDestinationType(self, value: String):
+    def setDestinationType(self, value: String) -> "EcucInstanceReferenceDef":
         if value is not None:
             self.destinationType = value
         return self
@@ -803,34 +803,34 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
         self.minLength: Union[Union[PositiveInteger, None] , None] = None
         self.regularExpression: Union[Union[RegularExpression, None] , None] = None
 
-    def getDefaultValue(self) -> VerbatimString:
+    def getDefaultValue(self) -> Union[VerbatimString, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: VerbatimString):
+    def setDefaultValue(self, value: VerbatimString) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMaxLength(self) -> PositiveInteger:
+    def getMaxLength(self) -> Union[PositiveInteger, None]:
         return self.maxLength
 
-    def setMaxLength(self, value: PositiveInteger):
+    def setMaxLength(self, value: PositiveInteger) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.maxLength = value
         return self
 
-    def getMinLength(self) -> PositiveInteger:
+    def getMinLength(self) -> Union[PositiveInteger, None]:
         return self.minLength
 
-    def setMinLength(self, value: PositiveInteger):
+    def setMinLength(self, value: PositiveInteger) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.minLength = value
         return self
 
-    def getRegularExpression(self) -> RegularExpression:
+    def getRegularExpression(self) -> Union[RegularExpression, None]:
         return self.regularExpression
 
-    def setRegularExpression(self, value: RegularExpression):
+    def setRegularExpression(self, value: RegularExpression) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.regularExpression = value
         return self
@@ -874,26 +874,26 @@ class EcucIntegerParamDef(EcucParameterDef):
         self.max: Union[Union[UnlimitedInteger, None] , None] = None
         self.min: Union[Union[UnlimitedInteger, None] , None] = None
 
-    def getDefaultValue(self) -> UnlimitedInteger:
+    def getDefaultValue(self) -> Union[UnlimitedInteger, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: UnlimitedInteger):
+    def setDefaultValue(self, value: UnlimitedInteger) -> "EcucIntegerParamDef":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMax(self) -> UnlimitedInteger:
+    def getMax(self) -> Union[UnlimitedInteger, None]:
         return self.max
 
-    def setMax(self, value: UnlimitedInteger):
+    def setMax(self, value: UnlimitedInteger) -> "EcucIntegerParamDef":
         if value is not None:
             self.max = value
         return self
 
-    def getMin(self) -> UnlimitedInteger:
+    def getMin(self) -> Union[UnlimitedInteger, None]:
         return self.min
 
-    def setMin(self, value: UnlimitedInteger):
+    def setMin(self, value: UnlimitedInteger) -> "EcucIntegerParamDef":
         if value is not None:
             self.min = value
         return self
@@ -925,18 +925,18 @@ class EcucEnumerationLiteralDef(Identifiable):
         self.ecucCond: Union[Union[EcucConditionSpecification, None] , None] = None
         self.origin: Union[Union[String, None] , None] = None
 
-    def getEcucCond(self) -> EcucConditionSpecification:
+    def getEcucCond(self) -> Union[EcucConditionSpecification, None]:
         return self.ecucCond
 
-    def setEcucCond(self, value: EcucConditionSpecification):
+    def setEcucCond(self, value: EcucConditionSpecification) -> "EcucEnumerationLiteralDef":
         if value is not None:
             self.ecucCond = value
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Union[String, None]:
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: String) -> "EcucEnumerationLiteralDef":
         if value is not None:
             self.origin = value
         return self
@@ -968,10 +968,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
         self.defaultValue: Union[Union[Identifier, None] , None] = None
         self.literals: List[EcucEnumerationLiteralDef] = []
 
-    def getDefaultValue(self) -> UnlimitedInteger:
+    def getDefaultValue(self) -> Union[Identifier, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: UnlimitedInteger):
+    def setDefaultValue(self, value: Identifier) -> "EcucEnumerationParamDef":
         if value is not None:
             self.defaultValue = value
         return self
@@ -979,7 +979,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def getLiterals(self) -> List[EcucEnumerationLiteralDef]:
         return self.literals
 
-    def createLiteral(self, short_name: str) -> EcucEnumerationLiteralDef:
+    def createLiteral(self, short_name: str) -> Union[EcucEnumerationLiteralDef, None]:
         if not self.IsElementExists(short_name):
             literal = EcucEnumerationLiteralDef(self, short_name)
             self.addElement(literal)
@@ -995,26 +995,26 @@ class EcucFloatParamDef(EcucParameterDef):
         self.max: Union[Union[Limit, None] , None] = None
         self.min: Union[Union[Limit, None] , None] = None
 
-    def getDefaultValue(self) -> Float:
+    def getDefaultValue(self) -> Union[Float, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: Float):
+    def setDefaultValue(self, value: Float) -> "EcucFloatParamDef":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMax(self) -> Limit:
+    def getMax(self) -> Union[Limit, None]:
         return self.max
 
-    def setMax(self, value: Limit):
+    def setMax(self, value: Limit) -> "EcucFloatParamDef":
         if value is not None:
             self.max = value
         return self
 
-    def getMin(self) -> Limit:
+    def getMin(self) -> Union[Limit, None]:
         return self.min
 
-    def setMin(self, value: Limit):
+    def setMin(self, value: Limit) -> "EcucFloatParamDef":
         if value is not None:
             self.min = value
         return self
@@ -1039,7 +1039,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
     def getChoices(self) -> List["EcucParamConfContainerDef"]:
         return self.choices
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+    def createEcucParamConfContainerDef(self, short_name: str) -> Union["EcucParamConfContainerDef", None]:
         if not self.IsElementExists(short_name):
             choice = EcucParamConfContainerDef(self, short_name)
             self.addElement(choice)
@@ -1080,7 +1080,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.parameters
 
-    def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
+    def createEcucBooleanParamDef(self, short_name: str) -> Union[EcucBooleanParamDef, None]:
         """
         Creates a new ECUC boolean parameter definition and adds it to the container.
 
@@ -1096,7 +1096,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
+    def createEcucStringParamDef(self, short_name: str) -> Union[EcucStringParamDef, None]:
         """
         Creates an ECUC string parameter definition with the given short name.
 
@@ -1113,7 +1113,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
+    def createEcucIntegerParamDef(self, short_name: str) -> Union[EcucIntegerParamDef, None]:
         """
         Creates an ECUC integer parameter definition with the given short name.
 
@@ -1130,7 +1130,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
+    def createEcucFloatParamDef(self, short_name: str) -> Union[EcucFloatParamDef, None]:
         """
         Creates an ECUC float parameter definition with the given short name.
 
@@ -1147,7 +1147,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
+    def createEcucEnumerationParamDef(self, short_name: str) -> Union[EcucEnumerationParamDef, None]:
         """
         Creates an ECUC enumeration parameter definition with the given short name.
 
@@ -1164,7 +1164,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
+    def createEcucFunctionNameDef(self, short_name: str) -> Union[EcucFunctionNameDef, None]:
         """
         Creates a new ECUC function name definition and adds it to the container.
 
@@ -1189,7 +1189,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.references
 
-    def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
+    def createEcucSymbolicNameReferenceDef(self, short_name: str) -> Union[EcucSymbolicNameReferenceDef, None]:
         """
         Creates a new ECUC symbolic name reference definition and adds it to the container.
 
@@ -1205,7 +1205,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.references.append(ref)
         return self.getElement(short_name)
 
-    def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
+    def createEcucReferenceDef(self, short_name: str) -> Union[EcucReferenceDef, None]:
         """
         Creates a new ECUC reference definition and adds it to the container.
 
@@ -1230,7 +1230,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.subContainers
 
-    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+    def createEcucChoiceContainerDef(self, short_name: str) -> Union[EcucChoiceContainerDef, None]:
         """
         Creates a new ECUC choice container definition and adds it to the container.
 
@@ -1246,7 +1246,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.subContainers.append(container)
         return self.getElement(short_name)
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
+    def createEcucParamConfContainerDef(self, short_name: str) -> Union['EcucParamConfContainerDef', None]:
         """
         Creates a new ECUC parameter configuration container definition and adds it to the container.
 
@@ -1280,7 +1280,7 @@ class EcucAddInfoParamDef(EcucParameterDef):
 
         self.defaultValue: Union[Union[VerbatimString, None] , None] = None
 
-    def getDefaultValue(self) -> VerbatimString:
+    def getDefaultValue(self) -> Union[VerbatimString, None]:
         return self.defaultValue
 
     def setDefaultValue(self, value: VerbatimString):
@@ -1543,14 +1543,14 @@ class EcucModuleDef(EcucDefinitionElement):
     def getContainers(self) -> List[EcucContainerDef]:
         return self.containers
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
+    def createEcucParamConfContainerDef(self, short_name: str) -> Union['EcucParamConfContainerDef', None]:
         if (not self.IsElementExists(short_name)):
             container_def = EcucParamConfContainerDef(self, short_name)
             self.addElement(container_def)
             self.containers.append(container_def)
         return self.getElement(short_name)
 
-    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+    def createEcucChoiceContainerDef(self, short_name: str) -> Union[EcucChoiceContainerDef, None]:
         if (not self.IsElementExists(short_name)):
             container_def = EcucChoiceContainerDef(self, short_name)
             self.addElement(container_def)
@@ -1565,7 +1565,7 @@ class EcucModuleDef(EcucDefinitionElement):
             self.postBuildVariantSupport = value
         return self
 
-    def getRefinedModuleDefRef(self) -> RefType:
+    def getRefinedModuleDefRef(self) -> Union[RefType, None]:
         return self.refinedModuleDefRef
 
     def setRefinedModuleDefRef(self, value: RefType):

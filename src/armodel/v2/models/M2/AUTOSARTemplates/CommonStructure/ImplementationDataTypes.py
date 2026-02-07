@@ -48,26 +48,26 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         self.subElements: List[ImplementationDataTypeElement] = []
         self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
 
-    def getArrayImplPolicy(self) -> ARLiteral:
+    def getArrayImplPolicy(self) -> Union[ARLiteral, None]:
         return self.arrayImplPolicy
 
-    def setArrayImplPolicy(self, value: ARLiteral):
+    def setArrayImplPolicy(self, value: ARLiteral) -> "ImplementationDataTypeElement":
         if value is not None:
             self.arrayImplPolicy = value
         return self
 
-    def getArraySize(self) -> ARNumerical:
+    def getArraySize(self) -> Union[ARNumerical, None]:
         return self.arraySize
 
-    def setArraySize(self, value: ARNumerical):
+    def setArraySize(self, value: ARNumerical) -> "ImplementationDataTypeElement":
         if value is not None:
             self.arraySize = value
         return self
 
-    def getArraySizeHandling(self) -> ARLiteral:
+    def getArraySizeHandling(self) -> Union[ARLiteral, None]:
         return self.arraySizeHandling
 
-    def setArraySizeHandling(self, value: ARLiteral):
+    def setArraySizeHandling(self, value: ARLiteral) -> "ImplementationDataTypeElement":
         if value is not None:
             self.arraySizeHandling = value
         return self
@@ -331,10 +331,10 @@ class ArrayImplPolicyEnum(AREnum):
     STATIC = "static"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ArrayImplPolicyEnum.DYNAMIC,
             ArrayImplPolicyEnum.STATIC,
-        ))
+        ])
 
 
 class ArraySizeSemanticsEnum(AREnum):
@@ -346,7 +346,7 @@ class ArraySizeSemanticsEnum(AREnum):
     VARIABLE_SIZE = "variable-size"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ArraySizeSemanticsEnum.FIXED_SIZE,
             ArraySizeSemanticsEnum.VARIABLE_SIZE,
-        ))
+        ])

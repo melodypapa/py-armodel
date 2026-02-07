@@ -80,7 +80,7 @@ class DataFilter(ARObject):
         # Reference value X used in comparison-based filtering
         self.x: Union[Union[UnlimitedInteger, None] , None] = None
 
-    def getDataFilterType(self):
+    def getDataFilterType(self) -> Union[DataFilterTypeEnum, None]:
         """
         Gets the type of data filtering to apply.
 
@@ -89,7 +89,7 @@ class DataFilter(ARObject):
         """
         return self.dataFilterType
 
-    def setDataFilterType(self, value):
+    def setDataFilterType(self, value: Union[DataFilterTypeEnum, None]) -> "DataFilter":
         """
         Sets the type of data filtering to apply.
         Only sets the value if it is not None.
@@ -104,7 +104,7 @@ class DataFilter(ARObject):
             self.dataFilterType = value
         return self
 
-    def getMask(self):
+    def getMask(self) -> Union[UnlimitedInteger, None]:
         """
         Gets the bit mask for masked filtering operations.
 
@@ -113,7 +113,7 @@ class DataFilter(ARObject):
         """
         return self.mask
 
-    def setMask(self, value):
+    def setMask(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
         """
         Sets the bit mask for masked filtering operations.
         Only sets the value if it is not None.
@@ -128,7 +128,7 @@ class DataFilter(ARObject):
             self.mask = value
         return self
 
-    def getMax(self):
+    def getMax(self) -> Union[UnlimitedInteger, None]:
         """
         Gets the maximum threshold value for range-based filtering.
 
@@ -137,7 +137,7 @@ class DataFilter(ARObject):
         """
         return self.max
 
-    def setMax(self, value):
+    def setMax(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
         """
         Sets the maximum threshold value for range-based filtering.
         Only sets the value if it is not None.
@@ -152,7 +152,7 @@ class DataFilter(ARObject):
             self.max = value
         return self
 
-    def getMin(self):
+    def getMin(self) -> Union[UnlimitedInteger, None]:
         """
         Gets the minimum threshold value for range-based filtering.
 
@@ -161,7 +161,7 @@ class DataFilter(ARObject):
         """
         return self.min
 
-    def setMin(self, value):
+    def setMin(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
         """
         Sets the minimum threshold value for range-based filtering.
         Only sets the value if it is not None.
@@ -176,7 +176,7 @@ class DataFilter(ARObject):
             self.min = value
         return self
 
-    def getOffset(self):
+    def getOffset(self) -> Union[PositiveInteger, None]:
         """
         Gets the offset value for filtering calculations.
 
@@ -185,7 +185,7 @@ class DataFilter(ARObject):
         """
         return self.offset
 
-    def setOffset(self, value):
+    def setOffset(self, value: Union[PositiveInteger, None]) -> "DataFilter":
         """
         Sets the offset value for filtering calculations.
         Only sets the value if it is not None.
@@ -200,7 +200,7 @@ class DataFilter(ARObject):
             self.offset = value
         return self
 
-    def getPeriod(self):
+    def getPeriod(self) -> Union[PositiveInteger, None]:
         """
         Gets the period for periodic filtering operations (e.g., oneEveryN).
 
@@ -209,7 +209,7 @@ class DataFilter(ARObject):
         """
         return self.period
 
-    def setPeriod(self, value):
+    def setPeriod(self, value: Union[PositiveInteger, None]) -> "DataFilter":
         """
         Sets the period for periodic filtering operations (e.g., oneEveryN).
         Only sets the value if it is not None.
@@ -224,7 +224,7 @@ class DataFilter(ARObject):
             self.period = value
         return self
 
-    def getX(self):
+    def getX(self) -> Union[UnlimitedInteger, None]:
         """
         Gets the reference value X used in comparison-based filtering.
 
@@ -233,7 +233,7 @@ class DataFilter(ARObject):
         """
         return self.x
 
-    def setX(self, value):
+    def setX(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
         """
         Sets the reference value X used in comparison-based filtering.
         Only sets the value if it is not None.

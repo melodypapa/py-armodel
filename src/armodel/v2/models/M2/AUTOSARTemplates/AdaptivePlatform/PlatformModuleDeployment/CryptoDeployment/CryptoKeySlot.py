@@ -69,14 +69,14 @@ class CryptoKeySlot(Identifiable):
         # or whether it is used by Stack managed by a Key Manager Application.
         self.slotTypes: Optional[Any] = None
 
-    def getAllocateShadows(self) -> Boolean:
+    def getAllocateShadows(self) -> Optional[Boolean]:
         return self.allocateShadows
 
     def setAllocateShadows(self, value: Boolean) -> "CryptoKeySlot":
         self.allocateShadows = value
         return self
 
-    def getCryptoAlgIds(self) -> String:
+    def getCryptoAlgIds(self) -> Optional[String]:
         return self.cryptoAlgIds
 
     def setCryptoAlgIds(self, value: String) -> "CryptoKeySlot":
@@ -114,7 +114,7 @@ class CryptoKeySlot(Identifiable):
             self.keySlotContents.append(new_element)
         return new_element
 
-    def getSlotCapacitys(self) -> PositiveInteger:
+    def getSlotCapacitys(self) -> Optional[PositiveInteger]:
         return self.slotCapacitys
 
     def setSlotCapacitys(self, value: PositiveInteger) -> "CryptoKeySlot":

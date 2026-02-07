@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any, Union
+from typing import Any, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,

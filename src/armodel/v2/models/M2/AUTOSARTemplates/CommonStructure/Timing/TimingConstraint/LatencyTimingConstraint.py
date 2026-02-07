@@ -30,11 +30,11 @@ class LatencyConstraintTypeEnum(AREnum):
     END_TO_END_LATENCY = "end-to-end-latency"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             LatencyConstraintTypeEnum.RESPONSE_TIME,
             LatencyConstraintTypeEnum.REACTION_TIME,
             LatencyConstraintTypeEnum.END_TO_END_LATENCY,
-        ))
+        ])
 
 
 class LatencyTimingConstraint(TimingConstraint):

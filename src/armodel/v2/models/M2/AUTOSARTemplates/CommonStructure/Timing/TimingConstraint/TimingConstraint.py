@@ -40,7 +40,7 @@ class TimingConstraint(Traceable, ABC):
         self.timing_condition_ref: Union[Union[RefType, None] , None] = None
 
     @property
-    def timingConditionRef(self) -> RefType:
+    def timingConditionRef(self) -> Union[RefType, None]:
         """
         Gets the timing condition reference for this constraint.
 

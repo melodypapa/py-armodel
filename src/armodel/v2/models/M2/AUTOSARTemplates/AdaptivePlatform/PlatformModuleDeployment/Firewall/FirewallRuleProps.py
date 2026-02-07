@@ -21,7 +21,7 @@ class FirewallRuleProps(ARObject):
         self.direction: Union[str, None] = None
         self.protocol: Union[str, None] = None
 
-    def getAllowAny(self) -> bool:
+    def getAllowAny(self) -> Union[bool, None]:
         """
         Gets the allowAny flag.
 
@@ -30,7 +30,7 @@ class FirewallRuleProps(ARObject):
         """
         return self.allowAny
 
-    def setAllowAny(self, value: bool):
+    def setAllowAny(self, value: bool) -> "FirewallRuleProps":
         """
         Sets the allowAny flag.
 
@@ -43,7 +43,7 @@ class FirewallRuleProps(ARObject):
         self.allowAny = value
         return self
 
-    def getDirection(self) -> str:
+    def getDirection(self) -> Union[str, None]:
         """
         Gets the direction of the firewall rule.
 
@@ -52,7 +52,7 @@ class FirewallRuleProps(ARObject):
         """
         return self.direction
 
-    def setDirection(self, value: str):
+    def setDirection(self, value: str) -> "FirewallRuleProps":
         """
         Sets the direction of the firewall rule.
 
@@ -65,7 +65,7 @@ class FirewallRuleProps(ARObject):
         self.direction = value
         return self
 
-    def getProtocol(self) -> str:
+    def getProtocol(self) -> Union[str, None]:
         """
         Gets the protocol of the firewall rule.
 
@@ -74,7 +74,7 @@ class FirewallRuleProps(ARObject):
         """
         return self.protocol
 
-    def setProtocol(self, value: str):
+    def setProtocol(self, value: str) -> "FirewallRuleProps":
         """
         Sets the protocol of the firewall rule.
 

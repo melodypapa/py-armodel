@@ -39,12 +39,12 @@ class HandleInvalidEnum(AREnum):
     REPLACE = "replace"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             HandleInvalidEnum.DONT_INVALIDATE,
             HandleInvalidEnum.EXTERNAL_REPLACEMENT,
             HandleInvalidEnum.KEEP,
             HandleInvalidEnum.REPLACE
-        ))
+        ])
 
 
 class PPortComSpec(ARObject, ABC):
@@ -590,12 +590,12 @@ class HandleOutOfRangeEnum(AREnum):
     INVALIDATE = "invalidate"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             HandleOutOfRangeEnum.KEEP_OLD_VALUE,
             HandleOutOfRangeEnum.REPLACE_WITH_DEFAULT,
             HandleOutOfRangeEnum.REPLACE_WITH_LIMIT,
             HandleOutOfRangeEnum.INVALIDATE,
-        ))
+        ])
 
 
 class HandleOutOfRangeStatusEnum(AREnum):
@@ -607,10 +607,10 @@ class HandleOutOfRangeStatusEnum(AREnum):
     DO_NOT_SET_STATUS = "do-not-set-status"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             HandleOutOfRangeStatusEnum.SET_STATUS,
             HandleOutOfRangeStatusEnum.DO_NOT_SET_STATUS,
-        ))
+        ])
 
 
 class HandleTimeoutEnum(AREnum):
@@ -623,11 +623,11 @@ class HandleTimeoutEnum(AREnum):
     INVALIDATE = "invalidate"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             HandleTimeoutEnum.KEEP_OLD_VALUE,
             HandleTimeoutEnum.REPLACE_WITH_DEFAULT,
             HandleTimeoutEnum.INVALIDATE,
-        ))
+        ])
 
 
 class TransmissionModeDefinitionEnum(AREnum):
@@ -641,12 +641,12 @@ class TransmissionModeDefinitionEnum(AREnum):
     MIXED = "mixed"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             TransmissionModeDefinitionEnum.PERIODIC,
             TransmissionModeDefinitionEnum.ON_CHANGE,
             TransmissionModeDefinitionEnum.DIRECT,
             TransmissionModeDefinitionEnum.MIXED,
-        ))
+        ])
 
 
 __all__ = [

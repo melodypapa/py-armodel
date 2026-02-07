@@ -43,9 +43,9 @@ class BswEntryKindEnum(AREnum):
     FUNCTION = "FUNCTION"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswEntryKindEnum.FUNCTION,
-        ))
+        ])
 
 
 class BswCallType(AREnum):
@@ -59,10 +59,10 @@ class BswCallType(AREnum):
     ASYNCHRONOUS = "ASYNCHRONOUS"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswCallType.SYNCHRONOUS,
             BswCallType.ASYNCHRONOUS,
-        ))
+        ])
 
 
 class BswExecutionContext(AREnum):
@@ -82,13 +82,13 @@ class BswExecutionContext(AREnum):
     UNSPECIFIED = "UNSPECIFIED"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswExecutionContext.HOOK,
             BswExecutionContext.INTERRUPT_CAT_1,
             BswExecutionContext.INTERRUPT_CAT_2,
             BswExecutionContext.TASK,
             BswExecutionContext.UNSPECIFIED,
-        ))
+        ])
 
 
 class BswModuleDependency(Identifiable):
@@ -652,12 +652,12 @@ class BswEntryRelationshipEnum(AREnum):
     TRIGGERS = "triggers"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             BswEntryRelationshipEnum.READS,
             BswEntryRelationshipEnum.WRITES,
             BswEntryRelationshipEnum.CALLS,
             BswEntryRelationshipEnum.TRIGGERS,
-        ))
+        ])
 
 """
 This module defines BSW entry relationship set in AUTOSAR.

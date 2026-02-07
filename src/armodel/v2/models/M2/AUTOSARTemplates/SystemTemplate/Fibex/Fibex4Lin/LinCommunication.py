@@ -82,10 +82,10 @@ class ResumePosition(AREnum):
     START_FROM_BEGINNING = "startFromBeginning"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ResumePosition.CONTINUE_AT_IT_POSITION,
             ResumePosition.START_FROM_BEGINNING
-        ))
+        ])
 
 class ScheduleTableEntry(ARObject, ABC):
     """

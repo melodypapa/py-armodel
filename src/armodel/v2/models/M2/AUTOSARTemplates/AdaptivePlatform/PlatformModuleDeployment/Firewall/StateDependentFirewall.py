@@ -23,7 +23,7 @@ class StateDependentFirewall(ARObject):
         self.firewallRules: List[RefType] = []
         self.stateRef: Union[Union[RefType, None] , None] = None
 
-    def addFirewallRule(self, ref: RefType):
+    def addFirewallRule(self, ref: RefType) -> "StateDependentFirewall":
         """
         Adds a firewall rule reference to this state-dependent firewall.
 
@@ -45,7 +45,7 @@ class StateDependentFirewall(ARObject):
         """
         return self.firewallRules
 
-    def getStateRef(self) -> RefType:
+    def getStateRef(self) -> Union[RefType, None]:
         """
         Gets the state reference.
 
@@ -54,7 +54,7 @@ class StateDependentFirewall(ARObject):
         """
         return self.stateRef
 
-    def setStateRef(self, value: RefType):
+    def setStateRef(self, value: RefType) -> "StateDependentFirewall":
         """
         Sets the state reference.
 

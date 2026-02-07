@@ -26,7 +26,7 @@ class RptExecutableEntity(ARObject):
         self.executableEntityRef: Union[Union[RefType, None] , None] = None
         self.rptAccess: Union[Union[RptAccessEnum, None] , None] = None
 
-    def getExecutableEntityRef(self) -> RefType:
+    def getExecutableEntityRef(self) -> Union[RefType, None]:
         """
         Gets the executable entity reference.
 
@@ -35,7 +35,7 @@ class RptExecutableEntity(ARObject):
         """
         return self.executableEntityRef
 
-    def setExecutableEntityRef(self, value: RefType):
+    def setExecutableEntityRef(self, value: RefType) -> "RptExecutableEntity":
         """
         Sets the executable entity reference.
 
@@ -48,7 +48,7 @@ class RptExecutableEntity(ARObject):
         self.executableEntityRef = value
         return self
 
-    def getRptAccess(self) -> RptAccessEnum:
+    def getRptAccess(self) -> Union[RptAccessEnum, None]:
         """
         Gets the RPT access type.
 
@@ -57,7 +57,7 @@ class RptExecutableEntity(ARObject):
         """
         return self.rptAccess
 
-    def setRptAccess(self, value: RptAccessEnum):
+    def setRptAccess(self, value: RptAccessEnum) -> "RptExecutableEntity":
         """
         Sets the RPT access type.
 

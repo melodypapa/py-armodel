@@ -22,7 +22,7 @@ class RptExecutionContext(ARObject):
         super().__init__()
         self.contextRef: Union[Union[RefType, None] , None] = None
 
-    def getContextRef(self) -> RefType:
+    def getContextRef(self) -> Union[RefType, None]:
         """
         Gets the context reference.
 
@@ -31,7 +31,7 @@ class RptExecutionContext(ARObject):
         """
         return self.contextRef
 
-    def setContextRef(self, value: RefType):
+    def setContextRef(self, value: RefType) -> "RptExecutionContext":
         """
         Sets the context reference.
 

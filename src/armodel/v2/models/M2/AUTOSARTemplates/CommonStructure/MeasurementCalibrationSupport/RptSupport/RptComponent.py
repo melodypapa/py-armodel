@@ -20,7 +20,7 @@ class RptComponent(ARObject):
         self.componentRef: Union[str, None] = None
         self.portRef: Union[str, None] = None
 
-    def getComponentRef(self) -> str:
+    def getComponentRef(self) -> Union[str, None]:
         """
         Gets the component reference.
 
@@ -29,7 +29,7 @@ class RptComponent(ARObject):
         """
         return self.componentRef
 
-    def setComponentRef(self, value: str):
+    def setComponentRef(self, value: str) -> "RptComponent":
         """
         Sets the component reference.
 
@@ -42,7 +42,7 @@ class RptComponent(ARObject):
         self.componentRef = value
         return self
 
-    def getPortRef(self) -> str:
+    def getPortRef(self) -> Union[str, None]:
         """
         Gets the port reference.
 
@@ -51,7 +51,7 @@ class RptComponent(ARObject):
         """
         return self.portRef
 
-    def setPortRef(self, value: str):
+    def setPortRef(self, value: str) -> "RptComponent":
         """
         Sets the port reference.
 

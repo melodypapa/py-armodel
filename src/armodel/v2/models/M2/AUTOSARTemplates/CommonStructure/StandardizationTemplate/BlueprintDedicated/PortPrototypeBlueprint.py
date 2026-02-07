@@ -43,7 +43,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         self.dataPrototypeRef: Union[Union[RefType, None] , None] = None
         self.value: Union[Union[ValueSpecification, None] , None] = None
 
-    def getDataPrototypeRef(self) -> RefType:
+    def getDataPrototypeRef(self) -> Union[RefType, None]:
         """
         Gets the data prototype reference for this initial value specification.
 
@@ -52,7 +52,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         """
         return self.dataPrototypeRef
 
-    def setDataPrototypeRef(self, value: RefType):
+    def setDataPrototypeRef(self, value: RefType) -> "PortPrototypeBlueprintInitValue":
         """
         Sets the data prototype reference for this initial value specification.
 
@@ -127,7 +127,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
             self.initValues = value
         return self
 
-    def getInterfaceRef(self) -> RefType:
+    def getInterfaceRef(self) -> Union[RefType, None]:
         """
         Gets the interface reference for this port prototype blueprint.
 
@@ -136,7 +136,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
         """
         return self.interfaceRef
 
-    def setInterfaceRef(self, value: RefType):
+    def setInterfaceRef(self, value: RefType) -> "PortPrototypeBlueprint":
         """
         Sets the interface reference for this port prototype blueprint.
 

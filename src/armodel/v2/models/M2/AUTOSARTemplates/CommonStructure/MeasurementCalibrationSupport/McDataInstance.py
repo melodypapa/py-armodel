@@ -23,7 +23,7 @@ class McDataInstance(ARObject):
         self.dataAccessDetails: List[RefType] = []
         self.dataRef: Union[Union[RefType, None] , None] = None
 
-    def addDataAccessDetail(self, ref: RefType):
+    def addDataAccessDetail(self, ref: RefType) -> "McDataInstance":
         """
         Adds a data access detail reference.
 
@@ -45,7 +45,7 @@ class McDataInstance(ARObject):
         """
         return self.dataAccessDetails
 
-    def getDataRef(self) -> RefType:
+    def getDataRef(self) -> Union[RefType, None]:
         """
         Gets the data reference.
 
@@ -54,7 +54,7 @@ class McDataInstance(ARObject):
         """
         return self.dataRef
 
-    def setDataRef(self, value: RefType):
+    def setDataRef(self, value: RefType) -> "McDataInstance":
         """
         Sets the data reference.
 

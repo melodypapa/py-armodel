@@ -4,7 +4,7 @@ for representing resource consumption in AUTOSAR models. This includes memory se
 heap usage, and other resource consumption metrics.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import (
     HeapUsage,
@@ -66,7 +66,7 @@ class ResourceConsumption(Identifiable):
         # List of stack usage measurements for resource consumption analysis
         self.stackUsages: List[StackUsage] = []
 
-    def createMemorySection(self, short_name: str) -> MemorySection:
+    def createMemorySection(self, short_name: str) -> Union[MemorySection, None]:
         """
         Creates and adds a MemorySection to this resource consumption object.
 
@@ -103,7 +103,7 @@ class ResourceConsumption(Identifiable):
         """
         return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements), None)
 
-    def createMeasuredStackUsage(self, short_name: str) -> MeasuredStackUsage:
+    def createMeasuredStackUsage(self, short_name: str) -> Union[MeasuredStackUsage, None]:
         """
         Creates and adds a MeasuredStackUsage to this resource consumption object.
 
@@ -119,7 +119,7 @@ class ResourceConsumption(Identifiable):
             self.stackUsages.append(section)
         return self.getElement(short_name)
 
-    def createRoughEstimateStackUsage(self, short_name: str) -> RoughEstimateStackUsage:
+    def createRoughEstimateStackUsage(self, short_name: str) -> Union[RoughEstimateStackUsage, None]:
         """
         Creates and adds a RoughEstimateStackUsage to this resource consumption object.
 
@@ -135,7 +135,7 @@ class ResourceConsumption(Identifiable):
             self.stackUsages.append(section)
         return self.getElement(short_name)
 
-    def createWorstCaseStackUsage(self, short_name: str) -> WorstCaseStackUsage:
+    def createWorstCaseStackUsage(self, short_name: str) -> Union[WorstCaseStackUsage, None]:
         """
         Creates and adds a WorstCaseStackUsage to this resource consumption object.
 

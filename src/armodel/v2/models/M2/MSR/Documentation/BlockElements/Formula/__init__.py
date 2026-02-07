@@ -24,7 +24,7 @@ class MlFormula(ARObject):
 
         self.formula: Union[Union[String, None] , None] = None
 
-    def getFormula(self) -> String:
+    def getFormula(self) -> Union[String, None]:
         return self.formula
 
     def setFormula(self, value: String) -> 'MlFormula':

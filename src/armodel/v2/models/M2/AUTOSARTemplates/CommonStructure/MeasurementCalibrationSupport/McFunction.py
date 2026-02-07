@@ -45,7 +45,7 @@ class McFunction(ARObject):
         """
         return self.dataRefs
 
-    def getFunctionName(self) -> str:
+    def getFunctionName(self) -> Union[str, None]:
         """
         Gets the function name.
 
@@ -54,7 +54,7 @@ class McFunction(ARObject):
         """
         return self.functionName
 
-    def setFunctionName(self, value: str):
+    def setFunctionName(self, value: str) -> "McFunction":
         """
         Sets the function name.
 

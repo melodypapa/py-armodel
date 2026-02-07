@@ -29,12 +29,12 @@ class IncludedDataTypeSet(ARObject):
         return self.data_type_refs
 
     @property
-    def literalPrefix(self) -> ARLiteral:
+    def literalPrefix(self) -> Union[ARLiteral, None]:
         return self.literal_prefix
 
     @literalPrefix.setter
     def literalPrefix(self, value: ARLiteral) -> None:
         self.literal_prefix = value
 
-    def getLiteralPrefix(self) -> ARLiteral:
+    def getLiteralPrefix(self) -> Union[ARLiteral, None]:
         return self.literal_prefix

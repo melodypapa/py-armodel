@@ -30,11 +30,11 @@ class ExecutionTimeTypeEnum(AREnum):
     AVERAGE_CASE = "average-case"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ExecutionTimeTypeEnum.BEST_CASE,
             ExecutionTimeTypeEnum.WORST_CASE,
             ExecutionTimeTypeEnum.AVERAGE_CASE,
-        ))
+        ])
 
 
 class ExecutionTimeConstraint(TimingConstraint):

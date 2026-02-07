@@ -63,17 +63,17 @@ class Compu(ARObject):
         self.compuContent: Union[Union[CompuContent, None] , None] = None
         self.compuDefaultValue: Union[Union[CompuConst, None] , None] = None
 
-    def getCompuContent(self) -> CompuContent:
+    def getCompuContent(self) -> Union[CompuContent, None]:
         return self.compuContent
 
-    def setCompuContent(self, value: CompuContent):
+    def setCompuContent(self, value: CompuContent) -> "Compu":
         self.compuContent = value
         return self
 
-    def getCompuDefaultValue(self) -> CompuConst:
+    def getCompuDefaultValue(self) -> Union[CompuConst, None]:
         return self.compuDefaultValue
 
-    def setCompuDefaultValue(self, value: CompuConst):
+    def setCompuDefaultValue(self, value: CompuConst) -> "Compu":
         self.compuDefaultValue = value
         return self
 
@@ -103,10 +103,10 @@ class CompuConstTextContent(CompuConstContent):
 
         self.vt: Union[str, None] = None
 
-    def getVt(self) -> str:
+    def getVt(self) -> Union[str, None]:
         return self.vt
 
-    def setVt(self, value: str):
+    def setVt(self, value: str) -> "CompuConstTextContent":
         self.vt = value
         return self
 
@@ -120,10 +120,10 @@ class CompuConstNumericContent(CompuConstContent):
 
         self.v: Union[float, None] = None
 
-    def getV(self) -> float:
+    def getV(self) -> Union[float, None]:
         return self.v
 
-    def setV(self, value: float):
+    def setV(self, value: float) -> "CompuConstNumericContent":
         self.v = value
         return self
 
@@ -137,10 +137,10 @@ class CompuConstFormulaContent(CompuConstContent):
 
         self.vf: Union[str, None] = None
 
-    def getVf(self) -> str:
+    def getVf(self) -> Union[str, None]:
         return self.vf
 
-    def setVf(self, value: str):
+    def setVf(self, value: str) -> "CompuConstFormulaContent":
         self.vf = value
         return self
 
@@ -169,10 +169,10 @@ class CompuScaleConstantContents(CompuScaleContents):
 
         self.compuConst: Union[Union[CompuConst, None] , None] = None
 
-    def getCompuConst(self) -> CompuConst:
+    def getCompuConst(self) -> Union[CompuConst, None]:
         return self.compuConst
 
-    def setCompuConst(self, value: CompuConst):
+    def setCompuConst(self, value: CompuConst) -> "CompuScaleConstantContents":
         self.compuConst = value
         return self
 
@@ -213,10 +213,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
 
         self.compuRationalCoeffs: Union[Union[CompuRationalCoeffs, None] , None] = None
 
-    def getCompuRationalCoeffs(self) -> CompuRationalCoeffs:
+    def getCompuRationalCoeffs(self) -> Union[CompuRationalCoeffs, None]:
         return self.compuRationalCoeffs
 
-    def setCompuRationalCoeffs(self, value: CompuRationalCoeffs):
+    def setCompuRationalCoeffs(self, value: CompuRationalCoeffs) -> "CompuScaleRationalFormula":
         self.compuRationalCoeffs = value
         return self
 
@@ -258,67 +258,67 @@ class CompuScale(ARObject):
         self.symbol: Union[Union[CIdentifier, None] , None] = None
         self.upperLimit: Union[Union[Limit, None] , None] = None
 
-    def getA2lDisplayText(self) -> String:
+    def getA2lDisplayText(self) -> Union[String, None]:
         return self.a2lDisplayText
 
-    def setA2lDisplayText(self, value: String):
+    def setA2lDisplayText(self, value: String) -> "CompuScale":
         self.a2lDisplayText = value
         return self
 
-    def getCompuInverseValue(self) -> CompuConst:
+    def getCompuInverseValue(self) -> Union[CompuConst, None]:
         return self.compuInverseValue
 
-    def setCompuInverseValue(self, value: CompuConst):
+    def setCompuInverseValue(self, value: CompuConst) -> "CompuScale":
         self.compuInverseValue = value
         return self
 
-    def getCompuScaleContents(self) -> CompuScaleContents:
+    def getCompuScaleContents(self) -> Union[CompuScaleContents, None]:
         return self.compuScaleContents
 
-    def setCompuScaleContents(self, value: CompuScaleContents):
+    def setCompuScaleContents(self, value: CompuScaleContents) -> "CompuScale":
         self.compuScaleContents = value
         return self
 
-    def getDesc(self) -> MultiLanguageOverviewParagraph:
+    def getDesc(self) -> Union[MultiLanguageOverviewParagraph, None]:
         return self.desc
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph):
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> "CompuScale":
         self.desc = value
         return self
 
-    def getLowerLimit(self) -> Limit:
+    def getLowerLimit(self) -> Union[Limit, None]:
         return self.lowerLimit
 
-    def setLowerLimit(self, value: Limit):
+    def setLowerLimit(self, value: Limit) -> "CompuScale":
         self.lowerLimit = value
         return self
 
-    def getMask(self) -> PositiveUnlimitedInteger:
+    def getMask(self) -> Union[PositiveUnlimitedInteger, None]:
         return self.mask
 
-    def setMask(self, value: PositiveUnlimitedInteger):
+    def setMask(self, value: PositiveUnlimitedInteger) -> "CompuScale":
         if value is not None:
             self.mask = value
         return self
 
-    def getShortLabel(self) -> Identifier:
+    def getShortLabel(self) -> Union[Identifier, None]:
         return self.shortLabel
 
-    def setShortLabel(self, value: Identifier):
+    def setShortLabel(self, value: Identifier) -> "CompuScale":
         self.shortLabel = value
         return self
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> Union[CIdentifier, None]:
         return self.symbol
 
-    def setSymbol(self, value: CIdentifier):
+    def setSymbol(self, value: CIdentifier) -> "CompuScale":
         self.symbol = value
         return self
 
-    def getUpperLimit(self) -> Limit:
+    def getUpperLimit(self) -> Union[Limit, None]:
         return self.upperLimit
 
-    def setUpperLimit(self, value: Limit):
+    def setUpperLimit(self, value: Limit) -> "CompuScale":
         self.upperLimit = value
         return self
 
@@ -354,30 +354,30 @@ class CompuMethod(AtpBlueprintable):
         self.displayFormat: Union[str, None] = None
         self.unitRef: Union[Union[RefType, None] , None] = None
 
-    def getCompuInternalToPhys(self) -> Compu:
+    def getCompuInternalToPhys(self) -> Union[Compu, None]:
         return self.compuInternalToPhys
 
-    def setCompuInternalToPhys(self, value: Compu):
+    def setCompuInternalToPhys(self, value: Compu) -> "CompuMethod":
         self.compuInternalToPhys = value
         return self
 
-    def getCompuPhysToInternal(self) -> Compu:
+    def getCompuPhysToInternal(self) -> Union[Compu, None]:
         return self.compuPhysToInternal
 
-    def setCompuPhysToInternal(self, value: Compu):
+    def setCompuPhysToInternal(self, value: Compu) -> "CompuMethod":
         self.compuPhysToInternal = value
         return self
 
-    def getDisplayFormat(self) -> str:
+    def getDisplayFormat(self) -> Union[str, None]:
         return self.displayFormat
 
-    def setDisplayFormat(self, value: str):
+    def setDisplayFormat(self, value: str) -> "CompuMethod":
         self.displayFormat = value
         return self
 
-    def getUnitRef(self) -> RefType:
+    def getUnitRef(self) -> Union[RefType, None]:
         return self.unitRef
 
-    def setUnitRef(self, value: RefType):
+    def setUnitRef(self, value: RefType) -> "CompuMethod":
         self.unitRef = value
         return self

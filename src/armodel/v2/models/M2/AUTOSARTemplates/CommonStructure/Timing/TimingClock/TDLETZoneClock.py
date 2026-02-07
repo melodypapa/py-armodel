@@ -23,7 +23,7 @@ class TDLETZoneClock(ARObject):
         self.clockRef: Union[Union[RefType, None] , None] = None
         self.zoneRef: Union[Union[RefType, None] , None] = None
 
-    def getClockRef(self) -> RefType:
+    def getClockRef(self) -> Union[RefType, None]:
         """
         Gets the clock reference.
 
@@ -32,7 +32,7 @@ class TDLETZoneClock(ARObject):
         """
         return self.clockRef
 
-    def setClockRef(self, value: RefType):
+    def setClockRef(self, value: RefType) -> "TDLETZoneClock":
         """
         Sets the clock reference.
 
@@ -45,7 +45,7 @@ class TDLETZoneClock(ARObject):
         self.clockRef = value
         return self
 
-    def getZoneRef(self) -> RefType:
+    def getZoneRef(self) -> Union[RefType, None]:
         """
         Gets the zone reference.
 
@@ -54,7 +54,7 @@ class TDLETZoneClock(ARObject):
         """
         return self.zoneRef
 
-    def setZoneRef(self, value: RefType):
+    def setZoneRef(self, value: RefType) -> "TDLETZoneClock":
         """
         Sets the zone reference.
 

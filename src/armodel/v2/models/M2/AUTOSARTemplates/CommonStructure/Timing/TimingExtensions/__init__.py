@@ -11,7 +11,7 @@ Classes:
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     ExecutionOrderConstraint,
@@ -48,7 +48,7 @@ class TimingExtension(ARElement):
 
         self.timing_requirements: List[TimingConstraint] = []
 
-    def createExecutionOrderConstraint(self, short_name: str)-> ExecutionOrderConstraint:
+    def createExecutionOrderConstraint(self, short_name: str)-> Union[ExecutionOrderConstraint, None]:
         """
         Creates a new execution order constraint with the specified short name.
 
