@@ -21,8 +21,8 @@ class LanguageSpecific(ARObject, ABC):
 
         super().__init__()
 
-        self.l = None
-        self.value = ""
+        self.l: Union[str, None] = None
+        self.value: str = ""
 
     def getL(self) -> Union[str, None]:
         return self.l
