@@ -27,9 +27,9 @@ class AnyInstanceRef(AtpInstanceRef):
     def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: Union[Optional[RefType] , None] = None
+        self.baseRef: Optional[RefType] = None
         self.contextElementRefs: List[RefType] = []
-        self.targetRef: Union[Optional[RefType] , None] = None
+        self.targetRef: Optional[RefType] = None
 
     def getBaseRef(self) -> Optional[RefType]:
         """

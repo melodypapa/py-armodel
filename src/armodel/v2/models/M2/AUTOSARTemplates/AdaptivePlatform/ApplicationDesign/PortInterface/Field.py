@@ -25,11 +25,11 @@ class Field(AutosarDataPrototype):
         super().__init__(parent, short_name)
 
         # This attribute controls whether read access is foreseen to.
-        self.hasGetter: Union[Optional[Boolean] , None] = None
+        self.hasGetter: Optional[Boolean] = None
         # This attribute controls whether a notification semantics is this field.
-        self.hasNotifier: Union[Optional[Boolean] , None] = None
+        self.hasNotifier: Optional[Boolean] = None
         # This attribute controls whether write access is foreseen to.
-        self.hasSetter: Union[Optional[Boolean] , None] = None
+        self.hasSetter: Optional[Boolean] = None
 
     def getHasGetter(self) -> Boolean:
         return self.hasGetter

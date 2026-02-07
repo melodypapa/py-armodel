@@ -31,13 +31,13 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         super().__init__()
 
         # Stereotypes: atpDerived.
-        self.bases: Union[Optional[BswModuleDescription] , None] = None
+        self.bases: Optional[BswModuleDescription] = None
         # Tags: xml.
         # sequenceOffset=20.
         self.contextModes: Union[Union[RefType, None] , None] = None
         # Tags: xml.
         # sequenceOffset=30.
-        self.targetModes: Union[Optional[ModeDeclaration] , None] = None
+        self.targetModes: Optional[ModeDeclaration] = None
 
     def getBases(self) -> BswModuleDescription:
         return self.bases

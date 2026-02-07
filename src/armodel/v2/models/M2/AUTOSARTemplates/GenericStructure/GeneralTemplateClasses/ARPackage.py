@@ -230,15 +230,15 @@ class ReferenceBase(ARObject):
         # List of global references within the package
         self.globalInPackageRefs: List[RefType] = []
         # Flag indicating if this reference base is the default
-        self.isDefault: Union[Optional[Boolean] , None] = None
+        self.isDefault: Optional[Boolean] = None
         # Flag indicating if this reference base is global
-        self.isGlobal: Union[Optional[Boolean] , None] = None
+        self.isGlobal: Optional[Boolean] = None
         # Flag indicating if this reference base belongs to the current package
-        self.BaseIsThisPackage: Union[Optional[Boolean] , None] = None
+        self.BaseIsThisPackage: Optional[Boolean] = None
         # List of package references
-        self.packageRef: Union[Optional[List[RefType]] , None] = None
+        self.packageRef: Optional[List[RefType] , None] = None
         # Short label for this reference base
-        self.shortLabel: Union[Optional[Identifier] , None] = None
+        self.shortLabel: Optional[Identifier] = None
 
     def getGlobalElements(self) -> List[ReferrableSubtypesEnum]:
         """
@@ -424,12 +424,12 @@ class ARPackage(CollectableElement):
         self.short_name = short_name
 
         # Identifiable attributes (added directly since ARPackage doesn't inherit from Identifiable)
-        self.longName: Union[Optional[MultilanguageLongName] , None] = None
+        self.longName: Optional[MultilanguageLongName] = None
         self.annotations: List[Annotation] = []
-        self.adminData: Union[Optional[AdminData] , None] = None
-        self.category: Union[Optional[CategoryString] , None] = None
-        self.introduction: Union[Optional[DocumentationBlock] , None] = None
-        self.desc: Union[Optional[MultiLanguageOverviewParagraph] , None] = None
+        self.adminData: Optional[AdminData] = None
+        self.category: Optional[CategoryString] = None
+        self.introduction: Optional[DocumentationBlock] = None
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
         # Dictionary mapping short names to sub-packages
         self.arPackages: Dict[str, 'ARPackage'] = {}

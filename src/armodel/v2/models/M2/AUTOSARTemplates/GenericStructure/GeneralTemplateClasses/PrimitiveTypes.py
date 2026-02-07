@@ -37,9 +37,9 @@ class ARType(ABC):
 
     def __init__(self) -> None:
         self._validate_abstract()
-        self.timestamp: Union[Optional[str] , None] = None
-        self.uuid: Union[Optional[str] , None] = None
-        self._value: Union[Optional[Any] , None] = None
+        self.timestamp: Optional[str] = None
+        self.uuid: Optional[str] = None
+        self._value: Optional[Any] = None
 
     @property
     def value(self) -> Optional[Any]:
@@ -93,8 +93,8 @@ class ARNumerical(ARType):
     def __init__(self) -> None:
         super().__init__()
 
-        self.shortLabel: Union[Optional[str] , None] = None
-        self._text: Union[Optional[str] , None] = None
+        self.shortLabel: Optional[str] = None
+        self._text: Optional[str] = None
 
     def _convertStringToNumberValue(self, value: str) -> Union[int, float]:
         """
@@ -192,7 +192,7 @@ class ARFloat(ARNumerical):
     def __init__(self) -> None:
         super().__init__()
 
-        self._text: Union[Optional[str] , None] = None
+        self._text: Optional[str] = None
 
     @property
     def value(self) -> Optional[float]:
@@ -379,7 +379,7 @@ class ARBoolean(ARType):
     def __init__(self) -> None:
         super().__init__()
 
-        self._text: Union[Optional[str] , None] = None
+        self._text: Optional[str] = None
 
     def _convertNumberToBoolean(self, value: int) -> bool:
         """
@@ -557,8 +557,8 @@ class CIdentifier(ARLiteral):
     def __init__(self) -> None:
         super().__init__()
 
-        self.blueprintValue: Union[Optional[str] , None] = None
-        self.namePattern: Union[Optional[str] , None] = None
+        self.blueprintValue: Optional[str] = None
+        self.namePattern: Optional[str] = None
 
     def getBlueprintValue(self) -> Optional[str]:
         """
@@ -628,8 +628,8 @@ class Limit(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.intervalType: Union[Optional[str] , None] = None
-        self.value: Union[Optional[str] , None] = None
+        self.intervalType: Optional[str] = None
+        self.value: Optional[str] = None
 
     def getIntervalType(self) -> Optional[str]:
         """
@@ -685,9 +685,9 @@ class RefType(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.base: Union[Optional[str] , None] = None
-        self.dest: Union[Optional[str] , None] = None
-        self.value: Union[Optional[str] , None] = None
+        self.base: Optional[str] = None
+        self.dest: Optional[str] = None
+        self.value: Optional[str] = None
 
     def getBase(self) -> Optional[str]:
         """

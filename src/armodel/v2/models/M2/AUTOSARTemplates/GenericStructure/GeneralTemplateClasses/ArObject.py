@@ -28,10 +28,10 @@ class ARObject(ABC):
         self._validate_abstract()
 
         self.parent: Optional['ARObject'] = None
-        self.checksum: Union[Optional[str] , None] = None
+        self.checksum: Optional[str] = None
 
-        self.timestamp: Union[Optional[str] , None] = None
-        self.uuid: Union[Optional[str] , None] = None
+        self.timestamp: Optional[str] = None
+        self.uuid: Optional[str] = None
 
     def getTagName(self, tag: str, nsmap: Dict) -> str:
         """

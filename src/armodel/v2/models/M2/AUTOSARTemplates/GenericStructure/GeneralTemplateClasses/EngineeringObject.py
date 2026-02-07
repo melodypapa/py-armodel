@@ -31,10 +31,10 @@ class EngineeringObject(ARObject, ABC):
 
         super().__init__()
 
-        self.category: Union[Optional[ARLiteral] , None] = None
-        self.domain: Union[Optional[ARLiteral] , None] = None
-        self.revision_label: Union[Optional[ARLiteral] , None] = None
-        self.short_label: Union[Optional[ARLiteral] , None] = None
+        self.category: Optional[ARLiteral] = None
+        self.domain: Optional[ARLiteral] = None
+        self.revision_label: Optional[ARLiteral] = None
+        self.short_label: Optional[ARLiteral] = None
 
     def setCategory(self, category: Any):
         """

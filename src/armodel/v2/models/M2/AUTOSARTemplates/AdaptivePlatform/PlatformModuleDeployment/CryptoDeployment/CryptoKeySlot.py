@@ -35,7 +35,7 @@ class CryptoKeySlot(Identifiable):
 
         # This attribute defines whether a shadow copy of this Key shall be allocated
         # to enable rollback of a failed Key campaign (see interface BeginTransaction).
-        self.allocateShadows: Union[Optional[Boolean] , None] = None
+        self.allocateShadows: Optional[Boolean] = None
         # This attribute defines a crypto algorithm restriction (kAlgId without
         # restriction).
         # The algorithm can be family & length, mode, padding.
@@ -46,15 +46,15 @@ class CryptoKeySlot(Identifiable):
         # The name of a crypto follow the rules defined in the specification for
         # Adaptive Platform.
         # 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11.
-        self.cryptoAlgIds: Union[Optional[String] , None] = None
+        self.cryptoAlgIds: Optional[String] = None
         # Type: CryptoObjectTypeEnum.
         # Object type that can be stored in the slot.
         # If this field "Undefined" then mSlotCapacity must be larger then 0.
-        self.cryptoObjects: Union[Optional[Any] , None] = None
+        self.cryptoObjects: Optional[Any] = None
         # Type: CryptoKeySlotAllowed.
         # Restricts how this keySlot may be used Tags: atp.
         # Status=candidate.
-        self.keySlotAlloweds: Union[Optional[Any] , None] = None
+        self.keySlotAlloweds: Optional[Any] = None
         # Type: CryptoKeySlotContent.
         # Restriction of allowed usage of a key stored to the slot.
         # Tags: atp.
@@ -64,11 +64,11 @@ class CryptoKeySlot(Identifiable):
         # define this value in case that is undefined and the slot size can deduced
         # from cryptoObjectType and cryptoAlgId.
         # slot size can be deduced from cryptoObject cryptoAlgId.
-        self.slotCapacitys: Union[Optional[PositiveInteger] , None] = None
+        self.slotCapacitys: Optional[PositiveInteger] = None
         # Type: CryptoKeySlotType.
         # This attribute defines whether the keySlot is exclusively by the Application;
         # or whether it is used by Stack managed by a Key Manager Application.
-        self.slotTypes: Union[Optional[Any] , None] = None
+        self.slotTypes: Optional[Any] = None
 
     def getAllocateShadows(self) -> Boolean:
         return self.allocateShadows

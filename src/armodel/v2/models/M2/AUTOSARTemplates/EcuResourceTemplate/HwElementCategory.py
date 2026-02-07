@@ -42,7 +42,7 @@ class HwAttributeLiteralDef(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        self.value: Union[Optional[str] , None] = None
+        self.value: Optional[str] = None
 
     def getValue(self) -> Optional[str]:
         """
@@ -86,8 +86,8 @@ class HwAttributeValue(ARObject):
         """
         super().__init__()
 
-        self.hwAttributeDefRef: Union[Optional[RefType] , None] = None
-        self.value: Union[Optional[str] , None] = None
+        self.hwAttributeDefRef: Optional[RefType] = None
+        self.value: Optional[str] = None
 
     def getHwAttributeDefRef(self) -> Optional[RefType]:
         """
@@ -172,8 +172,8 @@ class HwAttributeDef(Identifiable):
         super().__init__(parent, short_name)
 
         self.hwAttributeLiterals: List[HwAttributeLiteralDef] = []
-        self.isRequired: Union[Optional[Boolean] , None] = None
-        self.unitRef: Union[Optional[RefType] , None] = None
+        self.isRequired: Optional[Boolean] = None
+        self.unitRef: Optional[RefType] = None
 
     def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
         """

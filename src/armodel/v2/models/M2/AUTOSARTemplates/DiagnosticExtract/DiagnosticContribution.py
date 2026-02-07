@@ -40,8 +40,8 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
 
         self.diagnosticConnectionRefs: List[RefType] = []
         self.diagnosticServiceInstanceRefs: List[RefType] = []
-        self.ecuInstanceRef: Union[Optional[RefType] , None] = None
-        self.protocolKind: Union[Optional[NameToken] , None] = None
+        self.ecuInstanceRef: Optional[RefType] = None
+        self.protocolKind: Optional[NameToken] = None
 
     def getDiagnosticConnectionRefs(self) -> List[RefType]:
         """

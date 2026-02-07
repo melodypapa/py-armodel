@@ -32,11 +32,11 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         # Type: EthernetCommunication.
         # Reference to the CommunicationConnector (VLAN) for which the network
         # configuration is defined.
-        self.communications: Union[Optional[Any] , None] = None
+        self.communications: Optional[Any] = None
         # Multicast IPv4 Address to which the message will be.
-        self.ipv4MulticastIps: Union[Optional[Ip4AddressString] , None] = None
+        self.ipv4MulticastIps: Optional[Ip4AddressString] = None
         # Multicast IPv6 Address to which the message will be.
-        self.ipv6MulticastIps: Union[Optional[Ip6AddressString] , None] = None
+        self.ipv6MulticastIps: Optional[Ip6AddressString] = None
 
     def getCommunications(self) -> Any:
         return self.communications

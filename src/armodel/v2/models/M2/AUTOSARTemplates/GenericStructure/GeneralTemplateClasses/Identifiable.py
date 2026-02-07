@@ -102,7 +102,7 @@ class MultilanguageReferrable(Referrable, ABC):
         super().__init__(parent, short_name)
 
         # self._parent = parent
-        self.longName: Union[Optional[MultilanguageLongName] , None] = None
+        self.longName: Optional[MultilanguageLongName] = None
 
     def getLongName(self) -> Optional[MultilanguageLongName]:
         """
@@ -144,10 +144,10 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.element_mappings: Dict[str, List[Referrable]] = {}
 
         self.annotations: List[Annotation] = []
-        self.adminData: Union[Optional[AdminData] , None] = None
-        self.category: Union[Optional[CategoryString] , None] = None
-        self.introduction: Union[Optional[DocumentationBlock] , None] = None
-        self.desc: Union[Optional[MultiLanguageOverviewParagraph] , None] = None
+        self.adminData: Optional[AdminData] = None
+        self.category: Optional[CategoryString] = None
+        self.introduction: Optional[DocumentationBlock] = None
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
     def getTotalElement(self) -> int:
         """
