@@ -5,7 +5,7 @@ services such as NV block management, diagnostic services, cryptographic service
 """
 
 from abc import ABC
-from typing import List, Union
+from typing import Any, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
