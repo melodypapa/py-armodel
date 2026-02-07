@@ -240,7 +240,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         super().__init__()
         self.modeGroupRef: Union[Union[RefType, None] , None] = None
 
-    def getModeGroupRef(self) -> RefType:
+    def getModeGroupRef(self) -> Union[RefType, None]:
         """
         Gets the mode group reference.
 
@@ -277,7 +277,7 @@ class SwcBswSynchronizedTrigger(ARObject):
         super().__init__()
         self.triggerRef: Union[Union[RefType, None] , None] = None
 
-    def getTriggerRef(self) -> RefType:
+    def getTriggerRef(self) -> Union[RefType, None]:
         """
         Gets the trigger reference.
 
