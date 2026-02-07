@@ -1,9 +1,6 @@
-from typing import List, Union
+from abc import ABC
+from typing import TYPE_CHECKING, List, Union
 
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
-    ExecutableEntity,
-    InternalBehavior,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -13,6 +10,28 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Boolean,
     RefType,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+        ExecutableEntity,
+        InternalBehavior,
+    )
+
+
+def _get_internal_behavior_base():
+    """Lazy import of InternalBehavior to avoid circular import."""
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+        InternalBehavior,
+    )
+    return InternalBehavior
+
+
+def _get_executable_entity_base():
+    """Lazy import of ExecutableEntity to avoid circular import."""
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+        ExecutableEntity,
+    )
+    return ExecutableEntity
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ParameterDataPrototype,
     VariableDataPrototype,
@@ -72,9 +91,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
 )
 
 
-class SwcInternalBehavior(InternalBehavior):
+class SwcInternalBehavior(ABC):
     def __init__(self, parent: ARObject, short_name: str) -> None:
-        super().__init__(parent, short_name)
+        # Lazy import to avoid circular dependency
+        InternalBehavior = _get_internal_behavior_base()
+        InternalBehavior.__init__(self, parent, short_name)
 
         self.arTypedPerInstanceMemories = []                        # type: List[VariableDataPrototype]
         self.events = []                                            # type: List[RTEEvent]

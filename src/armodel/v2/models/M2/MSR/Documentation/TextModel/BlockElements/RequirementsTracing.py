@@ -1,8 +1,5 @@
 from typing import TYPE_CHECKING, List, Union
 
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
-    Traceable,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
     StandardNameEnum,
 )
@@ -17,6 +14,17 @@ if TYPE_CHECKING:
     from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
         DocumentationBlock,
     )
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
+        Traceable,
+    )
+
+
+def _get_traceable_base():
+    """Lazy import of Traceable to avoid circular import."""
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
+        Traceable,
+    )
+    return Traceable
 
 
 class StructuredReq(ARObject):
