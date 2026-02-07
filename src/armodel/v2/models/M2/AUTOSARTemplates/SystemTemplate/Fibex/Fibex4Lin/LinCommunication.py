@@ -7,6 +7,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
@@ -205,3 +208,19 @@ class LinScheduleTable(Identifiable):
         if value is not None:
             self.tableEntries.append(value)
         return self
+
+
+class RunMode(AREnum):
+    """Enumeration for LIN run modes."""
+    NO_MODE = "NO-MODE"
+    IDLE_MODE = "IDLE-MODE"
+    OPERATIONAL_MODE = "OPERATIONAL-MODE"
+    SLEEP_MODE = "SLEEP-MODE"
+    def __init__(self) -> None:
+        super().__init__([
+            RunMode.NO_MODE,
+            RunMode.IDLE_MODE,
+            RunMode.OPERATIONAL_MODE,
+            RunMode.SLEEP_MODE
+        ])
+

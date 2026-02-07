@@ -19,6 +19,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     String,
     TimeValue,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    DoIpEntityRoleEnum,
+    TimeSyncTechnologyEnum,
+)
 
 
 class NetworkEndpointAddress(ARObject, ABC):

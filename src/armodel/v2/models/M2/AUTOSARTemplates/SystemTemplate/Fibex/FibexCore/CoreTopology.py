@@ -11,6 +11,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    ARFloat,
     AREnum,
     Boolean,
     Integer,
@@ -20,7 +22,23 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     TimeValue,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanCommunicationController,
     CanFrameTriggering,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthernetCommunicationController,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayCommunicationController,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayChannelName,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    FlexrayCommunicationController,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinMaster,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
     NetworkEndpoint,
@@ -33,8 +51,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCom
     LinScheduleTable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommunicationDirectionType,
     FibexElement,
     FrameTriggering,
+    IPduSignalProcessingEnum,
     ISignalTriggering,
     PduTriggering,
 )

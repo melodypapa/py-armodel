@@ -11,6 +11,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
     Boolean,
     PositiveInteger,
     RefType,
@@ -18,7 +19,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     TimeValue,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    PduActivationRoutingGroup,
+    RequestResponseDelay,
+    SocketConnection,
     SocketConnectionBundle,
+    TagWithOptionalValue,
 )
 
 
@@ -954,3 +959,31 @@ class SoAdConfig(ARObject):
         address = SocketAddress(self, short_name)
         self.socketAddresses.append(address)
         return address
+
+
+class UdpChecksumCalculationEnum(AREnum):
+    """Enumeration for UDP checksum calculation modes."""
+    CALCULATE = "CALCULATE"
+    DONT_CALCULATE = "DONT_CALCULATE"
+    
+    def __init__(self) -> None:
+        super().__init__([
+            UdpChecksumCalculationEnum.CALCULATE,
+            UdpChecksumCalculationEnum.DONT_CALCULATE
+        ])
+
+
+class EventGroupControlTypeEnum(AREnum):
+    """Enumeration for event group control types."""
+    NONE = "NONE"
+    CANCEL = "CANCEL"
+    ACCEPT = "ACCEPT"
+    STOP_OFFER = "STOP_OFFER"
+    
+    def __init__(self) -> None:
+        super().__init__([
+            EventGroupControlTypeEnum.NONE,
+            EventGroupControlTypeEnum.CANCEL,
+            EventGroupControlTypeEnum.ACCEPT,
+            EventGroupControlTypeEnum.STOP_OFFER
+        ])

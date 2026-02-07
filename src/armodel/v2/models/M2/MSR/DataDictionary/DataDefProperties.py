@@ -412,3 +412,43 @@ class SwTextProps(ARObject):
         if value is not None:
             self.format = value
         return self
+
+
+class BulkNvDataDescriptor(ARObject):
+    """Descriptor for bulk NV data."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.nvBlockDescriptorRefs: List[RefType] = []
+
+    def getNvBlockDescriptorRefs(self):
+        return self.nvBlockDescriptorRefs
+
+    def addNvBlockDescriptorRef(self, value):
+        if value is not None:
+            self.nvBlockDescriptorRefs.append(value)
+        return self
+
+
+class NvBlockDescriptor(ARObject):
+    """Descriptor for NV block."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.nvBlockNumber: Union[int, None] = None
+        self.nvBlockSize: Union[int, None] = None
+
+    def getNvBlockNumber(self):
+        return self.nvBlockNumber
+
+    def setNvBlockNumber(self, value):
+        if value is not None:
+            self.nvBlockNumber = value
+        return self
+
+    def getNvBlockSize(self):
+        return self.nvBlockSize
+
+    def setNvBlockSize(self, value):
+        if value is not None:
+            self.nvBlockSize = value
+        return self
+

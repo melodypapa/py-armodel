@@ -1,8 +1,44 @@
-from typing import Union
+from typing import List, Union
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
+
+class CommunicationControllerMapping(ARObject):
+    """Maps communication controllers to ECU resources."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.communicationControllerRef: Union[RefType, None] = None
+
+    def getCommunicationControllerRef(self):
+        return self.communicationControllerRef
+
+    def setCommunicationControllerRef(self, value):
+        if value is not None:
+            self.communicationControllerRef = value
+        return self
+
+
+class HwPortMapping(ARObject):
+    """Maps hardware ports to ECU resources."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.hwPortRef: Union[RefType, None] = None
+
+    def getHwPortRef(self):
+        return self.hwPortRef
+
+    def setHwPortRef(self, value):
+        if value is not None:
+            self.hwPortRef = value
+        return self
 
 
 class ECUMapping(Identifiable):

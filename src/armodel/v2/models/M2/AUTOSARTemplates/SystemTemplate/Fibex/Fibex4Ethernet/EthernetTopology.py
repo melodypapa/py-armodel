@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Union
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -7,6 +7,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     Referrable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Integer,
+    MacAddressString,
+    PositiveInteger,
+    RefType,
+    TimeValue,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     CommunicationCluster,
@@ -782,3 +790,29 @@ class SdClientConfig(ARObject):
         if value is not None:
             self.ttl = value
         return self
+
+
+class DoIpEntityRoleEnum(AREnum):
+    """Enumeration for DoIP entity roles."""
+    DOIP_GATEWAY = "DOIP-GATEWAY"
+    DOIP_NODE = "DOIP-NODE"
+    def __init__(self) -> None:
+        super().__init__([
+            DoIpEntityRoleEnum.DOIP_GATEWAY,
+            DoIpEntityRoleEnum.DOIP_NODE
+        ])
+
+class TimeSyncTechnologyEnum(AREnum):
+    """Enumeration for time synchronization technologies."""
+    NO_SYNC = "NO-SYNC"
+    IEEE1588 = "IEEE1588"
+    NTP = "NTP"
+    GPS = "GPS"
+    def __init__(self) -> None:
+        super().__init__([
+            TimeSyncTechnologyEnum.NO_SYNC,
+            TimeSyncTechnologyEnum.IEEE1588,
+            TimeSyncTechnologyEnum.NTP,
+            TimeSyncTechnologyEnum.GPS
+        ])
+
