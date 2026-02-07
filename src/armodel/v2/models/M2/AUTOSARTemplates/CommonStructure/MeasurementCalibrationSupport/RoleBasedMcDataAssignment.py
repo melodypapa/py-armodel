@@ -23,7 +23,7 @@ class RoleBasedMcDataAssignment(ARObject):
         self.dataRef: Union[Union[RefType, None] , None] = None
         self.role: Union[str, None] = None
 
-    def getDataRef(self) -> RefType:
+    def getDataRef(self) -> Union[RefType, None]:
         """
         Gets the data reference.
 
@@ -32,7 +32,7 @@ class RoleBasedMcDataAssignment(ARObject):
         """
         return self.dataRef
 
-    def setDataRef(self, value: RefType) -> "DataRefClass":
+    def setDataRef(self, value: RefType) -> "RoleBasedMcDataAssignment":
         """
         Sets the data reference.
 
@@ -45,7 +45,7 @@ class RoleBasedMcDataAssignment(ARObject):
         self.dataRef = value
         return self
 
-    def getRole(self) -> str:
+    def getRole(self) -> Union[str, None]:
         """
         Gets the role.
 
@@ -54,7 +54,7 @@ class RoleBasedMcDataAssignment(ARObject):
         """
         return self.role
 
-    def setRole(self, value: str):
+    def setRole(self, value: str) -> "RoleBasedMcDataAssignment":
         """
         Sets the role.
 

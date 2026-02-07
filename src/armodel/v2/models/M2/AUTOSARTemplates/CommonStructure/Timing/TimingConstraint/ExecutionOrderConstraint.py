@@ -121,7 +121,7 @@ class EOCEventRef(ARObject):
         super().__init__()
         self.eventRef: Union[Union[RefType, None] , None] = None
 
-    def getEventRef(self) -> RefType:
+    def getEventRef(self) -> Union[RefType, None]:
         """
         Gets the event reference.
 
@@ -130,7 +130,7 @@ class EOCEventRef(ARObject):
         """
         return self.eventRef
 
-    def setEventRef(self, value: RefType):
+    def setEventRef(self, value: RefType) -> "EOCEventRef":
         """
         Sets the event reference.
 
