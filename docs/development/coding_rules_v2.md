@@ -582,6 +582,415 @@ def test_v2_module_contract():
 
 ---
 
+## CODING_RULE_V2_00016: Property-Based Dual API for Attributes
+
+**Maturity**: accept
+
+**Scope**: All V2 model classes
+
+**Description**: All V2 model classes MUST provide Pythonic `@property` decorators for attribute access while maintaining AUTOSAR camelCase internal storage and AUTOSAR-compatible getter/setter methods.
+
+**Example:**
+```python
+# CORRECT - Property-based dual API
+from dataclasses import dataclass, field
+
+@dataclass
+class SwComponentType(ARObject):
+    # Internal storage (AUTOSAR camelCase)
+    _shortName: str = field(default="", init=False, repr=False)
+
+    # Pythonic property (snake_case)
+    @property
+    def short_name(self) -> str:
+        """Get short name (Pythonic accessor)."""
+        return self._shortName
+
+    @short_name.setter
+    def short_name(self, value: str) -> None:
+        """Set short name with validation."""
+        if not isinstance(value, str):
+            raise TypeError(f"short_name must be str, got {type(value).__name__}")
+        if not value:
+            raise ValueError("short_name cannot be empty")
+        self._shortName = value
+
+    # AUTOSAR-compatible methods (camelCase)
+    def getShortName(self) -> str:
+        """AUTOSAR-compliant getter."""
+        return self.short_name
+
+    def setShortName(self, value: str) -> "SwComponentType":
+        """AUTOSAR-compliant setter with method chaining."""
+        self.short_name = value
+        return self
+
+# WRONG - Direct attribute access without properties
+@dataclass
+class SwComponentType(ARObject):
+    short_name: str  # No validation, no AUTOSAR compatibility
+```
+
+**Requirements:**
+
+1. **Internal Storage Naming**: All internal attributes MUST use AUTOSAR camelCase with underscore prefix (`_shortName`, `_uuid`)
+
+2. **Property Naming**: All public properties MUST use Pythonic snake_case (`short_name`, `uuid`)
+
+3. **AUTOSAR Methods**: All classes MUST maintain AUTOSAR getter/setter methods (`getShortName()`, `setShortName()`)
+
+4. **Delegation Pattern**: AUTOSAR methods MUST delegate to properties to avoid code duplication:
+   ```python
+   def getShortName(self) -> str:
+       return self.short_name  # Delegates to property
+   ```
+
+5. **Type Hints**: All properties and methods MUST have complete type hints
+
+6. **Validation**: Property setters MUST perform validation (see CODING_RULE_V2_00018)
+
+**Rationale**: Property-based dual API provides modern Python ergonomics while maintaining AUTOSAR compatibility. Internal camelCase storage matches XML serialization needs. Delegation ensures DRY principle and single source of truth for validation logic.
+
+**References**:
+- Python @property decorator pattern
+- Design Document: `docs/plans/2026-02-07-v2-redesign-easier-to-use.md`
+- Pydantic-style field access patterns
+
+---
+
+## CODING_RULE_V2_00017: AUTOSAR Method Compatibility Layer
+
+**Maturity**: accept
+
+**Scope**: All V2 model classes
+
+**Description**: All V2 model classes MUST maintain AUTOSAR-compatible getter/setter methods alongside Pythonic properties. AUTOSAR methods MUST delegate to properties to avoid duplication and ensure consistent validation.
+
+**Example:**
+```python
+# CORRECT - AUTOSAR methods delegate to properties
+@dataclass
+class ApplicationSwComponentType(ARObject):
+    _shortName: str = field(default="", init=False, repr=False)
+
+    @property
+    def short_name(self) -> str:
+        return self._shortName
+
+    @short_name.setter
+    def short_name(self, value: str) -> None:
+        # Validation here
+        self._shortName = value
+
+    # AUTOSAR compatibility layer (delegates to property)
+    def getShortName(self) -> str:
+        """AUTOSAR-compliant getter."""
+        return self.short_name
+
+    def setShortName(self, value: str) -> "ApplicationSwComponentType":
+        """AUTOSAR-compliant setter with method chaining."""
+        self.short_name = value  # Gets validation from property
+        return self
+
+# WRONG - Duplicate validation logic
+def getShortName(self) -> str:
+    return self._shortName
+
+def setShortName(self, value: str) -> "ApplicationSwComponentType":
+    if not isinstance(value, str):  # Duplicate validation!
+        raise TypeError(...)
+    self._shortName = value
+    return self
+```
+
+**Requirements:**
+
+1. **Getter Methods**: MUST return value from property (no direct `_attribute` access)
+   ```python
+   def getShortName(self) -> str:
+       return self.short_name  # ✓ Delegates to property
+   ```
+
+2. **Setter Methods**: MUST set via property (gets validation automatically)
+   ```python
+   def setShortName(self, value: str) -> "ApplicationSwComponentType":
+       self.short_name = value  # ✓ Gets validation from property setter
+       return self  # ✓ Returns self for chaining
+   ```
+
+3. **Method Chaining**: All AUTOSAR setters MUST return `self` for method chaining
+   ```python
+   component.setShortName("x").setCategory("y")  # Must work
+   ```
+
+4. **Documentation**: AUTOSAR methods MUST be documented as "AUTOSAR-compatibility" methods
+
+5. **No Logic Duplication**: AUTOSAR methods MUST NOT contain validation or business logic (delegate to properties)
+
+**Rationale**: Maintaining AUTOSAR methods ensures backward compatibility with existing code, AUTOSAR tools, and the AUTOSAR standard. Delegation to properties avoids code duplication and ensures consistent validation across both APIs. Method chaining preserves existing fluent patterns.
+
+**References**:
+- Backward compatibility principles
+- Design Document: `docs/plans/2026-02-07-v2-redesign-easier-to-use.md`
+- Section 5: Migration Strategy and Backward Compatibility
+
+---
+
+## CODING_RULE_V2_00018: Validation in Property Setters
+
+**Maturity**: accept
+
+**Scope**: All V2 model class property setters
+
+**Description**: All property setters MUST perform validation before setting internal attribute values. Validation MUST happen eagerly (at set time) and provide clear, actionable error messages.
+
+**Example:**
+```python
+# CORRECT - Validation in property setter
+@property
+def short_name(self) -> str:
+    """Get short name (Pythonic accessor)."""
+    return self._shortName
+
+@short_name.setter
+def short_name(self, value: str) -> None:
+    """
+    Set short name with validation.
+
+    Args:
+        value: The short name to set
+
+    Raises:
+        TypeError: If value is not a string
+        ValueError: If value is empty or has invalid format
+    """
+    # Type check
+    if not isinstance(value, str):
+        raise TypeError(
+            f"short_name must be str, got {type(value).__name__}"
+        )
+
+    # Lightweight validation: non-empty
+    if not value:
+        raise ValueError("short_name cannot be empty")
+
+    # Format validation
+    if not self.SHORT_NAME_PATTERN.match(value):
+        raise ValueError(
+            f"short_name '{value}' must start with letter and contain "
+            f"only letters, digits, underscores"
+        )
+
+    # All checks passed - set value
+    self._shortName = value
+
+# WRONG - No validation
+@short_name.setter
+def short_name(self, value: str) -> None:
+    self._shortName = value  # No validation!
+```
+
+**Validation Requirements:**
+
+1. **Type Checking**: Validate input type matches expected type
+   ```python
+   if not isinstance(value, str):
+       raise TypeError(f"short_name must be str, got {type(value).__name__}")
+   ```
+
+2. **Required Field Validation**: Check for empty/None values
+   ```python
+   if not value:
+       raise ValueError("short_name cannot be empty")
+   ```
+
+3. **Format Validation**: Validate string formats, patterns, ranges
+   ```python
+   if not self.SHORT_NAME_PATTERN.match(value):
+       raise ValueError(f"Invalid format: {value}")
+   ```
+
+4. **Enum Validation**: Validate against allowed values
+   ```python
+   if value not in self.VALID_CATEGORIES:
+       raise ValueError(f"category must be one of {self.VALID_CATEGORIES}")
+   ```
+
+5. **Error Message Quality**: Error messages MUST be:
+   - **Context-Rich**: Include class name, field name, and actual value
+   - **Actionable**: Tell user what's allowed
+   - **Type-Aware**: Show expected vs actual types
+
+   ```
+   ✓ Good: "SwComponentType: short_name '123foo' must start with letter"
+   ✗ Bad: "Invalid short name"
+   ```
+
+6. **Validation Constants**: Define validation patterns as class constants
+   ```python
+   SHORT_NAME_PATTERN = re.compile(r'^[A-Za-z][A-Za-z0-9_]*$')
+   VALID_CATEGORIES = ['APPLICATION', 'COMPOSITION', 'SENSOR_ACTUATOR']
+   ```
+
+**Three-Tier Validation Strategy:**
+
+| Tier | When | Cost | Examples |
+|------|------|------|----------|
+| **Property Setter** | Every attribute set | Low (μs) | Type checks, format, empty |
+| **`__post_init__`** | After construction | Low (ms) | Required fields, critical |
+| **`validate()`** | Explicit call | High (s) | Cross-field, business rules |
+
+**Rationale**: Eager validation in property setters catches errors early, provides clear feedback, and prevents invalid state. Property-based validation ensures both Pythonic and AUTOSAR APIs get consistent validation. Three-tier strategy balances performance with thoroughness.
+
+**References**:
+- Fail-fast principle
+- Design Document: `docs/plans/2026-02-07-v2-redesign-easier-to-use.md`
+- Section 4: Validation Framework and Error Handling
+
+---
+
+## CODING_RULE_V2_00019: Fluent `with_` Methods for Chained Assignment
+
+**Maturity**: accept
+
+**Scope**: All V2 model classes
+
+**Description**: All V2 model classes MUST provide `with_<attribute>` methods for fluent chained assignment. Each `with_` method MUST set the attribute via the property setter (to get validation) and return `self` for chaining.
+
+**Example:**
+```python
+# CORRECT - Fluent with_ methods
+@dataclass
+class ApplicationSwComponentType(ARObject):
+    _shortName: str = field(default="", init=False, repr=False)
+    _category: Optional[str] = field(default=None, init=False, repr=False)
+
+    # Properties (from CODING_RULE_V2_00016)
+    @property
+    def short_name(self) -> str:
+        return self._shortName
+
+    @short_name.setter
+    def short_name(self, value: str) -> None:
+        # Validation from CODING_RULE_V2_00018
+        self._shortName = value
+
+    # Fluent with_ methods
+    def with_short_name(self, value: str) -> "ApplicationSwComponentType":
+        """
+        Set short_name and return self for chaining.
+
+        Args:
+            value: The short name to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> component.with_short_name("MyComp").with_category("APPLICATION")
+        """
+        self.short_name = value  # Use property setter (gets validation)
+        return self
+
+    def with_category(self, value: str) -> "ApplicationSwComponentType":
+        """Set category and return self for chaining."""
+        self.category = value  # Use property setter
+        return self
+
+# Usage
+component = (ApplicationSwComponentType()
+             .with_short_name("MyComponent")
+             .with_category("APPLICATION")
+             .with_uuid("12345"))
+
+# WRONG - No with_ methods or incorrect implementation
+def with_short_name(self, value: str) -> None:
+    self._shortName = value  # No return value, can't chain!
+```
+
+**Requirements:**
+
+1. **Method Naming**: All fluent methods MUST use `with_<attribute_name>` pattern (snake_case)
+
+2. **Return Type**: All `with_` methods MUST return `self` for method chaining
+
+3. **Delegation**: `with_` methods MUST set attributes via property setters (not direct `_attribute` access)
+   ```python
+   def with_short_name(self, value: str) -> "ApplicationSwComponentType":
+       self.short_name = value  # ✓ Uses property (gets validation)
+       return self
+   ```
+
+4. **Type Hints**: `with_` methods MUST have return type hint of `"ClassName"` for chaining
+
+5. **Documentation**: `with_` methods MUST include:
+   - Description of chaining behavior
+   - Args documentation
+   - Returns documentation mentioning `self`
+   - Usage example showing chaining
+
+6. **Validation**: `with_` methods automatically get validation from property setters (no duplicate validation needed)
+
+**Optional Attributes:**
+
+For Optional attributes, `with_` methods should accept None:
+```python
+def with_category(self, value: Optional[str]) -> "ApplicationSwComponentType":
+    """Set category (None allowed) and return self for chaining."""
+    self.category = value
+    return self
+```
+
+**Usage Patterns:**
+
+```python
+# Single-line chaining
+component = (ApplicationSwComponentType()
+             .with_short_name("MyComp")
+             .with_category("APPLICATION"))
+
+# Multi-line for readability
+component = (ApplicationSwComponentType()
+             .with_short_name("TemperatureController")
+             .with_category("APPLICATION")
+             .with_uuid("comp-001"))
+
+# Partial chaining (can continue later)
+component = ApplicationSwComponentType().with_short_name("MyComp")
+component.with_category("APPLICATION")  # Continue chaining
+
+# Combining with add methods
+pkg.add_element(
+    ApplicationSwComponentType()
+    .with_short_name("MyComp")
+    .with_category("APPLICATION")
+)
+```
+
+**Comparison of Assignment Methods:**
+
+```python
+# Method 1: Direct property access
+component.short_name = "MyComp"
+
+# Method 2: AUTOSAR setters (existing)
+component.setShortName("MyComp")
+
+# Method 3: Fluent with_ methods (NEW - recommended for chaining)
+component.with_short_name("MyComp")
+```
+
+**Rationale**: Fluent `with_` methods provide clean, readable chaining for object construction. The `with_` prefix clearly indicates intent and follows successful patterns from libraries like SQLAlchemy. Delegation to property setters ensures DRY principle and consistent validation without code duplication.
+
+**References**:
+- Fluent interface pattern
+- Method chaining pattern
+- SQLAlchemy's session construction pattern
+- Design Document: `docs/plans/2026-02-07-v2-redesign-easier-to-use.md`
+- Section 9: Chained Assignment with `with_` Methods
+
+---
+
 ## Enforcement
 
 V2 coding rules are enforced through:
@@ -670,7 +1079,9 @@ This document references these industry-standard style guides:
 - [PEP 563 - Postponed Evaluation of Annotations](https://peps.python.org/pep-0563/) - Forward reference evaluation
 - [PEP 396 - Module Version Numbers](https://peps.python.org/pep-0396/) - Version information
 - [PEP 257 - Docstring Conventions](https://peps.python.org/pep-0257/) - Docstring formatting
-- Design Document: `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md`
+- Design Document: `docs/plans/2025-02-05-models-v2-design.md` - Original V2 design
+- Design Document: `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md` - V2 reader/writer design
+- Design Document: `docs/plans/2026-02-07-v2-redesign-easier-to-use.md` - V2 redesign for usability
 
 ---
 
@@ -679,4 +1090,6 @@ This document references these industry-standard style guides:
 - [General Coding Rules](coding_rules.md) - Project-wide coding standards
 - [AGENTS.md](../../AGENTS.md) - Agent guidelines and V2 overview
 - [CLAUDE.md](../../CLAUDE.md) - Project guidance for Claude Code
-- [V2 Reader/Writer Design](../../plans/2026-02-07-v2-arxml-reader-writer-design.md) - V2 architecture design
+- [V2 Models Design](../../plans/2025-02-05-models-v2-design.md) - Original V2 architecture design
+- [V2 Reader/Writer Design](../../plans/2026-02-07-v2-arxml-reader-writer-design.md) - V2 reader/writer design
+- [V2 Redesign for Usability](../../plans/2026-02-07-v2-redesign-easier-to-use.md) - V2 redesign to make models easier to use

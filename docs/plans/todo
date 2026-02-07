@@ -1,4 +1,4 @@
-Fix all the ruff and mypy errors of v2.
+Fix all the ruff and mypy errors of v2 util the total numbers of errors < 4000.
 use one feature branch in github for the fixes and commit the changes for different phase.
 At the same time of fixing, please also follows:
 - The changes shall be follow the `docs/development/coding_rules_v2.md`
@@ -7,5 +7,3 @@ At the same time of fixing, please also follows:
 - use the TDD methodology, add the unit test for the new classes and then implmentation
 - all the tests shall be passed.
 - do not use the scripts to fix the problem.
-  
-Tell me if you find the any conflict between the ruff and mypy check. 
