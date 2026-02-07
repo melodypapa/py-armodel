@@ -11,13 +11,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure im
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    PPortPrototype,
-    PortGroup,
-    PortPrototype,
-    PRPortPrototype,
-    RPortPrototype,
-)
 
 
 class SwComponentType(AtpType, ABC):
@@ -98,8 +91,3 @@ class SwComponentType(AtpType, ABC):
         self.addElement(port_group)
         self.portGroups.append(port_group)
         return port_group
-
-
-__all__ = [
-    'SwComponentType',
-]
