@@ -76,7 +76,7 @@ class PostBuildVariantCriterion(ARObject):
     def getCriterionName(self) -> Union[String, None]:
         return self.criterionName
 
-    def setCriterionName(self, value: String) -> "Criterion":
+    def setCriterionName(self, value: String) -> "VariantCriterion":
         if value is not None:
             self.criterionName = value
         return self
@@ -84,7 +84,7 @@ class PostBuildVariantCriterion(ARObject):
     def getCriterionValue(self) -> Union[String, None]:
         return self.criterionValue
 
-    def setCriterionValue(self, value: String) -> "Criterion":
+    def setCriterionValue(self, value: String) -> "VariantCriterion":
         if value is not None:
             self.criterionValue = value
         return self
@@ -108,7 +108,7 @@ class PostBuildVariantCriterionValue(ARObject):
     def getValue(self) -> Union[String, None]:
         return self.value
 
-    def setValue(self, value: String) -> "VariantCriterion":
+    def setValue(self, value: String) -> "VariantCriterionValue":
         if value is not None:
             self.value = value
         return self
@@ -172,7 +172,7 @@ class SwSystemconstantValueSet(ARObject):
     def getConstantName(self) -> Union[String, None]:
         return self.constantName
 
-    def setConstantName(self, value: String) -> "Decision":
+    def setConstantName(self, value: String) -> "DecisionValue":
         if value is not None:
             self.constantName = value
         return self
@@ -180,7 +180,7 @@ class SwSystemconstantValueSet(ARObject):
     def getConstantValues(self) -> List[String]:
         return self.constantValues
 
-    def addConstantValue(self, value: String) -> "Decision":
+    def addConstantValue(self, value: String) -> "DecisionValue":
         if value is not None:
             self.constantValues.append(value)
         return self
@@ -188,7 +188,7 @@ class SwSystemconstantValueSet(ARObject):
     def getConstantRef(self) -> Union[RefType, None]:
         return self.constantRef
 
-    def setConstantRef(self, value: RefType) -> "Decision":
+    def setConstantRef(self, value: RefType) -> "DecisionValue":
         if value is not None:
             self.constantRef = value
         return self
