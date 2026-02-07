@@ -31,7 +31,7 @@ class EngineeringObject(ARObject, ABC):
         self.revision_label: Optional[ARLiteral] = None
         self.short_label: Optional[ARLiteral] = None
 
-    def setCategory(self, category: Any):
+    def setCategory(self, category: Any) -> "EngineeringObject":
         """
         Sets the category for this engineering object.
         If the category is not an ARLiteral, it will be converted to one.
@@ -58,7 +58,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.category
 
-    def setDomain(self, domain: ARLiteral):
+    def setDomain(self, domain: ARLiteral) -> "EngineeringObject":
         """
         Sets the domain for this engineering object.
 
@@ -80,7 +80,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.domain
 
-    def setRevisionLabel(self, revision_label: ARLiteral):
+    def setRevisionLabel(self, revision_label: ARLiteral) -> "EngineeringObject":
         """
         Sets the revision label for this engineering object.
 
@@ -92,6 +92,7 @@ class EngineeringObject(ARObject, ABC):
         """
         self.revision_label = revision_label
         return self
+        return self
 
     def getRevisionLabel(self) -> Optional[ARLiteral]:
         """
@@ -102,7 +103,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.revision_label
 
-    def setShortLabel(self, label: ARLiteral):
+    def setShortLabel(self, label: ARLiteral) -> "EngineeringObject":
         """
         Sets the short label for this engineering object.
 
