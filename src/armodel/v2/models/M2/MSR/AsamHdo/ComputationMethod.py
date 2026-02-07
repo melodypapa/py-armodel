@@ -213,10 +213,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
 
         self.compuRationalCoeffs: Union[Union[CompuRationalCoeffs, None] , None] = None
 
-    def getCompuRationalCoeffs(self) -> CompuRationalCoeffs:
+    def getCompuRationalCoeffs(self) -> Union[CompuRationalCoeffs, None]:
         return self.compuRationalCoeffs
 
-    def setCompuRationalCoeffs(self, value: CompuRationalCoeffs):
+    def setCompuRationalCoeffs(self, value: CompuRationalCoeffs) -> "CompuScaleRationalFormula":
         self.compuRationalCoeffs = value
         return self
 
@@ -258,67 +258,67 @@ class CompuScale(ARObject):
         self.symbol: Union[Union[CIdentifier, None] , None] = None
         self.upperLimit: Union[Union[Limit, None] , None] = None
 
-    def getA2lDisplayText(self) -> String:
+    def getA2lDisplayText(self) -> Union[String, None]:
         return self.a2lDisplayText
 
-    def setA2lDisplayText(self, value: String):
+    def setA2lDisplayText(self, value: String) -> "CompuScale":
         self.a2lDisplayText = value
         return self
 
-    def getCompuInverseValue(self) -> CompuConst:
+    def getCompuInverseValue(self) -> Union[CompuConst, None]:
         return self.compuInverseValue
 
-    def setCompuInverseValue(self, value: CompuConst):
+    def setCompuInverseValue(self, value: CompuConst) -> "CompuScale":
         self.compuInverseValue = value
         return self
 
-    def getCompuScaleContents(self) -> CompuScaleContents:
+    def getCompuScaleContents(self) -> Union[CompuScaleContents, None]:
         return self.compuScaleContents
 
-    def setCompuScaleContents(self, value: CompuScaleContents):
+    def setCompuScaleContents(self, value: CompuScaleContents) -> "CompuScale":
         self.compuScaleContents = value
         return self
 
-    def getDesc(self) -> MultiLanguageOverviewParagraph:
+    def getDesc(self) -> Union[MultiLanguageOverviewParagraph, None]:
         return self.desc
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph):
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> "CompuScale":
         self.desc = value
         return self
 
-    def getLowerLimit(self) -> Limit:
+    def getLowerLimit(self) -> Union[Limit, None]:
         return self.lowerLimit
 
-    def setLowerLimit(self, value: Limit):
+    def setLowerLimit(self, value: Limit) -> "CompuScale":
         self.lowerLimit = value
         return self
 
-    def getMask(self) -> PositiveUnlimitedInteger:
+    def getMask(self) -> Union[PositiveUnlimitedInteger, None]:
         return self.mask
 
-    def setMask(self, value: PositiveUnlimitedInteger):
+    def setMask(self, value: PositiveUnlimitedInteger) -> "CompuScale":
         if value is not None:
             self.mask = value
         return self
 
-    def getShortLabel(self) -> Identifier:
+    def getShortLabel(self) -> Union[Identifier, None]:
         return self.shortLabel
 
-    def setShortLabel(self, value: Identifier):
+    def setShortLabel(self, value: Identifier) -> "CompuScale":
         self.shortLabel = value
         return self
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> Union[CIdentifier, None]:
         return self.symbol
 
-    def setSymbol(self, value: CIdentifier):
+    def setSymbol(self, value: CIdentifier) -> "CompuScale":
         self.symbol = value
         return self
 
-    def getUpperLimit(self) -> Limit:
+    def getUpperLimit(self) -> Union[Limit, None]:
         return self.upperLimit
 
-    def setUpperLimit(self, value: Limit):
+    def setUpperLimit(self, value: Limit) -> "CompuScale":
         self.upperLimit = value
         return self
 
