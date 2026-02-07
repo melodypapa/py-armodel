@@ -50,10 +50,10 @@ class SdgCaption(MultilanguageReferrable):
 
         self.desc: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
 
-    def getDesc(self) -> MultiLanguageOverviewParagraph:
+    def getDesc(self) -> Union[MultiLanguageOverviewParagraph, None]:
         return self.desc
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph):
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> "SdgCaption":
         if value is not None:
             self.desc = value
         return self
@@ -88,7 +88,7 @@ class Sdg(ARObject):
     def getSds(self) -> List[Sd]:
         return self.sd
 
-    def getSdgCaption(self) -> SdgCaption:
+    def getSdgCaption(self) -> Union[SdgCaption, None]:
         return self.sdgCaption
 
     def createSdgCaption(self, short_name: str) -> SdgCaption:

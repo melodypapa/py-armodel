@@ -354,24 +354,24 @@ class CompuMethod(AtpBlueprintable):
         self.displayFormat: Union[str, None] = None
         self.unitRef: Union[Union[RefType, None] , None] = None
 
-    def getCompuInternalToPhys(self) -> Compu:
+    def getCompuInternalToPhys(self) -> Union[Compu, None]:
         return self.compuInternalToPhys
 
-    def setCompuInternalToPhys(self, value: Compu):
+    def setCompuInternalToPhys(self, value: Compu) -> "CompuMethod":
         self.compuInternalToPhys = value
         return self
 
-    def getCompuPhysToInternal(self) -> Compu:
+    def getCompuPhysToInternal(self) -> Union[Compu, None]:
         return self.compuPhysToInternal
 
-    def setCompuPhysToInternal(self, value: Compu):
+    def setCompuPhysToInternal(self, value: Compu) -> "CompuMethod":
         self.compuPhysToInternal = value
         return self
 
-    def getDisplayFormat(self) -> str:
+    def getDisplayFormat(self) -> Union[str, None]:
         return self.displayFormat
 
-    def setDisplayFormat(self, value: str):
+    def setDisplayFormat(self, value: str) -> "CompuMethod":
         self.displayFormat = value
         return self
 

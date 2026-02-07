@@ -105,24 +105,24 @@ class Unit(ARElement):
         self.offsetSiToUnit: Union[Union[ARFloat, None] , None] = None
         self.physicalDimensionRef: Union[Union[RefType, None] , None] = None
 
-    def getDisplayName(self) -> SingleLanguageUnitNames:
+    def getDisplayName(self) -> Union[SingleLanguageUnitNames, None]:
         return self.displayName
 
-    def setDisplayName(self, value: SingleLanguageUnitNames):
+    def setDisplayName(self, value: SingleLanguageUnitNames) -> "Unit":
         self.displayName = value
         return self
 
-    def getFactorSiToUnit(self) -> ARFloat:
+    def getFactorSiToUnit(self) -> Union[ARFloat, None]:
         return self.factorSiToUnit
 
-    def setFactorSiToUnit(self, value: ARFloat):
+    def setFactorSiToUnit(self, value: ARFloat) -> "Unit":
         self.factorSiToUnit = value
         return self
 
-    def getOffsetSiToUnit(self) -> ARFloat:
+    def getOffsetSiToUnit(self) -> Union[ARFloat, None]:
         return self.offsetSiToUnit
 
-    def setOffsetSiToUnit(self, value: ARFloat):
+    def setOffsetSiToUnit(self, value: ARFloat) -> "Unit":
         self.offsetSiToUnit = value
         return self
 
