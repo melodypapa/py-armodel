@@ -9,10 +9,10 @@ def _get_identifiable_base():
     return Identifiable
 
 
-class Traceable(ABC):
+class Traceable:
     def __init__(self, parent, short_name: str) -> None:
         if type(self) is Traceable:
             raise TypeError("Traceable is an abstract class.")
         # Lazy import to avoid circular import
-        Identifiable = _get_identifiable_base()
-        Identifiable.__init__(self, parent, short_name)
+        identifiable_base = _get_identifiable_base()
+        identifiable_base.__init__(self, parent, short_name)

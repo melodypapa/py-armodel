@@ -18,11 +18,7 @@ def _get_identifiable_base():
     return Identifiable
 
 
-# Create a base class dynamically to avoid circular import at definition time
-_Identifiable = cast(type, None)
-
-
-class AtpBlueprintable(ABC):
+class AtpBlueprintable:
     """
     Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
 
@@ -43,11 +39,11 @@ class AtpBlueprintable(ABC):
         if type(self) is AtpBlueprintable:
             raise TypeError("AtpBlueprintable is an abstract class.")
         # Lazy import to avoid circular dependency
-        Identifiable = _get_identifiable_base()
-        Identifiable.__init__(self, parent, short_name)
+        identifiable_base = _get_identifiable_base()
+        identifiable_base.__init__(self, parent, short_name)
 
 
-class AtpBlueprint(ABC):
+class AtpBlueprint:
     """
     Abstract base class for AUTOSAR Template (ATP) blueprint elements.
 
@@ -70,8 +66,8 @@ class AtpBlueprint(ABC):
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")
         # Lazy import to avoid circular dependency
-        Identifiable = _get_identifiable_base()
-        Identifiable.__init__(self, parent, short_name)
+        identifiable_base = _get_identifiable_base()
+        identifiable_base.__init__(self, parent, short_name)
 
 
 class AtpBlueprintMapping(ARObject, ABC):
