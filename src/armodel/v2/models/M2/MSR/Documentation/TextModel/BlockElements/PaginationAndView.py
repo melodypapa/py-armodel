@@ -38,7 +38,7 @@ class Paginateable(DocumentViewSelectable, ABC):
     def getBreak(self):
         return self.chapterBreak
 
-    def setBreak(self, value):
+    def setBreak(self, value) -> "Paginateable":
         if value is not None:
             self.chapterBreak = value
         return self
@@ -46,7 +46,7 @@ class Paginateable(DocumentViewSelectable, ABC):
     def getKeepWithPrevious(self):
         return self.keepWithPrevious
 
-    def setKeepWithPrevious(self, value):
+    def setKeepWithPrevious(self, value) -> "Paginateable":
         if value is not None:
             self.keepWithPrevious = value
         return self

@@ -45,7 +45,7 @@ class Graphic(EngineeringObject):
     def getEditfit(self):
         return self.editfit
 
-    def setEditfit(self, value):
+    def setEditfit(self, value) -> "Graphic":
         if value is not None:
             self.editfit = value
         return self
@@ -53,7 +53,7 @@ class Graphic(EngineeringObject):
     def getEditHeight(self):
         return self.editHeight
 
-    def setEditHeight(self, value):
+    def setEditHeight(self, value) -> "Graphic":
         if value is not None:
             self.editHeight = value
         return self
@@ -61,7 +61,7 @@ class Graphic(EngineeringObject):
     def getEditscale(self):
         return self.editscale
 
-    def setEditscale(self, value):
+    def setEditscale(self, value) -> "Graphic":
         if value is not None:
             self.editscale = value
         return self
@@ -69,7 +69,7 @@ class Graphic(EngineeringObject):
     def getEditWidth(self):
         return self.editWidth
 
-    def setEditWidth(self, value):
+    def setEditWidth(self, value) -> "Graphic":
         if value is not None:
             self.editWidth = value
         return self
@@ -77,7 +77,7 @@ class Graphic(EngineeringObject):
     def getFilename(self):
         return self.filename
 
-    def setFilename(self, value):
+    def setFilename(self, value) -> "Graphic":
         if value is not None:
             self.filename = value
         return self
@@ -85,7 +85,7 @@ class Graphic(EngineeringObject):
     def getFit(self):
         return self.fit
 
-    def setFit(self, value):
+    def setFit(self, value) -> "Graphic":
         if value is not None:
             self.fit = value
         return self
@@ -108,7 +108,7 @@ class LGraphic(LanguageSpecific):
     def getL(self):
         return self.l
 
-    def setL(self, value):
+    def setL(self, value) -> "LGraphic":
         if value is not None:
             self.l = value                                                                          # noqa E741
         return self
@@ -116,7 +116,7 @@ class LGraphic(LanguageSpecific):
     def getGraphic(self):
         return self.graphic
 
-    def setGraphic(self, value):
+    def setGraphic(self, value) -> "LGraphic":
         if value is not None:
             self.graphic = value
         return self
@@ -124,7 +124,7 @@ class LGraphic(LanguageSpecific):
     def getMap(self):
         return self.map
 
-    def setMap(self, value):
+    def setMap(self, value) -> "LGraphic":
         if value is not None:
             self.map = value
         return self
@@ -143,7 +143,7 @@ class MlFigure(Paginateable):
     def getFigureCaption(self):
         return self.figureCaption
 
-    def setFigureCaption(self, value):
+    def setFigureCaption(self, value) -> "MlFigure":
         if value is not None:
             self.figureCaption = value
         return self
@@ -151,7 +151,7 @@ class MlFigure(Paginateable):
     def getHelpEntry(self):
         return self.helpEntry
 
-    def setHelpEntry(self, value):
+    def setHelpEntry(self, value) -> "MlFigure":
         if value is not None:
             self.helpEntry = value
         return self
@@ -159,7 +159,7 @@ class MlFigure(Paginateable):
     def getLGraphics(self):
         return self.lGraphics
 
-    def addLGraphics(self, value):
+    def addLGraphics(self, value) -> "MlFigure":
         if value is not None:
             self.lGraphics.append(value)
         return self
@@ -167,7 +167,7 @@ class MlFigure(Paginateable):
     def getPgwide(self):
         return self.pgwide
 
-    def setPgwide(self, value):
+    def setPgwide(self, value) -> "MlFigure":
         if value is not None:
             self.pgwide = value
         return self
@@ -175,7 +175,7 @@ class MlFigure(Paginateable):
     def getVerbatim(self):
         return self.verbatim
 
-    def setVerbatim(self, value):
+    def setVerbatim(self, value) -> "MlFigure":
         if value is not None:
             self.verbatim = value
         return self

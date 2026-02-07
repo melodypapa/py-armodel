@@ -4,16 +4,10 @@ in the CommonStructure module.
 """
 
 from abc import ABC
-from typing import TYPE_CHECKING, cast
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-        Identifiable,
-    )
 
 
 def _get_identifiable_base():

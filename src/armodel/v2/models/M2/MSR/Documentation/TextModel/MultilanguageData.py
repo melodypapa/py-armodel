@@ -33,7 +33,7 @@ class Caption(Paginateable):
 
         self.llong_names: List[LLongName] = []
 
-    def addL(self, long_name: LLongName):
+    def addL(self, long_name: LLongName) -> "Caption":
         self.llong_names.append(long_name)
         return self
 
@@ -47,7 +47,7 @@ class MultiLanguageParagraph(Paginateable):
 
         self.l1 = []        # type: List[LLongName]
 
-    def addL1(self, l1: LLongName):
+    def addL1(self, l1: LLongName) -> "MultiLanguageParagraph":
         self.l1.append(l1)
         return self
 
@@ -60,9 +60,9 @@ class MultiLanguageOverviewParagraph(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.l2 = []                # type: List[str]
+        self.l2: List[LOverviewParagraph] = []
 
-    def addL2(self, l2: LOverviewParagraph):
+    def addL2(self, l2: LOverviewParagraph) -> "MultiLanguageOverviewParagraph":
         self.l2.append(l2)
         return self
 
@@ -75,9 +75,9 @@ class MultilanguageLongName(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.l4 = []                            # type：List[LLongName]
+        self.l4: List[LLongName] = []
 
-    def addL4(self, l4: LLongName):
+    def addL4(self, l4: LLongName) -> "MultilanguageLongName":
         self.l4.append(l4)
         return self
 

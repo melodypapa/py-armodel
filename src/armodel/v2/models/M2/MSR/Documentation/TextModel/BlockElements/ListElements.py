@@ -18,10 +18,10 @@ class ListEnum(AREnum):
     UNNUMBER = 'unnumber'
 
     def __init__(self,) -> None:
-        super().__init__((
+        super().__init__([
             ListEnum.NUMBER,
             ListEnum.UNNUMBER
-        ))
+        ])
 
 
 class Item(Paginateable):
@@ -34,7 +34,7 @@ class Item(Paginateable):
     def getItemContents(self):
         return self.itemContents
 
-    def setItemContents(self, value):
+    def setItemContents(self, value) -> "Item":
         self.itemContents = value
         return self
 
@@ -53,14 +53,14 @@ class ARList(Paginateable):
     def getItems(self):
         return self.items
 
-    def addItem(self, value: Item):
+    def addItem(self, value: Item) -> "ARList":
         self.items.append(value)
         return self
 
     def getType(self):
         return self.type
 
-    def setType(self, value):
+    def setType(self, value) -> "ARList":
         self.type = value
         return self
 
@@ -96,7 +96,7 @@ class DefList(Paginateable):
     def getDefItems(self) -> List[DefItem]:
         return self.defItems
 
-    def addDefItem(self, value: DefItem):
+    def addDefItem(self, value: DefItem) -> "DefList":
         self.defItems.append(value)
         return self
 
