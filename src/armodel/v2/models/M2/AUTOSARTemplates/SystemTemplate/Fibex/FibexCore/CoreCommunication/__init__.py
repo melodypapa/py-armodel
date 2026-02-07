@@ -1249,10 +1249,10 @@ class MultiplexedIPdu(IPdu):
             self.staticPart = value
         return self
 
-    def getTriggerMode(self) -> Union[TriggerMode, None]:
+    def getTriggerMode(self) -> Union["TriggerMode", None]:
         return self.triggerMode
 
-    def setTriggerMode(self, value: Union[TriggerMode, None]) -> "MultiplexedIPdu":
+    def setTriggerMode(self, value: Union["TriggerMode", None]) -> "MultiplexedIPdu":
         if value is not None:
             self.triggerMode = value
         return self
