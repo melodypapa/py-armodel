@@ -1,0 +1,40 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity",
+  "classes": [
+    {
+      "name": "RunnableEntityArgument",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RunnableEntity.argument"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to provide specific information regarding the arguments to a RunnableEntity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 536,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "symbol": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the symbol to be generated into the on the level of the C programming"
+        }
+      }
+    }
+  ]
+}

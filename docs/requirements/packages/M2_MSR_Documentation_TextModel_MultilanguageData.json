@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::Documentation::TextModel::MultilanguageData",
+  "path": "M2::MSR::Documentation::TextModel::MultilanguageData",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_TextModel_MultilanguageData.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

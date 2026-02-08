@@ -1,0 +1,195 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+  "classes": [
+    {
+      "name": "DiagnosticMemoryDestination",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticMemoryDestinationPrimary",
+        "DiagnosticMemoryDestinationUserDefined"
+      ],
+      "subclasses": [
+        "DiagnosticMemoryDestinationPrimary",
+        "DiagnosticMemoryDestinationUserDefined"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract meta-class represents a possible memory destination for a diagnostic event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 181,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "agingRequires": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the aging cycle counter is processed aging cycles or else only tested aging cycle are attribute is set to TRUE: only tested aging cycle are aging cycle counter. attribute is set to FALSE: aging cycle counter is aging cycle. classic platform, the value of this attribute has to for each DiagnosticMemoryDestination."
+        },
+        "clearDtc": {
+          "type": "DiagnosticClearDtc",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the scope of the DEM_ClearDTC Api. On the classic platform, the value of this attribute has to for each DiagnosticMemoryDestination."
+        },
+        "dtcStatus": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mask for the supported DTC status bits by the Dem."
+        },
+        "event": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines, whether support for event displacement is enabled or not, and which displacement strategy is followed."
+        },
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute fixes the maximum number of event entries the fault memory."
+        },
+        "memoryEntry": {
+          "type": "DiagnosticMemoryEntry",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the trigger to allocate an event memory entry."
+        },
+        "statusBit": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter is used to activate/deactivate the storage of the \"TestFailed\" status bits. storage activated deactivated"
+        },
+        "typeOfFreeze": {
+          "type": "DiagnosticTypeOf",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the type of assigning freeze frame record numbers for event-specific freeze frame records."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticMemoryDestinationPrimary",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryDestination",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryDestination",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a primary memory for a diagnostic event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 184,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "typeOfDtc": {
+          "type": "DiagnosticTypeOfDtc",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the functionality."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticMemoryDestinationUserDefined",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMemoryDestination",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMemoryDestination",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a user-defined memory for a diagnostic event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 184,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authRole": {
+          "type": "DiagnosticAuthRole",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the collection of applicable"
+        },
+        "memoryId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the identifier of the user-defined memory."
+        }
+      }
+    }
+  ]
+}

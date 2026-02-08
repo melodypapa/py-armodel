@@ -1,0 +1,120 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::SingleLanguageData",
+  "classes": [
+    {
+      "name": "SingleLanguageUnitNames",
+      "package": "M2::MSR::Documentation::TextModel::SingleLanguageData",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "MixedContentForUnitNames"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PrmCharNumericalContents.prmUnit",
+        "SwAxisCont.unitDisplayName",
+        "SwValueCont.unitDisplayName"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to express a display name.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 400,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SingleLanguageLongName",
+      "package": "M2::MSR::Documentation::TextModel::SingleLanguageData",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "MixedContentForLongName"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SingleLanguageReferrable.longName1",
+        "Xref.label1"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "SingleLanguageLongName",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SlOverviewParagraph",
+      "package": "M2::MSR::Documentation::TextModel::SingleLanguageData",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "MixedContentForOverviewParagraph"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MixedContentForOverviewParagraph.ft"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "MixedContentForOverviewParagraph in one particular language. The language is defined by the context. The attribute l is there only for backwards compatibility and shall be ignored.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 464,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SlParagraph",
+      "package": "M2::MSR::Documentation::TextModel::SingleLanguageData",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "MixedContentForParagraph"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MixedContentForParagraph.ft"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the text for a paragraph in one particular language. The language is defined by the context. The attribute l is there only for backwards compatibility and shall be ignored.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 465,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

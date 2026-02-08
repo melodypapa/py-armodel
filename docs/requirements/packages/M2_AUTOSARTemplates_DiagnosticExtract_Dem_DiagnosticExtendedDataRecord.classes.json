@@ -1,0 +1,75 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticExtendedDataRecord",
+  "classes": [
+    {
+      "name": "DiagnosticExtendedDataRecord",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticExtendedDataRecord",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of an extended data record.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "customTrigger": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall be taken to verbally describe the the custom trigger."
+        },
+        "recordElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defined DataElements in the extended record element. record"
+        },
+        "recordNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies an unique identifier for an record."
+        },
+        "trigger": {
+          "type": "DiagnosticRecord",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the primary trigger to allocate an memory entry."
+        },
+        "update": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines when an extended data record is extended data record is captured every time. extended data record is only captured for new entries."
+        }
+      }
+    }
+  ]
+}

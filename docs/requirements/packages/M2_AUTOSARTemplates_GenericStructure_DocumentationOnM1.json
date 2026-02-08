@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1",
+  "path": "M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_DocumentationOnM1.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_GenericStructure_DocumentationOnM1.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

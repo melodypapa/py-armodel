@@ -1,0 +1,35 @@
+{
+  "package": "M2::MSR::DataDictionary::ServiceProcessTask",
+  "enumerations": [
+    {
+      "name": "SwServiceImplPolicyEnum",
+      "package": "M2::MSR::DataDictionary::ServiceProcessTask",
+      "note": "This specifies the legal values for the implementation policies for services (in AUTOSAR: BswModule Entry-s). Aggregated by BswModuleEntry.swServiceImplPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 36,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "inline",
+          "index": 0,
+          "description": "inline service definition.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "inlineConditional",
+          "index": 2,
+          "description": "The service (in AUTOSAR: BswModuleEntry) is implemented in a way that it either resolves to an inline function or to a standard function depending on conditions set at a later point in time. The following two values are standardized (to be used for code sections only and exclusively to each In both cases (INLINE and LOCAL_INLINE) the inline expansion depends on the compiler. Depending on this, the code section either corresponds to an actual section in memory or is put into the section of the caller. macro macro service definition.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "standard",
+          "index": 3,
+          "description": "Standard service and default value, if nothing is defined.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    }
+  ]
+}

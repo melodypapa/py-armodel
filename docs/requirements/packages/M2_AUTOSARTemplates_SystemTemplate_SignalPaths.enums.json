@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+  "enumerations": [
+    {
+      "name": "SwcToSwcOperationArgumentsDirectionEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SignalPaths",
+      "note": "Direction addressed by this element. Aggregated by SwcToSwcOperationArguments.direction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 254,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "in",
+          "index": 0,
+          "description": "IN (all IN and INOUT arguments)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "out",
+          "index": 1,
+          "description": "OUT (all OUT and INOUT arguments) .<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

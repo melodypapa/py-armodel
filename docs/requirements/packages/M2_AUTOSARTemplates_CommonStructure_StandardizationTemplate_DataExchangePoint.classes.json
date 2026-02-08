@@ -1,0 +1,116 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+  "classes": [
+    {
+      "name": "DataExchangePoint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The Data Exchange Point describes the relationship between a work product and its intended use in the methodology with a tailoring of the AUTOSAR templates. An informal description is provided by the ’desc’ and ’introduction’ attributes of the DataExchangePoint. The informal description SHOULD include the subject that is described by this data exchange point. E.g. • producible data of tool A, version x • consumable data of tool B, version y • agreed profile between partner A and partner B in project xyz",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 78,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataFormat": {
+          "type": "DataFormatTailoring",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "tailoring to the Autosar Exchange Data Format The and tailoring of the templates specifications Sdgs, Constraints, SpecItems)"
+        },
+        "kind": {
+          "type": "DataExchangePoint",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the kind of this DataExchangePoint. It provides if this DataExchangePoint represents output of a tool that produce data, input of a tool that consumes data or agreed profile"
+        },
+        "referenced": {
+          "type": "Baseline",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The baseline of the AUTOSAR standard that is used as a within this Data Exchange Point."
+        },
+        "specification": {
+          "type": "SpecificationScope",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The speficication of the relevant subset of Autosar and custom specifications."
+        }
+      }
+    },
+    {
+      "name": "Baseline",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataExchangePoint.referencedBaseline"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of the baseline of the AUTOSAR standard this Data Exchange Point relates to. The baseline is specified by listing the AUTOSAR products and their revisions. Custom defined functionality and deviations to the standard can be provided as well. All references to specification elements in this Data Exchange Point refer to specification elements that are part of this specification baseline.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 79,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "customSdgDef": {
+          "type": "SdgDef",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to custom SdgDefs that extend the data format baseline,"
+        },
+        "custom": {
+          "type": "Documentation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to custom specifications that extend this"
+        },
+        "standard": {
+          "type": "String",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies a combination of revisions of AUTOSAR that are used as the specification baseline of Exchange Point. All standard specification are referenced by this Profile of Data have to be part of specifications that the defined AUTOSAR standards."
+        }
+      }
+    }
+  ]
+}

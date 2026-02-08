@@ -1,0 +1,45 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+  "enumerations": [
+    {
+      "name": "MappingScopeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+      "note": "Defines the scope for the mapping constraints. Aggregated by ComponentClustering.mappingScope, ComponentSeparation.mappingScope",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "mappingScopeCore",
+          "index": 0,
+          "description": "The mapping constraint applies to different Cores.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "mappingScopeEcu",
+          "index": 1,
+          "description": "The mapping constraint applies to different Ecus.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "mappingScopePartition",
+          "index": 2,
+          "description": "The mapping constraint applies to different Partitions.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint",
+  "classes": [
+    {
+      "name": "LatencyTimingConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Constrains the time duration between the occurrence of the stimulus and the occurrence of the corresponding response of that scope. In contrast to scope, a causal dependency between the stimulus and the corresponding response of the scope is required.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 95,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "latency": {
+          "type": "LatencyConstraintType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this latency constraint."
+        },
+        "maximum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum latency between the occurrence of the the occurrence of the corresponding the associated event chain."
+        },
+        "minimum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum latency between the occurrence of the the occurrence of the corresponding the associated event chain."
+        },
+        "nominal": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The nominal latency between the occurrence of the the occurrence of the corresponding the associated event chain."
+        },
+        "scope": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The event chain that defines the scope of the constraint."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints",
+  "path": "M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_VariantHandling_AttributeValueVariationPoints.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 13,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

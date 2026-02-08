@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_MemoryByAddress.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 15,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

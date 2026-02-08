@@ -1,0 +1,49 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic",
+  "classes": [
+    {
+      "name": "BlueprintMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BlueprintMappingSet.blueprintMap"
+      ],
+      "implements": [
+        "AtpBlueprintMapping"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map two an object and its blueprint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprint": {
+          "type": "AtpBlueprint",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the mapped blueprint."
+        },
+        "derivedObject": {
+          "type": "AtpBlueprintable",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the object which was derived from the"
+        }
+      }
+    }
+  ]
+}

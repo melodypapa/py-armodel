@@ -1,0 +1,127 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port",
+  "classes": [
+    {
+      "name": "PortPrototypeBlueprint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element",
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a blueprint of a PortPrototype by referring to a particular PortInterface. This blueprint can then be used as a guidance to create particular PortPrototypes which are defined according to this blueprint. By this it is possible to standardize application interfaces without the need to also standardize software-components with PortPrototypes typed by the standardized Port Interfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 237,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 60,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "PortPrototypeBlueprint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This specifies the init values for the dataElements in the PortPrototypeBlueprint."
+        },
+        "interface": {
+          "type": "PortInterface",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the interface for which the blueprint is defined. It a blueprint itself or a standardized PortInterface"
+        },
+        "providedCom": {
+          "type": "PPortComSpec",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provided communication attributes per interface element element or operation)."
+        },
+        "requiredCom": {
+          "type": "RPortComSpec",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Required communication attributes, one for each element."
+        }
+      }
+    },
+    {
+      "name": "PortPrototypeBlueprintInitValue",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortPrototypeBlueprint.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express init values in PortPrototypeBlueprints. These init values act as a kind of blueprint from which for example proper ComSpecs can be derived.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 60,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataPrototype": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the data prototype for which the init value applies"
+        },
+        "value": {
+          "type": "ValueSpecification",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the init value for the particular data prototype."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,874 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+  "primitives": [
+    {
+      "name": "AlignmentType",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive represents the alignment of objects within a memory section. The value is in number of bits or UNKNOWN (deprecated), 8 , 16, 32, 64 UNSPECIFIED, BOOLEAN, or PTR. Typical values for numbers are 8, 16, 32, 64. Tags: xml.xsd.customType=ALIGNMENT-TYPE xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]*|0[bB] [0-1]+|0[0-7]*|UNSPECIFIED|UNKNOWN|BOOLEAN|PTR xml.xsd.type=string Table 8.3: AlignmentType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 144,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 419,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SectionInitializationPolicyType",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "SectionInitializationPolicyType describes the intended initialization of MemorySections. The following values are standardized in AUTOSAR Methodology: • INIT: To be used for (explicitly or not explicitly) initialized variables. • CLEARED: To be used for not explicitly initialized variables. • POWER-ON-CLEARED: To be used for variables that are not explicitly initialized (cleared) during normal start-up. Instead these are cleared only after power on reset. Please note that the values are defined similar to the representation of enumeration types in the XML schema to ensure backward compatibility. Tags: xml.xsd.customType=SECTION-INITIALIZATION-POLICY-TYPE xml.xsd.type=NMTOKEN Table 8.6: SectionInitializationPolicyType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 417,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 207,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "String",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This represents a String in which white-space shall be normalized before processing. For example: in order to compare two Strings: • leading and trailing white-space needs to be removed • consecutive white-space (blank, cr, lf, tab) needs to be replaced by one blank. Tags: xml.xsd.customType=STRING xml.xsd.type=string Table D.65: String 336 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1006,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2060,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TimeValue",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted in the physical unit second. Tags: xml.xsd.customType=TIME-VALUE xml.xsd.type=double Table D.76: TimeValue",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 350,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 478,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NameToken",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is an identifier as used in xml, e.g. xml-names. Typical usages are, for example, the names of type emitters, protocols, or profiles. For details see NMTOKEN definition on the W3C website (https://www.w3.org/TR/xml/#NT-Nmtoken). Note: Although NameToken supports a wide range of characters, the actually allowed patterns for a certain attribute typed by NameToken may be further restricted by the specification of that attribute. Tags: xml.xsd.customType=NMTOKEN-STRING xml.xsd.type=NMTOKEN Table C.38: NameToken",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 456,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Ref",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive denotes a name based reference. For detailed syntax see the xsd.pattern. • first slash (relative or absolute reference) [optional] • Identifier [required] • a sequence of slashes and Identifiers [optional] This primitive is used by the meta-model tools to create the references. Tags: xml.xsd.customType=REF xml.xsd.pattern=/?[a-zA-Z][a-zA-Z0-9_]{0,127}(/[a-zA-Z][a-zA-Z0-9_]{0,127})* xml.xsd.type=string",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 327,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 318,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_ARXMLSerializationRules.pdf",
+          "page_number": 31,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 460,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute reflects the base to be used for this"
+        },
+        "blueprintValue": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the be defined when deriving objects from the"
+        },
+        "index": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute supports the use case to point on specific an array. This is in particular required if used to implement particular data objects. of array indices starts with the value 0, i.e. of the first array element is 0."
+        }
+      }
+    },
+    {
+      "name": "CIdentifier",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This datatype represents a string, that follows the rules of C-identifiers. Tags: xml.xsd.customType=C-IDENTIFIER xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]* xml.xsd.type=string",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 291,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 108,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 43,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintValue": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the be defined when deriving objects from the"
+        },
+        "namePattern": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a pattern which shall be used to value of the identifier if the CIdentifier in part of a blueprint. details refer to TPS_StandardizationTemplate."
+        }
+      }
+    },
+    {
+      "name": "Identifier",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "An Identifier is a string with a number of constraints on its appearance, satisfying the requirements typical programming languages define for their Identifiers. This datatype represents a string, that can be used as a c-Identifier. It shall start with a letter, may consist of letters, digits and underscores. Tags: xml.xsd.customType=IDENTIFIER xml.xsd.maxLength=128 xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]* xml.xsd.type=string",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 299,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 61,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 42,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintValue": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the be defined when deriving objects from the"
+        },
+        "namePattern": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a pattern which shall be used to value of the identifier if the identifier in question of a blueprint. details refer to TPS_StandardizationTemplate."
+        }
+      }
+    },
+    {
+      "name": "Limit",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This class represents the ability to express a numerical limit. Note that this is in fact a NumericalVariation Point but has the additional attribute intervalType. Tags: xml.xsd.customType=LIMIT-VALUE xml.xsd.pattern=(0[xX][0-9a-fA-F]+)|(0[0-7]+)|(0[bB][0-1]+)|(([+\\-]?[1-9] [0-9]+(\\.[0-9]+)?|[+\\-]?[0-9](\\.[0-9]+)?)([eE]([+\\-]?)[0-9]+)?)|\\.0|INF|-INF|NaN xml.xsd.type=string",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 300,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 407,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 455,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 196,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "intervalType": {
+          "type": "IntervalTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the type of the interval. If the attribute is interval shall be considered as \"CLOSED\"."
+        }
+      }
+    },
+    {
+      "name": "VerbatimString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive represents a string in which white-space needs to be preserved. Tags: xml.xsd.customType=VERBATIM-STRING xml.xsd.type=string xml.xsd.whiteSpace=preserve",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 316,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_ARXMLSerializationRules.pdf",
+          "page_number": 32,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 114,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintValue": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the be defined when deriving objects from the"
+        },
+        "xmlSpace": {
+          "type": "XmlSpaceEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to signal an intention that in that space should be preserved by is defined according to xml:space as W3C."
+        }
+      }
+    },
+    {
+      "name": "CseCodeType",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive represents an ASAM CSE (Codes for Scaling Units) based on the definition in the ASAM-MCD-2MC-ASAP2 specification. The particular semantics is specified in [TPS_GST_00354]. Tags: xml.xsd.customType=CSE-CODE-TYPE-STRING xml.xsd.type=unsignedInt Table 4.15: CseCodeType ARElement AtpBlueprint AtpBlueprintable AtpType PortInterface + serviceKind: ServiceProviderEnum [0..1] «atpVariation» + isService: Boolean [0..1] AtpStructureElement MultidimensionalTime TriggerInterface +trigger Trigger Identifiable +triggerPeriod + cseCode: CseCodeType [0..1] 0..* 0..1 + cseCodeFactor: Integer [0..1] + swImplPolicy: SwImplPolicyEnum [0..1] Figure 4.7: Trigger of a TriggerInterface As illustrated in Figure 4.7, a TriggerInterface is composed of Trigger. [TPS_SWCT_01198] Period for periodic triggering (cid:100)A Trigger can optionally de- fine a period for periodic triggering. It is expressed via the meta-class Multidi- mensionalTime in terms of time or angle. Note that the main use case for this is 110 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 to specify the properties if the trigger is coming from the Basic Software e.g. from a Complex Driver, it is not used as an input for the RTE generator.(cid:99)(RS_SWCT_02030) Apart from this, a TriggerInterface does not define any timing information (e.g. how quickly the source expects a reaction of the sinks). This is property of the timing information in the templates. [constr_1104] Trigger communication shall not implement an n:1 pattern (cid:100)An RPortPrototype typed by a TriggerInterface shall not be connected to Port- Prototypes typed by TriggerInterfaces such that a given Trigger in the Trig- gerInterface of the RPortPrototype is connected to more than one compatible (see [constr_1081], [constr_1082], and [constr_1251]) Trigger in the TriggerIn- terfaces of the connected PortPrototypes at the time when the RTE is generated.(cid:99)() [constr_1104] boils down to the rule that trigger communication shall not be imple- mented an n:1 (where n > 1) scenario. This condition shall be observed (in a similar way as it is observed for individual dataElements in a sender/receiver communication) on the basis of individual Trig- gers rather than the connection between entire PortPrototypes. Please note that the constraint applies for connections created by AssemblySwCon- nectors and DelegationSwConnectors in the same way. This is the reason why [constr_1104] does not get more specific about the nature of the PortPrototypes on opposite end of the connection to the RPortPrototype. To be clear, the n:1 (where n > 1) scenario is not supported for trigger communication because there is no active use case for it. [TPS_SWCT_01199] Queued processing of Triggers (cid:100)It may happen that at least tentatively a Trigger source fires Triggers faster than they can be processed on the side of the Trigger sink. To support this use case it is possible to process trigger event communication in a queued manner. In this case the Triggers are added to a queue from where the foremost trigger is dequeued and processed when the processing of the current Trigger is done. Please note that the queue size is not subject to definition in the scope of this document. The actual queue size is defined during the process of RTE configuration. The specification of whether a Trigger is subject to queued processing is controlled by the attribute Trigger.swImplPolicy.(cid:99)() [constr_1169] Allowed values for Trigger.swImplPolicy (cid:100)The only allowed val- ues for the attribute Trigger.swImplPolicy are either STANDARD (in which case the Trigger processing does not use a queue) or QUEUED (in which case the process- ing of Triggers positively uses a queue). at the time when the contract phase generation is executed.(cid:99)() 111 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 Please note that the value of Trigger.swImplPolicy is not the final word on the implementation of a queue for the specific Trigger. The integrator still has the power to overrule the application software developer’s verdict if applicable. For more information regarding the ability to connect different kinds of PortProto- types typed by a TriggerInterface to each other please refer to [constr_1204] and [constr_1205]. 4.2.5 Communication of Modes 4.2.5.1 Mode Switch Interface There are two distinctive use cases for the communication of modes via ports: 1. An actual mode transition can be communicated from a mode manager compo- nent to its client components to enforce a mode switch. 2. A request for a mode transition can be communicated from any component to a mode manager. AtpPrototype PortInterface ModeDeclarationGroupPrototype ModeSwitchInterface + swCalibrationAccess: SwCalibrationAccessEnum [0..1] ARElement AtpStructureElement AtpBlueprint Identifiable AtpBlueprintable ModeDeclaration AtpType UploadableDesignElement + value: PositiveInteger [0..1] ModeDeclarationGroup + onTransitionValue: PositiveInteger [0..1] (cid:1) (cid:16) (cid:25) (cid:2) (cid:17) (cid:26)(cid:19) (cid:3) (cid:18) (cid:4) (cid:2)(cid:19) (cid:20) (cid:5) (cid:3) (cid:4) (cid:20) (cid:2) (cid:6) (cid:6) (cid:14) (cid:7) (cid:9) (cid:7) (cid:3) (cid:2) (cid:21) (cid:3) (cid:3) (cid:7) (cid:27) (cid:7) (cid:9) (cid:8) (cid:20) (cid:22) (cid:9) (cid:6) (cid:10) (cid:7) (cid:9) (cid:7) (cid:16) (cid:2) (cid:13) (cid:12) (cid:3) (cid:2) (cid:12) (cid:7) (cid:8) (cid:13) (cid:7) (cid:23) (cid:9) (cid:14) (cid:12) (cid:15) (cid:20) (cid:7) (cid:23) (cid:24) (cid:20) +modeGroup 0..1 «isOfType» 0..1 +type {redefines atpType} +modeDeclaration «atpVariation,atpSplitable» 0..* +initialMode 0..1 Figure 4.8: Mode Switch Interface [TPS_SWCT_01087] Propagation of mode information (cid:100)For communicating a mode switch (i.e. the first use case), the Software-Component Template describes the con- cept of the communication of ModeDeclarationGroupPrototypes similar to the communication of VariableDataPrototypes but it uses a special type of PortIn- terface: the collections of ModeDeclarations that are required or provided by a SwComponentType are defined by means of ModeSwitchInterfaces used to type the PortPrototypes owned by the SwComponentType.(cid:99)(RS_SWCT_02030, RS_- SWCT_03203) This aspect is depicted in Figure 4.8. 112 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 165,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NativeDeclarationString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This string contains a native data declaration of a data type in a programming language. It is basically a string, but white-space shall be preserved. Tags: xml.xsd.customType=NATIVE-DECLARATION-STRING xml.xsd.type=string xml.xsd.whiteSpace=preserve Table 5.40: NativeDeclarationString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 333,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DisplayFormatString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is a display format specifier for the display of values e.g. in documents or in measurement and calibration systems. The display format specifier is a subset of the ANSI C printf specifiers with the following form: % [flags] [width] [.prec] type character Due to the numerical nature of value settings, only the following type characters are allowed: • d: Signed decimal integer • i: Signed decimal integer • o: Unsigned octal integer • u: Unsigned decimal integer • x: Unsigned hexadecimal integer, using \"abcdef\" • X: Unsigned hexadecimal integer, using \"ABCDEF\" • e: Signed value having the form [-]d.dddd e [sign]ddd where d is a single decimal digit, dddd is one or more decimal digits, ddd is exactly three decimal digits, and sign is + or - • E: Identical to the e format except that E rather than e introduces the exponent • f: Signed value having the form [-]dddd.dddd, where dddd is one or more decimal digits; the number of digits before the decimal point depends on the magnitude of the number, and the number of digits after the decimal point depends on the requested precision (cid:53) (cid:53) 333 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 333,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagRequirementIdString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This string denotes an Identifier for a requirement. Tags: xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING xml.xsd.pattern=[0-9a-zA-Z_\\-]+ xml.xsd.type=string Table 13.16: DiagRequirementIdString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 754,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Ip4AddressString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is used to specify an IP4 address. Notation: 255.255.255.255 Tags: xml.xsd.customType=IP4-ADDRESS-STRING xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4] [0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY xml.xsd.type=string Table 6.142: Ip4AddressString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 468,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Ip6AddressString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is used to specify an IP6 address. Notation: FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF Alternative notations, short-cuts with duplicate colons like ::, etc. or mixtures using colons and dots, are not allowed. Tags: xml.xsd.customType=IP6-ADDRESS-STRING xml.xsd.pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY xml.xsd.type=string Table 6.143: Ip6AddressString In addition, infrastructure services may be provided or consumed by the Network- Endpoints. Identifiable NetworkEndpoint TimeSynchronization TimeSyncClientConfiguration + fullyQualifiedDomainName: String [0..1] + timeSyncTechnology: TimeSyncTechnologyEnum [0..1] + priority: PositiveInteger [0..1] 0..* +orderedMaster {ordered} +infrastructureServices 0..1 OrderedMaster InfrastructureServices + index: PositiveInteger [0..1] +timeSyncServer 0..1 Referrable +timeSyncServer TimeSyncServerConfiguration 0..1 + priority: PositiveInteger [0..1] + syncInterval: TimeValue [0..1] + timeSyncServerIdentifier: String [0..1] + timeSyncTechnology: TimeSyncTechnologyEnum [0..1] +doIpEntity DoIpEntity 0..1 + doIpEntityRole: DoIpEntityRoleEnum [0..1] «enumeration» TimeSyncTechnologyEnum «enumeration» DoIpEntityRoleEnum ntp_rfc958 ptp_ieee1588_2002 node ptp_ieee1588_2008 gateway avb_ieee802_1AS edgeNode noitazinorhcnySemit+ +timeSyncClient 0..1 0..1 Figure 6.40: Network Endpoint Infrastructure Services 468 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 468,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Boolean",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "A Boolean value denotes a logical condition that is either ’true’ or ’false’. It can be one of \"0\", \"1\", \"true\", \"false\" Tags: xml.xsd.customType=BOOLEAN xml.xsd.pattern=0|1|true|false xml.xsd.type=string Table D.8: Boolean",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 206,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 425,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Float",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "An instance of Float is an element from the set of real numbers. Tags: xml.xsd.customType=FLOAT xml.xsd.type=double Table D.25: Float",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 223,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 448,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Numerical",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive specifies a numerical value. It can be denoted in different formats such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The value can be expressed in octal, hexadecimal, binary representation. Negative numbers can only be expressed in decimal or float notation. Tags: xml.xsd.customType=NUMERICAL-VALUE xml.xsd.pattern=(0[xX][0-9a-fA-F]+)|(0[0-7]+)|(0[bB][0-1]+)|(([+\\-]?[1-9] [0-9]+(\\.[0-9]+)?|[+\\-]?[0-9](\\.[0-9]+)?)([eE]([+\\-]?)[0-9]+)?)|\\.0|INF|-INF|NaN xml.xsd.type=string Table D.37: Numerical",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 457,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "PositiveInteger",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is between 0 and 4294967295. Tags: xml.xsd.customType=POSITIVE-INTEGER xml.xsd.pattern=0|[\\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+ xml.xsd.type=string Table C.9: PositiveInteger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 76,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ReferrableSubtypesEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive is a proxy for an enum generated by the MMT. It allows to refer to any subclass of Referrable. Due to technical reasons the possible values are not shown in this class table. Tags: xml.mds.type=REFERRABLE–SUBTYPES-ENUM xml.xsd.type=string Table 4.15: ReferrableSubtypesEnum [TPS_GST_00437] Existence of ReferenceBase.package and ReferenceBase. globalInPackage (cid:100)ReferenceBase.package and ReferenceBase.globalIn-",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "MetaClassName",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "Name of a class in the AUTOSAR Meta-Model. Tags: xml.xsd.customType=META-CLASS-NAME xml.xsd.pattern=[A-Z][a-zA-Z0-9_]* xml.xsd.type=string Table 4.36: MetaClassName 102 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 4.7 Model Restriction Types [TPS_GST_00376] Purpose of Model Restriction Types (cid:100)Model Restriction Types specify rules that restrict the content of AUTOSAR models. Those restrictions are e.g. used in the context of Special Data Group Definitions or Data Exchange Points [2].(cid:99)() Corresponding details to Special Data Group Definitions are given in 4.6.2. AbstractMultiplicityRestriction + lowerMultiplicity: PositiveInteger [0..1] + upperMultiplicity: PositiveInteger [0..1] + upperMultiplicityInfinite: Boolean [0..1] AbstractValueRestriction + max: Limit [0..1] + maxLength: PositiveInteger [0..1] + min: Limit [0..1] + minLength: PositiveInteger [0..1] «enumeration» + pattern: RegularExpression [0..1] FullBindingTimeEnum blueprintDerivationTime systemDesignTime AbstractVariationRestriction codeGenerationTime + validBindingTime: FullBindingTimeEnum [0..*] preCompileTime + variation: Boolean [0..1] linkTime postBuild Figure 4.12: Model Restriction Types 4.7.1 Restriction of Simple Primitive Values [TPS_GST_00377] Purpose of AbstractValueRestriction (cid:100) The Abstract- ValueRestriction defines constraints on the value space of a simple primitive data type. The attributes of this class represent constraining facets according to the XML Schema Specification [11]. A value is valid if it is valid according to all defined con- straints.(cid:99)()",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Address",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is used to specify an address within the CPU. Tags: xml.xsd.customType=ADDRESS xml.xsd.pattern=0[xX][0-9a-fA-F]+ xml.xsd.type=string Table 4.40: Address",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 107,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CIdentifierWithIndex",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This datatype represents a string, that follows the rules of C-identifiers with an index. Tags: xml.xsd.customType=C-IDENTIFIER-WITH-INDEX xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*\\[[0-9]+\\] xml.xsd.type=string Table 4.46: CIdentifierWithIndex 108 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 108,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CategoryString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This represents the pattern applicable to categories. It is basically the same as Identifier but has a different semantics. Therefore it is modeled as a primitive of its own. Tags: xml.xsd.customType=CATEGORY-STRING xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]* xml.xsd.type=string Table 4.47: CategoryString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DateTime",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "A datatype representing a timestamp. The smallest granularity is 1 second. This datatype represents a timestamp in the format yyyy-mm-dd followed by an optional time. The lead-in character for the time is \"T\" and the format is hh:mm:ss. In addition, a time zone designator shall be specified. The time zone designator can either be \"Z\" (for UTC) or the time offset to UTC, i.e. (+|-)hh:mm. Examples: 2009-07-23 2009-07-23T14:38:00+01:00 2009-07-23T13:38:00Z Tags: xml.xsd.customType=DATE xml.xsd.pattern=([0-9]{4}-[0-9]{2}-[0-9]{2})(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|([+\\-][0-9]{2}:[0-9]{2})))? xml.xsd.type=string Table 4.48: DateTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "MacAddressString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive specifies a Mac Address. Notation: FF:FF:FF:FF:FF:FF Alternative notations, e.g. using dash instead of colon, or another grouping of numbers, is not allowed. Tags: xml.xsd.customType=MAC-ADDRESS-STRING xml.xsd.pattern=([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2} xml.xsd.type=string Table 4.53: MacAddressString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "McdIdentifier",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive denotes a name used for measurement and calibration systems and shall follow the restrictions for an ASAM ASAP2 ident. For detailed syntax see the xsd.pattern. The size limitations are not captured. McdIdentifiers are random names which may contain characters A through Z, a through z, underscore (_), numerals 0 through 9, points (’.’) and brackets ( ’[’,’]’ ). However, the following limitations apply: the first character shall be a letter or an underscore, brackets shall occur in pairs at the end of a partial string and shall contain a number or an alpha-numerical string (description of the index of an array element). Tags: xml.xsd.customType=MCD-IDENTIFIER xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*(\\.[a-zA-Z_][a-z A-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*)* xml.xsd.type=string Table 4.54: McdIdentifier",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "MimeTypeString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive denotes the an Internet media type, originally called a MIME type after MIME and sometimes a Content-type after the name of a header in several protocols whose value is such a type, is a two-part identifier for file formats on the Internet. Tags: xml.xsd.customType=MIME-TYPE-STRING xml.xsd.type=string Table 4.55: MimeTypeString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NameTokens",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is a white-space separated list of name tokens. Tags: xml.xsd.customType=NMTOKENS-STRING xml.xsd.type=NMTOKENS Table 4.56: NameTokens 111 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "PrimitiveIdentifier",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This meta-class has the ability to contain a string. Please note that this meta-class has only been introduced to fix an issue with the generation of attributes on primitives in context with [TPS_XMLSPR_00024]. Tags: xml.xsd.customType=PRIMITIVE-IDENTIFIER xml.xsd.maxLength=128 xml.xsd.pattern=[a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*_? xml.xsd.type=string Table 4.58: PrimitiveIdentifier",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RegularExpression",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is a regular expression as defined in http://www.w3.org/TR/xmlschema-2 As of now it is still produced as a string in XSD. Tags: xml.xsd.customType=REGULAR-EXPRESSION xml.xsd.type=string Table 4.60: RegularExpression 112 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 112,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RevisionLabelString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It represents a pattern which • supports three integers representing from left to right MajorVersion, MinorVersion, PatchVersion. • may add an application specific suffix separated by one of \".\", \"_\", \";\". Legal patterns are for example: • 4.0.0 • 4.0.0.1234565 • 4.0.0_vendor specific;13 • 4.0.0;12 Tags: xml.xsd.customType=REVISION-LABEL-STRING xml.xsd.pattern=[0-9]+\\.[0-9]+\\.[0-9]+([\\._;].*)? xml.xsd.type=string Table 4.61: RevisionLabelString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "StrongRevisionLabelString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive represents a revision label which identifies an object under version control. It represents a pattern which requires three integer numbers separated by a dot, representing from left to right Major Version, MinorVersion, PatchVersion and additional labels for pre-release version and build metadata. Legal patterns are for example: 1.0.0-alpha+001 1.0.0+20130313144700 1.0.0-beta+exp.sha.5114f85 Tags: xml.xsd.customType=STRONG-REVISION-LABEL-STRING xml.xsd.pattern=(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-((0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-z A-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\\+([0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*))? xml.xsd.type=string Table 4.64: StrongRevisionLabelString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 114,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SymbolString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This meta-class has the ability to contain a string plus an additional namePattern. Please note that this meta-class has only been introduced to fix an issue with the backwards compatibility between R4.0.3 and R4.1.1 in the context of McDataInstance Tags: xml.xsd.customType=SYMBOL-STRING xml.xsd.type=string",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 114,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "namePattern": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a pattern which shall be used to value of the identifier if the CIdentifier in part of a blueprint. details refer to TPS_StandardizationTemplate."
+        }
+      }
+    },
+    {
+      "name": "UriString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "A Uniform Resource Identifier (URI), is a compact string of characters used to identify or name a resource. Tags: xml.xsd.customType=URI-STRING xml.xsd.type=string Table 4.66: UriString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 114,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "VerbatimStringPlain",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This primitive represents a string in which white-space needs to be preserved. This primitive is applied in cases where xml:space attribute cannot be provided by the primitive type but needs to be provided by the container class. This is in particular the case in applications of [TPS_XMLSPR_00024]. Tags: xml.xsd.customType=VERBATIM-STRING-PLAIN xml.xsd.type=string xml.xsd.whiteSpace=preserve Table 4.68: VerbatimStringPlain 4.9 Formula Language This chapter details the introduction of a general purpose formula language. The for- mula language can be used in different processing steps in the methodology, e.g. XML- processors, C preprocessor, Modeling tools. Core features of formula language are: • The formula language always yields numerical. • It is formally defined in ANTLR [12]. • Provides well-defined extension points. • The formula language can handle: – numerical literals, string literals – values provided by references to autosar model element e.g. sysc, ecuc, supported references as specified in the meta-model 115 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 – commonly used operators +, −, etc. (see section 4.9.2.1) – hardcoded function sin, etc. (extension point, see section 4.9.2.2) – string - comparisons see [TPS_GST_00146], [TPS_GST_00147] – special values such as undefined [TPS_GST_00010] infinite [TPS_GST_00275] 4.9.1 Applying Formula Language Until Release 3 the AUTOSAR artifacts could not express dependencies, i.e. calculate the value of one parameter based on other parameter values, or define values based on variant information. Each of these use cases is represented as a specialization of the abstract meta-class FormulaExpression as shown in figure 4.13. «atpMixedString» FormulaExpression «atpMixedString» EcucParameterDerivationFormula «atpMixedString» CompuGenericMath EcucConditionFormula + level: PrimitiveIdentifier [0..1] «atpMixedString» TDEventOccurrenceExpressionFormula SwSystemconstDependentFormula FMFormulaByFeaturesAndAttributes FMFormulaByFeaturesAndSwSystemconsts «atpMixedString» BlueprintFormula Figure 4.13: Formula language class hierarchy [TPS_GST_00355] Specialization of FormulaExpression (cid:100)These specializations represent three kinds of extensions: • The applicable operands are specified as associations in the subclasses (see [TPS_GST_00001] for more details). The valid reference in the grammar be- low are taken from the role names in the meta-model. Maintaining the references as formal associations allows to retrieve dependencies even without parsing the formula expressions. 116 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 • Additional functions are represented by the specialization and documented in the context of the same (see [TPS_GST_00293] for more details). It is not possible to extend the language by further operators. • The particular application constrains the expected result. E.g. in Attribute- ValueVariationPoint, the result is given by the type of the variant attribute. Another example is swSyscond which expects a boolean result. (cid:99)() An example of applicable operands is given in figure 4.15. «atpMixedString» BlueprintFormula::BlueprintFormula FormulaExpression FormulaExpression FormulaExpression «atpMixedString» ECUCParameterDefTemplate:: VariantHandling:: TDEventOccurrenceExpression:: EcucConditionFormula SwSystemconstDependentFormula TDEventOccurrenceExpressionFormula Figure 4.14: Formula language family The formula language defined here is the core part of the specialization, blue part in figure 4.14. Please note that FormulaExpression is (cid:28)atpMixedString(cid:29) (see Chapter 2.3.1). Therefore one expression can e.g. be dependent on multiple SwSystem- consts. 117 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 «atpMixedString» FormulaExpression +sysc ARElement SwSystemconstDependentFormula AtpDefinition 0..1 {subsets atpReference} SwSystemconst +syscString 0..1 {subsets atpStringReference} AttributeValueVariationPoint ConditionByFormula + bindingTime: BindingTimeEnum [0..1] + bindingTime: BindingTimeEnum + blueprintValue: String [0..1] + sd: String [0..1] + shortLabel: PrimitiveIdentifier [0..1] AttributeValueVariationPoint IntegerValueVariationPoint AbstractEnumerationValueVariationPoint + base: Identifier [0..1] + enumTable: Ref [0..1] PositiveIntegerValueVariationPoint FloatValueVariationPoint UnlimitedIntegerValueVariationPoint BooleanValueVariationPoint TimeValueValueVariationPoint AbstractNumericalVariationPoint NumericalValueVariationPoint LimitValueVariationPoint + intervalType: IntervalTypeEnum [0..1] Figure 4.15: Formula depending on SwSystemconst 4.9.2 Formula Language Definition The connection between the formula and referenced meta-model objects act- ing as operands is established by associations in the meta-model and repre- sented in the grammar as rule named reference and stringReference (see [TPS_GST_00001]). Therefore FormulaExpressions are (cid:28)atpMixedString(cid:29)s when serialized in ARXML. The grammar for the expressions, however, is defined after the processing of the mixed strings by a XML Parser, i.e. they no longer contain any 118 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 XML-Tags, -Entities, -Comments, etc.. This is done to not \"mimic\" XML in the grammar but to focus on the expressions itself. The following rules shall be applied to come from the ARXML representation to the string that is then subject to the definition by the grammar: • XML-Entities are replaced by the UTF characters they stand for (e.g. \"&lt;\" is replaced by \"<\") • XML-Comments are removed • ARXML References are replaced by: – reference(\"‘{value of the DEST attribute}:{text content of the tag}\") if they are subsets of the +/atpReference Association between FormulaEx- pression and Referrable – stringReference(\"{value of the DEST attribute}:{text content of the tag}\") if they are subsets of the +/atpStringReference Association between FormulaExpression and Referrable E.g. consider the following ARXML snippet: <VARIATION-POINT> <SW-SYSCOND> defined(<SYSC-REF DEST=\"SW-SYSTEMCONST\">SY_COUNT<SYSC-REF>) <!-- this is a comment --> &amp;&amp; <SYSC-REF DEST=\"SW-SYSTEMCONST\">SY_COUNT<SYSC-REF> &lt; 10 </SW-SYSCOND> <VARIATION-POINT> The FormulaExpression is serialized in ARXML in the (cid:28)atpMixedString(cid:29) Tag <SW-SYSCOND>. It is transformed by the above rules into: defined(reference(\"SW-SYSTEMCONST:SY_COUNT\") && reference(\"SW-SYSTEMCONST:SY_COUNT\") < 10 This FormulaExpression is then considered as well-formed according to the syntax defined by the formula language grammar. Use case specific extensions may be applied by redefining particular token definitions according to [TPS_GST_00293]. [TPS_GST_00012] AUTOSAR Formula language (cid:100)The AUTOSAR formula language uses the following syntax described in Listing 4.18 defined according to [12].(cid:99)() grammar autosarFormulaLanguage; expr : atomExpr ; atomExpr : condExpr ; condExpr : orExpr (CondOperator orExpr AltOperator orExpr)? ; 119 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 orExpr : xorExpr (OrOperator xorExpr)* ; xorExpr : andExpr (XorOperator andExpr)* ; andExpr : bitOrExpr (AndOperator bitOrExpr)* ; bitOrExpr : bitXorExpr (BitOrOperator bitXorExpr)* ; bitXorExpr : bitAndExpr (BitXorOperator bitAndExpr)* ; bitAndExpr : compEqExpr (BitAndOperator compEqExpr)* ; compEqExpr : compExpr (CompEqOperator compExpr)* ; compExpr : shiftExpr (CompOperator shiftExpr)* ; shiftExpr : sumExpr (ShiftOperator sumExpr)* ; sumExpr : mulExpr (SumOperator mulExpr)* ; mulExpr : powExpr (MulOperator powExpr)* ; powExpr : unaryExpr (PowOperator unaryExpr)? ; unaryExpr : unaryOperator? atom; atom : DecIntegerLiteral | reference | BooleanLiteral | HexIntegerLiteral | OctIntegerLiteral | BinIntegerLiteral | DecimalLiteral | DoubleLiteral | ArgumentOperand | DefinedFuncName LPAREN (reference | stringReference) RPAREN | StringFuncName LPAREN stringArg COMMA stringArg RPAREN | BinaryFuncName LPAREN atomExpr COMMA atomExpr RPAREN | UnaryFuncName LPAREN atomExpr RPAREN | Keyword | (LPAREN atomExpr RPAREN) // Here the supported extension points are listed: // Depending on which of the extension points are defined in a // spcialisation of the formula language, the following one, // two or all of the following alternatives are added to this rule: // | ExtBinaryFuncName LPAREN atomExpr COMMA atomExpr RPAREN // | ExtUnaryFuncName LPAREN atomExpr RPAREN // | ExtKeyword // end of extension points ; stringArg : stringReference | StringLiteral ; 120 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 unaryOperator : SumOperator | OtherUnaryOperator ; //-------------------------------------------------------------------- // these rules represent the reference to operands // in an XML-Arttifact, this is represented as XML-Artifact // // Applicable RefFuncNames depend on the associations in the // particular specialization of FormulaLanguage in the // metamodel // see [TPS_GST_00001] stringReference : StringReferenceFuncName LPAREN StringLiteral RPAREN ; reference : ReferenceFuncName LPAREN StringLiteral RPAREN ; // argumentOperand is valid only in formula derived from CompuGenericMath ArgumentOperand : ’X’ (’1’ .. ’9’)(’0’ .. ’9’)* ; // Tokens OrOperator : ’||’; XorOperator : ’^^’ ; AndOperator : ’&&’; BitOrOperator : ’|’; BitXorOperator : ’^’; BitAndOperator : ’&’; CompEqOperator : ’==’ | ’!=’; CompOperator : ’<=’ | ’<’ | ’>=’ | ’>’ ; ShiftOperator : ’<<’ | ’>>’ ; SumOperator : ’+’ | ’-’ ; OtherUnaryOperator : ’!’ | ’~’ ; MulOperator : ’*’ | ’/’ | ’%’ ; PowOperator : ’**’ ; CondOperator : ’?’; AltOperator : ’:’; 121 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 DefinedFuncName : ’defined’ ; StringFuncName : ’streqcs’ | ’streqci’; UnaryFuncName : ’round’ | ’ceil’ | ’floor’ | ’abs’ | ’log’ | ’exp’ | ’sin’ | ’cos’ | ’asin’ | ’acos’ | ’atan’ | ’sinh’ | ’cosh’ | ’tan’ | ’tanh’ | ’sqrt’ | ’log10’ | ’sgn’ ; ReferenceFuncName : ’reference’ ; StringReferenceFuncName : ’stringReference’ ; BinaryFuncName : ’max’ | ’min’ | ’pow’ ; Keyword : ’epsilon’ | ’undefined’ ; ////////////////////////////////////////////////////////////////// //Here the definitions for the extenstion points would be included ////////////////////////////////////////////////////////////////// BooleanLiteral : ’true’ | ’false’ ; LPAREN : ’(’ ; RPAREN : ’)’ ; COMMA : ’,’ ; //------------------------------------------------------------------------------- DecIntegerLiteral : ’0’ | (’1’..’9’)(’0’..’9’)* ; HexIntegerLiteral : ’0’ (’x’ | ’X’) ((’0’..’9’) | (’a’..’f’) | (’A’..’F’))+ ; OctIntegerLiteral : ’0’(’0’..’7’)+ ; 122 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 BinIntegerLiteral : ’0’ (’b’ | ’B’) (’0’ ..’1’)+ ; DecimalLiteral : (’0’? ’.’ (’0’..’9’)+) | ((’1’..’9’)(’0’..’9’)* (’.’ (’0’..’9’)*)) ; DoubleLiteral : (((’0’? ’.’ (’0’..’9’)+) | ((’1’..’9’)(’0’..’9’)* (’.’ (’0’..’9’)*)?)) (’e’ | ’E’) (’+’ | ’-’)? (’0’..’9’)+) | ’NaN’ | ’INF’ ; // The next rule defines StringLiterals as double quoted sequences of // (almost) arbitrary characters with the backslash as escape character. // Please notice that the tilde is used in the ANTLR syntax to denote // negation and it is necessary to escape the backslash to match itself. StringLiteral : ’\"’ ((~(’\"’|’\\\\’) | ’\\\\’ ~(’\\\\’) | ’\\\\\\\\’)*) ’\"’ ; WS : (’ ’ | ’\\t’ | ’\\r’ | ’\\n’ )+ {$channel=HIDDEN;} ; Listing 4.18: AUTOSAR Formula language 4.9.2.1 Operators in arithmetic expressions The following operators are supported in arithmetic expressions: • [TPS_GST_00111] Negation Operator (cid:100)(yields boolean, bit-wise negation)(cid:99)() Symbol: !, ∼ Return Types see [TPS_GST_00039] • [TPS_GST_00112] Exponentiation Operator (cid:100)yields operand 1 power operand 2(cid:99)() Symbol: ** Return Types see [TPS_GST_00035] • [TPS_GST_00113] Multiplicative Operator / division (cid:100)yields Multiplication, di- vision, modulo(cid:99)() Symbol: *, /, % Return Types see [TPS_GST_00035] • [TPS_GST_00114] Additive Operator (cid:100)Yields Addition, subtraction, sign(cid:99)() Symbol: +, - Return Types see [TPS_GST_00034] • [TPS_GST_00115] Shift Operator (cid:100)Yields bit-wise shift (left, right) note that the ends are filled with \"0\".(cid:99)() Symbol: <<,>> Return Types see [TPS_GST_00037] • [TPS_GST_00116] Ranking Operator (cid:100)Yields comparison: less than, less than or equal to, greater than, greater than or equal to(cid:99)() Symbol: <, <=, >, >= Return Types see [TPS_GST_00036] • [TPS_GST_00117] Comparison: equality (cid:100)Yields equal, unequal to(cid:99)() Symbol: ==, != Return Types see [TPS_GST_00036] 123 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 • [TPS_GST_00118] Bit-wise AND (cid:100)Yields the bit wise and of the operators(cid:99)() Symbol: & Return Types see [TPS_GST_00037] • [TPS_GST_00119] Bit-wise XOR (cid:100)Yields the bit wise xor of the operators(cid:99)() Symbol: ˆReturn Type see [TPS_GST_00037] • [TPS_GST_00120] Bit-wise OR (cid:100)Yields the bit wise or of the operators(cid:99)() Symbol: |Return Types see [TPS_GST_00037] • [TPS_GST_00121] Boolean AND (cid:100)Yields a boolean AND with operand value 0 -> false, others -> true(cid:99)() Symbol: && Return Types see [TPS_GST_00036] • [TPS_GST_00122] Boolean XOR (cid:100)Yields a boolean XOR with operand value 0 -> false, others -> true(cid:99)() Symbol: ˆˆReturn Types see [TPS_GST_00036] • [TPS_GST_00123] Boolean OR (cid:100)Yields a boolean OR with operand value 0 -> false, others -> true(cid:99)() Symbol: ||Return Types see [TPS_GST_00036] 4.9.2.2 Mathematical functions in arithmetic expressions The following mathematical functions are supported in arithmetic expressions: • [TPS_GST_00124] Round Function (cid:100)This rounds positive and negative num- bers to the nearest whole number. Note that when processing such expressions, that round is defined for the value ranges -2147483648 to +4294967295.(cid:99)() Function: round Param.: 1 Type of result: integer • [TPS_GST_00125] Round Up Function (cid:100)This rounds positive and negative numbers up to the next whole number. Note that when processing such expres- sions, that ceil is defined for the value ranges -2147483648 to +4294967295.(cid:99) () Function: ceil Param.: 1 Type of result: integer • [TPS_GST_00126] Round Down Function (cid:100)This rounds positive and neg- ative numbers down to the next whole number. Note that when processing such expressions, that floor is defined for the value ranges -2147483648 to +4294967295.(cid:99)() Function: floor Param.: 1 Type of result: integer • [TPS_GST_00127] Absolute Value (cid:100)This yields the absolute value of the operand.(cid:99)() Function: abs Param.: 1 Type of result: like operand • [TPS_GST_00128] Natural Logarithm (cid:100)This yields the natural logarithm (base e) of the argument.(cid:99)() Function: log Param.: 1 Type of result: float 124 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 • [TPS_GST_00129] Decimal Logarithm (cid:100)This yields the logarithm base 10 - provided for A2L 1.6.(cid:99)() Function: log10 Param.: 1 Type of result: float • [TPS_GST_00130] Square Root (cid:100)This yields the square root - provided for A2L 1.6.(cid:99)() Function: sqrt Param.: 1 Type of result: float • [TPS_GST_00131] Sinus (cid:100)This yields sinus - provided for A2L 1.6.(cid:99)() Function: sin Param.: 1 Type of result: float • [TPS_GST_00132] Arcus Sinus (cid:100)This yields arcus sinus - provided for A2L 1.6.(cid:99) () Function: asin Param.: 1 Type of result: float • [TPS_GST_00133] Cosinus (cid:100)This yields cosinus - provided for A2L 1.6.(cid:99)() Function: cos Param.: 1 Type of result: float • [TPS_GST_00134] Arcus Cosinus (cid:100)This yields arcus cosinus - provided for A2L 1.6.(cid:99)() Function: acos Param.: 1 Type of result: float • [TPS_GST_00135] Sinus Hyperbolicus (cid:100)This yields sinus hyperbolicus - pro- vided for A2L 1.6.(cid:99)() Function: sinh Param.: 1 Type of result: float • [TPS_GST_00136] Cosinus Hyperbolicus (cid:100)This yields cosinus hyperbolicus - provided for A2L 1.6.(cid:99)() Function: cosh Param.: 1 Type of result: float • [TPS_GST_00137] Tangens (cid:100)This yields tangens - provided for A2L 1.6.(cid:99)() Function: tan Param.: 1 Type of result: float • [TPS_GST_00138] Arcus Tangens (cid:100)This yields arcus tangens - provided for A2L 1.6.(cid:99)() Function: atan Param.: 1 Type of result: float • [TPS_GST_00139] Tangens Hyperbolicus (cid:100)This yields tangens hyperbolicus - provided for A2L 1.6.(cid:99)() Function: tanh Param.: 1 Type of result: float • [TPS_GST_00140] Exponential (cid:100)This yields exponential function (base e).(cid:99)() Function: exp Param.: 1 Type of result: float • [TPS_GST_00141] Is Defined (cid:100)This checks whether the reference given as the argument is defined.(cid:99)() Function: defined Param.: 1 Type of result: 0 or 1 • [TPS_GST_00142] Signum (cid:100)This yields signum, result is one of -1, 0, +1.(cid:99)() Function: sgn Param.: 1 Type of result: integer 125 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 • [TPS_GST_00143] Maximum Value (cid:100)This finds the maximum value of the argu- ments.(cid:99)() Function: max Param.: 2 Type of result: depends on operands • [TPS_GST_00144] Minium Value (cid:100)This finds the minimum value of the argu- ments.(cid:99)() Function: min Param.: 2 Type of result: depends on operands • [TPS_GST_00145] Power Function (cid:100)This yields argument 1 power argument 2 - provided for A2L 1.6. This is equivalent to [TPS_GST_00112].(cid:99)() Function: pow Param.: 2 Type of result: depends on arguments Result type follows [TPS_GST_00035]. • [TPS_GST_00146] Case Sensitive String Compare (cid:100)This compares two strings in case sensitive manner.(cid:99)() Function: streqcs Param.: 2 Type of result: 0 or 1 • [TPS_GST_00147] Non Case Insensitive String Compare (cid:100)This compares two strings in non case sensitive manner.(cid:99)() Function: streqci Param.: 2 Type of result: 0 or 1 4.9.2.3 Implementation details of a Formula Processor The following implementation details apply: • [TPS_GST_00001] Connection between Formula and Model Elements (cid:100)The formula language mentioned above has production rules (reference, stringReference) which are defined as stringReference : ’stringReference’ LPAREN StringLiteral RPAREN; reference : ’reference’ LPAREN StringLiteral RPAREN; This production indicates, that at this point, a reference to a model element needs to be resolved. It is not allowed to accept AUTOSAR artifacts which contain such a textual representation.(cid:99)() • [TPS_GST_00293] Use Case Specific Extension of Formula Language (cid:100)A use case specific extension is indicated in the meta-model by a specialization of FormulaExpression. The semantics of the extension is specified in the context of this specialization as a fragment of an ANTLR [12] specification redefining the following Tokens: – ExtKeyword - this provides additional keywords similar to epsilon – ExtUnaryFuncName - this provides additional names for unary functions – ExtBinaryFuncName - this provides additional names for binary functions 126 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 It is not possible to extend the formula language by additional operators.(cid:99)() Thus the list of functions in chapter 4.9.2.2 is extended. An example for the definition of additional Keywords based on an unary function is given in Listing 4.19. ExtUnaryFuncName : ’TIMEX_value’ | ’TIMEX_occurs’ | ’TIMEX_hasOccurred’ | ’TIMEX_timeSinceLastOccurrence’ | ’TIMEX_angleSinceLastOccurrence’ ; Listing 4.19: AUTOSAR Formula language extension • [TPS_GST_00015] result of reference/stringReference (cid:100) – reference shall yield a numerical / boolean value. – stringReference shall yield a string value. (cid:99)() • [TPS_GST_00002] aborting logical expressions (cid:100)The calculation of expres- sions with boolean AND or OR is aborted if the first operand has produced a result so that the total result cannot be changed anymore by the second operand (as in C).(cid:99)() Note: This is useful e.g. in the context of SwSystemconstDependentFormula, a specialization of the formula language. This behavior gives meaningful results in expressions such as: defined(reference(\"SW-SYSTEMCONST:SY_COUNT\")) && reference(\"SW-SYSTEMCONST:SY_COUNT\") > 1 since here, if SY_COUNT is not defined, the check for \"> 1\" is not carried out and an unwanted error message is thus avoided. • [TPS_GST_00003] true and false (cid:100)Like in C a integer \"0\" respectively floating point \"0.0\" and \"-0.0\" are interpreted as false. Every other value is treated as true within boolean expressions. The language also provides the literals \"true\" yielding 1 respectively \"false\" yielding 0 to express literal boolean values in expressions.(cid:99)() It is strongly recommended not to apply the Boolean operations ||, &&,ˆˆ, ==, != to floating-point values. Caused by the limited ability of float operands to hold exact integer (in the mathematical meaning) numbers the result of these operations may have (as implementation specifics have a huge impact here) values that are hard to predict. 127 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 • [TPS_GST_00004] Priority of Operations (cid:100) The priority rules of C++1 apply and are modeled in the grammar: multiplica- tion and division take precedence over addition and subtraction. The exponent operator (**) has priority over these other mathematical operators. The unary minus has greater precedence than all other operators. For a complete list of the priorities please refer to [13]. Example: – -2**3 becomes -8 = (-2)**3 – -log(2.718281828)**2 corresponds to (-log(2.718281828))**2 and therefore is equal to +1. (cid:99)() • [TPS_GST_00005] left-to-right evaluation (cid:100)Binary operators shall be evaluated from left to right (left-to-right associativity). For example 2 == 2 == 2 shall be evaluated as (2 == 2) == 2.(cid:99)() • [TPS_GST_00006] Associativity of XOR (cid:100)Boolean XOR operatorˆˆis an addi- tional operator which has no counterpart in C. The result of a boolean XOR is \"1\" if one of the operands is interpreted as false and the other as true. The result of a boolean XOR is \"0\" if both operands have the same value independent of whether the value is true or false. Other than boolean AND (&&) and boolean OR (||), boolean XOR always evaluates both operands. This is because the result of a boolean XOR cannot be determined by only evaluating e.g. the first operand. Hint: In hardware circuits sometimes an XOR gate with more than two inputs is used. For such a hardware XOR gate the output is \"1\" if and only if one of the inputs is \"1\" and all other inputs are \"0\". The XOR operator within arithmetic expressions is a binary operator and therefore behaves different than hardware XOR gates. This means in particular that according to left-to-right associativity e.g. 1ˆˆ1ˆˆ1 is interpreted as (1ˆˆ1)ˆˆ1 which yields \"1\".(cid:99)() • [TPS_GST_00007] Shift operation (cid:100) When the shift operation is performed, the first or the last bit (depending on the direction of the shift) is filled with \"0\". Shift left means that the bits are shifted towards the higher values. Shift right means that the bits are shifted towards the lower values. Shift is performed as long as we are in the range defined by [TPS_GST_00008](cid:99) () Implementers shall apply a mask on the intended size number of bits on the result. For example if 0b1111 « 1 shall still yield 4 bits, then user shall write (0b1111 « 1) & 0b1111 1Note that XOR is not defined in C++. 128 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 to get the intended result of 0b1110. Without the mask, the result would be 0b11110 which is 5 bit. Example based on 32 bit integer implementation of the formula processor (note that not all leading zero digits are shown): – 0b0001 << 1 returns 0b00010 – 0b1111 >> 1 returns 0b0111 – 0b1111 << 1 returns 0b11110 – 0b1111 << 2 returns 0b111100 • [TPS_GST_00008] Types in Formula Expressions (cid:100) The type of an arithmetic expression is one of – Integer in the range (32 bit implementation) 0x80000000 .. 0xffffffff -2147483648 .. +4294967295 respectively (in a 64 bit implementation) 0x8000000000000000 .. +0xffffffffffffffff -9223372036854775808 .. +18446744073709551615 – Float (internally represented by double) (cid:99)() For the result type of a function or operand see 4.9.2.4. Note: The ranges of the 32-bit implementation are the set union of signed INT (-2147483648 .. 2147483647) and unsigned INT (0 .. 4294967295) resulting in (-2147483648 .. 4294967295). The same procedure is applied for the 64-bit implementation. • [TPS_GST_00359] Handling of the Sign (cid:100) In consequence of [TPS_GST_00008], implementations of a formula processor need to provide an extra handling of the sign in case of integer values. -2147483648 < value < 0 => signed INT (sign \"-\") -2147483648 < value < 2147483647 => signed INT (sign \"-\" or \"+\") -0 => signed INT (sign \"-\") +0 => signed INT (sign \"+\") 0 < value < 2147483647 => unsigned INT 2147483647 < value < 4294967295 => unsigned INT. (cid:99)() • [TPS_GST_00009] Keyword ’epsilon’ (cid:100) epsilon represents an implementation specific constant intended to support the comparison of float values. It represents the smallest increment which can be expressed by the given implementation. 129 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 For example instead of comparing a float with zero, one should use abs(sysc(x)) < epsilon ? 0 : 1 (cid:99)() • [TPS_GST_00276] Power of Null (cid:100) pow(0, 0) respectively 0**0 is undefined and shall raise an error (see also [TPS_GST_00014]). (cid:99)() • [TPS_GST_00010] Keyword undefined (cid:100) undefined represents a sub term which is undefined. It is subject to be replaced in further process steps. The main purpose is to denote blueprints of expressions. The result of undefined is the same as an undefined operand. Usually it yields a runtime error. The following expressions hold true: defined(undefined) = false true && undefined = error false && undefined = false undefined = error And consequently for OR it is true || undefined = true false || undefined = error (cid:99)() • [TPS_GST_00275] Float Literals INF, NaN (cid:100)In order to maintain consistency with Float, formula expressions also supports the special float literals INF and NaN. The support of these literals is in particular: – INF is allowed only in the context of operators \"==\", \"!=\", unary \"-\", result of condExpr – NaN is allowed only in the context of operators \"==\", \"!=\", result of cond- Expr – INF, NaN can only be obtained by literal specification (e.g. in a SwSystem- constValue) but not as the result of an arithmetic operation (In particular [TPS_GST_00014] is not affected by these literals). (cid:99)()",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 115,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AnyServiceInstanceId",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is a positive integer or the literal ALL (the value ANY is technically supported but deprecated) which can be denoted in decimal, octal and hexadecimal. The value is between 0 and 65535. Tags: xml.xsd.customType=ANY-SERVICE-INSTANCE-ID xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[0-7]*|0[bB][0-1]+|ANY|ALL xml.xsd.type=string Table E.6: AnyServiceInstanceId",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 423,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AnyVersionString",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "Tags: xml.xsd.customType=ANY-VERSION-STRING xml.xsd.pattern=[0-9]+|ANY xml.xsd.type=string Table E.7: AnyVersionString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 423,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Integer",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "An instance of Integer is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...). The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers can only be expressed in decimal notation Range is from -2147483648 and 2147483647. Tags: xml.xsd.customType=INTEGER xml.xsd.pattern=0|[\\+\\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+ xml.xsd.type=string Table E.50: Integer",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 453,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "PositiveUnlimitedInteger",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal. Tags: xml.xsd.customType=POSITIVE-UNLIMITED-INTEGER xml.xsd.pattern=0|[\\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+ xml.xsd.type=string Table E.65: PositiveUnlimitedInteger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UnlimitedInteger",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "An instance of UnlimitedInteger is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...). The range is limited by constraint 2534. The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers can only be expressed in decimal notation. Tags: xml.xsd.customType=UNLIMITED-INTEGER xml.xsd.pattern=0|[\\+\\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+ xml.xsd.type=string Table E.83: UnlimitedInteger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 479,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

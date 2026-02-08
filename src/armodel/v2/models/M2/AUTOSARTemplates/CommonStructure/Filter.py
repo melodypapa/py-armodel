@@ -1,253 +1,585 @@
 """
-This module contains classes for representing AUTOSAR data filter configurations
-in the CommonStructure module. Data filters are used to define conditions for
-data processing, such as when to update values based on filters or limits.
+AUTOSAR Package - Filter
+
+Package: M2::AUTOSARTemplates::CommonStructure::Filter
 """
 
-from typing import Union
-
+from abc import ABC, abstractmethod
+from typing import Any, Dict, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
-    PositiveInteger,
-    UnlimitedInteger,
 )
 
 
-class DataFilterTypeEnum(AREnum):
-    """
-    Enumeration for data filter types in AUTOSAR models.
-    Defines various filtering strategies for data processing in AUTOSAR systems.
-    """
-
-    # Filter condition: new value with mask differs from old value with mask
-    MASKED_NEW_DIFFERS_MASKED_OLD = "maskedNewDiffersMaskedOld"
-    # Filter condition: new value with mask differs from reference value X
-    MASKED_NEW_DIFFERS_X = "maskedNewDiffersX"
-    # Filter condition: new value with mask equals reference value X
-    MASKED_NEW_EQUALS_X = "maskedNewEqualsX"
-    # Filter condition: never update (no filtering)
-    NEVER = "never"
-    # Filter condition: new value is outside specified range
-    NEW_IS_OUTSIDE = "newIsOutside"
-    # Filter condition: new value is within specified range
-    NEW_IS_WITHIN = "newIsWithin"
-    # Filter condition: update every N occurrences
-    ONE_EVERY_N = "oneEveryN"
-
-    def __init__(self) -> None:
-        """
-        Initializes the DataFilterTypeEnum with all possible values.
-        """
-        super().__init__([
-            DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD,
-            DataFilterTypeEnum.MASKED_NEW_DIFFERS_X,
-            DataFilterTypeEnum.MASKED_NEW_EQUALS_X,
-            DataFilterTypeEnum.NEVER,
-            DataFilterTypeEnum.NEW_IS_OUTSIDE,
-            DataFilterTypeEnum.NEW_IS_WITHIN,
-            DataFilterTypeEnum.ONE_EVERY_N
-        ])
 
 
 class DataFilter(ARObject):
     """
-    Package: M2::AUTOSARTemplates::CommonStructure::Filter
-    Represents a data filter configuration in AUTOSAR models.
-    This class defines conditions and parameters for filtering data updates in AUTOSAR systems.
+    Base class for data filters. The type of the filter is specified in
+    attribute dataFilterType. Some of the filter types require additional
+    arguments which are specified as attributes of this class.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Filter::DataFilter
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 182, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 394, Classic Platform R23-11)
     """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the DataFilter with default values.
-        """
+    def __init__(self):
         super().__init__()
 
-        # Type of data filtering to apply
-        self.dataFilterType: Union[Union[DataFilterTypeEnum, None] , None] = None
-        # Bit mask for masked filtering operations
-        self.mask: Union[Union[UnlimitedInteger, None] , None] = None
-        # Maximum threshold value for range-based filtering
-        self.max: Union[Union[UnlimitedInteger, None] , None] = None
-        # Minimum threshold value for range-based filtering
-        self.min: Union[Union[UnlimitedInteger, None] , None] = None
-        # Offset value for filtering calculations
-        self.offset: Union[Union[PositiveInteger, None] , None] = None
-        # Period for periodic filtering operations (e.g., oneEveryN)
-        self.period: Union[Union[PositiveInteger, None] , None] = None
-        # Reference value X used in comparison-based filtering
-        self.x: Union[Union[UnlimitedInteger, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This attribute specifies the type of the filter.
+        self._dataFilterType: Optional["DataFilterTypeEnum"] = None
 
-    def getDataFilterType(self) -> Union[DataFilterTypeEnum, None]:
+    @property
+    def data_filter_type(self) -> Optional["DataFilterTypeEnum"]:
+        """Get dataFilterType (Pythonic accessor)."""
+        return self._dataFilterType
+
+    @data_filter_type.setter
+    def data_filter_type(self, value: Optional["DataFilterTypeEnum"]) -> None:
         """
-        Gets the type of data filtering to apply.
-
-        Returns:
-            DataFilterTypeEnum: The data filter type
-        """
-        return self.dataFilterType
-
-    def setDataFilterType(self, value: Union[DataFilterTypeEnum, None]) -> "DataFilter":
-        """
-        Sets the type of data filtering to apply.
-        Only sets the value if it is not None.
-
+        Set dataFilterType with validation.
+        
         Args:
-            value: The data filter type to set
+            value: The dataFilterType to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._dataFilterType = None
+            return
 
+        if not isinstance(value, DataFilterTypeEnum):
+            raise TypeError(
+                f"dataFilterType must be DataFilterTypeEnum or None, got {type(value).__name__}"
+            )
+        self._dataFilterType = value
+        # Mask for old and new value.
+        self._mask: Optional["UnlimitedInteger"] = None
+
+    @property
+    def mask(self) -> Optional["UnlimitedInteger"]:
+        """Get mask (Pythonic accessor)."""
+        return self._mask
+
+    @mask.setter
+    def mask(self, value: Optional["UnlimitedInteger"]) -> None:
+        """
+        Set mask with validation.
+        
+        Args:
+            value: The mask to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._mask = None
+            return
+
+        if not isinstance(value, UnlimitedInteger):
+            raise TypeError(
+                f"mask must be UnlimitedInteger or None, got {type(value).__name__}"
+            )
+        self._mask = value
+        # Value to specify the upper boundary.
+        self._max: Optional["UnlimitedInteger"] = None
+
+    @property
+    def max(self) -> Optional["UnlimitedInteger"]:
+        """Get max (Pythonic accessor)."""
+        return self._max
+
+    @max.setter
+    def max(self, value: Optional["UnlimitedInteger"]) -> None:
+        """
+        Set max with validation.
+        
+        Args:
+            value: The max to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._max = None
+            return
+
+        if not isinstance(value, UnlimitedInteger):
+            raise TypeError(
+                f"max must be UnlimitedInteger or None, got {type(value).__name__}"
+            )
+        self._max = value
+        # Value to specify the lower boundary.
+        self._min: Optional["UnlimitedInteger"] = None
+
+    @property
+    def min(self) -> Optional["UnlimitedInteger"]:
+        """Get min (Pythonic accessor)."""
+        return self._min
+
+    @min.setter
+    def min(self, value: Optional["UnlimitedInteger"]) -> None:
+        """
+        Set min with validation.
+        
+        Args:
+            value: The min to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._min = None
+            return
+
+        if not isinstance(value, UnlimitedInteger):
+            raise TypeError(
+                f"min must be UnlimitedInteger or None, got {type(value).__name__}"
+            )
+        self._min = value
+        # Specifies the initial number of messages to occur before message is passed.
+        self._offset: Optional["PositiveInteger"] = None
+
+    @property
+    def offset(self) -> Optional["PositiveInteger"]:
+        """Get offset (Pythonic accessor)."""
+        return self._offset
+
+    @offset.setter
+    def offset(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set offset with validation.
+        
+        Args:
+            value: The offset to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._offset = None
+            return
+
+        if not isinstance(value, (PositiveInteger, str)):
+            raise TypeError(
+                f"offset must be PositiveInteger or str or None, got {type(value).__name__}"
+            )
+        self._offset = value
+        # Specifies number of messages to occur before the passed again.
+        self._period: Optional["PositiveInteger"] = None
+
+    @property
+    def period(self) -> Optional["PositiveInteger"]:
+        """Get period (Pythonic accessor)."""
+        return self._period
+
+    @period.setter
+    def period(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set period with validation.
+        
+        Args:
+            value: The period to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._period = None
+            return
+
+        if not isinstance(value, (PositiveInteger, str)):
+            raise TypeError(
+                f"period must be PositiveInteger or str or None, got {type(value).__name__}"
+            )
+        self._period = value
+        # Value to compare with.
+        self._x: Optional["UnlimitedInteger"] = None
+
+    @property
+    def x(self) -> Optional["UnlimitedInteger"]:
+        """Get x (Pythonic accessor)."""
+        return self._x
+
+    @x.setter
+    def x(self, value: Optional["UnlimitedInteger"]) -> None:
+        """
+        Set x with validation.
+        
+        Args:
+            value: The x to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._x = None
+            return
+
+        if not isinstance(value, UnlimitedInteger):
+            raise TypeError(
+                f"x must be UnlimitedInteger or None, got {type(value).__name__}"
+            )
+        self._x = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getDataFilterType(self) -> "DataFilterTypeEnum":
+        """
+        AUTOSAR-compliant getter for dataFilterType.
+        
+        Returns:
+            The dataFilterType value
+        
+        Note:
+            Delegates to data_filter_type property (CODING_RULE_V2_00017)
+        """
+        return self.data_filter_type  # Delegates to property
+
+    def setDataFilterType(self, value: "DataFilterTypeEnum") -> "DataFilter":
+        """
+        AUTOSAR-compliant setter for dataFilterType with method chaining.
+        
+        Args:
+            value: The dataFilterType to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to data_filter_type property setter (gets validation automatically)
         """
-        if value is not None:
-            self.dataFilterType = value
+        self.data_filter_type = value  # Delegates to property setter
         return self
 
-    def getMask(self) -> Union[UnlimitedInteger, None]:
+    def getMask(self) -> "UnlimitedInteger":
         """
-        Gets the bit mask for masked filtering operations.
-
+        AUTOSAR-compliant getter for mask.
+        
         Returns:
-            UnlimitedInteger: The bit mask
+            The mask value
+        
+        Note:
+            Delegates to mask property (CODING_RULE_V2_00017)
         """
-        return self.mask
+        return self.mask  # Delegates to property
 
-    def setMask(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
+    def setMask(self, value: "UnlimitedInteger") -> "DataFilter":
         """
-        Sets the bit mask for masked filtering operations.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for mask with method chaining.
+        
         Args:
-            value: The bit mask to set
-
+            value: The mask to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to mask property setter (gets validation automatically)
         """
-        if value is not None:
-            self.mask = value
+        self.mask = value  # Delegates to property setter
         return self
 
-    def getMax(self) -> Union[UnlimitedInteger, None]:
+    def getMax(self) -> "UnlimitedInteger":
         """
-        Gets the maximum threshold value for range-based filtering.
-
+        AUTOSAR-compliant getter for max.
+        
         Returns:
-            UnlimitedInteger: The maximum threshold
+            The max value
+        
+        Note:
+            Delegates to max property (CODING_RULE_V2_00017)
         """
-        return self.max
+        return self.max  # Delegates to property
 
-    def setMax(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
+    def setMax(self, value: "UnlimitedInteger") -> "DataFilter":
         """
-        Sets the maximum threshold value for range-based filtering.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for max with method chaining.
+        
         Args:
-            value: The maximum threshold to set
-
+            value: The max to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to max property setter (gets validation automatically)
         """
-        if value is not None:
-            self.max = value
+        self.max = value  # Delegates to property setter
         return self
 
-    def getMin(self) -> Union[UnlimitedInteger, None]:
+    def getMin(self) -> "UnlimitedInteger":
         """
-        Gets the minimum threshold value for range-based filtering.
-
+        AUTOSAR-compliant getter for min.
+        
         Returns:
-            UnlimitedInteger: The minimum threshold
+            The min value
+        
+        Note:
+            Delegates to min property (CODING_RULE_V2_00017)
         """
-        return self.min
+        return self.min  # Delegates to property
 
-    def setMin(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
+    def setMin(self, value: "UnlimitedInteger") -> "DataFilter":
         """
-        Sets the minimum threshold value for range-based filtering.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for min with method chaining.
+        
         Args:
-            value: The minimum threshold to set
-
+            value: The min to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to min property setter (gets validation automatically)
         """
-        if value is not None:
-            self.min = value
+        self.min = value  # Delegates to property setter
         return self
 
-    def getOffset(self) -> Union[PositiveInteger, None]:
+    def getOffset(self) -> "PositiveInteger":
         """
-        Gets the offset value for filtering calculations.
-
+        AUTOSAR-compliant getter for offset.
+        
         Returns:
-            PositiveInteger: The offset value
+            The offset value
+        
+        Note:
+            Delegates to offset property (CODING_RULE_V2_00017)
         """
-        return self.offset
+        return self.offset  # Delegates to property
 
-    def setOffset(self, value: Union[PositiveInteger, None]) -> "DataFilter":
+    def setOffset(self, value: "PositiveInteger") -> "DataFilter":
         """
-        Sets the offset value for filtering calculations.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for offset with method chaining.
+        
         Args:
-            value: The offset value to set
-
+            value: The offset to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to offset property setter (gets validation automatically)
         """
-        if value is not None:
-            self.offset = value
+        self.offset = value  # Delegates to property setter
         return self
 
-    def getPeriod(self) -> Union[PositiveInteger, None]:
+    def getPeriod(self) -> "PositiveInteger":
         """
-        Gets the period for periodic filtering operations (e.g., oneEveryN).
-
+        AUTOSAR-compliant getter for period.
+        
         Returns:
-            PositiveInteger: The period value
+            The period value
+        
+        Note:
+            Delegates to period property (CODING_RULE_V2_00017)
         """
-        return self.period
+        return self.period  # Delegates to property
 
-    def setPeriod(self, value: Union[PositiveInteger, None]) -> "DataFilter":
+    def setPeriod(self, value: "PositiveInteger") -> "DataFilter":
         """
-        Sets the period for periodic filtering operations (e.g., oneEveryN).
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for period with method chaining.
+        
         Args:
-            value: The period value to set
-
+            value: The period to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to period property setter (gets validation automatically)
         """
-        if value is not None:
-            self.period = value
+        self.period = value  # Delegates to property setter
         return self
 
-    def getX(self) -> Union[UnlimitedInteger, None]:
+    def getX(self) -> "UnlimitedInteger":
         """
-        Gets the reference value X used in comparison-based filtering.
-
+        AUTOSAR-compliant getter for x.
+        
         Returns:
-            UnlimitedInteger: The reference value X
+            The x value
+        
+        Note:
+            Delegates to x property (CODING_RULE_V2_00017)
         """
-        return self.x
+        return self.x  # Delegates to property
 
-    def setX(self, value: Union[UnlimitedInteger, None]) -> "DataFilter":
+    def setX(self, value: "UnlimitedInteger") -> "DataFilter":
         """
-        Sets the reference value X used in comparison-based filtering.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for x with method chaining.
+        
         Args:
-            value: The reference value X to set
-
+            value: The x to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to x property setter (gets validation automatically)
         """
-        if value is not None:
-            self.x = value
+        self.x = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_data_filter_type(self, value: Optional["DataFilterTypeEnum"]) -> "DataFilter":
+        """
+        Set dataFilterType and return self for chaining.
+        
+        Args:
+            value: The dataFilterType to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_data_filter_type("value")
+        """
+        self.data_filter_type = value  # Use property setter (gets validation)
+        return self
+
+    def with_mask(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+        """
+        Set mask and return self for chaining.
+        
+        Args:
+            value: The mask to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_mask("value")
+        """
+        self.mask = value  # Use property setter (gets validation)
+        return self
+
+    def with_max(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+        """
+        Set max and return self for chaining.
+        
+        Args:
+            value: The max to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_max("value")
+        """
+        self.max = value  # Use property setter (gets validation)
+        return self
+
+    def with_min(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+        """
+        Set min and return self for chaining.
+        
+        Args:
+            value: The min to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_min("value")
+        """
+        self.min = value  # Use property setter (gets validation)
+        return self
+
+    def with_offset(self, value: Optional["PositiveInteger"]) -> "DataFilter":
+        """
+        Set offset and return self for chaining.
+        
+        Args:
+            value: The offset to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_offset("value")
+        """
+        self.offset = value  # Use property setter (gets validation)
+        return self
+
+    def with_period(self, value: Optional["PositiveInteger"]) -> "DataFilter":
+        """
+        Set period and return self for chaining.
+        
+        Args:
+            value: The period to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_period("value")
+        """
+        self.period = value  # Use property setter (gets validation)
+        return self
+
+    def with_x(self, value: Optional["UnlimitedInteger"]) -> "DataFilter":
+        """
+        Set x and return self for chaining.
+        
+        Args:
+            value: The x to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_x("value")
+        """
+        self.x = value  # Use property setter (gets validation)
         return self
 
 
+class DataFilterTypeEnum(AREnum):
+    """
+    DataFilterTypeEnum enumeration
 
+This enum specifies the supported DataFilterTypes. Aggregated by DataFilter.dataFilterType
+
+Package: M2::AUTOSARTemplates::CommonStructure::Filter
+    """
+    # Component Template
+    Software = "None"
+
+    # CP R23-11
+    AUTOSAR = "None"
+
+    # No filtering is performed so that the message always passes.
+    always = "0"
+
+    # Pass messages where the masked value has changed. new_value if the new message value is not filtered out)
+    maskedNewDiffersMaskedOld = "1"
+
+    # Pass messages whose masked value is not equal to a specific value x
+    maskedNewDiffersX = "2"
+
+    # Pass messages whose masked value is equal to a specific value x
+    maskedNewEqualsX = "3"
+
+    # The filter removes all messages.
+    never = "4"
+
+    # Pass a message if its value is outside a predefined boundary.
+    newIsOutside = "5"
+
+    # Pass a message if its value is within a predefined boundary.
+    newIsWithinmin = "6"
+
+    # Pass a message once every N message occurrences. Each time the message is received or transmitted, occurrence is incremented by 1 after filtering. Length of occurrence is 8 bit (minimum).
+    oneEveryN = "7"

@@ -1,0 +1,415 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+  "classes": [
+    {
+      "name": "MixedContentForLongName",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "LLongName",
+        "SingleLanguageLongName"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the model for titles and long-names. It allows some emphasis and index entries but no reference target (which is provided by the identifiable in question). It is intended that the content model can also be rendered as plain text. The abstract class can be used for single language as well as for multi language elements.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "e": {
+          "type": "EmphasisText",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is emphasized text"
+        },
+        "ie": {
+          "type": "IndexEntry",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is an index entry."
+        },
+        "sub": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is subscript text."
+        },
+        "sup": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is superscript text."
+        },
+        "tt": {
+          "type": "Tt",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a technical term."
+        }
+      }
+    },
+    {
+      "name": "MixedContentForParagraph",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "LParagraph",
+        "SlParagraph"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This mainly represents the text model of a full blown paragraph within a documentation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 289,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "br": {
+          "type": "Br",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element is the same as function here as in a HTML it forces a line break."
+        },
+        "e": {
+          "type": "EmphasisText",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is emphasized text."
+        },
+        "ft": {
+          "type": "SlParagraph",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a foot note within a paragraph."
+        },
+        "ie": {
+          "type": "IndexEntry",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is an index entry."
+        },
+        "std": {
+          "type": "Std",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a refeernce to a standard."
+        },
+        "sub": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is subscript text."
+        },
+        "sup": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is superscript text."
+        },
+        "trace": {
+          "type": "Traceable",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This allows to place an arbitrary reference to a traceable documentation."
+        },
+        "tt": {
+          "type": "Tt",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a technical term."
+        },
+        "xdoc": {
+          "type": "Xdoc",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a reference to a printable external document."
+        },
+        "xfile": {
+          "type": "Xfile",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a reference to an external file which be printed."
+        },
+        "xref": {
+          "type": "Xref",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a cross reference."
+        },
+        "xrefTarget": {
+          "type": "XrefTarget",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies a reference target which can be the text."
+        }
+      }
+    },
+    {
+      "name": "MixedContentForOverviewParagraph",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "LOverviewParagraph",
+        "SlOverviewParagraph"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the text model of a restricted paragraph item within a documentation. Such restricted paragraphs are used mainly for overview items, e.g. desc.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 289,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "br": {
+          "type": "Br",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element is the same as function here as in a HTML it forces a line break."
+        },
+        "e": {
+          "type": "EmphasisText",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is emphasis text."
+        },
+        "ft": {
+          "type": "SlOverviewParagraph",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a foot note within a paragraph."
+        },
+        "ie": {
+          "type": "IndexEntry",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is an index entry."
+        },
+        "sub": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is superscript text."
+        },
+        "sup": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is subscript text."
+        },
+        "trace": {
+          "type": "Traceable",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This allows to place an arbitrary reference to a traceable documentation."
+        },
+        "tt": {
+          "type": "Tt",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a technical term."
+        },
+        "xref": {
+          "type": "Xref",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a cross reference."
+        },
+        "xrefTarget": {
+          "type": "XrefTarget",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies a reference target which can be the text."
+        }
+      }
+    },
+    {
+      "name": "MixedContentForVerbatim",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "WhitespaceControlled"
+      ],
+      "children": [],
+      "subclasses": [
+        "LVerbatim"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the text model for preformatted (verbatim) text. It mainly consists of attributes which do not change the length on rendering. This class represents multilingual verbatim. Verbatim, sometimes called preformatted text, means that white-space is maintained. When verbatim is rendered in PDF or Online media, it is rendered using a monospaced font while white-space is obeyed. Blanks are rendered as well as newline characters. Even if there are inline elements, the length of the data shall not be influenced by formatting.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 292,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "br": {
+          "type": "Br",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element is the same as function here as in a HTML it forces a line break."
+        },
+        "e": {
+          "type": "EmphasisText",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is emphsized text. Note that in verbatim, the attribute not be considered since verbatim is always monospace font."
+        },
+        "tt": {
+          "type": "Tt",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a technical term in verbatim. Note that it’s of the user not to take a tt that would add to the text (such as SgmlElement)."
+        },
+        "xref": {
+          "type": "Xref",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a crossreference within a verbatim text. The disturb the arrangement of the text. It is the author to keep this under control."
+        }
+      }
+    },
+    {
+      "name": "MixedContentForPlainText",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "WhitespaceControlled"
+      ],
+      "children": [],
+      "subclasses": [
+        "LPlainText"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a plain text which conceptually is handled as mixed contents. It is modeled as such for symmetry reasons.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 349,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "MixedContentForUnitNames",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextModel",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "SingleLanguageUnitNames"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the text model for items with subscript and superscripts such as measurement unit designations. It is intended, that such models can easily be transcribed to a plain text model either by using appropriate characters or by transcribing like mˆ2.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 456,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sub": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is subscript text."
+        },
+        "sup": {
+          "type": "Superscript",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is superscript text."
+        }
+      }
+    }
+  ]
+}

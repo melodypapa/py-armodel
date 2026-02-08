@@ -1,0 +1,132 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel",
+  "classes": [
+    {
+      "name": "SoAdRoutingGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Routing of Pdus in the SoAd can be activated or deactivated. The ShortName of this element shall contain the RoutingGroupId.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2057,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventGroup": {
+          "type": "EventGroupControlType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast events of an event group. And there are activate the data path for initial are triggered, namely events that are sent out server side after a client got subscribed. that this attribute is only valid for event Receiver communication) and omitted in MethodActivationRoutingGroups."
+        }
+      }
+    },
+    {
+      "name": "SocketConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SoAdConfig.connection",
+        "SocketConnectionBundle.bundledConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SoAd serves as a (De)Multiplexer between different PDU sources and the TCP/IP stack.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2057,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientIpAddr": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true the Server \"learns\" the client IP address on request. This means that the statically IP Address of the related client shall be If set to false the Server only accepts statically address, e.g. 192.168.1.2. This means that configured IP Address of the Client shall be"
+        },
+        "clientPort": {
+          "type": "SocketAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Client Port for TCP/UDP connection in an abstract The client is the major requester communication. Please note that the client may data."
+        },
+        "clientPortFrom": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true the Server \"learns\" the client Port on request. This means that the statically Port of the related client shall be ignored. If set the Server only accepts statically configured Port. that the statically configured Port of the Client used."
+        },
+        "pdu": {
+          "type": "SocketConnectionIpdu",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "PDUs handed over by the PDU Router (Transmission the Ethernet) or PDUs handed over by SoAd Ethernet). Multiple IPdus can be one socket connection."
+        },
+        "pduCollection": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time in seconds which shall pass before a with Pdu collection enabled shall be transmitted to layer after the first Pdu has been put into the"
+        },
+        "runtimeIp": {
+          "type": "RuntimeAddress",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute not set to none the value determines the service used client to obtain the IP Address information for the this attribute is set to none the client statically configured IP Address information."
+        },
+        "runtimePort": {
+          "type": "RuntimeAddress",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not none the value determines the service used by the obtain the Port information for the Socket this attribute is set to none the client uses configured Port information."
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies an identifying shortName for the shall be unique within its context."
+        }
+      }
+    }
+  ]
+}

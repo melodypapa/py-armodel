@@ -1,0 +1,40 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+  "enumerations": [
+    {
+      "name": "IEEE1722TpAcfCanMessageTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "note": "Definition of the ACF CAN stream message type. Tags: atp.Status=candidate Aggregated by IEEE1722TpAcfCan.messageType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 661,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "can",
+          "index": 0,
+          "description": "Defines the ACF CAN stream to use the ACF_CAN message type.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "canBrief",
+          "index": 1,
+          "description": "Defines the ACF CAN stream to use the ACF_CAN_BRIEF message type.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

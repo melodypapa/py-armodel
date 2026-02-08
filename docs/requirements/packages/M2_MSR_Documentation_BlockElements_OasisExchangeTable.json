@@ -1,0 +1,15 @@
+{
+  "name": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+  "path": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_BlockElements_OasisExchangeTable.classes.json",
+    "enumerations": "packages/M2_MSR_Documentation_BlockElements_OasisExchangeTable.enums.json",
+    "primitives": "packages/M2_MSR_Documentation_BlockElements_OasisExchangeTable.primitives.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 5,
+    "primitive_count": 1
+  }
+}

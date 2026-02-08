@@ -1,0 +1,584 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+  "classes": [
+    {
+      "name": "CpSoftwareClusterBinaryManifestDescriptor",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to act as a hub for all information related to the binary manifest of a given CP software cluster. The manifest is subject to integrator work and therefore not a part of the definition of the CP software cluster itself.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 913,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cpSoftware": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the CpSoftwareCluster to which enclosing CpSoftwareClusterBinaryManifest is an integration phase while the referenced Cp a design element. Therefore, sense to use a reference rather than an the relation of the two meta-classes."
+        },
+        "metaDataField": {
+          "type": "BinaryManifestMeta",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation identifies the collection of meta-data in the enclosing binary manifest."
+        },
+        "provide": {
+          "type": "BinaryManifestProvide",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of provided resources in the enclosing binary manifest."
+        },
+        "require": {
+          "type": "BinaryManifestRequire",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of required resources in the enclosing binary manifest."
+        },
+        "resource": {
+          "type": "BinaryManifest",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of binary manifest resource definitions that belong to the enclosing"
+        },
+        "softwareCluster": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the value of the id of the CP software cluster. This id is assigned by but may also be copied from CpSoftware available."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestProvideResource",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BinaryManifestResource",
+      "bases": [
+        "ARObject",
+        "BinaryManifestResource",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterBinaryManifestDescriptor.provideResource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a provided resource in the binary manifest.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 914,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "numberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides an upper limit for the number of for this resource."
+        },
+        "supports": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates whether the enclosing Binary supports multiple notifiers sets."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestResource",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "BinaryManifestProvideResource",
+        "BinaryManifestRequireResource"
+      ],
+      "subclasses": [
+        "BinaryManifestProvideResource",
+        "BinaryManifestRequireResource"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as an abstract base class for specializations.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 915,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "globalResource": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A unique identifiers per resource used for the connection The identifier is required to be unique in the a single machine. If software clusters are be reused on multiple machines the applies for all the intended BinaryManifestItem * aggr This aggregation represents the collection of binary owned by the enclosing binary manifest"
+        },
+        "resource": {
+          "type": "BinaryManifest",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "this reference identifies the definition of the Binary ManifestResource. The definition provides configuration is shared among all BinaryManifest refer to the BinaryManifestResource"
+        },
+        "resourceGuard": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the guard value of the enclosing manifest resource."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestRequireResource",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BinaryManifestResource",
+      "bases": [
+        "ARObject",
+        "BinaryManifestResource",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterBinaryManifestDescriptor.requireResource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a required resource in the binary manifest.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 916,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connectionIs": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates whether the connection of the BinaryManifestResource is mandatory."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestResourceDefinition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterBinaryManifestDescriptor.resourceDefinition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a resource definition that provides information that can be shared by all resources that refer to the respective resource definition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 917,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "itemDefinition": {
+          "type": "BinaryManifestItem",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation specifies the collection of handle definitions in the context of the enclosing binary manifest"
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestItem",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BinaryManifestAddressableObject",
+      "bases": [
+        "ARObject",
+        "BinaryManifestAddressableObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BinaryManifestItem.auxiliaryField",
+        "BinaryManifestResource.item"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe a specific handle or auxiliary field in the context of binary manifest resource.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 919,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "auxiliaryField": {
+          "type": "BinaryManifestItem",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation is used to define structured Binary"
+        },
+        "defaultValue": {
+          "type": "BinaryManifestItem",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the definition of a default for a binary manifest handle or an auxiliaryField. shall be taken if no connection for this possible."
+        },
+        "isUnused": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If true, the handle or auxiliary field in the context of binary relates to an optional BinaryManifest is not used."
+        },
+        "value": {
+          "type": "BinaryManifestItem",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the definition of a value for a manifest handle or an auxiliaryField. shall be taken to establish a connection."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestItemDefinition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BinaryManifestItemDefinition.auxiliaryFieldDefinition",
+        "BinaryManifestResourceDefinition.itemDefinition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to define the handle definition or an auxiliary field of a binary manifest resource.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 920,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "auxiliaryField": {
+          "type": "BinaryManifestItem",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation is used to define structured Binary ManifestItemDefinitions."
+        },
+        "isOptional": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If true, the handle definition or auxiliary field of a binary is optional and may not be used in all to this BinaryManifest"
+        },
+        "size": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides the ability to specify the size of the"
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestAddressableObject",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "BinaryManifestItem",
+        "BinaryManifestMetaDataField"
+      ],
+      "subclasses": [
+        "BinaryManifestItem",
+        "BinaryManifestMetaDataField"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as an abstract base class for addressable objects in the context of the binary manifest of a CP software cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 920,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "address": {
+          "type": "Address",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the address of the enclosing"
+        },
+        "symbol": {
+          "type": "SymbolString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the symbol of the addressable"
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestItemValue",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "BinaryManifestItemNumericalValue",
+        "BinaryManifestItemPointerValue"
+      ],
+      "subclasses": [
+        "BinaryManifestItemNumericalValue",
+        "BinaryManifestItemPointerValue"
+      ],
+      "aggregated_by": [
+        "BinaryManifestItem.defaultValue",
+        "BinaryManifestItem.value"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to act as an abstract base class for values of binary manifest item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 922,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "BinaryManifestItemNumericalValue",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BinaryManifestItemValue",
+      "bases": [
+        "ARObject",
+        "BinaryManifestItemValue"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BinaryManifestItem.defaultValue",
+        "BinaryManifestItem.value"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to provide a numerical value for a binary manifest item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 922,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "value": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the actual numerical value to be the binary manifest handle."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestItemPointerValue",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BinaryManifestItemValue",
+      "bases": [
+        "ARObject",
+        "BinaryManifestItemValue"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BinaryManifestItem.defaultValue",
+        "BinaryManifestItem.value"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to provide a value for a pointer in the context of a binary manifest item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 922,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "address": {
+          "type": "Address",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the address value of the value."
+        },
+        "symbol": {
+          "type": "SymbolString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the symbol associated with the handle."
+        }
+      }
+    },
+    {
+      "name": "BinaryManifestMetaDataField",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BinaryManifestAddressableObject",
+      "bases": [
+        "ARObject",
+        "BinaryManifestAddressableObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CpSoftwareClusterBinaryManifestDescriptor.metaDataField"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to define a meta-data field for the binary manifest descriptor.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 923,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "size": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value of this attribute represents the size of the in bytes."
+        },
+        "value": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the value of the meta-data field."
+        }
+      }
+    }
+  ]
+}

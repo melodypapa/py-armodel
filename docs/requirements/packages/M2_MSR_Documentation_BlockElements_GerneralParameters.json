@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::Documentation::BlockElements::GerneralParameters",
+  "path": "M2::MSR::Documentation::BlockElements::GerneralParameters",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_BlockElements_GerneralParameters.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

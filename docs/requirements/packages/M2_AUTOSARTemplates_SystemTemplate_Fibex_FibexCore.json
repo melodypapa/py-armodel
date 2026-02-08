@@ -1,0 +1,24 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "CoreTopology",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreTopology.json"
+    },
+    {
+      "name": "CoreCommunication",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreCommunication.json"
+    }
+  ],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

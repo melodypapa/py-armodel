@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Lin_LinTopology.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 10,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

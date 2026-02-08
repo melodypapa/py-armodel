@@ -1,0 +1,134 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+  "classes": [
+    {
+      "name": "SpecificationScope",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataExchangePoint.specificationScope"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of the relevant subset of Autosar specifications.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 96,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "specification": {
+          "type": "SpecificationDocument",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Autosar or custom specifications that contain that are considered in this Data Exchange Point."
+        }
+      }
+    },
+    {
+      "name": "SpecificationDocumentScope",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SpecElementReference",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SpecificationScope.specificationDocumentScope"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Represents a standardized or custom specification document such as Software Component Template, Main Requirements, Specification of Communication, etc. Autosar specifications are referenced via their title.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 97,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "customDocumentation": {
+          "type": "Documentation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "reference to a custom defined specification."
+        },
+        "document": {
+          "type": "DocumentElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An element with a name or ID that is specified in the Specification Document."
+        }
+      }
+    },
+    {
+      "name": "DocumentElementScope",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SpecElementReference",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SpecificationDocumentScope.documentElementScope"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies if a specification element such as a requirement, specification, deliverable, artifact, task definition or activity is in scope of this data exchange point. The DocumentElementScope may reference all specification elements that have a name or ID. The only exception are Meta Classes, Meta Attribute and constraints which are handled in the Data Format Tailoring section of the Profile of Data Exchange Point. Elements of Autosar specification documents are referenced via their ID (requirement, specification items) or name (deliverable, artifact, task definition or activity)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 97,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "custom": {
+          "type": "Traceable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a custom defined specification element."
+        },
+        "tailoring": {
+          "type": "DataFormatElement",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Data Format Element that is implied by this element in the Used to share one rationale for more"
+        }
+      }
+    }
+  ]
+}

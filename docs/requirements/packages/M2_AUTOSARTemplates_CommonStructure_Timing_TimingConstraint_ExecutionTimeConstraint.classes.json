@@ -1,0 +1,74 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint",
+  "classes": [
+    {
+      "name": "ExecutionTimeConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Constrains the execution time of the referenced executable in component between a minimum and maximum interval. The time to execute the executable including interruptions by other entities and including external calls is commonly called \"response time\". The TimingExtensions provide the concept of event chains and latency constraints for that purpose. An event chain from the start of the entity to the termination of the entity with according latency constraint represents a response time constraint for that executable entity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 130,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "component": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "for the ExecutionTimeConstraint. If the entity is in a module no component shall be provided. by: ComponentIn"
+        },
+        "executable": {
+          "type": "ExecutableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced ExecutableEntity for the ExecutionTime"
+        },
+        "executionTime": {
+          "type": "ExecutionTimeType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the type of the execution time constrained by ExecutionTimeConstraint,"
+        },
+        "maximum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum execution time."
+        },
+        "minimum": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum execution time."
+        }
+      }
+    }
+  ]
+}

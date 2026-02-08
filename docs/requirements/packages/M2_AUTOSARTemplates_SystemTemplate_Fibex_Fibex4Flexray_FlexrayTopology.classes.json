@@ -1,0 +1,721 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+  "classes": [
+    {
+      "name": "FlexrayCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay specific attributes to the physicalCluster",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 80,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "actionPointOffset": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The offset of the action point in networks"
+        },
+        "bit": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Nominal bit time (= 1 / fx:SPEED). gdBit = cSamplesPer gdSampleClockPeriod. Unit: seconds (gdBit)"
+        },
+        "casRxLowMax": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Upper limit of the Collision Avoidance Symbol (CAS) Unit:bitDuration"
+        },
+        "coldStart": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum number of times that a node in this cluster permitted to attempt to start the cluster by initiating"
+        },
+        "cycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of the cycle. Unit: seconds"
+        },
+        "cycleCountMax": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum cycle counter value in a given cluster. Remark: 63 for FlexRay Protocol 2.1 Rev. A compliance."
+        },
+        "detectNitError": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether NIT error status of each cluster shall be not."
+        },
+        "dynamicSlotIdle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of the dynamic slot idle phase in minislots."
+        },
+        "ignoreAfterTx": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Duration for which the bitstrobing is paused after"
+        },
+        "listenNoise": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Upper limit for the start up and wake up listen timeout in of noise. Expressed as a multiple of the pdListenTimeout. Unit microticks"
+        },
+        "macroPerCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The number of macroticks in a communication cycle"
+        },
+        "macrotick": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Duration of the cluster wide nominal macrotick, expressed s."
+        },
+        "maxWithout": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Threshold concerning vClockCorrectionFailedCounter. the number of consecutive even/odd Cycle pairs missing clock correction terms that will cause the transition from the POC:normal active state to passive state."
+        },
+        "minislotAction": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Offset of the action point within a minislot. Unit:"
+        },
+        "minislotDuration": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of a minislot (dynamic segment). Unit:"
+        },
+        "networkIdle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of the network idle time in macroticks 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "network": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of the Network Management vector in a cluster"
+        },
+        "numberOfMinislots": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of Minislots in the dynamic segment."
+        },
+        "numberOfStaticSlots": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The number of static slots in the static segment."
+        },
+        "offsetCorrection": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Start of the offset correction phase within the Network Time (NIT), expressed as the number of macroticks start of cycle. Unit: macroticks"
+        },
+        "payloadLength": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Globally configured payload length of a static frame. Unit: WORDS."
+        },
+        "safetyMargin": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Additional timespan in macroticks which takes jitter into be able to set the JobListPointer to the next which can be executed in case the FlexRay Execution Function has be resynchronized."
+        },
+        "sampleClockPeriod": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Sample clock period. Unit: seconds"
+        },
+        "staticSlot": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of a slot in the static segment. Unit:"
+        },
+        "symbolWindow": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of macroticks the action point offset is from the of the symbol window [Macroticks]."
+        },
+        "syncFrameId": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of distinct syncframe identifiers present a given cluster. This parameter maps to FlexRay Rev. A parameter gSyncNodeMax."
+        },
+        "tranceiver": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The duration of timer t_TrcvStdbyDelay in seconds. The of this parameter shall be restricted to full Flex (cycle). The transceiver status setting to be delayed by this value. a value or a value of 0 shall imply that the not used."
+        },
+        "transmission": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of bits in the Transmission Start Sequence [gd"
+        },
+        "wakeupRxIdle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of bits used by the node to test the duration of or HIGH phase of a received wakeup. Unit:bit parameter maps to FlexRay Protocol 2.1 parameter gdWakeupSymbolRxIdle."
+        },
+        "wakeupRxLow": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of bits used by the node to test the duration of phase of a received wakeup. Unit:bitDuration parameter maps to FlexRay Protocol 2.1 parameter gdWakeupSymbolRxLow."
+        },
+        "wakeupRx": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size of the window used to detect wakeups [gdBit]. This parameter maps to FlexRay Protocol 2.1 parameter gdWakeupSymbolRxWindow."
+        },
+        "wakeupTxActive": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of bits used by the node to transmit the LOW awakeup symbol and the HIGH and LOW a WUDOP. Unit:bitDuration"
+        },
+        "wakeupTxIdle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of bits used by the node to transmit the ’idle’ part wakeup symbol. Unit: gDbit"
+        }
+      }
+    },
+    {
+      "name": "FlexrayCommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay bus specific communication port attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 84,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 446,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accepted": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Expanded range of measured clock deviation allowed for frames during integration. Unit:microtick"
+        },
+        "allowHaltDueTo": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Boolean flag that controls the transition to the POC:halt due to a clock synchronization errors. If set to true, Controller is allowed to transition to set to false, the Communication Controller transition to the POC:halt state but will enter or the normal POC (passive State)."
+        },
+        "allowPassiveTo": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of consecutive even/odd cycle pairs that shall valid clock correction terms before the will be allowed to transition POC:normal passive state to POC:normal active set to 0, the Communication Controller is not transition from POC:norm"
+        },
+        "clusterDrift": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The cluster drift damping factor used in clock rate correction in microticks"
+        },
+        "decoding": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value used by the receiver to calculate the difference primary time reference point and secondary time Unit: Microticks (pDecodingCorrection)"
+        },
+        "delay": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value used to compensate for reception delays on B. Unit: Microticks. This optional parameter shall filled out if channel B is used."
+        },
+        "externalSync": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag indicating whether the node is externally as Time Gateway Sink in an Triggered External Sync cluster) or locally"
+        },
+        "externOffset": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Fixed amount added or subtracted to the calculated offset term to facilitate external offset correction, node-local microticks."
+        },
+        "externRate": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Fixed amount added or subtracted to the calculated rate term to facilitate external rate correction, node-local microticks."
+        },
+        "fallBackInternal": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag indicating whether a Time Gateway Sink node will local clock operation when synchronization with Gateway Source node is lost (pFallBackInternal or will instead go to POC:ready (pFallBackInternal"
+        },
+        "flexrayFifo": {
+          "type": "FlexrayFifo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "One First In First Out (FIFO) queued receive structure, the admittance criteria to the FIFO."
+        },
+        "keySlotID": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ID of the slot used to transmit the startup frame, sync designated single slot frame. If the attributes or keySlot set to true the key slot value is"
+        },
+        "keySlotOnly": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag indicating whether or not the node shall enter key only mode following startup."
+        },
+        "keySlotUsedFor": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag indicating whether the Key Slot is used to transmit a frame."
+        },
+        "latestTX": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The number of the last minislot in which a transmission in the dynamic segment for the respective node"
+        },
+        "listenTimeout": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value for the startup listen timeout and wakeup listen this is a node local parameter, the real of this value should be the same for all the cluster. Unit: Microticks"
+        },
+        "macroInitial": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Integer number of macroticks between the static slot and the closest macrotick boundary of the reference point based on the nominal (pMacroInitialOffset). This optional only be filled out if channel B is used."
+        },
+        "maximum": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum payload length for the dynamic channel of a in 16 bit WORDS."
+        },
+        "microInitial": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of microticks between the closest macrotick described by gMacroInitialOffset and the reference point. The parameter depends and therefore it has to be set each channel. This optional parameter be filled out if channel B is used."
+        },
+        "microPerCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The nominal number of microticks in a communication"
+        },
+        "microtick": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Duration of a microtick. This attribute can be derived from and gdSampleClockPeriod. Unit:"
+        },
+        "nmVectorEarly": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag indicating when the update of the Network Vector in the CHI shall take place. If set to update shall take place after the NIT. If set to update shall take place after the end of the static"
+        },
+        "offsetCorrection": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Magnitude of the maximum permissible offset correction Unit:microtick (pOffsetCorrectionOut)"
+        },
+        "rateCorrection": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Magnitude of the maximum permissible rate correction and the maximum drift offset between two nodes unsynchronized clocks for one Unit:Microticks (pRateCorrection parameter maps to FlexRay Protocol 2.1 parameter pdMaxDrift."
+        },
+        "samplesPerMicrotick": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of samples per microtick"
+        },
+        "secondKeySlot": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ID of the second Key slot, in which a second startup shall be sent in TT-L Time Triggered Local Master TT-E Time Triggered External Sync mode. If this set to zero the node does not have a second"
+        },
+        "twoKeySlot": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Flag indicating whether node operates as a startup node a TT-E Time Triggered External Sync or TT-L Time Master Sync cluster."
+        },
+        "wakeUpPattern": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of repetitions of the Tx-wakeup symbol to be sent CC_WakeupSend state of this Node in the"
+        }
+      }
+    },
+    {
+      "name": "FlexrayFifoConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayCommunicationController.flexrayFifo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO, and mandating the ability to admit messages into the FIFO based on Message Id filtering criteria.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "admitWithout": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Boolean configuration which determines whether or not received in the dynamic segment that don’t message ID will be admitted into the FIFO."
+        },
+        "baseCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FIFO cycle counter acceptance criteria."
+        },
+        "channel": {
+          "type": "FlexrayPhysicalChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Fifo channel admittance criteria."
+        },
+        "cycleRepetition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FIFO cycle counter acceptance criteria."
+        },
+        "fifoDepth": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FrFifoDepth configures the maximum number of can be contained in the FIFO."
+        },
+        "fifoRange": {
+          "type": "FlexrayFifoRange",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FIFO Frame Id range acceptance criteria."
+        },
+        "msgIdMask": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FIFO message identifier acceptance criteria (Mask filter)."
+        },
+        "msgIdMatch": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FIFO message identifier acceptance criteria (Match filter)."
+        }
+      }
+    },
+    {
+      "name": "FlexrayFifoRange",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayFifoConfiguration.fifoRange"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FIFO Frame Id range acceptance criteria.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rangeMax": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Max Range."
+        },
+        "rangeMin": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Min Range."
+        }
+      }
+    },
+    {
+      "name": "FlexrayCommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommunicationConnector",
+      "bases": [
+        "ARObject",
+        "CommunicationConnector",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay specific attributes to the CommunicationConnector",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nmReadySleep": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value of this attribute influences the shutdown of the FlexRay NM. FrNm switches to bus sleep seconds after the completion last repetition cycle containing a NM vote."
+        },
+        "wakeUp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Referenced channel used by the node to send a wakeup (pWakeupChannel)"
+        }
+      }
+    },
+    {
+      "name": "FlexrayPhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PhysicalChannel",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PhysicalChannel",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay specific attributes to the physicalChannel",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "channelName": {
+          "type": "FlexrayChannelName",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Name of the channel (Channel A or Channel B)."
+        }
+      }
+    }
+  ]
+}

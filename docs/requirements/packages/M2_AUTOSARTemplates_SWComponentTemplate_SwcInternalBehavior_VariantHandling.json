@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_VariantHandling.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

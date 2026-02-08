@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Fim.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Fim.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

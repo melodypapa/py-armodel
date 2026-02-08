@@ -1,0 +1,84 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList",
+  "classes": [
+    {
+      "name": "IPv6ExtHeaderFilterSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Set of IPv6 Extension Header Filters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 455,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "extHeaderFilter": {
+          "type": "IPv6ExtHeaderFilterList",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "In order to permit or deny certain types of IPv6 extension a permitted list of IPv6 extension headers can be"
+        }
+      }
+    },
+    {
+      "name": "IPv6ExtHeaderFilterList",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IPv6ExtHeaderFilterSet.extHeaderFilterList"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Permitted list for the filtering of IPv6 extension headers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 455,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allowedIPv6Ext": {
+          "type": "PositiveInteger",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IPv6 Extension Header type allowed by this filter."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2072 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+  "classes": [
+    {
+      "name": "DoIpTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one DoIpTp Configuration that is used to configure all DoIPChannels available in a DoIpInterface. Each DoIPChannel describes a connection between a doIpSourceAddress and a doIpTargetAddress and the exchange of DcmIPdus between the PduR and DoIP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 555,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "doIpLogicAddress": {
+          "type": "DoIpLogicAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of logical DoIP Addresses."
+        },
+        "tpConnection": {
+          "type": "DoIpTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of unidirectional connections between a source a target address."
+        }
+      }
+    },
+    {
+      "name": "DoIpLogicAddress",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DoIpConfig.logicAddress",
+        "DoIpTpConfig.doIpLogicAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The logical DoIP address.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 555,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "address": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The logical DoIP address."
+        },
+        "doIpLogic": {
+          "type": "AbstractDoIpLogic",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of additional LogicAddress properties."
+        }
+      }
+    },
+    {
+      "name": "TpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DoIpTpConfig",
+        "FlexrayTpConfig",
+        "FlexrayArTpConfig",
+        "CanTpConfig",
+        "LinTpConfig",
+        "EthTpConfig",
+        "SomeipTpConfig",
+        "J1939TpConfig",
+        "IEEE1722TpConfig"
+      ],
+      "subclasses": [
+        "CanTpConfig",
+        "DoIpTpConfig",
+        "EthTpConfig",
+        "FlexrayArTpConfig",
+        "FlexrayTpConfig",
+        "IEEE1722TpConfig",
+        "J1939TpConfig",
+        "LinTpConfig",
+        "SomeipTpConfig"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Contains all configuration elements for AUTOSAR TP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 587,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "CommunicationCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A TpConfig is existing always in the context of exactly one"
+        }
+      }
+    },
+    {
+      "name": "TpAddress",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayArTpConfig.tpAddress",
+        "FlexrayTpConfig.tpAddress",
+        "J1939TpConfig.tpAddress",
+        "LinTpConfig.tp"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An ECUs TP address on the referenced channel. This represents the diagnostic Address.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 588,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An ECUs TP address on the referenced channel. This diagnostic Address."
+        }
+      }
+    },
+    {
+      "name": "FlexrayTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one FlexRay ISO TP Configuration. One FlexRayTpConfig element shall be created for each FlexRay Network in the System that uses Flex Ray Iso Tp.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 592,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "pduPool": {
+          "type": "FlexrayTpPduPool",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of FlexRay TP Pdu Pools. atpVariation"
+        },
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TpAddresses. because EcuInstance can vary. atpVariation"
+        },
+        "tpConnection": {
+          "type": "FlexrayTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of FlexRay TP Connection Controls. Stereotypes: atpSplitable; atpVariation"
+        },
+        "tpEcu": {
+          "type": "FlexrayTpEcu",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TP Ecus because EcuInstance can vary. atpVariation"
+        },
+        "tpNode": {
+          "type": "FlexrayTpNode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of FlexRay TP messages. because EcuInstance can vary. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "FlexrayTpConnectionControl",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayTpConfig.tpConnectionControl"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration parameters to control a FlexRay TP connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 593,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ackType": {
+          "type": "TpAckType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the type of acknowledgement used for the specific channel."
+        },
+        "maxFcWait": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum number of Flow with FlowState \"WAIT\"."
+        },
+        "maxNumberOf": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter limits the number of N-Pdus the sender is to transmit within a FlexRay cycle."
+        },
+        "maxRetries": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the maximum number of retries (if configured for the particular channel)."
+        },
+        "separationCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Exponent to calculate the minimum number of Cycles\" the sender has to wait for the next an FrTp N-Pdu."
+        },
+        "timeBr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time (in seconds) until transmission of the next Flow"
+        },
+        "timeBuffer": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the time of waiting for the next try a Tx or Rx buffer. is equivalent to the temporal distance FC.WT N-Pdus in case the buffer request seconds."
+        },
+        "timeCs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time (in seconds) until transmission of the next / LastFrame NPdu."
+        },
+        "timeoutAr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter states the timeout between the PDU of the Transport Layer to the FlexRay the corresponding confirmation of the Flex on the receiver side (for FC or AF). seconds."
+        },
+        "timeoutAs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute states the timeout between the PDU for the first PDU of the group used in the of the Transport Layer to the FlexRay the corresponding confirmation of the Flex (when having sent the last PDU of the in this connection) on the sender side (SF-x, or FC (in case of Transmit Cancellation)). seconds."
+        },
+        "timeoutBs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the timeout in seconds for waiting FC or AF on the sender side in a 1:1 connection."
+        },
+        "timeoutCr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the timeout value in seconds for a CF or FF-x (in case of retry) after receiving CF or after sending an FC or AF on the receiver in seconds."
+        }
+      }
+    },
+    {
+      "name": "FlexrayTpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConnection",
+      "bases": [
+        "ARObject",
+        "TpConnection"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayTpConfig.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A connection identifies the sender and the receiver of this particular communication. The FlexRayTp module routes a Pdu through this connection. In a System Description the references to the PduPools are mandatory. In an ECU Extract these references can be optional: On unicast connections these references are always mandatory. On multicast the txPduPool is mandatory on the sender side. The rxPduPool is mandatory on the receiver side. On Gateway ECUs both references are mandatory.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 594,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bandwidth": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether the connection requires a bandwidth or not."
+        },
+        "directTpSdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the IPdu that is segmented by the Transport"
+        },
+        "multicast": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "TP address for 1:n connections."
+        },
+        "receiver": {
+          "type": "FlexrayTpNode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target of the TP connection."
+        },
+        "reversedTpSdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the IPdu that is segmented by the Transport support of both sending and receiving is used, references the IPdu used for the direction."
+        },
+        "rxPduPool": {
+          "type": "FlexrayTpPduPool",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A connection has a reference to a set of NPdus (FrTpRx are defined for receiving data via this constraint is valid only for the System In case this connection is applied to the rxPduPool holds the actually received case this connection is applied to the receiver holds the actually sent NPdus."
+        },
+        "tpConnection": {
+          "type": "FlexrayTpConnection",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the connection control."
+        },
+        "transmitter": {
+          "type": "FlexrayTpNode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The source of the TP connection."
+        },
+        "txPduPool": {
+          "type": "FlexrayTpPduPool",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A connection has a reference to a set of NPdus (FrTpTx are defined for sending data via this constraint is valid only for the System In case this connection is applied to the txPduPool holds the actually sent case this connection is applied to the receiver holds the actually received NPdus."
+        }
+      }
+    },
+    {
+      "name": "FlexrayTpPduPool",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayTpConfig.pduPool"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexrayTpPduPool is a set of N-PDUs which are defined for FrTp sending or receiving purpose.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 596,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nPdu": {
+          "type": "NPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to NPdus that are part of the PduPool."
+        }
+      }
+    },
+    {
+      "name": "FlexrayTpNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayTpConfig.tpNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 596,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connector": {
+          "type": "Communication",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to one or more physical connectors (max of connectors for FlexRay: 2). System Description this reference is mandatory. In Extract this reference is optional (references to are not part of the ECU Extract shall be"
+        },
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the TP Address that is used by the TpNode. is optional in case that the multicast TP used (reference from TpConnection)."
+        }
+      }
+    },
+    {
+      "name": "FlexrayTpEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayTpConfig.tpEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ECU specific TP configuration parameters. Each TpEcu element has a reference to exactly one ECUInstance in the topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 596,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cancellation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "With this switch Tx and Rx Cancellation can be turned on 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "cycleTimeMain": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The period between successive calls to the Main Function the AUTOSAR TP. Specified in seconds."
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Connection to the ECUInstance in the Topology"
+        },
+        "fullDuplex": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The full duplex mechanisms is enabled if this attribute is to true. Otherwise half duplex is enabled."
+        }
+      }
+    },
+    {
+      "name": "FlexrayArTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one FlexRay Autosar TP Configuration. One FlexrayArTpConfig element shall be created for each FlexRay Network in the System that uses Flex Ray Autosar TP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 599,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TpAddresses. atpVariation"
+        },
+        "tpChannel": {
+          "type": "FlexrayArTpChannel",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of FlexRay Autosar Transport Protocol atpVariation"
+        },
+        "tpNode": {
+          "type": "FlexrayArTpNode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of TP messages. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "FlexrayArTpChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayArTpConfig.tpChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A channel is a group of connections sharing several properties. The FlexRay AutosarTransport Layer supports several channels. These channels can work concurrently, thus each of them requires its own state machine and management data structures and its own PDU-IDs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 600,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ackType": {
+          "type": "FrArTpAckType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Type of Acknowledgement."
+        },
+        "cancellation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "With this switch Tx and Rx Cancellation can be turned on"
+        },
+        "extended": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Adressing Type of this connection: Two Bytes Byte"
+        },
+        "maxAr": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum number of trying to frame when a TIMEOUT AR occurs (depending retry is configured)."
+        },
+        "maxAs": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum number of trying to frame when a TIMEOUT AS occurs (depending on is configured)."
+        },
+        "maxBs": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the number of consecutive CFs FCs (block size). Valid values are 1 .. 16 is activated, and 0 .. 255 otherwise."
+        },
+        "maxFcWait": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximal number of wait frames sent for a pending connection. Range is 0..255."
+        },
+        "maximum": {
+          "type": "MaximumMessage",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the maximum message length for the particular channel."
+        },
+        "maxRetries": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum number of retries (if configured for the particular channel). 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "minimum": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the minimum amount of time two succeeding CFs of a 1:1 segmented seconds. Valid values are 0, 100µs, 200µs 1ms, 2ms .. 127ms. The value can be changed using the FrArTp_ChangeParameter interface. shall be an integer multiple cycle length multiplied with the multiplexing factor, = n * cycle * m, where n is >=0, cycle is FlexrayCluster.cycle, and m is the of those cycles where PDUs of the PDU scheduled. Due to the scheduling strategies of FrTp, only be kept to a degree the maximum temporal distance of the PDUs PDU pool within one FlexRay cycle. .. 0.127"
+        },
+        "multicast": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether segmentation within a 1:n is allowed or not."
+        },
+        "nPdu": {
+          "type": "NPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A FlexRayTpChannel references a set of NPdus. These logically assembled into a pool of Rx NPdus pool of Tx NPdus. It shall be ensured that a either references all NPdus of such a none."
+        },
+        "timeBr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the time in seconds between last CF of a block or an FF-x (or SF-x) and an FC or AF."
+        },
+        "timeCs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the time in seconds between the two consecutive frames or between a and a flow control (for Transmit between reception of an flow control or and sending of the next or a flow control (for Transmit"
+        },
+        "timeoutAr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute states the timeout in seconds between the request of the Transport Layer to the Flex and the corresponding confirmation of the on the receiver side (for FC or AF). 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "timeoutAs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute states the timeout in seconds between the request for the first PDU of the group used current connection of the Transport Layer to the and the corresponding confirmation of Interface (when having sent the last PDU of used in this connection) on the sender side CF)."
+        },
+        "timeoutBs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout in seconds for waiting FC or AF on the sender side in a 1:1 connection."
+        },
+        "timeoutCr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout value in seconds for a CF or FF-x (in case of retry) after receiving CF or after sending an FC or AF on the receiver"
+        },
+        "tpConnection": {
+          "type": "FlexrayArTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Group of connections that can be used in this channel."
+        }
+      }
+    },
+    {
+      "name": "FlexrayArTpNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayArTpConfig.tpNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 602,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connector": {
+          "type": "FlexrayCommunication",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to one or more physical connectors (max of connectors for FlexRay: 2). System Description this reference is mandatory. In Extract this reference is optional (references to are not part of the ECU Extract shall be"
+        },
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the TP Address that is used by the TpNode. is optional in case that the multicast TP used (reference from TpConnection)."
+        }
+      }
+    },
+    {
+      "name": "FlexrayArTpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConnection",
+      "bases": [
+        "ARObject",
+        "TpConnection"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "FlexrayArTpChannel.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A connection within a channel identifies the sender and the receiver of this particular communication. The FlexRay Autosar Tp module routes a Pdu through this connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 603,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connectionPrio": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the number of PDUs that shall be for this connection when it is active. The range"
+        },
+        "directTpSdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the IPdu that is segmented by the Transport address of the transmitted NPdu is the configured source Communication target address of the transmitted NPdu is the configured target Communication"
+        },
+        "multicast": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "TP address for 1:n connections."
+        },
+        "reversedTpSdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the IPdu that is segmented by the Transport support of both sending and receiving is used, references the IPdu used for the direction. address of the transmitted NPdu is the configured target Communication target address of the transmitted NPdu is the configured source Communication"
+        },
+        "source": {
+          "type": "FlexrayArTpNode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The source of the TP connection."
+        },
+        "target": {
+          "type": "FlexrayArTpNode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target of the TP connection."
+        }
+      }
+    },
+    {
+      "name": "CanTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one CAN TP Configuration. One CanTpConfig element shall be created for each CAN Network in the System.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 606,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "CanTpAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TP Addresses. because EcuInstance can vary. atpVariation"
+        },
+        "tpChannel": {
+          "type": "CanTpChannel",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of CAN TP channels. atpVariation"
+        },
+        "tpConnection": {
+          "type": "CanTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of CAN TP messages. because TpNode can vary. atpVariation"
+        },
+        "tpEcu": {
+          "type": "CanTpEcu",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TP Ecus because EcuInstance can vary. atpVariation"
+        },
+        "tpNode": {
+          "type": "CanTpNode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of Can TP messages. because EcuInstance can vary. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "CanTpChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanTpConfig.tpChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration parameters of the CanTp channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 608,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "channelId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The id of the channel. The value shall be unique for each"
+        }
+      }
+    },
+    {
+      "name": "CanTpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConnection",
+      "bases": [
+        "ARObject",
+        "TpConnection"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanTpConfig.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A connection identifies the sender and the receiver of this particular communication. The CanTp module routes a Pdu through this connection. atpVariation: Derived, because TpNode can vary.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 608,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "addressing": {
+          "type": "CanTpAddressing",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Declares which communication addressing mode is supported."
+        },
+        "cancellation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "With this switch Tx Cancellation can be turned on or off. that the Rx Cancellation is always enabled."
+        },
+        "canTpChannel": {
+          "type": "CanTpChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the CanTpChannel on which this CanTp realized."
+        },
+        "dataPdu": {
+          "type": "NPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an Data NPdu."
+        },
+        "flowControlPdu": {
+          "type": "NPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Flow Control NPdu."
+        },
+        "maxBlockSize": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum number of N-PDUs the CanTp receiver sender to send, before waiting for an continue transmission of the following further details on this parameter value see specification. reasons of buffer length, the CAN Transport adapt the BS value within the limit of this"
+        },
+        "multicast": {
+          "type": "CanTpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "TP address for 1:n connections."
+        },
+        "padding": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies whether or not Sfs, FCs and the last CF be padded to 8 bytes length in case it contains less N-PDU received uses padding for SF, FC and CF. (N-PDU length is always 8 bytes) N-PDU received does not use padding for SF, the last CF. (N-PDU length is dynamic)"
+        },
+        "receiver": {
+          "type": "CanTpNode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target of the TP connection."
+        },
+        "taTypeType": {
+          "type": "NetworkTargetAddress",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Network Target Address type. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "timeoutBr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value in seconds of the performance requirement for (N_ N_Ar). N_Br is the elapsed time between the of a FF or CF or the transmit a FC, until the transmit request of the next"
+        },
+        "timeoutBs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the timeout for waiting for an FC on the sender side in an 1:1 connection. Specified"
+        },
+        "timeoutCr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter defines the timeout value for waiting for a FF-x (in case of retry) after receiving the last CF or an FC or AF on the receiver side. Specified"
+        },
+        "timeoutCs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute timeoutCs represents the time (in seconds) between the transmit request of a CF the transmit request of the next CF N-PDU."
+        },
+        "tpSdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an IPdu that is segmented by the Transport"
+        },
+        "transmitter": {
+          "type": "CanTpNode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The source of the TP connection."
+        }
+      }
+    },
+    {
+      "name": "CanTpAddress",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanTpConfig.tpAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An ECUs TP address on the referenced channel. This represents the diagnostic Address.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 610,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If the mixed addressing format is used, this parameter the transport protocol address extension value."
+        }
+      }
+    },
+    {
+      "name": "CanTpEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanTpConfig.tpEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ECU specific TP configuration parameters. Each TpEcu element has a reference to exactly one ECUInstance in the topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 610,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cycleTimeMain": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The period between successive calls to the Main Function the AUTOSAR TP. Specified in seconds."
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Connection to the ECUInstance in the Topology"
+        }
+      }
+    },
+    {
+      "name": "CanTpNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CanTpConfig.tpNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 611,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connector": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to a CommunicationConnector in the description. In a System Description this mandatory. In an ECU Extract this reference (references to ECUs that are not part of the shall be avoided)."
+        },
+        "maxFcWait": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum number of flow control can be consecutively be transmitted by a"
+        },
+        "stMin": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Sets the duration of the minimum time the CanTp sender between the transmissions of two CF N-PDUs."
+        },
+        "timeoutAr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute states the timeout between the PDU of the Transport Layer to the Can the corresponding confirmation of the Can the receiver side (for FC or AF). Specified in"
+        },
+        "timeoutAs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute states the timeout between the PDU for the first PDU of the group used in the of the Transport Layer to the Can the corresponding confirmation of the Can having sent the last PDU of the group this connection) on the sender side (SF-x, FF-x, FC (in case of Transmit Cancellation)). Specified in"
+        },
+        "tpAddress": {
+          "type": "CanTpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the TP Address that is used by the TpNode. is optional in case that the multicast TP used (reference from TpConnection)."
+        }
+      }
+    },
+    {
+      "name": "LinTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one Lin TP Configuration. One LinTpConfig element shall be created for each Lin Network in the System.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 614,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TpAddresses. because EcuInstance can vary. atpVariation"
+        },
+        "tpConnection": {
+          "type": "LinTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of LIN TP channels. because TpNode can vary. atpVariation"
+        },
+        "tpNode": {
+          "type": "LinTpNode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of LIN TP messages. because EcuInstance can vary. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "LinTpNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinTpConfig.tpNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 614,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connector": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to a CommunicationConnector in the description. System Description this reference is mandatory. In Extract this reference is optional (references to are not part of the ECU Extract shall be"
+        },
+        "dropNot": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configures if TP Frames of not requested LIN-Slaves are or not. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "maxNumberOf": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configures the maximum number of allowed response frames."
+        },
+        "p2Max": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "After reception of a response pending frame the P2 is reloaded with the timeout time P2max."
+        },
+        "p2Timing": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "P2 timeout observation parameter."
+        },
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the TP Address that is used by the TpNode. is optional in case that the multicast TP used (reference from TpConnection)."
+        }
+      }
+    },
+    {
+      "name": "LinTpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConnection",
+      "bases": [
+        "ARObject",
+        "TpConnection"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinTpConfig.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A LinTP channel represents an internal path for the transmission or reception of a Pdu via LinTp and describes the sender and the receiver of this particular communication. LinTp supports (per Lin Cluster) the configuration of one Rx Tp-SDU and one Tx Tp-SDU per NAD the LinMaster uses to address one or more of its Lin Slaves. To support this an arbitrary number of LinTp Connections shall be described.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 615,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataPdu": {
+          "type": "NPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an NPdu (Single Frame, First Frame or Frame network protocol data unit (SF N_PDU) sent out by the sending network entity and can by one or multiple receiving network entities. Frame (SF N_PDU) shall be sent out to service data unit that can be transferred via a request to the data link layer. This network unit shall be sent to transfer unsegmented Frame network protocol data unit (FF N_PDU) first network protocol data unit (N_PDU) of a transmitted by a network sending received by a receiving network entity. Frame network protocol data unit (CF segments (N_Data) of the service data data (<MessageData>). All network units (N_PDUs) transmitted by the sending the First Frame network protocol data unit (FF be encoded as Consecutive Frames data units (CF N_PDUs). 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "flowControl": {
+          "type": "NPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the Flow Control NPdu. Control network protocol data unit (FC N_PDU) by the Flow Control protocol control N_PCI). The Flow Control network unit (FC N_PDU) instructs a sending to start, stop or resume transmission of CF Flow Control network protocol data unit sent by the receiving network layer entity to the layer entity, when ready to receive more correct reception of: Frame network protocol data unit (FF N_PDU) last Consecutive Frame network protocol data unit of a block of Consecutive Frames (CF N_ further Consecutive Frame network protocol data N_PDU) need(s) to be sent."
+        },
+        "linTpNSdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the IPdu that is segmented by the Transport"
+        },
+        "multicast": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "TP address for 1:n connections."
+        },
+        "receiver": {
+          "type": "LinTpNode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target of the TP connection."
+        },
+        "timeoutAs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time for transmission of the LIN frame (any N-PDU) on side. Specified in seconds."
+        },
+        "timeoutCr": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the timeout value for waiting for a FF-x (in case of retry) after receiving the last CF or an FC or AF on the receiver side. Specified"
+        },
+        "timeoutCs": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute timeoutCs represents the time (in seconds) between the transmit request of a CF the transmit request of the next CF N-PDU."
+        },
+        "transmitter": {
+          "type": "LinTpNode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The source of the TP connection."
+        }
+      }
+    },
+    {
+      "name": "EthTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines which PduTriggerings shall be handled using \"TP\" semantics.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 617,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpConnection": {
+          "type": "EthTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of SOME/IP TP messages."
+        }
+      }
+    },
+    {
+      "name": "EthTpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConnection",
+      "bases": [
+        "ARObject",
+        "TpConnection"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthTpConfig.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A connection identifies which PduTriggerings shall be handled using the \"TP\" semantics.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 618,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpSdu": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a PduTriggering that shall be transported \"TP\" semantics."
+        }
+      }
+    },
+    {
+      "name": "SomeipTpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one SOME/IP TP Configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 619,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpChannel": {
+          "type": "SomeipTpChannel",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of SomeipTpChannels that are collecting that are valid for a collection of"
+        },
+        "tpConnection": {
+          "type": "SomeipTpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of SOME/IP TP messages."
+        }
+      }
+    },
+    {
+      "name": "SomeipTpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SomeipTpConfig.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A connection identifies the sender and the receiver of this particular communication. The SOME/IP TP module routes a Pdu through this connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 620,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpChannel": {
+          "type": "SomeipTpChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Assignment of configuration properties valid for this"
+        },
+        "tpSdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to an IPdu that is segmented by the Transport"
+        },
+        "transportPdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the segmented IPdu."
+        }
+      }
+    },
+    {
+      "name": "SomeipTpChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SomeipTpConfig.tpChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used to assign properties to SomeipTpConnections that are referencing this SomeipTp Channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 620,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "burstSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the number of segments that shall be a burst ignoring separationTime. then only be applied between bursts. configured, SeparationTime will be applied between"
+        },
+        "rxTimeoutTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timer to monitor the successful reception. It is started first NPdu is received, restarted after reception NPdus, and is stopped when the last been received."
+        },
+        "separationTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Sets the duration of the minimum time in seconds the module shall wait between the NPdus."
+        }
+      }
+    },
+    {
+      "name": "J1939TpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines exactly one J1939 TP Configuration. One J1939TpConfig element shall be created for each J1939 Network in the System.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 623,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of TP Adresses. because EcuInstance can vary. atpVariation"
+        },
+        "tpConnection": {
+          "type": "J1939TpConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of J1939 TP connections. because TpNode can vary. atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "tpNode": {
+          "type": "J1939TpNode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Senders and receivers of J1939 TP messages. because EcuInstance can vary. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "J1939TpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConnection",
+      "bases": [
+        "ARObject",
+        "TpConnection"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "J1939TpConfig.tpConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A J1939TpConnection represents an internal path for the transmission or reception of a Pdu via J1939Tp and describes the sender and the receiver of this particular communication. The J1939Tp module routes a Pdu (J1939 PGN) through the connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 624,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "broadcast": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "BAM (Broadcast Announce Message) is a broadcast this attribute is set to true broadcast is used. FF is the only broadcast address, there’s to configure it."
+        },
+        "bufferRatio": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines usage of available data for dynamic block size protocol retry is enabled. This attribute percent of available buffer that shall be used"
+        },
+        "cancellation": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enable support for Tx/Rx cancellation."
+        },
+        "dataPdu": {
+          "type": "NPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Data Message (TP.DT) used by CMDT and BAM. has a fixed length of 8 bytes."
+        },
+        "dynamicBs": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enable support for dynamic block size calculation. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "flowControlPdu": {
+          "type": "NPdu",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CMDT (Connection Mode Data Transfer) in both one TP.CM (Transport Protocol Command). has a fixed length of 8 bytes. that the role name \"flowControlIPdu\" is is kept for backward compatibilty reasons."
+        },
+        "maxBs": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Set maximum block size (number of packets in TP.CM_"
+        },
+        "maxExpBs": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Set maximum for expected block size (maximum number in TP.CM_RTS)."
+        },
+        "receiver": {
+          "type": "J1939TpNode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target of the TP connection."
+        },
+        "retry": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enable support for protocol retry."
+        },
+        "tpPg": {
+          "type": "J1939TpPg",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "J1939 messages (parameter groups, PGs) that can be this connection."
+        },
+        "transmitter": {
+          "type": "J1939TpNode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The source of the TP connection."
+        }
+      }
+    },
+    {
+      "name": "J1939TpPg",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "J1939TpConnection.tpPg"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A J1939TpPg represents one J1939 message (parameter group, PG) identified by the PGN (parameter group number) that can be received or transmitted via J1939Tp.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 625,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "directPdu": {
+          "type": "NPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "In case of variable length IPdus (with system signals of an additional NPdu (with the PGN in the is used for messages with up to 8 bytes."
+        },
+        "pgn": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Parameter group number (PGN) of a J1939 message PG) that can be received or J1939Tp. The PGN may be omitted when directPdu is referenced and is mapped into a Can an identifier."
+        },
+        "requestable": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Parameter Group can be triggered by the J1939 request 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "sdu": {
+          "type": "IPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to IPdus that are segmented by the Transport more than one IPdu is referenced, the IPdus when the same PGN is received in parallel via protocols (BAM, CMDT, direct) on the"
+        }
+      }
+    },
+    {
+      "name": "J1939TpNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "J1939TpConfig.tpNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 626,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connector": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to a CommunicationConnector in the description. In a System Description this mandatory. In an ECU Extract this reference (references to ECUs that are not part of the shall be avoided)."
+        },
+        "tpAddress": {
+          "type": "TpAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the TP Address that is used by the TpNode. is optional only when no TP is sent and is received."
+        }
+      }
+    }
+  ]
+}

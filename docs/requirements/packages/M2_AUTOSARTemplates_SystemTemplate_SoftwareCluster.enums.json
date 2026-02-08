@@ -1,0 +1,65 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+  "enumerations": [
+    {
+      "name": "DataConsistencyPolicyEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "note": "Defines how data consistency is ensured in the cross cluster communication. Aggregated by DataComProps.dataConsistencyPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 903,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "consistencyMechanism",
+          "index": 0,
+          "description": "In this case the data consistency is ensured by the implementation of the SwClucC module.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "noConsistency",
+          "index": 1,
+          "description": "In this case the data consistency is not ensured by the SwClucC module. In this case it has to be Mechanism ensured by scheduling.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "SendIndicationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+      "note": "This meta-class provides a way to specify in which way redundancy shall be applied on collection level. Aggregated by DataComProps.sendIndication",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 903,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "anySendOperation",
+          "index": 2,
+          "description": "This value represents the requirement that any send operation of the Software Cluster is indicated.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "This value represents the requirement that send operations of the Software Cluster are not indicated.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

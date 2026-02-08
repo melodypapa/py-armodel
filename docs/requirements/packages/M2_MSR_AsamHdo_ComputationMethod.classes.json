@@ -1,0 +1,709 @@
+{
+  "package": "M2::MSR::AsamHdo::ComputationMethod",
+  "classes": [
+    {
+      "name": "CompuMethod",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "that this is still independent of the technical implementation in data types. It only specifies the formula how the internal value corresponds to its physical pendant.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 308,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 380,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2010,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 436,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 30,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 176,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuInternal": {
+          "type": "Compu",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the computation from internal values to values."
+        },
+        "compuPhysTo": {
+          "type": "Compu",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the computation from physical values to internal values."
+        },
+        "displayFormat": {
+          "type": "DisplayFormatString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property specifies, how the physical value shall be in documents or measurement and"
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the physical unit of the Physical values for which applies."
+        }
+      }
+    },
+    {
+      "name": "CompuGenericMath",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDependency.swDataDependencyFormula"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a generic formula expression.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 374,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "level": {
+          "type": "PrimitiveIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Placeholder to describe an indicator of a language level mathematics e.g. INFORMAL, ASAMHDO. May be particular use-cases."
+        }
+      }
+    },
+    {
+      "name": "Compu",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuMethod.compuInternalToPhys",
+        "CompuMethod.compuPhysToInternal"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express one particular computation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 386,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuContent": {
+          "type": "CompuContent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the details of the computation."
+        },
+        "compuDefault": {
+          "type": "CompuConst",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property can be used to specify an output value for a formula, if the value to be converted lies plausibility limit. Although this is possible for formulae, it is especially valid for variables conversion formulae."
+        }
+      }
+    },
+    {
+      "name": "CompuContent",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CompuScales"
+      ],
+      "subclasses": [
+        "CompuScales"
+      ],
+      "aggregated_by": [
+        "Compu.compuContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract meta-class represents the various definition means of a computation method.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 386,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CompuScale",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuScales.compuScale"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify one segment of a segmented computation method.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 387,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2011,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 177,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "a2lDisplayText": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value of this attribute shall be taken for generating text (specifically the OutVal) within the the enclosing CompuMethod in A2L."
+        },
+        "compuInverse": {
+          "type": "CompuConst",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the inverse value of the constraint. This supports case that the scale is not reversible per se."
+        },
+        "compuScale": {
+          "type": "CompuScaleContents",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the computation details of the scale."
+        },
+        "desc": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "<desc> represents a general but brief description of the in question."
+        },
+        "lowerLimit": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the lower limit of the scale."
+        },
+        "mask": {
+          "type": "PositiveUnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In difference to all the other computational methods every be applied including the bit MASK. is allowed for this type of COMPU-METHOD, overlap. the string reverse to a value, the string has to and the according value for each substring has to up. The sum is finally transmitted. has to be done in order of the"
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies a short name for the particular name can for example be used to derive a identifier."
+        },
+        "symbol": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The symbol, if provided, is used by code generators to get identifier for the CompuScale. The name will be used for the code generation, therefore it needs to be the generation context. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "upperLimit": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the upper limit of a of the scale."
+        }
+      }
+    },
+    {
+      "name": "CompuScales",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompuContent",
+      "bases": [
+        "ARObject",
+        "CompuContent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Compu.compuContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to stepwise express a computation method.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 388,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuScale": {
+          "type": "CompuScale",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents one scale within the compu method. Note it contains a Variationpoint in order to support enumerations. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "CompuScaleContents",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CompuScaleRationalFormula",
+        "CompuScaleConstantContents"
+      ],
+      "subclasses": [
+        "CompuScaleConstantContents",
+        "CompuScaleRationalFormula"
+      ],
+      "aggregated_by": [
+        "CompuScale.compuScaleContents"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract meta-class represents the content of one particular scale.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 388,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CompuConstTextContent",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompuConstContent",
+      "bases": [
+        "ARObject",
+        "CompuConstContent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuConst.compuConstContentType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the textual content of a scale.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 388,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2010,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "vt": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a textual constant in the computation"
+        }
+      }
+    },
+    {
+      "name": "CompuConstNumericContent",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompuConstContent",
+      "bases": [
+        "ARObject",
+        "CompuConstContent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuConst.compuConstContentType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the fact that the constant value of the computation method is a numerical value. It is separated from CompuConstFormulaContent to support compatibility with ASAM HDO.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 389,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "v": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the numerical value."
+        }
+      }
+    },
+    {
+      "name": "CompuRationalCoeffs",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuScaleRationalFormula.compuRationalCoeffs"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 389,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compu": {
+          "type": "CompuNominator",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the numerator of the rational expression. Tags: xml.sequenceOffset=20"
+        }
+      }
+    },
+    {
+      "name": "CompuConst",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Compu.compuDefaultValue",
+        "CompuScale.compuInverseValue",
+        "CompuScaleConstantContents.compu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the fact that the value of a computation method scale is constant.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 390,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuConst": {
+          "type": "CompuConstContent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the actual content of the constant compu method"
+        }
+      }
+    },
+    {
+      "name": "CompuConstContent",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CompuConstTextContent",
+        "CompuConstNumericContent",
+        "CompuConstFormulaContent"
+      ],
+      "subclasses": [
+        "CompuConstFormulaContent",
+        "CompuConstNumericContent",
+        "CompuConstTextContent"
+      ],
+      "aggregated_by": [
+        "CompuConst.compuConstContentType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the fact that the constant value of the computation method can be numerical or textual.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 390,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CompuScaleRationalFormula",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompuScaleContents",
+      "bases": [
+        "ARObject",
+        "CompuScaleContents"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuScale.compuScaleContents"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the fact that the computation in this scale is represented as rational term.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 390,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuRational": {
+          "type": "CompuRationalCoeffs",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the coefficients of the rational formula. xml.sequenceOffset=110"
+        }
+      }
+    },
+    {
+      "name": "CompuScaleConstantContents",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompuScaleContents",
+      "bases": [
+        "ARObject",
+        "CompuScaleContents"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuScale.compuScaleContents"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the fact that a particular scale of the computation method is constant.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 390,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuConst": {
+          "type": "CompuConst",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the fact that the scale is a constant. The is mainly a non interpolated scale. It is a the fact that a constant scale can also be rational function of order 0."
+        }
+      }
+    },
+    {
+      "name": "CompuNominatorDenominator",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuRationalCoeffs.compuDenominator",
+        "CompuRationalCoeffs.compuNumerator"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents the ability to express a polynomial either as Nominator or as Denominator.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 391,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CompuConstFormulaContent",
+      "package": "M2::MSR::AsamHdo::ComputationMethod",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompuConstContent",
+      "bases": [
+        "ARObject",
+        "CompuConstContent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CompuConst.compuConstContentType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the fact that the constant value of the computation method is represented by a variation point. This difference is due to compatibility with ASAM HDO.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 900,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "vf": {
+          "type": "Numerical",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value calculated via a system constant. This element is every case where parameters should be numerical values during compile time (not example, the influence of the cylinder number on can be introduced in a repeatable"
+        }
+      }
+    }
+  ]
+}

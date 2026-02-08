@@ -1,0 +1,84 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore",
+  "classes": [
+    {
+      "name": "FibexElement",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PackageableElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "EcuInstance",
+        "CouplingElement",
+        "EthernetWakeupSleepOnDatalineConfigSet",
+        "ISignal",
+        "ISignalIPduGroup",
+        "Frame",
+        "Pdu",
+        "ISignalGroup",
+        "PdurIPduGroup",
+        "SecureCommunicationPropsSet",
+        "NmConfig",
+        "ServiceInstanceCollectionSet",
+        "SocketConnectionIpduIdentifierSet",
+        "ConsumedProvidedServiceInstanceGroup",
+        "TpConfig",
+        "BusMirrorChannelMapping",
+        "Gateway",
+        "GlobalTimeDomain",
+        "SoAdRoutingGroup"
+      ],
+      "subclasses": [
+        "BusMirrorChannelMapping",
+        "CommunicationCluster",
+        "ConsumedProvidedServiceInstanceGroup",
+        "CouplingElement",
+        "EcuInstance",
+        "EthernetWakeupSleepOnDatalineConfigSet",
+        "Frame",
+        "Gateway",
+        "GlobalTimeDomain",
+        "ISignal",
+        "ISignalGroup",
+        "ISignalIPduGroup",
+        "NmConfig",
+        "Pdu",
+        "PdurIPduGroup",
+        "SecureCommunicationPropsSet",
+        "ServiceInstanceCollectionSet",
+        "SoAdRoutingGroup",
+        "SocketConnectionIpduIdentifierSet",
+        "TpConfig"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ASAM FIBEX elements specifying Communication and Topology.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2026,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 445,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

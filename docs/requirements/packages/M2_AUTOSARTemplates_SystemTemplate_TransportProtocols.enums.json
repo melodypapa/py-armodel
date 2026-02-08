@@ -1,0 +1,145 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+  "enumerations": [
+    {
+      "name": "FrArTpAckType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "note": "Type of Acknowledgement. Aggregated by FlexrayArTpChannel.ackType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 604,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ackWithoutRt",
+          "index": 0,
+          "description": "Acknowledgement without retry.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "ackWithRt",
+          "index": 1,
+          "description": "Acknowledgement with retry.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "noAck",
+          "index": 2,
+          "description": "No acknowledgement.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "MaximumMessageLengthType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "note": "Type of Acknowledgement. Aggregated by FlexrayArTpChannel.maximumMessageLength",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 604,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "I4glength",
+          "index": 0,
+          "description": "SF-E allowed (SF of arbitrary length depending on FrTpPduLength), up to (2**32)-1 byte message<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "iso",
+          "index": 1,
+          "description": "Up to (2**12)-1 Byte message length (No FF-Ex or SF-E or AF shall be used and recognized).<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "iso6",
+          "index": null,
+          "description": "As ISO, but the maximum payload length is limited to 6 byte (SF-I, FF-I, CF). This is necessary to"
+        },
+        {
+          "name": "route",
+          "index": 2,
+          "description": "TP on CAN when using Extended Addressing or Mixed Addressing on CAN.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "CanTpAddressingFormatType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "note": "Declares which communication addressing mode is supported. Aggregated by CanTpConnection.addressingFormat",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 609,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "extended",
+          "index": 0,
+          "description": "To use extended addressing format.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "mixed",
+          "index": 1,
+          "description": "To use mixed 11bit addressing format.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "mixed29bit",
+          "index": 2,
+          "description": "To use mixed 29bit addressing format<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "normalfixed",
+          "index": 3,
+          "description": "To use normal fixed addressing format<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "standard",
+          "index": 4,
+          "description": "To use normal addressing format.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "NetworkTargetAddressType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols",
+      "note": "Network Target Address type (see ISO 15765-2). Aggregated by CanTpConnection.taType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 611,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "functional",
+          "index": 0,
+          "description": "Functional request type<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "physical",
+          "index": 2,
+          "description": "Physical request type<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

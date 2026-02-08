@@ -1,0 +1,140 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage",
+  "classes": [
+    {
+      "name": "MemorySection",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.memorySection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Provides a description of an abstract memory section used in the Implementation for code or data. It shall be declared by the Implementation Description of the module or component, which actually allocates the memory in its code. This means in case of data prototypes which are allocated by the RTE, that the generated Implementation Description of the RTE shall contain the corresponding MemorySections. The attribute \"symbol\" (if symbol is missing: \"shortName\") defines the module or component specific section name used in the code. For details see the document \"Specification of Memory Mapping\". Typically the section name is build according the pattern: <SwAddrMethod shortName>[_<further specialization nominator>][_<alignment>] where • [<SwAddrMethod shortName>] is the shortName of the referenced SwAddrMethod • [_<further specialization nominator>] is an optional infix to indicate the specialization in the case that several MemorySections for different purpose of the same Implementation Description referring to the same or equally named SwAddrMethods. • [_<alignment>] is the alignment attributes value and is only applicable in the case that the memory AllocationKeywordPolicy value of the referenced SwAddrMethod is set to addrMethodShortNameAnd Alignment MemorySection used to Implement the code of RunnableEntitys and BswSchedulableEntitys shall have a symbol (if missing: shortName) identical to the referred SwAddrMethod to conform to the generated RTE header files. In addition to the section name described above, a prefix is used in the corresponding macro code in order to define a name space. This prefix is by default given by the shortName of the BswModule Description resp. the SwComponentType. It can be superseded by the prefix attribute.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 143,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 411,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2036,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "alignment": {
+          "type": "AlignmentType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute describes the typical alignment of objects memory section."
+        },
+        "executableEntity": {
+          "type": "ExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ExecutableEntitites located in this allows to locate different Executable different sections even if the associated Sw the same. applicable to code sections only."
+        },
+        "option": {
+          "type": "Identifier",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The service (in AUTOSAR: BswModuleEntry) is a way that it either resolves to aninline to a standard function depending on at a later point in time. two values are standardized (to be used for only and exclusively to each other): - The code section is declared with the keyword - The code section is declared with the inline\". cases (INLINE and LOCAL_INLINE) the inline on the compiler. Depending on this, section either corresponds to an actual section or is put into the section of the caller."
+        },
+        "prefix": {
+          "type": "SectionNamePrefix",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The prefix used to set the memory section’s namespace code. The existence of a prefix element for a default prefix (such as the Bsw This allows the user to name spaces for memory sections within of one module, cluster or SWC."
+        },
+        "size": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size in bytes of the section. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "swAddrmethod": {
+          "type": "SwAddrMethod",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association indicates that this module specific section is part of an overall SwAddr by the upstream declarations (e.g. data element prototypes, code share a common addressing strategy. This evaluated for the ECU configuration of the build shall always be declared by the of the module or component, the memory in its code. This means in data prototypes which are allocated by the RTE, software components only declare the grouping data prototypes to SwAddrMethods, and the Description of the RTE actually this association."
+        },
+        "symbol": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the section name as explained in the main using this attribute for code generation the shortName) it is possible to define several having the same name - e.g. CODE - but using different sectionName"
+        }
+      }
+    },
+    {
+      "name": "SectionNamePrefix",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ImplementationProps",
+      "bases": [
+        "ARObject",
+        "ImplementationProps",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.sectionNamePrefix"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A prefix to be used for generated code artifacts defining a memory section name in the source code of the using module or SWC.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 147,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 412,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "implementedIn": {
+          "type": "DependencyOnArtifact",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Optional reference that allows to Indicate the code artifact containing the preprocessor implementation sections with this prefix. of this link supersedes the usage of a memory with the default name (derived from the"
+        }
+      }
+    }
+  ]
+}

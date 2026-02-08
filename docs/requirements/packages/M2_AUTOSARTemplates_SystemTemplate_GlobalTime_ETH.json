@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_ETH.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_ETH.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

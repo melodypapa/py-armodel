@@ -1,0 +1,956 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+  "classes": [
+    {
+      "name": "ValueRestrictionWithSeverity",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RestrictionWithSeverity",
+      "bases": [
+        "ARObject",
+        "AbstractValueRestriction",
+        "RestrictionWithSeverity"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PrimitiveAttributeTailoring.valueRestriction"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies valid values of primitive data types. A value is valid if all rules defined by this ValueRestriction evaluate to true.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "MultiplicityRestrictionWithSeverity",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RestrictionWithSeverity",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "RestrictionWithSeverity"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AttributeTailoring.multiplicityRestriction",
+        "ClassTailoring.multiplicityRestriction"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Restriction that specifies the valid number of occurrences of an element in the current context.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "VariationRestrictionWithSeverity",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RestrictionWithSeverity",
+      "bases": [
+        "ARObject",
+        "AbstractVariationRestriction",
+        "RestrictionWithSeverity"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AttributeTailoring.variationRestriction",
+        "ClassTailoring.variationRestriction"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines constraints on the usage of variation and on the valid binding times.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 88,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DataFormatElementScope",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "SpecElementScope",
+      "bases": [
+        "ARObject",
+        "DataFormatElementReference",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [
+        "ConcreteClassTailoring",
+        "AttributeTailoring"
+      ],
+      "subclasses": [
+        "AttributeTailoring",
+        "ConcreteClassTailoring",
+        "ConstraintTailoring",
+        "SdgTailoring"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies if a Meta Class, Meta Attribute, Constraint or SdgDef is relevant for the Data Exchange Point.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 91,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AbstractClassTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DataFormatElementReference",
+      "bases": [
+        "ARObject",
+        "ClassTailoring",
+        "DataFormatElementReference",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AggregationTailoring.typeTailoring",
+        "DataFormatTailoring.classTailoring",
+        "ReferenceTailoring.typeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of abstract classes in the AUTOSAR meta-model",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 101,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AbstractCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "InvertCondition",
+        "TextualCondition"
+      ],
+      "subclasses": [
+        "AttributeCondition",
+        "InvertCondition",
+        "TextualCondition"
+      ],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A premise upon which the fulfillment of an agreement depends",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AggregationCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AttributeCondition",
+      "bases": [
+        "ARObject",
+        "AbstractCondition",
+        "AbstractMultiplicityRestriction",
+        "AttributeCondition"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The AggregationCondition evaluates to true, if the referenced aggregation is accepted by all rules of this condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aggregation": {
+          "type": "AggregationTailoring",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The aggregation that has to be accepted by the this AggregationCondition"
+        }
+      }
+    },
+    {
+      "name": "AttributeCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "AbstractMultiplicityRestriction",
+      "bases": [
+        "ARObject",
+        "AbstractCondition",
+        "AbstractMultiplicityRestriction"
+      ],
+      "children": [
+        "AggregationCondition",
+        "PrimitiveAttributeCondition",
+        "ReferenceCondition"
+      ],
+      "subclasses": [
+        "AggregationCondition",
+        "PrimitiveAttributeCondition",
+        "ReferenceCondition"
+      ],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The AttributeCondition evaluates to true, if the referenced attribute is accepted by all rules of this condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ClassTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "AbstractClassTailoring",
+        "ConcreteClassTailoring"
+      ],
+      "aggregated_by": [
+        "AggregationTailoring.typeTailoring",
+        "DataFormatTailoring.classTailoring",
+        "ReferenceTailoring.typeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The ClassTailoring is an abstract class that allows the tailoring of its attributes, applicable constraints and Sdgs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "classContent": {
+          "type": "ClassContent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the accepted / not accepted content of the All rules apply that fullfill the condition of the Class"
+        },
+        "multiplicity": {
+          "type": "MultiplicityRestriction",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the multiplicity of the class in the current context."
+        },
+        "variation": {
+          "type": "VariationRestrictionWith",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20"
+        }
+      }
+    },
+    {
+      "name": "ClassContentConditional",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassTailoring.classContent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the valid content of the class. The content can optionally depend on a condition. (E.g. value of attribute ’category’)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 103,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attribute": {
+          "type": "AttributeTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Tailorings of the owned and inherited attributes of this Classes"
+        },
+        "condition": {
+          "type": "AbstractCondition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The rules on the content of this class are enabled if the to true."
+        },
+        "constraint": {
+          "type": "ConstraintTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of tailorings of Constraints of that are owned this Meta Classes"
+        },
+        "sdgTailoring": {
+          "type": "SdgTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of the applicable Special Data Group"
+        }
+      }
+    },
+    {
+      "name": "ConcreteClassTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataFormatElementScope",
+      "bases": [
+        "ARObject",
+        "ClassTailoring",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AggregationTailoring.typeTailoring",
+        "DataFormatTailoring.classTailoring",
+        "ReferenceTailoring.typeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of concrete meta classes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 103,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "validationRoot": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification if this concrete Meta-Class is a root element I.e.: The validation starts at an object of this and continues by following all references that are in scope of this Point."
+        }
+      }
+    },
+    {
+      "name": "InvertCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractCondition",
+      "bases": [
+        "ARObject",
+        "AbstractCondition"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "inverts the nested condition",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 104,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "condition": {
+          "type": "AbstractCondition",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The inverted condition"
+        }
+      }
+    },
+    {
+      "name": "PrimitiveAttributeCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AttributeCondition",
+      "bases": [
+        "ARObject",
+        "AbstractCondition",
+        "AbstractMultiplicityRestriction",
+        "AbstractValueRestriction",
+        "AttributeCondition"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The PrimitiveAttributeCondition evaluates to true, if the referenced primitive attribute is accepted by all rules of this condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 104,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attribute": {
+          "type": "PrimitiveAttribute",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The primitive attribute that has to be accepted by the of this PrimitiveAttributeCondition"
+        }
+      }
+    },
+    {
+      "name": "ReferenceCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AttributeCondition",
+      "bases": [
+        "ARObject",
+        "AbstractCondition",
+        "AbstractMultiplicityRestriction",
+        "AttributeCondition"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The ReferenceCondition evaluates to true, if the referenced reference is accepted by all rules of this condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 104,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "reference": {
+          "type": "ReferenceTailoring",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The reference that has to be accepted by the restrictions ReferenceCondition"
+        }
+      }
+    },
+    {
+      "name": "TextualCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractCondition",
+      "bases": [
+        "ARObject",
+        "AbstractCondition"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.condition",
+        "InvertCondition.condition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies additional conditions for one or more model elements. The condition is described using human language.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 105,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "text": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Human language description of the condition."
+        }
+      }
+    },
+    {
+      "name": "AttributeTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DataFormatElementScope",
+      "bases": [
+        "ARObject",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [
+        "PrimitiveAttributeTailoring",
+        "AggregationTailoring",
+        "ReferenceTailoring"
+      ],
+      "subclasses": [
+        "AggregationTailoring",
+        "PrimitiveAttributeTailoring",
+        "ReferenceTailoring"
+      ],
+      "aggregated_by": [
+        "ClassContentConditional.attributeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of Attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "multiplicity": {
+          "type": "MultiplicityRestriction",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Multiplicity restriction of the attribute Tags: xml.sequenceOffset=10"
+        },
+        "variation": {
+          "type": "VariationRestrictionWith",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Restrictions on the usage of variant handling. Tags: xml.sequenceOffset=20"
+        }
+      }
+    },
+    {
+      "name": "PrimitiveAttributeTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AttributeTailoring",
+      "bases": [
+        "ARObject",
+        "AttributeTailoring",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.attributeTailoring",
+        "PrimitiveAttributeTailoring.subAttributeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of primitive attributes. Primitive attributes are attributes that have a type which is marked by the stereotype <<primitive>> or <<enumeration>>",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "DefaultValueApplication",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of how to handle AUTOSAR defined default values."
+        },
+        "subAttribute": {
+          "type": "PrimitiveAttribute",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Tailors the attribute of a <<primitive>> data type."
+        },
+        "valueRestrictionSeverity": {
+          "type": "ValueRestrictionWith",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The restriction of the attribute value."
+        }
+      }
+    },
+    {
+      "name": "AggregationTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AttributeTailoring",
+      "bases": [
+        "ARObject",
+        "AttributeTailoring",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.attributeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of aggregations in the AUTOSAR meta-model",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "typeTailoring": {
+          "type": "ClassTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Local class tailoring which is applied if the content is this aggregation."
+        }
+      }
+    },
+    {
+      "name": "ReferenceTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AttributeTailoring",
+      "bases": [
+        "ARObject",
+        "AttributeTailoring",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.attributeTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of Non-Containment References.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 115,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "typeTailoring": {
+          "type": "ClassTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Local class tailoring for content that is referenced by this"
+        },
+        "unresolvedRestriction": {
+          "type": "UnresolvedReference",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specifies the severity of unresolved references."
+        }
+      }
+    },
+    {
+      "name": "ConstraintTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RestrictionWithSeverity",
+      "bases": [
+        "ARObject",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "RestrictionWithSeverity",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.constraintTailoring",
+        "DataFormatTailoring.constraintTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Tailoring of constraints. If a constraint is in scope, then the severity defines its Error Severity Level. If it is not in scope, then the constraint is disabled.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 117,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "constraint": {
+          "type": "TraceableText",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to custom specification of constraint."
+        }
+      }
+    },
+    {
+      "name": "SdgTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RestrictionWithSeverity",
+      "bases": [
+        "ARObject",
+        "DataFormatElementReference",
+        "DataFormatElementScope",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "RestrictionWithSeverity",
+        "SpecElementReference",
+        "SpecElementScope"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClassContentConditional.sdgTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes if the referenced Sdg may be attached to the current class.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 118,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sdgClass": {
+          "type": "SdgClass",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specification of the structure of the Special Data Group."
+        }
+      }
+    },
+    {
+      "name": "DataFormatTailoring",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataExchangePoint.dataFormatTailoring"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class collects all rules that tailor the AUTOSAR templates for a specific data exchange point.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 180,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "classTailoring": {
+          "type": "ClassTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of tailorings of Meta Classes"
+        },
+        "constraint": {
+          "type": "ConstraintTailoring",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of tailorings of Constraints that are not owned by any Meta-Class"
+        }
+      }
+    },
+    {
+      "name": "UnresolvedReferenceRestrictionWithSeverity",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RestrictionWithSeverity",
+      "bases": [
+        "ARObject",
+        "RestrictionWithSeverity"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ReferenceTailoring.unresolvedReferenceRestriction"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This restriction defines the severity level of unresolved references.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 222,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::DataDictionary::DatadictionaryProxies",
+  "path": "M2::MSR::DataDictionary::DatadictionaryProxies",
+  "files": {
+    "classes": "packages/M2_MSR_DataDictionary_DatadictionaryProxies.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

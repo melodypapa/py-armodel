@@ -1,0 +1,186 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping",
+  "classes": [
+    {
+      "name": "RoleBasedDataTypeAssignment",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ServiceDependency.assignedDataType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies an assignment of a role to a particular data type of a software component (or in the BswModuleBehavior of a module or cluster) in the context of an AUTOSAR Service. With this assignment, the role of the data type can be mapped to a specific ServiceNeeds element, so that a tool is able to create the correct access.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 227,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 610,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the role of the associated data type in the given"
+        },
+        "used": {
+          "type": "ImplementationData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the associated ImplementationDataType."
+        }
+      }
+    },
+    {
+      "name": "RoleBasedPortAssignment",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NvBlockDescriptor.clientServerPort",
+        "SwcServiceDependency.assignedPort"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies an assignment of a role to a particular service port (RPortPrototype or PPort Prototype) of an AtomicSwComponentType. With this assignment, the role of the service port can be mapped to a specific ServiceNeeds element, so that a tool is able to create the correct connector.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 166,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 604,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2050,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "portPrototype": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Service PortPrototype used in the assigned role. This either belong to the same AtomicSw the SwcInternalBehavior which owns or to the same NvBlockSw the NvBlockDescriptor."
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the role of the assigned Port in the given context. shall be a shortName of the Blueprint of a Port standardized in the Software Specification of AUTOSAR Service."
+        }
+      }
+    },
+    {
+      "name": "SwcServiceDependency",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ServiceDependency",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "ServiceDependency"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AdaptiveSwcInternalBehavior.serviceDependency",
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior."
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Specialization of ServiceDependency in the context of an SwcInternalBehavior. It allows to associate ports, port groups and (in special cases) data defined for an atomic software component to a given ServiceNeeds element. (cid:53) 224 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 224,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 608,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignedData": {
+          "type": "RoleBasedData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the role of an associated data object of the same atpVariation"
+        },
+        "assignedPort": {
+          "type": "RoleBasedPort",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the role of an associated port of the same atpVariation"
+        },
+        "representedPort": {
+          "type": "PortGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference specifies an association between the and a PortGroup, for example to request mode which applies for communication ports. The referred PortGroup shall be local to SWC, but via the links between the Port tool can evaluate this information such that all linked via this port group on the same ECU can"
+        },
+        "serviceNeeds": {
+          "type": "ServiceNeeds",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The associated ServiceNeeds."
+        }
+      }
+    }
+  ]
+}

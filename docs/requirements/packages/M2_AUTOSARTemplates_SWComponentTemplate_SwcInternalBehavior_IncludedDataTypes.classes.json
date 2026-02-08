@@ -1,0 +1,48 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes",
+  "classes": [
+    {
+      "name": "IncludedDataTypeSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswInternalBehavior.includedDataTypeSet",
+        "SwcInternalBehavior.includedDataTypeSet"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An includedDataTypeSet declares that a set of AutosarDataType is used by a basic software module or a software component for its implementation and the AutosarDataType becomes part of the contract. This information is required if the AutosarDataType is not used for any DataPrototype owned by this software component or if the enumeration literals, lowerLimit and upperLimit constants shall be generated with a literalPrefix. The optional literalPrefix is used to add a common prefix on enumeration literals, lowerLimit and upper Limit constants created by the RTE.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 600,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataType": {
+          "type": "AutosarDataType",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "AutosarDataType belonging to the includedDataTypeSet"
+        },
+        "literalPrefix": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LiteralPrefix defines a common prefix for all AutosarData the includedDataTypeSet to be added on lowerLimit and upperLimit constants the RTE."
+        }
+      }
+    }
+  ]
+}

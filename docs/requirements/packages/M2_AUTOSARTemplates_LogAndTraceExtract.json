@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::LogAndTraceExtract",
+  "path": "M2::AUTOSARTemplates::LogAndTraceExtract",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_LogAndTraceExtract.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 7,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

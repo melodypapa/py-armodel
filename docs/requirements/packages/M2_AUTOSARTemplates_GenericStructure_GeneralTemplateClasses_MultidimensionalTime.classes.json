@@ -1,0 +1,103 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime",
+  "classes": [
+    {
+      "name": "MultidimensionalTime",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AgeConstraint.maximum",
+        "AgeConstraint.minimum",
+        "AnalyzedExecutionTime.bestCaseExecutionTime",
+        "AnalyzedExecutionTime.worstCaseExecutionTime",
+        "ArbitraryEventTriggering.maximumDistance",
+        "ArbitraryEventTriggering.minimumDistance",
+        "BurstPatternEventTriggering.minimumInterArrivalTime",
+        "BurstPatternEventTriggering.patternJitter",
+        "BurstPatternEventTriggering.patternLength",
+        "BurstPatternEventTriggering.patternPeriod",
+        "ConcretePatternEventTriggering.offset",
+        "ConcretePatternEventTriggering.patternJitter",
+        "ConcretePatternEventTriggering.patternLength",
+        "ConcretePatternEventTriggering.patternPeriod",
+        "ConfidenceInterval.lowerBound",
+        "ConfidenceInterval.upperBound",
+        "ExecutionTimeConstraint.maximum",
+        "ExecutionTimeConstraint.minimum",
+        "IoHwAbstractionServerAnnotation.age",
+        "LatencyTimingConstraint.maximum",
+        "LatencyTimingConstraint.minimum",
+        "LatencyTimingConstraint.nominal",
+        "MeasuredExecutionTime.maximumExecutionTime",
+        "MeasuredExecutionTime.minimumExecutionTime",
+        "MeasuredExecutionTime.nominalExecutionTime",
+        "OffsetTimingConstraint.maximum",
+        "OffsetTimingConstraint.minimum",
+        "PeriodicEventTriggering.jitter",
+        "PeriodicEventTriggering.minimumInterArrivalTime",
+        "PeriodicEventTriggering.period",
+        "ReceiverAnnotation.signalAge",
+        "RoughEstimateOfExecutionTime.estimatedExecutionTime",
+        "SimulatedExecutionTime.maximumExecutionTime",
+        "SimulatedExecutionTime.minimumExecutionTime",
+        "SimulatedExecutionTime.nominalExecutionTime",
+        "SporadicEventTriggering.jitter",
+        "SporadicEventTriggering.maximumInterArrivalTime",
+        "SporadicEventTriggering.minimumInterArrivalTime",
+        "SporadicEventTriggering.period",
+        "SwDataDefProps.swRefreshTiming",
+        "SynchronizationTimingConstraint.tolerance",
+        "TDLETZoneClock.accuracyExt",
+        "TDLETZoneClock.accuracyInt",
+        "TimingClockSyncAccuracy.accuracy",
+        "Trigger."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies a time value based on [20] see [TPS_GST_00354].",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 164,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 165,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cseCode": {
+          "type": "CseCodeType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the time base by means of CSE codes."
+        },
+        "cseCodeFactor": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The scaling factor for the time value based on the code."
+        }
+      }
+    }
+  ]
+}

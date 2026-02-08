@@ -1,0 +1,185 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+  "enumerations": [
+    {
+      "name": "ArgumentDirectionEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "Use cases: • Arguments in ClientServerOperation can have different directions that need to be formally indicated because they have an impact on how the function signature looks like eventually. • Arguments in BswModuleEntry already determine a function signature, but the direction is used to specify the semantics, especially of pointer arguments. Aggregated by ArgumentDataPrototype.direction, SwServiceArg.direction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 40,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 104,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1999,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "in",
+          "index": 0,
+          "description": "The argument value is passed to the callee.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "inout",
+          "index": 1,
+          "description": "The argument value is passed to the callee but also passed back from the callee to the caller.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "out",
+          "index": 2,
+          "description": "The argument value is passed from the callee to the caller.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "ByteOrderEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "When more than one byte is stored in the memory the order of those bytes may differ depending on the architecture of the processing unit. If the least significant byte is stored at the lowest address, this architecture is called little endian and otherwise it is called big endian. ByteOrder is very important in case of communication between different PUs or ECUs. Aggregated by ApSomeipTransformationProps.byteOrder, BaseTypeDirectDefinition.byteOrder, DiagnosticCommon Props.defaultEndianness, ISignalToIPduMapping.packingByteOrder, MultiplexedIPdu.selectorField ByteOrder, PduToFrameMapping.packingByteOrder, SegmentPosition.segmentByteOrder, SOMEIP TransformationDescription.byteOrder, System.containerIPduHeaderByteOrder",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 297,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 779,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Diagnostic",
+          "index": null,
+          "description": "Extract Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "mostSignificantByte",
+          "index": null,
+          "description": "Most significant byte shall come at the lowest address (also known as BigEndian or as"
+        },
+        {
+          "name": "First",
+          "index": 0,
+          "description": "Motorola-Format)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "mostSignificantByteLast",
+          "index": 1,
+          "description": "Most significant byte shall come highest address (also known as LittleEndian or as Intel-Format)<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "opaque",
+          "index": 2,
+          "description": "For opaque data endianness conversion has to be configured to Opaque. See AUTOSAR COM Specification for more details.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "IntervalTypeEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This enumerator specifies the type of an interval. Aggregated by Limit.intervalType, LimitValueVariationPoint.intervalType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 300,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 409,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "closed",
+          "index": 0,
+          "description": "The area is limited by the value given. The value itself is included.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "open",
+          "index": 2,
+          "description": "The area is limited by the value given. The value itself is not included.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "MonotonyEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes",
+      "note": "This enumerator denotes the values for specification of monotony for e.g. curves. Aggregated by InternalConstrs.monotony, PhysConstrs.monotony, SwCalprmAxisTypeProps.monotony",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 408,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "decreasing",
+          "index": 0,
+          "description": "This indicates that the related curve needs to be monotony decreasing.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "increasing",
+          "index": 1,
+          "description": "This indicates that the related curve needs to be monotony increasing.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "monotonous",
+          "index": 2,
+          "description": "This indicates that the values shall be monotonously decreasing or increasing, depending on the trend set by the first values of the series.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "noMonotony",
+          "index": 3,
+          "description": "This indicates that the related curve needs not to be monotony.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "strictlyDecreasing",
+          "index": 4,
+          "description": "This indicates that the related curve needs to be strictly monotony decreasing.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "strictlyIncreasing",
+          "index": 5,
+          "description": "This indicates that the related curve needs to be strictly monotony increasing.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "strictMonotonous",
+          "index": 6,
+          "description": "This indicates that the values shall be strict monotonously decreasing or increasing, depending on the trend set by the first values of the series.<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    }
+  ]
+}

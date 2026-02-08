@@ -1,0 +1,49 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::GerneralParameters",
+  "classes": [
+    {
+      "name": "Prms",
+      "package": "M2::MSR::Documentation::BlockElements::GerneralParameters",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ChapterContent.prms"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to specify a parameter table. It can be used e.g. to specify parameter tables in a data sheet.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 338,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "label": {
+          "type": "MultilanguageLong",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the caption of the parameter table. xml.sequenceOffset=20 topic1 is given to remain compatible with [22] 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "prm": {
+          "type": "GeneralParameter",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    }
+  ]
+}

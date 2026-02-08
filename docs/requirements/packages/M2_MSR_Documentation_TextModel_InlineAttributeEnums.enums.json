@@ -1,0 +1,315 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+  "enumerations": [
+    {
+      "name": "EEnumFont",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This specifies the possible kind of fonts to be used for emphasis. Aggregated by EmphasisText.font",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "default",
+          "index": 0,
+          "description": "The emphasis uses the default font.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "mono",
+          "index": 1,
+          "description": "The emphasis uses a monospaced font.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "EEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This specifies the possible kinds of emphasis as proposal how to render it on paper or screen. Note that it would have been better to use plain, weak (italic), strong (bold), veryStrong (bolditalic) ... But users complained about this. Aggregated by EmphasisText.type",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bold",
+          "index": 0,
+          "description": "The emphasis is preferably represented in boldface font.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "bolditalic",
+          "index": 1,
+          "description": "The emphasis is preferably represented in boldface plus italic font.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "italic",
+          "index": 2,
+          "description": "The emphasis is preferably represented in italic font.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "plain",
+          "index": 3,
+          "description": "The emphasis has no specific rendering. It is used if e.g. semantic information is applied to the emphasis text.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "ResolutionPolicyEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This specifies if the content of the xref element follow a dedicated resolution policy. Aggregated by Xref.resolutionPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noSloppy",
+          "index": 0,
+          "description": "The content of the xref element is not linked by a sloppy reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "sloppy",
+          "index": 1,
+          "description": "The content of the xref element is linked by a sloppy reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowContentEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This specifies if the content of the xref element shall be rendered. Aggregated by Xref.showContent (cid:53) 322 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowContent",
+          "index": 0,
+          "description": "The content of the Xref.label is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showContent",
+          "index": 1,
+          "description": "The content of the element is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourceAliasNameEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the alias names of the reference target shall be rendered with the xref. Aggregated by Xref.showResourceAliasName",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowAliasName",
+          "index": 0,
+          "description": "This indicates that alias names of the referenced object shall not be rendered at the place of the<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showAliasName",
+          "index": 1,
+          "description": "This indicates that the alias names of the referenced object shall be rendered at the place of the<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourceCategoryEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the category of the reference target shall be rendered with the xref. Aggregated by Xref.showResourceCategory",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowCategory",
+          "index": 0,
+          "description": "The category of the target is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showCategory",
+          "index": 1,
+          "description": "The category of the target is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourceLongNameEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the long name of the reference target shall be rendered with the xref. Aggregated by Xref.showResourceLongName",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowLongName",
+          "index": 0,
+          "description": "The long name of the target is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showLongName",
+          "index": 1,
+          "description": "The long name of the target is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourceNumberEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the number (e.g. chapter number) of the reference target shall be rendered with the xref. Aggregated by Xref.showResourceNumber",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowNumber",
+          "index": 0,
+          "description": "The number of the target is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showNumber",
+          "index": 1,
+          "description": "The number of the target is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourcePageEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the page number of the reference target shall be rendered with the xref. Aggregated by Xref.showResourcePage",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowPage",
+          "index": 0,
+          "description": "The page number of the target is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showPage",
+          "index": 1,
+          "description": "The page number of the target is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourceShortNameEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the short name of the reference target shall be rendered with the xref. Aggregated by Xref.showResourceShortName",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowShortName",
+          "index": 0,
+          "description": "The short name of the target is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showShortName",
+          "index": 1,
+          "description": "The short name of the target is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowResourceTypeEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the type (e.g. derived from the class) of the reference target shall be rendered with the xref. Aggregated by Xref.showResourceType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowType",
+          "index": 0,
+          "description": "The type of the target is not rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showType",
+          "index": 1,
+          "description": "The type of the target is rendered at the place of the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ShowSeeEnum",
+      "package": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+      "note": "This enumerator specifies if the word \"see\" shall be rendered before the xref. Aggregated by Xref.showSee",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noShowSee",
+          "index": 0,
+          "description": "The word \"see\" is not rendered before the reference.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "showSee",
+          "index": 1,
+          "description": "The word \"see\"is rendered before the reference.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

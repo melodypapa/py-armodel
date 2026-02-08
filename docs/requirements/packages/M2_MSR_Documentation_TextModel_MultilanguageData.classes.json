@@ -1,0 +1,270 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::MultilanguageData",
+  "classes": [
+    {
+      "name": "MultiLanguageOverviewParagraph",
+      "package": "M2::MSR::Documentation::TextModel::MultilanguageData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Caption.desc",
+        "CompuScale.desc",
+        "Describable.desc",
+        "Identifiable.desc",
+        "LabeledItem.itemLabel",
+        "Modification.change",
+        "Modification.reason",
+        "ScaleConstr.desc",
+        "SdgCaption.desc",
+        "SwRecordLayoutGroup.desc",
+        "SwRecordLayoutV.desc",
+        "VariationPoint.desc"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the content of a multilingual paragraph in an overview item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 53,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 389,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 347,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 65,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "l2": {
+          "type": "LOverviewParagraph",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "MultilanguageLongName",
+      "package": "M2::MSR::Documentation::TextModel::MultilanguageData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AliasNameAssignment.label",
+        "GeneralAnnotation.label",
+        "MultilanguageReferrable.longName",
+        "Note.label",
+        "Prms.label",
+        "ValueGroup.label"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a long name which acts in the role of a headline. It is intended for human readers. Per language it should be around max 80 characters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 179,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "l4": {
+          "type": "LLongName",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "MultiLanguageParagraph",
+      "package": "M2::MSR::Documentation::TextModel::MultilanguageData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.p"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the content model of a multilingual paragraph in a documentation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 290,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        },
+        "l1": {
+          "type": "LParagraph",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "MultiLanguageVerbatim",
+      "package": "M2::MSR::Documentation::TextModel::MultilanguageData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BlueprintFormula.verbatim",
+        "DocumentationBlock.verbatim",
+        "MlFigure.verbatim",
+        "MlFormula.verbatim"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents multilingual Verbatim. Verbatim means, that white-space is maintained. When Verbatim is rendered in PDF or Online media, white-space is obeyed. Blanks are rendered as well as newline characters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 291,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allowBreak": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This indicates if the verbatim text might be split on Default is \"1\"."
+        },
+        "float": {
+          "type": "FloatEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicate whether it is allowed to break the element. The are allowed:"
+        },
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        },
+        "l5": {
+          "type": "LVerbatim",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        },
+        "pgwide": {
+          "type": "PgwideEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to indicate wether the figure should take the width (value = \"pgwide\") or not (value ="
+        }
+      }
+    },
+    {
+      "name": "MultiLanguagePlainText",
+      "package": "M2::MSR::Documentation::TextModel::MultilanguageData",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AdminData.usedLanguages",
+        "MlFormula.genericMath",
+        "MlFormula.texMath"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is a multilingual plaint Text.It is intended to be rendered as a paragraph.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 349,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "l10": {
+          "type": "LPlainText",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    }
+  ]
+}

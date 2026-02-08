@@ -1,0 +1,1323 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+  "classes": [
+    {
+      "name": "AtomicSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "SwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [
+        "ComplexDeviceDriverSwComponentType",
+        "EcuAbstractionSwComponentType",
+        "ServiceSwComponentType",
+        "ApplicationSwComponentType",
+        "SensorActuatorSwComponentType",
+        "ServiceProxySwComponentType",
+        "NvBlockSwComponentType"
+      ],
+      "subclasses": [
+        "ApplicationSwComponentType",
+        "ComplexDeviceDriverSwComponentType",
+        "EcuAbstractionSwComponentType",
+        "NvBlockSwComponentType",
+        "SensorActuatorSwComponentType",
+        "ServiceProxySwComponentType",
+        "ServiceSwComponentType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "An atomic software component is atomic in the sense that it cannot be further decomposed and distributed across multiple ECUs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 304,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 300,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 70,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2000,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 43,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 161,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "internalBehavior": {
+          "type": "SwcInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The SwcInternalBehaviors owned by an AtomicSw be located in a different physical file. aggregation is <<atpSplitable>>. atpVariation"
+        },
+        "symbolProps": {
+          "type": "SymbolProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the SymbolProps for the AtomicSw"
+        }
+      }
+    },
+    {
+      "name": "ComplexDeviceDriverSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The ComplexDeviceDriverSwComponentType is a special AtomicSwComponentType that has direct access to hardware on an ECU and which is therefore linked to a specific ECU or specific hardware. The ComplexDeviceDriverSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 648,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2010,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 218,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hardware": {
+          "type": "HwDescriptionEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference from the ComplexDeviceDriverSwComponent to the description of the used HwElements."
+        }
+      }
+    },
+    {
+      "name": "EcuAbstractionSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The ECUAbstraction is a special AtomicSwComponentType that resides between a software-component that wants to access ECU periphery and the Microcontroller Abstraction. The EcuAbstractionSw ComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 313,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 647,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2020,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 222,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hardware": {
+          "type": "HwDescriptionEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference from the EcuAbstractionComponentType to the of the used HwElements."
+        }
+      }
+    },
+    {
+      "name": "PRPortPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractRequiredPortPrototype",
+      "bases": [
+        "ARObject",
+        "AbstractProvidedPortPrototype",
+        "AbstractRequiredPortPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortPrototype",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.port"
+      ],
+      "implements": [
+        "AtpBlueprintable",
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "This kind of PortPrototype can take the role of both a required and a provided PortPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 68,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2042,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "provided": {
+          "type": "PortInterface",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "isOfType"
+        }
+      }
+    },
+    {
+      "name": "PortPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "AbstractRequiredPortPrototype",
+        "AbstractProvidedPortPrototype"
+      ],
+      "subclasses": [
+        "AbstractProvidedPortPrototype",
+        "AbstractRequiredPortPrototype"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.port"
+      ],
+      "implements": [
+        "AtpBlueprintable",
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Base class for the ports of an AUTOSAR software component. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 326,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 326,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 304,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2047,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 236,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_ARXMLSerializationRules.pdf",
+          "page_number": 30,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 48,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 76,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 458,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 33,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 65,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 201,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clientServer": {
+          "type": "ClientServerAnnotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Annotation of this PortPrototype with respect to client/ communication."
+        },
+        "delegatedPort": {
+          "type": "DelegatedPort",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Annotations on this delegated port."
+        },
+        "ioHwAbstractionAnnotation": {
+          "type": "IoHwAbstractionServer",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Annotations on this IO Hardware Abstraction port."
+        },
+        "modePortAnnotation": {
+          "type": "ModePortAnnotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Annotations on this mode port."
+        },
+        "nvDataPortAnnotation": {
+          "type": "NvDataPortAnnotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Annotations on this non voilatile data port."
+        },
+        "parameterPort": {
+          "type": "ParameterPort",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Annotations on this parameter port."
+        },
+        "senderReceiver": {
+          "type": "SenderReceiver",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of annotations of this ports sender/receiver communication."
+        },
+        "triggerPortAnnotation": {
+          "type": "TriggerPortAnnotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Annotations on this trigger port."
+        }
+      }
+    },
+    {
+      "name": "ServiceSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "ServiceSwComponentType is used for configuring services for a given ECU. Instances of this class are only to be created in ECU Configuration phase for the specific purpose of the service configuration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 659,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2056,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ApplicationSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The ApplicationSwComponentType is used to represent the application software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 231,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1998,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 423,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "PPortPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractProvidedPortPrototype",
+      "bases": [
+        "ARObject",
+        "AbstractProvidedPortPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortPrototype",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.port"
+      ],
+      "implements": [
+        "AtpBlueprintable",
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Component port providing a certain port interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 68,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2041,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "provided": {
+          "type": "PortInterface",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "isOfType"
+        }
+      }
+    },
+    {
+      "name": "SwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "AtomicSwComponentType",
+        "ParameterSwComponentType",
+        "CompositionSwComponentType"
+      ],
+      "subclasses": [
+        "AtomicSwComponentType",
+        "CompositionSwComponentType",
+        "ParameterSwComponentType"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "Base class for AUTOSAR software components.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 330,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 64,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2060,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 245,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 22,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 466,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 210,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "consistency": {
+          "type": "ConsistencyNeeds",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the collection of ConsistencyNeeds by the enclosing SwComponentType. atpVariation"
+        },
+        "port": {
+          "type": "PortPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The PortPrototypes through which this SwComponent communicate. of PortPrototype is subject to variability purpose to support the conditional existence of atpVariation"
+        },
+        "portGroup": {
+          "type": "PortGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "A port group being part of this component. atpVariation"
+        },
+        "swcMapping": {
+          "type": "SwComponentMapping",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to constraints that are valid for this Sw ComponentType."
+        },
+        "swComponent": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This adds a documentation to the SwComponentType. Stereotypes: atpSplitable; atpVariation"
+        },
+        "unitGroup": {
+          "type": "UnitGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This allows for the specification of which UnitGroups are the context of referencing SwComponentType."
+        }
+      }
+    },
+    {
+      "name": "ParameterSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The ParameterSwComponentType defines parameters and characteristic values accessible via provided Ports. The provided values are the same for all connected SwComponentPrototypes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 41,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2043,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "constant": {
+          "type": "ConstantSpecification",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType"
+        },
+        "dataType": {
+          "type": "DataTypeMappingSet",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the DataTypeMapping to be applied for the ParameterSwComponentType"
+        },
+        "instantiation": {
+          "type": "InstantiationDataDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The purpose of this is that within the context of a given SwComponentType some data def properties of individual be modified. of InstantiationDataDefProps is subject with the purpose to support the conditional PortPrototypes atpVariation"
+        }
+      }
+    },
+    {
+      "name": "AbstractRequiredPortPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PortPrototype",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortPrototype",
+        "Referrable"
+      ],
+      "children": [
+        "PRPortPrototype",
+        "RPortPrototype"
+      ],
+      "subclasses": [
+        "PRPortPrototype",
+        "RPortPrototype"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.port"
+      ],
+      "implements": [
+        "AtpBlueprintable",
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "This abstract class provides the ability to become a required PortPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 204,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 422,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "requiredCom": {
+          "type": "RPortComSpec",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Required communication attributes, one for each element."
+        }
+      }
+    },
+    {
+      "name": "AbstractProvidedPortPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PortPrototype",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortPrototype",
+        "Referrable"
+      ],
+      "children": [
+        "PPortPrototype"
+      ],
+      "subclasses": [
+        "PPortPrototype",
+        "PRPortPrototype"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.port"
+      ],
+      "implements": [
+        "AtpBlueprintable",
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "This abstract class provides the ability to become a provided PortPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "providedCom": {
+          "type": "PPortComSpec",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provided communication attributes per interface element element or operation)."
+        }
+      }
+    },
+    {
+      "name": "RPortPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractRequiredPortPrototype",
+      "bases": [
+        "ARObject",
+        "AbstractRequiredPortPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortPrototype",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.port"
+      ],
+      "implements": [
+        "AtpBlueprintable",
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "Component port requiring a certain port interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 68,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2047,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 237,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 460,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 202,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mayBe": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true, this attribute indicates that the enclosing may be left unconnected and that this explicitly been considered in the"
+        },
+        "required": {
+          "type": "PortInterface",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "isOfType"
+        }
+      }
+    },
+    {
+      "name": "PortGroup",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwComponentType.portGroup"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Group of ports which share a common functionality , e.g. need specific network resources. This information shall be available on the VFB level in order to delegate it properly via compositions. When propagated into the ECU extract, this information is used as input for the configuration of Services like the Communication Manager. A PortGroup is defined locally in a component (which can be a composition) and refers to the \"outer\" ports belonging to the group as well as to the \"inner\" groups which propagate this group into the components which are part of a composition. A PortGroup within an atomic SWC cannot be linked to inner groups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2045,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "innerGroup": {
+          "type": "PortGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "defined in a component which is part of this by: InnerPortGroupIn"
+        },
+        "outerPort": {
+          "type": "PortPrototype",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Outer PortPrototype of this AtomicSwComponentType to the group. A port can belong to several to no group at all. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SymbolProps",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ImplementationProps",
+      "bases": [
+        "ARObject",
+        "ImplementationProps",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Allocator.namespace",
+        "ApApplicationErrorDomain.namespace",
+        "AtomicSwComponentType.symbolProps",
+        "CppImplementationDataType.namespace",
+        "ImplementationDataType.symbolProps",
+        "PortInterface.namespace",
+        "SecurityEventDefinition.eventSymbolName"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to attach with the symbol attribute a symbolic name that is conform to C language requirements to another meta-class, e.g. AtomicSwComponentType, that is a potential subject to a name clash on the level of RTE source code.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 288,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2074,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SensorActuatorSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The SensorActuatorSwComponentType introduces the possibility to link from the software representation of a sensor/actuator to its hardware description provided by the ECU Resource Template.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 646,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2055,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 244,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sensorActuator": {
+          "type": "HwDescriptionEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference from the Sensor Actuator Software Component the description of the actual hardware."
+        }
+      }
+    },
+    {
+      "name": "ServiceProxySwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "This class provides the ability to express a software-component which provides access to an internal service for remote ECUs. It acts as a proxy for the service providing access to the service. An important use case is the request of vehicle mode switches: Such requests can be communicated via sender-receiver interfaces across ECU boundaries, but the mode manager being responsible to perform the mode switches is an AUTOSAR Service which is located in the Basic Software and is not visible in the VFB view. To handle this situation, a ServiceProxySwComponentType will act as proxy for the mode manager. It will have R-Ports to be connected with the mode requestors on VFB level and Service-Ports to be connected with the local mode manager at ECU integration time. Apart from the semantics, a ServiceProxySwComponentType has these specific properties: • A prototype of it can be mapped to more than one ECUs in the system description. • Exactly one additional instance of it will be created in the ECU-Extract per ECU to which the prototype has been mapped. • For remote communication, it can have only R-Ports with sender-receiver interfaces and 1:n semantics. • There shall be no connectors between two prototypes of any ServiceProxySwComponentType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 661,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2056,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NvBlockSwComponentType",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AtomicSwComponentType",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AtomicSwComponentType",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SwComponentType"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The NvBlockSwComponentType defines non volatile data which data can be shared between Sw ComponentPrototypes. The non volatile data of the NvBlockSwComponentType are accessible via provided and required ports.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 663,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2040,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bulkNvData": {
+          "type": "BulkNvDataDescriptor",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation formally defines the bulk Nv Blocks that provided to the application software by the enclosing atpVariation"
+        },
+        "nvBlock": {
+          "type": "NvBlockDescriptor",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of the properties of exactly one NVRAM atpVariation"
+        }
+      }
+    }
+  ]
+}

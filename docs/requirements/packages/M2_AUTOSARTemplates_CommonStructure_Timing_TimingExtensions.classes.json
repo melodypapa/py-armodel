@@ -1,0 +1,342 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+  "classes": [
+    {
+      "name": "VfbTiming",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingExtension",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TimingExtension"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "A model element used to define timing descriptions and constraints at VFB level. TimingDescriptions aggregated by VfbTiming are restricted to event chains referring to events which are derived from the class TDEventVfb.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 24,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 223,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "component": {
+          "type": "SwComponentType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This defines the scope of a VfbTiming. All corresponding and constraints shall be defined within"
+        }
+      }
+    },
+    {
+      "name": "SwcTiming",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingExtension",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TimingExtension"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SwcTiming is used to describe the timing of an atomic software component. TimingDescriptions aggregated by SwcTiming are restricted to event chains referring to events which are derived from the classes TDEventVfb and TDEventSwcInternalBehavior.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 25,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "behavior": {
+          "type": "SwcInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This defines the scope of a SwcTiming. All corresponding and constraints shall be defined within reason for the cardinality of 0..1 is to ensure"
+        }
+      }
+    },
+    {
+      "name": "SystemTiming",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingExtension",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TimingExtension"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A model element used to refine timing descriptions and constraints (from a VfbTiming) at System level, utilizing information about topology, software deployment, and signal mapping described in the System Template. TimingDescriptions aggregated by SystemTiming are restricted to events which are derived from the class TDEventVfb, TDEventSwcInternalBehavior and TDEventCom.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 26,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "system": {
+          "type": "System",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This defines the scope of a SystemTiming. All descriptions and constraints shall within this scope."
+        }
+      }
+    },
+    {
+      "name": "BswModuleTiming",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingExtension",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TimingExtension"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A model element used to define timing descriptions and constraints for the BswInternalBehavior of one BSW Module. Thereby, for each BswInternalBehavior a separate timing can be specified. A constraint defined at this level holds true for all Implementations of that BswInternalBehavior. TimingDescriptions aggregated by BswModuleTiming are restricted to event chains referring to events which are derived from the class TDEventBswInternalBehavior.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 28,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "behavior": {
+          "type": "BswInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This defines the scope of a BswModuleTiming. All descriptions and constraints shall within this scope."
+        }
+      }
+    },
+    {
+      "name": "BswCompositionTiming",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingExtension",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TimingExtension"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A model element used to define timing descriptions and constraints for a set of BswImplementations representing a BSW composition. A constraint defined at this level holds true for all referenced Bsw Implementations. Note, that multiple implementations of the same basic software module could be involved. TimingDescriptions aggregated by BswCompositionTiming are restricted to event chains referring to events which are derived from the class TDEventBswInternalBehavior and TDEventBsw. (cid:53) 28 of 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Specification of Timing Extensions for Classic Platform AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 28,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "implementation": {
+          "type": "BswImplementation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This defines the scope of a BswCompositionTiming. All descriptions and constraints shall within this scope."
+        }
+      }
+    },
+    {
+      "name": "EcuTiming",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingExtension",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TimingExtension"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A model element used to define timing descriptions and constraints within the scope of one ECU configuration. TimingDescriptions aggregated by EcuTiming are allowed to use all events derived from the class Timing DescriptionEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 30,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecu": {
+          "type": "EcucValueCollection",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This defines the scope of an EcuTiming. All timing descriptions and constraints shall within this scope."
+        }
+      }
+    },
+    {
+      "name": "TimingExtension",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "VfbTiming",
+        "SwcTiming",
+        "SystemTiming",
+        "BswModuleTiming",
+        "BswCompositionTiming",
+        "EcuTiming"
+      ],
+      "subclasses": [
+        "BswCompositionTiming",
+        "BswModuleTiming",
+        "EcuTiming",
+        "SwcTiming",
+        "SystemTiming",
+        "VfbTiming"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The abstract parent class of the different template specific timing extensions. Depending on the specific timing extension the timing descriptions and timing constraints, that can be used to specify the timing behavior, are restricted.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 254,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timingClock": {
+          "type": "TimingClockSync",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A list of accuracies - which may be used to specify synchronizations from one model clock to another model atpVariation"
+        },
+        "timingCondition": {
+          "type": "TimingCondition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The timing condition specifies a specific condition. atpVariation 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "timing": {
+          "type": "TimingConstraint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The timing constraints that belong to a specific timing in the role of a timing requirement. to support different timing constraint variants timing specification, the aggregation is marked stereotype \"atpVariation\". atpVariation"
+        },
+        "timingResource": {
+          "type": "TimingExtension",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The timing resource contains all instance references from within a timing condition formula of a timing"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated",
+  "path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "Port",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintDedicated_Port.json"
+    },
+    {
+      "name": "Generic",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintDedicated_Generic.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

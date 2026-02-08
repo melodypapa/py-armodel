@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::Documentation::BlockElements::Figure",
+  "path": "M2::MSR::Documentation::BlockElements::Figure",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_BlockElements_Figure.classes.json",
+    "enumerations": "packages/M2_MSR_Documentation_BlockElements_Figure.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 4,
+    "primitive_count": 0
+  }
+}

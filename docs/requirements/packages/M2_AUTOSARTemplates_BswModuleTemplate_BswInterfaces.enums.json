@@ -1,0 +1,146 @@
+{
+  "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+  "enumerations": [
+    {
+      "name": "BswEntryKindEnum",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "note": "Denotes the mechanism by which the entry into the Bsw module shall be called. Aggregated by BswModuleEntry.bswEntryKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 33,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Basic",
+          "index": null,
+          "description": "Software Module Description Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "abstract",
+          "index": 0,
+          "description": "This BswModuleEntry specifies an abstract signature of C-functions. The signature needs to be implemented by concrete BswModuleEntrys<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "concrete",
+          "index": 1,
+          "description": "This BswModuleEntry specifies a concrete C-function with its signature.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "BswExecutionContext",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "note": "Specifies the execution context required or guaranteed for the call associated with this service. Aggregated by BswModuleEntry.executionContext",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 34,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "hook",
+          "index": 0,
+          "description": "Context of an OS \"hook\" routine always<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "interruptCat1",
+          "index": 1,
+          "description": "CAT1 interrupt context always<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "interruptCat2",
+          "index": 2,
+          "description": "CAT2 interrupt context always<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "task",
+          "index": 3,
+          "description": "Task context always<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "unspecified",
+          "index": 4,
+          "description": "The execution context is not specified by the API<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "BswCallType",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "note": "Denotes the mechanism by which the entry into the Bsw module shall be called. Aggregated by BswModuleEntry.callType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 36,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "callback",
+          "index": 0,
+          "description": "Callback (i.e. the caller specifies the signature)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "callout",
+          "index": 4,
+          "description": "Callout - provide defined means to extend the functionality of an existing module. In this case caller specifies the signature.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "interrupt",
+          "index": 1,
+          "description": "Interrupt routine<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "regular",
+          "index": 2,
+          "description": "Regular API call<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "scheduled",
+          "index": 3,
+          "description": "Called by the scheduler<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "BswEntryRelationshipEnum",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+      "note": "Define the type of relationship between two BswModuleEntrys. Aggregated by BswEntryRelationship.bswEntryRelationshipType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 52,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "derivedFrom",
+          "index": 0,
+          "description": "Describes that the BswModuleEntry referenced as \"to\" needs to have the same signature as the<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

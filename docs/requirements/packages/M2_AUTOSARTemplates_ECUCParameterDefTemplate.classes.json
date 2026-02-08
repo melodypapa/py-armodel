@@ -1,0 +1,2041 @@
+{
+  "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+  "classes": [
+    {
+      "name": "EcucModuleDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucDefinitionElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 314,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 32,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "apiServicePrefix": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "For modules where several instances of the VSMD can the apiServicePrefix defines the API the derived instances, e.g. Cdd, Xfrm E2EXf)."
+        },
+        "container": {
+          "type": "EcucContainerDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Aggregates the top-level container definitions of this definition."
+        },
+        "postBuildVariant": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if a module supports different post-build variants known as post-build selectable configuration means yes, FALSE means no."
+        },
+        "refinedModule": {
+          "type": "EcucModuleDef",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference from the Vendor Specific Module to the Standardized Module Definition it refines. this EcucModuleDef has the category reference be provided. In case this EcucModuleDef has VENDOR_SPECIFIC_MODULE_ reference is mandatory."
+        },
+        "supported": {
+          "type": "EcucConfiguration",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the Ecuc the category STANDARDIZED_ the category attribute of the set to VENDOR_SPECIFIC_ this attribute is mandatory."
+        }
+      }
+    },
+    {
+      "name": "EcucDefinitionCollection",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 25,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 185,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "module": {
+          "type": "EcucModuleDef",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References to the module definitions of individual"
+        }
+      }
+    },
+    {
+      "name": "EcucContainerDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "EcucDefinitionElement",
+      "bases": [
+        "ARObject",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucParamConfContainerDef",
+        "EcucChoiceContainerDef"
+      ],
+      "subclasses": [
+        "EcucChoiceContainerDef",
+        "EcucParamConfContainerDef"
+      ],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.container",
+        "EcucModuleDef.container",
+        "EcucParamConfContainerDef.sub"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Base class used to gather common attributes of configuration container definitions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 36,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2020,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 184,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationUri": {
+          "type": "EcucDestinationUriDef",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Several destinationUris can be defined for an Ecuc such destinationUris an Ecuc applicable for several EcucUriReference"
+        },
+        "multiplicity": {
+          "type": "EcucMultiplicity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant. This optional if the surrounding EcucModuleDef Category STANDARDIZED_MODULE_ the category attribute of the EcucModule set to VENDOR_SPECIFIC_MODULE_ if the upperMultiplicity is greater than then this aggregation is mandatory."
+        },
+        "origin": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies whether this configuration an AUTOSAR standardized container or is vendor-specific. 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11"
+        },
+        "postBuildVariant": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if a container may have different number of in different post-build variants (previously post-build selectable configuration sets). TRUE FALSE means no."
+        },
+        "requiresIndex": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to define whether the value element for this be provided with an index."
+        }
+      }
+    },
+    {
+      "name": "EcucParamConfContainerDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucContainerDef",
+      "bases": [
+        "ARObject",
+        "EcucContainerDef",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucChoiceContainerDef.choice",
+        "EcucDestinationUriPolicy.container",
+        "EcucModuleDef.container",
+        "Ecuc"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 39,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "parameter": {
+          "type": "EcucParameterDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The parameters defined within the EcucParamConf"
+        },
+        "reference": {
+          "type": "EcucAbstractReference",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The references defined within the EcucParamConf"
+        },
+        "subContainer": {
+          "type": "EcucContainerDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The containers defined within the EcucParamConf"
+        }
+      }
+    },
+    {
+      "name": "EcucChoiceContainerDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucContainerDef",
+      "bases": [
+        "ARObject",
+        "EcucContainerDef",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.container",
+        "EcucModuleDef.container",
+        "EcucParamConfContainerDef.sub"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Used to define configuration containers that provide a choice between several EcucParamConfContainer Def. But in the actual ECU Configuration Values only one instance from the choice list will be present.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 41,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "choice": {
+          "type": "EcucParamConf",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The choices available in a EcucChoiceContainerDef. atpSplitable"
+        }
+      }
+    },
+    {
+      "name": "EcucDefinitionElement",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucModuleDef",
+        "EcucContainerDef",
+        "EcucCommonAttributes"
+      ],
+      "subclasses": [
+        "EcucCommonAttributes",
+        "EcucContainerDef",
+        "EcucModuleDef"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory occurrence of the specified element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 45,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 440,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecucCond": {
+          "type": "EcucCondition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If it evaluates to true the Ecu Parameter definition shall be as specified. Otherwise the parameter be ignored."
+        },
+        "ecucValidation": {
+          "type": "EcucValidation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of validation conditions which all need to evaluate to true in order to indicate a valid validation the EcucDefinitionElement."
+        },
+        "lowerMultiplicity": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The lower multiplicity of the specified element. least one occurrence least n occurrences 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11"
+        },
+        "relatedTrace": {
+          "type": "Traceable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This contains a sloppy reference to the Autosar identifier of the element (EcucId)."
+        },
+        "scope": {
+          "type": "EcucScopeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the scope of this configuration element."
+        },
+        "upperMultiplicity": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "To express an infinite number of occurrences of this this attribute has to be set to true. is set than upperMultiplicity shall used."
+        }
+      }
+    },
+    {
+      "name": "EcucCommonAttributes",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "EcucDefinitionElement",
+      "bases": [
+        "ARObject",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucParameterDef",
+        "EcucAbstractReferenceDef"
+      ],
+      "subclasses": [
+        "EcucAbstractReferenceDef",
+        "EcucParameterDef"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Attributes used by Configuration Parameters as well as References.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 48,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "multiplicity": {
+          "type": "EcucMultiplicity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular aggregation is optional if the has the Category the of the EcucModuleDef is set to this mandatory."
+        },
+        "origin": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "String specifying if this configuration parameter is an configuration parameter or if the hardware- or vendor-specific."
+        },
+        "postBuildVariant": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if a parameter or a reference may have different in different post-build variants (previously known as configuration sets). TRUE means means no."
+        },
+        "requiresIndex": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to define whether the value element for this be provided with an index. 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11"
+        },
+        "valueConfig": {
+          "type": "EcucValueConfiguration",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies in which ValueConfigurationClass this aggregation is optional if the has the Category the of the EcucModuleDef is set to this mandatory."
+        }
+      }
+    },
+    {
+      "name": "EcucAbstractConfigurationClass",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "EcucValueConfigurationClass",
+        "EcucMultiplicityConfigurationClass"
+      ],
+      "subclasses": [
+        "EcucMultiplicityConfigurationClass",
+        "EcucValueConfigurationClass"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 51,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "configClass": {
+          "type": "EcucConfigurationClass",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the ConfigurationClass for the given"
+        },
+        "configVariant": {
+          "type": "EcucConfiguration",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the ConfigurationVariant the ConfigurationClass specified for."
+        }
+      }
+    },
+    {
+      "name": "EcucValueConfigurationClass",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractConfigurationClass",
+      "bases": [
+        "ARObject",
+        "EcucAbstractConfigurationClass"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucCommonAttributes.valueConfigClass"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucMultiplicityConfigurationClass",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractConfigurationClass",
+      "bases": [
+        "ARObject",
+        "EcucAbstractConfigurationClass"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucCommonAttributes.multiplicityConfigClass",
+        "EcucContainerDef .multiplicityConfigClass"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucParameterDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "EcucCommonAttributes",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucBooleanParamDef",
+        "EcucIntegerParamDef",
+        "EcucFloatParamDef",
+        "EcucEnumerationParamDef",
+        "EcucAddInfoParamDef"
+      ],
+      "subclasses": [
+        "EcucAbstractStringParamDef",
+        "EcucAddInfoParamDef",
+        "EcucBooleanParamDef",
+        "EcucEnumerationParamDef",
+        "EcucFloatParamDef",
+        "EcucIntegerParamDef"
+      ],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 188,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "derivation": {
+          "type": "EcucDerivation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A derivation of a Configuration Parameter value can be by an informal Calculation Formula or by a that can be used to specify the"
+        },
+        "symbolicName": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies that this parameter’s value is used, together the aggregating container, to derive a symbolic name chapter \"Representation of Symbolic Ecuc specification for more details."
+        },
+        "withAuto": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether it shall be allowed on the value side to parameter value as \"AUTO\". is \"true\" it shall be possible to set the \"isAuto of the respective parameter to \"true\". This the actual value will not be considered during but will be (re-)calculated by the code stored in the value attribute afterwards. updated values might require a other modules which reference these is \"false\" it shall not be possible to set the \"is of the respective parameter to \"true\". is not present the default is \"false\"."
+        }
+      }
+    },
+    {
+      "name": "EcucBooleanParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucParameterDef",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for Boolean. Allowed values are true and false.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 58,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default value of the boolean configuration parameter."
+        }
+      }
+    },
+    {
+      "name": "EcucIntegerParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucParameterDef",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for Integer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 60,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default value of the integer configuration parameter."
+        },
+        "max": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Max value allowed for the parameter defined."
+        },
+        "min": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Min value allowed for the parameter defined."
+        }
+      }
+    },
+    {
+      "name": "EcucFloatParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucParameterDef",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for Float.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 61,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 186,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default value of the float configuration parameter."
+        },
+        "max": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Max value allowed for the parameter defined. 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration ECU Configuration R23-11"
+        },
+        "min": {
+          "type": "Limit",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Min value allowed for the parameter defined."
+        }
+      }
+    },
+    {
+      "name": "EcucAbstractStringParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "EcucFunctionNameDef",
+        "EcucLinkerSymbolDef",
+        "EcucMultilineStringParamDef",
+        "EcucStringParamDef"
+      ],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags: vh.latestBindingTime=codeGenerationTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 63,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default value of the string configuration parameter."
+        },
+        "maxLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Max length allowed for this string."
+        },
+        "minLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Min length allowed for this string."
+        },
+        "regular": {
+          "type": "RegularExpression",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the regular expression which shall be to validate the string parameter value."
+        }
+      }
+    },
+    {
+      "name": "EcucStringParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "EcucAbstractStringParamDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for String.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 64,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucMultilineStringParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "EcucAbstractStringParamDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for multiline Strings (including \"carriage return\").",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 64,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucLinkerSymbolDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "EcucAbstractStringParamDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 65,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucFunctionNameDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "EcucAbstractStringParamDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for Function Names like those used to specify callback functions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 65,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucEnumerationParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucParameterDef",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration parameter type for Enumeration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 186,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultValue": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default value of the enumeration configuration parameter. needs to be one of the literals specified for this"
+        },
+        "literal": {
+          "type": "EcucEnumerationLiteral",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Aggregation on the literals used to define this parameter. This aggregation is optional if the has the category the of the EcucModuleDef is set to this mandatory."
+        }
+      }
+    },
+    {
+      "name": "EcucEnumerationLiteralDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucEnumerationParamDef.literal"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration parameter type for enumeration literals definition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecucCond": {
+          "type": "EcucCondition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If it evaluates to true the literal definition shall be as specified. Otherwise the literal definition ignored."
+        },
+        "origin": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "String specifying if this literal is an AUTOSAR or if the literal is vendor-specific."
+        }
+      }
+    },
+    {
+      "name": "EcucAddInfoParamDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucParameterDef",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "EcucParameterDef",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.parameter",
+        "EcucParamConfContainerDef.parameter"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 68,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucAbstractReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "EcucCommonAttributes",
+      "bases": [
+        "ARObject",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucAbstractInternalReferenceDef",
+        "EcucAbstractExternalReferenceDef"
+      ],
+      "subclasses": [
+        "EcucAbstractExternalReferenceDef",
+        "EcucAbstractInternalReferenceDef"
+      ],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Common class to gather the attributes for the definition of references.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "withAuto": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether it shall be allowed on the value side to reference value as \"AUTO\". is \"true\" it shall be possible to set the \"isAuto of the respective reference to \"true\". This the actual value will not be considered during but will be (re-)calculated by the code stored in the value attribute afterwards. updated values might require a other modules which reference these is \"false\" it shall not be possible to set the \"is of the respective reference to \"true\". is not present the default is \"false\"."
+        }
+      }
+    },
+    {
+      "name": "EcucAbstractInternalReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "EcucAbstractReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucReferenceDef",
+        "EcucChoiceReferenceDef",
+        "EcucUriReferenceDef"
+      ],
+      "subclasses": [
+        "EcucChoiceReferenceDef",
+        "EcucReferenceDef",
+        "EcucUriReferenceDef"
+      ],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description). (cid:53) 71 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of ECU Configuration AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "requires": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this attribute is set to true the implementation of the is done using a Symbolic Name defined by the container according to TPS_ECUC_02108."
+        }
+      }
+    },
+    {
+      "name": "EcucAbstractExternalReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "EcucAbstractReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EcucForeignReferenceDef",
+        "EcucInstanceReferenceDef"
+      ],
+      "subclasses": [
+        "EcucForeignReferenceDef",
+        "EcucInstanceReferenceDef"
+      ],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 72,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EcucReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractInternalReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractInternalReferenceDef",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Specify references within the ECU Configuration Description between parameter containers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 442,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 189,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destination": {
+          "type": "EcucContainerDef",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Exactly one reference to a parameter container is allowed"
+        }
+      }
+    },
+    {
+      "name": "EcucChoiceReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractInternalReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractInternalReferenceDef",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 74,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 184,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destination": {
+          "type": "EcucContainerDef",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "All the possible parameter containers for the reference"
+        }
+      }
+    },
+    {
+      "name": "EcucForeignReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractExternalReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractExternalReferenceDef",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Specify a reference to an XML description of an entity described in another AUTOSAR template.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 75,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationType": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The type in the AUTOSAR Metamodel to which instance is allowed to point to."
+        }
+      }
+    },
+    {
+      "name": "EcucInstanceReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractExternalReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractExternalReferenceDef",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 77,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destination": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The context in the AUTOSAR Metamodel to which’ this is allowed to point to."
+        },
+        "destinationType": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The type in the AUTOSAR Metamodel to which’ instance is allowed to point to."
+        }
+      }
+    },
+    {
+      "name": "EcucUriReferenceDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EcucAbstractInternalReferenceDef",
+      "bases": [
+        "ARObject",
+        "EcucAbstractInternalReferenceDef",
+        "EcucAbstractReferenceDef",
+        "EcucCommonAttributes",
+        "EcucDefinitionElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriPolicy.reference",
+        "EcucParamConfContainerDef.reference"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "Definition of reference with a destination that is specified via a destinationUri. With such a reference it is possible to define a reference to a EcucContainerDef in a different module independent from the concrete definition of the target container.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 81,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 190,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationUri": {
+          "type": "EcucDestinationUriDef",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Any EcucContainerDef with a destinationUri that is the destinationUri that is referenced here valid target."
+        }
+      }
+    },
+    {
+      "name": "EcucDestinationUriDefSet",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This class represents a list of EcucDestinationUriDefs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 82,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationUriDef": {
+          "type": "EcucDestinationUriDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular EcucDestinationUriDef."
+        }
+      }
+    },
+    {
+      "name": "EcucDestinationUriDef",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriDefSet.destinationUriDef"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 82,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationUri": {
+          "type": "EcucDestinationUri",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of the targeted EcucContainerDef."
+        }
+      }
+    },
+    {
+      "name": "EcucDestinationUriPolicy",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDestinationUriDef.destinationUriPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReference Defs. The type of the description is dependent of the destinationUriNestingContract attribute.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 83,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "container": {
+          "type": "EcucContainerDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of the targetContainer in case that the set to targetContainer. In cases the subContainers of the target container here."
+        },
+        "destinationUri": {
+          "type": "EcucDestinationUri",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how the referenced target Ecuc ContainerDef is described."
+        },
+        "parameter": {
+          "type": "EcucParameterDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of parameters that are contained in the target"
+        },
+        "reference": {
+          "type": "EcucAbstractReference",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Description of references that are contained in the target"
+        }
+      }
+    },
+    {
+      "name": "EcucDerivationSpecification",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucParameterDef .derivation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Allows to define configuration items that are calculated based on the value of • other parameter values • elements (attributes/classes) defined in other AUTOSAR templates such as System template and SW component template",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 87,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "calculation": {
+          "type": "EcucParameter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the formula used to calculate the value of the configuration element."
+        },
+        "ecucQuery": {
+          "type": "EcucQuery",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Query to the ECU Configuration Description."
+        },
+        "informalFormula": {
+          "type": "MlFormula",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Informal description of the derivation used to calculate the the configuration element."
+        }
+      }
+    },
+    {
+      "name": "EcucParameterDerivationFormula",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDerivationSpecification.calculationFormula"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This formula is intended to specify how an ecu parameter can be derived from other information in the Autosar Templates.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 88,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecucQuery": {
+          "type": "EcucQuery",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This indicates that the referenced query shall return a"
+        }
+      }
+    },
+    {
+      "name": "EcucQuery",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucConditionSpecification.ecucQuery",
+        "EcucDerivationSpecification.ecucQuery",
+        "EcucValidation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a query to the ECUC Description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecucQuery": {
+          "type": "EcucQueryExpression",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the EcucQuery used in the calculation formula or condition formula."
+        }
+      }
+    },
+    {
+      "name": "EcucQueryExpression",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucQuery.ecucQueryExpression"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a query expression to the ECUC Description and output the result as an numerical value. Due to the \"mixedString\" nature of the formula there can be several EcuQueryExpressions used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 89,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "configElement": {
+          "type": "EcucDefinitionElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The EcucQueryExpression points to an EcucDefinition that is used to find an element in the Ecuc order to find the right element in the Ecuc search is necessary. If the search is of the same module that contains the local reference shall be used. Due to the of the EcucQueryExpression several EcucDefintionElements can be used in one"
+        }
+      }
+    },
+    {
+      "name": "EcucConditionSpecification",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDefinitionElement.ecucCond",
+        "EcucEnumerationLiteralDef.ecucCond"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Allows to define existence dependencies based on the value of parameter values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 100,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "condition": {
+          "type": "EcucConditionFormula",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the formula used to define existence"
+        },
+        "ecucQuery": {
+          "type": "EcucQuery",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Query to the ECU Configuration Description."
+        },
+        "informalFormula": {
+          "type": "MlFormula",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Informal description of the condition used to to define"
+        }
+      }
+    },
+    {
+      "name": "EcucConditionFormula",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucConditionSpecification.conditionFormula",
+        "EcucValidationCondition.validationFormula"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This formula shall yield a boolean expression depending on ecuc queries. Note that the EcucCondition Formula is a mixed string. Therefore, the properties have the upper multiplicity 1.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 100,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecucQuery": {
+          "type": "EcucQuery",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This indicates that the referenced query shall return a"
+        }
+      }
+    },
+    {
+      "name": "EcucValidationCondition",
+      "package": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucDefinitionElement.ecucValidationCond"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Validation condition to perform a formula calculation based on EcucQueries.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 103,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecucQuery": {
+          "type": "EcucQuery",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Query to the ECU Configuration Description."
+        },
+        "validation": {
+          "type": "EcucConditionFormula",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the formula used to define validation"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,436 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+  "classes": [
+    {
+      "name": "DiagnosticServiceDataMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a mapping of a diagnostic service to a software-component. This kind of service mapping is applicable for the usage of SenderReceiverInterfaces or event/notifier semantics in ServiceInterfaces on the adaptive platform.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 228,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticData": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the applicable payload that corresponds the referenced DataPrototype in the role mappedData (in case of a usage on the adaptive platform)"
+        },
+        "diagnostic": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedData"
+        },
+        "mappedData": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "that is accessed for diagnostic purpose. This applicable on the classic platform. by: DataPrototypeInSystem"
+        },
+        "parameter": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the single point of access to the reference to one specific DiagnosticParameter"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticParameterElementAccess",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticServiceDataMapping.parameterElementAccess",
+        "DiagnosticServiceSwMapping.parameterElementAccess"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as a single point for defining structured references to a specific Diagnostic ParameterElement.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 229,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the context of an applicable payload that corresponds to the referenced DataPrototype in the role"
+        },
+        "targetElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the target reference of an applicable that corresponds to the referenced Data the role mappedDataElement."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticServiceMappingDiagTarget",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "DiagnosticDataElement",
+        "DiagnosticParameterElement",
+        "DiagnosticParameterIdent"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class serves as a base class for diagnostics-related targets of subclasses of DiagnosticSw Mapping",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticServiceSwMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a mapping of a diagnostic service to a software-component or a basic-software module. If the former is used then this kind of service mapping is applicable for the usage of ClientServerInterfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 238,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessedData": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "to be accessed in the context of the operation by: DataPrototypeInClient"
+        },
+        "diagnosticData": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents a DiagnosticDataElement required to the respective diagnostic service in the context of service mapping,"
+        },
+        "diagnostic": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the applicable payload that corresponds to the referenced DataPrototype in the role mappedData"
+        },
+        "mappedBsw": {
+          "type": "BswService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is supposed to represent a reference to a Bsw ServiceDependency. the latter is not derived from and therefore this detour needs to be still let BswServiceDependency become of a reference. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "mappedFlatSwc": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the ability to refer to an AtomicSw ComponentType that is available without the definition of it will be embedded into the component hierarchy."
+        },
+        "mappedSwc": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "hierarchy (under possible consideration of the root implemented by: SwcServiceDependency"
+        },
+        "parameter": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the single point of access to the reference to one specific DiagnosticParameter"
+        },
+        "serviceInstance": {
+          "type": "DiagnosticService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the service instance that needs to be in this diagnostics service mapping."
+        }
+      }
+    },
+    {
+      "name": "BswServiceDependencyIdent",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdentCaption",
+      "bases": [
+        "ARObject",
+        "IdentCaption",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "BswServiceDependency.ident"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class is created to add the ability to become the target of a reference to the non-Referrable BswServiceDependency. (cid:53) 239 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 239,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticSecurityEventReportingModeMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a location in a DID with a security event. The purpose of this mapping is that the location in the DID contains the setting of the reporting mode for the specific security event. This means that the reporting mode of the security event can be set via the diagnostic service WriteDataByIdentifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 243,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the data element that carries the the reporting mode."
+        },
+        "securityEvent": {
+          "type": "SecurityEventContext",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the mapped security event. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticDemProvidedDataMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define the nature of a data access for a DiagnosticDataElement in the Dem.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 255,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the DiagnosticDataElement for which the further qualified by the DiagnosticDemProvided"
+        },
+        "dataProvider": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to further specify the access Dem."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticFimFunctionMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a mapping between a function identifier (FID) and the corresponding SwcServiceDependency in the application software resp. basic software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 264,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mappedBsw": {
+          "type": "BswService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is supposed to represent a reference to a Bsw ServiceDependency. the latter is not derived from and therefore this detour needs to be still let BswServiceDependency become of a reference."
+        },
+        "mappedFlatSwc": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the ability to refer to an AtomicSw ComponentType that is available without the definition of it will be embedded into the component hierarchy."
+        },
+        "mapped": {
+          "type": "DiagnosticFunction",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the mapped FID. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "mappedSwc": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "hierarchy (under possible consideration of the root by: SwcServiceDependency"
+        }
+      }
+    }
+  ]
+}

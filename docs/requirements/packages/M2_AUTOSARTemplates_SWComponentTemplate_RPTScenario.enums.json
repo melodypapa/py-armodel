@@ -1,0 +1,36 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+  "enumerations": [
+    {
+      "name": "RptServicePointEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+      "note": "Specifies whether the invocation of ExecutableEntitys due to activation of specific RteEvents/Bsw Events requires the insertion of Service Points. Aggregated by RptExecutableEntityProperties.rptServicePoint",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 204,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 860,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "enabled",
+          "index": 0,
+          "description": "Enables generation of service points by the RTE generator.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "No Service Points are requested.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationPointConstraint",
+  "classes": [
+    {
+      "name": "SynchronizationPointConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationPointConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies a synchronization point either between groups of ExecutableEntitys or individual ExecutableEntitys referenced via their corresponding RTE or BSW events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 132,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sourceEec": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The source executable entities cluster containing the entities that shall finish execution before the"
+        },
+        "sourceEvent": {
+          "type": "AbstractEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The executable entities — referenced by their events — finish execution before the synchronization"
+        },
+        "targetEec": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The target executable entities cluster containing the entities that shall start execution after the"
+        },
+        "targetEvent": {
+          "type": "AbstractEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The executable entities — referenced by their events — start execution after the synchronization point."
+        }
+      }
+    }
+  ]
+}

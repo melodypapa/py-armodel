@@ -1,0 +1,460 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+  "classes": [
+    {
+      "name": "ModeDeclarationGroupPrototype",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "BswModuleDescription.providedModeGroup",
+        "BswModuleDescription.requiredModeGroup",
+        "FirewallStateSwitchInterface.firewallStateMachine",
+        "FunctionGroupSet.functionGroup",
+        "ModeSwitchInterface.modeGroup",
+        "Process.processStateMachine",
+        "StateManagementStateNotification.state"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 42,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2038,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swCalibration": {
+          "type": "SwCalibrationAccess",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at"
+        },
+        "type": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by a component"
+        }
+      }
+    },
+    {
+      "name": "ModeDeclarationGroup",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A collection of Mode Declarations. Also, the initial mode is explicitly identified.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 42,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 628,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2038,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 197,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The initial mode of the ModeDeclarationGroup. This active before any mode switches occurred."
+        },
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ModeDeclarations collected in this ModeDeclaration atpVariation"
+        },
+        "modeManager": {
+          "type": "ModeErrorBehavior",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to define the error behavior by the mode manager in case of errors on the side (e.g. terminated mode user)."
+        },
+        "modeTransition": {
+          "type": "ModeTransition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the avaliable ModeTransitions of the"
+        },
+        "modeUserError": {
+          "type": "ModeErrorBehavior",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the definition of the error behavior by the mode user in case of errors on the mode (e.g. terminated mode manager)."
+        },
+        "onTransition": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value of this attribute shall be taken into account by RTE generator for programmatically representing a for the transition between two statuses."
+        }
+      }
+    },
+    {
+      "name": "ModeDeclaration",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ModeDeclarationGroup.modeDeclaration"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Declaration of one Mode. The name and semantics of a specific mode is not defined in the meta-model.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 43,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 628,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2038,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "value": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The RTE shall take the value of this attribute for source code representation of this Mode"
+        }
+      }
+    },
+    {
+      "name": "ModeTransition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ModeDeclarationGroup.modeTransition"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe possible ModeTransitions in the context of a Mode DeclarationGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 43,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 630,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "enteredMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the entered model of the ModeTransition."
+        },
+        "exitedMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the exited mode of the ModeTransition"
+        }
+      }
+    },
+    {
+      "name": "ModeErrorBehavior",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ModeDeclarationGroup.modeManagerErrorBehavior",
+        "ModeDeclarationGroup.modeUserErrorBehavior"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define the error behavior in the context of mode handling.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 44,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 637,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the ModeDeclaration that is considered mode in the context of the enclosing Mode"
+        },
+        "errorReaction": {
+          "type": "ModeErrorReaction",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to define the policy in terms of which default model shall apply in case an error occurs."
+        }
+      }
+    },
+    {
+      "name": "ModeRequestTypeMap",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataTypeMappingSet.modeRequestTypeMap"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies a mapping between a ModeDeclarationGroup and an ImplementationDataType. This ImplementationDataType shall be used to implement the ModeDeclarationGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 44,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 115,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "implementation": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the corresponding AbstractImplementationData Type. It shall be modeled along the idea of an \"unsigned type."
+        },
+        "modeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is the corresponding ModeDeclarationGroup."
+        }
+      }
+    },
+    {
+      "name": "ModeDeclarationGroupPrototypeMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ModeInterfaceMapping.modeMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the mapping of two particular ModeDeclarationGroupPrototypes (in the given context) that are unequally named and/or require a reference to a ModeDeclarationMappingSet in order to become compatible by definition of ModeDeclarationMappings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 130,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstModeGroupPrototype": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "ModeDeclarationGroupPrototype to be mapped."
+        },
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the available mappings of Mode Declarations in the context ot this ModeDeclarationGroup"
+        },
+        "secondMode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "ModeDeclarationGroupPrototype to be mapped."
+        }
+      }
+    }
+  ]
+}

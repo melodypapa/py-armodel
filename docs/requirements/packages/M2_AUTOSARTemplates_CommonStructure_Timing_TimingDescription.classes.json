@@ -1,0 +1,163 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
+  "classes": [
+    {
+      "name": "TimingDescriptionEventChain",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingDescription",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An event chain describes the causal order for a set of functionally dependent timing events. Each event chain has a well defined stimulus and response, which describe its start and end point. Furthermore, it can be hierarchically decomposed into an arbitrary number of sub-chains, so called event chain segments.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 40,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "isPipelining": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "States whether the scheduled entities in an LET interval use pipelined execution or not i.e. \"permitted If TRUE, then the scheduled entities pipelining. If FALSE or undefined, no"
+        },
+        "response": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The response event representing the point in time where chain is terminated."
+        },
+        "segment": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A composed event chain consists of an arbitrary number sub-chains."
+        },
+        "stimulus": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The stimulus event representing the point in time where chain is activated."
+        }
+      }
+    },
+    {
+      "name": "TimingDescription",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "TimingDescriptionEventChain",
+        "TimingDescriptionEvent"
+      ],
+      "subclasses": [
+        "TimingDescriptionEvent",
+        "TimingDescriptionEventChain"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The abstract parent class of the model elements that are used to define the scope of a timing constraint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TimingDescriptionEvent",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingDescription",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription"
+      ],
+      "children": [
+        "TDEventVfb",
+        "TDEventSwc",
+        "TDEventCom",
+        "TDEventBswInternalBehavior",
+        "TDEventComplex",
+        "TDEventBsw",
+        "TDEventSLLET"
+      ],
+      "subclasses": [
+        "TDEventBsw",
+        "TDEventBswInternalBehavior",
+        "TDEventCom",
+        "TDEventComplex",
+        "TDEventSLLET",
+        "TDEventSwc",
+        "TDEventVfb"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A timing event is the abstract representation of a specific system behavior – that can be observed at runtime – in the AUTOSAR specification. Timing events are used to define the scope for timing constraints. Depending on the specific scope, the view on the system, and the level of abstraction different types of events are defined. In order to avoid confusion with existing event descriptions in the AUTOSAR templates the timing specific event types use the prefix TD.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clockReference": {
+          "type": "TimingClock",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional reference to a clock that holds the time base for event."
+        },
+        "occurrence": {
+          "type": "TDEventOccurrence",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The occurrence expression for this event."
+        }
+      }
+    }
+  ]
+}

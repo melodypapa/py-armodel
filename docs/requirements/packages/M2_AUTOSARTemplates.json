@@ -1,0 +1,87 @@
+{
+  "name": "M2::AUTOSARTemplates",
+  "path": "M2::AUTOSARTemplates",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "BswModuleTemplate",
+      "full_path": "M2::AUTOSARTemplates::BswModuleTemplate",
+      "file": "packages/M2_AUTOSARTemplates_BswModuleTemplate.json"
+    },
+    {
+      "name": "GenericStructure",
+      "full_path": "M2::AUTOSARTemplates::GenericStructure",
+      "file": "packages/M2_AUTOSARTemplates_GenericStructure.json"
+    },
+    {
+      "name": "CommonStructure",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure.json"
+    },
+    {
+      "name": "SWComponentTemplate",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate.json"
+    },
+    {
+      "name": "AutosarTopLevelStructure",
+      "full_path": "M2::AUTOSARTemplates::AutosarTopLevelStructure",
+      "file": "packages/M2_AUTOSARTemplates_AutosarTopLevelStructure.json"
+    },
+    {
+      "name": "ECUCDescriptionTemplate",
+      "full_path": "M2::AUTOSARTemplates::ECUCDescriptionTemplate",
+      "file": "packages/M2_AUTOSARTemplates_ECUCDescriptionTemplate.json"
+    },
+    {
+      "name": "ECUCParameterDefTemplate",
+      "full_path": "M2::AUTOSARTemplates::ECUCParameterDefTemplate",
+      "file": "packages/M2_AUTOSARTemplates_ECUCParameterDefTemplate.json"
+    },
+    {
+      "name": "SystemTemplate",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate.json"
+    },
+    {
+      "name": "DiagnosticExtract",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract.json"
+    },
+    {
+      "name": "SecurityExtractTemplate",
+      "full_path": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "file": "packages/M2_AUTOSARTemplates_SecurityExtractTemplate.json"
+    },
+    {
+      "name": "EcuResourceTemplate",
+      "full_path": "M2::AUTOSARTemplates::EcuResourceTemplate",
+      "file": "packages/M2_AUTOSARTemplates_EcuResourceTemplate.json"
+    },
+    {
+      "name": "LogAndTraceExtract",
+      "full_path": "M2::AUTOSARTemplates::LogAndTraceExtract",
+      "file": "packages/M2_AUTOSARTemplates_LogAndTraceExtract.json"
+    },
+    {
+      "name": "AdaptivePlatform",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform.json"
+    },
+    {
+      "name": "AbstractPlatform",
+      "full_path": "M2::AUTOSARTemplates::AbstractPlatform",
+      "file": "packages/M2_AUTOSARTemplates_AbstractPlatform.json"
+    },
+    {
+      "name": "FeatureModelTemplate",
+      "full_path": "M2::AUTOSARTemplates::FeatureModelTemplate",
+      "file": "packages/M2_AUTOSARTemplates_FeatureModelTemplate.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

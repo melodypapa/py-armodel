@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingCondition.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

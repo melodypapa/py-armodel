@@ -12,12 +12,11 @@ class TestV2ModelExtensibility:
 
     def test_arobject_has_extended_attributes(self):
         """Test ARObject has extended attributes dict for custom properties."""
-        obj = Identifiable()
+        obj = ARPackage()  # Use concrete class instead of abstract Identifiable
         assert hasattr(obj, "_extended_attributes")
         assert isinstance(obj._extended_attributes, dict)
-        # Identifiable pre-populates with adminData and category
-        assert "adminData" in obj._extended_attributes
-        assert "category" in obj._extended_attributes
+        # Extended attributes is initialized as empty dict
+        assert len(obj._extended_attributes) == 0
 
     def test_arobject_extended_attributes_api(self):
         """Test ARObject extended attributes get/set methods."""
@@ -61,7 +60,7 @@ class TestV2ModelExtensibility:
 
     def test_identifiable_getter_setter(self):
         """Test Identifiable getShortName/setShortName methods."""
-        obj = Identifiable()
+        obj = ARPackage()  # Use concrete class instead of abstract Identifiable
 
         # Initial state
         assert obj.getShortName() is None
@@ -94,10 +93,10 @@ class TestV2ModelExtensibility:
         pkg = ARPackage()
         pkg.setShortName("TestPackage")
 
-        elem1 = Identifiable()
+        elem1 = ARPackage()  # Use concrete class instead of abstract Identifiable
         elem1.setShortName("Element1")
 
-        elem2 = Identifiable()
+        elem2 = ARPackage()  # Use concrete class instead of abstract Identifiable
         elem2.setShortName("Element2")
 
         # Add elements

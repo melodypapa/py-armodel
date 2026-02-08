@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticAging",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticAging",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticAging.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

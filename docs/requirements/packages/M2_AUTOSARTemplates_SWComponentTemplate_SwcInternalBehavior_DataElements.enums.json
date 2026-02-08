@@ -1,0 +1,35 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+  "enumerations": [
+    {
+      "name": "VariableAccessScopeEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements",
+      "note": "This enumeration defines scopes for communication. Aggregated by VariableAccess.scope",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 567,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "communicationInter",
+          "index": 0,
+          "description": "This case is foreseen to express that the corresponding communication shall be considered Ecu inter-ECU, i.e. it will cross the ECU boundary. This is considered the default case.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "communicationIntra",
+          "index": 1,
+          "description": "This case is foreseen to express that the corresponding communication shall not cross the boundary Partition of a partition.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "interPartitionIntra",
+          "index": 2,
+          "description": "In this case the communication shall cross the boundaries of partitions within one ECU but it shall not Ecu cross the boundaries of the ECU itself.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+  "path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ModelRestrictionTypes.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ModelRestrictionTypes.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

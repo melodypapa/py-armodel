@@ -1,0 +1,102 @@
+{
+  "package": "M2::MSR::DataDictionary::AuxillaryObjects",
+  "enumerations": [
+    {
+      "name": "MemoryAllocationKeywordPolicyType",
+      "package": "M2::MSR::DataDictionary::AuxillaryObjects",
+      "note": "Enumeration to specify the name pattern of the Memory Allocation Keyword. Aggregated by SwAddrMethod.memoryAllocationKeywordPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 145,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 418,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "addrMethodShort",
+          "index": null,
+          "description": "The MemorySection shortNames of referring MemorySections and therefore the belonging Memory"
+        },
+        {
+          "name": "Name",
+          "index": 0,
+          "description": "Allocation Keywords in the code are build with the shortName of the SwAddrMethod. This is the default value if the attribute does not exist.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "addrMethodShort",
+          "index": null,
+          "description": "The MemorySection shortNames of referring MemorySections and therefore the belonging Memory"
+        },
+        {
+          "name": "NameAndAlignment",
+          "index": 1,
+          "description": "Allocation Keywords in the code are build with the shortName of the SwAddrMethod and a variable alignment postfix. Thereby the alignment postfix needs to be consistent with the alignment attribute of the related<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "MemorySectionType",
+      "package": "M2::MSR::DataDictionary::AuxillaryObjects",
+      "note": "Enumeration to specify the essential nature of the data which can be allocated in a common memory class by the means of the AUTOSAR Memory Mapping. Aggregated by SwAddrMethod.sectionType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 417,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "calibrationVariables",
+          "index": 2,
+          "description": "This memory section is reserved for \"virtual variables\" that are computed by an MCD system during a measurement session but do not exist in the ECU memory.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "calprm",
+          "index": 3,
+          "description": "To be used for calibratable constants of ECU-functions.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "code",
+          "index": 4,
+          "description": "To be used for mapping code to application block, boot block, external flash etc.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "configData",
+          "index": 5,
+          "description": "Constants with attributes that show that they reside in one segment for module configuration.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "const",
+          "index": 6,
+          "description": "To be used for global or static constants.<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "excludeFromFlashtime",
+          "index": 7,
+          "description": "This memory section is reserved for \"virtual parameters\" that are taken for computing the values of Virtual parameters, on the other hand, are not allocated in the ECU memory. Virtual parameters exist in the ECU Hex file for the purpose of being considered (for computing the values of dependent<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "var",
+          "index": 9,
+          "description": "To be used for global or static variables. The expected initialization is specified with the attribute<br>Tags: atp.EnumerationLiteralIndex=9"
+        }
+      ]
+    }
+  ]
+}

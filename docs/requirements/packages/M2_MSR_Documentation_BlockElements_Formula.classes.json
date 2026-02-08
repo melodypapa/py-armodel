@@ -1,0 +1,78 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::Formula",
+  "classes": [
+    {
+      "name": "MlFormula",
+      "package": "M2::MSR::Documentation::BlockElements::Formula",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.formula",
+        "EcucConditionSpecification.informalFormula",
+        "EcucDerivationSpecification."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a formula in a documentation. The formula can be expressed by various means. If more than one representation is available, they need to be consistent. The rendering system can use the representation which is most appropriate.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 301,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 309,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "formulaCaption": {
+          "type": "Caption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies the identification or heading of a"
+        },
+        "genericMath": {
+          "type": "MultiLanguagePlainText",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "this rpresents the semantic and mathematical are processed by a math-processor."
+        },
+        "lGraphic": {
+          "type": "LGraphic",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a formula as an embedded figure."
+        },
+        "texMath": {
+          "type": "MultiLanguagePlainText",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "this is the TeX representation of TeX formula. A TeX be processed by a TeX or a LaTeX processor."
+        },
+        "verbatim": {
+          "type": "MultiLanguageVerbatim",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "this represents a formula using only text and white-space. be used to denote the formula in a kind of pseudo whatever appears approprate."
+        }
+      }
+    }
+  ]
+}

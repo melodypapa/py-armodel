@@ -1,0 +1,173 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common",
+  "classes": [
+    {
+      "name": "SpecElementReference",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "SpecElementScope",
+        "DataFormatElementReference",
+        "SpecificationDocumentScope",
+        "DocumentElementScope"
+      ],
+      "subclasses": [
+        "DataFormatElementReference",
+        "SpecElementScope"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is a reference to a specification element in the Autosar standard.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 82,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "alternative": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Alternative name of a specification element if its name fit into the shortName. E.g. because the name"
+        }
+      }
+    },
+    {
+      "name": "SpecElementScope",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "SpecElementReference",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference"
+      ],
+      "children": [
+        "DataFormatElementScope"
+      ],
+      "subclasses": [
+        "DataFormatElementScope",
+        "DocumentElementScope",
+        "SpecificationDocumentScope"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class defines if a specification element is relevant within the context of this data exchange point.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 84,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "inScope": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "indicates, if a specification element is relevant for this point. It is relevant if inScope==true. It is or don’t care if inScope=false."
+        }
+      }
+    },
+    {
+      "name": "RestrictionWithSeverity",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ValueRestrictionWithSeverity",
+        "MultiplicityRestrictionWithSeverity",
+        "VariationRestrictionWithSeverity",
+        "ConstraintTailoring",
+        "SdgTailoring",
+        "UnresolvedReferenceRestrictionWithSeverity"
+      ],
+      "subclasses": [
+        "ConstraintTailoring",
+        "MultiplicityRestrictionWithSeverity",
+        "SdgTailoring",
+        "UnresolvedReferenceRestrictionWithSeverity",
+        "ValueRestrictionWithSeverity",
+        "VariationRestrictionWithSeverity"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A restriction that has a severity. The severity describes the severity level that is reported in case the restriction is violated.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 86,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "severity": {
+          "type": "SeverityEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Severity level that is reported in case the restriction is"
+        }
+      }
+    },
+    {
+      "name": "DataFormatElementReference",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "SpecElementReference",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SpecElementReference"
+      ],
+      "children": [
+        "AbstractClassTailoring"
+      ],
+      "subclasses": [
+        "AbstractClassTailoring",
+        "DataFormatElementScope"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Superclass of all references to specification elements that have direct impact on the data exchange format (Meta-Classes, Meta-Attributes, constraints, SdgDefs)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 91,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

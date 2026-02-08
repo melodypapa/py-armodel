@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_FibexCore_CoreCommunication_Timing.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 10,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,1523 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+  "classes": [
+    {
+      "name": "ApplicationRuleBasedValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompositeRuleBasedValueArgument",
+      "bases": [
+        "ARObject",
+        "AbstractRuleBasedValueSpecification",
+        "CompositeRuleBasedValueArgument",
+        "Value"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "CompositeRuleBasedValueSpecification.compoundPrimitiveArgument",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compare",
+        "Value",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.init",
+        "Value",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.initValue",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.initValue",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compareValue",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents rule based values for DataPrototypes typed by ApplicationDataTypes (ApplicationArrayDataType or a compound ApplicationPrimitiveDataType which also boils down to an array-nature).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 462,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the category of the RuleBasedValue"
+        },
+        "swAxisCont": {
+          "type": "RuleBasedAxisCont",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the axis values of a Compound Primitive Type (curve or map). swAxisCont describes the x-axis, the second sw the y-axis, the third swAxisCont z-axis. In addition to this, the axis can be swAxisIndex."
+        },
+        "swValueCont": {
+          "type": "RuleBasedValueCont",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the values of an array or Compound"
+        }
+      }
+    },
+    {
+      "name": "ArrayValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompositeValueSpecification",
+      "bases": [
+        "ARObject",
+        "CompositeValueSpecification",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "CompositeRuleBasedValueSpecification.argument",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.initValue",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.initValue",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compareValue",
+        "SwDataDefProps.invalidValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the values for an array.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 303,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 434,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1999,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "element": {
+          "type": "ValueSpecification",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value for a single array element. All Value aggregated by ArrayValueSpecification the same structure. atpVariation"
+        },
+        "intendedPartial": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall only have a meaning for dynamic and shall be taken as a sanity check: the number in the attribute shall be identical to the number of attribute does not exist it means that no partial intended."
+        }
+      }
+    },
+    {
+      "name": "ConstantSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of a constant that can be part of a package, i.e. it can be defined stand-alone.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 311,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "valueSpec": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of an expression leading to a value for this"
+        }
+      }
+    },
+    {
+      "name": "NumericalOrText",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RuleArguments.vtf",
+        "SwValues.vtf"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to yield either a numerical or a string. A typical use case is that two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield strings while other instances yield numerical depending on the resolution of the binding expression.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 455,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "vf": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to provide a numerical latest binding time of the VariationPoint shall"
+        },
+        "vt": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to provide a textual"
+        }
+      }
+    },
+    {
+      "name": "NumericalValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 436,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2040,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "value": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the value itself."
+        }
+      }
+    },
+    {
+      "name": "RecordValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CompositeValueSpecification",
+      "bases": [
+        "ARObject",
+        "CompositeValueSpecification",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "CompositeRuleBasedValueSpecification.argument",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.initValue",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.initValue",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compareValue",
+        "SwDataDefProps.invalidValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the values for a record.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 328,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 435,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RuleArguments",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RuleBasedValueSpecification.arguments"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the arguments for a rule-based value specification.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 469,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "v": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a numerical value for the RuleBased"
+        },
+        "vf": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a numerical value for the RuleBased may subject to variability. The time of the VariationPoint shall be pre"
+        },
+        "vt": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a textual value for the RuleBasedValue"
+        },
+        "vtf": {
+          "type": "NumericalOrText",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the ability to provide a value either numerical or text which existence is subject atpVariation"
+        }
+      }
+    },
+    {
+      "name": "RuleBasedValueCont",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationRuleBasedValueSpecification.swValueCont"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_ BLK) or an array.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 330,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 464,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ruleBased": {
+          "type": "RuleBasedValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, VAL_BLK)."
+        },
+        "swArraysize": {
+          "type": "ValueList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute defines the size of each dimension for CURVE, MAP, CUBOID, CUBE_4, RES_AXIS, VAL_BLK. dimension one value has to be defined, e.g. one of COM_AXIS and two or more in case of MAP."
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the physical unit of the provided values."
+        }
+      }
+    },
+    {
+      "name": "RuleBasedValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NumericalRuleBasedValueSpecification.ruleBasedValues",
+        "RuleBasedAxisCont.ruleBasedValues",
+        "Rule"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ApplicationArrayDataType and ImplementationDataType of category ARRAY) or a compound Application PrimitiveDataType (which also boils down to an array-nature).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 331,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 469,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arguments": {
+          "type": "RuleArguments",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the arguments for the RuleBasedValue atpVariation"
+        },
+        "maxSizeToFill": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If a rule is chosen which does not fill until the end, this which size the rule shall fill the values."
+        },
+        "rule": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the name of the rule of the RuleBasedValue rule determines the calculation which the arguments are used to values."
+        }
+      }
+    },
+    {
+      "name": "ApplicationValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "CompositeRuleBasedValueArgument",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "CompositeRuleBasedValueSpecification.compoundPrimitiveArgument",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compare",
+        "Value",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.init",
+        "Value",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.initValue",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.initValue",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compareValue",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents values for DataPrototypes typed by ApplicationDataTypes (this includes in particular compound primitives). For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with SW-INSTANCE in ASAM CDF 2.0.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 299,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 455,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies to which category of ApplicationDataType this be applied (e.g. as an thus imposing constraints on the structure of the contained values, see [constr_1006] 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "swAxisCont": {
+          "type": "SwAxisCont",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the axis values of a Compound Primitive Type (curve or map). swAxisCont describes the x-axis, the second sw the y-axis, the third swAxisCont z-axis. In addition to this, the axis can be swAxisIndex."
+        },
+        "swValueCont": {
+          "type": "SwValueCont",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the values of a Compound Primitive Data"
+        }
+      }
+    },
+    {
+      "name": "ValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "NumericalValueSpecification",
+        "ApplicationValueSpecification",
+        "CompositeValueSpecification",
+        "TextValueSpecification",
+        "ReferenceValueSpecification",
+        "NotAvailableValueSpecification",
+        "ConstantReference",
+        "AbstractRuleBasedValueSpecification"
+      ],
+      "subclasses": [
+        "AbstractRuleBasedValueSpecification",
+        "ApplicationValueSpecification",
+        "CompositeValueSpecification",
+        "ConstantReference",
+        "NotAvailableValueSpecification",
+        "NumericalValueSpecification",
+        "ReferenceValueSpecification",
+        "TextValueSpecification"
+      ],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Base class for expressions leading to a value which can be used to initialize a data object.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 333,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2076,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This can be used to identify particular value specifications readers, for example elements of a record type."
+        }
+      }
+    },
+    {
+      "name": "CompositeValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [
+        "ArrayValueSpecification",
+        "RecordValueSpecification"
+      ],
+      "subclasses": [
+        "ArrayValueSpecification",
+        "RecordValueSpecification"
+      ],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "CompositeRuleBasedValueSpecification.argument",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.initValue",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.initValue",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compareValue",
+        "SwDataDefProps.invalidValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract meta-class acts a base class for ValueSpecifications that have a composite form.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 434,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TextValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "MetaDataItem.metaDataItemType",
+        "NonqueuedReceiverComSpec.initValue",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.initValue",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compareValue",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that vt uses the | operator to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod. Table 5.113: TextValueSpecification [constr_1919] Existence of TextValueSpecification.value (cid:100)For each TextValueSpecification, attribute value shall exist at the time when the contract phase generation is executed.(cid:99)()",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 435,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2074,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "value": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the value itself."
+        }
+      }
+    },
+    {
+      "name": "ReferenceValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies a reference to a data prototype to be used as an initial value for a pointer in the software.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 436,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "referenceValue": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The referenced data prototype."
+        }
+      }
+    },
+    {
+      "name": "NotAvailableValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to specify a ValueSpecification to state that the respective element is not available. This ability is needed to support the existence of ApplicationRecordElements where attribute isOptional ist set to the value true.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 440,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultPattern": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The content of this attribute shall be used to initialize gaps memory occupied by a structured data type in the an NotAvailableValueSpecification is used. Note pattern is only applied during initialization!"
+        }
+      }
+    },
+    {
+      "name": "ConstantReference",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Instead of defining this value inline, a constant is referenced.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 440,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "constant": {
+          "type": "ConstantSpecification",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced constant."
+        }
+      }
+    },
+    {
+      "name": "ConstantSpecificationMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ConstantSpecificationMappingSet.mapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to create an association of two ConstantSpecifications. One Constant Specification is supposed to be defined in the application domain while the other should be defined in the implementation domain. Hence the ConstantSpecificationMapping needs to be used where a ConstantSpecification defined in one domain needs to be associated to a ConstantSpecification in the other domain. This information is crucial for the RTE generator.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 443,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "applConstant": {
+          "type": "ConstantSpecification",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A ConstantSpecification defined in the application"
+        },
+        "implConstant": {
+          "type": "ConstantSpecification",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "A ConstantSpecification defined in the implementation"
+        }
+      }
+    },
+    {
+      "name": "ConstantSpecificationMappingSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map two ConstantSpecifications to each others. One Constant Specification is supposed to be described in the application domain and the other should be described in the implementation domain.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 445,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mapping": {
+          "type": "ConstantSpecification",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ConstantSpecificationMappings owned by the Constant"
+        }
+      }
+    },
+    {
+      "name": "AbstractRuleBasedValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ValueSpecification",
+      "bases": [
+        "ARObject",
+        "ValueSpecification"
+      ],
+      "children": [
+        "NumericalRuleBasedValueSpecification",
+        "CompositeRuleBasedValueSpecification"
+      ],
+      "subclasses": [
+        "ApplicationRuleBasedValueSpecification",
+        "CompositeRuleBasedValueSpecification",
+        "NumericalRuleBased"
+      ],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an abstract base class for all rule-based value specifications.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 462,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RuleBasedAxisCont",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationRuleBasedValueSpecification.swAxisCont"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the values for the axis of a compound primitive (curve, map). For standard and fix axes, SwAxisCont contains the values of the axis directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS are for display only. For editing and processing, only the values in the related GroupAxis are binding.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 464,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "CalprmAxisCategory",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This category specifies the particular axis types: STD_AXIS (swArraysize necessary)"
+        },
+        "ruleBased": {
+          "type": "RuleBasedValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the rule based value specification for the axis of a compound primitive (curve, map)."
+        },
+        "swArraysize": {
+          "type": "ValueList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "For multidimensional compound primitives (curve, map ...) necessary to know the dimensions.They are specified"
+        },
+        "swAxisIndex": {
+          "type": "AxisIndexType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property allows to explicitly assign the axis contents particular axis. It is specified by numbers where 1 the x-axis. It is also possible to derive the from the sequence of the parent."
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the physical unit of the provided values."
+        }
+      }
+    },
+    {
+      "name": "NumericalRuleBasedValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractRuleBasedValueSpecification",
+      "bases": [
+        "ARObject",
+        "AbstractRuleBasedValueSpecification",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ImplementationDataType of category ARRAY).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 467,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ruleBased": {
+          "type": "RuleBasedValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the rule based value specification for the array."
+        }
+      }
+    },
+    {
+      "name": "CompositeRuleBasedValueSpecification",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractRuleBasedValueSpecification",
+      "bases": [
+        "ARObject",
+        "AbstractRuleBasedValueSpecification",
+        "ValueSpecification"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationAssocMapElementValueSpecification.key",
+        "ApplicationAssocMapElementValueSpecification.value",
+        "ArrayValueSpecification.element",
+        "CalibrationParameterValue.applInitValue",
+        "CalibrationParameterValue.implInitValue",
+        "ConstantSpecification.valueSpec",
+        "CryptoServiceKey.developmentValue",
+        "DiagnosticEnvDataCondition.compareValue",
+        "DiagnosticEnvDataElementCondition.compareValue",
+        "FieldSenderComSpec.initValue",
+        "ISignal.initValue",
+        "ISignal.timeoutSubstitutionValue",
+        "NonqueuedReceiverComSpec.init",
+        "Value",
+        "NonqueuedReceiverComSpec.timeoutSubstitutionValue",
+        "NonqueuedSenderComSpec.initValue",
+        "NvProvideComSpec.ramBlockInitValue",
+        "NvProvideComSpec.romBlockInitValue",
+        "NvRequireComSpec.init",
+        "Value",
+        "ParameterDataPrototype.initValue",
+        "ParameterProvideComSpec.initValue",
+        "ParameterRequireComSpec.initValue",
+        "PersistencyDataRequiredComSpec.initValue",
+        "PersistencyKeyValuePair.initValue",
+        "PortDefinedArgumentValue.value",
+        "PortPrototypeBlueprintInitValue.value",
+        "RecordValueSpecification.field",
+        "SomeipEventDeployment.eventReceptionDefaultValue",
+        "StateManagementCompareCondition.compare",
+        "Value",
+        "SwDataDefProps.invalidValue",
+        "VariableDataPrototype.initValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 471,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "CompositeValue",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the collection of aggregated Value Specifications. The last ValueSpecification in the be taken to execute the filling rule."
+        },
+        "compound": {
+          "type": "CompositeRuleBased",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the collection of aggregated Value in the collection shall be taken to the filling rule."
+        },
+        "maxSizeToFill": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If a rule is chosen which does not fill until the end, this which size the rule shall fill the values."
+        },
+        "rule": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the name of the rule of the RuleBasedValue rule determines the calculation which the arguments are used to values."
+        }
+      }
+    },
+    {
+      "name": "CompositeRuleBasedValueArgument",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ApplicationRuleBasedValueSpecification"
+      ],
+      "subclasses": [
+        "ApplicationRuleBasedValueSpecification",
+        "ApplicationValueSpecification"
+      ],
+      "aggregated_by": [
+        "CompositeRuleBasedValueSpecification.compoundPrimitiveArgument"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 473,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

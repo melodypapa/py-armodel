@@ -1,0 +1,32 @@
+{
+  "name": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment",
+  "path": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "Firewall",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_PlatformModuleDeployment_Firewall.json"
+    },
+    {
+      "name": "CryptoDeployment",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_PlatformModuleDeployment_CryptoDeployment.json"
+    },
+    {
+      "name": "IntrusionDetectionSystem",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_PlatformModuleDeployment_IntrusionDetectionSystem.json"
+    },
+    {
+      "name": "AdaptiveModule",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_PlatformModuleDeployment_AdaptiveModule.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

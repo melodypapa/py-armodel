@@ -1,0 +1,20 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_SoftwareCluster.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_SoftwareCluster.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "BinaryManifest",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_SoftwareCluster_BinaryManifest.json"
+    }
+  ],
+  "summary": {
+    "class_count": 17,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

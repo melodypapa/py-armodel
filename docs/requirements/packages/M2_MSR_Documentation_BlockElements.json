@@ -1,0 +1,54 @@
+{
+  "name": "M2::MSR::Documentation::BlockElements",
+  "path": "M2::MSR::Documentation::BlockElements",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_BlockElements.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "RequirementsTracing",
+      "full_path": "M2::MSR::Documentation::BlockElements::RequirementsTracing",
+      "file": "packages/M2_MSR_Documentation_BlockElements_RequirementsTracing.json"
+    },
+    {
+      "name": "Formula",
+      "full_path": "M2::MSR::Documentation::BlockElements::Formula",
+      "file": "packages/M2_MSR_Documentation_BlockElements_Formula.json"
+    },
+    {
+      "name": "ListElements",
+      "full_path": "M2::MSR::Documentation::BlockElements::ListElements",
+      "file": "packages/M2_MSR_Documentation_BlockElements_ListElements.json"
+    },
+    {
+      "name": "Figure",
+      "full_path": "M2::MSR::Documentation::BlockElements::Figure",
+      "file": "packages/M2_MSR_Documentation_BlockElements_Figure.json"
+    },
+    {
+      "name": "Note",
+      "full_path": "M2::MSR::Documentation::BlockElements::Note",
+      "file": "packages/M2_MSR_Documentation_BlockElements_Note.json"
+    },
+    {
+      "name": "PaginationAndView",
+      "full_path": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+      "file": "packages/M2_MSR_Documentation_BlockElements_PaginationAndView.json"
+    },
+    {
+      "name": "OasisExchangeTable",
+      "full_path": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "file": "packages/M2_MSR_Documentation_BlockElements_OasisExchangeTable.json"
+    },
+    {
+      "name": "GerneralParameters",
+      "full_path": "M2::MSR::Documentation::BlockElements::GerneralParameters",
+      "file": "packages/M2_MSR_Documentation_BlockElements_GerneralParameters.json"
+    }
+  ],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

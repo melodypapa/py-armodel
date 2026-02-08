@@ -1,0 +1,72 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dem",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "DiagnosticTroubleCode",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticTroubleCode.json"
+    },
+    {
+      "name": "DiagnosticEvent",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticEvent.json"
+    },
+    {
+      "name": "DiagnosticMemoryDestination",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticMemoryDestination.json"
+    },
+    {
+      "name": "DiagnosticExtendedDataRecord",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticExtendedDataRecord",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticExtendedDataRecord.json"
+    },
+    {
+      "name": "DiagnosticFreezeFrame",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticFreezeFrame",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticFreezeFrame.json"
+    },
+    {
+      "name": "DiagnosticCondition",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticCondition.json"
+    },
+    {
+      "name": "DiagnosticDebouncingAlgorithm",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticDebouncingAlgorithm.json"
+    },
+    {
+      "name": "DiagnosticConditionGroup",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticConditionGroup",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticConditionGroup.json"
+    },
+    {
+      "name": "DiagnosticOperationCycle",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticOperationCycle",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticOperationCycle.json"
+    },
+    {
+      "name": "DiagnosticAging",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticAging",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticAging.json"
+    },
+    {
+      "name": "DiagnosticIndicator",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticIndicator",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticIndicator.json"
+    },
+    {
+      "name": "DiagnosticTestResult",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticTestResult.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

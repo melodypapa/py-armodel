@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_ServiceInstances.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Ethernet_ServiceInstances.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 20,
+    "enumeration_count": 6,
+    "primitive_count": 0
+  }
+}

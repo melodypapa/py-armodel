@@ -1,0 +1,1066 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+  "classes": [
+    {
+      "name": "J1939Cluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AbstractCanCluster",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "J1939 specific cluster attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 321,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 78,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "networkId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the network ID for the J1939 cluster."
+        },
+        "re-": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables support for the Request2 PGN (RQST2)."
+        },
+        "usesAddress": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the nodes attached to this channel use initial address claim, and whether they react to claims of other nodes. initial address claim is sent, and the node address claims of other nodes. node only sends an address claim upon does not care for contending address claims."
+        }
+      }
+    },
+    {
+      "name": "AbstractCanCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [
+        "CanCluster",
+        "J1939Cluster",
+        "TtcanCluster"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "busOffRecovery": {
+          "type": "CanClusterBusOff",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CAN bus off monitoring / recovery at system level."
+        },
+        "canFdBaudrate": {
+          "type": "PositiveUnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the data segment baud rate of the controller in"
+        },
+        "canXlBaudrate": {
+          "type": "PositiveUnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the data segment baud rate of the CAN XL bits/s."
+        }
+      }
+    },
+    {
+      "name": "CanCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "AbstractCanCluster",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN bus specific cluster attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CanClusterBusOffRecovery",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCluster.busOffRecovery"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element contains the attributes that are used to configure the CAN bus off monitoring / recovery at system level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "borCounterL1To": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This threshold defines the count of bus-offs until the recovery switches from level 1 (short recovery level 2 (long recovery time)."
+        },
+        "borTimeL1": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the duration of the bus-off recovery level 1 (short recovery time) in seconds. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "borTimeL2": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the duration of the bus-off recovery level 2 (long recovery time) in seconds."
+        },
+        "borTimeTx": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the duration of the bus-off event in seconds."
+        },
+        "mainFunction": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the cycle time of the function Can in seconds."
+        }
+      }
+    },
+    {
+      "name": "CanCommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "AbstractCanCommunicationController",
+        "CommunicationController",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN bus specific communication port attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 63,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AbstractCanCommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "CanCommunicationController",
+        "TtcanCommunicationController"
+      ],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract class that is used to collect the common TtCAN and CAN Controller attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 63,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "canControllerControllerAttributes": {
+          "type": "AbstractCan",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CAN Bit Timing configuration"
+        }
+      }
+    },
+    {
+      "name": "AbstractCanCommunicationControllerAttributes",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CanControllerConfiguration",
+        "CanControllerConfigurationRequirements"
+      ],
+      "subclasses": [
+        "CanControllerConfiguration",
+        "CanControllerConfigurationRequirements"
+      ],
+      "aggregated_by": [
+        "AbstractCanCommunicationController.canControllerAttributes"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "For the configuration of the CanController parameters two different approaches can be used: 1. Providing exact values which are taken by the ECU developer (CanControllerConfiguration). 2. Providing ranges of values which are taken as requirements and have to be respected by the ECU developer (CanControllerConfigurationRequirements).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 64,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "canControllerFd": {
+          "type": "CanControllerFd",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Additional CanFD ranges of the bit timing related configuration of a CanFD controller. If this element exists controller supports CanFD frames and the ECU take these ranges as requirements for the the CanFD controller."
+        },
+        "canControllerXl": {
+          "type": "CanControllerXl",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Additional CanXL ranges of the bit timing related configuration of a CanXL controller. If this element exists controller supports CanXL frames and the ECU take these ranges as requirements for the the CanXL controller."
+        }
+      }
+    },
+    {
+      "name": "CanControllerConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractCanCommunicationControllerAttributes",
+      "bases": [
+        "ARObject",
+        "AbstractCanCommunicationControllerAttributes"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCommunicationController.canControllerAttributes",
+        "CanXlProps.canConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used for the specification of the exact CAN Bit Timing configuration parameter values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 64,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "propSeg": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies propagation delay in time quantas."
+        },
+        "syncJumpWidth": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The number of quanta in the Synchronization Jump The (Re-)Synchronization Jump Width how far a resynchronization may move the inside the limits defined by the Phase Buffer compensate for edge phase errors."
+        },
+        "timeSeg1": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies phase segment 1 in time quantas. Phase_Seg1"
+        },
+        "timeSeg2": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies phase segment 2 in time quantas. Phase_Seg2"
+        }
+      }
+    },
+    {
+      "name": "CanControllerConfigurationRequirements",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractCanCommunicationControllerAttributes",
+      "bases": [
+        "ARObject",
+        "AbstractCanCommunicationControllerAttributes"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCommunicationController.canControllerAttributes"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the specification of ranges for the CAN Bit Timing configuration parameters. These ranges are taken as requirements and have to be respected by the ECU developer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 65,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxNumberOfTimeQuantaPerBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of time quanta in the bit time."
+        },
+        "maxSample": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The max. value of the sample point as a percentage of total bit time."
+        },
+        "maxSyncJump": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The max. Synchronization Jump Width value as a of the total bit time. The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample Point inside the limits defined by Buffer Segments to compensate for edge"
+        },
+        "minNumberOfTimeQuantaPerBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum number of time quanta in the bit time."
+        },
+        "minSamplePoint": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The min. value of the sample point as a percentage of the time."
+        },
+        "minSyncJump": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The min. Synchronization Jump Width value as a of the total bit time. The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample Point inside the limits defined by Buffer Segments to compensate for edge"
+        }
+      }
+    },
+    {
+      "name": "CanControllerFdConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCommunicationControllerAttributes.canControllerFdAttributes",
+        "CanXlProps.canFdConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Bit timing related configuration of a CAN controller for payload and CRC of a CAN FD frame.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "paddingValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the value which is used to pad unused data in frames which are bigger than 8 byte if the length Pdu which was requested to be sent does not match DLC values of CAN FD."
+        },
+        "propSeg": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies propagation delay in time quantas."
+        },
+        "sspOffset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the Transmitter Delay Compensation Offset in quanta. Transmitter Delay Compensation used to adjust the position of the Secondary (SSP), relative to the beginning of the If this parameter is configured, the Compensation is done by the CAN controller. If not specified Compensation is disabled."
+        },
+        "syncJumpWidth": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the synchronization jump width for the controller quantas."
+        },
+        "timeSeg1": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies phase segment 1 in time quantas."
+        },
+        "timeSeg2": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies phase segment 2 in time quantas."
+        },
+        "txBitRateSwitch": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if the bit rate switching shall be used for FD frames shall be sent with bit rate FD frames shall be sent without bit rate"
+        }
+      }
+    },
+    {
+      "name": "CanControllerFdConfigurationRequirements",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCommunicationControllerAttributes.canControllerFdRequirements"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the specification of ranges for the CanFD bit timing configuration parameters. These ranges are taken as requirements and shall be respected by the ECU developer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxNumberOfTimeQuantaPerBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of time quanta in the bit time."
+        },
+        "maxSample": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The max. value of the sample point as a percentage of total bit time."
+        },
+        "maxSyncJump": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The max. Synchronization Jump Width value as a of the total bit time. The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample Point inside the limits defined by Buffer Segments to compensate for edge"
+        },
+        "maxTrcvDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum Transceiver Delay Compensation in seconds. If not specified Transceiver Delay is disabled. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "minNumberOfTimeQuantaPerBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum number of time quanta in the bit time."
+        },
+        "minSamplePoint": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The min. value of the sample point as a percentage of the time."
+        },
+        "minSyncJump": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The min. Synchronization Jump Width value as a of the total bit time. The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample Point inside the limits defined by Buffer Segments to compensate for edge"
+        },
+        "minTrcvDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum Transceiver Delay Compensation in seconds. If not specified Transceiver Delay is disabled."
+        },
+        "paddingValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the value which is used to pad unused data in frames which are bigger than 8 byte if the length Pdu which was requested to be sent does not match DLC values of CAN FD."
+        },
+        "txBitRateSwitch": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if the bit rate switching shall be used for FD frames shall be sent with bit rate FD frames shall be sent without bit rate"
+        }
+      }
+    },
+    {
+      "name": "CanControllerXlConfiguration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCommunicationControllerAttributes.canControllerXlAttributes",
+        "CanXlProps.canXlConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the CAN XL-specific controller attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 70,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "errorSignaling": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if error signaling shall be enabled. This is not when the transceiver is switched to PWM mode to TRUE). signaling shall be enabled. signaling shall be disabled."
+        },
+        "propSeg": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies propagation delay in time quantas."
+        },
+        "pwmL": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the PWM long phase length."
+        },
+        "pwmO": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the PWM time offset."
+        },
+        "pwmS": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the PWM short phase length."
+        },
+        "sspOffset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the Transmitter Delay Compensation Offset in quanta. Transmitter Delay Compensation used to adjust the position of the Secondary (SSP), relative to the beginning of the If this parameter is configured, the Compensation is done by the CAN controller. If not specified Compensation is disabled."
+        },
+        "syncJumpWidth": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the synchronization jump width for the controller quantas."
+        },
+        "timeSeg1": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies phase segment 1 in time quantas."
+        },
+        "timeSeg2": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies phase segment 2 in time quantas."
+        },
+        "trcvPwmMode": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if the transceiver shall be set to the PWM mode. The transceiver shall be switched to PWM mode. transceiver shall work in classic CAN mode."
+        }
+      }
+    },
+    {
+      "name": "CanControllerXlConfigurationRequirements",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractCanCommunicationControllerAttributes.canControllerXlRequirements",
+        "CanXlProps.canXlConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element allows the specification of ranges for the CAN XL configuration parameters. These ranges are taken as requirements and have to be respected by the ECU developer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "errorSignaling": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if error signaling shall be enabled. This is not when the transceiver is switched to PWM mode to TRUE). signaling shall be enabled. signaling shall be disabled."
+        },
+        "maxNumberOfTimeQuantaPerBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of time quanta in the bit time."
+        },
+        "maxPwmL": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum PWM long phase length."
+        },
+        "maxPwmO": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum PWM time offset."
+        },
+        "maxPwmS": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum PWM short phase length."
+        },
+        "maxSample": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The max. value of the sample point as a percentage of total bit time. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "maxSyncJump": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The max. Synchronization Jump Width value as a of the total bit time. The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample Point inside the limits defined by Buffer Segments to compensate for edge"
+        },
+        "maxTrcvDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum Transceiver Delay Compensation in seconds. If not specified Transceiver Delay is disabled."
+        },
+        "minNumberOfTimeQuantaPerBit": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum number of time quanta in the bit time."
+        },
+        "minPwmL": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum PWM long phase length."
+        },
+        "minPwmO": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum PWM time offset."
+        },
+        "minPwmS": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum PWM short phase length."
+        },
+        "minSamplePoint": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The min. value of the sample point as a percentage of the time."
+        },
+        "minSyncJump": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The min. Synchronization Jump Width value as a of the total bit time. The (Re-)Synchronization (SJW) defines how far a resynchronization the Sample Point inside the limits defined by Buffer Segments to compensate for edge"
+        },
+        "minTrcvDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum Transceiver Delay Compensation in seconds. If not specified Transceiver Delay is disabled."
+        },
+        "trcvPwmMode": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if the transceiver shall be set to the PWM mode. The transceiver shall be switched to PWM mode. transceiver shall work in classic CAN mode."
+        }
+      }
+    },
+    {
+      "name": "AbstractCanPhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PhysicalChannel",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PhysicalChannel",
+        "Referrable"
+      ],
+      "children": [
+        "CanPhysicalChannel",
+        "TtcanPhysicalChannel"
+      ],
+      "subclasses": [
+        "CanPhysicalChannel",
+        "TtcanPhysicalChannel"
+      ],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CanPhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractCanPhysicalChannel",
+      "bases": [
+        "ARObject",
+        "AbstractCanPhysicalChannel",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PhysicalChannel",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN bus specific physical channel attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AbstractCanCommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "CommunicationConnector",
+      "bases": [
+        "ARObject",
+        "CommunicationConnector",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "CanCommunicationConnector",
+        "TtcanCommunicationConnector"
+      ],
+      "subclasses": [
+        "CanCommunicationConnector",
+        "TtcanCommunicationConnector"
+      ],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract class that is used to collect the common TtCAN and CAN CommunicationConnector attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CanCommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractCanCommunicationConnector",
+      "bases": [
+        "ARObject",
+        "AbstractCanCommunicationConnector",
+        "CommunicationConnector",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN bus specific communication connector attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 74,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "pncWakeupCan": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Bit mask for CAN Identifier used to configure the CAN for partial network wakeup."
+        },
+        "pncWakeup": {
+          "type": "PositiveUnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Bit mask for CAN Payload used to configure the CAN for partial network wakeup."
+        },
+        "pncWakeupDlc": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Data Length of the remote data frame used to configure Transceiver for partial network wakeup in Bytes."
+        }
+      }
+    }
+  ]
+}

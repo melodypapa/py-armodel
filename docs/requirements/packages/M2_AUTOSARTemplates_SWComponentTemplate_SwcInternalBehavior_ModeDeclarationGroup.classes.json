@@ -1,0 +1,146 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+  "classes": [
+    {
+      "name": "ModeAccessPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RunnableEntity.modeAccessPoint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A ModeAccessPoint is required by a RunnableEntity owned by a Mode Manager or Mode User. Its semantics implies the ability to access the current mode (provided by the RTE) of a ModeDeclaration GroupPrototype’s ModeDeclarationGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 634,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ident": {
+          "type": "ModeAccessPointIdent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The aggregation in the role ident provides the ability to ModeAccessPoint identifiable. semantical point of view, the ModeAccessPoint a first-class Identifiable and therefore the the role ident shall always exist (until it possible to let ModeAccessPoint directly inherit"
+        },
+        "modeGroupInstanceRef": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: ModeGroupInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractAccessPoint",
+      "bases": [
+        "ARObject",
+        "AbstractAccessPoint",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "RunnableEntity.modeSwitchPoint"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "A ModeSwitchPoint is required by a RunnableEntity owned a Mode Manager. Its semantics implies the ability to initiate a mode switch.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 323,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 633,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeGroupSwcInstanceRef": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: PModeGroupInAtomic"
+        }
+      }
+    },
+    {
+      "name": "IncludedModeDeclarationGroupSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswInternalBehavior.includedModeDeclarationGroupSet",
+        "SwcInternalBehavior.includedModeDeclaration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An IncludedModeDeclarationGroupSet declares that a set of ModeDeclarationGroups used by the software component for its implementation and consequently these ModeDeclarationGroups become part of the contract.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 601,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the referenced ModeDeclarationGroup."
+        },
+        "prefix": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The prefix shall be used by the RTE generator as a prefix creation of symbols related to the referenced RTE_TRANSITION_<Mode"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition",
+  "classes": [
+    {
+      "name": "DiagnosticCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticEnableCondition",
+        "DiagnosticStorageCondition"
+      ],
+      "subclasses": [
+        "DiagnosticEnableCondition",
+        "DiagnosticStorageCondition"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract element for StorageConditions and EnableConditions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 194,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initValue": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the initial status for enable or disable of event reports of a diagnostic event. is the initialization after power up (before this reported the first time). of a diagnostic event enabled of a diagnostic event disabled"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnableCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCondition",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticCondition",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of an enable condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 194,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticStorageCondition",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCondition",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticCondition",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of a storage condition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 194,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

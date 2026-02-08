@@ -1,0 +1,1158 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+  "classes": [
+    {
+      "name": "DdsCpISignalToDdsTopicMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.ddsISignalToTopicMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Mapping of an ISignal to a DdsTopic.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 293,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsTopic": {
+          "type": "DdsCpTopic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DdsTopic."
+        },
+        "iSignal": {
+          "type": "ISignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ISignal."
+        }
+      }
+    },
+    {
+      "name": "DdsCpServiceInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "AbstractServiceInstance",
+      "bases": [
+        "ARObject",
+        "AbstractServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "DdsCpProvidedServiceInstance",
+        "DdsCpConsumedServiceInstance"
+      ],
+      "subclasses": [
+        "DdsCpConsumedServiceInstance",
+        "DdsCpProvidedServiceInstance"
+      ],
+      "aggregated_by": [
+        "ServiceInstanceCollectionSet.serviceInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Provided and Consumed Dds Service Instances that are available at the ApplicationEndpoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 472,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsFieldReply": {
+          "type": "DdsCpTopic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DdsTopic used as fragment for the topic of field setters."
+        },
+        "ddsField": {
+          "type": "DdsCpTopic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DdsTopic used as fragment for the topic of field getters."
+        },
+        "ddsMethod": {
+          "type": "DdsCpTopic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DdsTopic used as fragment for the topic of method requests."
+        },
+        "ddsServiceQos": {
+          "type": "DdsCpQosProfile",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the QOS Profile used for the service. atp.Status=candidate"
+        },
+        "serviceInstance": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identification number that is used by DDS to identify associated with an instance of the"
+        },
+        "serviceInterface": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique Identifier that identifies the ServiceInterface in This Identifier is encoded in the USER_DATA QoS DomainParticipant associated with the Service its value is propagated by DDS Discovery"
+        }
+      }
+    },
+    {
+      "name": "DdsCpProvidedServiceInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DdsCpServiceInstance",
+      "bases": [
+        "ARObject",
+        "AbstractServiceInstance",
+        "DdsCpServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ServiceInstanceCollectionSet.serviceInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe the existence and configuration of a provided service instance in a concrete implementation on top of DDS.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 472,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "localUnicast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The local address over which the Service is provided. atpSplitable; atpVariation"
+        },
+        "minorVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minor Version of the Service that is provided by this Dds"
+        },
+        "providedDds": {
+          "type": "DdsCpServiceInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of provided events. Stereotypes: atpSplitable; atpVariation Event Tags:"
+        },
+        "staticRemote": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the remote unicast addresses of consumers. shall ONLY be used if the remote unicast the clients is determined from the not at runtime. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DdsCpConsumedServiceInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DdsCpServiceInstance",
+      "bases": [
+        "ARObject",
+        "AbstractServiceInstance",
+        "DdsCpServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ServiceInstanceCollectionSet.serviceInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe the existence and configuration of a consumed (required) service instance in a concrete implementation on top of DDS.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 474,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "consumedDds": {
+          "type": "DdsCpServiceInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of consumed events. Stereotypes: atpSplitable; atpVariation"
+        },
+        "localUnicast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The local address over which the Service is consumed. atpSplitable; atpVariation"
+        },
+        "minorVersion": {
+          "type": "AnyVersionString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minor Version of the ServiceInterface. Value can be set to that represents the Minor Version of the or to ANY."
+        },
+        "staticRemote": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the remote unicast address of the provider. shall ONLY be used if the remote unicast the server is determined from the not at runtime. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DdsCpServiceInstanceEvent",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpConsumedServiceInstance.consumedDdsServiceEvent",
+        "DdsCpProvidedServiceInstance."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents an event as part of the Provided Service Instance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 475,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsEvent": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the PduTriggerung used for the upper layer this DdsEvent message."
+        },
+        "ddsEventQos": {
+          "type": "DdsCpQosProfile",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the QOS Profile used for this Event. atp.Status=candidate"
+        },
+        "ddsEventTopic": {
+          "type": "DdsCpTopic",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DDS Topic used for this Event."
+        }
+      }
+    },
+    {
+      "name": "DdsCpServiceInstanceOperation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpConsumedServiceInstance.consumedDdsOperation",
+        "DdsCpProvidedServiceInstance.provided"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents an operation as part of the Provided Service Instance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 475,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsOperation": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the PduTriggering used for the upper layer of this DdsOperation response message. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "DdsCpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of DDS definitions. (cid:53) 525 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 525,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsDomain": {
+          "type": "DdsCpDomain",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DDS Domain definitions."
+        },
+        "ddsQosProfile": {
+          "type": "DdsCpQosProfile",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DDS QOS Profiles."
+        }
+      }
+    },
+    {
+      "name": "DdsCpDomain",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpConfig.ddsDomain"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of a DDS Domain.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 526,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsPartition": {
+          "type": "DdsCpPartition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DDS Partition definitions."
+        },
+        "ddsTopic": {
+          "type": "DdsCpTopic",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of DDS Topics."
+        },
+        "domainId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the DDS Domain Id."
+        }
+      }
+    },
+    {
+      "name": "DdsCpTopic",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpDomain.ddsTopic"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of a DDS Partition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 526,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ddsPartition": {
+          "type": "DdsCpPartition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DDS Partition this topic is"
+        },
+        "topicName": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the DDS Topic Name."
+        }
+      }
+    },
+    {
+      "name": "DdsCpPartition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpDomain.ddsPartition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of a DDS Partition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 527,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "partitionName": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the DDS Partition Name. ’*’ may be used to default partition."
+        }
+      }
+    },
+    {
+      "name": "DdsCpQosProfile",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpConfig.ddsQosProfile"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of a DDS QOS Profile.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 528,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "deadline": {
+          "type": "DdsDeadline",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS DEADLINE QoS policy."
+        },
+        "destinationOrder": {
+          "type": "DdsDestinationOrder",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS DESTINATION_ORDER QoS policy."
+        },
+        "durability": {
+          "type": "DdsDurabilityService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS DURABILITY_SERVICE QoS policy. atp.Status=candidate"
+        },
+        "history": {
+          "type": "DdsHistory",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS HISTORY QoS policy."
+        },
+        "latencyBudget": {
+          "type": "DdsLatencyBudget",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS LATENCY_BUDGET QoS policy."
+        },
+        "lifespan": {
+          "type": "DdsLifespan",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS LIFESPAN QoS policy."
+        },
+        "liveliness": {
+          "type": "DdsLiveliness",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS LIVELINESS QoS policy."
+        },
+        "ownership": {
+          "type": "DdsOwnershipStrength",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS OWNERSHIP_STRENGTH QoS policy. atp.Status=candidate"
+        },
+        "reliability": {
+          "type": "DdsReliability",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS RELIABILITY QoS policy."
+        },
+        "resourceLimits": {
+          "type": "DdsResourceLimits",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS RESOURCE_LIMITS QoS policy."
+        },
+        "topicData": {
+          "type": "DdsTopicData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS TOPIC_DATA QoS policy."
+        },
+        "transportPriority": {
+          "type": "DdsTransportPriority",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the DDS TRANSPORT_PRIORITY QoS policy."
+        }
+      }
+    },
+    {
+      "name": "DdsTopicData",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.topicData"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS TOPIC_DATA QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 529,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "topicData": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"TOPIC_DATA\" chapter in DDS."
+        }
+      }
+    },
+    {
+      "name": "DdsDurability",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.durability"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS DURABILITY QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 530,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "durabilityKind": {
+          "type": "DdsDurabilityKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"DURABILITY\" chapter in DDS."
+        }
+      }
+    },
+    {
+      "name": "DdsDurabilityService",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.durabilityService"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS DURABILITY_SERVICE QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 530,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "durability": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"DURABILITY_SERVICE\" chapter in DDS. atp.Status=candidate SamplesPer"
+        }
+      }
+    },
+    {
+      "name": "DdsDeadline",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.deadline"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS DEADLINE QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 532,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "deadlinePeriod": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"DEADLINE\" chapter of DDS. in seconds."
+        }
+      }
+    },
+    {
+      "name": "DdsLatencyBudget",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.latencyBudget"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS LATENCY_BUDGET QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 532,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "latencyBudget": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"LATENCY_BUDGET\" chapter of DDS. given in seconds."
+        }
+      }
+    },
+    {
+      "name": "DdsOwnership",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.ownership"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS OWNERSHIP QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 532,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ownershipKind": {
+          "type": "DdsOwnershipKind",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"OWNERSHIP\" chapter of DDS. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "DdsOwnershipStrength",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.ownershipStrength"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS OWNERSHIP_STRENGTH QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 533,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ownership": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"OWNERSHIP_STRENGTH\" chapter of DDS. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "DdsLiveliness",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.liveliness"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS LIVELINESS QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 534,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "livelinessLease": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"LIVELINESS\" chapter of DDS. given in seconds."
+        },
+        "livenessKind": {
+          "type": "DdsLivenessKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"LIVELINESS\" chapter of DDS."
+        }
+      }
+    },
+    {
+      "name": "DdsReliability",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.reliability"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS RELIABILITY QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 534,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "reliabilityKind": {
+          "type": "DdsReliabilityKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"RELIABILITY\" chapter of DDS."
+        },
+        "reliabilityMax": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"RELIABILITY\" chapter of DDS. given in seconds."
+        }
+      }
+    },
+    {
+      "name": "DdsTransportPriority",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.transportPriority"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS TRANSPORT_PRIORITY QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 535,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transportPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"TRANSPORT_PRIORITY\" chapter of DDS."
+        }
+      }
+    },
+    {
+      "name": "DdsLifespan",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.lifespan"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS LIFESPAN QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 536,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lifespanDuration": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"LIFESPAN\" chapter of DDS. in seconds."
+        }
+      }
+    },
+    {
+      "name": "DdsDestinationOrder",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.destinationOrder"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS DESTINATION_ORDER QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 536,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destination": {
+          "type": "DdsDestinationOrder",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"DESTINATION_ORDER\" chapter of DDS. Tags: atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "DdsHistory",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.history"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS HISTORY QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 537,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "historyKind": {
+          "type": "DdsHistoryKindEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"HISTORY\" chapter of DDS."
+        },
+        "historyOrder": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"HISTORY\" chapter of DDS. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "DdsResourceLimits",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DdsCpQosProfile.resourceLimits"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the DDS RESOURCE_LIMITS QoS policy.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 537,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxInstances": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"RESOURCE_LIMITS\" chapter of DDS. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "maxSamples": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"RESOURCE_LIMITS\" chapter of DDS."
+        },
+        "maxSamplesPerInstance": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "See \"RESOURCE_LIMITS\" chapter of DDS."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::FormulaLanguage",
+  "classes": [
+    {
+      "name": "FormulaExpression",
+      "package": "M2::AUTOSARTemplates::GenericStructure::FormulaLanguage",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "CompuGenericMath",
+        "EcucConditionFormula",
+        "EcucParameterDerivationFormula",
+        "FMFormulaByFeaturesAndAttributes",
+        "SwSystemconstDependentFormula",
+        "TDEventOccurrenceExpressionFormula",
+        "Timing"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents the syntax of the formula language. The class is modeled as an abstract class in order to be specialized into particular use cases. For each use case the referable objects might be specified in the specialization.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 223,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 73,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 448,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "atpReference": {
+          "type": "Referrable",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The referable object shall yield a numerical / boolean"
+        },
+        "atpString": {
+          "type": "Referrable",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The referable object shall yield a string value. atpAbstract"
+        }
+      }
+    }
+  ]
+}

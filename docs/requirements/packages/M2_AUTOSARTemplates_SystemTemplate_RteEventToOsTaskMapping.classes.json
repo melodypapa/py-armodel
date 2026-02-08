@@ -1,0 +1,292 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+  "classes": [
+    {
+      "name": "OsTaskProxy",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a proxy for an OsTask in the System Description.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 208,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "period": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the period in seconds of this task of a cyclically activated task. Please note that this informative and not directly relevant for the But the attribute value can be mapped OS configuration to support configuration work a fixed set of OsTasks."
+        },
+        "preemptability": {
+          "type": "OsTaskPreemptability",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the preemptability of the task."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the priority of a task as a relative the values show only the relative ordering of"
+        }
+      }
+    },
+    {
+      "name": "AppOsTaskProxyToEcuTaskProxyMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.appOsTaskProxyToEcuTaskProxyMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to map an OsTaskProxy that was created in the context of a SwComponent to an OsTaskProxy that was created in the context of an Ecu.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 209,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "appTaskProxy": {
+          "type": "OsTaskProxy",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an OsTaskProxy that is created in the a SwComponent."
+        },
+        "ecuTaskProxy": {
+          "type": "OsTaskProxy",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an OsTaskProxy that is created in the an EcuInstance."
+        },
+        "offset": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to describe the position of the app an ecuTaskProxy as a relative value, i.e. the only the relative position of the appTask the ecuTaskProxy."
+        }
+      }
+    },
+    {
+      "name": "RteEventInCompositionToOsTaskProxyMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwComponentMappingConstraints.rteEventToOsTaskProxyMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to map an RteEvent to an OsTaskProxy in the context of a SwComposition. Several RteEventInCompositionToOsTaskProxyMappings can be used to define a pairing constraint that describes which RteEvents shall be mapped together into an OsTask. Optionally the relative position of the RteEvents in the OsTask can be defined in the mapping.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 211,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "offset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to describe the position of the Rte the OsTask as a relative value, i.e. the values the relative position of the RteEvent in the Os"
+        },
+        "osTaskProxy": {
+          "type": "OsTaskProxy",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to OsTaskProxy to which the RteEvent is"
+        },
+        "rteEventInstanceRef": {
+          "type": "RTEEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: RteEventInComposition"
+        }
+      }
+    },
+    {
+      "name": "RteEventInCompositionSeparation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwComponentMappingConstraints.rteEventSeparation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to define a separation constraint in the context of a SwComposition. The referenced RteEvents are not allowed to be mapped into the same OsTask.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 212,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rteEventInstanceRef": {
+          "type": "RTEEvent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the same OsTask. by: RteEventInComposition"
+        }
+      }
+    },
+    {
+      "name": "RteEventInSystemToOsTaskProxyMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.rteEventToOsTaskProxyMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to map an RteEvent to an OsTaskProxy in the context of the System. Several Rte EventToOsTaskProxyMappings can be used to define a pairing constraint that describes which Rte Events shall be mapped together into an OsTask. Optionally the position of the RteEvents in the OsTask can be defined.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 213,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "offset": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to describe the position of the Rte the OsTask as a relative value, i.e. the values the relative position of the RteEvent in the Os"
+        },
+        "osTaskProxy": {
+          "type": "OsTaskProxy",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to OsTaskProxy to which the RteEvent is 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "rteEventInstanceRef": {
+          "type": "RTEEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: RteEventInSystem"
+        }
+      }
+    },
+    {
+      "name": "RteEventInSystemSeparation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.rteEventSeparation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to define a separation constraint in the context of the System. The referenced RteEvents are not allowed to be mapped into the same OsTask.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 214,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rteEventInstanceRef": {
+          "type": "RTEEvent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the same OsTask. by: RteEventInSystem"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem",
+  "classes": [
+    {
+      "name": "IdsPlatformInstantiation",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "AdaptiveModuleInstantiation",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NonOsModuleInstantiation",
+        "Referrable"
+      ],
+      "children": [
+        "IdsmModuleInstantiation"
+      ],
+      "subclasses": [
+        "IdsmModuleInstantiation"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "Machine.moduleInstantiation"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class acts as an abstract base class for platform modules that implement the intrusion detection system.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 63,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "network": {
+          "type": "PlatformModule",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association contains the network configuration that shall be applied to an instance of an IDS entity. atp.Status=candidate"
+        },
+        "timeBase": {
+          "type": "TimeBaseResource",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable time base atpVariation"
+        }
+      }
+    },
+    {
+      "name": "IdsmModuleInstantiation",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdsPlatformInstantiation",
+      "bases": [
+        "ARObject",
+        "AdaptiveModuleInstantiation",
+        "Identifiable",
+        "IdsPlatformInstantiation",
+        "MultilanguageReferrable",
+        "NonOsModuleInstantiation",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "Machine.moduleInstantiation"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class defines the attributes for the IdsM configuration on a specific machine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 63,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

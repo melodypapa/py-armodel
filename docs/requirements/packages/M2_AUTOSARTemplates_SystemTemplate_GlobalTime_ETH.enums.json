@@ -1,0 +1,65 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+  "enumerations": [
+    {
+      "name": "EthGlobalTimeMessageFormatEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "note": "Specifies which message formats are available to for the Ethernet time sync protocol. Aggregated by EthGlobalTimeDomainProps.messageCompliance",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 868,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "IEEE802_1AS",
+          "index": 0,
+          "description": "Message format according to IEEE 802.1AS standard.<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=IEEE802-1AS"
+        },
+        {
+          "name": "IEEE802_1AS_AUTOSAR",
+          "index": 1,
+          "description": "Message format according to IEEE 802.1AS standard with AUTOSAR extensions.<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=IEEE802-1AS-AUTOSAR"
+        }
+      ]
+    },
+    {
+      "name": "GlobalTimePortRoleEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "note": "Selection of port behavior to Time Slave, Time Master or Dynamic (Time Slave or Time Master at runtime). Aggregated by EthGlobalTimeManagedCouplingPort.globalTimePortRole",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 875,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "dynamic",
+          "index": 2,
+          "description": "Time Slave or Time Master port behavior at runtime.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": 1,
+          "description": "CP R23-11 timeMaster timeMaster port behavior<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "timeSlave",
+          "index": 0,
+          "description": "TimeSlave port behavior<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

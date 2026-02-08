@@ -1,0 +1,57 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "CommonDiagnostics",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_CommonDiagnostics.json"
+    },
+    {
+      "name": "DiagnosticContribution",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticContribution.json"
+    },
+    {
+      "name": "DiagnosticCommonProps",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticCommonProps.json"
+    },
+    {
+      "name": "Dem",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem.json"
+    },
+    {
+      "name": "Dcm",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm.json"
+    },
+    {
+      "name": "DiagnosticMapping",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping.json"
+    },
+    {
+      "name": "Fim",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Fim",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Fim.json"
+    },
+    {
+      "name": "J1939",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::J1939",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_J1939.json"
+    },
+    {
+      "name": "InstanceRefs",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_InstanceRefs.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

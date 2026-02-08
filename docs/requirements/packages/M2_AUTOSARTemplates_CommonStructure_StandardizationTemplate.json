@@ -1,0 +1,62 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate",
+  "path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "AbstractBlueprintStructure",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_AbstractBlueprintStructure.json"
+    },
+    {
+      "name": "BlueprintDedicated",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintDedicated.json"
+    },
+    {
+      "name": "BlueprintMapping",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintMapping.json"
+    },
+    {
+      "name": "BlueprintGenerator",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintGenerator.json"
+    },
+    {
+      "name": "Keyword",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_Keyword.json"
+    },
+    {
+      "name": "ClientServerInterfaceToBsw",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_ClientServerInterfaceToBsw.json"
+    },
+    {
+      "name": "DataExchangePoint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchangePoint.json"
+    },
+    {
+      "name": "DataExchange",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchange.json"
+    },
+    {
+      "name": "BlueprintFormula",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintFormula",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_BlueprintFormula.json"
+    },
+    {
+      "name": "Blueprint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_Blueprint.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

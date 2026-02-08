@@ -1,0 +1,65 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+  "enumerations": [
+    {
+      "name": "ChapterEnumBreak",
+      "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+      "note": "This allows to specify the page break policy of a paginatable element. Aggregated by Paginateable.break",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 330,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "break",
+          "index": 0,
+          "description": "This indicates the a page break shall be applied before the current block.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "noBreak",
+          "index": 1,
+          "description": "This indicates that there is no need to force a page break before this block.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "KeepWithPreviousEnum",
+      "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+      "note": "This enumerator specifies a page break policy by controlling blocks which shall be kept together. Aggregated by Paginateable.keepWithPrevious",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 339,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "FO R23-11"
+        },
+        {
+          "name": "keep",
+          "index": 0,
+          "description": "This indicates that the block shall be kept together with the previous block.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "noKeep",
+          "index": 1,
+          "description": "This indicates that there is no need to keep the block with the previous one. This is the same as if the attribute itself is missing.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

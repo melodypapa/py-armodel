@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint_EventTriggeringConstraint.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 7,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "Mode_0x01_RequestCurrentPowertrain",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x01_RequestCurrentPowertrain",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x01_RequestCurrentPowertrain.json"
+    },
+    {
+      "name": "Mode_0x02_RequestPowertrainFreeze",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x02_RequestPowertrainFreeze.json"
+    },
+    {
+      "name": "Mode_0x03_0x07_RequestEmission",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x03_0x07_RequestEmission",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x03_0x07_RequestEmission.json"
+    },
+    {
+      "name": "Mode_0x04_ClearResetEmission",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x04_ClearResetEmission",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x04_ClearResetEmission.json"
+    },
+    {
+      "name": "Mode_0x06_RequestOnBoard",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x06_RequestOnBoard.json"
+    },
+    {
+      "name": "Mode_0x08_RequestControlOfOnBoard",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x08_RequestControlOfOnBoard.json"
+    },
+    {
+      "name": "Mode_0x09_RequestVehicleInformation",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x09_RequestVehicleInformation",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x09_RequestVehicleInformation.json"
+    },
+    {
+      "name": "Mode_0x0A_RequestEmissionRelated",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x0A_RequestEmissionRelated",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_ObdService_Mode_0x0A_RequestEmissionRelated.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

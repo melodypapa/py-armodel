@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_DiagnosticConnection.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 4,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

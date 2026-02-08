@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::AdaptivePlatform",
+  "path": "M2::AUTOSARTemplates::AdaptivePlatform",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "PlatformModuleDeployment",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_PlatformModuleDeployment.json"
+    },
+    {
+      "name": "ApplicationDesign",
+      "full_path": "M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign",
+      "file": "packages/M2_AUTOSARTemplates_AdaptivePlatform_ApplicationDesign.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

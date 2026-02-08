@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticEvent.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticEvent.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 8,
+    "enumeration_count": 5,
+    "primitive_count": 0
+  }
+}

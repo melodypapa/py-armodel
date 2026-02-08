@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_SecureCommunication.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_SecureCommunication.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 22,
+    "enumeration_count": 13,
+    "primitive_count": 0
+  }
+}

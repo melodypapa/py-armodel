@@ -1,0 +1,89 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+  "enumerations": [
+    {
+      "name": "AdditionalBindingTimeEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "note": "This enumeration specifies the additional binding times applicable for vh.latestBindingTime of variation points.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 700,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 422,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "blueprintDerivationTime",
+          "index": 0,
+          "description": "The point in time when an object is created from a blueprint.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "postBuild",
+          "index": 1,
+          "description": "After the executable has been built.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "BindingTimeEnum",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "note": "This enumerator specifies the applicable binding times for the pre build variation points. Aggregated by AttributeValueVariationPoint.bindingTime, ConditionByFormula.bindingTime, FMFeature.maximum IntendedBindingTime, FMFeature.minimumIntendedBindingTime, FMFeatureSelection.maximum SelectedBindingTime, FMFeatureSelection.minimumSelectedBindingTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 308,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 971,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 162,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "codeGenerationTime",
+          "index": 0,
+          "description": "• Coding by hand, based on requirements document.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "linkTime",
+          "index": 1,
+          "description": "Configure what is included in object code, and what is omitted Based on which variant(s) are selected<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "preCompileTime",
+          "index": 2,
+          "description": "This is typically the C-Preprocessor. Exclude parts of the code from the compilation process, e.g., because they are not required for the selected variant, because they are incompatible with the selected variant, because they require resources that are not present in the selected variant. Object code is only generated for the selected variant(s). The code that is excluded at this stage code will not be available at later stages.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "systemDesignTime",
+          "index": 3,
+          "description": "• Designing the VFB.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    }
+  ]
+}

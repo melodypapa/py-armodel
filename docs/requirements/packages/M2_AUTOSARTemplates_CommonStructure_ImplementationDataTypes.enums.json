@@ -1,0 +1,71 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+  "enumerations": [
+    {
+      "name": "ArraySizeSemanticsEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "note": "This type controls how the information about the number of elements in an ApplicationArrayDataType is to be interpreted. Aggregated by ApplicationArrayElement.arraySizeSemantics, DiagnosticDataElement.arraySizeSemantics, ImplementationDataTypeElement.arraySizeSemantics, SwTextProps.arraySizeSemantics",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 42,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Diagnostic",
+          "index": null,
+          "description": "Extract Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "fixedSize",
+          "index": 0,
+          "description": "This means that the ApplicationArrayDataType will always have a fixed number of elements.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "variableSize",
+          "index": 1,
+          "description": "This implies that the actual number of elements in the ApplicationArrayDataType might vary at<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ArrayImplPolicyEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "note": "This meta-class provides values to configure the implementation of the payload part of an array. Aggregated by ImplementationDataTypeElement.arrayImplPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 276,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "payloadAsArray",
+          "index": 0,
+          "description": "This configuration demands the implementation of the payload as an array.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "payloadAsPointerToArray",
+          "index": 1,
+          "description": "This configuration demands the implementation of the payload as a pointer to an array.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

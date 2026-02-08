@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_PortAPIOptions.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SwcInternalBehavior_PortAPIOptions.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 4,
+    "enumeration_count": 3,
+    "primitive_count": 0
+  }
+}

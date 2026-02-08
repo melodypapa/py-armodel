@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::Documentation::Chapters",
+  "path": "M2::MSR::Documentation::Chapters",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_Chapters.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 9,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

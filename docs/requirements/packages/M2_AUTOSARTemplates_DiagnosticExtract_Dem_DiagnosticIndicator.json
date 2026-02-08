@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticIndicator",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticIndicator",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticIndicator.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dem_DiagnosticIndicator.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

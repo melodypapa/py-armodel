@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+  "path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate_DataExchange.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

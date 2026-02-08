@@ -1,0 +1,405 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+  "classes": [
+    {
+      "name": "TransmissionModeDeclaration",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IPduTiming.transmissionModeDeclaration"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AUTOSAR COM provides the possibility to define two different TRANSMISSION MODES (True and False) for each I-PDU. As TransmissionMode selector the signal content can be evaluated via transmissionModeCondition (implemented directly in the COM module) or mode conditions can be defined with the modeDrivenTrue Condition or modeDrivenFalseCondition (evaluated by BswM and invoking Com_SwitchIpduTxMode COM API). If modeDrivenTrueCondition and modeDrivenFalseCondition are defined they shall never evaluate to true both at the same time. The mixing of Transmission Mode Switch via API and signal value is not allowed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 392,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeDriven": {
+          "type": "ModeDriven",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the trigger for the Com_SwitchIpduTxMode Transmission Mode switch. Only if all defined modeDriven evaluate to true (AND associated) the be activated. mode modeDrivenFalseCondition evaluate to true both at the same time."
+        },
+        "transmission": {
+          "type": "TransmissionMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timing Specification if the COM Transmission Mode is true. The Transmission Mode Selector is defined to be if at least one Condition evaluates to true."
+        }
+      }
+    },
+    {
+      "name": "TransmissionModeCondition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransmissionModeDeclaration.transmissionModeCondition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Possibility to attach a condition to each signal within an I-PDU. If at least one condition evaluates to true, TRANSMISSION MODE True shall be used for this I-Pdu. In all other cases, the TRANSMISSION MODE FALSE shall be used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 392,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataFilter": {
+          "type": "DataFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Possibilities to define conditions"
+        },
+        "iSignalInIPdu": {
+          "type": "ISignalToIPduMapping",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a signal to which a condition is attached."
+        }
+      }
+    },
+    {
+      "name": "ModeDrivenTransmissionModeCondition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransmissionModeDeclaration.modeDrivenFalseCondition",
+        "TransmissionModeDeclaration.modeDriven"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The condition defined by this class evaluates to true if one of the referenced modeDeclarations (OR associated) is active. All referenced modeDeclarations shall be from the same ModeDeclarationGroup. The condition is used to define which TransmissionMode shall be activated using Com_SwitchIpduTx Mode.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 393,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to one modeDeclaration which is OR in the context of the ModeDrivenTransmission"
+        }
+      }
+    },
+    {
+      "name": "TransmissionModeTiming",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransmissionModeDeclaration.transmissionModeFalseTiming",
+        "TransmissionModeDeclaration."
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "If the COM Transmission Mode is false the timing is aggregated by the TransmissionModeTiming element in the role of transmissionModeFalseTiming. If the COM Transmission Mode is true the timing is aggregated by the TransmissionModeTiming element in the role of transmissionModeTrueTiming. COM supports the following Transmission Modes: • Periodic (Cyclic Timing) • Direct /n-times (EventControlledTiming) • Mixed (Cyclic and EventControlledTiming are assigned) • None (no timing is assigned)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 393,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cyclicTiming": {
+          "type": "CyclicTiming",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Periodic Transmission Mode."
+        },
+        "eventControlledTiming": {
+          "type": "EventControlledTiming",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Direct Transmission Mode."
+        }
+      }
+    },
+    {
+      "name": "CyclicTiming",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransmissionModeTiming.cyclicTiming"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of a cyclic sending behavior.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 396,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timeOffset": {
+          "type": "TimeRangeType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the time until first transmission of This attribute defines the time between Com_ the first transmission of the cyclic this transmission request for this I-PDU."
+        },
+        "timePeriod": {
+          "type": "TimeRangeType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Period of the repetition of cyclic transmissions."
+        }
+      }
+    },
+    {
+      "name": "EventControlledTiming",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransmissionModeTiming.eventControlledTiming"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specification of a event driven sending behavior. The PDU is sent n (numberOfRepeat + 1) times separated by the repetitionPeriod. If numberOfRepeats = 0, then the Pdu is sent just once.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 397,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "numberOf": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the number of repetitions for the Direct/N-Times mode and the event driven part of Mixed"
+        },
+        "repetitionPeriod": {
+          "type": "TimeRangeType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The repetitionPeriod specifies the time in seconds that the pdu can be sent the next time gap between two pdus). The repetition optional in case that no repetitions are"
+        }
+      }
+    },
+    {
+      "name": "TimeRangeType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CyclicTiming.timeOffset",
+        "CyclicTiming.timePeriod",
+        "EventControlledTiming.repetitionPeriod"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The timeRange can be specified with the value attribute. Optionally a tolerance can be defined.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 398,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "toleranceTolerance": {
+          "type": "TimeRangeType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional specification of a tolerance."
+        },
+        "value": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Average value of a date (in seconds)"
+        }
+      }
+    },
+    {
+      "name": "RelativeTolerance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "TimeRangeTypeTolerance"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimeRangeType.tolerance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Maximum allowable deviation",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 398,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "relative": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum allowable deviation in percent (percent of the"
+        }
+      }
+    },
+    {
+      "name": "AbsoluteTolerance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "TimeRangeTypeTolerance"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimeRangeType.tolerance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Maximum allowable deviation",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 398,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "absolute": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum allowable deviation in duration (in seconds)"
+        }
+      }
+    },
+    {
+      "name": "TriggerIPduSendCondition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PduTriggering.triggerIPduSendCondition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The condition defined by this class evaluates to true if one of the referenced modeDeclarations (OR associated) is active. The condition is used to define when the Pdu is triggered with the Com_Trigger IPDUSend API call.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 399,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to one modeDeclaration which is OR in the context of the TriggerIPduSend"
+        }
+      }
+    }
+  ]
+}

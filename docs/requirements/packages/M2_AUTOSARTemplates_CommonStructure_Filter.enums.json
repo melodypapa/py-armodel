@@ -1,0 +1,76 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Filter",
+  "enumerations": [
+    {
+      "name": "DataFilterTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Filter",
+      "note": "This enum specifies the supported DataFilterTypes. Aggregated by DataFilter.dataFilterType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 182,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 394,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Software",
+          "index": null,
+          "description": "Component Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "always",
+          "index": 0,
+          "description": "No filtering is performed so that the message always passes.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "maskedNewDiffersMaskedOld",
+          "index": 1,
+          "description": "Pass messages where the masked value has changed. new_value if the new message value is not filtered out)<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "maskedNewDiffersX",
+          "index": 2,
+          "description": "Pass messages whose masked value is not equal to a specific value x<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "maskedNewEqualsX",
+          "index": 3,
+          "description": "Pass messages whose masked value is equal to a specific value x<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "never",
+          "index": 4,
+          "description": "The filter removes all messages.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "newIsOutside",
+          "index": 5,
+          "description": "Pass a message if its value is outside a predefined boundary.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "newIsWithinmin",
+          "index": 6,
+          "description": "Pass a message if its value is within a predefined boundary.<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "oneEveryN",
+          "index": 7,
+          "description": "Pass a message once every N message occurrences. Each time the message is received or transmitted, occurrence is incremented by 1 after filtering. Length of occurrence is 8 bit (minimum).<br>Tags: atp.EnumerationLiteralIndex=7"
+        }
+      ]
+    }
+  ]
+}

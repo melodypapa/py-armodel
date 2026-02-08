@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection",
+  "path": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ElementCollection.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_GenericStructure_GeneralTemplateClasses_ElementCollection.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

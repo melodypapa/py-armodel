@@ -1,0 +1,217 @@
+{
+  "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall",
+  "classes": [
+    {
+      "name": "StateDependentFirewall",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Firewall rules that are defined in a firewall state",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 583,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultAction": {
+          "type": "FirewallActionEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines a defaultAction in case that the not yet set."
+        },
+        "firewallRule": {
+          "type": "FirewallRuleProps",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of firewall rules that apply in the vehicle mode Tags: atp.Status=candidate"
+        },
+        "firewallState": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to firewall states in which the Firewall is active. one of the referenced ModeDeclarations is the current state then the firewall rule shall be considered as"
+        }
+      }
+    },
+    {
+      "name": "FirewallRuleProps",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "StateDependentFirewall.firewallRuleProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Firewall rule that is defined by an action that is performed if the referenced pattern matches.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 584,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "action": {
+          "type": "FirewallActionEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Action that is performed by the firewall if the matching fulfilled."
+        },
+        "matchingEgress": {
+          "type": "FirewallRule",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This element defines an egress rule expression against which the network traffic is matched."
+        },
+        "matching": {
+          "type": "FirewallRule",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This element defines an ingress rule expression against the network traffic is matched. atp.Status=candidate"
+        }
+      }
+    },
+    {
+      "name": "FirewallRule",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Firewall Rule that defines the control information in individual packets.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 584,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bucketSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the capacity of the queue for rate Algorithm). 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "dataLinkLayer": {
+          "type": "DataLinkLayerRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of rules on the Data Link Layer atp.Status=candidate"
+        },
+        "ddsRule": {
+          "type": "DdsRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of firewall rules for DDS."
+        },
+        "doIpRule": {
+          "type": "DoIpRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of firewall rules for DoIP messages"
+        },
+        "networkLayer": {
+          "type": "NetworkLayerRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of rules on the Network Layer atp.Status=candidate"
+        },
+        "payloadByte": {
+          "type": "PayloadBytePattern",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of generic firewall rules Tags: atp.Status=candidate"
+        },
+        "refillAmount": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the output rate that describes how leave the queue per second (leaky-bucket"
+        },
+        "someipRule": {
+          "type": "SomeipProtocolRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of firewall rules for SOME/IP messages"
+        },
+        "someipSdRule": {
+          "type": "SomeipSdRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of firewall rules for SOME/IP Service"
+        },
+        "transportLayer": {
+          "type": "TransportLayerRule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of rules on the Transport Layer atp.Status=candidate"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping_FimMapping.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::DataDictionary::SystemConstant",
+  "path": "M2::MSR::DataDictionary::SystemConstant",
+  "files": {
+    "classes": "packages/M2_MSR_DataDictionary_SystemConstant.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

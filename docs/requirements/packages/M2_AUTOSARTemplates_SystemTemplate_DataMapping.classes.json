@@ -1,0 +1,610 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+  "classes": [
+    {
+      "name": "DataMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "SenderReceiverToSignalMapping",
+        "SenderReceiverToSignalGroupMapping",
+        "ClientServerToSignalMapping",
+        "SenderReceiverCompositeElementToSignalMapping",
+        "TriggerToSignalMapping"
+      ],
+      "subclasses": [
+        "ClientServerToSignalMapping",
+        "SenderReceiverCompositeElementToSignalMapping",
+        "SenderReceiverToSignalGroupMapping",
+        "SenderReceiverToSignalMapping",
+        "TriggerToSignalMapping"
+      ],
+      "aggregated_by": [
+        "SystemMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Mapping of port elements (data elements and parameters) to frames and signals.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 981,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 217,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "introduction": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents introductory documentation about the"
+        }
+      }
+    },
+    {
+      "name": "SenderReceiverToSignalMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataMapping",
+      "bases": [
+        "ARObject",
+        "DataMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Mapping of a sender receiver communication data element to a signal.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1005,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 229,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElementSystemInstanceRef": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: VariableDataPrototypeIn"
+        },
+        "senderToSignal": {
+          "type": "TextTableMapping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This mapping allows for the text-table translation between sending DataPrototype that is defined in the Port and the physicalProps defined for the System"
+        },
+        "signalTo": {
+          "type": "TextTableMapping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This mapping allows for the text-table translation between physicalProps defined for the SystemSignal and a DataPrototype that is defined in the Port"
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the system signal used to carry the data"
+        }
+      }
+    },
+    {
+      "name": "SenderReceiverToSignalGroupMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataMapping",
+      "bases": [
+        "ARObject",
+        "DataMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Mapping of a sender receiver communication data element with a composite datatype to a signal group.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 234,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "mapped to a signal group. by: VariableDataPrototypeIn"
+        },
+        "signalGroup": {
+          "type": "SystemSignalGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the signal group, which contain all primitive the composite type"
+        },
+        "typeMapping": {
+          "type": "SenderRecComposite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The CompositeTypeMapping maps the ApplicationArray and ApplicationRecordElements to Signals of"
+        }
+      }
+    },
+    {
+      "name": "SenderRecCompositeTypeMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "SenderRecArrayTypeMapping",
+        "SenderRecRecordTypeMapping"
+      ],
+      "subclasses": [
+        "SenderRecArrayTypeMapping",
+        "SenderRecRecordTypeMapping"
+      ],
+      "aggregated_by": [
+        "SenderRecArrayElementMapping.complexTypeMapping",
+        "SenderReceiverCompositeElementToSignalMapping.typeMapping",
+        "SenderReceiverToSignalGroupMapping.typeMapping",
+        "SenderRecRecordElementMapping.complexTypeMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Two mappings exist for the composite data types: \"ArrayTypeMapping\" and \"RecordTypeMapping\". In both, a primitive datatype will be mapped to a system signal. But it is also possible to combine the arrays and the records, so that an \"array\" could be an element of a \"record\" and in the same manner a \"record\" could be an element of an \"array\". Nesting these data types is also possible. If an element of a composite data type is again a composite one, the \"CompositeTypeMapping\" element will be used one more time (aggregation between the ArrayElementMapping and CompositeType Mapping or aggregation between the RecordElementMapping and CompositeTypeMapping).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SenderRecArrayTypeMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SenderRecCompositeTypeMapping",
+      "bases": [
+        "ARObject",
+        "SenderRecCompositeTypeMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderRecArrayElementMapping.complexTypeMapping",
+        "SenderReceiverCompositeElementToSignalMapping.typeMapping",
+        "SenderReceiverToSignalGroupMapping.typeMapping",
+        "SenderRecRecordElementMapping.complexTypeMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "If the ApplicationCompositeDataType is an Array, the \"ArrayTypeMapping\" will be used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arrayElement": {
+          "type": "SenderRecArray",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Each ApplicationArrayElement shall be mapped on a SystemSignal."
+        },
+        "senderToSignal": {
+          "type": "TextTableMapping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This mapping allows for the text-table translation between sending DataPrototype that is defined in the Port and the physicalProps defined for the System"
+        },
+        "signalTo": {
+          "type": "TextTableMapping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This mapping allows for the text-table translation between physicalProps defined for the SystemSignal and a DataPrototype that is defined in the Port"
+        }
+      }
+    },
+    {
+      "name": "SenderRecRecordTypeMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SenderRecCompositeTypeMapping",
+      "bases": [
+        "ARObject",
+        "SenderRecCompositeTypeMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderRecArrayElementMapping.complexTypeMapping",
+        "SenderReceiverCompositeElementToSignalMapping.typeMapping",
+        "SenderReceiverToSignalGroupMapping.typeMapping",
+        "SenderRecRecordElementMapping.complexTypeMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "If the ApplicationCompositeDataType is a Record, the \"RecordTypeMapping\" will be used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "recordElement": {
+          "type": "SenderRecRecord",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Each ApplicationRecordElement shall be mapped on a SystemSignal."
+        }
+      }
+    },
+    {
+      "name": "SenderRecRecordElementMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderRecRecordTypeMapping.recordElementMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Mapping of a primitive record element to a SystemSignal. If the VariableDataPrototype that is referenced by SenderReceiverToSignalGroupMapping is typed by an ApplicationDataType the reference application RecordElement shall be used. If the VariableDataPrototype is typed by the ImplementationDataType the reference implementationRecordElement shall be used. Either the implementationRecordElement or applicationRecordElement reference shall be used. If the element is composite, there will be no mapping to the SystemSignal (multiplicity 0). In this case the RecordElementMapping element will aggregate the complexTypeMapping element. In that way also the composite datatypes can be mapped to SystemSignals.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 236,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationRecord",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an ApplicationRecordElement in the context of the dataElement or in the context of a composite"
+        },
+        "complexType": {
+          "type": "SenderRecComposite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation will be used if the element is composite."
+        },
+        "implementation": {
+          "type": "ImplementationData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an ImplementationRecordElement in the context of the dataElement or in the context of a"
+        },
+        "senderToSignal": {
+          "type": "TextTableMapping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This mapping allows for the text-table translation between sending DataPrototype that is defined in the Port and the physicalProps defined for the System"
+        },
+        "signalTo": {
+          "type": "TextTableMapping",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This mapping allows for the text-table translation between physicalProps defined for the SystemSignal and a DataPrototype that is defined in the Port"
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the system signal used to carry the primitive"
+        }
+      }
+    },
+    {
+      "name": "SenderRecArrayElementMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderRecArrayTypeMapping.arrayElementMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SenderRecArrayElement may be a primitive one or a composite one. If the element is primitive, it will be mapped to the SystemSignal (multiplicity 1). If the VariableDataPrototype that is referenced by Sender ReceiverToSignalGroupMapping is typed by an ApplicationDataType the reference to the Application ArrayElement shall be used. If the VariableDataPrototype is typed by the ImplementationDataType the reference to the ImplementationArrayElement shall be used. If the element is composite, there will be no mapping to the SystemSignal (multiplicity 0). In this case the ArrayElementMapping element will aggregate the TypeMapping element. In that way also the composite datatypes can be mapped to SystemSignals. Regardless whether composite or primitive array element is mapped the indexed element always needs to be specified.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 237,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "complexType": {
+          "type": "SenderRecComposite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation will be used if the element is composite."
+        },
+        "indexedArray": {
+          "type": "IndexedArrayElement",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reference to an indexed array element in the context of dataElement or in the context of a composite element."
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the system signal used to carry the primitive"
+        }
+      }
+    },
+    {
+      "name": "IndexedArrayElement",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderRecArrayElementMapping.indexedArrayElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents exactly one indexed element in the array. Either the applicationArrayElement or implementationArrayElement reference shall be used.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 237,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "applicationArray": {
+          "type": "ApplicationArray",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an ApplicationArrayElement in an array."
+        },
+        "implementation": {
+          "type": "ImplementationData",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an ImplementationDataTypeElement in an array."
+        },
+        "index": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Position of an element in an array. Starting position is 0."
+        }
+      }
+    },
+    {
+      "name": "ClientServerToSignalMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataMapping",
+      "bases": [
+        "ARObject",
+        "DataMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element maps the ClientServerOperation to call- and return-SystemSignals.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 242,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "callSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the callSignal to which the IN and INOUT mapped."
+        },
+        "clientServer": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "a call SystemSignal and a return SystemSignal. by: OperationInSystem"
+        },
+        "returnSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the returnSignal to which the OUT and are mapped."
+        }
+      }
+    },
+    {
+      "name": "SenderReceiverCompositeElementToSignalMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataMapping",
+      "bases": [
+        "ARObject",
+        "DataMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Mapping of an Variable Data Prototype which is aggregated within a composite datatype to a System Signal (only one element of the composite data type is mapped).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 247,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "one element is mapped to a SystemSignal. by: VariableDataPrototypeIn"
+        },
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the SystemSignal to which one primitive of type is mapped."
+        },
+        "typeMapping": {
+          "type": "SenderRecComposite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The CompositeTypeMapping maps one VariableData of the composite data type to a SystemSignal."
+        }
+      }
+    },
+    {
+      "name": "TriggerToSignalMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::DataMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataMapping",
+      "bases": [
+        "ARObject",
+        "DataMapping"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map a trigger to a SystemSignal of size 0. The Trigger does not transport any other information than its existence, therefore the limitation in terms of signal length.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 249,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "systemSignal": {
+          "type": "SystemSignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the SystemSignal taken to transport the Trigger network."
+        },
+        "triggerRef": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "to a remote ECU. by: TriggerInSystemInstance"
+        }
+      }
+    }
+  ]
+}

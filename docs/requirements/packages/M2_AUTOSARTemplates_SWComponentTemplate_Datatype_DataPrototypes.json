@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 7,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

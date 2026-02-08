@@ -1,0 +1,196 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+  "enumerations": [
+    {
+      "name": "DataTransformationKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "note": "This enumeration contributes to the definition of the scope of the DataTransformation. Aggregated by DataTransformation.dataTransformationKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 150,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "asymmetricFrom",
+          "index": 0,
+          "description": "The DataTransformation shall only be applied to the receiving end only, i.e. transform from byte array ByteArray to data type.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "asymmetricToByteArray",
+          "index": 1,
+          "description": "The DataTransformation shall be applied to the sending end only, i.e. from data type to byte array.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "symmetric",
+          "index": 2,
+          "description": "The DataTransformation shall be applied at both the sending and the receiving end of the<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "TransformerClassEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "note": "Specifies the transformer class of a transformer. Aggregated by TransformationTechnology.transformerClass",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 765,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "custom",
+          "index": 0,
+          "description": "The transformer is a custom transformer.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "safety",
+          "index": 1,
+          "description": "The transformer is a safety transformer.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "security",
+          "index": 2,
+          "description": "The transformer is a security transformer.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "serializer",
+          "index": 3,
+          "description": "The transformer is a serializing transformer.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "CSTransformerErrorReactionEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "note": "Possible kinds of error reaction in case of a hard transformer error. Aggregated by TransformationISignalProps.csErrorReaction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 773,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "applicationOnly",
+          "index": 0,
+          "description": "The application is responsible for any error reaction. No autonomous error reaction of RTE and<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "autonomous",
+          "index": 1,
+          "description": "RTE and Transformer coordinate an autonomous error reaction on their own.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "SOMEIPMessageTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "note": "Depending on the style of the communication different message types shall be set in the header of a SOME/IP message. Aggregated by SOMEIPTransformationISignalProps.messageType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 779,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "notification",
+          "index": 1,
+          "description": "A request of a notification expecting no response.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "request",
+          "index": 2,
+          "description": "A request expecting a response.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "requestNoReturn",
+          "index": 3,
+          "description": "A fire&forget request.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "response",
+          "index": 4,
+          "description": "The response message.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "DataIdModeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "note": "Supported inclusion modes to include the implicit two-byte Data ID in the one-byte CRC. Aggregated by E2EProfileConfiguration.dataIdMode, EndToEndTransformationDescription.dataIdMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 807,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "all16Bit",
+          "index": 0,
+          "description": "Two bytes are included in the CRC (double ID configuration).<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "alternating8Bitcounter",
+          "index": 1,
+          "description": "One of the two bytes byte is included, alternating high and low byte, depending on parity of the high byte is included.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "lower12Bit",
+          "index": 2,
+          "description": "The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "lower8Bitare",
+          "index": 3,
+          "description": "Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "EndToEndProfileBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "note": "Behavior of the check functionality Aggregated by EndToEndTransformationDescription.profileBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 808,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "PRE_R4_2",
+          "index": 0,
+          "description": "Check has the legacy behavior, before AUTOSAR Release 4.2.<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=PRE–R-4–2"
+        },
+        {
+          "name": "R4_2",
+          "index": 1,
+          "description": "Check behaves like new P4/P5/P6 profiles introduced in AUTOSAR Release 4.2.<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=R-4–2"
+        }
+      ]
+    }
+  ]
+}

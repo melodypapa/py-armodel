@@ -1,0 +1,120 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+  "enumerations": [
+    {
+      "name": "PncGatewayTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "note": "Defines the PncGateway roles. Aggregated by CommunicationConnector.pncGatewayType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 55,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "active",
+          "index": 0,
+          "description": "The active PncGateway functionality shall be performed<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "No PncGateway functionality shall be performed<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "passive",
+          "index": 2,
+          "description": "The passive PncGateway functionality shall be performed<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "CycleRepetitionType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology",
+      "note": "The number of communication cycles (after the first cycle) whenever the frame is sent again. The FlexRay communication controller allows only determined values. Aggregated by CycleRepetition.CycleRepetition",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 425,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "cycleRepetition1",
+          "index": 0,
+          "description": "Attribute cycleRepetition value=\"1\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "cycleRepetition10",
+          "index": 1,
+          "description": "Attribute cycleRepetition value=\"10\" to support FlexRay 3.0<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "cycleRepetition16",
+          "index": 2,
+          "description": "Attribute cycleRepetition value=\"16\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "cycleRepetition2",
+          "index": 3,
+          "description": "Attribute cycleRepetition value=\"2\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "cycleRepetition20",
+          "index": 4,
+          "description": "Attribute cycleRepetition value=\"20\" to support FlexRay 3.0<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "cycleRepetition32",
+          "index": 5,
+          "description": "Attribute cycleRepetition value=\"32\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "cycleRepetition4",
+          "index": 6,
+          "description": "Attribute cycleRepetition value=\"4\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "cycleRepetition40",
+          "index": 7,
+          "description": "Attribute cycleRepetition value=\"40\" to support FlexRay 3.0<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "cycleRepetition5",
+          "index": 8,
+          "description": "Attribute cycleRepetition value=\"5\" to support FlexRay 3.0<br>Tags: atp.EnumerationLiteralIndex=8"
+        },
+        {
+          "name": "cycleRepetition50",
+          "index": 9,
+          "description": "Attribute cycleRepetition value=\"50\" to support FlexRay 3.0<br>Tags: atp.EnumerationLiteralIndex=9"
+        },
+        {
+          "name": "cycleRepetition64",
+          "index": 10,
+          "description": "Attribute cycleRepetition value=\"64\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=10"
+        },
+        {
+          "name": "cycleRepetition8",
+          "index": 11,
+          "description": "Attribute cycleRepetition value=\"8\" valid only for FlexRay Protocol 2.1 Rev A<br>Tags: atp.EnumerationLiteralIndex=11"
+        }
+      ]
+    }
+  ]
+}

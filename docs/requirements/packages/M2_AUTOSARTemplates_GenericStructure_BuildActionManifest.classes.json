@@ -1,0 +1,452 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+  "classes": [
+    {
+      "name": "BuildActionManifest",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a manifest for processing artifacts. An example use case is the processing of ECUC parameter values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 134,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 365,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "buildAction": {
+          "type": "BuildActionEnvironment",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a build action environment. atpSplitable; atpVariation"
+        },
+        "dynamicAction": {
+          "type": "BuildAction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This denotes an Action which is to be executed as part of action set."
+        },
+        "startAction": {
+          "type": "BuildAction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This specifies the list of actions to be performed at the the process. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "tearDownAction": {
+          "type": "BuildAction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This specifies the set of action which shall be performed other actions in the manifest were performed."
+        }
+      }
+    },
+    {
+      "name": "BuildAction",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BuildActionEntity",
+      "bases": [
+        "ARObject",
+        "BuildActionEntity",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BuildActionManifest.buildAction"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a build action.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 366,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 172,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "createdData": {
+          "type": "BuildActionIoElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the artifacts which are created by the"
+        },
+        "followUpAction": {
+          "type": "BuildAction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association specifies a set of follow up actions."
+        },
+        "inputData": {
+          "type": "BuildActionIoElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the artifacts which are read by the"
+        },
+        "modifiedData": {
+          "type": "BuildActionIoElement",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the data which are modified by the action."
+        },
+        "predecessor": {
+          "type": "BuildAction",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association specifies a set of predecessors. These shall be finished before but necessarily the given action.. need to be performed in the specified"
+        },
+        "required": {
+          "type": "BuildActionEnvironment",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the environment which is required to use specified Processor."
+        }
+      }
+    },
+    {
+      "name": "BuildActionIoElement",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BuildAction.createdData",
+        "BuildAction.inputData",
+        "BuildAction.modifiedData"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions. engineering BuildEngineeringObject 0..1 aggr This represents an artifact applicable to the build action. Object foreignModel ForeignModelReference 0..1 aggr This is a reference to a foreign model element. Note that Reference it is not modeled as an association because it should also be able to refer also to non AUTOSAR models. (cid:53) 368 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 368,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element assigns a category to the parent element. It to specialize the usage and/or the content of Such a specialization may also impose constraints on the entire substructure. Identifiable."
+        },
+        "ecucDefinition": {
+          "type": "EcucDefinitionElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association denotes an ECUC parameter definition. referenced parameters are subject of the build"
+        },
+        "role": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows to denote a particular role of the that the applicable semantics shall be between the two parties."
+        },
+        "sdg": {
+          "type": "Sdg",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This special data group allows to denote specific data. is subject of mutual agreement."
+        }
+      }
+    },
+    {
+      "name": "BuildActionEnvironment",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BuildActionManifest.buildActionEnvironment"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a build action environment.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sdg": {
+          "type": "Sdg",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a general data structure intended to for the BuildActionEnvironment."
+        }
+      }
+    },
+    {
+      "name": "BuildActionEntity",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "BuildAction"
+      ],
+      "subclasses": [
+        "BuildAction"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe a build action entity which might be specialized to environments as well as to individual build actions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 370,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "deliveryArtifact": {
+          "type": "AutosarEngineering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the delivery artifacts for the entity for purposes."
+        },
+        "invocation": {
+          "type": "BuildActionInvocator",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies how to invoke a build action in the given"
+        }
+      }
+    },
+    {
+      "name": "BuildActionInvocator",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BuildActionEntity.invocation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that it is optional due to the fact that some actions are hardwired in the environment and do not need an explicit command. On the other hand the properties of an invocator can be complex and not standardized. sdg Sdg * aggr This represents a general data structure intended to denote parameters for the BuildAction. Table 10.6: BuildActionInvocator",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 372,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "command": {
+          "type": "VerbatimString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the command to invocate the processor."
+        }
+      }
+    },
+    {
+      "name": "BuildEngineeringObject",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EngineeringObject",
+      "bases": [
+        "ARObject",
+        "EngineeringObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BuildActionIoElement.engineeringObject"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that instanceRefs are not supported, since there was no use case. It could be supported using a FlatMap.(cid:99)() • [TPS_GST_00237] engineeringObject (cid:100)This indicates an engineering ob- ject. The specified permissions apply to all objects in the partial model which is stored in the denoted AutosarEngineeringObject.(cid:99)() 379 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 ARElement +derivedFromBlueprint Identifiable AtpBlueprintable «atpUriDef» 0..* AtpBlueprint AclObjectSet + aclObjectClass: ReferrableSubtypesEnum [0..*] + aclScope: AclScopeEnum ARElement +collection Collection 0..1 + autoCollect: AutoCollectEnum [0..1] + collectionSemantics: NameToken [0..1] + elementRole: Identifier [0..1] EngineeringObject +engineeringObject AutosarEngineeringObject 0..* Referrable +object «atpIdentityContributor» 0..* + shortName: Identifier AtpDefinition +objectDefinition «atpUriDef» 0..* ARElement ARElement HwCategory PostBuildVariantCriterion Identifiable ARElement EcucDefinitionElement SwSystemconst + scope: EcucScopeEnum [0..1] «atpVariation» + lowerMultiplicity: PositiveInteger [0..1] + upperMultiplicity: PositiveInteger [0..1] + upperMultiplicityInfinite: Boolean [0..1] Figure 11.2: Roles and Rights Object Set Listing 11.1 illustrates how the roles and rights approach can be applied to control the access on objects in an AUTOSAR description. It defines • a set of permissions named \"Integrator\" representing the Relation in [TPS_GST_00226] based on the definitions below • a role named \"ECU_Integrator\" • an object set named \"MemoryStackConfiguration\" • two operations <AR-PACKAGE> <SHORT-NAME>GenericStructureTemplate</SHORT-NAME> 380 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 <CATEGORY>EXAMPLE</CATEGORY> <AR-PACKAGES> <AR-PACKAGE> <SHORT-NAME>AclPermissions</SHORT-NAME> <ELEMENTS> <ACL-PERMISSION> <SHORT-NAME>Integrator</SHORT-NAME> <ACL-OBJECT-REFS> <ACL-OBJECT-REF DEST=\"ACL-OBJECT-SET\">/AUTOSAR/ GenericStructureTemplate/AccessObjectSets/ MemoryStackConfiguration</ACL-OBJECT-REF> </ACL-OBJECT-REFS> <ACL-OPERATION-REFS> <ACL-OPERATION-REF DEST=\"ACL-OPERATION\">/AUTOSAR/ GenericStructureTemplate/AclOperations/AssignValue</ACL- OPERATION-REF> <ACL-OPERATION-REF DEST=\"ACL-OPERATION\">/AUTOSAR/ GenericStructureTemplate/AclOperations/ReassignValue</ACL- OPERATION-REF> </ACL-OPERATION-REFS> <ACL-ROLE-REFS> <ACL-ROLE-REF DEST=\"ACL-ROLE\">/AUTOSAR/ GenericStructureTemplate/AclRoles/ECU_Integrator</ACL-ROLE- REF> </ACL-ROLE-REFS> </ACL-PERMISSION> </ELEMENTS> </AR-PACKAGE> <AR-PACKAGE> <SHORT-NAME>AccessObjectSets</SHORT-NAME> <ELEMENTS> <ACL-OBJECT-SET> <SHORT-NAME>MemoryStackConfiguration</SHORT-NAME> <ACL-SCOPE>DESCENDANT</ACL-SCOPE> <OBJECT-DEFINITION-REFS> <OBJECT-DEFINITION-REF DEST=\"ECUC-MODULE-DEF\">/AUTOSAR/ EcucDefs/MemIf</OBJECT-DEFINITION-REF> <OBJECT-DEFINITION-REF DEST=\"ECUC-MODULE-DEF\">/AUTOSAR/ EcucDefs/MemMap</OBJECT-DEFINITION-REF> <OBJECT-DEFINITION-REF DEST=\"ECUC-MODULE-DEF\">/AUTOSAR/ EcucDefs/NvM</OBJECT-DEFINITION-REF> </OBJECT-DEFINITION-REFS> </ACL-OBJECT-SET> </ELEMENTS> </AR-PACKAGE> <AR-PACKAGE> <SHORT-NAME>AclOperations</SHORT-NAME> <REFERENCE-BASES> <REFERENCE-BASE> <SHORT-LABEL>op</SHORT-LABEL> <BASE-IS-THIS-PACKAGE>true</BASE-IS-THIS-PACKAGE> </REFERENCE-BASE> </REFERENCE-BASES> <ELEMENTS> <ACL-OPERATION> <SHORT-NAME>AssignValue</SHORT-NAME> 381 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 </ACL-OPERATION> <ACL-OPERATION> <SHORT-NAME>ReassignValue</SHORT-NAME> <IMPLIED-OPERATION-REFS> <IMPLIED-OPERATION-REF DEST=\"ACL-OPERATION\" BASE=\"op\"> AssignValue</IMPLIED-OPERATION-REF> </IMPLIED-OPERATION-REFS> </ACL-OPERATION> </ELEMENTS> </AR-PACKAGE> <AR-PACKAGE> <SHORT-NAME>AclRoles</SHORT-NAME> <ELEMENTS> <ACL-ROLE> <SHORT-NAME>ECU_Integrator</SHORT-NAME> <LONG-NAME> <L-4 L=\"EN\">See <TT>ECU Integrator</TT></L-4> </LONG-NAME> </ACL-ROLE> </ELEMENTS> </AR-PACKAGE> </AR-PACKAGES> </AR-PACKAGE> Listing 11.1: Example for Access Control",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 372,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "fileType": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates the file type which shall used for object. Note that an engineering object multiple representations of the same artifact. can select one of the provided"
+        },
+        "fileTypePattern": {
+          "type": "RegularExpression",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows to define a set of engineering objects based search applied to the filetype of the objects."
+        },
+        "intended": {
+          "type": "UriString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the name of the file if it is newly. Note that engineering object resolves ShortLabel indicate mainly to refer to an If the file is created newly, the filename can determined by built in policy or predefined here."
+        }
+      }
+    },
+    {
+      "name": "GenericModelReference",
+      "package": "M2::AUTOSARTemplates::GenericStructure::BuildActionManifest",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a late binding reference to a model element. The model element can be from every model. Even if it is modeled according to the association representation, it is not limited to refer to AUTOSAR model elements.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 449,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This establishes the reference base."
+        },
+        "dest": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the class of the referenced It is a String, since the model element in any model. Therefore we cannot have any"
+        },
+        "ref": {
+          "type": "Ref",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This is the full qualified name of the model element"
+        }
+      }
+    }
+  ]
+}

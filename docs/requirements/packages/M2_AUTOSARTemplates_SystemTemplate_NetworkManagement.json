@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_NetworkManagement.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_NetworkManagement.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 23,
+    "enumeration_count": 3,
+    "primitive_count": 0
+  }
+}

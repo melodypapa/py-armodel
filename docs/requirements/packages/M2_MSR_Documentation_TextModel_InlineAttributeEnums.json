@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+  "path": "M2::MSR::Documentation::TextModel::InlineAttributeEnums",
+  "files": {
+    "enumerations": "packages/M2_MSR_Documentation_TextModel_InlineAttributeEnums.enums.json",
+    "primitives": "packages/M2_MSR_Documentation_TextModel_InlineAttributeEnums.primitives.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 12,
+    "primitive_count": 1
+  }
+}

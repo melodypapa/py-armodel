@@ -1,0 +1,15 @@
+{
+  "name": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+  "path": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_BlockElements_PaginationAndView.classes.json",
+    "enumerations": "packages/M2_MSR_Documentation_BlockElements_PaginationAndView.enums.json",
+    "primitives": "packages/M2_MSR_Documentation_BlockElements_PaginationAndView.primitives.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 2,
+    "primitive_count": 1
+  }
+}

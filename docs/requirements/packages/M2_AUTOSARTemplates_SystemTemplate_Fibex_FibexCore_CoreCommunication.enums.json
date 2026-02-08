@@ -1,0 +1,335 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+  "enumerations": [
+    {
+      "name": "IPduSignalProcessingEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Definition of signal processing modes. Aggregated by IPduPort.iPduSignalProcessing",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "deferred",
+          "index": 0,
+          "description": "The signal indications / confirmations are deferred.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "immediate",
+          "index": 1,
+          "description": "The signal indications / confirmations are performed.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ISignalTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "This enumeration defines ISignal types that are used for derivation of the ComSignalType in the COM configuration. Aggregated by ISignal.iSignalType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "array",
+          "index": 0,
+          "description": "ISignal shall be interpreted as an array (UINT8_N, UINT8_DYN)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "primitive",
+          "index": 1,
+          "description": "ISignal shall be interpreted as a primitive type (e.g. UINT_8, SINT_32)<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "TransferPropertyEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Transfer Properties of a Signal. Aggregated by ISignalToIPduMapping.transferProperty",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 327,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "pending",
+          "index": 0,
+          "description": "If the signal has the TransferProperty pending, then the function Com_SendSignal shall not perform a transmission of the IPdu associated with the signal.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "triggered",
+          "index": 1,
+          "description": "The signal in the assigned IPdu is updated and a request for the IPdu’s transmission is made.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "triggeredOnChange",
+          "index": 2,
+          "description": "The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "triggeredOnChange",
+          "index": 3,
+          "description": "The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if WithoutRepetition the signal value is different from the already stored signal value. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "triggeredWithout",
+          "index": null,
+          "description": "The signal in the assigned IPdu is updated and a request for the IPdu’s transmission is made. In the"
+        },
+        {
+          "name": "Repetition",
+          "index": 4,
+          "description": "DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "DiagPduType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Used to distinguish a diagnostic request from a response. Aggregated by DcmIPdu.diagPduType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 344,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "diagRequest",
+          "index": 0,
+          "description": "Diagnostic Request<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "diagResponse",
+          "index": 1,
+          "description": "Diagnostic Response<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "CommunicationDirectionType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Describes the communication direction. Aggregated by CommConnectorPort.communicationDirection, IEEE1722TpConnection.communicationDirection, IP SecRule.direction, ISignalIPduGroup.communicationDirection",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 351,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "in",
+          "index": 0,
+          "description": "Reception (Input)<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "out",
+          "index": 1,
+          "description": "Transmission (Output)<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ContainerIPduTriggerEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Defines when the transmission of the ContainerIPdu shall be requested. Aggregated by ContainerIPdu.containerTrigger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 354,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "defaultTrigger",
+          "index": 0,
+          "description": "Defines that the transmission of the ContainerIPdu shall be requested when the default trigger conditions apply (e.g. timeout of threshold).<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "firstContained",
+          "index": null,
+          "description": "Defines that the transmission of the ContainerIPdu shall be requested right after the first Contained"
+        },
+        {
+          "name": "Trigger",
+          "index": 1,
+          "description": "IPdu was put into the ContainerIPdu.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ContainerIPduHeaderTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Is used to define the header type and size of ContainerIPdus. The header size includes the header id and the length information. Aggregated by ContainerIPdu.headerType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 355,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "longHeader",
+          "index": 0,
+          "description": "Header size is 64 bit:<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "noHeader",
+          "index": 2,
+          "description": "No Header is used and the location of each containedPdu in the ContainerPdu is statically configured.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "shortHeader",
+          "index": 1,
+          "description": "Header size is 32 bit:<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "RxAcceptContainedIPduEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Defines whether this ContainerIPdu has a fixed set of containedIPdus assigned for reception. Aggregated by ContainerIPdu.rxAcceptContainedIPdu",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 355,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "acceptAll",
+          "index": 0,
+          "description": "No fixed set of containedIPdus is defined for reception, any known containedIPdu (based on header<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "acceptConfigured",
+          "index": 1,
+          "description": "A fixed set of containedIPdus is defined for reception. Only these assigned containedIPdus (based on ContainerIPdu this containedIPdu is discarded.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ContainedIPduCollectionSemanticsEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Defines the collection semantics for ContainedIPdus. Aggregated by ContainedIPduProps.collectionSemantics",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 357,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "lastIsBest",
+          "index": 0,
+          "description": "The ContainedIPdu data will be fetched via TriggerTransmit just before the transmission executes.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "queued",
+          "index": 1,
+          "description": "The ContainedIPdu data will instantly be stored to the ContainerIPdu in the context of the Transmit<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "SecuredPduHeaderEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "Defines the header which will be inserted into the SecuredIPdu. Aggregated by SecuredIPdu.useSecuredPduHeader",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 368,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noHeader",
+          "index": 0,
+          "description": "No header included in the SecuredPdu.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSARsecuredPduHeader08Bit",
+          "index": 1,
+          "description": "CP R23-11<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "securedPduHeader16Bit",
+          "index": 2,
+          "description": "16 Bit Secured I-PDU Header included in the Secured I-PDU.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "securedPduHeader32Bit",
+          "index": 3,
+          "description": "32 Bit Secured I-PDU Header included in the Secured I-PDU.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "TriggerMode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication",
+      "note": "IPduM can be configured to send a transmission request for the new multiplexed I-PDU to the PDU-Router because of conditions/ modes. Aggregated by MultiplexedIPdu.triggerMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 408,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "dynamicPartTrigger",
+          "index": 0,
+          "description": "IPduM sends a transmission request to the PduR if a dynamic part is received.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "IPduM does not trigger transmission because of receiving anything of this IPdu in case of Trigger<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "staticOrDynamicPartTrigger",
+          "index": 2,
+          "description": "IPduM sends a transmission request to the PduR if a static or dynamic part is received.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "staticPartTrigger",
+          "index": 3,
+          "description": "IPduM sends a transmission request to the PduR if a static part is received.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+  "enumerations": [
+    {
+      "name": "ExecutionOrderConstraintTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "note": "Specifies the type of the executionOrderConstraintType for a ExecutionOrderConstraint. Aggregated by ExecutionOrderConstraint.executionOrderConstraintType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 119,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "hierarchicalEOC",
+          "index": 0,
+          "description": "Specifies that the Execution Order Constraint specifies a hierarchical execution order constraint.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "ordinaryEOC",
+          "index": 1,
+          "description": "Specifies that the Execution Order Constraint specifies an ordinary execution order constraint.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "repetitiveEOC",
+          "index": 2,
+          "description": "Specifies that the Execution Order Constraint specifies a repetitive execution order constraint.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "LetDataExchangeParadigmEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "note": "Specifies the data exchange paradigm between ExecutableEntitys within a LET interval. Tags: atp.Status=draft Aggregated by EOCExecutableEntityRefGroup.letDataExchangeParadigm",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 143,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "interLetOnly",
+          "index": 0,
+          "description": "All ExecutableEntitys mapped to this LET interval exchange data ONLY at the release and terminate event of the LET interval. This allows for a straightforward translation of the required label buffering but results in longer<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "intraLetEOC",
+          "index": 1,
+          "description": "The ExecutableEntitys that belong to the same EOCExecutableEntityRefGroup and are mapped to this LET interval are executed in the order defined by the EOCExecutableEntityRefGroup and exchange data directly within this LET interval according to implicit semantics. Only at the borders of the LET interval or between independent<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

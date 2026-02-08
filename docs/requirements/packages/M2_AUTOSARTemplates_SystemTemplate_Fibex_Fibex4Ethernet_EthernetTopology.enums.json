@@ -1,0 +1,505 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+  "enumerations": [
+    {
+      "name": "CouplingElementEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Identifies the Coupling type. Aggregated by CouplingElement.couplingType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 108,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "hub",
+          "index": 0,
+          "description": "A device that is used to connect segments of a LAN. In Hubs frames are \"broadcasted\" to every one of its ports.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "router",
+          "index": 1,
+          "description": "A device that routes frames between different networks.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "switch",
+          "index": 2,
+          "description": "A device that filters and forwards frames between different LAN segments.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "EthernetConnectionNegotiationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Specifies connection negotiation types of Ethernet transceiver links. Aggregated by CouplingPort.connectionNegotiationBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "auto",
+          "index": 0,
+          "description": "Automatic Negotiation<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "master",
+          "index": 1,
+          "description": "Master<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "slave",
+          "index": 2,
+          "description": "Slave<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "EthernetMacLayerTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Specifies MAC (Media Access Control) Layer types. Aggregated by CouplingPort.macLayerType, EthernetCommunicationController.macLayerType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "xGMII",
+          "index": 1,
+          "description": "Mac layer interface (data) bandwith class 1Gbit/s (e.g. GMII, RGMII, SGMII, RvGMII, USGMII)<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=XG-MII"
+        },
+        {
+          "name": "xMII",
+          "index": 0,
+          "description": "Mac layer interface (data) bandwith class 100Mbit/s and 10Mbit/s (e.g. RMII, RvMII, SMII, RvMII)<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=X-MII"
+        },
+        {
+          "name": "xXGMII",
+          "index": 2,
+          "description": "Mac layer interface (data) bandwith class 10Gbit/s<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=XXG-MII"
+        }
+      ]
+    },
+    {
+      "name": "EthernetPhysicalLayerTypeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Specifies physical layer types of Ethernet transceiver links. Aggregated by CouplingPort.physicalLayerType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_1000BASE_T",
+          "index": 6,
+          "description": "Ethernet Standard (IEEE 802.3ab) to support 1Gbit/s over 4 twisted pairs.<br>Tags: atp.EnumerationLiteralIndex=6, xml.name=1000BASE-T"
+        },
+        {
+          "name": "_1000BASE_T1",
+          "index": 8,
+          "description": "Ethernet Standard (IEEE 802.3bp) to support 1Gbit/s over a single twisted pair cable.<br>Tags: atp.EnumerationLiteralIndex=8, xml.name=1000BASE-T1"
+        },
+        {
+          "name": "_100BASE_T1",
+          "index": 7,
+          "description": "Ethernet Standard (IEEE 802.3bw) to support 100Mbit/s over a single twisted pair cable.<br>Tags: atp.EnumerationLiteralIndex=7, xml.name=100BASE-T1"
+        },
+        {
+          "name": "_100BASE_TX",
+          "index": 5,
+          "description": "Ethernet Standard (IEEE 802.3u) to support 100Mbit/s over two twisted pairs.<br>Tags: atp.EnumerationLiteralIndex=5, xml.name=100BASE-TX"
+        },
+        {
+          "name": "_10BASE_T1S",
+          "index": 10,
+          "description": "Physical layer interface 10BASE-T1S (10Mbit/s, 2 pairs). Used for automotive.<br>Tags: atp.EnumerationLiteralIndex=10, xml.name=10BASE-T1S"
+        },
+        {
+          "name": "iEEE802_11P",
+          "index": 9,
+          "description": "Ethernet Standard (IEEE 802.11p) to support wireless communication in vehicular environments.<br>Tags: atp.EnumerationLiteralIndex=9, xml.name=IEEE802-11P"
+        }
+      ]
+    },
+    {
+      "name": "EthernetSwitchVlanIngressTagEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines the possible tagging behavior at an ingress port. Aggregated by CouplingPort.receiveActivity",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "dropUntagged",
+          "index": 1,
+          "description": "Drop if untagged.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "forwardAsIs",
+          "index": 0,
+          "description": "Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "EthernetCouplingPortSchedulerEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines the schedule algorithm to be used. Aggregated by CouplingPortScheduler.portScheduler",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 123,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "deficitRoundRobin",
+          "index": 0,
+          "description": "Schedule algorithm \"deficit round robin\"<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "strictPriority",
+          "index": 1,
+          "description": "Schedule algorithm \"strict priority\"<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "weightedRoundRobin",
+          "index": 2,
+          "description": "Schedule algorithm \"weighted round robin\"<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "CouplingPortRatePolicyActionEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines the action to be performed when a rate policy is violated. Aggregated by CouplingPortRatePolicy.policyAction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 125,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "blockSource",
+          "index": 1,
+          "description": "If the rate policy is violated the CouplingPort this CouplingPortRatePolicy is defined on shall block all frames from the MAC-Address the violation was caused by.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "dropFrame",
+          "index": 0,
+          "description": "If the rate policy is violated the frame shall be dropped.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "EthernetSwitchVlanEgressTaggingEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines the VLAN tag sending behavior. Aggregated by VlanMembership.sendActivity",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 130,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "notSent",
+          "index": 2,
+          "description": "will not be sent sentTagged sent with its VLAN tag sentUntagged sent without a VLAN tag<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "SwitchStreamFilterActionPortModificationEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Definition how the SwitchStreamFilterActionPortModification is applied. Tags: atp.Status=candidate Aggregated by SwitchStreamFilterActionDestPortModification.modification",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 140,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "extend",
+          "index": 0,
+          "description": "Extend the egress destination of an Ethernet frame.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "overwrite",
+          "index": 1,
+          "description": "Overwrite the egress destination of an Ethernet frame.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "FlowMeteringColorModeEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines whether Flow Metering color-aware or color-blind mode is used. Tags: atp.Status=candidate Aggregated by SwitchFlowMeteringEntry.colorMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 143,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "colorAware",
+          "index": 1,
+          "description": "Flow Metering color aware mode.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "colorBlind",
+          "index": 0,
+          "description": "Flow Metering color blind mode.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "Ipv4AddressSourceEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines how the node obtains its IPv4-Address. Aggregated by Ipv4Configuration.ipv4AddressSource",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 465,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "autoIp",
+          "index": 0,
+          "description": "AutoIP is used to dynamically assign IP addresses at device startup.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "autoIp_doip",
+          "index": 2,
+          "description": "Linklocal IPv4 Address Assignment using DoIP Parameters<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=AUTO-IP–DOIP"
+        },
+        {
+          "name": "dhcpv4",
+          "index": 3,
+          "description": "DHCP is a service for the automatic IP configuration of a client.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "fixed",
+          "index": 4,
+          "description": "The IP Address shall be declared manually.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "IpAddressKeepEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines the behavior after a dynamic IP address has been assigned. Aggregated by Ipv4Configuration.ipAddressKeepBehavior, Ipv6Configuration.ipAddressKeepBehavior (cid:53) 465 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 465,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "forget",
+          "index": 0,
+          "description": "After a dynamic IP address has been assigned just use it for this session.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "storePersistently",
+          "index": 1,
+          "description": "After a dynamic IP address has been assigned store the address persistently.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "Ipv6AddressSourceEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines how the node obtains its IPv6-Address. Aggregated by Ipv6Configuration.ipv6AddressSource",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 467,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "dhcpv6",
+          "index": 0,
+          "description": "DHCP is a service for the automatic IP configuration of a client.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "fixed",
+          "index": 1,
+          "description": "The IP Address shall be declared manually.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "linkLocal",
+          "index": 2,
+          "description": "LinkLocal is intended only for communications within the segment of a local network (a link) or a<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "linkLocal_doip",
+          "index": 3,
+          "description": "Linklocal IPv6 Address Assignment using DoIP Parameters<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=LINK-LOCAL–DOIP"
+        },
+        {
+          "name": "routerAdvertisement",
+          "index": 4,
+          "description": "IPv6 Stateless Autoconfiguration.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "TimeSyncTechnologyEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Timesynchronization. Server/Client configuration. Aggregated by TimeSyncClientConfiguration.timeSyncTechnology, TimeSyncServerConfiguration.timeSync Technology",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 470,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "System",
+          "index": null,
+          "description": "Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "avb_ieee802_1AS",
+          "index": 0,
+          "description": "Ethernet AVB compliant IEEE802.1AS Precision Time Protocol<br>Tags: atp.EnumerationLiteralIndex=0, xml.name=AVB–IEEE-802–1-AS"
+        },
+        {
+          "name": "ntp_rfc958",
+          "index": 1,
+          "description": "Network Time Protocol (NTP)<br>Tags: atp.EnumerationLiteralIndex=1, xml.name=NTP–RFC-958"
+        },
+        {
+          "name": "ptp_ieee1588_2002",
+          "index": 2,
+          "description": "Precision Time Protocol (PTP) IEEE 1588-2002<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=PTP–IEEE-1588–2002"
+        },
+        {
+          "name": "ptp_ieee1588_2008",
+          "index": 3,
+          "description": "Precision Time Protocol (PTP) IEEE 1588-2008<br>Tags: atp.EnumerationLiteralIndex=3, xml.name=PTP–IEEE-1588–2008"
+        }
+      ]
+    },
+    {
+      "name": "DoIpEntityRoleEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "DoIP role a network-node has. Aggregated by DoIpEntity.doIpEntityRole",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 471,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "edgeNode",
+          "index": 0,
+          "description": "Network node is a DoIP gateway that accepts external connections.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "gateway",
+          "index": 1,
+          "description": "Network node is a Gateway between the DoIP network and other networks.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "node",
+          "index": 2,
+          "description": "Network node is a DoIp node.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "CouplingPortRoleEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology",
+      "note": "Defines the role a CouplingPort takes in the context of a CouplingElement. Aggregated by CouplingPort.couplingPortRole",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2013,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "hostPortElement",
+          "index": 0,
+          "description": "The hostPort is connected to an ECU (host ecu). The host ECU controls the connected Coupling<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "standardPort",
+          "index": 2,
+          "description": "A CoupingPort can be a standardPort that is used to connect the CouplingElement with Coupling Ports outside the ECU.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "upLinkPortECU",
+          "index": 1,
+          "description": "A CouplingPort can be connected to another CouplingPort of a CouplingElement located on the same cascaded switch.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

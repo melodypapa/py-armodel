@@ -1,0 +1,292 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+  "classes": [
+    {
+      "name": "AclPermission",
+      "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta class represents the ability to represent permissions granted on objects in an AUTOSAR model.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 382,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 159,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aclContext": {
+          "type": "NameToken",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is intended to specify the context under AclPemission is applicable. The values are mutual agreement between the involved the values can be the names of binding"
+        },
+        "aclObject": {
+          "type": "AclObjectSet",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This denotes an object to which the AclPermission"
+        },
+        "aclOperation": {
+          "type": "AclOperation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This denotes an operation which is granted by the given"
+        },
+        "aclRole": {
+          "type": "AclRole",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This denotes the role (individual or even organization) for AclPermission. is granted."
+        },
+        "aclScope": {
+          "type": "AclScopeEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This indicates the scope of applied permissions: explicit,"
+        }
+      }
+    },
+    {
+      "name": "AclObjectSet",
+      "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "that this can also be a reference to a Standard Module Definition. Therefore it is stereotyped by atpUri Def. Stereotypes: atpUriDef Table 11.2: AclObjectSet",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 383,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 158,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aclObjectClass": {
+          "type": "ReferrableSubtypes",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This specifies that the considered objects as instances of denoted meta class."
+        },
+        "aclScope": {
+          "type": "AclScopeEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "this indicates the scope of the referenced objects."
+        },
+        "collection": {
+          "type": "Collection",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This indicates that the relevant objects are specified via a"
+        },
+        "derivedFrom": {
+          "type": "AtpBlueprint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association indicates that the considered objects are ones being derived from the associated blueprint."
+        },
+        "engineering": {
+          "type": "AutosarEngineering",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This indicates an engineering object. The AclPermission relates to all objects in this partial model. implies that the other objects in this set shall be the specified engineering object."
+        }
+      }
+    },
+    {
+      "name": "AtpDefinition",
+      "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "EcucDefinitionElement",
+        "HwCategory",
+        "PostBuildVariantCriterion",
+        "SwSystemconst"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract meta class represents \"definition\"-elements which identify the respective values. For example the value of a particular system constant is identified by the definition of this system constant.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 383,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AclOperation",
+      "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta class represents the ability to denote a particular operation which may be performed on objects in an AUTOSAR model.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 384,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 159,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "implied": {
+          "type": "AclOperation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This indicates that the related operations are also implied. the permission is also granted for this"
+        }
+      }
+    },
+    {
+      "name": "AclRole",
+      "package": "M2::AUTOSARTemplates::GenericStructure::RolesAndRights",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta class represents the ability to specify a particular role which is used to grant access rights to AUTOSAR model. The purpose of this meta-class is to support the mutual agreements between the involved parties.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 384,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 159,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ldapUrl": {
+          "type": "UriString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is an URL which allows to represent users or the particular role."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs",
+  "classes": [
+    {
+      "name": "ApplicationCompositeElementInPortInterfaceInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationCompositeDataTypeSubElementRef.applicationCompositeElement",
+        "CompositeNetworkRepresentation.leafElement"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 952,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "DataInterface",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the SenderReceiverInterface that acts as in this InstanceRef definition"
+        },
+        "contextData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents a context ApplicationCompositeData Prototype xml.sequenceOffset=20 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "rootData": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This refers to the dataPrototype which is typed by the in which which the target can be"
+        },
+        "targetData": {
+          "type": "ApplicationComposite",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the referenced ApplicationComposite DataPrototype."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+  "enumerations": [
+    {
+      "name": "RteApiReturnValueProvisionEnum",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+      "note": "This meta-class provides values to control how return values from RTE APIs are provided. Aggregated by AbstractAccessPoint.returnValueProvision",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 562,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noReturnValueProvided",
+          "index": 1,
+          "description": "The RTE API shall not provide a return value.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "returnValueProvided",
+          "index": 0,
+          "description": "The RTE API shall provide a return value.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

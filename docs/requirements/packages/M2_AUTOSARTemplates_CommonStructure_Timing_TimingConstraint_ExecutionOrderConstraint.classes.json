@@ -1,0 +1,342 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+  "classes": [
+    {
+      "name": "ExecutionOrderConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This constraint is used to restrict the order of execution for a set of ExecutableEntitys. The ExecutionOrderConstraint can be used in any timing view. The various scopes for ExecutionOrderConstraint are described below. Generally, each ExecutionOrder Constraint has a scope of software components and can reference all ExecutableEntitys available in the corresponding internal behavior (RunnableEntity and BswModuleEntity) either directly or by the events activating respectively starting them (RteEvent and BswEvent). On VFB level an ExecutionOrderConstraint can be specified for RunnableEntities part of the composition hierarchy referenced by the VfbTiming. On SW-C level an ExecutionOrderConstraint can be specified for RunnableEntities part of the Internal Behavior referenced by the SwcTiming. On System level an ExecutionOrderConstraint can be specified for RunnableEntities part of the composition hierarchy of the system referenced by the SystemTiming. On BSW Module level, an ExectionOrderConstraint can be specified for BswModuleEntities part of an BswInternalBehavior referenced by the BswModuleTiming. On ECU level an ExecutionOrderConstraint can be specified for all ExecutableEntitys and Events available via the EcucValueCollection, covering ECU Extract and BSW Module Configuration, referenced by the EcuTiming.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 118,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the composition SW-C type playing the role of a SW-C containing further SW-Cs and represents the the Execution Order Constraint."
+        },
+        "executionOrder": {
+          "type": "ExecutionOrder",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the specific type of ExecutionOrderConstraint."
+        },
+        "ignoreOrder": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Controls whether the order of execution specified by this can be intentionally ignored (TRUE), or shall be"
+        },
+        "isEvent": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether the ExecutionOrderConstraint is only Executable Entities (FALSE) or only to RTE Events (TRUE)."
+        },
+        "orderedElement": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents an unordered collection of to RunnableEntities which shall be considered ExecutionOrderConstraint. The role does not imply collection of references itself shall be ordered."
+        },
+        "permitMultiple": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates that the ExecutionOrderConstraints permits that Executable Entity is referenced multiple times (TRUE) only once (FALSE) in the constraint."
+        }
+      }
+    },
+    {
+      "name": "EOCExecutableEntityRefAbstract",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "EOCExecutableEntityRefGroup",
+        "EOCExecutableEntityRef",
+        "EOCEventRef"
+      ],
+      "subclasses": [
+        "EOCEventRef",
+        "EOCExecutableEntityRef",
+        "EOCExecutableEntityRefGroup"
+      ],
+      "aggregated_by": [
+        "ExecutionOrderConstraint.orderedElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the abstractions for Execution Order Constraint Executable Entity References (leaves) and Execution Order Constraint Executable Entity Reference Groups (composites).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 119,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "directSuccessor": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The direct successor of an executable entity or a group of entities."
+        }
+      }
+    },
+    {
+      "name": "EOCExecutableEntityRefGroup",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EOCExecutableEntityRefAbstract",
+      "bases": [
+        "ARObject",
+        "EOCExecutableEntityRefAbstract",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExecutionOrderConstraint.orderedElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to specify a group (composite) consisting of Execution Order Constraint Executable Entity References (leaves) and/or further Execution Order Constraint Executable Entity Reference Groups (composite).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 119,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "letData": {
+          "type": "LetDataExchange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the data exchange paradigm between ExecutableEntitys within a LET interval. atp.Status=draft"
+        },
+        "letInterval": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association references the TimingDescriptionEvent that plays the role of a LET interval the executable the group are assigned to."
+        },
+        "maxCycle": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Repetitive Execution Order Constraint only: number of repetitions (cycles) of the event in the Order Constraint. 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "maxCycles": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In case of a Repetitive Execution Order Constraint this the number of cycles the Execution is considering."
+        },
+        "maxSlots": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In case of a Repetitive Execution Order Constraint this the number of slots every cycle of the Constraint is consisting of."
+        },
+        "maxSlotsPer": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Repetitive Execution Order Constraint only: number of ExecutableEntitys (slots) that are a given order within a cycle, for the Repetitive Constraint."
+        },
+        "nestedElement": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association is used to establish hierarchies of EOCEER Groups and References."
+        },
+        "successor": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The logical successor of an executable entity or a group executable entities."
+        },
+        "triggeringEvent": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "In case of a Repetitive Execution Order Constraint this the timing description event cycle."
+        }
+      }
+    },
+    {
+      "name": "EOCExecutableEntityRef",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EOCExecutableEntityRefAbstract",
+      "bases": [
+        "ARObject",
+        "EOCExecutableEntityRefAbstract",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExecutionOrderConstraint.orderedElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to define a reference to an ExecutableEntity If the ExecutionOrderConstraint is defined on VFB, System or ECU level, a reference to the Sw ComponentPrototype, via the ComponentInCompositionInstanceRef, the referenced ExecutableEntity belongs to, shall be provided as context information.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 120,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswModule": {
+          "type": "BswImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the BSW module instance the BSW module belongs to."
+        },
+        "componentCompositionInstanceRef": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "prototype. by: ComponentIn"
+        },
+        "executable": {
+          "type": "ExecutableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The ExecutableEntity whose execution order is restricted contraint."
+        },
+        "successor": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The logical successor of an executable entity or a group executable entities."
+        }
+      }
+    },
+    {
+      "name": "EOCEventRef",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EOCExecutableEntityRefAbstract",
+      "bases": [
+        "ARObject",
+        "EOCExecutableEntityRefAbstract",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExecutionOrderConstraint.orderedElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to define a reference to an RTE or BSW Event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 120,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswModule": {
+          "type": "BswImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the BSW module instance the BSW event is to."
+        },
+        "componentCompositionInstanceRef": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "prototype. by: ComponentIn"
+        },
+        "event": {
+          "type": "AbstractEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The AbstractEvent (event) whose execution order is the contraint."
+        },
+        "successor": {
+          "type": "EOCExecutableEntity",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The logical successor of an executable entity or a group executable entities."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::Note",
+  "enumerations": [
+    {
+      "name": "NoteTypeEnum",
+      "package": "M2::MSR::Documentation::BlockElements::Note",
+      "note": "This enumerator specifies the type of the note. It can be used to render a note label or even a note icon. Aggregated by Note.noteType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 311,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "caution",
+          "index": 0,
+          "description": "This indicates that the note is an alert which shall be considered carefully.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "example",
+          "index": 1,
+          "description": "This indicates that the note represents an example, e.g. a code example etc.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "exercise",
+          "index": 2,
+          "description": "This indicates that the note represents an exercise for the reader.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "hint",
+          "index": 3,
+          "description": "This indicates that the note represents a hint which helps the user for better understanding.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "instruction",
+          "index": 4,
+          "description": "This indicates that the note represents an instruction, e.g. a step by step procedure.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "other",
+          "index": 5,
+          "description": "This indicates that the note is something else. The particular type of the note shall then be specified in the label of the note.<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "tip",
+          "index": 6,
+          "description": "This indicates that the note represents which is good to know. It is similar to a hint, but focuses more to good practice than to better understanding.<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "package": "M2::MSR::AsamHdo::BaseTypes",
+  "primitives": [
+    {
+      "name": "BaseTypeEncodingString",
+      "package": "M2::MSR::AsamHdo::BaseTypes",
+      "note": "This is the string denotion of a BaseType encoding. It may be refined by specific use-cases. Tags: xml.xsd.customType=BASE-TYPE-ENCODING-STRING xml.xsd.type=string Table 5.25: BaseTypeEncodingString",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 291,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 108,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

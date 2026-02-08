@@ -1,0 +1,82 @@
+{
+  "package": "M2::MSR::DataDictionary::ServiceProcessTask",
+  "classes": [
+    {
+      "name": "SwServiceArg",
+      "package": "M2::MSR::DataDictionary::ServiceProcessTask",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswModuleEntry.argument",
+        "BswModuleEntry.returnType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the properties of a data object exchanged during the call of an SwService, e.g. an argument or a return value. The SwServiceArg can also be used in the argument list of a C-macro. For this purpose the category shall be set to \"MACRO\". A reference to implementationDataType can optional be added if the actual argument has an implementationDataType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 38,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 312,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1006,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 472,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 215,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "direction": {
+          "type": "ArgumentDirection",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the direction of the data transfer. The direction indicate the direction of the actual information that is by the caller and/or the callee, not the formal arguments in C. is optional for backwards compatibility example, if a pointer is used to pass a for the expected result, the direction \"out\". If a pointer is used to pass a memory content to be read by the callee, its direction \"in\"."
+        },
+        "swArraysize": {
+          "type": "ValueList",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This turns the argument of the service to an array."
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Data properties of this SwServiceArg. atpSplitable"
+        }
+      }
+    }
+  ]
+}

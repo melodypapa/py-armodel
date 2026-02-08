@@ -1,0 +1,42 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "TimingExtensions",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingExtensions.json"
+    },
+    {
+      "name": "TimingCondition",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingCondition.json"
+    },
+    {
+      "name": "TimingDescription",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingDescription.json"
+    },
+    {
+      "name": "TimingConstraint",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingConstraint.json"
+    },
+    {
+      "name": "TimingCpSoftwareCluster",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingCpSoftwareCluster.json"
+    },
+    {
+      "name": "TimingClock",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingClock.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

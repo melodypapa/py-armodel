@@ -1,0 +1,349 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+  "classes": [
+    {
+      "name": "AtpBlueprint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "ARPackage",
+        "AbstractImplementationDataType",
+        "AclObjectSet",
+        "AclOperation",
+        "AclPermission",
+        "AclRole",
+        "AliasNameSet",
+        "ApplicationDataType",
+        "BswEntryRelationshipSet",
+        "BswModuleDescription",
+        "BswModuleEntry",
+        "BuildActionEntity",
+        "BuildActionEnvironment",
+        "BuildActionManifest",
+        "ClientServerInterfaceToBswModuleEntryBlueprintMapping",
+        "CompuMethod",
+        "ConsistencyNeeds",
+        "DataConstr",
+        "DataTypeMappingSet",
+        "EcucDefinitionCollection",
+        "EcucDestinationUriDefSet",
+        "EcucModuleDef",
+        "FlatMap",
+        "ImpositionTime",
+        "ImpositionTimeDefinitionGroup",
+        "KeywordSet",
+        "LifeCycleState",
+        "LifeCycleStateDefinitionGroup",
+        "ModeDeclarationGroup",
+        "PortInterface",
+        "PortInterfaceMapping",
+        "PortInterfaceMappingSet",
+        "PortPrototypeBlueprint",
+        "SwAddrMethod",
+        "SwBaseType",
+        "SwComponentType",
+        "VfbTiming"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to act as a Blueprint. As this class is an abstract one, particular blueprint meta-classes inherit from this one.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 161,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprintPolicy": {
+          "type": "BlueprintPolicy",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This role indicates whether the blueprintable element will or not modifiable."
+        }
+      }
+    },
+    {
+      "name": "AtpBlueprintable",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "ARPackage",
+        "AbstractImplementationDataType",
+        "AclObjectSet",
+        "AclOperation",
+        "AclPermission",
+        "AclRole",
+        "AliasNameSet",
+        "ApplicationDataType",
+        "BswEntryRelationshipSet",
+        "BswModuleDescription",
+        "BswModuleEntry",
+        "BuildActionEntity",
+        "BuildActionEnvironment",
+        "BuildActionManifest",
+        "CompuMethod",
+        "ConsistencyNeeds",
+        "DataConstr",
+        "DataTypeMappingSet",
+        "EcucDefinitionCollection",
+        "EcucDestinationUriDefSet",
+        "EcucModuleDef",
+        "FlatMap",
+        "ImpositionTime",
+        "ImpositionTimeDefinitionGroup",
+        "KeywordSet",
+        "LifeCycleState",
+        "LifeCycleStateDefinitionGroup",
+        "ModeDeclarationGroup",
+        "PortInterface",
+        "PortInterfaceMapping",
+        "PortInterfaceMappingSet",
+        "PortPrototype",
+        "SwAddrMethod",
+        "SwBaseType",
+        "SwComponentType",
+        "VfbTiming"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to be derived from a Blueprint. As this class is an abstract one, particular blueprintable meta-classes inherit from this one.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 162,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AtpBlueprintMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "BlueprintMapping"
+      ],
+      "aggregated_by": [
+        "BlueprintMappingSet.blueprintMap"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a particular mapping between a blueprint and an element derived from this blueprint. Particular mappings are defined by specializations of this meta-class.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 161,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "atpBlueprint": {
+          "type": "AtpBlueprint",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the blueprint. atpUriDef"
+        },
+        "atpBlueprinted": {
+          "type": "AtpBlueprintable",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the bluprinted elements which shall be to the blueprint."
+        }
+      }
+    },
+    {
+      "name": "BlueprintPolicy",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "BlueprintPolicyList",
+        "BlueprintPolicyNotModifiable",
+        "BlueprintPolicySingle"
+      ],
+      "subclasses": [
+        "BlueprintPolicyModifiable",
+        "BlueprintPolicyNotModifiable"
+      ],
+      "aggregated_by": [
+        "AtpBlueprint.blueprintPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to indicate whether blueprintable elements will be modifiable or not modifiable. (cid:53) 163 of 238 Document ID 535: AUTOSAR_FO_TPS_StandardizationTemplate Standardization Template AUTOSAR FO R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attributeName": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This identifies the related attribute of a BlueprintPolicy. over the model a subset of xpath used."
+        }
+      }
+    },
+    {
+      "name": "BlueprintPolicyList",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BlueprintPolicy",
+      "bases": [
+        "ARObject",
+        "BlueprintPolicy",
+        "BlueprintPolicyModifiable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpBlueprint.blueprintPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class represents that the related attribute is modifiable during the blueprinting. It applies only to attribute with upper multiplicity greater than 1.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 164,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum number of elements in list. If the maximum is not constraint it shall be set to \"undefined\"."
+        },
+        "minNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum number of elements in the list. If the minimum is not constraint it shall be set to \"undefined\"."
+        }
+      }
+    },
+    {
+      "name": "BlueprintPolicyNotModifiable",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BlueprintPolicy",
+      "bases": [
+        "ARObject",
+        "BlueprintPolicy"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpBlueprint.blueprintPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class represents that the related attribute is not modifiable during the blueprinting.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 164,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "BlueprintPolicySingle",
+      "package": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BlueprintPolicy",
+      "bases": [
+        "ARObject",
+        "BlueprintPolicy",
+        "BlueprintPolicyModifiable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpBlueprint.blueprintPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class represents that the related attribute is modifiable during the blueprinting. It applies only to attribute with upper multiplicity equal 1.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 164,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

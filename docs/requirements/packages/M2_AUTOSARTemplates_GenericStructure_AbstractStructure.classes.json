@@ -1,0 +1,330 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+  "classes": [
+    {
+      "name": "AtpInstanceRef",
+      "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [
+        "AnyInstanceRef",
+        "ApplicationCompositeElementInPortInterfaceInstanceRef",
+        "ComponentInCompositionInstanceRef",
+        "ComponentInSystemInstanceRef",
+        "DataPrototypeInPortInterfaceInstanceRef",
+        "DataPrototypeInSystemInstanceRef",
+        "InnerDataPrototypeGroupInCompositionInstanceRef",
+        "InnerPortGroupInCompositionInstanceRef",
+        "InnerRunnableEntityGroupInCompositionInstanceRef",
+        "InstanceEventInCompositionInstanceRef",
+        "ModeDeclarationGroupPrototypeInSystemInstanceRef",
+        "ModeGroupInAtomicSwcInstanceRef",
+        "ModeInBswModuleDescriptionInstanceRef",
+        "ModeInSwcInstanceRef",
+        "OperationArgumentInComponentInstanceRef",
+        "OperationInAtomicSwcInstanceRef",
+        "OperationInSystemInstanceRef",
+        "PModeInSystemInstanceRef",
+        "ParameterDataPrototypeInSystemInstanceRef",
+        "ParameterInAtomicSWCTypeInstanceRef",
+        "PortGroupInSystemInstanceRef",
+        "PortInCompositionTypeInstanceRef",
+        "RModeInAtomicSwcInstanceRef",
+        "RteEventInCompositionInstanceRef",
+        "RteEventInEcuInstanceRef",
+        "RteEventInSystemInstanceRef",
+        "RunnableEntityInCompositionInstanceRef",
+        "SwcServiceDependencyInSystemInstanceRef",
+        "TriggerInAtomicSwcInstanceRef",
+        "TriggerInSystemInstanceRef",
+        "VariableAccessInEcuInstanceRef",
+        "VariableDataPrototypeInCompositionInstanceRef",
+        "VariableDataPrototypeInSystemInstanceRef",
+        "VariableInAtomicSWCTypeInstanceRef",
+        "VariableInAtomicSwcInstanceRef",
+        "VariableInComponent"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An M0 instance of a classifier may be represented as a tree rooted at that instance, where under each node come the sub-trees representing the instances which act as features under that node. An instance ref specifies a navigation path from any M0 tree-instance of the base (which is a classifier) to a leaf (which is an instance of the target).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 301,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 971,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2000,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 206,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "atpBase": {
+          "type": "AtpClassifier",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the base from which the navigaion path starts. atpDerived"
+        },
+        "atpContext": {
+          "type": "AtpPrototype",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This is one particular step in the navigation path. atpAbstract (ordered)"
+        },
+        "atpTarget": {
+          "type": "AtpFeature",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the target of the instance ref. In other words it is of the navigation path."
+        }
+      }
+    },
+    {
+      "name": "AtpClassifier",
+      "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "AtpStructureElement",
+        "AtpType"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A classifier classifies M0 instances according to their features. Or: a classifier is something that has instances - an M1 classifier has M0 instances.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "atpFeature": {
+          "type": "AtpFeature",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a feature of the classifier."
+        }
+      }
+    },
+    {
+      "name": "AtpFeature",
+      "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "AtpPrototype",
+        "AtpStructureElement"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Features are properties via which a classifier classifies instances. Or: a classifier has features and every M0 instance of it will have those features.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AtpPrototype",
+      "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "DataPrototype",
+        "ModeDeclarationGroupPrototype",
+        "PortPrototype",
+        "RootSwCompositionPrototype",
+        "Sw"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpFeature"
+      ],
+      "implemented_by": [],
+      "note": "A prototype is a typed feature. A prototype in a classifier indicates that instances of that classifier will have a feature, and the structure of that feature is given by the its type. An instance of that type will play the role indicated by the feature in the owning classifier. A feature is not an instance but an indication of an instance-to-be.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "atpType": {
+          "type": "AtpType",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the type of the feature."
+        }
+      }
+    },
+    {
+      "name": "AtpStructureElement",
+      "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "AbstractAccessPoint",
+        "AbstractImplementationDataTypeElement",
+        "AsynchronousServerCallResultPoint",
+        "BswModuleDescription",
+        "BulkNvDataDescriptor",
+        "ClientServerOperation",
+        "DataPrototypeGroup",
+        "IdentCaption",
+        "InternalBehavior",
+        "InternalTriggeringPoint",
+        "ModeDeclaration",
+        "ModeDeclarationMapping",
+        "ModeSwitchPoint",
+        "ModeTransition",
+        "NvBlockDescriptor",
+        "ParameterAccess",
+        "PerInstanceMemory",
+        "PortGroup",
+        "PortPrototypeBlueprint",
+        "RTEEvent",
+        "RunnableEntity",
+        "RunnableEntityGroup",
+        "ServerCallPoint",
+        "SwConnector",
+        "SwcBswMapping",
+        "SwcServiceDependency",
+        "System",
+        "Trigger",
+        "VariableAccess"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature"
+      ],
+      "implemented_by": [],
+      "note": "A structure element is both a classifier and a feature. As a feature, its structure is given by the feature it owns as a classifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "AtpType",
+      "package": "M2::AUTOSARTemplates::GenericStructure::AbstractStructure",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "AutosarDataType",
+        "ModeDeclarationGroup",
+        "ModeDeclarationMappingSet",
+        "PortInterface",
+        "SwComponentType"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpClassifier"
+      ],
+      "implemented_by": [],
+      "note": "A type is a classifier that may serve to type prototypes. It is a reusable classifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

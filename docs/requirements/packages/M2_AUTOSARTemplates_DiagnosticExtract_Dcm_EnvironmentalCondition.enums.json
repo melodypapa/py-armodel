@@ -1,0 +1,50 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+  "enumerations": [
+    {
+      "name": "DiagnosticLogicalOperatorEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "note": "Logical AND and OR operation (&&, ||) Aggregated by DiagnosticEnvConditionFormula.op",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 80,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "logicalAnd",
+          "index": 0,
+          "description": "Logical AND<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "logicalOr",
+          "index": 1,
+          "description": "Logical OR<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticCompareTypeEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+      "note": "Enumeration for the type of a comparison of values usually expressed by the following operators: ==, !=, <, <=, >, >= Aggregated by DiagnosticEnvCompareCondition.compareType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 83,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "isEqual",
+          "index": 1,
+          "description": "equal isGreaterOrEqual greater than or equal isGreaterThan greater than isLessOrEqual less than or equal isLessThan less than isNotEqual not equal<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

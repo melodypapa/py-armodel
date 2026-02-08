@@ -1,0 +1,212 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+  "classes": [
+    {
+      "name": "AbstractEthernetFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Frame",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "GenericEthernetFrame",
+        "UserDefinedEthernetFrame",
+        "Ieee1722TpEthernetFrame"
+      ],
+      "subclasses": [
+        "GenericEthernetFrame",
+        "Ieee1722TpEthernetFrame",
+        "UserDefinedEthernetFrame"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Ethernet specific attributes to the Frame.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 578,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EthernetFrameTriggering",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FrameTriggering",
+      "bases": [
+        "ARObject",
+        "FrameTriggering",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PhysicalChannel.frameTriggering"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Ethernet specific Frame element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 578,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "GenericEthernetFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractEthernetFrame",
+      "bases": [
+        "ARObject",
+        "AbstractEthernetFrame",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used for EthernetFrames without additional attributes that are routed by the EthIf. (cid:53) 578 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 578,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedEthernetFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractEthernetFrame",
+      "bases": [
+        "ARObject",
+        "AbstractEthernetFrame",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "UserDefinedEthernetFrame allows the description of a frame-based communication to Complex Drivers that are located above the EthDrv.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 579,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "Ieee1722TpEthernetFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractEthernetFrame",
+      "bases": [
+        "ARObject",
+        "AbstractEthernetFrame",
+        "CollectableElement",
+        "FibexElement",
+        "Frame",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Ieee1722Tp Ethernet Frame",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 579,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "relative": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time when content shall be presented (in The actual absolute time is creation time plus presentation time"
+        },
+        "streamIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IEEE 1722 stream identifier."
+        },
+        "subType": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Protocol type."
+        },
+        "version": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Revision of Ieee1722 standard."
+        }
+      }
+    }
+  ]
+}

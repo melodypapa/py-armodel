@@ -1,0 +1,146 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+  "classes": [
+    {
+      "name": "TDLETZoneClock",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingClock",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingClock"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingClock"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes a LET zone clock.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 252,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accuracyExt": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "External synchronization accuracy within the LET Zone/"
+        },
+        "accuracyInt": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Internal synchronization accuracy within the LET Zone/"
+        }
+      }
+    },
+    {
+      "name": "TimingClock",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "respective platform levelatp.Splitkey=platformTimeBase.globalTimeDomain"
+      ],
+      "children": [
+        "TDLETZoneClock"
+      ],
+      "subclasses": [
+        "TDLETZoneClock"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingClock"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes an abstract clock.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 252,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "platformTime": {
+          "type": "GlobalTimeDomain",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to a physical time base reference on the atpVariation"
+        }
+      }
+    },
+    {
+      "name": "TimingClockSyncAccuracy",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingClockSyncAccuracy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the synchronization accuracy between exactly two TDClocks.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 252,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accuracy": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Synchronization accuracy, treated as zero if not given."
+        },
+        "lower": {
+          "type": "TimingClock",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References a target clock"
+        },
+        "upper": {
+          "type": "TimingClock",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "References a source clock"
+        }
+      }
+    }
+  ]
+}

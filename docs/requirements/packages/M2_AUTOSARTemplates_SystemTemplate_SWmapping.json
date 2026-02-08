@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::SWmapping",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_SWmapping.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_SWmapping.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 12,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

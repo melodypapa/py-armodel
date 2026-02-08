@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "DataPrototypes",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes.json"
+    },
+    {
+      "name": "Datatypes",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

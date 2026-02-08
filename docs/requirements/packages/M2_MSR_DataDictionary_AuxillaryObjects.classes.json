@@ -1,0 +1,82 @@
+{
+  "package": "M2::MSR::DataDictionary::AuxillaryObjects",
+  "classes": [
+    {
+      "name": "SwAddrMethod",
+      "package": "M2::MSR::DataDictionary::AuxillaryObjects",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Used to assign a common addressing method, e.g. common memory section, to data or code objects. These objects could actually live in different modules or components.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 144,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 413,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 209,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "memory": {
+          "type": "MemoryAllocation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enumeration to specify the name pattern of the Memory Allocation Keyword. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "option": {
+          "type": "Identifier",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute introduces the ability to specify further of the MemorySection in with the shall be placed. are handled as to be selected. The are mentioned in the list. Memory Mapping configuration, this option list is determine an appropriate MemMapAddressing"
+        },
+        "section": {
+          "type": "SectionInitialization",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the expected initialization of the variables (inclusive those which are implementing VariableData Therefore this is an implementation initialization code of BSW modules as well as the start-up code which memory segment to which the AutosarData to the SwAddrMethod’s are later on attribute is not defined it has the identical semantic attribute value \"INIT\""
+        },
+        "sectionType": {
+          "type": "MemorySectionType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the type of memory sections which can be this addressing method."
+        }
+      }
+    }
+  ]
+}

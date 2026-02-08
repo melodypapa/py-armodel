@@ -1,0 +1,216 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef",
+  "classes": [
+    {
+      "name": "InnerDataPrototypeGroupInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeGroup.dataPrototypeGroup"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define an InstanceRef to a nested DataPrototypeGroup",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 954,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the base of the instanceRef. atpDerived 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "contextSw": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the nested structure of SwComponent Prototypes. xml.sequenceOffset=20 (ordered)"
+        },
+        "targetData": {
+          "type": "DataPrototypeGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the target of the InstanceRef xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "InnerRunnableEntityGroupInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RunnableEntityGroup.runnableEntityGroup"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define an InstanceRef to a nested RunnableEntityGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 956,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the base of the InstanceRef. atpDerived"
+        },
+        "contextSw": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the nested structure of SwComponent Prototypes. xml.sequenceOffset=20 (ordered)"
+        },
+        "targetRunnable": {
+          "type": "RunnableEntityGroup",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the target association of the InstanceRef. xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "RunnableEntityInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RunnableEntityGroup.runnableEntity"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define an InstanceRef to a RunnableEntity in the context of a CompositionSwComponentType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 956,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the base of the InstanceRef. atpDerived"
+        },
+        "contextSw": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the nested structure of SwComponent Prototypes. xml.sequenceOffset=20 (ordered)"
+        },
+        "targetRunnable": {
+          "type": "RunnableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the target RunnableEntity. xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "VariableDataPrototypeInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeGroup.implicitDataAccess"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define an InstanceRef to a VariableDataPrototype in the context of a CompositionSwComponentType.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 959,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the base of the InstanceRef. atpDerived"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents a reference to a context PortPrototype. xml.sequenceOffset=30"
+        },
+        "contextSw": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the nested structure of SwComponent Prototypes. xml.sequenceOffset=20 (ordered)"
+        },
+        "targetVariable": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This represents the target VariableDataPrototype. xml.sequenceOffset=40"
+        }
+      }
+    }
+  ]
+}

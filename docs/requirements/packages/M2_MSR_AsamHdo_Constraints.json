@@ -1,0 +1,17 @@
+{
+  "name": "M2::MSR::AsamHdo::Constraints",
+  "path": "M2::MSR::AsamHdo::Constraints",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "GlobalConstraints",
+      "full_path": "M2::MSR::AsamHdo::Constraints::GlobalConstraints",
+      "file": "packages/M2_MSR_AsamHdo_Constraints_GlobalConstraints.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

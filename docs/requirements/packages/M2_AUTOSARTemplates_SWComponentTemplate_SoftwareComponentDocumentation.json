@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_SoftwareComponentDocumentation.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

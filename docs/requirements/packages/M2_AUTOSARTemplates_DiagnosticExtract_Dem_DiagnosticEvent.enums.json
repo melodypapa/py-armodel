@@ -1,0 +1,150 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+  "enumerations": [
+    {
+      "name": "DiagnosticClearEventAllowedBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "note": "This enumeration defines the possible behavior for clear event allowed Aggregated by DiagnosticEvent.clearEventAllowedBehavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 166,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noStatusByteChange",
+          "index": 0,
+          "description": "The event status byte keeps unchanged.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "onlyThisCycleAndReadiness",
+          "index": 1,
+          "description": "The OperationCycle and readiness bits of the event status byte are reset.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticEventClearAllowedEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "note": "Denotes whether clearing of events is allowed. Aggregated by DiagnosticEvent.eventClearAllowed",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 167,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "always",
+          "index": 0,
+          "description": "The clearing is allowed unconditionally.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "requiresCallback",
+          "index": null,
+          "description": "In case the clearing of a Diagnostic Event has to be allowed or prohibited through the SWC interface"
+        },
+        {
+          "name": "Execution",
+          "index": 2,
+          "description": "CallbackClearEventAllowed, the SWC has to indicate this by defining appropriate ServiceNeeds (i.e.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticEventKindEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "note": "Applicability of the diagnostic event. Aggregated by DiagnosticEvent.eventKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 167,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bsw",
+          "index": 0,
+          "description": "The event is assigned to a BSW module.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "swc",
+          "index": 1,
+          "description": "The event is assigned to a SWC.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticConnectedIndicatorBehaviorEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "note": "Behavior of the indicator. Aggregated by DiagnosticConnectedIndicator.behavior",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 168,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "blinkMode",
+          "index": 0,
+          "description": "The indicator blinks when the event has status FAILED.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "blinkOrContinuousOnMode",
+          "index": 1,
+          "description": "The indicator is active and blinks when the event has status FAILED.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "continuousOnMode",
+          "index": 2,
+          "description": "The indicator is active when the event has status FAILED.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "fastFlashingMode",
+          "index": 3,
+          "description": "Flash Indicator Lamp should be set to \"Fast Flash\".<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "slowFlashingMode",
+          "index": 4,
+          "description": "Flash Indicator Lamp should be set to \"Slow Flash\".<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticIumprKindEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent",
+      "note": "This enumeration is used to control the ratio calculation behavior. Aggregated by DiagnosticIumpr.ratioKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 210,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "apiBased",
+          "index": 0,
+          "description": "The calculation is based on the usage of an API.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "observerBased",
+          "index": 1,
+          "description": "The calculation is based on the usage of an observer.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

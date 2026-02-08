@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingDescription_TimingDescription.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_CommonStructure_Timing_TimingDescription_TimingDescription.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 30,
+    "enumeration_count": 12,
+    "primitive_count": 0
+  }
+}

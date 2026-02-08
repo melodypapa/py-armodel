@@ -1,0 +1,405 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+  "classes": [
+    {
+      "name": "RunnableEntity",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ExecutableEntity",
+      "bases": [
+        "ARObject",
+        "ExecutableEntity",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.runnable"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "A RunnableEntity represents the smallest code-fragment that is provided by an AtomicSwComponent Type and are executed under control of the RTE. RunnableEntities are for instance set up to respond to data reception or operation invocation on a server.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 331,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 524,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2050,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 240,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 461,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 203,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "RunnableEntity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the formal definition of a an argument to a RunnableEntity."
+        },
+        "asynchronous": {
+          "type": "AsynchronousServer",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The server call result point admits a runnable to fetch the result of an asynchronous server call. aggregation of AsynchronousServerCallResultPoint to variability with the purpose to support the of client server PortPrototypes and existence of server call result points in the atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "canBeInvoked": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If the value of this attribute is set to \"true\" the enclosing can be invoked concurrently (even for one the corresponding AtomicSwComponent implies that it is the responsibility of the the RunnableEntity to take care of this concurrency."
+        },
+        "dataRead": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "RunnableEntity has implicit read access to dataElement a sender-receiver PortPrototype or nv data of a nv data of dataReadAccess is subject to the purpose to support the conditional sender receiver ports or the variant existence in the implementation. atpVariation"
+        },
+        "dataReceive": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "RunnableEntity has explicit read access to dataElement a sender-receiver PortPrototype or nv data of a nv data is passed back to the application by means of value. The aggregation of dataReceivePointBy subject to variability with the purpose to support existence of sender receiver ports or the of data receive points in the atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "dataSendPoint": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "RunnableEntity has explicit write access to dataElement sender-receiver PortPrototype or nv data of a nv data of dataSendPoint is subject to variability purpose to support the conditional existence of PortPrototype or the variant existence of points in the implementation. atpVariation"
+        },
+        "dataWrite": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "RunnableEntity has implicit write access to dataElement a sender-receiver PortPrototype or nv data of a nv data of dataWriteAccess is subject to the purpose to support the conditional sender receiver ports or the variant existence in the implementation. atpVariation"
+        },
+        "external": {
+          "type": "ExternalTriggeringPoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The aggregation of ExternalTriggeringPoint is subject to with the purpose to support the conditional trigger ports or the variant existence of points in the implementation. atpVariation"
+        },
+        "internal": {
+          "type": "InternalTriggeringPoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The aggregation of InternalTriggeringPoint is subject to with the purpose to support the variant internal triggering points in the atpVariation"
+        },
+        "modeAccess": {
+          "type": "ModeAccessPoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The runnable has a mode access point. The aggregation ModeAccessPoint is subject to variability with the support the conditional existence of mode the variant existence of mode access points in atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "modeSwitch": {
+          "type": "ModeSwitchPoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The runnable has a mode switch point. The aggregation ModeSwitchPoint is subject to variability with the support the conditional existence of mode the variant existence of mode switch points in the atpVariation"
+        },
+        "parameter": {
+          "type": "ParameterAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The presence of a ParameterAccess implies that a needs read only access to a Parameter may either be local or within a Port of ParameterAccess is subject to the purpose to support the conditional parameter ports and component local well as the variant existence of Parameter in the implementation. atpVariation"
+        },
+        "readLocal": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The presence of a readLocalVariable implies that a needs read access to a VariableData the role of implicitInterRunnableVariable or of readLocalVariable is subject to the purpose to support the conditional implicitInterRunnableVariable and explicit the variant existence of read in the implementation. atpVariation"
+        },
+        "serverCallPoint": {
+          "type": "ServerCallPoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The RunnableEntity has a ServerCallPoint. The ServerCallPoint is subject to variability with to support the conditional existence of client or the variant existence of server in the implementation. atpVariation"
+        },
+        "symbol": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The symbol describing this RunnableEntity’s entry point. considered the API of the RunnableEntity and is the RTE contract phase."
+        },
+        "waitPoint": {
+          "type": "WaitPoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The WaitPoint associated with the RunnableEntity. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "writtenLocal": {
+          "type": "VariableAccess",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The presence of a writtenLocalVariable implies that a needs write access to a VariableData the role of implicitInterRunnableVariable or of writtenLocalVariable is subject to the purpose to support the conditional implicitInterRunnableVariable and explicit the variant existence of written in the implementation. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SwcInternalBehavior",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "InternalBehavior",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "InternalBehavior",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtomicSwComponentType.internalBehavior",
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "The SwcInternalBehavior of an AtomicSwComponentType describes the relevant aspects of the software-component with respect to the RTE, i.e. the RunnableEntities and the RTEEvents they respond to.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 345,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 518,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2070,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 246,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 472,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 217,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arTypedPer": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines an AUTOSAR typed memory-block that needs to available for each instance of the SW-component. is typically only useful if supportsMultipleInstantiation to \"true\" or if the component defines NVRAM permanent blocks. of arTypedPerInstanceMemory is subject with the purpose to support variability in the implementations. Typically different the implementation are requiring different memory objects. atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "event": {
+          "type": "RTEEvent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a RTEEvent specified for the particular Swc of RTEEvent is subject to variability with to support the conditional existence of RTE the number of RTE events might vary due conditional existence of PortPrototypes using Data due to different scheduling needs of atpVariation"
+        },
+        "exclusiveArea": {
+          "type": "SwcExclusiveArea",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Options how to generate the ExclusiveArea related APIs. When no SwcExclusiveAreaPolicy is specified for an default values apply. atpVariation"
+        },
+        "explicitInter": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Implement state message semantics for establishing among runnables of the same The aggregation of explicitInterRunnable subject to variability with the purpose to in the software components different algorithms in the requiring different number of memory atpVariation"
+        },
+        "implicitInter": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Implement state message semantics for establishing among runnables of the same The aggregation of implicitInterRunnable subject to variability with the purpose to in the software components different algorithms in the requiring different number of memory atpVariation"
+        },
+        "includedData": {
+          "type": "IncludedDataTypeSet",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The includedDataTypeSet is used by a software for its implementation."
+        },
+        "includedMode": {
+          "type": "IncludedMode",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the included Mode DeclarationGroups atpSplitable 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "instantiation": {
+          "type": "InstantiationDataDef",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The purpose of this is that within the context of a given SwComponentType some data def properties of individual be modified. The aggregation of subject to variability with the support the conditional existence of Port component local memories like \"per \"arTypedPerInstanceMemory\". atpVariation"
+        },
+        "perInstance": {
+          "type": "ParameterData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines parameter(s) or characteristic value(s) that needs to be available for each instance of the is typically only useful if set to \"true\". The perInstanceParameter is subject to the purpose to support variability in the implementations. Typically different the implementation are requiring different memory objects. atpVariation"
+        },
+        "portAPIOption": {
+          "type": "PortAPIOption",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Options for generating the signature of port-related calls runnable to the RTE and vice versa. The PortPrototypes is subject to variability with to support the conditional existence of ports. atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "runnable": {
+          "type": "RunnableEntity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a RunnableEntity specified for the particular Swc of RunnableEntity is subject to variability purpose to support the conditional existence of the number of RunnableEntities due to the conditional existence of Port DataReceivedEvents or due to different of algorithms. atpVariation"
+        },
+        "service": {
+          "type": "SwcService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the requirements on AUTOSAR Services for a particular item. of SwcServiceDependency is subject to the purpose to support the conditional ports as well as the conditional existence of owned by an SwcInternal be located in a different physical file in order that SwcServiceDependency might be later development steps or even by different (e.g OBD expert for Obd related Service Therefore the aggregation is <<atp atpVariation"
+        },
+        "shared": {
+          "type": "ParameterData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines parameter(s) or characteristic value(s) shared between SwComponentPrototypes of the same Sw aggregation of sharedParameter is variability with the purpose to support variability software components implementations. Typically in the implementation are requiring of memory objects. atpVariation"
+        },
+        "supports": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicate whether the corresponding software-component be multiply instantiated on one ECU. In this case the will result in an appropriate component API on level (with or without instance"
+        },
+        "variationPoint": {
+          "type": "VariationPointProxy",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Proxy of a variation points in the C/C++ implementation. atpSplitable"
+        }
+      }
+    },
+    {
+      "name": "SwcExclusiveAreaPolicy",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwcInternalBehavior.exclusiveAreaPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Options how to generate the ExclusiveArea related APIs. If no SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values apply.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 556,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "apiPrinciple": {
+          "type": "ApiPrincipleEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies for this ExclusiveArea if either one common set and Exit APIs for the whole software component from the Rte or if the set of Enter and Exit expected per RunnableEntity. The default value is"
+        },
+        "exclusiveArea": {
+          "type": "ExclusiveArea",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the ExclusiveArea for which the"
+        }
+      }
+    }
+  ]
+}

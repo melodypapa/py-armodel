@@ -1,0 +1,106 @@
+{
+  "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation",
+  "classes": [
+    {
+      "name": "BswImplementation",
+      "package": "M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Implementation",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "Implementation",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Contains the implementation specific information in addition to the generic specification (BswModule Description and BswBehavior). It is possible to have several different BswImplementations referring to the same BswBehavior.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 120,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 290,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 972,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 207,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 425,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arRelease": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version of the AUTOSAR Release on which this is based. The numbering contains three minor, revision) which are defined by"
+        },
+        "behavior": {
+          "type": "BswInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The behavior of this implementation. is made as an association because follows the pattern of the SWCT ARElement cannot be splitted, but we want implementation later, the Bsw not aggregated in BswBehavior"
+        },
+        "preconfigured": {
+          "type": "EcucModule",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the set of preconfigured (i.e. fixed) configuration values for this BswImplementation. BswImplementation represents a cluster of several than one EcucModuleConfigurationValues be referred (at most one per module), most one such element can be referred."
+        },
+        "recommended": {
+          "type": "EcucModule",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to one or more sets of recommended configuration values for this module or module cluster."
+        },
+        "vendorApiInfix": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In driver modules which can be instantiated several times single ECU, SRS_BSW_00347 requires that the files, APIs, published parameters and memory are extended by the vendorId and a name. This parameter is used to specify specific name. In total, the implementation name is generated as follows: <Module name from that the vendorId of the implementer is the implementer chose a vendorApiInfix of API name Can_Write defined in the SWS to Can_123_v11r456_Write. is mandatory for all modules with upper 1. It shall not be used for modules with =1. SWS_BSW_00102."
+        },
+        "vendorSpecific": {
+          "type": "EcucModuleDef",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the vendor specific EcucModuleDef used in this Bsw it represents a single module EcucModuleDefs used in this Bsw it represents a cluster of modules or no EcucModuleDefs used in this Bsw it represents a library"
+        }
+      }
+    }
+  ]
+}

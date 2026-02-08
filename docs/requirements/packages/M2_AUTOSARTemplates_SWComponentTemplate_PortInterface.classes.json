@@ -1,0 +1,1749 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+  "classes": [
+    {
+      "name": "ArgumentDataPrototype",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AutosarDataPrototype",
+      "bases": [
+        "ARObject",
+        "AutosarDataPrototype",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ClientServerOperation.argument"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "An argument of an operation, much like a data element, but also carries direction information and is owned by a particular ClientServerOperation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 303,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 300,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1998,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 29,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "direction": {
+          "type": "ArgumentDirection",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the direction of the argument"
+        },
+        "serverArgument": {
+          "type": "ServerArgumentImpl",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This defines how the argument type of the servers RunnableEntity is implemented. attribute is not defined this has the same semantics the attribute is set to the value useArgumentType for and structures."
+        }
+      }
+    },
+    {
+      "name": "ClientServerInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A client/server interface declares a number of operations that can be invoked on a server by a client.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 308,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 101,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2007,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 432,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ClientServerOperation(s) of this ClientServerInterface. atpVariation"
+        },
+        "possibleError": {
+          "type": "ApplicationError",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Application errors that are defined as part of this interface."
+        }
+      }
+    },
+    {
+      "name": "ClientServerOperation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationInterface.command",
+        "AtpClassifier.atpFeature",
+        "ClientServerInterface.operation",
+        "DiagnosticDataElementInterface.read",
+        "DiagnosticDataIdentifierInterface.read",
+        "DiagnosticDataIdentifierInterface.write",
+        "DiagnosticRoutineInterface.requestResult",
+        "DiagnosticRoutineInterface.start",
+        "DiagnosticRoutineInterface.stop",
+        "PhmRecoveryActionInterface.recovery",
+        "ServiceInterface.method"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "An operation declared within the scope of a client/server interface.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 309,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 306,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2008,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 218,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 28,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "ArgumentDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "An argument of this ClientServerOperation atpSplitable; atpVariation"
+        },
+        "diagArgIntegrity": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall only be used in the implementation of to support the case where input and are allocated in a shared buffer and overwrite input arguments by operations to output arguments. can happen during sliced execution or while are arrays (call by reference). The means that the ClientServerOperation is aware usage of a shared buffer and takes precautions to overwrite of input arguments. attribute does not exist or is set to false the Client not have to consider the usage of a"
+        },
+        "possibleError": {
+          "type": "ApplicationError",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Possible errors that may by raised by the referring"
+        }
+      }
+    },
+    {
+      "name": "SenderReceiverInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DataInterface",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A sender/receiver interface declares a number of data elements to be sent and received.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 335,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 94,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2054,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 244,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 208,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The data elements of this SenderReceiverInterface."
+        },
+        "invalidationPolicy": {
+          "type": "InvalidationPolicy",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "InvalidationPolicy for a particular dataElement"
+        },
+        "metaDataItem": {
+          "type": "MetaDataItemSet",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This aggregation defines fixed sets of meta-data items with dataElements of the enclosing Sender"
+        }
+      }
+    },
+    {
+      "name": "DataInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "PortInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [
+        "SenderReceiverInterface",
+        "NvDataInterface",
+        "ParameterInterface"
+      ],
+      "subclasses": [
+        "NvDataInterface",
+        "ParameterInterface",
+        "SenderReceiverInterface"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "The purpose of this meta-class is to act as an abstract base class for subclasses that share the semantics of being concerned about data (as opposed to e.g. operations).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NvDataInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DataInterface",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A non volatile data interface declares a number of VariableDataPrototypes to be exchanged between non volatile block components and atomic software components.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 324,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 664,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2041,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 457,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nvData": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The VariableDataPrototype of this nv data interface."
+        }
+      }
+    },
+    {
+      "name": "PortInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "ClientServerInterface",
+        "DataInterface",
+        "TriggerInterface",
+        "ModeSwitchInterface",
+        "ApplicationInterface"
+      ],
+      "subclasses": [
+        "ClientServerInterface",
+        "DataInterface",
+        "ModeSwitchInterface",
+        "TriggerInterface"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "Abstract base class for an interface that is either provided or required by a port of a software component.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 326,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 87,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2046,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 27,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 457,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "isService": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This flag is set if the PortInterface is to be used for an or or or ServiceSwComponentType (namely an AUTOSAR on the same ECU. Otherwise the flag is"
+        },
+        "serviceKind": {
+          "type": "ServiceProviderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides further details about the nature of service."
+        }
+      }
+    },
+    {
+      "name": "ParameterInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DataInterface",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 41,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2042,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "parameter": {
+          "type": "ParameterData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ParameterDataPrototype of this ParameterInterface."
+        }
+      }
+    },
+    {
+      "name": "InvalidationPolicy",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderReceiverInterface.invalidationPolicy"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies whether the component can actively invalidate a particular dataElement. If no invalidationPolicy points to a dataElement this is considered to yield the identical result as if the handleInvalid attribute was set to dontInvalidate.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 97,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the dataElement for which the Invalidation"
+        },
+        "handleInvalid": {
+          "type": "HandleInvalidEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls how invalidation is applied to the"
+        }
+      }
+    },
+    {
+      "name": "MetaDataItem",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MetaDataItemSet.metaDataItem"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a single meta-data item.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 98,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2037,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "length": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute determines the length of the MetaDataItem"
+        },
+        "metaDataItem": {
+          "type": "TextValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation contributes the specification of the meta-data item type."
+        }
+      }
+    },
+    {
+      "name": "MetaDataItemSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SenderReceiverInterface.metaDataItemSet"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a set of meta-data items to be used in SenderReceiver Interfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2037,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference identifies the dataElement for which the of meta-data items is defined."
+        },
+        "metaDataItem": {
+          "type": "MetaDataItem",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the ordered definition of items."
+        }
+      }
+    },
+    {
+      "name": "ApplicationError",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientServerInterface.possibleError"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is a user-defined error that is associated with an element of an AUTOSAR interface. It is specific for the particular functionality or service provided by the AUTOSAR software component.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 108,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 1996,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "errorCode": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The RTE generator is forced to assign this value to the symbol. Note that for error codes are predefined (see RTE specification)."
+        }
+      }
+    },
+    {
+      "name": "TriggerInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A trigger interface declares a number of triggers that can be sent by an trigger source.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 109,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2076,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "trigger": {
+          "type": "Trigger",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The Trigger of this trigger interface."
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchInterface",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterface",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "PortInterface",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable",
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "A mode switch interface declares a ModeDeclarationGroupPrototype to be sent and received.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 113,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2039,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The ModeDeclarationGroupPrototype of this mode"
+        }
+      }
+    },
+    {
+      "name": "PortInterfaceMappingSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Specifies a set of (one or more) PortInterfaceMappings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 119,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 201,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "portInterface": {
+          "type": "PortInterfaceMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specifies one PortInterfaceMapping to support the of Ports typed by two different PortInterfaces elements having unequal names and/or (resolution or range). atpVariation"
+        }
+      }
+    },
+    {
+      "name": "PortInterfaceMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "VariableAndParameterInterfaceMapping",
+        "ClientServerInterfaceMapping",
+        "ModeInterfaceMapping",
+        "TriggerInterfaceMapping"
+      ],
+      "subclasses": [
+        "ClientServerInterfaceMapping",
+        "ModeInterfaceMapping",
+        "TriggerInterfaceMapping",
+        "VariableAndParameter"
+      ],
+      "aggregated_by": [
+        "PortInterfaceMappingSet.portInterfaceMapping"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Specifies one PortInterfaceMapping to support the connection of Ports typed by two different Port Interfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 119,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2046,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "VariableAndParameterInterfaceMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterfaceMapping",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortInterfaceMapping",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortInterfaceMappingSet.portInterfaceMapping"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Defines the mapping of VariableDataPrototypes or ParameterDataPrototypes in context of two different SenderReceiverInterfaces, NvDataInterfaces or ParameterInterfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 124,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2077,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataMapping": {
+          "type": "DataPrototypeMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines the mapping of two particular VariableData ParameterDataPrototypes with unequal unequal semantic (resolution or range) in two different SenderReceiverInterfaces, Nv ParameterInterfaces"
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientServerOperationMapping.argumentMapping",
+        "VariableAndParameterInterfaceMapping.dataMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the mapping of two particular VariableDataPrototypes, ParameterDataPrototypes or Argument DataPrototypes with non-equal shortNames, non-equal structure (specific condition is described by [constr_1187]), and/or non-equal semantic (resolution or range) in context of two different Sender ReceiverInterface, NvDataInterface or ParameterInterface or Operations. If the semantic is unequal, the following rules apply: The textTableMapping is only applicable if the referred DataPrototypes are typed by AutosarDataType referring to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE. In the case that the DataPrototypes are typed by AutosarDataType either referring to CompuMethods of category LINEAR, IDENTICAL or referring to no CompuMethod (which is similar as IDENTICAL) the linear conversion factor is calculated out of the factorSiToUnit and offsetSiToUnit attributes of the referred Units and the CompuRationalCoeffs of a compuInternalToPhys of the referred CompuMethods.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 125,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2014,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstData": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "First to be mapped DataPrototype in context of a Sender NvDataInterface, ParameterInterface"
+        },
+        "firstToSecond": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the need to execute the Data <Mip>_<transformerId> functions of the chain when communicating from the Data the Data also specifies the reverse Data functions of chain (i.e. from the DataPrototype the DataPrototype the referenced Data symmetric, i.e. attribute Data set to"
+        },
+        "secondData": {
+          "type": "AutosarDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Second to be mapped DataPrototype in context of a NvDataInterface, Parameter Operation."
+        },
+        "secondToFirst": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This defines the need to execute the reverse Data <Mip>_Inv_<transformerId> functions of transformation chain when communicating from the the Data"
+        },
+        "subElement": {
+          "type": "SubElementMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents the owned SubelementMapping. atpSplitable"
+        },
+        "textTable": {
+          "type": "TextTableMapping",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "ClientServerInterfaceMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterfaceMapping",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortInterfaceMapping",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortInterfaceMappingSet.portInterfaceMapping"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Defines the mapping of ClientServerOperations in context of two different ClientServerInterfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 128,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "errorMapping": {
+          "type": "ClientServerApplication",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Map two different ApplicationErrors defined in the context two different ClientServerInterfaces."
+        },
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mapping of two ClientServerOperations in two different ClientServerInterfaces"
+        }
+      }
+    },
+    {
+      "name": "ClientServerOperationMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientServerInterfaceMapping.operationMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the mapping of two particular ClientServerOperations in context of two different ClientServer Interfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 129,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "DataPrototypeMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines the mapping of two particular ArgumentData with unequal names or unequal semantic range) in context of Operations."
+        },
+        "firstOperation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "First to-be-mapped ClientServerOperation of a Client"
+        },
+        "firstToSecond": {
+          "type": "DataTransformation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference indicates that a DataTransformation is in the context of the ClientServerOperation"
+        },
+        "second": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Second to-be-mapped ClientServerOperation of a Client"
+        }
+      }
+    },
+    {
+      "name": "ClientServerApplicationErrorMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientServerInterfaceMapping.errorMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map ApplicationErrors onto each other.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 129,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstApplication": {
+          "type": "ApplicationError",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the first ApplicationError in the context of ClientServerApplicationErrorMapping."
+        },
+        "second": {
+          "type": "ApplicationError",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the second ApplicationError in the of the ClientServerApplicationErrorMapping."
+        }
+      }
+    },
+    {
+      "name": "ModeInterfaceMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterfaceMapping",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortInterfaceMapping",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortInterfaceMappingSet.portInterfaceMapping"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Defines the mapping of ModeDeclarationGroupPrototypes in context of two different ModeInterfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 130,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeMapping": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Mapping of two ModeDeclarationGroupPrototypes in two ModeInterfaces"
+        }
+      }
+    },
+    {
+      "name": "ModeDeclarationMappingSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpType"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class implements a container for ModeDeclarationGroupMappings",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 132,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the collection of ModeDeclaration Mappings owned by the enclosing ModeDeclaration"
+        }
+      }
+    },
+    {
+      "name": "ModeDeclarationMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "ModeDeclarationMappingSet.modeDeclarationMapping"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class implements a concrete mapping of two ModeDeclarations.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 132,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the first ModeDeclaration of the Mode reference has the multiplicity 1 to support use cases where e.g. one mode of the is mapped to several modes of the mode"
+        },
+        "secondMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the second ModeDeclaration of the Mode"
+        }
+      }
+    },
+    {
+      "name": "TriggerInterfaceMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PortInterfaceMapping",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PortInterfaceMapping",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortInterfaceMappingSet.portInterfaceMapping"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "Defines the mapping of unequal named Triggers in context of two different TriggerInterfaces.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 134,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "triggerMapping": {
+          "type": "TriggerMapping",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Mapping of two Trigger in two different TriggerInterface"
+        }
+      }
+    },
+    {
+      "name": "SubElementMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeMapping.subElementMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class allows for the definition of mappings of elements of a composite data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 137,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstElement": {
+          "type": "SubElementRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents the first element referenced in the scope mapping. atpVariation"
+        },
+        "secondElement": {
+          "type": "SubElementRef",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This represents the second element referenced in the the mapping. atpVariation"
+        },
+        "textTable": {
+          "type": "TextTableMapping",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "of a composite data type."
+        }
+      }
+    },
+    {
+      "name": "SubElementRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ImplementationDataTypeSubElementRef",
+        "ApplicationCompositeDataTypeSubElementRef"
+      ],
+      "subclasses": [
+        "ApplicationCompositeDataTypeSubElementRef",
+        "ImplementationDataTypeSubElementRef"
+      ],
+      "aggregated_by": [
+        "SubElementMapping.firstElement",
+        "SubElementMapping.secondElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to reference elements of composite data type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 138,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "ImplementationDataTypeSubElementRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SubElementRef",
+      "bases": [
+        "ARObject",
+        "SubElementRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SubElementMapping.firstElement",
+        "SubElementMapping.secondElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the specialization of SubElementMapping with respect to Implementation DataTypes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 138,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "implementation": {
+          "type": "ArVariableIn",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the referenced implementationDataType Element."
+        },
+        "parameter": {
+          "type": "ArParameterIn",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the referenced ImplementationDataType Element."
+        }
+      }
+    },
+    {
+      "name": "ApplicationCompositeDataTypeSubElementRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SubElementRef",
+      "bases": [
+        "ARObject",
+        "SubElementRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SubElementMapping.firstElement",
+        "SubElementMapping.secondElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the specialization of SubElementMapping with respect to Application CompositeDataTypes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 138,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationComposite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "DataPrototype. implemented by: ApplicationComposite"
+        }
+      }
+    },
+    {
+      "name": "TextTableMapping",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeMapping.textTableMapping",
+        "SenderRecArrayTypeMapping.senderToSignalTextTableMapping",
+        "SenderRecArrayTypeMapping.signalToReceiverTextTableMapping",
+        "SenderReceiverToSignalMapping.senderToSignalTextTableMapping",
+        "SenderReceiverToSignalMapping.signalToReceiverTextTableMapping",
+        "SenderRecRecordElementMapping.senderToSignalTextTableMapping",
+        "SenderRecRecordElementMapping.signalToReceiverTextTableMapping",
+        "SubElementMapping.textTableMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines the mapping of two DataPrototypes typed by AutosarDataTypes that refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 145,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 230,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bitfieldTextTable": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used to support the mapping of bit to bit field, boolean values to bit fields, and vice attribute defines the bit mask for the second the TextTableMapping."
+        },
+        "identical": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If identicalMapping is set == true the values of the two DataPrototypes do not need any conversion of"
+        },
+        "mapping": {
+          "type": "MappingDirectionEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specifies the conversion direction for which the TextTable is applicable."
+        },
+        "valuePair": {
+          "type": "TextTableValuePair",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines a pair of values which are translated into each"
+        }
+      }
+    },
+    {
+      "name": "TextTableValuePair",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TextTableMapping.valuePair"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines a pair of text values which are translated into each other.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 146,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "firstValue": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value of first DataPrototype provided similar to a which is intended to be a Primitive data element. Note that the is a variant, it can be computed by a"
+        },
+        "secondValue": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value of second DataPrototype provided similar to a which is intended to be a Primitive data element. Note that the is a variant, it can be computed by a"
+        }
+      }
+    }
+  ]
+}

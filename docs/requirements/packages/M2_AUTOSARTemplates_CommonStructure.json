@@ -1,0 +1,92 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure",
+  "path": "M2::AUTOSARTemplates::CommonStructure",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "ModeDeclaration",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ModeDeclaration.json"
+    },
+    {
+      "name": "TriggerDeclaration",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_TriggerDeclaration.json"
+    },
+    {
+      "name": "InternalBehavior",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::InternalBehavior",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_InternalBehavior.json"
+    },
+    {
+      "name": "Implementation",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Implementation",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Implementation.json"
+    },
+    {
+      "name": "SwcBswMapping",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::SwcBswMapping",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_SwcBswMapping.json"
+    },
+    {
+      "name": "ResourceConsumption",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption.json"
+    },
+    {
+      "name": "MeasurementCalibrationSupport",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_MeasurementCalibrationSupport.json"
+    },
+    {
+      "name": "FlatMap",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::FlatMap",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_FlatMap.json"
+    },
+    {
+      "name": "McGroups",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::McGroups",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_McGroups.json"
+    },
+    {
+      "name": "ServiceNeeds",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ServiceNeeds.json"
+    },
+    {
+      "name": "Constants",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Constants",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Constants.json"
+    },
+    {
+      "name": "StandardizationTemplate",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_StandardizationTemplate.json"
+    },
+    {
+      "name": "ImplementationDataTypes",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes.json"
+    },
+    {
+      "name": "SignalServiceTranslation",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_SignalServiceTranslation.json"
+    },
+    {
+      "name": "Filter",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Filter",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Filter.json"
+    },
+    {
+      "name": "Timing",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::Timing",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_Timing.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

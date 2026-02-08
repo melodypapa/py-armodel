@@ -1,0 +1,666 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+  "classes": [
+    {
+      "name": "PostBuildVariantCriterion",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpDefinition"
+      ],
+      "implemented_by": [],
+      "note": "This class specifies one particular PostBuildVariantSelector.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 304,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 614,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 76,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 232,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "compuMethod": {
+          "type": "CompuMethod",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The compuMethod specifies the possible values for the serving as an enumerator."
+        }
+      }
+    },
+    {
+      "name": "PostBuildVariantCriterionValue",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PostBuildVariantCriterionValueSet.postBuildVariantCriterionValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies the value which shall be assigned to a particular variant criterion in order to bind the variation point. If multiple criterion/value pairs are specified, they all shall match to bind the variation point.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 77,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 258,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "annotation": {
+          "type": "Annotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This provides the ability to add information why the value like it is."
+        },
+        "value": {
+          "type": "Integer",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the particular value of the post-build variant"
+        },
+        "variantCriterion": {
+          "type": "PostBuildVariant",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association selects the variant criterion whose value specified."
+        }
+      }
+    },
+    {
+      "name": "PredefinedVariant",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This specifies one predefined variant. It is characterized by the union of all system constant values and post-build variant criterion values aggregated within all referenced system constant value sets and post build variant criterion value sets plus the value sets of the included variants.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 305,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 77,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 257,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "includedVariant": {
+          "type": "PredefinedVariant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The associated variants are considered part of this means the settings of the are included in the settings of the Nevertheless the included be included in several predefined variants."
+        },
+        "postBuildVariant": {
+          "type": "PostBuildVariant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the postBuildVariantCriterionValueSet contributing to the predefinded variant."
+        },
+        "sw": {
+          "type": "SwSystemconstant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This ist the set of Systemconstant Values contributing to the predefined variant."
+        }
+      }
+    },
+    {
+      "name": "SwSystemconstantValueSet",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify a set of system constant values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 313,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1007,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2069,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 246,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 56,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 258,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sw": {
+          "type": "SwSystemconstValue",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is one particular value of a system constant."
+        }
+      }
+    },
+    {
+      "name": "VariationPoint",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that variationPoints are not allowed within a formal BlueprintGenerator. postBuildVariant PostBuildVariant * aggr This is the set of post build variant conditions which all Condition Condition shall be fulfilled in order to (postbuild) bind the variation point. sdg Sdg 0..1 aggr An optional special data group is attached to every variation point. These data can be used by external software systems to attach application specific data. For example, a variant management system might add an identifier, an URL or a specific classifier. shortLabel Identifier 0..1 attr This provides a name to the particular variation point to support the RTE generator. It is necessary for supporting splitable aggregations and if binding time is later than codeGenerationTime, as well as some RTE conditions. It needs to be unique with in the enclosing Identifiables with the same ShortName. Stereotypes: atpIdentityContributor (cid:53) 315 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of ECU Configuration AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 315,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1010,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2078,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 80,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 226,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 39,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blueprint": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents a description that documents how the point shall be resolved when deriving objects blueprint."
+        },
+        "swSyscond": {
+          "type": "ConditionByFormula",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This condition acts as Binding Function for the Variation that the multiplicity is 0..1 in order to support variants."
+        }
+      }
+    },
+    {
+      "name": "ConditionByFormula",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression",
+        "SwSystemconstDependentFormula"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "VariationPoint.swSyscond",
+        "VariationPointProxy.conditionAccess"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a condition which is computed based on system constants according to the specified expression. The expected result is considered as boolean value. The result of the expression is interpreted as a condition. • \"0\" represents \"false\"; • a value other than zero is considered \"true\"",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 613,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2012,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 73,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 231,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bindingTime": {
+          "type": "BindingTimeEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the point in time when condition evaluated at earliest. At this point in time all constants shall have a value."
+        }
+      }
+    },
+    {
+      "name": "PostBuildVariantCondition",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "VariationPoint.postBuildVariantCondition",
+        "VariationPointProxy.postBuildVariantCondition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies the value which shall be assigned to a particular variant criterion in order to bind the variation point. If multiple criterion/value pairs are specified, they shall all match to bind the variation point. In other words binding can be represented by (criterion1 == value1) && (condition2 == value2) ...",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 614,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 76,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 232,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "matching": {
+          "type": "PostBuildVariant",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the criterion which needs to match the value in order to make the PostbuildVariantCondition to be true."
+        },
+        "value": {
+          "type": "Integer",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the particular value of the post-build variant"
+        }
+      }
+    },
+    {
+      "name": "PostBuildVariantCriterionValueSet",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to denote one set of postBuildVariantCriterionValues.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1000,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 56,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 258,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "postBuildVariant": {
+          "type": "PostBuildVariant",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is is one particular postbuild variant criterion/value pair being part of the PostBuildVariantSet."
+        }
+      }
+    },
+    {
+      "name": "SwSystemconstDependentFormula",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": true,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [
+        "AttributeValueVariationPoint",
+        "BlueprintFormula",
+        "ConditionByFormula",
+        "FMFormulaByFeaturesAndSw"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents an expression depending on system constants.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1006,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 79,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 240,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sysc": {
+          "type": "SwSystemconst",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to a system constant. The internal (coded) the system constant shall be used."
+        },
+        "syscString": {
+          "type": "SwSystemconst",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "syscString indicates that the referenced system constant evaluated as a string according to"
+        }
+      }
+    },
+    {
+      "name": "SwSystemconstValue",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwSystemconstantValueSet.swSystemconstantValue"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class assigns a particular value to a system constant.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2068,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+          "page_number": 80,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 235,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "annotation": {
+          "type": "Annotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This provides the ability to add information why the value like it is."
+        },
+        "swSystemconst": {
+          "type": "SwSystemconst",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the system constant to which the value applies."
+        },
+        "value": {
+          "type": "Numerical",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the particular value of a system constant. It is Numerical. Further restrictions may apply by of the system constant. attribute defines the internal value of the Sw it is processed in the Formula Language."
+        }
+      }
+    },
+    {
+      "name": "EvaluatedVariantSet",
+      "package": "M2::AUTOSARTemplates::GenericStructure::VariantHandling",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that the EvaluatedVariantSet is a CollectableElement. This allows to establish a hierarchy of EvaluatedVariantSets.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 257,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "approvalStatus": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the approval status of a predefined variant. Two predefined: \"APPROVED\" and \"REJECTED\": variants are known to work. variants are known NOT to work. can be approved on a per-company basis; only \"APPROVED\" and \"REJECTED\" recognized."
+        },
+        "evaluated": {
+          "type": "PredefinedVariant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This metaclass represents one particular variant which evaluated. LowerMultiplicity is set to 0 to support a"
+        }
+      }
+    }
+  ]
+}

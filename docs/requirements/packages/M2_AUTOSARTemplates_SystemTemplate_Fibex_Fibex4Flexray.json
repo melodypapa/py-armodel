@@ -1,0 +1,22 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "FlexrayTopology",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Flexray_FlexrayTopology.json"
+    },
+    {
+      "name": "FlexrayCommunication",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Fibex_Fibex4Flexray_FlexrayCommunication.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

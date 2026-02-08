@@ -1,0 +1,305 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+  "classes": [
+    {
+      "name": "IEEE1722TpAcfBus",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "IEEE1722TpAcfCan",
+        "IEEE1722TpAcfLin"
+      ],
+      "subclasses": [
+        "IEEE1722TpAcfCan",
+        "IEEE1722TpAcfLin"
+      ],
+      "aggregated_by": [
+        "IEEE1722TpAcfConnection.acfTransportedBus"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract class to define various busses to be transported over a IEEE1722TP ACF connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 657,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "acfPart": {
+          "type": "IEEE1722TpAcfBusPart",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "One part transported over IEEE1722Tp channel. atpVariation"
+        },
+        "busId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Id of the transported bus over the ACF connection."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAcfBusPart",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "IEEE1722TpAcfCanPart",
+        "IEEE1722TpAcfLinPart"
+      ],
+      "subclasses": [
+        "IEEE1722TpAcfCanPart",
+        "IEEE1722TpAcfLinPart"
+      ],
+      "aggregated_by": [
+        "IEEE1722TpAcfBus.acfPart"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of one IEEE1722Tp ACF part transported over the IEEE1722Tp channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 657,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "collectionTrigger": {
+          "type": "PduCollectionTrigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines whether putting this AcfPart to the IEEE1722Tp message triggers immediate sending of the message."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAcfCan",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAcfBus",
+      "bases": [
+        "ARObject",
+        "IEEE1722TpAcfBus",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IEEE1722TpAcfConnection.acfTransportedBus"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ACF IEEE1722Tp bus used for CAN transport.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 661,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "messageTypeMessageTypeEnum": {
+          "type": "IEEE1722TpAcfCan",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the ACF CAN stream message type."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAcfCanPart",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAcfBusPart",
+      "bases": [
+        "ARObject",
+        "IEEE1722TpAcfBusPart",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IEEE1722TpAcfBus.acfPart"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of one CAN part (frame or frame range) transported over the IEEE1722Tp channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 661,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "canAddressing": {
+          "type": "CanAddressingMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether standard or extended address format shall be used."
+        },
+        "canBitRate": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the bit rate switch bit shall be set."
+        },
+        "canFrameTx": {
+          "type": "CanFrameTxBehavior",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines which CAN protocol shall be used for frame transmission."
+        },
+        "canIdentifier": {
+          "type": "RxIdentifierRange",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the identifier range for IEEE1722Tp ACF Can"
+        },
+        "sdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the Pdu transported in the IEEE1722Tp"
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAcfLin",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAcfBus",
+      "bases": [
+        "ARObject",
+        "IEEE1722TpAcfBus",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IEEE1722TpAcfConnection.acfTransportedBus"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ACF IEEE1722Tp bus used for LIN transport.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 666,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseFrequency": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CRF base frequency in Hz."
+        },
+        "frameSync": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the \"fs\" (frame sync) shall be enabled."
+        },
+        "timestamp": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "CRF timestamp interval as multiple of the baseFrequency."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAcfLinPart",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpAcfBusPart",
+      "bases": [
+        "ARObject",
+        "IEEE1722TpAcfBusPart",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IEEE1722TpAcfBus.acfPart"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of one LIN part transported over the IEEE1722Tp channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 667,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "linIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional Lin Id defined in case the Lin Id can not be runtime."
+        },
+        "sdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the Pdu transported in the IEEE1722Tp"
+        }
+      }
+    }
+  ]
+}

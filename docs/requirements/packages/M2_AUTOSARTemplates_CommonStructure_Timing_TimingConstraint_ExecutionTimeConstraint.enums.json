@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint",
+  "enumerations": [
+    {
+      "name": "ExecutionTimeTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint",
+      "note": "Specifies the type of the executionTimeType for a ExecutionTimeConstraint. Aggregated by ExecutionTimeConstraint.executionTimeType (cid:53) 130 of 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Specification of Timing Extensions for Classic Platform AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 130,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "gross",
+          "index": 0,
+          "description": "Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITH external calls.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "net",
+          "index": 1,
+          "description": "Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITHOUT any external calls.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

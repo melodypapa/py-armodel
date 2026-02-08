@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint",
+  "enumerations": [
+    {
+      "name": "LatencyConstraintTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint",
+      "note": "Specifies the latencyConstraintType for a LatencyTimingConstraint. Aggregated by LatencyTimingConstraint.latencyConstraintType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 96,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "age",
+          "index": 0,
+          "description": "The LatencyTimingConstraint is seen from the perspective of the response event of the<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "reaction",
+          "index": 1,
+          "description": "The LatencyTimingConstraint is seen from the perspective of the stimulus event of the<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

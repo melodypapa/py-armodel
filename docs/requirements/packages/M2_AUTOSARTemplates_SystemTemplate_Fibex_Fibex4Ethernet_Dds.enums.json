@@ -1,0 +1,145 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+  "enumerations": [
+    {
+      "name": "DdsDurabilityKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "Defines the DDS DURABILITY kind. Tags: atp.Status=candidate Aggregated by DdsDurability.durabilityKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 530,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "persistenttransienttransientLocalvolatile",
+          "index": 0,
+          "description": "See \"DURABILITY\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "DdsDurabilityServiceHistoryKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "Defines the DDS DURABILITY_SERVICE HISTORY kind. Tags: atp.Status=candidate Aggregated by DdsDurabilityService.durabilityServiceHistoryKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 531,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "keepAllkeepLast",
+          "index": 1,
+          "description": "See \"DURABILITY_SERVICE\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DdsOwnershipKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "Defines the DDS OWNERSHIP kind. Tags: atp.Status=candidate Aggregated by DdsOwnership.ownershipKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 533,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "exclusiveshared",
+          "index": 0,
+          "description": "See \"OWNERSHIP\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "DdsLivenessKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "Defines the DDS LIVELINESS kind. Tags: atp.Status=candidate Aggregated by DdsLiveliness.livenessKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 534,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "automaticmanualByParticipantmanualByTopic",
+          "index": 1,
+          "description": "See \"LIVELINESS\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DdsReliabilityKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "See \"RELIABILITY\" chapter of DDS. Tags: atp.Status=candidate Aggregated by DdsReliability.reliabilityKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 535,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bestEffortreliable",
+          "index": 0,
+          "description": "See \"RELIABILITY\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "DdsDestinationOrderKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "Defines the DDS DESTINATION_ORDER kind. Tags: atp.Status=candidate Aggregated by DdsDestinationOrder.destinationOrderKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 536,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "byReceptionTimestampbySourceTimestamp",
+          "index": 1,
+          "description": "See \"DESTINATION_ORDER\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DdsHistoryKindEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds",
+      "note": "Defines the DDS HISTORY kind. Tags: atp.Status=candidate Aggregated by DdsHistory.historyKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 537,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "keepAllkeepLast",
+          "index": 0,
+          "description": "See \"HISTORY\" chapter of DDS.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

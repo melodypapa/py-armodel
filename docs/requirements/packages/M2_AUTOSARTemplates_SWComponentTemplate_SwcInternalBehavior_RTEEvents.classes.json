@@ -1,0 +1,875 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+  "classes": [
+    {
+      "name": "OperationInvokedEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the ClientServerOperation referenced in OperationInvokedEvent.operation shall be invoked.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 325,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 543,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operationInstanceRef": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by: POperationInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "RTEEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "AbstractEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "OperationInvokedEvent",
+        "TimingEvent",
+        "AsynchronousServerCallReturnsEvent",
+        "DataSendCompletedEvent",
+        "DataWriteCompletedEvent",
+        "DataReceivedEvent",
+        "DataReceiveErrorEvent",
+        "BackgroundEvent",
+        "SwcModeSwitchEvent",
+        "ModeSwitchedAckEvent",
+        "ExternalTriggerOccurredEvent",
+        "InternalTriggerOccurredEvent",
+        "InitEvent",
+        "TransformerHardErrorEvent",
+        "OsTaskExecutionEvent",
+        "SwcModeManagerErrorEvent"
+      ],
+      "subclasses": [
+        "AsynchronousServerCallReturnsEvent",
+        "BackgroundEvent",
+        "DataReceiveErrorEvent",
+        "DataReceivedEvent",
+        "DataSendCompletedEvent",
+        "DataWriteCompletedEvent",
+        "ExternalTriggerOccurredEvent",
+        "InitEvent",
+        "InternalTriggerOccurredEvent",
+        "ModeSwitchedAckEvent",
+        "OperationInvokedEvent",
+        "OsTaskExecutionEvent",
+        "SwcModeManagerErrorEvent",
+        "SwcModeSwitchEvent",
+        "TimingEvent",
+        "TransformerHardErrorEvent"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Abstract base class for all RTE-related events",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 327,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 541,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 208,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 238,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "disabledModeInstanceRef": {
+          "type": "ModeDeclaration",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "disabled by: RModeInAtomicSwc"
+        },
+        "startOnEvent": {
+          "type": "RunnableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced RunnableEntity starts when the is raised."
+        }
+      }
+    },
+    {
+      "name": "TimingEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is used to start RunnableEntities that shall be executed periodically.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 532,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 254,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "offset": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The value makes an assumption about the time offset of activation of the RunnableEntity triggered by the relative to the periodic activation of base of this TimingEvent. Unit: second."
+        },
+        "period": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Period of timing event in seconds. The value of this be greater than zero."
+        }
+      }
+    },
+    {
+      "name": "AsynchronousServerCallReturnsEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when an asynchronous server call is finished.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 541,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventSource": {
+          "type": "AsynchronousServer",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced AsynchronousServerCallResultPoint this AsynchronousServerCallReturnsEvent when server call returns."
+        }
+      }
+    },
+    {
+      "name": "DataSendCompletedEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the referenced explicit data element has been sent or an error occurred.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 542,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventSource": {
+          "type": "VariableAccess",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced VariableAccess raises this DataSend the explicit write access was an error occurred."
+        }
+      }
+    },
+    {
+      "name": "DataWriteCompletedEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when an implicit write access was successful or an error occurred.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 542,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventSource": {
+          "type": "VariableAccess",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced VariableAccess raises this DataWrite the implicit write access was an error occurred."
+        }
+      }
+    },
+    {
+      "name": "DataReceivedEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the referenced data element is received.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 542,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "data": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "the data has been received. by: RVariableInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "DataReceiveErrorEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the Com layer detects and notifies an error concerning the reception of the referenced VariableDataPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 543,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "data": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "there was an error during the by: RVariableInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "BackgroundEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is used to start RunnableEntities that are supposed to be executed in the background.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 544,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SwcModeSwitchEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the specified mode change occurs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 544,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "activation": {
+          "type": "ModeActivationKind",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if the event is raised on entering or exiting a or is raised on the transition between two ModeDeclaration 0..2 iref The referenced mode or the transition between two this SwcModeSwitchEvent. by: RModeInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "ModeSwitchedAckEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the referenced ModeSwitchPoint has been processed or an error occurred.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 545,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventSource": {
+          "type": "ModeSwitchPoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced ModeSwitchPoint raises this Mode the ModeSwitchPoint has been"
+        }
+      }
+    },
+    {
+      "name": "ExternalTriggerOccurredEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the referenced Trigger has occurred.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 545,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "triggerInstanceRef": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: RTriggerInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "InternalTriggerOccurredEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when the referenced InternalTriggeringPoint has occurred.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 546,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventSource": {
+          "type": "InternalTriggeringPoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The referenced InternalTriggeringPoint raises this Internal"
+        }
+      }
+    },
+    {
+      "name": "InitEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This RTEEvent is supposed to be used for initialization purposes, i.e. for starting and restarting a partition. It is not guaranteed that all RunnableEntities referenced by this InitEvent are executed before the ’regular’ RunnableEntities are executed for the first time. The execution order depends on the task mapping.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 546,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TransformerHardErrorEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when data are received which should trigger a Client/Server operation or an external Trigger but during transformation of the data a hard transformer error occurred.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 546,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "raise this TransformerHardErrorEvent. by: POperationInAtomicSwc"
+        },
+        "requiredTrigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "TransformerHardErrorEvent. by: RTriggerInAtomicSwc"
+        }
+      }
+    },
+    {
+      "name": "OsTaskExecutionEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This RTEEvent is supposed to execute RunnableEntities which have to react on the execution of specific OsTasks. Therefore, this event is unconditionally raised whenever the OsTask on which it is mapped is executed. The main use case for this event is scheduling of Runnables of Complex Drivers which have to react on task executions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 547,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "WaitPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RunnableEntity.waitPoint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This defines a wait-point for which the RunnableEntity can wait.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 550,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds before the WaitPoint times out and the call returns with an error indicating the"
+        },
+        "trigger": {
+          "type": "RTEEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the RTEEvent this WaitPoint is waiting for."
+        }
+      }
+    },
+    {
+      "name": "SwcModeManagerErrorEvent",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "RTEEvent",
+      "bases": [
+        "ARObject",
+        "AbstractEvent",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "RTEEvent",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "SwcInternalBehavior.event"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This event is raised when an error occurred during the handling of the referenced ModeDeclarationGroup Prototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 637,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeGroup": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "this SwcModeManagerErrorEvent is raised in case error. by: PModeGroupInAtomic"
+        }
+      }
+    }
+  ]
+}

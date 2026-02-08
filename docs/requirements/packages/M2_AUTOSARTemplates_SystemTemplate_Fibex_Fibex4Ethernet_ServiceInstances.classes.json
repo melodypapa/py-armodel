@@ -1,0 +1,1334 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+  "classes": [
+    {
+      "name": "ConsumedEventGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ConsumedServiceInstance.consumedEventGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents an event-group to which the service consumer wants to subscribe.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 978,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 504,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "application": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defines the application endpoint where the events of the group are received in case of multicast reception. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "autoRequire": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines that this ConsumedEventGroup shall be as soon as the corresponding requested. This could be at if ConsumedServiceInstance.autoRequire is TRUE or as soon as the ConsumedServiceInstance by the application, if ConsumedService set to FALSE."
+        },
+        "eventGroup": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "EventGroup ID. Shall be unique within one system to service discovery."
+        },
+        "eventMulticast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the multicast address or a address resource where the events of the event received. multicast address is determined via configuration at runtime via service discovery this reference the multicast address over which the events will multicast address is determined at runtime via this reference shall be used to define local multicast address resources, i.e. in the TcpIp module in which the multicast stored at runtime. Please note that in this case address may be defined as ANY UDP port IP address since the multicast address will be runtime. If several multicast addresses are be used the ConsumedEventGroup shall different ApplicationEndpoint objects to reserve resources in the configuration. atpVariation"
+        },
+        "pduActivation": {
+          "type": "PduActivationRouting",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the frame priority where values from 0 (best 7 (highest) are allowed."
+        },
+        "routingGroup": {
+          "type": "SoAdRoutingGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The ServiceDiscovery module is able to activate and PDU routing for receiving events."
+        },
+        "sdClientConfig": {
+          "type": "SdClientConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The readiness to receive events is defined by the Service the ConsumedEventGroup. The Event know about this announcement to decide submission of events. Therefore the Event be configured with Service-Discovery Client"
+        },
+        "sdClientTimer": {
+          "type": "SomeipSdClientEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Client Timing configuration settings that are EventGroup specific. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "ConsumedServiceInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractServiceInstance",
+      "bases": [
+        "ARObject",
+        "AbstractServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationEndpoint.consumedServiceInstance",
+        "ServiceInstanceCollectionSet.serviceInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Service instances that are consumed by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 980,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 500,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allowedService": {
+          "type": "NetworkEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "NetworkEndpoint on which the ProvidedServiceInstance is communicating with this ConsumedService allowed to be located so that the ACL check in is successful and the connection is be established. atpVariation"
+        },
+        "autoRequire": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines that this ConsumedServiceInstance shall be for) by the service discovery at ECU"
+        },
+        "blocklisted": {
+          "type": "SomeipServiceVersion",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of blocklisted versions atp.Status=draft"
+        },
+        "consumedEvent": {
+          "type": "ConsumedEventGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Selection of event-groups the consumer wants to for. atpVariation"
+        },
+        "eventMulticast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Multicast Address that is used by the client to subscribe the server: This enables the multicast subscription atpVariation"
+        },
+        "instance": {
+          "type": "AnyServiceInstanceId",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to describe the service instance ID."
+        },
+        "localUnicast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "or both). atpVariation"
+        },
+        "minorVersion": {
+          "type": "AnyVersionString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minor Version of the ServiceInterface. Value can be set to that represents the Minor Version of the or to ANY."
+        },
+        "providedService": {
+          "type": "ProvidedService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "remoteUnicast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "provider is located. This reference shall ONLY be the remote address is determined from the not at runtime from the Service atpVariation"
+        },
+        "sdClientConfig": {
+          "type": "SdClientConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Service Discovery Client configuration."
+        },
+        "sdClientTimer": {
+          "type": "SomeipSdClientService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Client specific configuration settings relevant for the SOME/IP service discovery. atpVariation"
+        },
+        "serviceIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to describe the SOME/ ID that is searched."
+        },
+        "versionDriven": {
+          "type": "ServiceVersion",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the service discovery find behavior. Tags: atp.Status=draft"
+        }
+      }
+    },
+    {
+      "name": "ProvidedServiceInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractServiceInstance",
+      "bases": [
+        "ARObject",
+        "AbstractServiceInstance",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationEndpoint.providedServiceInstance",
+        "ServiceInstanceCollectionSet.serviceInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Service instances that are provided by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 1000,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 485,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allowedService": {
+          "type": "NetworkEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "NetworkEndpoints on which the ConsumedService that are communicating with this Provided allowed to be located so that the in the ServiceDiscovery is successful and the allowed to be established. atpVariation"
+        },
+        "autoAvailable": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines that this ProvidedServiceInstance shall be the service discovery at ECU start."
+        },
+        "eventHandler": {
+          "type": "EventHandler",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of event groups provided by the Provided atpVariation"
+        },
+        "instance": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Instance identifier. Can be used for e.g. service discovery identify the instance of the service."
+        },
+        "loadBalancing": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the value to be used for load balancing weight in service offer. Higher value means higher probability to"
+        },
+        "localUnicast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "or both). atpVariation"
+        },
+        "minorVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minor Version of the Service that is provided by this"
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the frame priority where values from 0 (best 7 (highest) are allowed."
+        },
+        "remoteMulticast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the remote multicast subscribed of service consumers. This reference shall be used if the remote address of the clients is the configuration and not at runtime. atpVariation"
+        },
+        "remoteUnicast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the remote addresses of service This reference shall ONLY be used if the of the clients is determined from the not at runtime. atpVariation 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "sdServerConfig": {
+          "type": "SdServerConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Service Discovery Server configuration."
+        },
+        "sdServerTimer": {
+          "type": "SomeipSdServer",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Server specific configuration settings relevant for the SOME/IP service discovery. atpVariation"
+        },
+        "serviceIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to describe the SOME/ ID that is offered."
+        }
+      }
+    },
+    {
+      "name": "SoAdConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EthernetPhysicalChannel.soAdConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "SoAd Configuration for one specific Physical Channel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 451,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "connection": {
+          "type": "SocketConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of SocketConnectionBundles. Stereotypes: atpSplitable; atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "socketAddress": {
+          "type": "SocketAddress",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of SoAdAddresses. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SocketAddress",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SoAdConfig.socketAddress"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a socket address towards the rest of the meta-model. The actual semantics of the represented socket address, however, is contributed by aggregation of an ApplicationEndpoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 452,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allowedIPv6Ext": {
+          "type": "IPv6ExtHeaderFilterList",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a list of IPv6 Extension Headers allowed for SocketConnection. If no list is referenced all IPv6 are allowed and processed."
+        },
+        "allowedTcp": {
+          "type": "TcpOptionFilterList",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a list of TCP options allowed for this Socket"
+        },
+        "applicationEndpoint": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Application addressing"
+        },
+        "connector": {
+          "type": "EthernetCommunication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to a CommunicationConnector in the description. This reference shall be used if the an IP unicast address for an is part of the model."
+        },
+        "differentiated": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The 6-bit Differentiated Service Field in the IP headers be used for classifying network traffic. If not set a zero is used to indicate packets that have not"
+        },
+        "flowLabel": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The 20-bit Flow Label field in the IPv6 header may be a source to label sequences of packets for which special handling by the IPv6 routers, such as of service. If not set a Flow Label of used to indicate packets that have not been 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "multicast": {
+          "type": "EthernetCommunication",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to a CommunicationConnector in the topology description. This reference shall be used if the an IP multicast address, i.e. if ApplicationEndpoint references a describes an IP Address in the IP Such a SocketAddress contains those Ecus (via the multicastConnector the model that will receive multicast the SocketAddress that is defined by the and NetworkEndpoint, Address and UDP Port combination."
+        },
+        "pathMtu": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the Path MTU Discovery shall be for the related socket."
+        },
+        "pduCollection": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time in seconds which shall pass before a with Pdu collection enabled shall be transmitted to layer after the first Pdu has been put into the"
+        },
+        "staticSocket": {
+          "type": "StaticSocketConnection",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of a static SocketConnection. atpSplitable; atpVariation"
+        },
+        "udpChecksum": {
+          "type": "UdpChecksum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum the related socket connection."
+        }
+      }
+    },
+    {
+      "name": "ServiceInstanceCollectionSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of ServiceInstances",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 476,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "serviceInstance": {
+          "type": "AbstractService",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ServiceInstances that are part of the collection. atpSplitable; atpVariation"
+        }
+      }
+    },
+    {
+      "name": "AbstractServiceInstance",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "ConsumedServiceInstance",
+        "ProvidedServiceInstance",
+        "DdsCpServiceInstance"
+      ],
+      "subclasses": [
+        "ConsumedServiceInstance",
+        "DdsCpServiceInstance",
+        "ProvidedServiceInstance"
+      ],
+      "aggregated_by": [
+        "ServiceInstanceCollectionSet.serviceInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Provided and Consumed Ethernet Service Instances that are available at the ApplicationEndpoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 476,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "capability": {
+          "type": "TagWithOptionalValue",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A sequence of records to store arbitrary name/value pairs additional information about the named atpVariation"
+        },
+        "majorVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Major Version of the ServiceInterface. Value can be set to that represents the Major Version of the service."
+        },
+        "method": {
+          "type": "PduActivationRouting",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations methods). atpVariation"
+        },
+        "routingGroup": {
+          "type": "SoAdRoutingGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The ServiceDiscovery module is able to activate and PDU routing from and to TCP/IP-sockets."
+        }
+      }
+    },
+    {
+      "name": "PduActivationRoutingGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AbstractServiceInstance.methodActivationRoutingGroup",
+        "ConsumedEventGroup.pduActivationRoutingGroup",
+        "EventHandler.pduActivationRoutingGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Group of Pdus that can be activated or deactivated for transmission over a socket connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 488,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventGroup": {
+          "type": "EventGroupControlType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast events of an event group. And there are activate the data path for initial are triggered, namely events that are sent out server side after a client got subscribed. Please this attribute is only valid for event Receiver communication) and omitted in MethodActivationRoutingGroups."
+        },
+        "iPduIdentifier": {
+          "type": "SoConIPduIdentifier",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "PduIdentifiers assigned for transmission over Udp in case the referencing PduActivationRoutingGroup is"
+        }
+      }
+    },
+    {
+      "name": "SoConIPduIdentifier",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SocketConnectionIpduIdentifierSet.iPduIdentifier"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Identification of Pdu content on a socket connection. This Identifier is required in case that multiple Pdus are transmitted over the same socket connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 489,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "headerId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If multiple Pdus are transmitted over the same connection can be used to distinguish between the constraints on constructing the headerId for see PRS_SOMEIP_00245."
+        },
+        "pduCollection": {
+          "type": "PduCollectionTrigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is this socket."
+        },
+        "pduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to a Pdu that is transmitted over a socket"
+        }
+      }
+    },
+    {
+      "name": "SocketConnectionIpduIdentifierSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of PduIdentifiers used for transmission over a Socket Connection with the header option.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 490,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPduIdentifier": {
+          "type": "SoConIPduIdentifier",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of IPduIdentifiers that are transmitted over"
+        }
+      }
+    },
+    {
+      "name": "EventHandler",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ProvidedServiceInstance.eventHandler"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element represents an event group as part of the Provided Service Instance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 492,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "consumedEvent": {
+          "type": "ConsumedEventGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "All consumers of the event are referenced here. atp.Status=obsolete"
+        },
+        "eventGroup": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique Identifier that identifies the EventGroup in SOME/ This Identifier is sent as Eventgroup ID in SOME/IP messages."
+        },
+        "eventMulticast": {
+          "type": "ApplicationEndpoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Multicast Address that is used for event communication in IP-Multicast case. It is the destination address to server sends the multicast event messages if is exceeded. is transmitted in the SD-SubscribeEvent to client (answer to SD-Subscribe atpVariation"
+        },
+        "multicast": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the number of subscribed clients that trigger the to change the transmission of events to multicast. to 0 only unicast will be used. If configured the first client will be already served by multicast. If 2 the first client will be server with unicast soon as the second client arrives both will be multicast. not influence the handling of initial events, served using unicast only."
+        },
+        "pduActivation": {
+          "type": "PduActivationRouting",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ServiceDiscovery module is able to activate and deactivate the PDU routing for events."
+        },
+        "routingGroup": {
+          "type": "SoAdRoutingGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The ServiceDiscovery module is able to activate and PDU routing for events."
+        },
+        "sdServerConfig": {
+          "type": "SdServerConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Server configuration parameter for Service-Discovery."
+        },
+        "sdServerEg": {
+          "type": "SomeipSdServerEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Server Timing configuration settings that are EventGroup specific. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SomeipSdServerServiceInstanceConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Server specific settings that are relevant for the configuration of SOME/IP Service-Discovery.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 513,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialOfferBehavior": {
+          "type": "InitialSdDelayConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Controls offer behavior of the server."
+        },
+        "offerCyclicDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional attribute to define cyclic offers. Cyclic offer is the delay is set (in seconds) and greater then 0."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the VLAN frame priority for Service that result from ProvidedSomeip are referencing the SomeipSd StopOffer Values from 0 (best 7 (highest) are allowed. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "request": {
+          "type": "RequestResponseDelay",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum/Minimum allowable response delay to entries by multicast in seconds. The Service Discovery answers to entries that were transported in a message (e.g. FindService)."
+        },
+        "serviceOffer": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time in seconds the service offer is valid."
+        }
+      }
+    },
+    {
+      "name": "InitialSdDelayConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdClientConfig.initialFindBehavior",
+        "SdServerConfig.initialOfferBehavior",
+        "SomeipSdClientServiceInstanceConfig.initialFindBehavior",
+        "SomeipSdServerServiceInstanceConfig.initialOfferBehavior"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used to configure the offer behavior of the server and the find behavior on the client.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 514,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialDelayMax": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Max Value in seconds to delay randomly the first offer (if by SdServerConfig) or the transmission of a (if aggregated by SdClientConfig)."
+        },
+        "initialDelayMin": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Min Value in seconds to delay randomly the first offer or transmission of a find message (if aggregated by Sd"
+        },
+        "initial": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the maximum amount of offer repetitions (if by SdServerConfig) or the maximum amount repetitions (if aggregated by SdClientConfig)."
+        }
+      }
+    },
+    {
+      "name": "RequestResponseDelay",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdClientConfig.requestResponseDelay",
+        "SdServerConfig.requestResponseDelay",
+        "SomeipSdClientEventGroupTimingConfig.requestResponseDelay",
+        "SomeipSdServerEventGroupTimingConfig.requestResponseDelay",
+        "SomeipSdServerServiceInstanceConfig.requestResponseDelay"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Time to wait before answering the query.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 515,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxValue": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum allowable response delay to entries received by seconds."
+        },
+        "minValue": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum allowable response delay to entries received by seconds."
+        }
+      }
+    },
+    {
+      "name": "SomeipSdServerEventGroupTimingConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "EventGroup specific timing configuration settings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 517,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "request": {
+          "type": "RequestResponseDelay",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Service Discovery shall delay answers to unicast triggered by multicast messages (e.g. after Offer Service)."
+        }
+      }
+    },
+    {
+      "name": "SomeipSdClientEventGroupTimingConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is used to specify configuration related to service discovery in the context of an event group on SOME/IP.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 521,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "request": {
+          "type": "RequestResponseDelay",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Service Discovery shall delay answers to unicast triggered by multicast messages (e.g. after Offer Service)."
+        },
+        "subscribe": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute define the maximum counts of retries to to an Eventgroup. If the value is set to 0 no shall be done. If the value is set to 255 the retry done as along as the Eventgroup is requested SubscribeEventGroupAck was received."
+        },
+        "timeToLive": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time in seconds the subscription of this event by the client. this value is sent from the client server in the SD-subscribeEvent message."
+        }
+      }
+    },
+    {
+      "name": "ConsumedProvidedServiceInstanceGroup",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The AUTOSAR ServiceDiscovery is able to start and to stop ClientServices and Server Services,respectively, at runtime. A SdServiceGroup contains several ClientServices and Server Services, respectively.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 523,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "consumed": {
+          "type": "ConsumedService",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference assigns a set of ProvidedServiceInstances to the ConsumedProvidedServiceInstanceGroup. atpVariation"
+        },
+        "providedService": {
+          "type": "ProvidedService",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference assigns a set of ConsumedService Instances to the ConsumedProvidedServiceInstance atpVariation"
+        }
+      }
+    },
+    {
+      "name": "StaticSocketConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SocketAddress.staticSocketConnection"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of static SocketConnection between the Socket that is defined by the aggregating Socket Address and the remoteAddress.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 543,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPduIdentifier": {
+          "type": "SoConIPduIdentifier",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Assignment of IPduIdentifiers that are transmitted over SocketConnection. atpVariation 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "remoteAddress": {
+          "type": "SocketAddress",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "RemoteAddress of the static SocketConnection. atpVariation"
+        },
+        "tcpConnect": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the time in seconds how long TCP connect are repeated to reach SOAD_SOCON_ONLINE. is restricted to socket connection groups initiating a TCP connection and are under SoAd."
+        },
+        "tcpRole": {
+          "type": "TcpRoleEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the local Address (that is aggregating does a listen or a connect."
+        }
+      }
+    },
+    {
+      "name": "SomeipSdClientServiceInstanceConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Client specific settings that are relevant for the configuration of SOME/IP Service-Discovery.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2058,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialFindBehavior": {
+          "type": "InitialSdDelayConfig",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Controls initial find behavior of clients."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the VLAN frame priority for Service that result from RequiredSomeip are referncing this SomeipSdClient SubscribeEventGroup, Stop from 0 (best effort) to 7 allowed."
+        },
+        "serviceFind": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to define the time in the service find is valid. Note! The TTL value for is not used and shall be ignored by service. This configuration is only kept for Default value if not specified shall"
+        }
+      }
+    },
+    {
+      "name": "SomeipServiceVersion",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ConsumedServiceInstance.blocklistedVersion",
+        "RequiredSomeipServiceInstance.blocklistedVersion"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe a version of a SOME/IP Service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2059,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "majorVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Major Version of the ServiceInterface."
+        },
+        "minorVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minor Version of the ServiceInterface."
+        }
+      }
+    }
+  ]
+}

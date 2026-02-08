@@ -1,0 +1,72 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+  "enumerations": [
+    {
+      "name": "ModeErrorReactionPolicyEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "note": "This represents the ability to specify the reaction on a mode error. Aggregated by ModeErrorBehavior.errorReactionPolicy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 44,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 637,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "defaultMode",
+          "index": 0,
+          "description": "This represents the ability to switch to the defaultMode in case of a mode error.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "lastMode",
+          "index": 1,
+          "description": "This represents the ability to keep the last mode in case of a mode error.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ModeActivationKind",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ModeDeclaration",
+      "note": "Kind of mode switch condition used for activation of an event, as further described for each enumeration field. Aggregated by BswModeSwitchEvent.activation, SwcModeSwitchEvent.activation",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 96,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 545,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "onEntry",
+          "index": 0,
+          "description": "On entering the referred mode.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "onExit",
+          "index": 1,
+          "description": "On exiting the referred mode.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "onTransition",
+          "index": 2,
+          "description": "On transition of the 1st referred mode to the 2nd referred mode.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

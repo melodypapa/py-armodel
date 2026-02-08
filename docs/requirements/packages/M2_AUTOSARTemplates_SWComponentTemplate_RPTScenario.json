@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_RPTScenario.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SWComponentTemplate_RPTScenario.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 9,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

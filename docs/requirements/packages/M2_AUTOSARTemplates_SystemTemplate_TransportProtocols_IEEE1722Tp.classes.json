@@ -1,0 +1,244 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+  "classes": [
+    {
+      "name": "IEEE1722TpConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TpConfig",
+      "bases": [
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "TpConfig"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of the IEEE1722Tp protocol.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 636,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tpConnection": {
+          "type": "IEEE1722TpConnection",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Collection of IEEE1722Tp connections. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "IEEE1722TpAvConnection",
+        "IEEE1722TpAcfConnection"
+      ],
+      "subclasses": [
+        "IEEE1722TpAcfConnection",
+        "IEEE1722TpAvConnection"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Definition of the IEEE1722Tp protocol.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 637,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationMac": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional definition of the destination MAC address for this If no given then macAddressStreamId is used as address."
+        },
+        "macAddress": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "MAC Address part of the Stream Id. atp.Status=candidate"
+        },
+        "pdu": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the lower layer Pdu used for the transport."
+        },
+        "uniqueStreamId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique Id part of the Stream Id."
+        },
+        "version": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version of the IEEE1722TP stream."
+        },
+        "vlanPriority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional definition of the VLAN priority for this stream."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAvConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "IEEE1722TpConnection",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "IEEE1722TpConnection",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "IEEE1722TpCrfConnection",
+        "IEEE1722TpAafConnection",
+        "IEEE1722TpIidcConnection",
+        "IEEE1722TpRvfConnection"
+      ],
+      "subclasses": [
+        "IEEE1722TpAafConnection",
+        "IEEE1722TpCrfConnection",
+        "IEEE1722TpIidcConnection",
+        "IEEE1722TpRvf"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AV IEEE1722Tp connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 639,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxTransitTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the time offset that is added to the current time at in order to get the \"presentation time\" (in content shall be presented at the"
+        },
+        "sdu": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to the upper layer Sdu used for the transport of of the IEEE1722Tp."
+        }
+      }
+    },
+    {
+      "name": "IEEE1722TpAcfConnection",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IEEE1722TpConnection",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "IEEE1722TpConnection",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ACF IEEE1722Tp connection.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 656,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "acfTransported": {
+          "type": "IEEE1722TpAcfBus",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the transported busses over this ACF atpVariation"
+        },
+        "collection": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "When this timeout expires the IEEE1722Tp ACF is triggered for sending. The respective timer is the first Pdu is put into the IEEE1722Tp seconds."
+        },
+        "mixedBusType": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if this ACF-stream is allowed to collect of different bus kinds (i.e. whether it is collect CAN and LIN ACF-messages in one"
+        }
+      }
+    }
+  ]
+}

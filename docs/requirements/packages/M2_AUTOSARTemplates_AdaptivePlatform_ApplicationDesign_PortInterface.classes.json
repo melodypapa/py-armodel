@@ -1,0 +1,64 @@
+{
+  "package": "M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface",
+  "classes": [
+    {
+      "name": "Field",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AutosarDataPrototype",
+      "bases": [
+        "ARObject",
+        "AutosarDataPrototype",
+        "DataPrototype",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ApplicationInterface.attribute",
+        "AtpClassifier.atpFeature",
+        "ServiceInterface.field"
+      ],
+      "implements": [
+        "AtpFeature",
+        "AtpPrototype"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a piece of data that can be accessed with read and/or write semantics. It is also possible to generate a notification if the value of the data changes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 45,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "hasGetter": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether read access is foreseen to"
+        },
+        "hasNotifier": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether a notification semantics is this field."
+        },
+        "hasSetter": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether write access is foreseen to"
+        }
+      }
+    }
+  ]
+}

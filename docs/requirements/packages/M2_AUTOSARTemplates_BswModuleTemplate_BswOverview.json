@@ -1,0 +1,19 @@
+{
+  "name": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview",
+  "path": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswOverview.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "InstanceRefs",
+      "full_path": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs",
+      "file": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswOverview_InstanceRefs.json"
+    }
+  ],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,506 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+  "classes": [
+    {
+      "name": "DiagnosticTroubleCodeUds",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticTroubleCode",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticTroubleCode",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used to describe non OBD-relevant DTCs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "considerPto": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the affection of the event by the PTO handling. event is affected by the Dem PTO handling. event is not affected by the Dem PTO handling."
+        },
+        "dtcPropsProps": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defined properties associated with the DemDTC."
+        },
+        "eventReadiness": {
+          "type": "EventObdReadiness",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is for emission-related ECUs. atpVariation 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "functionalUnit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies a 1-byte value which identifies the vehicle / system function which DTC. This parameter is necessary for the severity information."
+        },
+        "obdDtc": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "3 Byte OBD DTC value based on the definition from SAE The existence of this attribute is only required if and OBD DTC values are used for SAE this attribute does not exist, then UDS DTC used with J1979-2."
+        },
+        "severity": {
+          "type": "DiagnosticUdsSeverity",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "DTC severity according to ISO 14229-1. atpVariation"
+        },
+        "udsDtcValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique Diagnostic Trouble Code value for UDS."
+        },
+        "wwhObdDtc": {
+          "type": "DiagnosticWwhObdDtc",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to identify (if applicable) the"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticTroubleCodeObd",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticTroubleCode",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticTroubleCode",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used to define OBD-relevant DTCs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "considerPto": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the affection of the event by the PTO handling. event is affected by the Dem PTO handling. event is not affected by the Dem PTO handling."
+        },
+        "dtcPropsProps": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defined properties associated with the DemDTC. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "eventReadiness": {
+          "type": "EventObdReadiness",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation allows for the variant definition of the attribute eventObdReadinessGroup. atpVariation"
+        },
+        "obdDTCValue": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique Diagnostic Trouble Code value for OBD."
+        }
+      }
+    },
+    {
+      "name": "EventObdReadinessGroup",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticTroubleCodeObd.eventReadinessGroup",
+        "DiagnosticTroubleCodeUds.eventReadinessGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define the value of attribute eventObdReadinessGroup. It is only introduced to allow for a variant modeling of this attribute.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 176,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventObd": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the Event OBD Readiness group PID $01 and PID $41 computation. This attribute is applicable for emission-related ECUs."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticTroubleCode",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticTroubleCodeUds",
+        "DiagnosticTroubleCodeObd",
+        "DiagnosticTroubleCodeJ1939"
+      ],
+      "subclasses": [
+        "DiagnosticTroubleCodeJ1939",
+        "DiagnosticTroubleCodeObd",
+        "DiagnosticTroubleCodeUds"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A diagnostic trouble code defines a unique identifier that is shown to the diagnostic tester.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 176,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticTroubleCodeGroup",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The diagnostic trouble code group defines the DTCs belonging together and thereby forming a group.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 177,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dtc": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the collection of DiagnosticTroubleCodes this DiagnosticTroubleCodeGroup. atpVariation"
+        },
+        "groupNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the base number of the DTC group."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticTroubleCodeProps",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines common Dtc properties that can be reused by different non OBD-relevant DTCs.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 185,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aging": {
+          "type": "DiagnosticAging",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an aging algorithm in case that an aging/ the event is allowed."
+        },
+        "diagnostic": {
+          "type": "DiagnosticMemory",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the applicable DiagnosticMemory Destination. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "extendedData": {
+          "type": "DiagnosticExtended",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defines the links to an extended data class sampler. Stereotypes: atpSplitable; atpVariation"
+        },
+        "freezeFrame": {
+          "type": "DiagnosticFreezeFrame",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Define the links to a freeze frame class sampler. atpVariation"
+        },
+        "immediateNv": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Change description for Class immediateNvDataStorage table \"Table A.111: DiagnosticTroubleCodeProps\": enable immediate storage triggering of an memory entry persistently to NVRAM. non-volatile storage triggering on first shutdown. non-volatile storage triggering on"
+        },
+        "legislated": {
+          "type": "DiagnosticDataIdentifier",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the layout of legislated freeze frames used for emission related diagnostics over the protocol such as OBDonUDS or WWH-OBD. atpVariation"
+        },
+        "maxNumber": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the number of according freeze records, which can maximal be stored for this Therefore all these freeze frame records have the frame class."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Priority of the event, in view of full event buffer. A lower higher priority."
+        },
+        "significance": {
+          "type": "DiagnosticSignificance",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Significance of the event, which indicates additional concerning fault classification and resolution."
+        },
+        "snapshot": {
+          "type": "DiagnosticDataIdentifier",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the freeze frame layout as a set of DIDs. Stereotypes: atpSplitable; atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticDataIdentifierSet",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a list of DiagnosticDataIdentifiers that can be reused in different contexts.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataIdentifier": {
+          "type": "DiagnosticDataIdentifier",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an ordered list of Data Identifiers."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticTroubleCodeJ1939",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticTroubleCode",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticTroubleCode",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model specific trouble-code related properties for J1939.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 221,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dtcPropsProps": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Defined properties associated with the J1939 DTC."
+        },
+        "fmi": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the behavior of the Failure Mode 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "kind": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute further specifies the DTC in terms of its"
+        },
+        "node": {
+          "type": "DiagnosticJ1939Node",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the related DiagnosticJ1939Node."
+        },
+        "spn": {
+          "type": "DiagnosticJ1939Spn",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the releated SPN."
+        }
+      }
+    }
+  ]
+}

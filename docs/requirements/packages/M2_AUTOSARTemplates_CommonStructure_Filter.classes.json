@@ -1,0 +1,94 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Filter",
+  "classes": [
+    {
+      "name": "DataFilter",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Filter",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignalPort.dataFilter",
+        "NonqueuedReceiverComSpec.filter",
+        "NonqueuedSenderComSpec.dataFilter",
+        "SignalBasedEventElementToISignalTriggeringMapping.filter",
+        "SignalBasedFieldToISignalTriggeringMapping.filter",
+        "SignalServiceTranslationElementProps.filter",
+        "TransmissionModeCondition.dataFilter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Base class for data filters. The type of the filter is specified in attribute dataFilterType. Some of the filter types require additional arguments which are specified as attributes of this class.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 182,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 394,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataFilterType": {
+          "type": "DataFilterTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the type of the filter."
+        },
+        "mask": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Mask for old and new value."
+        },
+        "max": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value to specify the upper boundary"
+        },
+        "min": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value to specify the lower boundary"
+        },
+        "offset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the initial number of messages to occur before message is passed"
+        },
+        "period": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies number of messages to occur before the passed again"
+        },
+        "x": {
+          "type": "UnlimitedInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value to compare with"
+        }
+      }
+    }
+  ]
+}

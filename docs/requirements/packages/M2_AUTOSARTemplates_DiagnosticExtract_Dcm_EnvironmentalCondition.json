@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_EnvironmentalCondition.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_EnvironmentalCondition.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 10,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

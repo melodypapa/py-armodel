@@ -1,0 +1,20 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Transformer.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_Transformer.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "InstanceRef",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_Transformer_InstanceRef.json"
+    }
+  ],
+  "summary": {
+    "class_count": 23,
+    "enumeration_count": 6,
+    "primitive_count": 0
+  }
+}

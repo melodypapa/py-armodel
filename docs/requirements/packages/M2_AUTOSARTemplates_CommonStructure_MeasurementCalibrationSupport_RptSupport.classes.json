@@ -1,0 +1,421 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+  "classes": [
+    {
+      "name": "McFunctionDataRefSet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McFunction.defCalprmSet",
+        "McFunction.inMeasurementSet",
+        "McFunction.locMeasurementSet",
+        "McFunction.outMeasurementSet",
+        "McFunction.refCalprmSet"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Refers to a set of data assigned to an McFunction in a particular role. The data are given • either by entries in a FlatMap • or by data instances that are part of MC support data. These two possibilities are exclusive within a given McFunctionDataRefSet. Which one to use depends on the process and tool environment. The set is subject to variability because the same functional model may be used with various representation of the data. Tags: vh.latestBindingTime=preCompileTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 187,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 455,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "flatMapEntry": {
+          "type": "FlatInstanceDescriptor",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to an entry in a FlatMap that is part of the set, for calibration parameter or measured variable. atpSplitable property has no atp.Splitkey due (PropertySetPattern)."
+        },
+        "mcDataInstance": {
+          "type": "McDataInstance",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to a data instance within MC support data that is the set, i.e. a calibration parameter or measured atpSplitable property has no atp.Splitkey due (PropertySetPattern)."
+        }
+      }
+    },
+    {
+      "name": "RptSupportData",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McSupportData.rptSupportData"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Root element for rapid prototyping support data related to one Implementation artifact on an ECU, in particular the RTE. The rapid prototyping support data may reference to elements provided for Mc SupportData.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 198,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "execution": {
+          "type": "RptExecutionContext",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines an environment for the execution of Executable"
+        },
+        "rptComponent": {
+          "type": "RptComponent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of components for which rapid prototyping implemented. atpVariation"
+        },
+        "rptServicePoint": {
+          "type": "RptServicePoint",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of service with the enclosing RptSuportData atpVariation"
+        }
+      }
+    },
+    {
+      "name": "RptSwPrototypingAccess",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "McDataInstance.resultingRptSwPrototypingAccess",
+        "RptContainer.rptSwPrototypingAccess"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the accessibility of data and modes by the rapid prototyping tooling.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 856,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rptHookAccess": {
+          "type": "RptAccessEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The related data element can be modified using a tool. An ENABLED VariableData implicitly READABLE/WRITABLE."
+        },
+        "rptReadAccess": {
+          "type": "RptAccessEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The related data element can be used as input for bypass RP tool. If rptImplPolicy is not specified generation shall ensure at least suitable MC are created."
+        },
+        "rptWriteAccess": {
+          "type": "RptAccessEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The related data element can be used as output for by RP tool. The data element shall to rptLevel2 and related write service points"
+        }
+      }
+    },
+    {
+      "name": "RptComponent",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptSupportData.rptComponent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of component instance for which rapid prototyping support is implemented.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "mcData": {
+          "type": "RoleBasedMcData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reference to related McDataElement describing the implementation of \"RP global buffer\", \"RP global \"RP enabler flag\" and the \"RP flag\"."
+        },
+        "rpImplPolicy": {
+          "type": "RptImplPolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the implemented code preparation for rapid data accesses."
+        },
+        "rptExecutable": {
+          "type": "RptExecutableEntity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ExecutableEntity instance which can be bypassed. atpSplitable; atpVariation"
+        }
+      }
+    },
+    {
+      "name": "RptExecutableEntity",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptComponent.rptExecutableEntity"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This describes a ExecutableEntity instance which can be bypassed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rptExecutable": {
+          "type": "RptExecutableEntity",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ExecutableEntity event instance activation the owning Rpt ExecutableEntity. atpVariation"
+        },
+        "rptRead": {
+          "type": "RoleBasedMcData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "read access to a variable atpSplitable; atpVariation"
+        },
+        "rptWrite": {
+          "type": "RoleBasedMcData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "write access to a variable atpSplitable; atpVariation"
+        },
+        "symbol": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The symbol describing this ExecutableEntity’s entry point."
+        }
+      }
+    },
+    {
+      "name": "RptExecutableEntityEvent",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptExecutableEntity.rptExecutableEntityEvent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This describes an ExecutableEntity event instance which can be bypassed.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 201,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "execution": {
+          "type": "RptExecutionContext",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This describes the context in which the event of the entity is executed."
+        },
+        "mcData": {
+          "type": "RoleBasedMcData",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reference to related McDataElements describing the implementation of \"RP runnable disabler flag\" and flag\" roles of the RoleBasedMcData are:"
+        },
+        "rptEventId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "RPT event id used for service points call."
+        },
+        "rptExecutable": {
+          "type": "RptExecutableEntity",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the implemented code preparation for rapid prototyping at ExecutableEntity invocation."
+        },
+        "rptImplPolicy": {
+          "type": "RptImplPolicy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the RptImplPolicy of a RptExecutableEvent for bypassing."
+        },
+        "rptServicePoint": {
+          "type": "RptServicePoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This describes the applicable Pre Service Points for a / BswEvent of a bypassed ExecutableEntity."
+        }
+      }
+    },
+    {
+      "name": "RptExecutionContext",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptSupportData.executionContext"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines an environment for the execution of ExecutableEntites which is qualified by • OSTask • communication buffer usage",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 205,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "RptServicePoint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RptSupportData.rptServicePoint"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of a Service Point implemented for rapid prototyping.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 206,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "serviceId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Unique ID (Range: 0 ... 65535) representing the service"
+        },
+        "symbol": {
+          "type": "CIdentifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Complete symbol of the function implementing the This symbol is used for post-build hooking"
+        }
+      }
+    }
+  ]
+}

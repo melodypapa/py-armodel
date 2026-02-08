@@ -1,0 +1,1174 @@
+{
+  "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+  "classes": [
+    {
+      "name": "SecurityEventContextProps",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecurityEventContextMapping.mappedSecurityEvent"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class specifies the SecurityEventDefinition to be mapped to an IdsmInstance and adds mapping-dependent properties of this security event valid only for this specific mapping.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 258,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 33,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextData": {
+          "type": "SecurityEventContext",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the definition of optional data for security events. atpVariation"
+        },
+        "default": {
+          "type": "SecurityEventReporting",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the default reporting mode for the referenced security event."
+        },
+        "persistent": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls whether qualified reportings of the security event shall be stored persistently by IdsmInstance or not."
+        },
+        "securityEvent": {
+          "type": "SecurityEventDefinition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the security event that is mapped by SecurityEventMappingProps with properties. atpVariation"
+        },
+        "sensorInstance": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the ID of the security sensor that the referenced security event. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "severity": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how critical/severe the referenced is. Please note that currently, the severity of specific integer values is not specified but left to the party responsible for the IDS (e.g. the OEM)."
+        }
+      }
+    },
+    {
+      "name": "SecurityEventDefinition",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdsCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a security-related event as part of the intrusion detection system.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 259,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 17,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "eventSymbol": {
+          "type": "SymbolProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation defines optionally an alternative Event for the SecurityEventDefinition in case there is a shortNames."
+        },
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the numerical identification of security event. The identification shall be the scope of the IDS."
+        }
+      }
+    },
+    {
+      "name": "IdsDesign",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the root element of a SecurityExtract file for IDS development. It defines the scope of an IDS to be designed and implemented by referencing all SecurityExtract meta-classes that need to be included into the IDS development process.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 16,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "element": {
+          "type": "IdsCommonElement",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference includes an element with IDS related the IdsDesign. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SecurityEventFilterChain",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdsCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a configurable chain of filters used to qualify security events. The different filters of this filter chain are applied in the follow order: SecurityEventStateFilter, SecurityEventOneEvery NFilter, SecurityEventAggregationFilter, SecurityEventThresholdFilter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 20,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "aggregation": {
+          "type": "SecurityEvent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the aggregation filter in the chain."
+        },
+        "oneEveryN": {
+          "type": "SecurityEventOneEvery",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the sampling filter in the filter"
+        },
+        "state": {
+          "type": "SecurityEventStateFilter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the state filter in the event 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11"
+        },
+        "threshold": {
+          "type": "SecurityEventThreshold",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the threshold filter in the filter"
+        }
+      }
+    },
+    {
+      "name": "AbstractSecurityEventFilter",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "SecurityEventStateFilter",
+        "SecurityEventOneEveryNFilter",
+        "SecurityEventAggregationFilter",
+        "SecurityEventThresholdFilter"
+      ],
+      "subclasses": [
+        "SecurityEventAggregationFilter",
+        "SecurityEventOneEveryNFilter",
+        "SecurityEventStateFilter",
+        "SecurityEvent"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as a base class for security event filters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 21,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SecurityEventStateFilter",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractSecurityEventFilter",
+      "bases": [
+        "ARObject",
+        "AbstractSecurityEventFilter",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecurityEventFilterChain.state"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the configuration of a state filter for security events. The referenced states represent a block list, i.e. the security events are dropped if the referenced state is the active state in the relevant state machine (which depends on whether the IdsM instance runs on the Classic or the Adaptive Platform).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 22,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blockIfState": {
+          "type": "BlockState",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "For the CP, this reference defines the states of the block That means, if a security event (mapped to the filter which the SecurityEventStateFilter belongs to) is the currently active block state in the IdsM of the referenced block listed states, the IdsM shall reported security event."
+        }
+      }
+    },
+    {
+      "name": "SecurityEventOneEveryNFilter",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractSecurityEventFilter",
+      "bases": [
+        "ARObject",
+        "AbstractSecurityEventFilter",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecurityEventFilterChain.oneEveryN"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the configuration of a sampling (i.e. every n-th event is sampled) filter for security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 24,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "n": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the configuration of the sampling it configures the parameter \"n\" that controls how (n-1) shall be dropped after a sampled event new sample is created."
+        }
+      }
+    },
+    {
+      "name": "SecurityEventAggregationFilter",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractSecurityEventFilter",
+      "bases": [
+        "ARObject",
+        "AbstractSecurityEventFilter",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecurityEventFilterChain.aggregation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the aggregation filter that aggregates all security events occurring within a configured time frame into one (i.e. the last reported) security event.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 24,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextData": {
+          "type": "SecurityEventContext",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes defines whether the context data of the first or last time-aggregated security event shall be used for qualified security event."
+        },
+        "minimum": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the configuration of the minimum window in seconds for the aggregation filter."
+        }
+      }
+    },
+    {
+      "name": "SecurityEventThresholdFilter",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "AbstractSecurityEventFilter",
+      "bases": [
+        "ARObject",
+        "AbstractSecurityEventFilter",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecurityEventFilterChain.threshold"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the threshold filter that drops (repeatedly at each beginning of a configurable time interval) a configurable number of security events . All subsequently arriving security events (within the configured time interval) pass the filter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 26,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "intervalLength": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute configures the time interval in seconds for filter operation."
+        },
+        "threshold": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute configures the threshold number, i.e. how security events in the configured time frame are subsequent events start to pass the filter."
+        }
+      }
+    },
+    {
+      "name": "IdsmRateLimitation",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "AbstractSecurityIdsmInstanceFilter",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IdsmProperties.rateLimitationFilter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the configuration of a rate limitation filter for security events. This means that security events are dropped if the number of events (of any type) processed within a configurable time window is greater than a configurable threshold.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 28,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxEventsIn": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute configures the threshold for dropping events if the number of all processed security the threshold in the respective time"
+        },
+        "timeInterval": {
+          "type": "Float",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute configures the length of the time interval in dropping security events if the number of all events exceeds the configurable the respective time interval."
+        }
+      }
+    },
+    {
+      "name": "IdsmTrafficLimitation",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "AbstractSecurityIdsmInstanceFilter",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IdsmProperties.trafficLimitationFilter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the configuration of a traffic limitation filter for Security Events. This means that security events are dropped if the size (in terms of bandwidth) of security events (of any type) processed within a configurable time window is greater than a configurable threshold.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 28,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxBytesIn": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute configures the threshold for dropping events if the size of all processed security events threshold in the respective time interval."
+        },
+        "timeInterval": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute configures the length of the time interval in dropping security events if the size of all events exceeds the configurable the respective time interval."
+        }
+      }
+    },
+    {
+      "name": "SecurityEventContextMapping",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "IdsMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "IdsMapping",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [
+        "SecurityEventContextMappingBswModule",
+        "SecurityEventContextMappingFunctionalCluster",
+        "SecurityEventContextMappingCommConnector",
+        "SecurityEventContextMappingApplication"
+      ],
+      "subclasses": [
+        "SecurityEventContextMappingApplication",
+        "SecurityEventContextMappingBswModule",
+        "SecurityEventContextMappingCommConnector",
+        "SecurityEventContextMappingFunctionalCluster"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to create an association between a collection of security events, an IdsM instance which handles the security events and the filter chains applicable to the security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 32,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "filterChain": {
+          "type": "SecurityEventFilter",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the filter chain to be applied to of the referenced security events (depending on the atpVariation"
+        },
+        "idsmInstance": {
+          "type": "IdsmInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference defines the IdsmInstance onto which the are mapped. atpVariation 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11"
+        },
+        "mappedSecurity": {
+          "type": "SecurityEventContext",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents (through further references) the SecurityEventDefinitions to be mapped to an Idsm additional mapping-dependent properties. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SecurityEventContextMappingBswModule",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SecurityEventContextMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "IdsMapping",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SecurityEventContextMapping",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a collection of security events with an IdsM instance and with the executional context of a BSW module in which this IdsM instance can receive reports for these security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 38,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "affectedBsw": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to identify the name of the BSW in whose executional context a security event can set of BSW module names is standardized by"
+        }
+      }
+    },
+    {
+      "name": "SecurityEventContextMappingFunctionalCluster",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SecurityEventContextMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "IdsMapping",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SecurityEventContextMapping",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a collection of security events with an IdsM instance and with the executional context of a functional cluster in which this IdsM instance can receive reports for these security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 39,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "affected": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to identify the name of the functional in whose executional context a security event can The set of functional cluster names is standardized"
+        }
+      }
+    },
+    {
+      "name": "SecurityEventContextMappingCommConnector",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SecurityEventContextMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "IdsMapping",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SecurityEventContextMapping",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a collection of security events with an IdsM instance and with the executional context related to a CommunicationConnector in which this IdsM instance can receive reports for these security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 40,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "comm": {
+          "type": "Communication",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the respective Communication Connector for which the collection of security events can atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SecurityEventContextMappingApplication",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SecurityEventContextMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "IdsMapping",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "SecurityEventContextMapping",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a collection of security events with an IdsM instance and with the executional context of an application (e.g. name of SWC on CP or name of SWCL on AP) in which this IdsM instance can receive reports for these security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 42,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "affected": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to identify the name of the in whose executional context a security event This application can be, for example, a name Software Component (for CP) or a Software Cluster AP)."
+        }
+      }
+    },
+    {
+      "name": "IdsmInstance",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdsCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to create a relation between an EcuInstance and a specific class of filters for security events that apply for all security events reported on the referenced EcuInstance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 44,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "blockState": {
+          "type": "BlockState",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This reference defines the BlockState in the collection"
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the EcuInstance whose security any type) shall be limited by the specific class atpVariation"
+        },
+        "idsmInstanceId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to provide a source identification in of reporting security events.."
+        },
+        "idsmModule": {
+          "type": "IdsmModule",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the meta-class that defines the attributes for the IdsM configuration on a specific"
+        },
+        "rateLimitation": {
+          "type": "IdsmRateLimitation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable rate limitation filter all security events on the related EcuInstance. atpVariation"
+        },
+        "signature": {
+          "type": "IdsmSignatureSupport",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The existence of this aggregation specifies that the IdsM shall add a signature to the QSEv messages it sends network. The cryptographic algorithm and key to for this signature is further specified by the specifically for the Classic"
+        },
+        "timestamp": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The existence of this attribute specifies that the IdsM shall a timestamp to the QSEv messages it sends onto the if this attribute does not exist, no timestamp added to the QSEv messages. of this attribute further specifies the as follows: - \"AUTOSAR\" defines timestamp format according to Time-Base Manager - Any other string proprietary timestamp format. string defining a proprietary timestamp format prefixed by a company-specific name fragment to"
+        },
+        "trafficLimitation": {
+          "type": "IdsmTrafficLimitation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable traffic limitation for all security events on the related EcuInstance. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "BlockState",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IdsmInstance.blockState"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines a block state that is part of the collection of block states belonging to a specific IdsmInstance. The IdsM shall discard any reported security event that is mapped to a filter chain containing a SecurityEventStateFilter that references the block state which is currently active in the IdsM.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 52,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "IdsCommonElement",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [
+        "SecurityEventDefinition",
+        "SecurityEventFilterChain",
+        "IdsmInstance",
+        "IdsMapping",
+        "IdsmProperties"
+      ],
+      "subclasses": [
+        "IdsMapping",
+        "IdsmInstance",
+        "IdsmProperties",
+        "SecurityEventDefinition",
+        "SecurityEventFilterChain"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a common base class for IDS related elements of the Security Extract. It does not contribute any specific functionality other than the ability to become the target of a reference.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "IdsMapping",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "IdsCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [
+        "SecurityEventContextMapping"
+      ],
+      "subclasses": [
+        "SecurityEventContextMapping"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class serves as abstract base class for mappings related to an IDS design.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 62,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "IdsmProperties",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdsCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "IdsCommonElement",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to aggregate filters for security events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 63,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rateLimitation": {
+          "type": "IdsmRateLimitation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of rate filters for security events in the enclosing 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11"
+        },
+        "trafficLimitation": {
+          "type": "IdsmTrafficLimitation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of traffic filters for security events in the enclosing"
+        }
+      }
+    },
+    {
+      "name": "IdsmSignatureSupportAp",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IdsmInstance.signatureSupportAp"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines, for the Adaptive Platform, the cryptographic algorithm and key to be used by the IdsM instance for providing signature information in QSEv messages.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 64,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cryptoPrimitive": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the cryptographic algorithm to be providing authentication information in QSEv content of this attribute shall comply to Primitives Naming Convention\"."
+        },
+        "keySlot": {
+          "type": "CryptoKeySlot",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference denotes the cryptographic key to be used cryptographic algorithm for providing in QSEv messages."
+        }
+      }
+    },
+    {
+      "name": "IdsmSignatureSupportCp",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IdsmInstance.signatureSupportCp"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines, for the Classic Platform, the cryptographic algorithm and key to be used by the IdsM instance for providing signature information in QSEv messages.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 64,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "CryptoServicePrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference dennotes the cryptographic primitives for information in QSEv messages."
+        },
+        "cryptoService": {
+          "type": "CryptoServiceKey",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference denotes the cryptographic key to be used the cryptographic algorithm for providing in QSEv messages."
+        }
+      }
+    },
+    {
+      "name": "SecurityEventContextData",
+      "package": "M2::AUTOSARTemplates::SecurityExtractTemplate",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SecurityEventContextProps.contextData"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the possibility that context data can be attached to the aggregating Security EventDefinition. If this meta-class does not exist for a SecurityEventDefinition, then no context data shall be provided for this SecurityEventDefinition.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 66,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

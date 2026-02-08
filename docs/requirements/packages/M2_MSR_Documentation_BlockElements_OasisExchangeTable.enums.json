@@ -1,0 +1,170 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+  "enumerations": [
+    {
+      "name": "FloatEnum",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "note": "This enumerator specifies the policy how an objects floats on a page. Aggregated by MultiLanguageVerbatim.float, Table.float",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 333,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "float",
+          "index": 0,
+          "description": "This indicates that a page formatter is allowed to float the table to optimize the pagination. This is for example supported by TeX.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "noFloat",
+          "index": 1,
+          "description": "This indicates that a page formatter is not allowed to float the object to optimize the pagination.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "FrameEnum",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "note": "This enumerator specifies the policy, where to place a frame border around the table. Aggregated by MlFigure.frame, Table.frame",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 334,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "all",
+          "index": 0,
+          "description": "Borders all around the table<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "bottom",
+          "index": 1,
+          "description": "Border at the bottom of the table<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "none",
+          "index": 2,
+          "description": "No borders around the table<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "sides",
+          "index": 3,
+          "description": "Borders at the sides of the table<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "top",
+          "index": 4,
+          "description": "Border at the top of the table<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "topbot",
+          "index": 5,
+          "description": "Borders at the top and bottom of the table<br>Tags: atp.EnumerationLiteralIndex=5"
+        }
+      ]
+    },
+    {
+      "name": "AlignEnum",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "note": "This enumerator specifies horizontal alignment. Aggregated by Colspec.align, Entry.align, Tgroup.align",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 335,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "center",
+          "index": 0,
+          "description": "The content of the table is horizontally centered.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "justify",
+          "index": 1,
+          "description": "This indicates that the content of table cell shall be justified (rendered as a block where white-space is expanded such that all lines are filled up).<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "leftright",
+          "index": 3,
+          "description": "This indicates that the content of a table cell is left justified.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "ValignEnum",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "note": "This enumerator specifies vertical alignment. Aggregated by Entry.valign, Row.valign, Tbody.valign",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "bottom",
+          "index": 0,
+          "description": "The contents of the table cell is bottom aligned.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "middle",
+          "index": 1,
+          "description": "The contents of the table is vertically centered.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "top",
+          "index": 2,
+          "description": "The contents of the table cell is top aligned.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "PgwideEnum",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "note": "This enumerator specifies, if the table shall be rendered across the entire page, even if it is placed in side-head layouts. Aggregated by MlFigure.pgwide, MultiLanguageVerbatim.pgwide",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 348,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "noPgwide",
+          "index": 0,
+          "description": "This indicates that the table shall be fit in the current text flow.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "Generic",
+          "index": null,
+          "description": "Structure Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "FO R23-11"
+        },
+        {
+          "name": "pgwide",
+          "index": 1,
+          "description": "This indicates that the table may use the entire page width. This is in particular important in case of so called \"side-head layouts\" but also if the table is in a list or in a note.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

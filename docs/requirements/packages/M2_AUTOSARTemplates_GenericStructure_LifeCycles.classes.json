@@ -1,0 +1,290 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+  "classes": [
+    {
+      "name": "LifeCycleStateDefinitionGroup",
+      "package": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta class represents the ability to define the states and properties of one particular life cycle.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 388,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 196,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lcState": {
+          "type": "LifeCycleState",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes a single life cycle state of this life cycle state"
+        }
+      }
+    },
+    {
+      "name": "LifeCycleState",
+      "package": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LifeCycleStateDefinitionGroup.lcState"
+      ],
+      "implements": [
+        "AtpBlueprint",
+        "AtpBlueprintable"
+      ],
+      "implemented_by": [],
+      "note": "This meta class represents one particular state in the LifeCycle.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 388,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 196,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LifeCycleInfoSet",
+      "package": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class represents the ability to attach a life cycle information to a particular set of elements. The information can be defined for a particular period. This supports the definition of transition plans. If no period is specified, the life cycle state applies forever.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 391,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 195,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defaultLcState": {
+          "type": "LifeCycleState",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This denotes the default life cycle state. To be used in all within the LifeCycleInfoSet if no state is stated there explicitly. I.e. the defaultLc be overwritten in LifeCycleInfo elements."
+        },
+        "defaultPeriod": {
+          "type": "LifeCyclePeriod",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Default expiry date, i.e. default end point of period for all specified lifeCycleInfo apply. Note that the can be overridden for each lifeCycleInfo"
+        },
+        "lifeCycleInfo": {
+          "type": "LifeCycleInfo",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents one particular life cycle information."
+        },
+        "usedLifeCycle": {
+          "type": "LifeCycleStateDefinition",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This denotes the life cycle states applicable to the current life cycle info set."
+        }
+      }
+    },
+    {
+      "name": "LifeCyclePeriod",
+      "package": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LifeCycleInfo.periodBegin",
+        "LifeCycleInfo.periodEnd",
+        "LifeCycleInfoSet.defaultPeriodBegin",
+        "LifeCycleInfo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta class represents the ability to specify a point of time within a specified period, e.g. the starting or end point, in which a specific life cycle state is valid/applies to.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 392,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arRelease": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version of the AUTOSAR Release the element referred to part of. contains three levels (major, minor, are defined by AUTOSAR."
+        },
+        "date": {
+          "type": "DateTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Date within period."
+        },
+        "productRelease": {
+          "type": "RevisionLabelString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version of the product within the period."
+        }
+      }
+    },
+    {
+      "name": "LifeCycleInfo",
+      "package": "M2::AUTOSARTemplates::GenericStructure::LifeCycles",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LifeCycleInfoSet.lifeCycleInfo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "LifeCycleInfo describes the life cycle state of an element together with additional information like what to use instead",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 392,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 195,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "lcObject": {
+          "type": "Referrable",
+          "multiplicity": "1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Element(s) have the life cycle as described in lcState."
+        },
+        "lcState": {
+          "type": "LifeCycleState",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This denotes the particular state assigned to the object. If is given then the default life cycle state of Life assumed."
+        },
+        "periodBegin": {
+          "type": "LifeCyclePeriod",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Starting point of period in which the element has the cycle state lcState. If no periodBegin is given default period begin of LifeCycleInfoSet is 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "periodEnd": {
+          "type": "LifeCyclePeriod",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Expiry date, i.e. end point of period the element does not denoted life cycle state lcState any more. If no given then the default period begin of Life assumed."
+        },
+        "remark": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Remark describing for example the element was given the specified life cycle semantics of useInstead"
+        },
+        "useInstead": {
+          "type": "Referrable",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Element(s) that should be used instead of the one referrable. in case of life cycle states lcState unlike case there are multiple references the exact be individually described in the remark."
+        }
+      }
+    }
+  ]
+}

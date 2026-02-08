@@ -1,0 +1,34 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "ServiceMapping",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping_ServiceMapping.json"
+    },
+    {
+      "name": "FimMapping",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping_FimMapping.json"
+    },
+    {
+      "name": "DiagnosticJ1939Mapping",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping_DiagnosticJ1939Mapping.json"
+    },
+    {
+      "name": "CpSoftwareCluster",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_DiagnosticMapping_CpSoftwareCluster.json"
+    }
+  ],
+  "summary": {
+    "class_count": 17,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,729 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+  "enumerations": [
+    {
+      "name": "NvBlockNeedsReliabilityEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "Reliability against data loss on the non-volatile medium. These requirements give only a relative indication, for example on the required degree of redundancy for storage. They do, however, not specify by which means (e.g. software or hardware) the reliability is actually achieved. Aggregated by NvBlockNeeds.reliability",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 680,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "errorCorrection",
+          "index": 0,
+          "description": "Errors shall be corrected<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "errorDetection",
+          "index": 1,
+          "description": "Errors shall be detected<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "noProtection",
+          "index": 2,
+          "description": "Data need not to be handled with protection<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "NvBlockNeedsWritingPriorityEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "Specifies the priority of writing this block in case of concurrent requests to write other blocks. Aggregated by NvBlockNeeds.writingPriority",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 680,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "high",
+          "index": 0,
+          "description": "Writing priority is high.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "low",
+          "index": 1,
+          "description": "Writing priority is low.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "medium",
+          "index": 2,
+          "description": "Writing priority is medium.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "MaxCommModeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "Maximum bus communication mode required by a user of the Communication Manager Service. Aggregated by ComMgrUserNeeds.maxCommMode (cid:53) 233 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 233,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 711,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "full",
+          "index": 0,
+          "description": "Full communication is requested.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "No communication is requested.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "silent",
+          "index": 2,
+          "description": "Silent communication is requested: Only listening but not \"talking\".<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticValueAccessEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "Defines the access of the configured diagnostic current values which will be used by the Dem or Dcm module. Aggregated by DiagnosticValueNeeds.diagnosticValueAccess",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 246,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 114,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 782,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "readOnlyinformation",
+          "index": 0,
+          "description": "The access to the data element is limited to read-only. This is typically used to read-out diagnostic<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "readWrite",
+          "index": 1,
+          "description": "The value of the diagnostic data element is classified as configurable (read and write access is<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "writeOnly",
+          "index": 2,
+          "description": "The access to the data element is limited to write-only. This supports the use case where the Dcm just writes data to the application software without the intention to read it back,<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticProcessingStyleEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This meta-class represents the ability to define the processing style of diagnostic requests. Aggregated by DiagnosticValueNeeds.processingStyle",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 246,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 115,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 783,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Basic",
+          "index": null,
+          "description": "Software Module Description Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "processingStyle",
+          "index": 0,
+          "description": "The software-component processes the request in background but still the Dcm has to issue the call Asynchronous again to eventually obtain the result of the request.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "processingStyleError",
+          "index": 1,
+          "description": "The software-component processes the request in background but still the Dcm has to issue the call AsynchronousWith again to eventually obtain the result of the request or handle error code.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "processingStyleSynchronous",
+          "index": 2,
+          "description": "The software-component is supposed to react synchronously on the request.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticRoutineTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumerator specifies the different types of diagnostic routines. Aggregated by DiagnosticRoutineNeeds.diagRoutineType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 247,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 126,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 780,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "asynchronous",
+          "index": 0,
+          "description": "This indicates that the diagnostic server is not blocked while the diagnostic routine is running.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "synchronous",
+          "index": 1,
+          "description": "This indicates that the diagnostic routine blocks the diagnostic server in the ECU while the routine is<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ServiceProviderEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This represents a list of possible service providers Aggregated by PortInterface.serviceKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 90,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "anyStandardized",
+          "index": 0,
+          "description": "This value means that the specific nature is either unknown or it is not important for the given<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "basicSoftwareModeManager",
+          "index": 1,
+          "description": "The service relates to the Basic Software Mode Manager (BswM)<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "comManager",
+          "index": 2,
+          "description": "The service relates to the COM Manager (ComM).<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "cryptoKeyManagement",
+          "index": 23,
+          "description": "The service relates to the Key Manager (KeyM).<br>Tags: atp.EnumerationLiteralIndex=23"
+        },
+        {
+          "name": "cryptoServiceManager",
+          "index": 3,
+          "description": "The service relates to the Crypto Service Manager (CsM).<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "defaultErrorTracer",
+          "index": 4,
+          "description": "The service relates to the Default Error Tracer (DET)<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "diagnosticCommunication",
+          "index": 6,
+          "description": "The service relates to the Diagnostic Communication Manager (DCM).<br>Tags: atp.EnumerationLiteralIndex=6"
+        },
+        {
+          "name": "diagnosticEventManager",
+          "index": 7,
+          "description": "The service relates to the Diagnostic Event Manager (DEM).<br>Tags: atp.EnumerationLiteralIndex=7"
+        },
+        {
+          "name": "diagnosticLogAndTrace",
+          "index": 8,
+          "description": "The service relates to the Diagnostic Log and Trace (DLT).<br>Tags: atp.EnumerationLiteralIndex=8"
+        },
+        {
+          "name": "ecuManager",
+          "index": 9,
+          "description": "The service relates to the ECU Manager (EcuM).<br>Tags: atp.EnumerationLiteralIndex=9"
+        },
+        {
+          "name": "errorTracer",
+          "index": 18,
+          "description": "This service relates to the error tracer.<br>Tags: atp.EnumerationLiteralIndex=18"
+        },
+        {
+          "name": "functionInhibitionManager",
+          "index": 10,
+          "description": "The service relates to the Function Inhibition Manager (FIM).<br>Tags: atp.EnumerationLiteralIndex=10"
+        },
+        {
+          "name": "hardwareTestManager",
+          "index": 19,
+          "description": "This service relates to the hardware test manager.<br>Tags: atp.EnumerationLiteralIndex=19"
+        },
+        {
+          "name": "intrusionDetectionSecurity",
+          "index": 24,
+          "description": "The service relates to the intrusion detection security management (IdsM).<br>Tags: atp.EnumerationLiteralIndex=24"
+        },
+        {
+          "name": "j1939Dcm",
+          "index": 22,
+          "description": "This service relates to the J1939 Dcm.<br>Tags: atp.EnumerationLiteralIndex=22"
+        },
+        {
+          "name": "j1939RequestManager",
+          "index": 11,
+          "description": "The service relates to the J1939Rm.<br>Tags: atp.EnumerationLiteralIndex=11"
+        },
+        {
+          "name": "Software",
+          "index": null,
+          "description": "Component Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "nonVolatileRamManager",
+          "index": 12,
+          "description": "The service relates to the Non-Volatile RAM Manager (NvM).<br>Tags: atp.EnumerationLiteralIndex=12"
+        },
+        {
+          "name": "operatingSystem",
+          "index": 13,
+          "description": "The service relates to the Operating System (OS).<br>Tags: atp.EnumerationLiteralIndex=13"
+        },
+        {
+          "name": "secureOnBoardCommunication",
+          "index": 14,
+          "description": "The service relates to the SecOc module.<br>Tags: atp.EnumerationLiteralIndex=14"
+        },
+        {
+          "name": "syncBaseTimeManager",
+          "index": 15,
+          "description": "The service relates to the Sync Time Base Manager (StbM).<br>Tags: atp.EnumerationLiteralIndex=15"
+        },
+        {
+          "name": "v2xFacilities",
+          "index": 20,
+          "description": "This service relates to the Vehicle to X facilities.<br>Tags: atp.EnumerationLiteralIndex=20"
+        },
+        {
+          "name": "v2xManagement",
+          "index": 21,
+          "description": "This service relates to the Vehicle to X management.<br>Tags: atp.EnumerationLiteralIndex=21"
+        },
+        {
+          "name": "vendorSpecific",
+          "index": 16,
+          "description": "This value denotes a vendor-specific service.<br>Tags: atp.EnumerationLiteralIndex=16"
+        },
+        {
+          "name": "watchDogManager",
+          "index": 17,
+          "description": "The service relates to the Watchdog Manager (WdgM).<br>Tags: atp.EnumerationLiteralIndex=17"
+        }
+      ]
+    },
+    {
+      "name": "ServiceDiagnosticRelevanceEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumeration provides values to describe the diagnostic relevance of a SwcServiceDependency (specifically if the aggregated ServiceNeeds itself does not indicate a relevance for diagnostics). Aggregated by ServiceDependency.diagnosticRelevance",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 609,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "isNotRelevant",
+          "index": 0,
+          "description": "This value indicates that a relevance for diagnostics does not exist.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "isRelevant",
+          "index": 1,
+          "description": "This value indicates a relevance for diagnostics.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticAudienceEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "The possible values of the intended audience for a diagnostic object. Aggregated by DiagnosticCapabilityElement.audience",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 754,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "aftermarket",
+          "index": 1,
+          "description": "The object is for free aftermarket service organizations.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "afterSales",
+          "index": 2,
+          "description": "The object is relevant for the OEM after-sales organization.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "development",
+          "index": 3,
+          "description": "The object is relevant for engineering only.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "manufacturing",
+          "index": 4,
+          "description": "The object is relevant for manufacturing.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "supplier",
+          "index": 5,
+          "description": "The object is relevant for the ECU-supplier aftermarket organization.<br>Tags: atp.EnumerationLiteralIndex=5"
+        }
+      ]
+    },
+    {
+      "name": "OperationCycleTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "The possible values of the operation cycles types for the Dem. Aggregated by DiagnosticOperationCycleNeeds.operationCycle",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 761,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ignition",
+          "index": 0,
+          "description": "Ignition ON / OFF cycle.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "obdDcy",
+          "index": 1,
+          "description": "OBD Driving cycle.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "other",
+          "index": 2,
+          "description": "Further operation cycle.<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "power",
+          "index": 3,
+          "description": "Power ON / OFF cycle.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "time",
+          "index": 4,
+          "description": "Time based operation cycle.<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "warmup",
+          "index": 5,
+          "description": "OBD Warm up cycle.<br>Tags: atp.EnumerationLiteralIndex=5"
+        }
+      ]
+    },
+    {
+      "name": "EventAcceptanceStatusEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumerator specifies the initial status for enable or disable of acceptance of event reports of a diagnostic event. Aggregated by DiagnosticEnableConditionNeeds.initialStatus",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 762,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "eventAcceptanceDisabled",
+          "index": 0,
+          "description": "Acceptance of a diagnostic event is disabled.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "eventAcceptanceEnabled",
+          "index": 1,
+          "description": "Acceptance of a diagnostic event is enabled.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "StorageConditionStatusEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumeration specifies the initial status for enable or disable of storage of a diagnostic event. Aggregated by DiagnosticStorageConditionNeeds.initialStatus",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 762,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "eventStorageDisabled",
+          "index": 0,
+          "description": "Storage of a diagnostic event is disabled.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "eventStorageEnabled",
+          "index": 1,
+          "description": "Storage of a diagnostic event is enabled.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticClearDtcNotificationEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumeration supports the specification of the time when the ClearDtcNotification callback is supposed to be executed. Aggregated by DtcStatusChangeNotificationNeeds.notificationTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 776,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "finish",
+          "index": 1,
+          "description": "The ClearDtcCallback shall be executed when the DTC operation finishes.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "start",
+          "index": 0,
+          "description": "The ClearDtcCallback shall be executed when the DTC operation starts.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticServiceRequestCallbackTypeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This represents the ability to define whether a Service Request Notification was used in the role of a manufacturer or a supplier. Aggregated by DiagnosticCommunicationManagerNeeds.serviceRequestCallbackType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 779,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "Software",
+          "index": null,
+          "description": "Component Template"
+        },
+        {
+          "name": "AUTOSAR",
+          "index": null,
+          "description": "CP R23-11"
+        },
+        {
+          "name": "requestCallback",
+          "index": 0,
+          "description": "This represents the case that the usage of PortInterface ServiceRequestNotification has the TypeManufacturer characteristics of being used by a manufacturer.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "requestCallback",
+          "index": 1,
+          "description": "This represents the case that the usage of PortInterface ServiceRequestNotification has the TypeSupplier characteristics of being used by a supplier.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ObdRatioConnectionKindEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "Defines the way how the IUMPR service connection between the Dem and the client component or module is handled (for details see the DEM Specification). Aggregated by ObdRatioServiceNeeds.connectionType",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 796,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "apiUse",
+          "index": 0,
+          "description": "The IUMPR service (of the DEM) uses an explicit API to connect to the component or module.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "observer",
+          "index": 1,
+          "description": "The IUMPR service (of the Dem) uses no API but \"observes\" the associated diagnostic event.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticMonitorUpdateKindEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumeration indicates the acceptance criteria for a diagnostic monitor. Aggregated by ObdMonitorServiceNeeds.updateKind",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 798,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "always",
+          "index": 0,
+          "description": "The value ’always’ configures Dem to accept the call to SetDTR() regardless of the state of the<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "steady",
+          "index": 1,
+          "description": "The value ’steady’ configures Dem to accept it only when debouncing is at the limit.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticDenominatorConditionEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumeration contains valid denominator types. Aggregated by ObdRatioDenominatorNeeds.denominatorCondition",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 803,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "_500miles",
+          "index": 2,
+          "description": "Condition based on definition of 500miles conditions as defined for OBD2.<br>Tags: atp.EnumerationLiteralIndex=2, xml.name=-500-MILES"
+        },
+        {
+          "name": "coldstart",
+          "index": 0,
+          "description": "Condition based on definition of \"cold start\" as defined for EU5+<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "csers",
+          "index": 5,
+          "description": "Conditions based on the \"Cold start emission reduction strategy\" denominator<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "evap",
+          "index": 1,
+          "description": "Condition based on definition of \"EVAP\" conditions as defined for OBD2.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "evappurgeflow",
+          "index": 3,
+          "description": "Conditions based on the \"EVAP purge flow\" denominator. individual condition based on definition of individual requirements.<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "obd",
+          "index": 4,
+          "description": "Condition based on definition of OBD requirements.<br>Tags: atp.EnumerationLiteralIndex=4"
+        }
+      ]
+    },
+    {
+      "name": "VerificationStatusIndicationModeEnum",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ServiceNeeds",
+      "note": "This enumeration provides options for setting the mode of a verification status indication. Aggregated by SecureOnBoardCommunicationNeeds.verificationStatusIndicationMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 824,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "failureAndSuccess",
+          "index": 1,
+          "description": "Verification attempts that came out \"false\" or \"true\" shall be forwarded to the application software.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "failureOnly",
+          "index": 0,
+          "description": "Only verification attempts that came out \"false\" shall be forwarded to the application software.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

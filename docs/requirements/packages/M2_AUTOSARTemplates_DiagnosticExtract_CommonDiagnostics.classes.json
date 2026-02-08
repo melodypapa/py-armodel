@@ -1,0 +1,981 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+  "classes": [
+    {
+      "name": "DiagnosticCommonElement",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticAbstractDataIdentifier",
+        "DiagnosticRoutine",
+        "DiagnosticParameterIdentifier",
+        "DiagnosticInfoType",
+        "DiagnosticProtocol",
+        "DiagnosticServiceTable",
+        "DiagnosticEcuInstanceProps",
+        "DiagnosticTroubleCode",
+        "DiagnosticTroubleCodeGroup",
+        "DiagnosticTroubleCodeProps",
+        "DiagnosticDataIdentifierSet",
+        "DiagnosticAccessPermission",
+        "DiagnosticSession",
+        "DiagnosticSecurityLevel",
+        "DiagnosticAuthRole",
+        "DiagnosticServiceClass",
+        "DiagnosticServiceInstance",
+        "DiagnosticEnvironmentalCondition",
+        "DiagnosticMemoryIdentifier",
+        "DiagnosticPowertrainFreezeFrame",
+        "DiagnosticTestRoutineIdentifier",
+        "DiagnosticEvent",
+        "DiagnosticIumpr",
+        "DiagnosticIumprGroup",
+        "DiagnosticIumprDenominatorGroup",
+        "DiagnosticAbstractAliasEvent",
+        "DiagnosticMemoryDestination",
+        "DiagnosticMapping",
+        "DiagnosticExtendedDataRecord",
+        "DiagnosticFreezeFrame",
+        "DiagnosticCondition",
+        "DiagnosticConditionGroup",
+        "DiagnosticOperationCycle",
+        "DiagnosticAging",
+        "DiagnosticIndicator",
+        "DiagnosticTestResult",
+        "DiagnosticMeasurementIdentifier",
+        "DiagnosticFunctionIdentifier",
+        "DiagnosticFunctionIdentifierInhibit",
+        "DiagnosticFimEventGroup",
+        "DiagnosticJ1939Spn",
+        "DiagnosticJ1939FreezeFrame",
+        "DiagnosticJ1939ExpandedFreezeFrame",
+        "DiagnosticJ1939Node"
+      ],
+      "subclasses": [
+        "DiagnosticAbstractAliasEvent",
+        "DiagnosticAbstractDataIdentifier",
+        "DiagnosticAccessPermission",
+        "DiagnosticAging",
+        "DiagnosticAuthRole",
+        "DiagnosticCondition",
+        "DiagnosticConditionGroup",
+        "DiagnosticCustomServiceClass",
+        "DiagnosticDataIdentifierSet",
+        "DiagnosticEcuInstanceProps",
+        "DiagnosticEnvironmentalCondition",
+        "DiagnosticEvent",
+        "DiagnosticExtendedDataRecord",
+        "DiagnosticFimEventGroup",
+        "DiagnosticFreezeFrame",
+        "DiagnosticFunctionIdentifier",
+        "DiagnosticFunctionIdentifierInhibit",
+        "DiagnosticIndicator",
+        "DiagnosticInfoType",
+        "DiagnosticIumpr",
+        "DiagnosticIumprDenominatorGroup",
+        "DiagnosticIumprGroup",
+        "DiagnosticJ1939ExpandedFreezeFrame",
+        "DiagnosticJ1939FreezeFrame",
+        "DiagnosticJ1939Node",
+        "DiagnosticJ1939Spn",
+        "DiagnosticMapping",
+        "DiagnosticMeasurementIdentifier",
+        "DiagnosticMemoryDestination",
+        "DiagnosticMemoryIdentifier",
+        "DiagnosticOperationCycle",
+        "DiagnosticParameterIdentifier",
+        "DiagnosticPowertrainFreezeFrame",
+        "DiagnosticProtocol",
+        "DiagnosticRoutine",
+        "DiagnosticSecurityLevel",
+        "DiagnosticServiceClass",
+        "DiagnosticServiceInstance",
+        "DiagnosticServiceTable",
+        "DiagnosticSession",
+        "DiagnosticTestResult",
+        "DiagnosticTestRoutineIdentifier",
+        "DiagnosticTroubleCode",
+        "DiagnosticTroubleCodeGroup",
+        "DiagnosticTroubleCodeProps"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a common base class for all diagnostic elements. It does not contribute any specific functionality other than the ability to become the target of a reference.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 32,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticDataIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticAbstractDataIdentifier",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticAbstractDataIdentifier",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model a diagnostic data identifier (DID) that is fully specified regarding the payload at configuration-time. (cid:53) 33 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 33,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the dataElement associated with the Diagnostic atpVariation"
+        },
+        "didSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates the size in bytes of the Diagnostic"
+        },
+        "representsVin": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attributes indicates whether the specific Diagnostic the vehicle identification."
+        },
+        "supportInfoByte": {
+          "type": "DiagnosticSupportInfo",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the supported information with the DiagnosticDataIdentifier."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticDynamicDataIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticAbstractDataIdentifier",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticAbstractDataIdentifier",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a diagnostic data identifier (DID) at run-time.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 34,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticAbstractDataIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticDataIdentifier",
+        "DiagnosticDynamicDataIdentifier"
+      ],
+      "subclasses": [
+        "DiagnosticDataIdentifier",
+        "DiagnosticDynamicDataIdentifier"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents an abstract base class for the modeling of a diagnostic data identifier (DID).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 34,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the numerical identifier used to identify the the scope of"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticParameter",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticAbstractParameter",
+      "bases": [
+        "ARObject",
+        "DiagnosticAbstractParameter"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticDataIdentifier.dataElement",
+        "DiagnosticExtendedDataRecord.recordElement",
+        "DiagnosticInfoType.dataElement",
+        "DiagnosticParameterIdentifier.dataElement",
+        "DiagnosticRequestRoutineResults.request",
+        "DiagnosticRequestRoutineResults.response",
+        "DiagnosticStartRoutine.request",
+        "DiagnosticStartRoutine.response",
+        "DiagnosticStopRoutine.request",
+        "DiagnosticStopRoutine.response"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe information relevant for the execution of a specific diagnostic service, i.e. it can be taken to parameterize the service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 36,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ident": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The aggregation in the role ident provides the ability to the DiagnosticAbstractParameter identifiable. semantical point of view, the AbstractDiagnostic considered a first-class Identifiable and aggregation in the role ident shall always it may be possible to let AbstractDiagnostic inherit from Identifiable)."
+        },
+        "supportInfo": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to define which bit of support info byte is representing this part of the PID."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticParameterElement",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "DiagnosticAbstractParameter",
+        "DiagnosticServiceMappingDiagTarget",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticParameterElement.subElement",
+        "DiagnosticParameterIdent.subElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents an element of a DiagnosticParameter if the DiagnosticParameter represents a structure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 36,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arraySize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates that the enclosing Diagnostic an array and configures size in terms of the number of elements of the"
+        },
+        "subElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This collection represents the sub-elements on the next level."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticParameterIdent",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "IdentCaption",
+      "bases": [
+        "ARObject",
+        "DiagnosticServiceMappingDiagTarget",
+        "IdentCaption",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature",
+        "DiagnosticParameter.ident"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "This meta-class has been created to introduce the ability to become referenced into the meta-class AbstractDiagnosticParameter without breaking backwards compatibility.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 37,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "subElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This collection represents the subElements on the top"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticAbstractParameter",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "DiagnosticParameter"
+      ],
+      "subclasses": [
+        "DiagnosticParameter",
+        "DiagnosticParameterElement"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents an abstract base class for modeling a diagnostic parameter.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 37,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bitOffset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the bitOffset of the DiagnosticParameter. of the bitOffset shall always be interpreted as the start of the enclosing DiagnosticData or Diagnostic"
+        },
+        "dataElement": {
+          "type": "DiagnosticDataElement",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the related dataElement of the Diagnostic atpVariation"
+        },
+        "parameterSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute allows for the specification of the parameter information is relevant if there is a gap between parameter and the following diagnostic the tail of the telegram). The unit is bit and shall be multiples of 8."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticDataElement",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "DiagnosticServiceMappingDiagTarget",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticAbstractParameter.dataElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to describe a concrete piece of data to be taken into account for diagnostic purposes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 41,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 982,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arraySize": {
+          "type": "ArraySizeSemantics",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the meaning of the value of the array size."
+        },
+        "maxNumberOf": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The existence of this attribute turns the data instance into array of data. The attribute determines the size of the terms of how many elements the array can take."
+        },
+        "scalingInfoSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size in bytes of scaling information for the DiagnosticData used with DiagnosticReadScalingDataBy"
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property allows to specify data definition properties order to support the definition of e.g. computation data constraints."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRoutineSubfunction",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticStartRoutine",
+        "DiagnosticStopRoutine",
+        "DiagnosticRequestRoutineResults"
+      ],
+      "subclasses": [
+        "DiagnosticRequestRoutineResults",
+        "DiagnosticStartRoutine",
+        "DiagnosticStopRoutine"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as an abstract base class to routine subfunctions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 121,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "access": {
+          "type": "DiagnosticAccess",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference represents the access permission of the owning routine subfunction."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRoutine",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a diagnostic routine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 124,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the numerical identifier used to identify the the scope of diagnostic workflow"
+        },
+        "requestResult": {
+          "type": "DiagnosticRequest",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to request the result of a routine."
+        },
+        "routineInfo": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the routine info byte. The info byte manufacturer-specific value (for the record identifiers) that is reported to the cases for this attribute are mentioned in ISO ISO 26021."
+        },
+        "start": {
+          "type": "DiagnosticStartRoutine",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to start a routine"
+        },
+        "stop": {
+          "type": "DiagnosticStopRoutine",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ability to stop a running routine."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticStartRoutine",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticRoutineSubfunction",
+      "bases": [
+        "ARObject",
+        "DiagnosticRoutineSubfunction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticRoutine.start"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to start a diagnostic routine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 124,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "request": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the request parameters."
+        },
+        "response": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the response parameters."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticStopRoutine",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticRoutineSubfunction",
+      "bases": [
+        "ARObject",
+        "DiagnosticRoutineSubfunction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticRoutine.stop"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to stop a diagnostic routine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 125,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "request": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the request parameters."
+        },
+        "response": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the response parameters."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticRequestRoutineResults",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticRoutineSubfunction",
+      "bases": [
+        "ARObject",
+        "DiagnosticRoutineSubfunction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticRoutine.requestResult"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define the result of a diagnostic routine execution.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 125,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "request": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the request parameters."
+        },
+        "response": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the response parameters."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticParameterIdentifier",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model a diagnostic parameter identifier (PID) for the purpose of executing on-board diagnostics (OBD).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 149,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the data carried by the Diagnostic atpVariation"
+        },
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the numerical identifier used to identify the the scope of diagnostic SAE J1979-DA)."
+        },
+        "pidSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size of the entire PID can be greater than the sum of elements because padding might be applied."
+        },
+        "supportInfoByte": {
+          "type": "DiagnosticSupportInfo",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the supported information associated the DiagnosticParameterIdentifier."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticParameterSupportInfo",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticParameter.supportInfo"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a way to define which bit of the supportInfo is representing this part of the PID",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 149,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "supportInfoBit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "defines the bit in the SupportInfo byte, which represents DataElement pidSize / position / size. Unit: byte."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticSupportInfoByte",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DiagnosticDataIdentifier.supportInfoByte",
+        "DiagnosticParameterIdentifier.supportInfoByte"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines the support information (typically byte A) to declare the usability of the Data Elements within the so-called packeted PIDs (e.g. PID$68).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 150,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "position": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the position of the supportInfo in the PID."
+        },
+        "size": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the size of the supportInfo within the PID."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticInfoType",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model an OBD info type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "DiagnosticParameter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the data associated with the enclosing data"
+        },
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the value of InfoType (see SAE"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::Composition",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::Composition",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Composition.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "InstanceRefs",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_Composition_InstanceRefs.json"
+    }
+  ],
+  "summary": {
+    "class_count": 8,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+  "path": "M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 4,
+    "primitive_count": 0
+  }
+}

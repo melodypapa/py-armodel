@@ -1,0 +1,35 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticOperationCycle",
+  "enumerations": [
+    {
+      "name": "DiagnosticOperationCycleTypeEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticOperationCycle",
+      "note": "Operation cycles types used to identify certain Operation cycles with a certain semantics. Aggregated by DiagnosticOperationCycle.type",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 201,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "ignition",
+          "index": 0,
+          "description": "Ignition ON / OFF cycle<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "obdDrivingCycle",
+          "index": 2,
+          "description": "OBD Driving cycle other further operation cycle<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "warmup",
+          "index": 5,
+          "description": "OBD Warm up cycle<br>Tags: atp.EnumerationLiteralIndex=5"
+        }
+      ]
+    }
+  ]
+}

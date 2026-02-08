@@ -1,0 +1,19 @@
+{
+  "package": "M2::MSR::Documentation::TextModel::InlineTextElements",
+  "primitives": [
+    {
+      "name": "Superscript",
+      "package": "M2::MSR::Documentation::TextModel::InlineTextElements",
+      "note": "This is text which is rendered superscript or subscript depending on the role. Tags: xml.xsd.customType=SUPSCRIPT xml.xsd.type=string Table 9.38: Superscript",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 318,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

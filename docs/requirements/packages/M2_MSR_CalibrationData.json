@@ -1,0 +1,17 @@
+{
+  "name": "M2::MSR::CalibrationData",
+  "path": "M2::MSR::CalibrationData",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "CalibrationValue",
+      "full_path": "M2::MSR::CalibrationData::CalibrationValue",
+      "file": "packages/M2_MSR_CalibrationData_CalibrationValue.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

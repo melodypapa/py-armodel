@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_PortInterface_InstanceRefs.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

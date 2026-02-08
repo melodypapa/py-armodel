@@ -1,0 +1,249 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService",
+  "classes": [
+    {
+      "name": "DiagnosticServiceClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticCustomServiceClass",
+        "DiagnosticSessionControlClass",
+        "DiagnosticSecurityAccessClass",
+        "DiagnosticAuthenticationClass",
+        "DiagnosticEcuResetClass",
+        "DiagnosticComControlClass",
+        "DiagnosticControlDTCSettingClass",
+        "DiagnosticWriteDataByIdentifierClass",
+        "DiagnosticReadDataByIdentifierClass",
+        "DiagnosticReadScalingDataByIdentifierClass",
+        "DiagnosticIoControlClass",
+        "DiagnosticRoutineControlClass",
+        "DiagnosticDynamicallyDefineDataIdentifierClass",
+        "DiagnosticReadDataByPeriodicIDClass",
+        "DiagnosticResponseOnEventClass",
+        "DiagnosticReadDTCInformationClass",
+        "DiagnosticClearDiagnosticInformationClass",
+        "DiagnosticWriteMemoryByAddressClass",
+        "DiagnosticReadMemoryByAddressClass",
+        "DiagnosticTransferExitClass",
+        "DiagnosticDataTransferClass",
+        "DiagnosticRequestDownloadClass",
+        "DiagnosticRequestUploadClass",
+        "DiagnosticRequestFileTransferClass",
+        "DiagnosticRequestCurrentPowertrainDataClass",
+        "DiagnosticRequestPowertrainFreezeFrameDataClass",
+        "DiagnosticRequestEmissionRelatedDTCClass",
+        "DiagnosticClearResetEmissionRelatedInfoClass",
+        "DiagnosticRequestOnBoardMonitoringTestResultsClass",
+        "DiagnosticRequestControlOfOnBoardDeviceClass",
+        "DiagnosticRequestVehicleInfoClass",
+        "DiagnosticRequestEmissionRelatedDTCPermanentStatusClass"
+      ],
+      "subclasses": [
+        "DiagnosticAuthenticationClass",
+        "DiagnosticClearDiagnosticInformationClass",
+        "DiagnosticClearResetEmissionRelatedInfoClass",
+        "DiagnosticComControlClass",
+        "DiagnosticControlDTCSettingClass",
+        "DiagnosticCustomServiceClass",
+        "DiagnosticDataTransferClass",
+        "DiagnosticDynamicallyDefineDataIdentifierClass",
+        "DiagnosticEcuResetClass",
+        "DiagnosticIoControlClass",
+        "DiagnosticReadDTCInformationClass",
+        "DiagnosticReadDataByIdentifierClass",
+        "DiagnosticReadDataByPeriodicIDClass",
+        "DiagnosticReadMemoryByAddressClass",
+        "DiagnosticReadScalingDataByIdentifierClass",
+        "DiagnosticRequestControlOfOnBoardDeviceClass",
+        "DiagnosticRequestCurrentPowertrainDataClass",
+        "DiagnosticRequestDownloadClass",
+        "DiagnosticRequestEmissionRelatedDTCClass",
+        "DiagnosticRequestEmissionRelatedDTCPermanentStatusClass",
+        "DiagnosticRequestFileTransferClass",
+        "DiagnosticRequestOnBoardMonitoringTestResultsClass",
+        "DiagnosticRequestPowertrainFreezeFrameDataClass",
+        "DiagnosticRequestUploadClass",
+        "DiagnosticRequestVehicleInfoClass",
+        "DiagnosticResponseOnEventClass",
+        "DiagnosticRoutineControlClass",
+        "DiagnosticSecurityAccessClass",
+        "DiagnosticSessionControlClass",
+        "DiagnosticTransferExitClass",
+        "DiagnosticWriteDataByIdentifierClass",
+        "DiagnosticWriteMemoryByAddressClass"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to define common properties that are shared among all instances of sub-classes of DiagnosticServiceInstance.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 69,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticServiceInstance",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticCustomServiceInstance",
+        "DiagnosticSessionControl",
+        "DiagnosticSecurityAccess",
+        "DiagnosticAuthentication",
+        "DiagnosticEcuReset",
+        "DiagnosticComControl",
+        "DiagnosticControlDTCSetting",
+        "DiagnosticDataByIdentifier",
+        "DiagnosticIOControl",
+        "DiagnosticRoutineControl",
+        "DiagnosticDynamicallyDefineDataIdentifier",
+        "DiagnosticReadDataByPeriodicID",
+        "DiagnosticResponseOnEvent",
+        "DiagnosticReadDTCInformation",
+        "DiagnosticClearDiagnosticInformation",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticRequestFileTransfer",
+        "DiagnosticRequestCurrentPowertrainData",
+        "DiagnosticRequestPowertrainFreezeFrameData",
+        "DiagnosticRequestEmissionRelatedDTC",
+        "DiagnosticClearResetEmissionRelatedInfo",
+        "DiagnosticRequestOnBoardMonitoringTestResults",
+        "DiagnosticRequestControlOfOnBoardDevice",
+        "DiagnosticRequestVehicleInfo",
+        "DiagnosticRequestEmissionRelatedDTCPermanentStatus"
+      ],
+      "subclasses": [
+        "DiagnosticAuthentication",
+        "DiagnosticClearDiagnosticInformation",
+        "DiagnosticClearResetEmissionRelatedInfo",
+        "DiagnosticComControl",
+        "DiagnosticControlDTCSetting",
+        "DiagnosticCustomServiceInstance",
+        "DiagnosticDataByIdentifier",
+        "DiagnosticDynamicallyDefineDataIdentifier",
+        "DiagnosticEcuReset",
+        "DiagnosticIOControl",
+        "DiagnosticMemoryByAddress",
+        "DiagnosticReadDTCInformation",
+        "DiagnosticReadDataByPeriodicID",
+        "DiagnosticRequestControlOfOnBoardDevice",
+        "DiagnosticRequestCurrentPowertrainData",
+        "DiagnosticRequestEmissionRelatedDTC",
+        "DiagnosticRequestEmissionRelatedDTCPermanentStatus",
+        "DiagnosticRequestFileTransfer",
+        "DiagnosticRequestOnBoardMonitoringTestResults",
+        "DiagnosticRequestPowertrainFreezeFrameData",
+        "DiagnosticRequestVehicleInfo",
+        "DiagnosticResponseOnEvent",
+        "DiagnosticRoutineControl",
+        "DiagnosticSecurityAccess",
+        "DiagnosticSessionControl"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents a concrete instance of a diagnostic service.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 69,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "access": {
+          "type": "DiagnosticAccess",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the collection of DiagnosticAccess Permissions that allow for the execution of the referencing 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "serviceClass": {
+          "type": "DiagnosticServiceClass",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the corresponding \"class\", i.e. this properties that are shared among all applicable sub-classes of DiagnosticService that affected by this pattern implement the applicable \"class\"-role that substantiate reference."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticCustomServiceClass",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticServiceClass",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticServiceClass",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a custom diagnostic service class and assign an ID to it. Further configuration is not foreseen from the point of view of the diagnostic extract and consequently needs to be done on the level of ECUC.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "customService": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute may only be used for the definition of services. The values shall not overlap with service IDs."
+        }
+      }
+    }
+  ]
+}

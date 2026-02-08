@@ -1,0 +1,151 @@
+{
+  "package": "M2::MSR::DataDictionary::CalibrationParameter",
+  "classes": [
+    {
+      "name": "SwCalprmAxisSet",
+      "package": "M2::MSR::DataDictionary::CalibrationParameter",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDefProps.swCalprmAxisSet"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element specifies the input parameter axes (abscissas) of parameters (and variables, if these are used adaptively).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 351,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swCalprmAxis": {
+          "type": "SwCalprmAxis",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "One axis belonging to this SwCalprmAxisSet"
+        }
+      }
+    },
+    {
+      "name": "SwCalprmAxis",
+      "package": "M2::MSR::DataDictionary::CalibrationParameter",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwCalprmAxisSet.swCalprmAxis"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element specifies an individual input parameter axis (abscissa).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 352,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "CalprmAxisCategory",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property specifies the category of a particular axis. xml.sequenceOffset=30"
+        },
+        "displayFormat": {
+          "type": "DisplayFormatString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property specifies how the axis values shall be in documents or in measurement and"
+        },
+        "swAxisIndex": {
+          "type": "AxisIndexType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies which axis is specified by the in a curve this is usually \"1\". In a map this is \"2\"."
+        },
+        "swCalibration": {
+          "type": "SwCalibrationAccess",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Describes the applicability of parameters and variables. Tags: xml.sequenceOffset=90"
+        },
+        "swCalprmAxis": {
+          "type": "SwCalprmAxisType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "specific properties depending on the type of the axis. Tags:"
+        }
+      }
+    },
+    {
+      "name": "SwCalprmAxisTypeProps",
+      "package": "M2::MSR::DataDictionary::CalibrationParameter",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "SwAxisIndividual",
+        "SwAxisGrouped"
+      ],
+      "subclasses": [
+        "SwAxisGrouped",
+        "SwAxisIndividual"
+      ],
+      "aggregated_by": [
+        "SwCalprmAxis.swCalprmAxisTypeProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Base class for the type of the calibration axis. This provides the particular model of the specialization. If the specialization would be the directly from SwCalPrmAxis, the sequence of common properties and the specializes ones would be different.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 353,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxGradient": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum permissible gradient adjustable object (curve, map or cuboid) with a specific axis. MaxGrad = maximum( - Value i-1,k)/(Axis Point i - Axis Point"
+        },
+        "monotony": {
+          "type": "MonotonyEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the monotony constraint for an (curve, map or cuboid) with respect to a This information can be used by MCD verify whether the monotony constraint is to prevent from changes violating the"
+        }
+      }
+    }
+  ]
+}

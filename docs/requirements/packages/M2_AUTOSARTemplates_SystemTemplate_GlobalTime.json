@@ -1,0 +1,35 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime.enums.json"
+  },
+  "subpackages": [
+    {
+      "name": "CAN",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_CAN.json"
+    },
+    {
+      "name": "ETH",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_ETH.json"
+    },
+    {
+      "name": "FR",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_FR.json"
+    },
+    {
+      "name": "UserDefined",
+      "full_path": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime::UserDefined",
+      "file": "packages/M2_AUTOSARTemplates_SystemTemplate_GlobalTime_UserDefined.json"
+    }
+  ],
+  "summary": {
+    "class_count": 7,
+    "enumeration_count": 4,
+    "primitive_count": 0
+  }
+}

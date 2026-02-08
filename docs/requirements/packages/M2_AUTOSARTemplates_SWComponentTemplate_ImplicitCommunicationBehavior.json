@@ -1,0 +1,19 @@
+{
+  "name": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+  "path": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SWComponentTemplate_ImplicitCommunicationBehavior.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "InstanceRef",
+      "full_path": "M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef",
+      "file": "packages/M2_AUTOSARTemplates_SWComponentTemplate_ImplicitCommunicationBehavior_InstanceRef.json"
+    }
+  ],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

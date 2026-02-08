@@ -1,0 +1,563 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::Figure",
+  "classes": [
+    {
+      "name": "Area",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Map.area"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). For more details refer to the specification of HTML.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 299,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accesskey": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute assigns an access key to an element. An is an individual character (e.g. \"B\") within the range. If an access key with an to it is pressed, the element comes into activity performed when an element comes is dependent on the element itself"
+        },
+        "alt": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the text to be inserted as an illustrations, shapes or applets, where these displayed by user agents."
+        },
+        "class": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Blank separated list of classes"
+        },
+        "coords": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the position and shape on the number of values and their order depend on figure defined."
+        },
+        "href": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the memory location of a web is therefore able to specify a link between the and the target element. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "nohref": {
+          "type": "AreaEnumNohref",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this attribute is set, the Area has no associated link."
+        },
+        "onblur": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONBLUR-Event occurs, when focus is switched away element. can be stored in this attribute to be performed in"
+        },
+        "onclick": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONCLICK-Event occurs, if the current element is can be stored in this attribute to be performed in"
+        },
+        "ondblclick": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONCLICK-Event occurs, if the current element is can be stored in this attribute to be performed in"
+        },
+        "onfocus": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONFOCUS-Event occurs, if an element comes into through navigation using the tab button). can be stored in this attribute to be performed in"
+        },
+        "onkeydown": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONKEYDOWN-Event occurs, if a button on the is pressed down. can be stored in this attribute to be performed in"
+        },
+        "onkeypress": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONKEYPRESS-Event occurs, if a button on the is pressed down and released. can be stored in this attribute to be performed in"
+        },
+        "onkeyup": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONKEYUP-Event occurs, if a button on the current released. can be stored in this attribute to be performed in"
+        },
+        "onmousedown": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEDOWN-Event occurs, if the mouse button clicking is held down on the current element. can be stored in this attribute to be performed in"
+        },
+        "onmousemove": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEMOVE-Event occurs, if the mouse pointer on the current element (i.e. it is located on the can be stored in this attribute to be performed in 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "onmouseout": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEOUT-Event occurs, if the mouse pointer is the current element. can be stored in this attribute to be performed in"
+        },
+        "onmouseover": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEOVER-Event occurs, if the mouse pointer to the current element from another location can be stored in this attribute to be performed in"
+        },
+        "onmouseup": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEUP-Event occurs if the mouse button clicking is released on the current element. can be stored in this attribute to be performed in"
+        },
+        "shape": {
+          "type": "AreaEnumShape",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The shape of the area. Note that in HTML this is RECT."
+        },
+        "style": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Information on the associated style"
+        },
+        "tabindex": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the position of the current element for the corresponding document. shall lie between 0 and 32767. The Tabbing the sequence in which elements are when the user navigates using the keyboard."
+        },
+        "title": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Title information of the Area element"
+        }
+      }
+    },
+    {
+      "name": "Graphic",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EngineeringObject",
+      "bases": [
+        "ARObject",
+        "EngineeringObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LGraphic.graphic"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents an artifact containing the image to be inserted in the document",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 302,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "editfit": {
+          "type": "GraphicFitEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies how the graphic shall be displayed in an editor. attribute is missing,"
+        },
+        "editHeight": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the height of the graphic when it is displayed in The unit can be added to the number in the units are: cm, mm, px, pt. The default unit"
+        },
+        "editscale": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Set the proportional scale when displayed in an editor."
+        },
+        "editWidth": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the width of the graphic when it is displayed in The unit can be added to the number in the units are: cm, mm, px, pt. The default unit"
+        },
+        "filename": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Name of the file that should be displayed. This attribute is ASAM FSX and kept in AUTOSAR in order cut and paste."
+        },
+        "fit": {
+          "type": "GraphicFitEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "It determines the way in which the graphic should be attribute value \"AS-IS\" , to insert a graphic in its is adapted, if it is too big for the space for was intended. Default is \"AS-IS\" 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "generator": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the generator which is used to image. is that when editing a documentation, a figure delivered by the modeling tool) is inserted by the as reference (this is the role of graphic). real figure maybe injected during document be able to recognize this situation, this be applied."
+        },
+        "height": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Define the displayed height of the figure. The unit can be the number in the string. Possible units are: cm, pt. The default unit is px."
+        },
+        "htmlFit": {
+          "type": "GraphicFitEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "How to fit the graphic in an online media. Default is AS-IS."
+        },
+        "htmlHeight": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the height of the graphic when it is displayed unit can be added to the number in the string. are: cm, mm, px, pt. The default unit is px."
+        },
+        "htmlScale": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Set the proportional scale when displayed online."
+        },
+        "htmlWidth": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the width of the graphic when it is displayed unit can be added to the number in the string. are: cm, mm, px, pt. The default unit is px."
+        },
+        "notation": {
+          "type": "GraphicNotationEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute captures the format used to represent the"
+        },
+        "scale": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In this element the dimensions of the graphic can be"
+        },
+        "width": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Define the displayed width of the figure. The unit can be the number in the string. Possible units are: cm, pt. The default unit is px."
+        }
+      }
+    },
+    {
+      "name": "Map",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LGraphic.map"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Image maps enable authors to specify regions of an image or object and assign a specific action to each region (e.g., retrieve a document, run a program, etc.) When the region is activated by the user, the action is executed. The class follows the html approach and is intended to support interactive documents.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 305,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "area": {
+          "type": "Area",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "authors to specify regions in an object (e.g. and to assign a specific activity to each region a document, launch a program etc.)."
+        },
+        "class": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute assigns a class name or set of class names element. Any number of elements may be assigned class name or set of class names. Multiple shall be separated by white space names are typically used to apply CSS to an element."
+        },
+        "name": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute assigns a name to the image map in the This name can be used to be referenced in image through the attribute USEMAP. Although not actually necessary in the MSR model, it was order to support the MAPs which were created"
+        },
+        "onclick": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONCLICK-Event occurs, if the current element is A script can be stored in this attribute to be the Event."
+        },
+        "ondblclick": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONDBLCLICK-Event occurs, if the current Event is A script can be stored in this attribute performed in the Event. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "onkeydown": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONKEYDOWN-Event occurs, if a button on the is pressed down. can be stored in this attribute to be performed in"
+        },
+        "onkeypress": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONKEYPRESS-Event occurs, if a button on the is pressed down and released. can be stored in this attribute to be performed in"
+        },
+        "onkeyup": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONKEYUP-Event occurs, if a button on the current released. can be stored in this attribute to be performed in"
+        },
+        "onmousedown": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEDOWN-Event occurs, if the mouse button clicking is held down on the current element. can be stored in this attribute to be performed in"
+        },
+        "onmousemove": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEMOVE-Event occurs, if the mouse pointer on the current element (i.e. it is located on the can be stored in this attribute to be performed in"
+        },
+        "onmouseout": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEOUT-Event occurs, if the mouse pointer is the current element. can be stored in this attribute to be performed in"
+        },
+        "onmouseover": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEOVER-Event occurs, if the mouse pointer to the current element from another location can be stored in this attribute to be performed in"
+        },
+        "onmouseup": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The ONMOUSEUP-Event occurs if the mouse button clicking is released on the current element. can be stored in this attribute to be performed in"
+        },
+        "title": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute offers advisory information. Some Web display this information as tooltips. may make this information available to additional information about the element."
+        }
+      }
+    },
+    {
+      "name": "MlFigure",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.figure"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This metaclass represents the ability to embed a figure.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 307,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "figureCaption": {
+          "type": "Caption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies the title of an illustration."
+        },
+        "frame": {
+          "type": "FrameEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to defined the frame line around a figure. It can following values: - Border at the top of the figure - Border at the bottom of the figure - Borders at the top and bottom of the figure - Borders all around the figure - Borders at the sides of the figure - No borders around the figure"
+        },
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        },
+        "lGraphic": {
+          "type": "LGraphic",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Container of the graphic (or diagram) and optional map of in a given language."
+        },
+        "pgwide": {
+          "type": "PgwideEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to indicate wether the figure should take the width (value = \"pgwide\") or not (value ="
+        },
+        "verbatim": {
+          "type": "MultiLanguageVerbatim",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "<verbatim> is a paragraph in which white-space (in and line feeds) is obeyed. This enables to be carried out, which can even be simple devices. Behavior is the same as HTML ."
+        }
+      }
+    },
+    {
+      "name": "LGraphic",
+      "package": "M2::MSR::Documentation::BlockElements::Figure",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "LanguageSpecific",
+      "bases": [
+        "ARObject",
+        "LanguageSpecific"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MlFigure.lGraphic",
+        "MlFormula.lGraphic"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the figure in one particular language.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 307,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "graphic": {
+          "type": "Graphic",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Reference to the actual graphic represented in the figure. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "map": {
+          "type": "Map",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Image maps enable authors to specify regions of an object and assign a specific action to each"
+        }
+      }
+    }
+  ]
+}

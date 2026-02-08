@@ -1,0 +1,153 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+  "classes": [
+    {
+      "name": "AccessCountSet",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.accessCountSet"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides a set of count values evaluated according to the rules of a specific countProfile.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessCount": {
+          "type": "AccessCount",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Count value for a AbstractAccessPoint. atpVariation"
+        },
+        "countProfile": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the name of the count profile used the AccessCount.value numbers."
+        }
+      }
+    },
+    {
+      "name": "AccessCount",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AccessCountSet.accessCount"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides one count value for a AbstractAccessPoint.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "accessPoint": {
+          "type": "AbstractAccessPoint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "AbstractAccessPoint for which the count value is"
+        },
+        "value": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the number of determined"
+        }
+      }
+    },
+    {
+      "name": "AbstractAccessPoint",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "AsynchronousServerCallResultPoint",
+        "ServerCallPoint",
+        "ParameterAccess",
+        "VariableAccess",
+        "InternalTriggeringPoint",
+        "ModeSwitchPoint"
+      ],
+      "subclasses": [
+        "AsynchronousServerCallResultPoint",
+        "ExternalTriggeringPointIdent",
+        "InternalTriggeringPoint",
+        "ModeAccessPointIdent",
+        "ModeSwitchPoint",
+        "ParameterAccess",
+        "ServerCallPoint",
+        "VariableAccess"
+      ],
+      "aggregated_by": [
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Abstract class indicating an access point from an ExecutableEntity.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 562,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "returnValue": {
+          "type": "RteApiReturnValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the provision of return values for RTE APIs that correspond to the enclosing access point."
+        }
+      }
+    }
+  ]
+}

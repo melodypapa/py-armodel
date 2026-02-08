@@ -1,0 +1,14 @@
+{
+  "name": "M2::MSR::DataDictionary::AuxillaryObjects",
+  "path": "M2::MSR::DataDictionary::AuxillaryObjects",
+  "files": {
+    "classes": "packages/M2_MSR_DataDictionary_AuxillaryObjects.classes.json",
+    "enumerations": "packages/M2_MSR_DataDictionary_AuxillaryObjects.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 1,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

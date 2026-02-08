@@ -1,0 +1,37 @@
+{
+  "name": "M2::MSR::Documentation",
+  "path": "M2::MSR::Documentation",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "BlockElements",
+      "full_path": "M2::MSR::Documentation::BlockElements",
+      "file": "packages/M2_MSR_Documentation_BlockElements.json"
+    },
+    {
+      "name": "TextModel",
+      "full_path": "M2::MSR::Documentation::TextModel",
+      "file": "packages/M2_MSR_Documentation_TextModel.json"
+    },
+    {
+      "name": "Annotation",
+      "full_path": "M2::MSR::Documentation::Annotation",
+      "file": "packages/M2_MSR_Documentation_Annotation.json"
+    },
+    {
+      "name": "Chapters",
+      "full_path": "M2::MSR::Documentation::Chapters",
+      "file": "packages/M2_MSR_Documentation_Chapters.json"
+    },
+    {
+      "name": "MsrQuery",
+      "full_path": "M2::MSR::Documentation::MsrQuery",
+      "file": "packages/M2_MSR_Documentation_MsrQuery.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

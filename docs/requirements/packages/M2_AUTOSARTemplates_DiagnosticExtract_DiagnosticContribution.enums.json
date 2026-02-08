@@ -1,0 +1,40 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+  "enumerations": [
+    {
+      "name": "DiagnosticObdSupportEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution",
+      "note": "This meta-class represents the ability to model the roles in which a participation in OBD is foreseen. At the moment, this applies exclusively to the Dem. However, future extension of the Dcm may require this setting as well. Aggregated by DiagnosticEcuInstanceProps.obdSupport",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 207,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "masterEcu",
+          "index": 0,
+          "description": "This represent the role \"master ECU\".<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "noObdSupport",
+          "index": 1,
+          "description": "This represents the ability to explicitly specify that no participation in OBD is foreseen.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "primaryEcu",
+          "index": 2,
+          "description": "This represents the role \"primary ECU\".<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "secondaryEcu",
+          "index": 3,
+          "description": "This represents the role \"secondary ECU\".<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication",
+  "enumerations": [
+    {
+      "name": "TtcanTriggerType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanCommunication",
+      "note": "This type lists all trigger types for a time window. Aggregated by TtcanAbsolutelyScheduledTiming.trigger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 450,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "rxTrigger",
+          "index": 0,
+          "description": "Check for message reception<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "txRefTrigger",
+          "index": 1,
+          "description": "Send reference message in periodic case<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "txRefTriggerGap",
+          "index": 2,
+          "description": "Send reference message in event-synchronised case<br>Tags: atp.EnumerationLiteralIndex=2"
+        },
+        {
+          "name": "txTriggerMerged",
+          "index": 3,
+          "description": "Send message in a merged arbitration window<br>Tags: atp.EnumerationLiteralIndex=3"
+        },
+        {
+          "name": "txTriggerSingle",
+          "index": 4,
+          "description": "Send message in an exclusive time window<br>Tags: atp.EnumerationLiteralIndex=4"
+        },
+        {
+          "name": "watchTrigger",
+          "index": 5,
+          "description": "Check for missing reference message in periodic case<br>Tags: atp.EnumerationLiteralIndex=5"
+        },
+        {
+          "name": "watchTriggerGap",
+          "index": 6,
+          "description": "Check for missing reference message in event-synchronised case<br>Tags: atp.EnumerationLiteralIndex=6"
+        }
+      ]
+    }
+  ]
+}

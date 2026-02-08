@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::Dlt",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_Dlt.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_SystemTemplate_Dlt.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 2,
+    "enumeration_count": 2,
+    "primitive_count": 0
+  }
+}

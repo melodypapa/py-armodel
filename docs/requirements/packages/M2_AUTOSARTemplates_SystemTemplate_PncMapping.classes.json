@@ -1,0 +1,146 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::PncMapping",
+  "classes": [
+    {
+      "name": "PncMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::PncMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.pncMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes a mapping between one or several Virtual Function Clusters onto Partial Network Clusters. A Virtual Function Cluster is realized by a PortGroup. A Partial Network Cluster is realized by one or more IPduGroups.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 264,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dynamicPnc": {
+          "type": "ISignalIPduGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to an ISignalIPduGroup that allows mapping of PNC without statically mapping this PNC directly to a This is needed to describe dynamic PNCs that learned only at run-time and which have also a an ISignalIPduGroup."
+        },
+        "ident": {
+          "type": "PncMappingIdent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This adds the ability to become referrable to PncMapping."
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference maps the partial network to a channel."
+        },
+        "pncConsumed": {
+          "type": "ConsumedProvided",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "ConsumedProvidedServiceInstanceGroup used in a Partial Network Cluster. This reference is optional, since could be used for starting and stopping Consumed according the requested but is not necessarily needed. atpVariation"
+        },
+        "pncGroup": {
+          "type": "ISignalIPduGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "IPduGroup participating in a Partial Network Cluster. This optional in case an ecu extract has only access, i.e. ecu is not directly connected to a supports partial network."
+        },
+        "pncIdentifier": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identifer of the Partial Network Cluster. This number absolute bit position of this Partial Network the NM Pdu."
+        },
+        "pncPdurGroup": {
+          "type": "PdurIPduGroup",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference maps the Partial Network Cluster to a set"
+        },
+        "pncWakeup": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this parameter is available and set to true then this PNC be woken up as soon as a channel wakeup occurs on where this PNC is assigned to. This is ensured this PNC to the corresponding channel wakeup upstream mapping."
+        },
+        "relevantFor": {
+          "type": "EcuInstance",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a PNC Gateway ECU for PNCs which do have a static channel mapping. This is needed to dynamic PNCs that can be learned only at which have no relation to an ISignalIPdu"
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies an identifying shortName for the shall be unique in the System scope. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "vfc": {
+          "type": "PortGroup",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This reference is optional in case that Description doesn’t use a complete Software (VFB View). This supports the legacy systems. by: PortGroupInSystem"
+        },
+        "wakeupFrame": {
+          "type": "FrameTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Reference to collection of FrameTriggerings that are used wakeup of this PNC (Application Frames or Nm be used). This reference is only valid if this an ECU which has direct PNC ECU is directly connected to a network which network."
+        }
+      }
+    },
+    {
+      "name": "PncMappingIdent",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::PncMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PncMapping.ident"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is created to add the ability to become the target of a reference to the non-Referrable PncMapping.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2044,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

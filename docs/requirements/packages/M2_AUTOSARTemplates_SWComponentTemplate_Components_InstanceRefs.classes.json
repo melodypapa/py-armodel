@@ -1,0 +1,657 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+  "classes": [
+    {
+      "name": "VariableInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "RVariableInAtomicSwcInstanceRef"
+      ],
+      "subclasses": [
+        "RVariableInAtomicSwcInstanceRef"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 941,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "abstractTarget": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract xml.sequenceOffset=30"
+        },
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract"
+        }
+      }
+    },
+    {
+      "name": "RVariableInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "VariableInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "VariableInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataReceivedEvent.data",
+        "DataReceiveErrorEvent.data"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 943,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextRPortPrototype": {
+          "type": "AbstractRequiredPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetDataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "RModeInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RTEEvent.disabledMode",
+        "SwcModeSwitchEvent.mode"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 943,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextModeGroupPrototype": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        },
+        "contextPortPrototype": {
+          "type": "AbstractRequiredPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetModeDeclaration": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=40"
+        }
+      }
+    },
+    {
+      "name": "InnerPortGroupInCompositionInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "PortGroup.innerGroup"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 943,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "CompositionSw",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "context": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "target": {
+          "type": "PortGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Links a PortGroup in a composition to another PortGroup, defined in a component which is part of this shall be at most per contained SwComponentPrototype."
+        }
+      }
+    },
+    {
+      "name": "TriggerInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "RTriggerInAtomicSwcInstanceRef",
+        "PTriggerInAtomicSwcTypeInstanceRef"
+      ],
+      "subclasses": [
+        "PTriggerInAtomicSwcTypeInstanceRef",
+        "RTriggerInAtomicSwcInstanceRef"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 944,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract"
+        },
+        "target": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract"
+        }
+      }
+    },
+    {
+      "name": "RTriggerInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TriggerInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "TriggerInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExternalTriggerOccurredEvent.trigger",
+        "TransformerHardErrorEvent.requiredTrigger"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 945,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextRPortPrototype": {
+          "type": "AbstractRequiredPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetTrigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "PTriggerInAtomicSwcTypeInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TriggerInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "TriggerInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExternalTriggeringPoint.trigger",
+        "SwcBswSynchronizedTrigger.swcTrigger"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 946,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextPPortPrototype": {
+          "type": "AbstractProvidedPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetTrigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "OperationInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "ROperationInAtomicSwcInstanceRef",
+        "POperationInAtomicSwcInstanceRef"
+      ],
+      "subclasses": [
+        "POperationInAtomicSwcInstanceRef",
+        "ROperationInAtomicSwcInstanceRef"
+      ],
+      "aggregated_by": [],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 946,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract"
+        },
+        "targetOperation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpAbstract"
+        }
+      }
+    },
+    {
+      "name": "ROperationInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "OperationInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "OperationInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ServerCallPoint.operation"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 947,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextRPortPrototype": {
+          "type": "AbstractRequiredPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetRequiredOperation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "POperationInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "OperationInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "OperationInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "OperationInvokedEvent.operation",
+        "TransformerHardErrorEvent.operation"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 948,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextPPortPrototype": {
+          "type": "AbstractProvidedPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetProvidedOperation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "RModeGroupInAtomicSWCInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ModeGroupInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "ModeGroupInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ModeAccessPoint.modeGroup"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 948,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextRPortPrototype": {
+          "type": "AbstractRequiredPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetMode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "PModeGroupInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ModeGroupInAtomicSwcInstanceRef",
+      "bases": [
+        "ARObject",
+        "ModeGroupInAtomicSwcInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ModeAccessPoint.modeGroup",
+        "ModeSwitchPoint.modeGroup",
+        "SwcBswSynchronizedModeGroupPrototype.swcModeGroup",
+        "SwcModeManagerErrorEvent.modeGroup"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 949,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextPPortPrototype": {
+          "type": "AbstractProvidedPort",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Tags: xml.sequenceOffset=20"
+        },
+        "targetMode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Tags: xml.sequenceOffset=30"
+        }
+      }
+    },
+    {
+      "name": "ModeGroupInAtomicSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "RModeGroupInAtomicSWCInstanceRef",
+        "PModeGroupInAtomicSwcInstanceRef"
+      ],
+      "subclasses": [
+        "PModeGroupInAtomicSwcInstanceRef",
+        "RModeGroupInAtomicSWCInstanceRef"
+      ],
+      "aggregated_by": [
+        "ModeAccessPoint.modeGroup"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": null,
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 961,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "AtomicSwComponent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Stereotypes: atpDerived xml.sequenceOffset=10"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract"
+        },
+        "target": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Stereotypes: atpAbstract xml.sequenceOffset=30"
+        }
+      }
+    }
+  ]
+}

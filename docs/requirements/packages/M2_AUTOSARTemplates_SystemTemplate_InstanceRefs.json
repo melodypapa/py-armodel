@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::InstanceRefs",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_InstanceRefs.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 5,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

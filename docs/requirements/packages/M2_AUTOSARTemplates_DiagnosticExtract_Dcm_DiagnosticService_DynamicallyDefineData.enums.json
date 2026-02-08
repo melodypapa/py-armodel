@@ -1,0 +1,60 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineData",
+  "enumerations": [
+    {
+      "name": "DiagnosticHandleDDDIConfigurationEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineData",
+      "note": "This meta-class represents the options for controlling how the configuration of the DynamicallyDefine DataIdentifiers is done in the given context. Aggregated by DiagnosticDynamicallyDefineDataIdentifierClass.configurationHandling",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 128,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "nonVolatile",
+          "index": 0,
+          "description": "This indicates that the configuration of DynamicallyDefineDataIdentifier shall be stored as non-volatile<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "volatile",
+          "index": 1,
+          "description": "This indicates that the configuration of DynamicallyDefineDataIdentifier shall be handled as volatile<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineData",
+      "note": "This meta-class contains a list of possible subfunctions for the UDS service 0x2C. Aggregated by DiagnosticDynamicallyDefineDataIdentifierClass.subfunction",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 129,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "clearDynamicallyDefineDataIdentifier",
+          "index": 0,
+          "description": "Clear the specified dynamic data identifier.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "defineByIdentifier",
+          "index": 1,
+          "description": "The definition of dynamic data identifier shall be done via a reference to a diagnostic data identifier.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "defineByMemoryAddress",
+          "index": 2,
+          "description": "The definition of dynamic data identifier shall be done via a reference to a memory address.<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    }
+  ]
+}

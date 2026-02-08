@@ -1,0 +1,13 @@
+{
+  "name": "M2::MSR::Documentation::TextModel::InlineTextModel",
+  "path": "M2::MSR::Documentation::TextModel::InlineTextModel",
+  "files": {
+    "classes": "packages/M2_MSR_Documentation_TextModel_InlineTextModel.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

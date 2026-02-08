@@ -1,0 +1,19 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+  "primitives": [
+    {
+      "name": "ViewTokens",
+      "package": "M2::MSR::Documentation::BlockElements::PaginationAndView",
+      "note": "This primitive specifies the tokens to specify a documentation view. Tags: xml.xsd.customType=VIEW-TOKENS xml.xsd.pattern=(-?[a-zA-Z_]+)(( )+-?[a-zA-Z_]+)* xml.xsd.type=string Table 9.78: ViewTokens 9.5 Including generated documentation parts [TPS_GST_00336] Including generated Documentation Parts (cid:100)AUTOSAR supports an approach where parts of the documentation are automatically generated and in- cluded at a particular location within the documentation. This support is provided by the so called MSR query mechanism ( MsrQueryP1, MsrQueryP2, MsrQueryTopic1 and MsrQueryChapter). These classes allow to represent the properties of the inclusion as well as the result of the inclusion. Thereby the intermediate results can be visualized and exchanged after the generated parts 340 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11 were included. Hence it is not necessary that all parties involved in the project are able to perform the inclusion process. Details are subject to mutual agreement.(cid:99)() «atpMixed» «atpMixed» ChapterModel +chapterContent ChapterContent +topicContent TopicContentOrMsrQuery 0..1 0..1 +topicContent 1 +msrQueryP1 1 «atpMixed» Paginateable TopicContent +msrQueryResultP1 MsrQueryP1 0..1 «atpMixed» +topic1 TopicOrMsrQuery 0..1 «atpVariation,atpSplitable» +topic1 1 +msrQueryTopic1 1 Identifiable MsrQueryResultTopic1 Paginateable Paginateable +topic1 +msrQueryResultTopic1 MsrQueryTopic1 Topic1 0..* 0..1 + helpEntry: String [0..1] {ordered} «atpMixed» +chapter ChapterOrMsrQuery 0..1 «atpVariation,atpSplitable» +chapter 1 +msrQueryChapter 1 Identifiable Paginateable MsrQueryResultChapter +chapterModel Paginateable +chapter +msrQueryResultChapter MsrQueryChapter Chapter 1 0..* 0..1 + helpEntry: String [0..1] {ordered} Figure 9.12: Including generated documentation parts by MsrQuery The following meta-classes represent the alternative of manually edited documentation and included generated parts. 341 of 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure Template AUTOSAR FO R23-11",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 340,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

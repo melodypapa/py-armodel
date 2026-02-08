@@ -1,0 +1,112 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping",
+  "classes": [
+    {
+      "name": "DiagnosticInhibitSourceEventMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map a DiagnosticFunctionInhibitSource directly to alternatively one DiagnosticEvent or one DiagnosticFimSummaryEvent. This model element shall be used if the approach via the alias events is not applicable, i.e. when diagnostic events defined by the Dem are already available at the time the Fim configuration within the diagnostic extract is created.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 260,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the diagnostic event. 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11"
+        },
+        "eventGroupGroup": {
+          "type": "DiagnosticFimEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the event group"
+        },
+        "inhibitionSource": {
+          "type": "DiagnosticFunction",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the inhibition source."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticFimAliasEventGroupMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map a DiagnosticFimEventGroup to a DiagnosticFimAliasEvent Group. By this means the \"preliminary\" modeling by way of a DiagnosticFimAliasEventGroup is further substantiated.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 263,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "actualEvent": {
+          "type": "DiagnosticFimEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the actual summary"
+        },
+        "aliasEvent": {
+          "type": "DiagnosticFimAlias",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the reference to the alias summary event."
+        }
+      }
+    }
+  ]
+}

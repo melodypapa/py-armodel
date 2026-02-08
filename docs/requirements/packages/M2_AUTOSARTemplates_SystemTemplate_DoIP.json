@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+  "path": "M2::AUTOSARTemplates::SystemTemplate::DoIP",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_SystemTemplate_DoIP.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 6,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

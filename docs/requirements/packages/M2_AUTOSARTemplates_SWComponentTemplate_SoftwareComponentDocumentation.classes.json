@@ -1,0 +1,102 @@
+{
+  "package": "M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation",
+  "classes": [
+    {
+      "name": "SwComponentDocumentation",
+      "package": "M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "BswModuleDescription.bswModuleDocumentation",
+        "SwComponentType.swComponentDocumentation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that this is subject to variation because Chapter aggregations in the role chapter are variant within the documentation in general. Stereotypes: atpSplitable; atpVariation , chapter.variation Point.shortLabel vh.latestBindingTime=postBuild (cid:53) 337 of 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module Description Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 337,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 697,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 465,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "chapter": {
+          "type": "Chapter",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "These chapters provide additional information about the that do not fit in the other chapters."
+        },
+        "swCalibration": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains calibration instructions and hints a calibration engineer."
+        },
+        "swCarbDoc": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element records the documentation requested by"
+        },
+        "swDiagnostics": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains general information about issues within the component."
+        },
+        "swFeatureDef": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains the definition of the physical this software component. This definition is less formal and is intended to be delivered from"
+        },
+        "swFeatureDesc": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains the textual description of the of this software component. Expert this description."
+        },
+        "swMaintenance": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains information regarding the software of the component."
+        },
+        "swTestDesc": {
+          "type": "Chapter",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element contains suggestions and hints for the test software functionality of this software component."
+        }
+      }
+    }
+  ]
+}

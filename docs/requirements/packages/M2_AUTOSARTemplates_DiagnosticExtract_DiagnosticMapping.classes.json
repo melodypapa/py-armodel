@@ -1,0 +1,944 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+  "classes": [
+    {
+      "name": "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a UDS trouble code to an OBD trouble code.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 188,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "troubleCode": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs."
+        },
+        "troubleCodeUds": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the UDS DTC referenced in the mapping UDS and OBD DTCs."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticCommonElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticFimAliasEventMapping",
+        "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping",
+        "DiagnosticSwMapping",
+        "DiagnosticAuthTransmitCertificateMapping",
+        "DiagnosticEventToTroubleCodeUdsMapping",
+        "DiagnosticEventToOperationCycleMapping",
+        "DiagnosticEventToDebounceAlgorithmMapping",
+        "DiagnosticEventToEnableConditionGroupMapping",
+        "DiagnosticEventToStorageConditionGroupMapping",
+        "DiagnosticMasterToSlaveEventMapping",
+        "DiagnosticEventToSecurityEventMapping",
+        "DiagnosticIumprToFunctionIdentifierMapping",
+        "DiagnosticSecureCodingMapping",
+        "DiagnosticSecurityEventReportingModeMapping",
+        "DiagnosticDemProvidedDataMapping",
+        "DiagnosticInhibitSourceEventMapping",
+        "DiagnosticFimAliasEventGroupMapping",
+        "DiagnosticJ1939SpnMapping",
+        "DiagnosticEventToTroubleCodeJ1939Mapping",
+        "CpSwClusterToDiagEventMapping",
+        "CpSwClusterResourceToDiagDataElemMapping",
+        "CpSwClusterToDiagRoutineSubfunctionMapping",
+        "CpSwClusterResourceToDiagFunctionIdMapping"
+      ],
+      "subclasses": [
+        "CpSwClusterResourceToDiagDataElemMapping",
+        "CpSwClusterResourceToDiagFunctionIdMapping",
+        "CpSwClusterToDiagEventMapping",
+        "CpSwClusterToDiagRoutineSubfunctionMapping",
+        "DiagnosticAuthTransmitCertificateMapping",
+        "DiagnosticDemProvidedDataMapping",
+        "DiagnosticEventToDebounceAlgorithmMapping",
+        "DiagnosticEventToEnableConditionGroupMapping",
+        "DiagnosticEventToOperationCycleMapping",
+        "DiagnosticEventToSecurityEventMapping",
+        "DiagnosticEventToStorageConditionGroupMapping",
+        "DiagnosticEventToTroubleCodeJ1939Mapping",
+        "DiagnosticEventToTroubleCodeUdsMapping",
+        "DiagnosticFimAliasEventGroupMapping",
+        "DiagnosticFimAliasEventMapping",
+        "DiagnosticInhibitSourceEventMapping",
+        "DiagnosticIumprToFunctionIdentifierMapping",
+        "DiagnosticJ1939SpnMapping",
+        "DiagnosticMasterToSlaveEventMapping",
+        "DiagnosticSecureCodingMapping",
+        "DiagnosticSecurityEventReportingModeMapping",
+        "DiagnosticSwMapping",
+        "DiagnosticTroubleCodeUdsToTroubleCodeObdMapping"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Abstract element for different kinds of diagnostic mappings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 223,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "provider": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference can be used in an early design phase to an element of a diagnostic extract with an CPSoftwareCluster."
+        },
+        "requester": {
+          "type": "CpSoftwareCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference can be used in an early design phase to an element of a diagnostic extract with an CPSoftwareCluster."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticSwMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [
+        "DiagnosticEventPortMapping",
+        "DiagnosticOperationCyclePortMapping",
+        "DiagnosticEnableConditionPortMapping",
+        "DiagnosticStorageConditionPortMapping",
+        "DiagnosticServiceDataMapping",
+        "DiagnosticServiceSwMapping",
+        "DiagnosticFimFunctionMapping",
+        "DiagnosticJ1939SwMapping"
+      ],
+      "subclasses": [
+        "DiagnosticEnableConditionPortMapping",
+        "DiagnosticEventPortMapping",
+        "DiagnosticFimFunctionMapping",
+        "DiagnosticJ1939SwMapping",
+        "DiagnosticOperationCyclePortMapping",
+        "DiagnosticServiceDataMapping",
+        "DiagnosticServiceSwMapping",
+        "DiagnosticStorageConditionPortMapping"
+      ],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a mapping between a diagnostic information (at this point there is no way to become more specific about the semantics) to a software-component.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 238,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "DiagnosticAuthTransmitCertificateMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a CryptoServiceCertificate with a DiagnosticAuth CertificateEvaluation with the purpose to configure the evaluation of the certificate.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 242,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cryptoService": {
+          "type": "CryptoService",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the description of the applicable crypto certificate."
+        },
+        "serviceInstance": {
+          "type": "DiagnosticAuthTransmit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable DiagnosticAuth service instance (via the aggregation role certificateEvaluation)."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToTroubleCodeUdsMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines which UDS Diagnostic Trouble Code is applicable for a DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 245,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DiagnosticEvent to which a UDS Code is assigned."
+        },
+        "troubleCodeUds": {
+          "type": "DiagnosticTroubleCode",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an UDS Diagnostic Trouble Code assigned a DiagnosticEvent."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToOperationCycleMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines which OperationCycle is applicable for a DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 245,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DiagnosticEvent to which an Operation assigned."
+        },
+        "operationCycle": {
+          "type": "DiagnosticOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an OperationCycle assigned to a Diagnostic"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToDebounceAlgorithmMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines which Debounce Algorithm is applicable for a DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 246,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "debounce": {
+          "type": "DiagnosticDebounce",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DebounceAlgorithm assigned to a DiagnosticEvent."
+        },
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DiagnosticEvent to which a Debounce assigned."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToEnableConditionGroupMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines which EnableConditionGroup is applicable for a DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 247,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DiagnosticEvent to which an Enable assigned."
+        },
+        "enableCondition": {
+          "type": "DiagnosticEnable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to an EnableConditionGroup assigned to a DiagnosticEvent."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToStorageConditionGroupMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines which StorageConditionGroup is applicable for a DiagnosticEvent.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 248,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a DiagnosticEvent to which a Storage assigned."
+        },
+        "storage": {
+          "type": "DiagnosticStorage",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a StorageConditionGroup assigned to a DiagnosticEvent."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventPortMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines to which SWC service ports the DiagnosticEvent is mapped.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 249,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswService": {
+          "type": "BswService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a BswServiceDependency that links Service Needs to BswModuleEntries."
+        },
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DiagnosticEvent that is assigned to ports."
+        },
+        "swcFlatService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports."
+        },
+        "swcService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ServiceNeeds to SWC service ports. implemented by: SwcServiceDependency"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticOperationCyclePortMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines to which SWC service ports the DiagnosticOperationCycle is mapped.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 250,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operationCycle": {
+          "type": "DiagnosticOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the DiagnosticOperationCycle that is to SWC service ports."
+        },
+        "swcFlatService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports."
+        },
+        "swcService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ServiceNeeds to SWC service ports. implemented by: SwcServiceDependency"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEnableConditionPortMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines to which SWC service ports the DiagnosticEnableCondition is mapped.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 251,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "enableCondition": {
+          "type": "DiagnosticEnable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the EnableCondition which is mapped to a service port."
+        },
+        "swcFlatService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports. This reference can in early stages of the development in order to SwcServiceDependency without a full System"
+        },
+        "swcService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ServiceNeeds to SWC service ports. implemented by: SwcServiceDependency"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticStorageConditionPortMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticSwMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "DiagnosticSwMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines to which SWC service ports with DiagnosticStorageConditionNeeds the DiagnosticStorage Condition is mapped.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 253,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnostic": {
+          "type": "DiagnosticStorage",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the StorageCondition which is mapped to a SWC service port with DiagnosticStorageCondition"
+        },
+        "swcFlatService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a SwcServiceDependencyType that links ServiceNeeds to SWC service ports."
+        },
+        "swcService": {
+          "type": "SwcService",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ServiceNeeds to SWC service ports. implemented by: SwcServiceDependency"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticMasterToSlaveEventMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to map a master diagnostic event with a slave diagnostic event such that reporting of the master event with a given value also reports the slave event with the same value",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 256,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "masterEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the master diagnostic event."
+        },
+        "slaveEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the slave diagnostic event."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticEventToSecurityEventMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to map a security event that is defined in the context of the Security Extract to a diagnostic event defined on the context of the DiagnosticExtract.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 257,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "diagnosticEvent": {
+          "type": "DiagnosticEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable diagnostic event."
+        },
+        "securityEvent": {
+          "type": "SecurityEventContext",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the qualification of the applicable security event"
+        }
+      }
+    },
+    {
+      "name": "DiagnosticIumprToFunctionIdentifierMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to associate a DiagnosticFunctionIdentifier with a DiagnosticIumpr.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 265,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "function": {
+          "type": "DiagnosticFunction",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable Diagnostic FunctionIdentifier."
+        },
+        "iumpr": {
+          "type": "DiagnosticIumpr",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable DiagnosticIumpr."
+        }
+      }
+    },
+    {
+      "name": "DiagnosticSecureCodingMapping",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DiagnosticMapping",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "DiagnosticCommonElement",
+        "DiagnosticMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts a mapping element to select diagnostic service instances that are used in the secure coding procedure. Besides, there are already defined diagnostic capabilities they furthermore have a additional semantics that is used during the secure coding process. In particular, this class references write data by identifier instances that mandatory require a secure coding and this class references a diagnostic routine control that is used to provide the signature and to persist the data in non-volatile memory.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 312,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataIdentifier": {
+          "type": "DiagnosticWriteDataBy",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refer to write data by identifier instances that have the to be a secure coding DID."
+        },
+        "validation": {
+          "type": "DiagnosticStartRoutine",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refer to a routine control that is used to authenticate and secure coding data."
+        }
+      }
+    }
+  ]
+}

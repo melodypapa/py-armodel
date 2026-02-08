@@ -1,0 +1,116 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject",
+  "classes": [
+    {
+      "name": "AutosarEngineeringObject",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "EngineeringObject",
+      "bases": [
+        "ARObject",
+        "EngineeringObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AclObjectSet.engineeringObject",
+        "BuildActionEntity.deliveryArtifact",
+        "Code.artifactDescriptor",
+        "Dependency"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This denotes an engineering object being part of the process. It is a specialization of the abstract class EngineeringObject for usage within AUTOSAR.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 132,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 622,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 161,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EngineeringObject",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "AutosarEngineeringObject",
+        "BuildEngineeringObject",
+        "Graphic"
+      ],
+      "subclasses": [
+        "AutosarEngineeringObject",
+        "BuildEngineeringObject",
+        "Graphic"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies an engineering object. Usually such an object is represented by a file artifact. The properties of engineering object are such that the artifact can be found by querying an ASAM catalog file. The engineering object is uniquely identified by domain+category+shortLabel+revisionLabel.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 132,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 160,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the role of the engineering object in the Categories are such as for source code for object code for a C-header file need to be defined via Methodology. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "domain": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This denotes the domain in which the engineering object This allows to indicate various segments in the the engineering objects. The domain companies, as well as automotive need to be defined by the Methodology. optional to support a default domain."
+        },
+        "revisionLabel": {
+          "type": "RevisionLabelString",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a revision label denoting a particular version of the"
+        },
+        "shortLabel": {
+          "type": "NameToken",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the short name of the engineering object. Note is modeled as NameToken and not as Identifier ASAM-CC it is also a NameToken."
+        }
+      }
+    }
+  ]
+}

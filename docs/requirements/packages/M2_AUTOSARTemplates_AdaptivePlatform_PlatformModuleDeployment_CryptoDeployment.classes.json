@@ -1,0 +1,85 @@
+{
+  "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment",
+  "classes": [
+    {
+      "name": "CryptoKeySlot",
+      "package": "M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CryptoProvider.keySlot"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define a concrete key to be used for a crypto operation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 57,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allocateShadow": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether a shadow copy of this Key shall be allocated to enable rollback of a failed Key campaign (see interface BeginTransaction)."
+        },
+        "cryptoAlgId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines a crypto algorithm restriction (kAlgId without restriction). The algorithm can be family & length, mode, padding. Providers can support some crypto are not well known/ standardized today, doesn’t provide a concrete list of identifiers and doesn’t suppose usage identifiers. Instead of this a provider supplier string names of supported algorithms in The name of a crypto follow the rules defined in the specification for Adaptive Platform. 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11"
+        },
+        "cryptoObject": {
+          "type": "CryptoObjectTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Object type that can be stored in the slot. If this field \"Undefined\" then mSlotCapacity must be larger then 0."
+        },
+        "keySlotAllowed": {
+          "type": "CryptoKeySlotAllowed",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Restricts how this keySlot may be used Tags: atp.Status=candidate"
+        },
+        "keySlotContent": {
+          "type": "CryptoKeySlotContent",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Restriction of allowed usage of a key stored to the slot. Tags: atp.Status=candidate"
+        },
+        "slotCapacity": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Capacity of the slot in bytes to be reserved by the stack use case is to define this value in case that is undefined and the slot size can deduced from cryptoObjectType and cryptoAlgId. slot size can be deduced from cryptoObject cryptoAlgId."
+        },
+        "slotType": {
+          "type": "CryptoKeySlotType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the keySlot is exclusively by the Application; or whether it is used by Stack managed by a Key Manager Application."
+        }
+      }
+    }
+  ]
+}

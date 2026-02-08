@@ -1,0 +1,549 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+  "classes": [
+    {
+      "name": "LinCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "CommunicationCluster",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "LIN specific attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 93,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LinCommunicationController",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [
+        "LinMaster",
+        "LinSlave"
+      ],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "LIN bus specific communication controller attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 93,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "protocolVersion": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version specifier for a communication protocol."
+        }
+      }
+    },
+    {
+      "name": "LinMaster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "LinCommunicationController",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describing the properties of the refering ecu as a LIN master.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 94,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "linSlave": {
+          "type": "LinSlaveConfig",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LinSlaves that are handled by the LinMaster."
+        },
+        "timeBase": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time base is mandatory for the master. It is not used for Spec states: \"The time_base value specifies the base in the master node to generate the frame transfer time.\" base shall be specified AUTOSAR conform in"
+        },
+        "timeBaseJitter": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute timeBaseJitter is a mandatory attribute for and not used for slaves. Spec states: \"The jitter value specifies the the maximum and minimum delay base start point to the frame header sending (falling edge of BREAK signal).\" shall be specified AUTOSAR conform in"
+        }
+      }
+    },
+    {
+      "name": "LinSlaveConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinMaster.linSlave"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Node attributes of LIN slaves that are handled by the LinMaster. In the System Description LIN slaves may be described in the context of the Lin Master. In an ECU Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the Lin Master. The values of attributes of LinSlaveConfig and the corresponding LinSlave shall be identical (if both are defined in a System Description).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 94,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "configuredNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "To distinguish LIN slaves that are used twice or more same cluster."
+        },
+        "functionId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LIN function ID."
+        },
+        "ident": {
+          "type": "LinSlaveConfigIdent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This adds the ability to become referrable to LinSlave"
+        },
+        "initialNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Initial NAD of the LIN slave."
+        },
+        "linConfigurable": {
+          "type": "LinConfigurableFrame",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "List of all frames that are processed by the slave node 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "linError": {
+          "type": "LinErrorResponse",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Each slave node shall publish one response error in one its transmitted unconditional frames."
+        },
+        "linOrdered": {
+          "type": "LinOrderedConfigurable",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave This element is necessary for the LIN 2.1"
+        },
+        "protocolVersion": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version specifier for a communication protocol. Protocol the LinMaster and the LinSlaves may be"
+        },
+        "supplierId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LIN Supplier ID."
+        },
+        "variantId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the Variant ID."
+        }
+      }
+    },
+    {
+      "name": "LinSlaveConfigIdent",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Referrable",
+      "bases": [
+        "ARObject",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinSlaveConfig.ident"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 95,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "LinSlave",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "CommunicationController",
+        "Identifiable",
+        "LinCommunicationController",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.commController",
+        "MachineDesign.communicationController"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describing the properties of the referring ecu as a LIN slave.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 97,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "assignNad": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute has the ability to control whether the node ’Assign NAD’ is supported."
+        },
+        "configuredNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "To distinguish LIN slaves that are used twice or more same cluster."
+        },
+        "functionId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LIN function ID"
+        },
+        "initialNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the initial NAD."
+        },
+        "linError": {
+          "type": "LinErrorResponse",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Each slave node shall publish one response error in one its transmitted unconditional frames."
+        },
+        "nasTimeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Value of the N_AS timeout. Unit: seconds."
+        },
+        "supplierId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LIN Supplier ID"
+        },
+        "variantId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the Variant ID"
+        }
+      }
+    },
+    {
+      "name": "LinCommunicationConnector",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CommunicationConnector",
+      "bases": [
+        "ARObject",
+        "CommunicationConnector",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcuInstance.connector",
+        "MachineDesign.communicationConnector"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "LIN bus specific communication connector attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 98,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "initialNad": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Initial NAD of the LIN slave."
+        },
+        "linConfigurable": {
+          "type": "LinConfigurableFrame",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LinConfigurableFrames shall list all frames (unconditional event-triggered frames and sporadic frames) the slave node. This element is necessary LIN 2.0 Assign-Frame command."
+        },
+        "linOrdered": {
+          "type": "LinOrderedConfigurable",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "LinOrderedConfigurableFrames shall list all frames (unconditional frames, event-triggered frames and frames) processed by the slave node. This necessary for the LIN 2.1"
+        },
+        "schedule": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the point in time where a schedule switch is performed. If this attribute is set to false or present, the schedule table shall be switched after the of the active schedule table is ended. If this enabled, the schedule table shall be switched transmission or reception within an entry completed, ensured by status checks for reception."
+        }
+      }
+    },
+    {
+      "name": "LinConfigurableFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinCommunicationConnector.linConfigurableFrame",
+        "LinSlaveConfig.linConfigurableFrame"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Assignment of messageIds to Frames. This element shall be used for the LIN 2.0 Assign-Frame command.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frame": {
+          "type": "LinFrame",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a Frame that is processed by the slave"
+        },
+        "messageId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "MessageId for the referenced frame"
+        }
+      }
+    },
+    {
+      "name": "LinOrderedConfigurableFrame",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LinCommunicationConnector.linOrderedConfigurableFrame",
+        "LinSlaveConfig.linOrderedConfigurable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "With the assignment of the index to a frame a mapping of Pids to Frames is possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range command.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frame": {
+          "type": "LinFrame",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a Frame that is processed by the slave"
+        },
+        "index": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to order the elements and allows an Pids to ConfigurableFrames that are the slave."
+        }
+      }
+    },
+    {
+      "name": "LinPhysicalChannel",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "PhysicalChannel",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PhysicalChannel",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CommunicationCluster.physicalChannel"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "LIN specific attributes to the physicalChannel",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "busIdleTimeout": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall be used to set an idle timeout period the enclosing LinPhysicalChannel. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "scheduleTable": {
+          "type": "LinScheduleTable",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Schedule tables organize the timings of the frames for the transmitted frames are variable, the shall be variable, too. atpVariation"
+        }
+      }
+    }
+  ]
+}

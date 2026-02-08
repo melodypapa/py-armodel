@@ -1,0 +1,45 @@
+{
+  "package": "M2::MSR::Documentation::Annotation",
+  "classes": [
+    {
+      "name": "Annotation",
+      "package": "M2::MSR::Documentation::Annotation",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "GeneralAnnotation",
+      "bases": [
+        "ARObject",
+        "GeneralAnnotation"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "EcucAbstractReferenceValue.annotation",
+        "EcucParameterValue.annotation",
+        "HwAttributeValue.annotation",
+        "Identifiable.annotation",
+        "PostBuildVariantCriterionValue.annotation",
+        "SwDataDefProps.annotation",
+        "Sw"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is a plain annotation which does not have further formal data.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 334,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 163,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

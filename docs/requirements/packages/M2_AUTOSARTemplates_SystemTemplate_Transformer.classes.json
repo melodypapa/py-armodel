@@ -1,0 +1,1334 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+  "classes": [
+    {
+      "name": "DataTransformation",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataTransformationSet.dataTransformation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A DataTransformation represents a transformer chain. It is an ordered list of transformers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 149,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 763,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "data": {
+          "type": "DataTransformationKind",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the kind of DataTransformation to be applied."
+        },
+        "executeDespite": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether the transformer chain is executed even no input data are available. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "transformer": {
+          "type": "Transformation",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This attribute represents the definition of a chain of Technology transformers that are supposed to be executed according order of being referenced from DataTransformation."
+        }
+      }
+    },
+    {
+      "name": "TransformationTechnology",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataTransformationSet.transformationTechnology"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A TransformationTechnology is a transformer inside a transformer chain.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 198,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 764,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bufferProperties": {
+          "type": "BufferProperties",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Aggregation of the mandatory BufferProperties. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "hasInternal": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines whether the Transformer has an state or not."
+        },
+        "needsOriginal": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies whether this transformer gets access to the original data."
+        },
+        "protocol": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the protocol that is implemented by this"
+        },
+        "transformation": {
+          "type": "Transformation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A transformer can be configured with transformer specific parameters which are represented by the Transformer atpVariation"
+        },
+        "transformer": {
+          "type": "TransformerClassEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies to which transformer class this transformer"
+        },
+        "version": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Version of the implemented protocol."
+        }
+      }
+    },
+    {
+      "name": "BufferProperties",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationTechnology.bufferProperties"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of the buffer properties the transformer needs to work.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 767,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "headerLength": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the length of the header (in bits) this transformer in front of the data."
+        },
+        "inPlace": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set, the transformer uses the input buffer as output"
+        }
+      }
+    },
+    {
+      "name": "TransformationDescription",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Describable",
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [
+        "EndToEndTransformationDescription",
+        "UserDefinedTransformationDescription",
+        "SOMEIPTransformationDescription"
+      ],
+      "subclasses": [
+        "EndToEndTransformationDescription",
+        "SOMEIPTransformationDescription",
+        "UserDefinedTransformation"
+      ],
+      "aggregated_by": [
+        "TransformationTechnology.transformationDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The TransformationDescription is the abstract class that can be used by specific transformers to add transformer specific properties.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 199,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 770,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "EndToEndTransformationComSpecProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationComSpecProps",
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationComSpecProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ClientComSpec.transformationComSpecProps",
+        "ReceiverComSpec.transformationComSpecProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class EndToEndTransformationIComSpecProps specifies port specific configuration properties for EndToEnd transformer attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 200,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2023,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clearFromValid": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Clear monitoring window on transition from state Valid to Invalid."
+        },
+        "disableEndTo": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Disables the E2EStateMachine (only E2E check is performed)"
+        },
+        "e2eProfile": {
+          "type": "E2EProfileCompatibility",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to additional settings for the E2E state machine."
+        },
+        "maxDelta": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum allowed difference between two counter values two consecutively received valid messages. For the receiver gets data with counter 1 and Max 3, then at the next reception the receiver Counters with values 2, 3 or 4."
+        },
+        "maxErrorState": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximal number of checks in which ProfileStatus equal to was determined, within the last Window for the state E2E_SM_VALID. value is 0."
+        },
+        "maxNoNewOr": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "EndToEndTransformationDescription holds these which are profile specific and have the same all E2E transformers."
+        },
+        "minOkStateInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimal number of checks in which ProfileStatus equal to determined, within the last WindowSize the state E2E_SM_INIT. value is 1."
+        },
+        "minOkState": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimal number of checks in which ProfileStatus equal to was determined, within the last WindowSize the state E2E_SM_VALID. value is 1."
+        },
+        "syncCounterInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "EndToEndTransformationDescription holds these are profile specific and have the same all E2E transformers."
+        },
+        "windowSizeInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of the monitoring window of state Init for the E2E"
+        },
+        "windowSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of the monitoring window of state Valid for the E2E machine."
+        }
+      }
+    },
+    {
+      "name": "E2EProfileCompatibilityProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class collects settings for configuration of the E2E state machine.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 202,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 807,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transitToInvalid": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "E2E State machine behavior concerning transition from to INVALID no direct transition from NODATA to transition from INIT to INVALID due to (Autosar R19-11 or former direct transition from NODATA to INVALID from INIT to INVALID due to covered (state machine extended)"
+        }
+      }
+    },
+    {
+      "name": "EndToEndTransformationDescription",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationDescription",
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationDescription"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationTechnology.transformationDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 987,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 806,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "clearFromValid": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Clear monitoring window on transition from state Valid to Invalid."
+        },
+        "counterOffset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Offset of the counter in the Data[] array in bits."
+        },
+        "crcOffset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Offset of the CRC in the Data[] array in bits."
+        },
+        "dataIdMode": {
+          "type": "DataIdModeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the inclusion mode that is used to implicit two-byte Data ID in the one-byte CRC."
+        },
+        "dataIdNibble": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Offset of the Data ID nibble in the Data[] array in bits. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "e2eProfile": {
+          "type": "E2EProfileCompatibility",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to additional settings for the E2E state machine."
+        },
+        "maxDelta": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum allowed difference between two counter values two consecutively received valid messages. For the receiver gets data with counter 1 and Max 3, then at the next reception the receiver Counters with values 2, 3 or 4."
+        },
+        "maxErrorState": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximal number of checks in which ProfileStatus equal to was determined, within the last Window for the state E2E_SM_VALID."
+        },
+        "maxNoNewOr": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum allowed amount of consecutive failed checks."
+        },
+        "minOkStateInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimal number of checks in which ProfileStatus equal to determined, within the last WindowSize the state E2E_SM_INIT."
+        },
+        "minOkState": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimal number of checks in which ProfileStatus equal to was determined, within the last WindowSize the state E2E_SM_VALID."
+        },
+        "offset": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Offset of the E2E header in the Data[] array in bits."
+        },
+        "profileBehaviorBehaviorEnum": {
+          "type": "EndToEndProfile",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Behavior of the check functionality"
+        },
+        "profileName": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the E2E profile."
+        },
+        "syncCounterInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of checks required for validating the consistency counter that shall be received with a valid counter within the allowed lock-in range) after the an unexpected behavior of a received"
+        },
+        "upperHeader": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the number of upper-header bits be shifted. 0 or not present: shift of upper header is NOT 0: the E2E Transformer on the protect-side, takes upperHeaderBitsToShift bits from the upper buffer header part generated by SOME/IP shifts them towards the lower bytes and the Data[] for the length of the E2E header bytes in case of E2E Profile 4). This means the is fixed - it depends on the E2E header size is configured here is the number of bits that are to This option is defined because the Some/IP by SOME/IP transformer shall be, due between non-protected and at the same position, before E2E header."
+        },
+        "windowSizeInit": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of the monitoring window of state Init for the E2E 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "windowSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Size of the monitoring window of state Valid for the E2E machine."
+        }
+      }
+    },
+    {
+      "name": "DataTransformationSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is the system wide container of DataTransformations which represent transformer chains.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 762,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "data": {
+          "type": "DataTransformation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This container consists of all transformer chains which be used for transformation of data communication. atpVariation"
+        },
+        "transformation": {
+          "type": "Transformation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Transformer that is used in a transformer chain for transformation of data communication. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "UserDefinedTransformationDescription",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationDescription",
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationDescription"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationTechnology.transformationDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The UserDefinedTransformationDescription is used to specify details and documentation for custom transformers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 771,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TransformationISignalProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": true,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "Describable"
+      ],
+      "children": [],
+      "subclasses": [
+        "EndToEndTransformationISignalProps",
+        "SOMEIPTransformationISignalProps",
+        "UserDefinedTransformation"
+      ],
+      "aggregated_by": [
+        "ISignal.transformationISignalProps",
+        "ISignalGroup.transformationISignalProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 772,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "csErrorReaction": {
+          "type": "CSTransformerError",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether the transformer chain of client/server coordinates an autonomous error reaction the RTE or whether any error reaction is the the application."
+        },
+        "dataPrototype": {
+          "type": "DataPrototype",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Fine granular modeling of TransfromationProps on the level of DataPrototypes. This atpSplitable property has no atp.Splitkey due (PropertySetPattern)."
+        },
+        "transformer": {
+          "type": "Transformation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the TransformationTechnology description contains transformer specific and ISignal properties."
+        }
+      }
+    },
+    {
+      "name": "SOMEIPTransformationDescription",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationDescription",
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationDescription"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationTechnology.transformationDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The SOMEIPTransformationDescription is used to specify SOME/IP transformer specific attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 777,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "alignment": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the padding for alignment purposes that will be the SOME/IP transformer after the serialized the variable data length data element. The be specified in Bits."
+        },
+        "byteOrder": {
+          "type": "ByteOrderEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines which byte order shall be serialized by the"
+        },
+        "interfaceVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The interface version the SOME/IP transformer shall use."
+        }
+      }
+    },
+    {
+      "name": "SOMEIPTransformationISignalProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationISignalProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignal.transformationISignalProps",
+        "ISignalGroup.transformationISignalProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class SOMEIPTransformationISignalProps specifies ISignal specific configuration properties for SOME/IP transformer attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 778,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "implements": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates that Strings in the SOME/IP shall NOT be serialized according to the SOME/ specification for Strings. attribute is set to true, BOM and null-termination be added in the serialization for Strings in the this attribute is set to false (or not set) BOM shall be added in the serialization for the payload according to the SOME/IP Strings. attribute is not future safe, and will be an upcoming AUTOSAR release!\""
+        },
+        "interfaceVersion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The interface version the SOME/IP transformer shall use."
+        },
+        "isDynamic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute shall be used to determine the wire type in context of using the TLV encoding."
+        },
+        "messageType": {
+          "type": "SOMEIPMessageType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The Message Type which shall be placed into the SOME/ header."
+        },
+        "sizeOfArray": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size of all length fields (in Bytes) of fixed-size arrays dynamic size arrays in the SOME/IP message. This valid for all available occurrences of fixed-size dynamic size arrays in the SOME/IP message."
+        },
+        "sizeOfString": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size of all length fields (in Bytes) of dynamic length in the SOME/IP message. This attribute is valid for occurrences of strings in the SOME/IP"
+        },
+        "sizeOfStruct": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size of all length fields (in Bytes) of structs in the message. This attribute is valid for all available structures in the SOME/IP message. For fine granular modeling on the level of Data DataPrototypeTransformationProps shall"
+        },
+        "sizeOfUnion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The size of all length fields (in Bytes) of unions in the message. This attribute is valid for all available Unions in the SOME/IP message. For a granular modeling on the level of Data DataPrototypeTransformationProps shall"
+        },
+        "tlvDataId": {
+          "type": "TlvDataIdDefinitionSet",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference identifies the TlvDataIdDefinitions relevant the enclosing SOMEIPTransformationISignalProps"
+        }
+      }
+    },
+    {
+      "name": "TransformationPropsSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of TransformationProps.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 782,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "transformationProps": {
+          "type": "TransformationProps",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Transformer specific configuration properties."
+        }
+      }
+    },
+    {
+      "name": "TransformationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "SOMEIPTransformationProps",
+        "UserDefinedTransformationProps"
+      ],
+      "subclasses": [
+        "SOMEIPTransformationProps",
+        "UserDefinedTransformationProps"
+      ],
+      "aggregated_by": [
+        "TransformationPropsSet.transformationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a abstract base class for transformation settings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 782,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SOMEIPTransformationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationProps",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TransformationProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationPropsSet.transformationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class SOMEIPTransformationProps specifies SOME/IP specific configuration properties.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 783,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "alignment": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the padding for alignment purposes that will be the SOME/IP transformer after the serialized the variable data length data element. The be specified in Bits."
+        },
+        "sizeOfArray": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the size of the length field (in that will be put in front of the referenced Array in message."
+        },
+        "sizeOfString": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the size of the length field (in that will be put in front of the referenced String in message."
+        },
+        "sizeOfStruct": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the size of the length field (in that will be put in front of a Structure in the SOME/"
+        },
+        "sizeOfUnion": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the size of the length field (in that will be put in front of a Union in the SOME/IP"
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeTransformationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationISignalProps.dataPrototypeTransformationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "DataPrototypeTransformationProps allows to set the attributes for the different Transformation Technologies that are DataPrototype specific.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 787,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataPrototypeIn": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Reference to a DataPrototype that is transported in the serialized ISignal."
+        },
+        "network": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specification of the actual network representation for the primitive DataPrototype. If a network is provided then the baseType shall be the Transformer as input for the serialization/"
+        },
+        "transformation": {
+          "type": "TransformationProps",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Collection of AutosarDataPrototype related configuration for a transformer."
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeReference",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "DataPrototypeInPortInterfaceRef",
+        "ImplementationDataTypeElementInPortInterfaceRef"
+      ],
+      "subclasses": [
+        "DataPrototypeInPortInterfaceRef",
+        "ImplementationDataTypeElementInPortInterfaceRef"
+      ],
+      "aggregated_by": [
+        "DataPrototypeTransformationProps.dataPrototypeInPortInterfaceRef",
+        "SignalServiceTranslationElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides the ability to reference a DataPrototype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 787,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tagId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to specify a tag-id for of a specific DataPrototype in the context (potentially deeply-nested) composite data structure."
+        }
+      }
+    },
+    {
+      "name": "DataPrototypeInPortInterfaceRef",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "DataPrototypeReference",
+      "bases": [
+        "ARObject",
+        "DataPrototypeReference"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DataPrototypeTransformationProps.dataPrototypeInPortInterfaceRef",
+        "SignalServiceTranslationElement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a RootDataPrototype that is typed by an ApplicationDataType or Implementation DataType or a DataTypeElement that is aggregated within a composite application data type (record or array).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 787,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataPrototypeIn": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "context of a SenderReceiverInterface. implemented by: DataPrototypeInSender"
+        }
+      }
+    },
+    {
+      "name": "EndToEndTransformationISignalProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationISignalProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignal.transformationISignalProps",
+        "ISignalGroup.transformationISignalProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Holds all the ISignal specific attributes for the EndToEndTransformer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 808,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Length of payload and E2E header in bits."
+        },
+        "maxDataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Maximum length of payload and E2E header in bits."
+        },
+        "minDataLength": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Minimum length of payload and E2E header in bits. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "sourceId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a unique numerical identifier source of a certain transmission. In case of this ID uniquely identifies the client. is used for protection against masquerading. concerning the maximum number of values is specific for each E2E profile) this attribute are controlled by a semantic depends on the category of the EndToEnd"
+        }
+      }
+    },
+    {
+      "name": "UserDefinedTransformationISignalProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "Describable",
+        "TransformationISignalProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ISignal.transformationISignalProps",
+        "ISignalGroup.transformationISignalProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The UserDefinedTransformationISignalProps is used to specify ISignal specific configuration properties for custom transformers.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 828,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UserDefinedTransformationProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TransformationProps",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TransformationProps"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TransformationPropsSet.transformationProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The class UserDefinedTransformationProps specifies specific configuration properties of a user defined serializer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 829,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TlvDataIdDefinitionSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class acts as a container of TlvDataIdDefinitions to be used in a given context",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 830,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tlvDataId": {
+          "type": "TlvDataIdDefinition",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of TlVDataTid aggregated by the TlvDataIdDefinitionSet"
+        }
+      }
+    },
+    {
+      "name": "TlvDataIdDefinition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Transformer",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TlvDataIdDefinitionSet.tlvDataIdDefinition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to define the tlvDataId.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 830,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "id": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the definition of the value of the"
+        },
+        "tlvArgument": {
+          "type": "ArgumentDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This reference assigns a tlvDataId to a given argument of"
+        },
+        "tlv": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference associates the definition of a TLV data id with a given AbstractImplementationDataTypeElement."
+        },
+        "tlvRecord": {
+          "type": "ApplicationRecord",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference associates the definition of a TLV data id with a given ApplicationRecordElement."
+        }
+      }
+    }
+  ]
+}

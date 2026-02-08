@@ -1,0 +1,449 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+  "classes": [
+    {
+      "name": "GlobalTimeDomain",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a global time domain.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 858,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 225,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "debounceTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the minimum amount of time between two time are transmitted."
+        },
+        "domainId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the ID of the GlobalTimeDomain used in messages sent on behalf of global time"
+        },
+        "gateway": {
+          "type": "GlobalTimeGateway",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A GlobalTimeGateway may exist in the context of a actively update the global time it is routed from one GlobalTimeDomain to atpVariation"
+        },
+        "globalTime": {
+          "type": "GlobalTimeMaster",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the single master of a GlobalTime A GlobalTimeDomain may have no GlobalTime when it gets its time from a GPS atpVariation"
+        },
+        "globalTimeSub": {
+          "type": "GlobalTimeDomain",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "By this means it is possible to create a hierarchy of sub where one global time domain can declare one other global time domains as its subDomains. atpVariation"
+        },
+        "network": {
+          "type": "NetworkSegment",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the numerical identification of a GlobalTime sub domain."
+        },
+        "offsetTime": {
+          "type": "GlobalTimeDomain",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to a synchronized time domain this offset time is based on. The reference source is the offset The reference target is the synchronized 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "pduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "This PduTriggering will be taken to transmit the global from a GlobalTimeMaster to a the atpVariation"
+        },
+        "slave": {
+          "type": "GlobalTimeSlave",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the collections of slaves of the Global GlobalTimeDomain may have no Global when it propagates its time sub domains. atpVariation"
+        },
+        "syncLoss": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the timeout for the situation that time synchronization gets lost in the scope of the time"
+        }
+      }
+    },
+    {
+      "name": "AbstractGlobalTimeDomainProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "CanGlobalTimeDomainProps",
+        "EthGlobalTimeDomainProps",
+        "FrGlobalTimeDomainProps"
+      ],
+      "subclasses": [
+        "CanGlobalTimeDomainProps",
+        "EthGlobalTimeDomainProps",
+        "FrGlobalTimeDomainProps"
+      ],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeDomainProperty"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This abstract class enables a GlobalTimeDomain to specify additional properties.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 859,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NetworkSegmentIdentification",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.networkSegmentId"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 859,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "network": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the numerical identifier of a on system level scope."
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeMaster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "GlobalTimeCanMaster",
+        "GlobalTimeEthMaster",
+        "GlobalTimeFrMaster",
+        "UserDefinedGlobalTimeMaster"
+      ],
+      "subclasses": [
+        "GlobalTimeCanMaster",
+        "GlobalTimeEthMaster",
+        "GlobalTimeFrMaster",
+        "UserDefinedGlobalTimeMaster"
+      ],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeMaster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the generic concept of a global time master.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 860,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The GlobalTimeMaster is bound to the Communication Connector."
+        },
+        "icvSecured": {
+          "type": "GlobalTimeIcvSupport",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether an Integrity Check Value (ICV) shall be to the sent time sync messages."
+        },
+        "immediate": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the minimum time between an \"immediate\" and the next periodic message."
+        },
+        "isSystemWide": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to TRUE, the GlobalTimeMaster is supposed to act the root of global time information."
+        },
+        "syncPeriod": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the period. Unit: seconds"
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeSlave",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "is considered healed."
+      ],
+      "children": [
+        "GlobalTimeCanSlave",
+        "GlobalTimeEthSlave",
+        "GlobalTimeFrSlave",
+        "UserDefinedGlobalTimeSlave"
+      ],
+      "subclasses": [
+        "GlobalTimeCanSlave",
+        "GlobalTimeEthSlave",
+        "GlobalTimeFrSlave",
+        "UserDefinedGlobalTimeSlave"
+      ],
+      "aggregated_by": [
+        "GlobalTimeDomain.slave"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the generic concept of a global time slave.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 860,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The GlobalTimeSlave is bound to the Communication Connector."
+        },
+        "followUpTimeoutValue": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Rx timeout for the follow-up message."
+        },
+        "icvVerification": {
+          "type": "GlobalTimeIcv",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines how an Integrity Check Value (ICV) shall be at the receiver. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "timeLeapFuture": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the maximum allowed positive difference the current Local Time Base value and a newly Time Base value."
+        },
+        "timeLeap": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the required number of updates to the Time Base the time difference to the previous received value remain within the bounds of timeLeapFuture timeLeapPastThreshold until that Time"
+        },
+        "timeLeapPast": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the maximum allowed negative difference the current Local Time Base value and a newly Time Base value."
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeGateway",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.gateway"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to define a time gateway for establishing a global time domain over several communication clusters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 861,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "host": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The GlobalTimeGateway is hosted by the referenced Ecu"
+        },
+        "master": {
+          "type": "GlobalTimeMaster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the master of the global time gateway."
+        },
+        "slave": {
+          "type": "GlobalTimeSlave",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This represents the slave of the GlobalTimeGateway."
+        }
+      }
+    },
+    {
+      "name": "GlobalTimeCorrectionProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::GlobalTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "GlobalTimeDomain.globalTimeCorrectionProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines the attributes for rate and offset correction.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 862,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "offsetCorrection": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Threshold for the correction method. Deviations below value will be corrected by a linear reduction over a Values equal- and greater than this be corrected by immediately setting the correct rate in form of a jump."
+        },
+        "rateCorrection": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Definition of the time span which is used to calculate the deviation."
+        },
+        "rateCorrections": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the number of simultaneous rate measurements determine the current rate deviation."
+        }
+      }
+    }
+  ]
+}

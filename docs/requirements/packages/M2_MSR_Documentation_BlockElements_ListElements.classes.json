@@ -1,0 +1,306 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::ListElements",
+  "classes": [
+    {
+      "name": "List",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.list"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a list. The kind of list is specified in the attribute.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 295,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "item": {
+          "type": "Item",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "block.Therefore lists can be arbitrarily is discouraged to have a very deep nesting. atpVariation"
+        },
+        "type": {
+          "type": "ListEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The type of the list. Default is \"UNNUMBER\""
+        }
+      }
+    },
+    {
+      "name": "Item",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "List.item"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents one particular item in a list.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 295,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "itemContents": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "this represents the actual content of the item. It is a DocumentationBlock. This way it is use simple paragraphs to nested lists, or notes."
+        }
+      }
+    },
+    {
+      "name": "LabeledList",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.labeledList"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a labeled list, in which items have a label and a content. The policy how to render such items is specified in the labeled list.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 296,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "indentSample": {
+          "type": "IndentSample",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a sample item. This sample is used by a rendering measure out the width of indentation. Since this the particular fontsize etc. the indentation specified e.g. in mm."
+        },
+        "labeledItemLabel": {
+          "type": "LabeledItem",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "atpVariation"
+        }
+      }
+    },
+    {
+      "name": "LabeledItem",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LabeledList.labeledItem"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "this represents an item of a labeled list.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 296,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        },
+        "itemContents": {
+          "type": "DocumentationBlock",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the actual content of the item. It is a DocumentationBlock. This way it is use simple paragraphs to nested lists, or notes."
+        },
+        "itemLabel": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the label of the item. xml.sequenceOffset=20"
+        }
+      }
+    },
+    {
+      "name": "IndentSample",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "LabeledList.indentSample"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents the ability to specify indentation of a labeled list by providing a sample content. This content can be measured by the rendering system in order to determine the width of indentation.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 297,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "itemLabelPos": {
+          "type": "ItemLabelPosEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The position of the label in case the label is too long. The \"NO-NEWLINE\""
+        },
+        "l2": {
+          "type": "LOverviewParagraph",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": ""
+        }
+      }
+    },
+    {
+      "name": "DefList",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DocumentationBlock.defList"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express a list of definitions. Note that a definition list might be rendered similar to a labeled list but has a particular semantics to denote definitions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 297,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "defItem": {
+          "type": "DefItem",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "atpVariation"
+        }
+      }
+    },
+    {
+      "name": "DefItem",
+      "package": "M2::MSR::Documentation::BlockElements::ListElements",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "MultilanguageReferrable",
+        "Paginateable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "DefList.defItem"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents an entry in a definition list. The defined item is specified using shortName and longName.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 298,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "def": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the definition part of the DefItem."
+        },
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+  "path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption.classes.json"
+  },
+  "subpackages": [
+    {
+      "name": "MemorySectionUsage",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption_MemorySectionUsage.json"
+    },
+    {
+      "name": "StackUsage",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption_StackUsage.json"
+    },
+    {
+      "name": "HeapUsage",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption_HeapUsage.json"
+    },
+    {
+      "name": "ExecutionTime",
+      "full_path": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "file": "packages/M2_AUTOSARTemplates_CommonStructure_ResourceConsumption_ExecutionTime.json"
+    }
+  ],
+  "summary": {
+    "class_count": 3,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

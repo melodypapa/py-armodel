@@ -1,0 +1,621 @@
+{
+  "package": "M2::MSR::DataDictionary::DataDefProperties",
+  "classes": [
+    {
+      "name": "SwPointerTargetProps",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDefProps.swPointerTargetProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines, that the data object (which is specified by the aggregating element) contains a reference to another data object or to a function in the CPU code. This corresponds to a pointer in the C-language. The attributes of this element describe the category and the detailed properties of the target which is either a data description or a function signature.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 39,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 311,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 286,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 471,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "functionPointer": {
+          "type": "BswModuleEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced BswModuleEntry serves as the signature a function pointer definition. Primary use case: function as argument to other function."
+        },
+        "swDataDef": {
+          "type": "SwDataDefProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The properties of the target data type. atpSplitable"
+        },
+        "targetCategory": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies the category of the target: case of a data pointer, it shall specify the category of data. case of a function pointer, it could be used to denote of the referenced BswModuleEntry."
+        }
+      }
+    },
+    {
+      "name": "SwDataDefProps",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": "atpVariation",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "AutosarDataType.swDataDefProps",
+        "CompositeNetworkRepresentation.networkRepresentation",
+        "DataPrototype.swDataDefProps",
+        "DataPrototypeTransformationProps.networkRepresentationProps",
+        "DiagnosticDataElement.swDataDefProps",
+        "DiagnosticEnvDataElementCondition.swDataDefProps",
+        "DltArgument.networkRepresentation",
+        "FlatInstanceDescriptor.swDataDefProps",
+        "ImplementationDataTypeElement.swDataDefProps",
+        "InstantiationDataDefProps.swDataDefProps",
+        "ISignal.networkRepresentationProps",
+        "McDataInstance.resultingProperties",
+        "ParameterAccess.swDataDefProps",
+        "PerInstanceMemory.swDataDefProps",
+        "ReceiverComSpec.networkRepresentation",
+        "SenderComSpec.networkRepresentation",
+        "SomeipDataPrototypeTransformationProps.networkRepresentation",
+        "SwPointerTargetProps.swDataDefProps",
+        "SwServiceArg.swDataDefProps",
+        "SwSystemconst.swDataDefProps",
+        "SystemSignal.physicalProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that not all of the attributes or associated elements are useful all of the time. Hence, the process definition (e.g. expressed with an OCL or a Document Control Instance MSR-DCI) has the task of implementing limitations. SwDataDefProps covers various aspects: • Structure of the data element for calibration use cases: is it a single value, a curve, or a map, but also the recordLayouts which specify how such elements are mapped/converted to the DataTypes in the programming language (or in AUTOSAR). This is mainly expressed by properties like swRecordLayout and swCalprmAxisSet • Implementation aspects, mainly expressed by swImplPolicy, swVariableAccessImplPolicy, swAddr Method, swPointerTagetProps, baseType, implementationDataType and additionalNativeTypeQualifier • Access policy for the MCD system, mainly expressed by swCalibrationAccess • Semantics of the data element, mainly expressed by compuMethod and/or unit, dataConstr, invalid Value • Code generation policy provided by swRecordLayout Tags: vh.latestBindingTime=codeGenerationTime",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 339,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 46,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 307,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 329,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2062,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+          "page_number": 31,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 467,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+          "page_number": 34,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 211,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "additionalNative": {
+          "type": "NativeDeclarationString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to declare native qualifiers of the language which can neither be deduced baseType (e.g. because the data object pointer) nor from other more abstract are qualifiers like \"volatile\", \"strict\" or the C-language. All such declarations have to into one string."
+        },
+        "annotation": {
+          "type": "Annotation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation allows to add annotations (yellow pads to the current data object."
+        },
+        "baseType": {
+          "type": "SwBaseType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Base type associated with the containing data object."
+        },
+        "compuMethod": {
+          "type": "CompuMethod",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Computation method associated with the semantics of object."
+        },
+        "dataConstr": {
+          "type": "DataConstr",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Data constraint for this data object. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "displayFormat": {
+          "type": "DisplayFormatString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This property describes how a number is to be rendered documents or in a measurement and calibration"
+        },
+        "display": {
+          "type": "DisplayPresentation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the presentation of the related data for measurement and calibration tools."
+        },
+        "implementation": {
+          "type": "AbstractImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It whenever a data declaration is not directly a base type. Especially of an ImplementationDataType via a another ImplementationDatatype target type of a pointer (see SwPointerTarget it does not refer to a base type directly data type of an array or record element within an it does not refer to a base data type of an SwServiceArg, if it does not refer to type directly"
+        },
+        "invalidValue": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optional value to express invalidity of the actual data"
+        },
+        "stepSize": {
+          "type": "Float",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used to define a value which is or subtracted from the value of a DataPrototype up/down keys while calibrating."
+        },
+        "swAddrMethod": {
+          "type": "SwAddrMethod",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Addressing method related to this data object. Via an the same SwAddrMethod it can be several DataPrototypes shall be located in memory without already specifying the memory"
+        },
+        "swAlignment": {
+          "type": "AlignmentType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The attribute describes the intended typical alignment of If the attribute is not defined the determined by the swBaseType size and the the referenced Sw"
+        },
+        "swBit": {
+          "type": "SwBitRepresentation",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Description of the binary representation in case of a bit"
+        },
+        "swCalibration": {
+          "type": "SwCalibrationAccess",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the read or write access by MCD tools for this data object."
+        },
+        "swCalprmAxis": {
+          "type": "SwCalprmAxisSet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This specifies the properties of the axes in case of a or map etc. This is mainly applicable to calibration"
+        },
+        "swComparison": {
+          "type": "SwVariableRefProxy",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Variables used for comparison in an MCD process. 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "swData": {
+          "type": "SwDataDependency",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Describes how the value of the data object has to be from the value of another data object (by the"
+        },
+        "swHostVariable": {
+          "type": "SwVariableRefProxy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Contains a reference to a variable which serves as a a bit variable. Only applicable to bit"
+        },
+        "swImplPolicy": {
+          "type": "SwImplPolicyEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Implementation policy for this data object."
+        },
+        "swIntended": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The purpose of this element is to describe the requested of data objects early on in the design ultimately occurs via the conversion (compuMethod), which specifies the the physical world to the standardized vice-versa) (here, \"the slope per bit\" is present the conversion formula). case of a development phase without a fixed a pre-specification can occur through is specified in the physical domain the property \"unit\"."
+        },
+        "swInterpolation": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a keyword identifying the mathematical method to applied for interpolation. The keyword needs to be the interpolation routine which needs to be"
+        },
+        "swIsVirtual": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element distinguishes virtual objects. Virtual objects appear in the memory, their derivation is much on other objects and hence they shall swDataDependency ."
+        },
+        "swPointerTarget": {
+          "type": "SwPointerTargetProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies that the containing data object is a pointer to data object. atpSplitable property has no atp.Splitkey due (PropertySetPattern)."
+        },
+        "swRecord": {
+          "type": "SwRecordLayout",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Record layout for this data object. xml.sequenceOffset=290 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template R23-11"
+        },
+        "swRefresh": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies the frequency in which the object shall be or is called or calculated. This timing collected from the task in which write access the variable run. But this cannot be done by system. attribute can be used in an early phase to express refresh timing and later on to specify the real"
+        },
+        "swTextProps": {
+          "type": "SwTextProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "the specific properties if the data object is a text object."
+        },
+        "swValueBlock": {
+          "type": "Numerical",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to specify the dimensions of a value (VAL_BLK) for the case that that value block has than one dimension. given in this attribute are ordered such first entry represents the first dimension, the represents the second dimension, and so value blocks the attribute swValue be used and this attribute shall not exist."
+        },
+        "unit": {
+          "type": "Unit",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Physical unit associated with the semantics of this data attribute applies if no compuMethod is both units (this as well as via compuMethod) the units shall be compatible."
+        },
+        "valueAxisData": {
+          "type": "ApplicationPrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced ApplicationPrimitiveDataType represents the primitive data type of the value axis within a (e.g. curve, map). It supersedes and BaseType."
+        }
+      }
+    },
+    {
+      "name": "SwTextProps",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDefProps.swTextProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class expresses particular properties applicable to strings in variables or calibration parameters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 343,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 313,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 249,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 216,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arraySize": {
+          "type": "ArraySizeSemantics",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute controls the semantics of the arraysize for the array representing the string in an Implementation there to support a safe conversion between ImplementationDatatype, even length strings as required e.g. for Support of"
+        },
+        "baseType": {
+          "type": "SwBaseType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is the base type of one character in the string. In baseType denotes the intended encoding of in the string on level of ApplicationData"
+        },
+        "swFillCharacter": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Filler character for text parameter to pad up to the swMaxTextSize. will be interpreted according to the encoding the associated base type of the data object, (hex) represents the ASCII character zero as and 0 (dec) represents an end of string as of the fill character depends on the arraySize"
+        },
+        "swMaxTextSize": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum text size in characters. Note the bytes depends on the encoding in the"
+        }
+      }
+    },
+    {
+      "name": "ValueList",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "RuleBasedAxisCont.swArraysize",
+        "RuleBasedValueCont.swArraysize",
+        "SwAxisCont.swArraysize",
+        "SwServiceArg.swArraysize",
+        "SwValueCont.swArraysize"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is a generic list of numerical values.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 350,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+          "page_number": 314,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 459,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 222,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "v": {
+          "type": "Numerical",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is a particular numerical value without variation. Numerical * attr This is one entry in the list of numerical values"
+        }
+      }
+    },
+    {
+      "name": "SwBitRepresentation",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDefProps.swBitRepresentation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Description of the structure of a bit variable: Comprises of the bitPosition in a memory object (e.g. sw HostVariable, which stands parallel to swBitRepresentation) and the numberOfBits . In this way, interrelated memory areas can be described. Non-related memory areas are not supported.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 333,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bitPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If the \"bit data object\" is hosted within another data object the memory can be accessed via byte as well as this attribute specifies the position of the The count starts at zero (0)."
+        },
+        "numberOfBits": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of bits allocated by a \"bit data object\" within its object."
+        }
+      }
+    },
+    {
+      "name": "SwDataDependency",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDefProps.swDataDependency"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element describes the interdependencies of data objects, e.g. variables and parameters. Use cases: • Calculate the value of a calibration parameter (by the MCD system) from the value(s) of other calibration parameters. • Virtual data - that means the data object is not directly in the ecu and this property describes how the \"virtual variable\" can be computed from the real ones (by the MCD system).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 373,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swData": {
+          "type": "CompuGenericMath",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element describes the formula with which the between the participating objects are"
+        }
+      }
+    },
+    {
+      "name": "SwDataDependencyArgs",
+      "package": "M2::MSR::DataDictionary::DataDefProperties",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwDataDependency.swDataDependencyArgs"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element specifies the elements used in a SwDataDependency.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 374,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swCalprmRef": {
+          "type": "SwCalprmRefProxy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specifies a calibration parameter as an input argument to"
+        },
+        "swVariable": {
+          "type": "SwVariableRefProxy",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "Specifies a variable as an input argument to the"
+        }
+      }
+    }
+  ]
+}

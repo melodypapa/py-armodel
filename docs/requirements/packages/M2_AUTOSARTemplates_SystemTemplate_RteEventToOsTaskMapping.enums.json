@@ -1,0 +1,30 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+  "enumerations": [
+    {
+      "name": "OsTaskPreemptabilityEnum",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping",
+      "note": "Enumeration that defines the possible preemptability values for OsTask. Aggregated by OsTaskProxy.preemptability",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 209,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "full",
+          "index": 1,
+          "description": "Task is preemptable.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "none",
+          "index": 0,
+          "description": "Task is not preemptable.<br>Tags: atp.EnumerationLiteralIndex=0"
+        }
+      ]
+    }
+  ]
+}

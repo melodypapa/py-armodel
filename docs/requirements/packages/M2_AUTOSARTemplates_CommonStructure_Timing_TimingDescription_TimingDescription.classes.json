@@ -1,0 +1,1470 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+  "classes": [
+    {
+      "name": "TDEventVfb",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [
+        "TDEventVfbReference",
+        "TDEventVfbPort"
+      ],
+      "subclasses": [
+        "TDEventVfbPort",
+        "TDEventVfbReference"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the abstract parent class to describe timing events at Virtual Functional Bus (VFB) level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 51,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "componentCompositionInstanceRef": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "implemented by: ComponentIn"
+        }
+      }
+    },
+    {
+      "name": "TDEventVfbReference",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventVfb",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventVfb",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to reference timing description events related to the Virtual Functional Bus (VFB) view which are specified in other timing views.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "referencedTDEventVfb": {
+          "type": "TDEventVfb",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced timing description event."
+        }
+      }
+    },
+    {
+      "name": "TDEventVfbPort",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TDEventVfb",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventVfb",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [
+        "TDEventVariableDataPrototype",
+        "TDEventOperation",
+        "TDEventModeDeclaration",
+        "TDEventTrigger"
+      ],
+      "subclasses": [
+        "TDEventModeDeclaration",
+        "TDEventOperation",
+        "TDEventTrigger",
+        "TDEventVariableDataPrototype"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the abstract parent class to describe specific timing event types at Virtual Functional Bus (VFB) level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 52,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 221,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "isExternal": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute is used to refer to external events that are hardware I/O, like physical sensors and Virtual Functional Bus (VFB) level."
+        },
+        "port": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "port on which the TimingEvent shall apply"
+        },
+        "portPrototype": {
+          "type": "PortPrototypeBlueprint",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "port on which the TimingEvent shall apply (in the context an AUTOSAR blueprint)"
+        }
+      }
+    },
+    {
+      "name": "TDEventVariableDataPrototype",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventVfbPort",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventVfb",
+        "TDEventVfbPort",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to sender-receiver communication at VFB level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 53,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "dataElement": {
+          "type": "VariableDataPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The referenced VariableDataPrototype"
+        },
+        "tdEventVariableType": {
+          "type": "TDEventVariableData",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventOperation",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventVfbPort",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventVfb",
+        "TDEventVfbPort",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to client-server communication at VFB level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 55,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "ClientServerOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced operation."
+        },
+        "tdEvent": {
+          "type": "TDEventOperationType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventModeDeclaration",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventVfbPort",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventVfb",
+        "TDEventVfbPort",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to mode switch communication at VFB level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 57,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "entryMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional parameter which refines the scope of the If the parameter is set, the only if the mode declaration group prototype enter into the referenced ModeDeclaration."
+        },
+        "exitMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional parameter which refines the scope of the If the parameter is set, the only if the mode declaration group prototype exit from the referenced ModeDeclaration."
+        },
+        "mode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The referenced mode declaration group prototype."
+        },
+        "tdEventMode": {
+          "type": "TDEventMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventTrigger",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventVfbPort",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventVfb",
+        "TDEventVfbPort",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to triggers at VFB level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 58,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tdEventTrigger": {
+          "type": "TDEventTriggerType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "The specific type of this timing event."
+        },
+        "trigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The trigger which is provided (released) or required the given context."
+        }
+      }
+    },
+    {
+      "name": "TDEventSwc",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [
+        "TDEventSwcInternalBehavior",
+        "TDEventSwcInternalBehaviorReference"
+      ],
+      "subclasses": [
+        "TDEventSwcInternalBehavior",
+        "TDEventSwcInternalBehaviorReference"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the abstract parent class to describe timing events at Software Component (SW-C) level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 60,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "componentCompositionInstanceRef": {
+          "type": "SwComponent",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "implemented by: ComponentIn"
+        }
+      }
+    },
+    {
+      "name": "TDEventSwcInternalBehavior",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventSwc",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventSwc",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the SwcInternalBehavior of an AtomicSwComponent Type.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 61,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "runnable": {
+          "type": "RunnableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event. 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "tdEventSwcBehaviorType": {
+          "type": "TDEventSwcInternal",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        },
+        "variableAccess": {
+          "type": "VariableAccess",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventSwcInternalBehaviorReference",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventSwc",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventSwc",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to reference timing description events related to the Software Component (SW-C) view which are specified in other timing views.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 63,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "referencedTDEventSwc": {
+          "type": "TDEventSwc",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The referenced timing description event."
+        }
+      }
+    },
+    {
+      "name": "TDEventCom",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [
+        "TDEventISignal",
+        "TDEventIPdu",
+        "TDEventFrame",
+        "TDEventFrameEthernet",
+        "TDEventCycleStart"
+      ],
+      "subclasses": [
+        "TDEventCycleStart",
+        "TDEventFrame",
+        "TDEventFrameEthernet",
+        "TDEventIPdu",
+        "TDEventISignal"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the abstract parent class to describe timing events related to communication including the physical layer.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 65,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The ECU context for a particular timing event. The link is the EcuInstance can not be defined for type TDEventCycleStart."
+        }
+      }
+    },
+    {
+      "name": "TDEventISignal",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventCom",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the exchange of I-Signals between COM and RTE.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 65,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iSignal": {
+          "type": "ISignal",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The PhysicalChannel on which the ISignal is transmitted."
+        },
+        "tdEventTypeEnum": {
+          "type": "TDEventISignalType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventIPdu",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventCom",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the exchange of I-PDUs between the bus specific (Flex Ray / CAN / LIN) Interface BSW module and COM.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 66,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "iPdu": {
+          "type": "IPdu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The PhysicalChannel on which the IPdu is transmitted."
+        },
+        "tdEventType": {
+          "type": "TDEventIPduTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventFrame",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventCom",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the exchange of frames between the communication controller and the bus specific (FlexRay / CAN / LIN) Interface BSW module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 67,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frame": {
+          "type": "Frame",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event. 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "physical": {
+          "type": "PhysicalChannel",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The PhysicalChannel on which the Frame is transmitted."
+        },
+        "tdEventTypeEnum": {
+          "type": "TDEventFrameType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventFrameEthernet",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventCom",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing description events related to the exchange of Ethernet frames between an Ethernet communication controller and the BSW Ethernet interface and driver module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 69,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "staticSocket": {
+          "type": "StaticSocketConnection",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the SocketConnection by the means of which Data Units (PDU) are transmitted or received Ethernet Frame."
+        },
+        "tdEventType": {
+          "type": "TDEventFrameEthernet",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is used to describe the specific event type of a"
+        },
+        "tdHeaderIdFilter": {
+          "type": "TDHeaderIdRange",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the header identifier or a range of header if contained in the Ethernet frame let the"
+        },
+        "tdPduTriggering": {
+          "type": "PduTriggering",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Specifies the PDU that if contained in the Ethernet frame the TDEventFrameEthernet occur."
+        }
+      }
+    },
+    {
+      "name": "TDHeaderIdRange",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDEventFrameEthernet.tdHeaderIdFilter"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies a range of PDU header identifiers. This range is specified by a minimum and maximum header identifier; and the maximum header identifier shall be greater than or equal the minimum header identifier.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 70,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maxHeaderId": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the maximum PDU header identifier, in other upper bound of a range of PDU header"
+        },
+        "minHeaderId": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the minimum PDU header identifier, in other lower bound of a range of PDU header"
+        }
+      }
+    },
+    {
+      "name": "TDEventCycleStart",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TDEventCom",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [
+        "TDEventFrClusterCycleStart",
+        "TDEventTTCanCycleStart"
+      ],
+      "subclasses": [
+        "TDEventFrClusterCycleStart",
+        "TDEventTTCanCycleStart"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the abstract parent class to describe timing events related to a point in time where a communication cycle starts. Via the attribute \"cycleRepetition\", a filtered view to the cycle start can be defined.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cycleRepetition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The start of every <cycleRepetition> cycle is targeted by"
+        }
+      }
+    },
+    {
+      "name": "TDEventFrClusterCycleStart",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventCycleStart",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TDEventCycleStart",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe the timing event related to a point in time where a communication cycle starts on a FlexRay cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 71,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "frCluster": {
+          "type": "FlexrayCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventTTCanCycleStart",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventCycleStart",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventCom",
+        "TDEventCycleStart",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe the timing event related to a point in time where a communication cycle starts on a TTCAN cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 72,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ttCanCluster": {
+          "type": "TtcanCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventBswInternalBehavior",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the BswInternalBehavior of a BSW module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 73,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswModuleEntity": {
+          "type": "BswModuleEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        },
+        "tdEventBswBehaviorType": {
+          "type": "TDEventBswInternal",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventBswModule",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventBsw",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventBsw",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the interaction between BSW modules.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 75,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswModuleEntry": {
+          "type": "BswModuleEntry",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        },
+        "tdEventBsw": {
+          "type": "TDEventBswModule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventBswModeDeclaration",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventBsw",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventBsw",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to the mode communication on BSW level.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 76,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "entryMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional parameter which refines the scope of the If the parameter is set, the only if the mode declaration group prototype enter into the referenced ModeDeclaration."
+        },
+        "exitMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Optional parameter which refines the scope of the If the parameter is set, the only if the mode declaration group prototype exit from the referenced ModeDeclaration."
+        },
+        "mode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The scope of this timing event. 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "tdEventBswDeclarationType": {
+          "type": "TDEventBswMode",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The specific type of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventComplex",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe complex timing events. The context of a complex timing event either is described informally, e.g. using the documentation block, or is described formally by the associated TDEventOccurrenceExpression.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 78,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "TDEventSLLETPort",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TDEventSLLET",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TDEventSLLET",
+        "TimingDescription",
+        "Timing"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Used to describe SL-LET timing events on the level of a SWC port.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 79,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "port": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The originating port of the timing event"
+        }
+      }
+    },
+    {
+      "name": "TDEventOccurrenceExpression",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingDescriptionEvent.occurrenceExpression"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to specify a filter on the occurrences of TimingDescriptionEvents by means of a TDEventOccurrenceExpressionFormula. Filter criteria can be variable and argument values, i.e. the timing event only occurs for specific values, as well as the temporal characteristics of the occurrences of arbitrary timing events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 84,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "AutosarOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An occurrence expression can reference an arbitrary of OperationArgumentPrototypes in its association aggregates instance OperationArgumentPrototypes which can in the expression."
+        },
+        "formula": {
+          "type": "TDEventOccurrence",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the expression formula which is used to describe occurrence expression."
+        },
+        "mode": {
+          "type": "TimingModeInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An occurrence expression can reference an arbitrary TimingModeInstances in its expression. This instance references to Mode can be referenced in the expression."
+        },
+        "variable": {
+          "type": "AutosarVariable",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An occurrence expression can reference an arbitrary of VariableDataPrototypes in its expression. This instance references to Variable can be referenced in the"
+        }
+      }
+    },
+    {
+      "name": "TDEventOccurrenceExpressionFormula",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDEventOccurrenceExpression.formula"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is an extension of the FormulaExpression for the AUTOSAR Timing Extensions. A TDEventOccurrenceExpressionFormula provides the means to express the temporal characteristics of timing event occurrences in correlation with specific variable and argument values. The formal definition of the extended functions (ExtUnaryFunctions) is described in detail in the AUTOSAR Timing Extensions.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 84,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "argument": {
+          "type": "AutosarOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is one particular argument value used in the formula."
+        },
+        "event": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is one particular timing description event used in the"
+        },
+        "mode": {
+          "type": "TimingModeInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is one particular mode used in the expression"
+        },
+        "variable": {
+          "type": "AutosarVariable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This is one particular variable value used in the formula."
+        }
+      }
+    },
+    {
+      "name": "AutosarVariableInstance",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDEventOccurrenceExpression.variable",
+        "TimingExtensionResource.timingVariable"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a reference to a variable instance within AUTOSAR. This way it is possible to reference a variable instance in the occurrence expression formula. The variable instance can target to one of the following variables: • a variable provided via a PortPrototype as whole • an element inside of a composite variable provided via a PortPrototype",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 85,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "variableInstanceInstanceRef": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: VariableInComponent"
+        }
+      }
+    },
+    {
+      "name": "AutosarOperationArgumentInstance",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDEventOccurrenceExpression.argument",
+        "TimingExtensionResource.timingArgument"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class represents a reference to an argument instance. This way it is possible to reference an argument instance in the occurrence expression formula. The argument instance can target to one of the following arguments: • a whole argument used in an operation of a PortPrototype with ClientServerInterface • an element inside of a composite argument used in an operation of a PortPrototype with ClientServer Interface",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 85,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "operation": {
+          "type": "DataPrototype",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "implemented by: OperationArgumentIn Instance ComponentInstanceRef"
+        }
+      }
+    },
+    {
+      "name": "TDEventBsw",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [
+        "TDEventBswModule",
+        "TDEventBswModeDeclaration"
+      ],
+      "subclasses": [
+        "TDEventBswModeDeclaration",
+        "TDEventBswModule"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is used to describe timing events related to BSW modules.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 251,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswModuleDescription": {
+          "type": "BswModuleDescription",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The scope of this timing event."
+        }
+      }
+    },
+    {
+      "name": "TDEventSLLET",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "TimingDescriptionEvent",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingDescription",
+        "TimingDescriptionEvent"
+      ],
+      "children": [
+        "TDEventSLLETPort"
+      ],
+      "subclasses": [
+        "TDEventSLLETPort"
+      ],
+      "aggregated_by": [
+        "TimingExtension.timingDescription"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Used to describe SL-LET (System-Level) timing events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 251,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+  "classes": [
+    {
+      "name": "ExecutionTime",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "AnalyzedExecutionTime",
+        "MeasuredExecutionTime",
+        "SimulatedExecutionTime",
+        "RoughEstimateOfExecutionTime"
+      ],
+      "subclasses": [
+        "AnalyzedExecutionTime",
+        "MeasuredExecutionTime",
+        "RoughEstimateOfExecutionTime",
+        "Simulated"
+      ],
+      "aggregated_by": [
+        "ResourceConsumption.executionTime"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Base class for several means how to describe the ExecutionTime of software. The required context information is provided through this class.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 159,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2025,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "exclusiveArea": {
+          "type": "ExclusiveArea",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the ExclusiveArea this execution time is"
+        },
+        "executableEntity": {
+          "type": "ExecutableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The executable entity for which this execution time is"
+        },
+        "hardware": {
+          "type": "HardwareConfiguration",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provides information on the HardwareConfiguration used specify this ExecutionTime."
+        },
+        "hwElement": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The hardware element (e.g. type of ECU) for which the is specified."
+        },
+        "includedLibrary": {
+          "type": "DependencyOnArtifact",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "If this dependency is specified, the execution time of the is included in the execution time data for the"
+        },
+        "memorySection": {
+          "type": "MemorySectionLocation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provides information on the MemorySectionLocation is involved in the ExecutionTime description."
+        },
+        "softwareContext": {
+          "type": "SoftwareContext",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provides information on the detailed SoftwareContext provide the ExecutionTime description."
+        }
+      }
+    },
+    {
+      "name": "MemorySectionLocation",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ExecutionTime.memorySectionLocation"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies in which hardware ProvidedMemorySegment the softwareMemorySection is located.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 162,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "providedMemory": {
+          "type": "HwElement",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the hardware ProvidedMemorySegment."
+        },
+        "software": {
+          "type": "MemorySection",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the MemorySection which is mapped on a hardware memory segment."
+        }
+      }
+    },
+    {
+      "name": "AnalyzedExecutionTime",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ExecutionTime",
+      "bases": [
+        "ARObject",
+        "ExecutionTime",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.executionTime"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "AnalyzedExecutionTime provides an analytic method for specifying the best and worst case execution time.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 164,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bestCase": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The best case execution time (BCET) defines the amount of time the related executable entity its execution."
+        },
+        "worstCase": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The worst case execution time (WCET) defines the amount of time the related executable entity its execution."
+        }
+      }
+    },
+    {
+      "name": "MeasuredExecutionTime",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ExecutionTime",
+      "bases": [
+        "ARObject",
+        "ExecutionTime",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.executionTime"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the ExecutionTime which has been gathered using measurement means.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 166,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maximumExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum measured execution time."
+        },
+        "minimumExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum measured execution time."
+        },
+        "nominalExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The nominal measured execution time."
+        }
+      }
+    },
+    {
+      "name": "SimulatedExecutionTime",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ExecutionTime",
+      "bases": [
+        "ARObject",
+        "ExecutionTime",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.executionTime"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Specifies the ExecutionTime which has been gathered using simulation means.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 167,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "maximumExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum simulated execution time."
+        },
+        "minimumExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The minimum simulated execution time."
+        },
+        "nominalExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The nominal simulated execution time."
+        }
+      }
+    },
+    {
+      "name": "RoughEstimateOfExecutionTime",
+      "package": "M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ExecutionTime",
+      "bases": [
+        "ARObject",
+        "ExecutionTime",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ResourceConsumption.executionTime"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Provides a description of a rough estimate on the ExecutionTime.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 167,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "additional": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Provides description on the rough estimate of the"
+        },
+        "estimatedExecutionTime": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The estimated execution time."
+        }
+      }
+    }
+  ]
+}

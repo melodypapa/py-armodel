@@ -1,0 +1,115 @@
+{
+  "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+  "enumerations": [
+    {
+      "name": "DiagnosticMemoryEntryStorageTriggerEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "note": "Trigger types to allocate an event memory entry. Aggregated by DiagnosticMemoryDestination.memoryEntryStorageTrigger",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "confirmed",
+          "index": 0,
+          "description": "Status information of UDS DTC status bit 3<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "fdcThreshold",
+          "index": 1,
+          "description": "Threshold to allocate an event memory entry and to capture the Freeze Frame.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "testFailed",
+          "index": 3,
+          "description": "Status information of UDS DTC status bit 0.<br>Tags: atp.EnumerationLiteralIndex=3"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticClearDtcLimitationEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "note": "Scope of the DEM_ClearDTC Api. Aggregated by DiagnosticMemoryDestination.clearDtcLimitation",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "allSupportedDtcs",
+          "index": 0,
+          "description": "DEM_ClearDtc API accepts all supported DTC values.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "clearAllDtcs",
+          "index": 1,
+          "description": "DEM_ClearDtc API accepts ClearAllDTCs only.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticEventDisplacementStrategyEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "note": "Defines the displacement strategy. Aggregated by DiagnosticMemoryDestination.eventDisplacementStrategy",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 183,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "full",
+          "index": 0,
+          "description": "Event memory entry displacement is enabled, by consideration of priority active/passive status, and<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "none",
+          "index": 1,
+          "description": "Event memory entry displacement is disabled.<br>Tags: atp.EnumerationLiteralIndex=1"
+        },
+        {
+          "name": "prioOcc",
+          "index": 2,
+          "description": "Event memory entry displacement is enabled, by consideration of priority and occurrence (but without<br>Tags: atp.EnumerationLiteralIndex=2"
+        }
+      ]
+    },
+    {
+      "name": "DiagnosticTypeOfFreezeFrameRecordNumerationEnum",
+      "package": "M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination",
+      "note": "FreezeFrame record numeration type Aggregated by DiagnosticMemoryDestination.typeOfFreezeFrameRecordNumeration",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 184,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "calculated",
+          "index": 0,
+          "description": "Freeze frame records will be numbered consecutive starting by 1 in their chronological order.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "configured",
+          "index": 1,
+          "description": "Freeze frame records will be numbered based on the given configuration in their chronological order.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

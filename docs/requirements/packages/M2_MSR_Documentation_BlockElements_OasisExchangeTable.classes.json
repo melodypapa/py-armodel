@@ -1,0 +1,446 @@
+{
+  "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+  "classes": [
+    {
+      "name": "Table",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TopicContent.table",
+        "TraceableTable.table"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class implements an exchange table according to OASIS Technical Resolution TR 9503:1995. http://www.oasis-open.org/specs/a503.htm",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 332,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "colsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if by default a line should be drawn between the this table."
+        },
+        "float": {
+          "type": "FloatEnum",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicate whether it is allowed to break the element."
+        },
+        "frame": {
+          "type": "FrameEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to defined the frame line around a table. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "helpEntry": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies an entry point in an online help system to with the parent class. The syntax shall be the applied help system respectively help"
+        },
+        "orient": {
+          "type": "OrientEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicate whether a table should be represented as portrait. : landscape : portrait"
+        },
+        "pgwide": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Used to indicate whether the figure should take the width (value = \"pgwide\") or not (value ="
+        },
+        "rowsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if by default a line should be drawn at the table rows."
+        },
+        "tableCaption": {
+          "type": "Caption",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This element specifies the table heading."
+        },
+        "tabstyle": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates an external table style. Tgroup 1..* aggr A table can be built of individual segments. Such a called tgroup."
+        }
+      }
+    },
+    {
+      "name": "Tgroup",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Table.tgroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to denote a table section.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 334,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "align": {
+          "type": "AlignEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies how the cell entries shall be horizontally aligned specified TGROUP. Default is \"LEFT\""
+        },
+        "cols": {
+          "type": "Integer",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the number of columns in the"
+        },
+        "colsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if by default a line shall be drawn between the this table group."
+        },
+        "colspec": {
+          "type": "Colspec",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This specifies one particular column specification in the There shall be one entry for each column."
+        },
+        "rowsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if by default a line shall be drawn at the bottom rows in this table group."
+        },
+        "tbody": {
+          "type": "Tbody",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the main part of the table segment, called the table 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "tfoot": {
+          "type": "Tbody",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the footer of the table segment. This printed at the end of the table or before a"
+        },
+        "thead": {
+          "type": "Tbody",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This represents the heading of the table section. The usually repeated at the beginning of each new"
+        }
+      }
+    },
+    {
+      "name": "Tbody",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Tgroup.tbody",
+        "Tgroup.tfoot",
+        "Tgroup.thead"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a part within a table group. Such a part can be the table head, the table body or the table foot.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 335,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "valign": {
+          "type": "ValignEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates how the cells in the rows shall be aligned. inherited from tbody, otherwise it is \"TOP\""
+        }
+      }
+    },
+    {
+      "name": "Row",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Paginateable",
+      "bases": [
+        "ARObject",
+        "DocumentViewSelectable",
+        "Paginateable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Tbody.row"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to express one row in a table.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "rowsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if by default a line should be displayed below the"
+        },
+        "valign": {
+          "type": "ValignEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates how the cells in the rows shall be aligned. inherited from tbody, otherwise it is \"TOP\""
+        }
+      }
+    },
+    {
+      "name": "Entry",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Row.entry"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This represents one particular table cell.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 336,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "align": {
+          "type": "AlignEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies how the cell ENTRY shall be horizontally is \"LEFT\""
+        },
+        "bgcolor": {
+          "type": "String",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This allows to recommend a background color of the is specified bases on 6 digits RGB hex-code. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "colname": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicate the name of the column, where the entry should"
+        },
+        "colsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether a line should be displayed end of this"
+        },
+        "entryContents": {
+          "type": "DocumentationBlock",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the content of the TableEntry"
+        },
+        "morerows": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of additional rows. Default is \"0\""
+        },
+        "nameend": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "When an entry spans multiple column this is the name of column."
+        },
+        "namest": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "When an entry spans multiple column this is the name of column."
+        },
+        "rotate": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates if the cellcontent shall be rotated. Default is 0; 1 the contents 90 degree counterclockwise. is defined by OASIS."
+        },
+        "rowsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether a line should be displayed at the of the cell."
+        },
+        "spanname": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Capture the name of entry merging multiple columns."
+        },
+        "valign": {
+          "type": "ValignEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates how the content of the cell shall be aligned. inherited from row or tbody, otherwise \"TOP\""
+        }
+      }
+    },
+    {
+      "name": "Colspec",
+      "package": "M2::MSR::Documentation::BlockElements::OasisExchangeTable",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "Tgroup.colspec"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to specify the properties of a column in a table.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 433,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "align": {
+          "type": "AlignEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies how the cell entries shall be horizontally aligned specified column. Default is \"LEFT\""
+        },
+        "colname": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the name of the column."
+        },
+        "colnum": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "column number (allows to sort the columns)."
+        },
+        "colsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether a line should be displayed right of this the column specification. 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11"
+        },
+        "colwidth": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Width of the column. You can enter absolute values such cm, or relative values marked with * (e.g., 2* for double those of other columns with 1*). can be added to the number in the string. are: cm, mm, px, pt."
+        },
+        "rowsep": {
+          "type": "TableSeparatorString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether a line should be displayed at the bottom the cells of the column defined in the Colspec."
+        }
+      }
+    }
+  ]
+}

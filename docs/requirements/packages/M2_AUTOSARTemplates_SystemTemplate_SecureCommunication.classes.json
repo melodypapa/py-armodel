@@ -1,0 +1,1357 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+  "classes": [
+    {
+      "name": "CryptoServiceCertificate",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents the ability to model a cryptographic certificate.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 310,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 565,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "algorithmFamily": {
+          "type": "CryptoCertificate",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a description of the family of algorithm used to generate public key and the cryptographic certificate."
+        },
+        "format": {
+          "type": "CryptoCertificateFormat",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute can be used to provide information about format used to create the certificate"
+        },
+        "maximum": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents the ability to define the length of the certificate in bytes."
+        },
+        "nextHigher": {
+          "type": "CryptoService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The reference identifies the next higher certificate in the certificate chain."
+        },
+        "serverName": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Server Name Indication (SNI) is needed if the IP address multiple servers (on the same port), each of them different certificate. client sends the SNI to the Server in the client hello, looks the SNI up in its certificate list and uses identified by the SNI."
+        }
+      }
+    },
+    {
+      "name": "MacSecProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "CouplingPort.macSecProps"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class allows to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "autoStart": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how the Port Access Entity (PAE) is := Autostart := Manual Start"
+        },
+        "macSecKay": {
+          "type": "MacSecLocalKayProps",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Properties to configure the MKA instance (KaY) for a CouplingPort (PaE)."
+        },
+        "onFail": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout in seconds to enable the controlled port in case is set to Timeout. atp.Status=candidate"
+        },
+        "sakRekeyTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Time in seconds to trigger the rekey of an in use SAK Secure Association key). If set to 0, the rekey will triggered after a time span."
+        }
+      }
+    },
+    {
+      "name": "MacSecLocalKayProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MacSecProps.macSecKayConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of the MAC Security Key Agreement Entity (KaY).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 173,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destinationMac": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the destination MAC Address that is to calculate the ICV (Integrity Check Value)."
+        },
+        "globalKayProps": {
+          "type": "MacSecGlobalKay",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to properties that are shared between MAC Key Agreement Entities."
+        },
+        "keyServer": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the key-server priority. atp.Status=candidate"
+        },
+        "mkaParticipant": {
+          "type": "MacSecKayParticipant",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to MKA participant settings supported on the 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "role": {
+          "type": "MacSecRoleEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Role of the MAC Security Key Agreement Entity"
+        },
+        "sourceMac": {
+          "type": "MacAddressString",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the source MAC Address that is to calculate the ICV (Integrity Check Value)."
+        }
+      }
+    },
+    {
+      "name": "MacSecGlobalKayProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bypassEther": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "by MACsec. The providedEtherType will not be"
+        },
+        "bypassVlan": {
+          "type": "PositiveInteger",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "MACsec. The provided VLAN-IDs will not be (VLAN-ID 0 is interpreted as Bypass untagged traffic)"
+        }
+      }
+    },
+    {
+      "name": "MacSecParticipantSet",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Collection of MACsec Kay Participants on an Ethernet Link.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 174,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ethernetCluster": {
+          "type": "EthernetCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the EthernetCluster (Link) on which the KaY located"
+        },
+        "mkaParticipant": {
+          "type": "MacSecKayParticipant",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Configuration of a MKA Participant."
+        }
+      }
+    },
+    {
+      "name": "MacSecKayParticipant",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MacSecParticipantSet.mkaParticipant"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class configures a MKA participant.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ckn": {
+          "type": "CryptoServiceKey",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the key where the ckn (Connectivity is stored."
+        },
+        "cryptoAlgo": {
+          "type": "MacSecCryptoAlgo",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Cryptography that is used by the MKA Participant. Tags: atp.Status=candidate"
+        },
+        "sak": {
+          "type": "CryptoServiceKey",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the key where SAK shall be stored."
+        }
+      }
+    },
+    {
+      "name": "MacSecCryptoAlgoConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MacSecKayParticipant.cryptoAlgoConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines the cryptography configuration for MACsec.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "capability": {
+          "type": "MacSecCapabilityEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the MACsec capability."
+        },
+        "cipherSuite": {
+          "type": "MacSecCipherSuite",
+          "multiplicity": "1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Tags: atp.Status=candidate"
+        },
+        "confidentiality": {
+          "type": "MacSecConfidentiality",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts bytes after the offset in a frame."
+        },
+        "replayProtection": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In case replay protection is active, this attribute defines replay protection window."
+        }
+      }
+    },
+    {
+      "name": "MacSecCipherSuiteConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "MacSecCryptoAlgoConfig.cipherSuiteConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class defines the cipher suite configuration to use with MACsec. cipherSuitePriority is present in case the MKA instance acts as a Key Server to select the cipher suite to use for MACsec. (cid:53) 175 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 175,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "cipherSuite": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "In case the MKA instance acts as a Key Server, the is used to select the Cipher Suite to use with the supported Ciphers."
+        }
+      }
+    },
+    {
+      "name": "CryptoServiceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "SecOcCryptoServiceMapping",
+        "TlsCryptoServiceMapping"
+      ],
+      "subclasses": [
+        "SecOcCryptoServiceMapping",
+        "TlsCryptoServiceMapping"
+      ],
+      "aggregated_by": [
+        "SystemMapping.cryptoServiceMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents an abstract base class for specializations of crypto service mappings.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 375,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SecOcCryptoServiceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CryptoServiceMapping",
+      "bases": [
+        "ARObject",
+        "CryptoServiceMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.cryptoServiceMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to represent a crypto service mapping for the Pdu-based communication via SecOC.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 375,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "CryptoServicePrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable crypto primitive for"
+        },
+        "cryptoService": {
+          "type": "CryptoServiceQueue",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the CryptoServiceQueue the of this SecOcCryptoServiceMapping shall be"
+        }
+      }
+    },
+    {
+      "name": "CryptoServicePrimitive",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to represent a crypto primitive.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 376,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 59,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "algorithmFamily": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a description of the family (e.g. crypto algorithm implemented by the crypto"
+        },
+        "algorithmMode": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a description of the mode of the implemented by the crypto primitive."
+        },
+        "algorithm": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represents a further description of the family of crypto algorithm implemented by the primitive. family is needed for the specification of algorithm for a signature check, e.g. using RSA."
+        }
+      }
+    },
+    {
+      "name": "CryptoServiceKey",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to represent a crypto key.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 377,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+          "page_number": 58,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "algorithmFamily": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute represent the description of the family of the algorithm."
+        },
+        "development": {
+          "type": "ValueSpecification",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the ability to assign a value to the crypto key as part of the system value can then be taken for the the respective ECU."
+        },
+        "keyGeneration": {
+          "type": "CryptoServiceKey",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes how a the specific cryptographic is created."
+        },
+        "keyStorageType": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes where the enclosing shall be stored. AUTOSAR reserves for this attributes but it is possible to insert as well."
+        },
+        "length": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the length of the cryptographic bits."
+        }
+      }
+    },
+    {
+      "name": "CryptoServiceQueue",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to represent a crypto queue.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 381,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "queueSize": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the queue size of the CryptoServiceQueue."
+        }
+      }
+    },
+    {
+      "name": "TlsCryptoServiceMapping",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "CryptoServiceMapping",
+      "bases": [
+        "ARObject",
+        "CryptoServiceMapping",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SystemMapping.cryptoServiceMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class has the ability to represent a crypto service mapping for the socket-based configuration of Transport Layer Security (TLS).",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 559,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "keyExchange": {
+          "type": "CryptoServicePrimitive",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the shared(i.e. applicable for the aggregated cipher suites) crypto service the execution of key exchange during the"
+        },
+        "tlsCipherSuite": {
+          "type": "TlsCryptoCipherSuite",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation represents the collection of supported"
+        },
+        "useClient": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if client authentication shall be applied for this connection. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "useSecurity": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the security extension for max_fragment_length be supported as defined in IETF RFC 8449, chapter"
+        }
+      }
+    },
+    {
+      "name": "TlsCryptoCipherSuite",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TlsCryptoServiceMapping.tlsCipherSuite",
+        "TlsSecureComProps.tlsCipherSuite"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class represents a cipher suite for describing cryptographic operations in the context of establishing a connection of ApplicationEndpoints that is protected by TLS.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 562,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "authentication": {
+          "type": "CryptoServicePrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the crypto service primitive for and verification of MACs."
+        },
+        "certificate": {
+          "type": "CryptoService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable local certificate."
+        },
+        "cipherSuiteId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identification of the CipherSuite according to the IANA"
+        },
+        "cipherSuite": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Name of the CipherSuite according to the IANA list."
+        },
+        "ellipticCurve": {
+          "type": "CryptoEllipticCurve",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This references point to the properties of elliptic curves."
+        },
+        "encryption": {
+          "type": "CryptoServicePrimitive",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the crypto service primitive for of encryption."
+        },
+        "keyExchange": {
+          "type": "CryptoServicePrimitive",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the crypto service primitives for generation and verification of signatures during the algorithm."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute identifies the priority of the cipher suite. Lower values represent higher"
+        },
+        "props": {
+          "type": "TlsCryptoCipherSuite",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The aggregated TlsCryptoCipherSuiteProps provide for the TLS Cipher Suite."
+        },
+        "pskIdentity": {
+          "type": "TlsPskIdentity",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Pre-shared key identity shared during the handshake communication parties, to establish a TLS the handshake is based on the existence of key."
+        },
+        "remote": {
+          "type": "CryptoService",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable remote certificate."
+        },
+        "signature": {
+          "type": "CryptoSignature",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference points to the properties of a TLS Signature Scheme."
+        },
+        "version": {
+          "type": "TlsVersionEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute supports the definition of the applicable TLS."
+        }
+      }
+    },
+    {
+      "name": "TlsPskIdentity",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TlsCryptoCipherSuite.pskIdentity"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element is used to describe the pre-shared key shared during the handshake among the communication parties, to establish a TLS connection if the handshake is based on the existence of a pre-shared key.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 563,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "preSharedKey": {
+          "type": "CryptoServiceKey",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable cryptographic key."
+        },
+        "pskIdentity": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides the key identification."
+        },
+        "pskIdentityHint": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute provides the identity hint for a pre-shared"
+        }
+      }
+    },
+    {
+      "name": "TlsCryptoCipherSuiteProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TlsCryptoCipherSuite.props"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides attributes to specify details of TLS Cipher Suites.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 563,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "tcpIpTlsUse": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines if the security extension according to IETF RFC shall be supported. This is useful for cipher suites CBC mode."
+        }
+      }
+    },
+    {
+      "name": "CryptoEllipticCurveProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides attributes to specify the properties of elliptic curves.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 564,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "namedCurveId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the value of one specific NamedCurve Id."
+        }
+      }
+    },
+    {
+      "name": "CryptoSignatureScheme",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This meta-class provides attributes to specify the TLS Signature Scheme.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 564,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "signature": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the value of one specific TLS Signature Scheme."
+        }
+      }
+    },
+    {
+      "name": "IPSecConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NetworkEndpoint.ipSecConfig"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "IPsec is a protocol that is designed to provide \"end-to-end\" cryptographically-based security for IP network connections.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 571,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ipSecConfig": {
+          "type": "IPSecConfigProps",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Global IPsec configuration settings that are valid for all that are defined on the NetworkEndpoint."
+        },
+        "ipSecRule": {
+          "type": "IPSecRule",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IPSec rules and filters that are defined in the IPSecConfig specific NetworkEndpoint."
+        }
+      }
+    },
+    {
+      "name": "IPSecRule",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "IPSecConfig.ipSecRule"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element defines an IPsec rule that describes communication traffic that is monitored, protected and filtered.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 571,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "direction": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the direction in which the traffic is If this attribute is not set a bidirectional traffic assumed."
+        },
+        "headerType": {
+          "type": "IPsecHeaderTypeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Header type specifying the IPsec security mechanism."
+        },
+        "ipProtocol": {
+          "type": "IPsecIpProtocolEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the relevant IP protocol used in the Database (SPD) entry."
+        },
+        "localCertificate": {
+          "type": "CryptoService",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable certificate used for local authentication."
+        },
+        "localId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how the local participant should be authentication."
+        },
+        "localPortRange": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute restricts the traffic monitoring and defines a value for the local port range. attribute is not set then this rule shall be effective local ports. that port ranges are currently not supported AUTOSAR AP’s operating system backend. If AP involved, each IPsec rule may only contain a"
+        },
+        "mode": {
+          "type": "IPsecModeEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the type of the connection."
+        },
+        "policy": {
+          "type": "IPsecPolicyEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "An IPsec policy defines the rules that determine which IP traffic needs to be secured using IPsec and traffic is secured."
+        },
+        "preSharedKey": {
+          "type": "CryptoServiceKey",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable cryptograhic key authentication."
+        },
+        "priority": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the priority of the IPSecRule (SPD processing of entries is based on priority, the highest priority \"0\"."
+        },
+        "remote": {
+          "type": "CryptoService",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This reference identifies the applicable certificate used for a remote authentication."
+        },
+        "remoteId": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines how the remote participant should for authentication."
+        },
+        "remoteIp": {
+          "type": "NetworkEndpoint",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Definition of the remote NetworkEndpoint. With this the connection between the local Network the remote NetworkEndpoint is described the traffic is monitored."
+        },
+        "remotePort": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute restricts the traffic monitoring and defines a value for the remote port range. attribute is not set then this rule shall be effective local ports. that port ranges are currently not supported AUTOSAR AP’s operating system backend. If AP involved, each IPsec rule may only contain a"
+        }
+      }
+    },
+    {
+      "name": "IPSecConfigProps",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::SecureCommunication",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element holds all the attributes for configuration of IPsec that are independent of specific IPsec rules.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 572,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "ahCipherSuite": {
+          "type": "String",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "AH (Authentication Header) algorithm to be used for the e.g. HMAC/SHA2-256"
+        },
+        "dpdAction": {
+          "type": "IPsecDpdActionEnum",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines what to do if the peer is considered configured \"restart\" shall be assumed."
+        },
+        "dpdDelay": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the interval to check the liveness peer actively using IKEv2 INFORMATIONAL DPD checking is only enforced if no ESP/AH packet has been received for the delay. configured the value \"5 minutes\" shall be assumed."
+        },
+        "espCipherSuite": {
+          "type": "String",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ESP (Encapsulating Security Payload) algorithm that encryption and optional authentication for the AES-128+SHA2-256."
+        },
+        "ikeCipherSuite": {
+          "type": "String",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "IKE encryption/authentication algorithms to be used for connection."
+        },
+        "ikeOverTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the hard deadline when an SA in percentage. of max(ikeReauthTime, ikeRekey %"
+        },
+        "ikeRandTime": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines in percentage by how long before of ikeReauthTime and ikeRekeyTime will be"
+        },
+        "ikeReauthTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the absolute time after which an IKE be reauthenticated. reauthentication is disabled."
+        },
+        "ikeRekeyTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the absolute time after which an IKE be rekeyed. rekey is disabled."
+        },
+        "saOverTime": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the hard deadline when an IPsec invalid in percentage."
+        },
+        "saRandTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines by how long before the expiration of be rekeyed."
+        },
+        "saRekeyTime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the absolute time after which an will be rekeyed. rekey is disabled."
+        }
+      }
+    }
+  ]
+}

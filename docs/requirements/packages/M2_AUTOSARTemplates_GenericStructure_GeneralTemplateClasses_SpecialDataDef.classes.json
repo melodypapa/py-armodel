@@ -1,0 +1,508 @@
+{
+  "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+  "classes": [
+    {
+      "name": "SdgDef",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A SdgDef groups several SdgClasses which belong to the same extension. The concept of an SdgDef is similiar to an UML Profile.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 207,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "sdgClass": {
+          "type": "SdgClass",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The owned sdgClasses which define the structure of the"
+        }
+      }
+    },
+    {
+      "name": "SdgElementWithGid",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "SdgClass",
+        "SdgAbstractPrimitiveAttribute",
+        "SdgAggregationWithVariation",
+        "SdgAbstractForeignReference"
+      ],
+      "subclasses": [
+        "SdgAbstractForeignReference",
+        "SdgAbstractPrimitiveAttribute",
+        "SdgAggregationWithVariation",
+        "SdgClass"
+      ],
+      "aggregated_by": [],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A special data group element with gid is an abstract element that shall have a name (gid, \"Generic Identifier\").",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "gid": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the name that identifies the element."
+        }
+      }
+    },
+    {
+      "name": "SdgClass",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgElementWithGid",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgElementWithGid"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgDef.sdgClass"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An SdgClass specifies the name and structure of the SDG that may be used to store proprietary data in an AUTOSAR model. The SdgClass is similar to an UML stereotype.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 99,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 207,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "attribute": {
+          "type": "SdgAttribute",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defintion of the structure of the Sdg xml.sequenceOffset=30"
+        },
+        "caption": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if a caption is required. Note: only Sdgs that caption can be referenced"
+        },
+        "extendsMeta": {
+          "type": "MetaClassName",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The AUTOSAR Meta-Class that may be extended by this"
+        },
+        "sdgConstraint": {
+          "type": "TraceableText",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Semantic constraints that restrict the structure of the group."
+        }
+      }
+    },
+    {
+      "name": "SdgAttribute",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "SdgReference"
+      ],
+      "subclasses": [
+        "SdgAbstractForeignReference",
+        "SdgAbstractPrimitiveAttribute",
+        "SdgAggregationWithVariation",
+        "Sdg"
+      ],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes the attributes of an Sdg.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 100,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SdgAbstractPrimitiveAttribute",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "SdgElementWithGid",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "AbstractValueRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [
+        "SdgPrimitiveAttribute",
+        "SdgPrimitiveAttributeWithVariation"
+      ],
+      "subclasses": [
+        "SdgPrimitiveAttribute",
+        "SdgPrimitiveAttributeWithVariation"
+      ],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes primitive attributes of a special data group.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 100,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SdgPrimitiveAttribute",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgAbstractPrimitiveAttribute",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "AbstractValueRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAbstractPrimitiveAttribute",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes primitive special data attributes without variation. This class accepts a special data \"sd\" attribute.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 100,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SdgPrimitiveAttributeWithVariation",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgAbstractPrimitiveAttribute",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "AbstractValueRestriction",
+        "AbstractVariationRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAbstractPrimitiveAttribute",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes a primitive numerical special data attribute with variation. This class accepts a special data \"sdf\" element.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 101,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SdgAggregationWithVariation",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgElementWithGid",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "AbstractVariationRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes that the Sdg may contain another Sdg. The gid of the nested Sdg is defined by subSdg. Represents ’sdg’.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 101,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "subSdg": {
+          "type": "SdgClass",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Supported sub Sdg Class"
+        }
+      }
+    },
+    {
+      "name": "SdgReference",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgAttribute",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAttribute"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Describes an attribute of a SdgClass which is used on the definition side to model a reference from one Sdg to another Sdg on the value side.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 101,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destSdg": {
+          "type": "SdgClass",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Refers to a SdgClass which is used on the definition side the destination type of the referenced Sdg. On side the reference is realized by means of the defining an sdgx attribute which refers to of the referenced Sdg."
+        }
+      }
+    },
+    {
+      "name": "SdgAbstractForeignReference",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "SdgElementWithGid",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [
+        "SdgForeignReference",
+        "SdgForeignReferenceWithVariation"
+      ],
+      "subclasses": [
+        "SdgForeignReference",
+        "SdgForeignReferenceWithVariation"
+      ],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "An abstract reference that can point to any referrable object in an AUTOSAR Model.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "destMetaClass": {
+          "type": "MetaClassName",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "specifies the destination meta-class of the reference."
+        }
+      }
+    },
+    {
+      "name": "SdgForeignReference",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgAbstractForeignReference",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAbstractForeignReference",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A reference without variation support that can point to any referrable object in an AUTOSAR Model. This class accepts the special data \"Sdx\" reference.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "SdgForeignReferenceWithVariation",
+      "package": "M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "SdgAbstractForeignReference",
+      "bases": [
+        "ARObject",
+        "AbstractMultiplicityRestriction",
+        "AbstractVariationRestriction",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "SdgAbstractForeignReference",
+        "SdgAttribute",
+        "SdgElementWithGid"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SdgClass.attribute"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A reference with variation support that can point to any referrable object in an AUTOSAR Model. This class accepts the special data \"Sdxf\" reference.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+          "page_number": 102,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

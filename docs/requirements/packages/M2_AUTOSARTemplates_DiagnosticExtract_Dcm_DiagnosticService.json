@@ -1,0 +1,107 @@
+{
+  "name": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService",
+  "path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService",
+  "files": {},
+  "subpackages": [
+    {
+      "name": "CommonService",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_CommonService.json"
+    },
+    {
+      "name": "CustomServiceInstance",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CustomServiceInstance",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_CustomServiceInstance.json"
+    },
+    {
+      "name": "SessionControl",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SessionControl",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_SessionControl.json"
+    },
+    {
+      "name": "SecurityAccess",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SecurityAccess",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_SecurityAccess.json"
+    },
+    {
+      "name": "Authentication",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_Authentication.json"
+    },
+    {
+      "name": "EcuReset",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuReset",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_EcuReset.json"
+    },
+    {
+      "name": "CommunicationControl",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_CommunicationControl.json"
+    },
+    {
+      "name": "ControlDTCSetting",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ControlDTCSetting",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ControlDTCSetting.json"
+    },
+    {
+      "name": "DataByIdentifier",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_DataByIdentifier.json"
+    },
+    {
+      "name": "IOControl",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_IOControl.json"
+    },
+    {
+      "name": "RoutineControl",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RoutineControl",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_RoutineControl.json"
+    },
+    {
+      "name": "DynamicallyDefineDataIdentifier",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineDataIdentifier",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_DynamicallyDefineDataIdentifier.json"
+    },
+    {
+      "name": "DynamicallyDefineData",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DynamicallyDefineData",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_DynamicallyDefineData.json"
+    },
+    {
+      "name": "ReadDataByPeriodicID",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ReadDataByPeriodicID.json"
+    },
+    {
+      "name": "ResponseOnEvent",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ResponseOnEvent",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ResponseOnEvent.json"
+    },
+    {
+      "name": "ReadDTCInformation",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDTCInformation",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ReadDTCInformation.json"
+    },
+    {
+      "name": "ClearDiagnosticInfo",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ClearDiagnosticInfo",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_ClearDiagnosticInfo.json"
+    },
+    {
+      "name": "MemoryByAddress",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_MemoryByAddress.json"
+    },
+    {
+      "name": "RequestFileTransfer",
+      "full_path": "M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RequestFileTransfer",
+      "file": "packages/M2_AUTOSARTemplates_DiagnosticExtract_Dcm_DiagnosticService_RequestFileTransfer.json"
+    }
+  ],
+  "summary": {
+    "class_count": 0,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

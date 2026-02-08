@@ -1,0 +1,14 @@
+{
+  "name": "M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior",
+  "path": "M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior.classes.json",
+    "enumerations": "packages/M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior.enums.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 37,
+    "enumeration_count": 1,
+    "primitive_count": 0
+  }
+}

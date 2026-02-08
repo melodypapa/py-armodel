@@ -1,0 +1,80 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+  "enumerations": [
+    {
+      "name": "LinChecksumType",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "note": "Use of classic or enhanced checksum is managed by the master node and it is determined per frame identifier; Aggregated by LinFrameTriggering.linChecksum",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 428,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "classic",
+          "index": 0,
+          "description": "Classic in communication with LIN 1.3 slave nodes<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "enhanced",
+          "index": 1,
+          "description": "Enhanced in communication with LIN 2.0 slave nodes.<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "RunMode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "note": "The schedule table can be executed in two different modes. Aggregated by LinScheduleTable.runMode",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 432,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "RunContinuous",
+          "index": 0,
+          "description": "RUN_CONTINUOUS run mode<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "runOnce",
+          "index": 1,
+          "description": "RUN_ONCE run mode<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    },
+    {
+      "name": "ResumePosition",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication",
+      "note": "Defines, where a schedule table shall be proceeded in case if it has been interrupted by a run-once table or MRF/SRF. Aggregated by LinScheduleTable.resumePosition",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 432,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "literals": [
+        {
+          "name": "continueAtItPosition",
+          "index": 0,
+          "description": "Continue at IT Point.<br>Tags: atp.EnumerationLiteralIndex=0"
+        },
+        {
+          "name": "startFromBeginning",
+          "index": 1,
+          "description": "Start from the beginning<br>Tags: atp.EnumerationLiteralIndex=1"
+        }
+      ]
+    }
+  ]
+}

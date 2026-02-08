@@ -1,0 +1,74 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming",
+  "classes": [
+    {
+      "name": "SynchronizationTimingConstraint",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "TimingConstraint",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable",
+        "TimingConstraint",
+        "Traceable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingGuarantee",
+        "TimingExtension.timingRequirement"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This constraint is used to restrict the timing behavior of different, but correlated events or event chains, with regard to synchronization. Two scenarios are supported: • If (synchronizationConstraintType==responseSynchronization) – TimingDescriptionEvents: An arbitrary number of correlated events which play the role of responses shall occur synchronously with respect to a predefined tolerance. – TimingDescriptionEventChains: An arbitrary number of correlated event chains with a common stimulus, but different responses, where the responses shall occur synchronously with respect to a predefined tolerance. • If (synchronizationConstraintType==stimulusSynchronization) – TimingDescriptionEvents:An arbitrary number of correlated events which play the role of stimuli shall occur synchronously with respect to a predefined tolerance. – TimingDescriptionEventChains: An arbitrary number of correlated event chains with a common response, but different stimuli, where the stimuli shall occur synchronously with respect to a predefined tolerance. In case the constraint is imposed on events the following two scenarios are supported: • If (eventOccurrenceKind==singleOccurrence): any of the events shall occur only once in the given time interval. • If (eventOccurrenceKind==multipleOccurrences): any of the events may occur more than once in the given time interval. In other words multiple occurrences of an event within the given time interval are permitted.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 92,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "event": {
+          "type": "EventOccurrenceKind",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether the referenced events shall occur only once (single occurrence) or multiple times (multiple the given time interval."
+        },
+        "scope": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The event chains that are in the scope of the constraint. exclusive to scopeEvent, see ([constr_4522])."
+        },
+        "scopeEvent": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The events that are in the scope of the constraint. to scope, see ([constr_4522])"
+        },
+        "synchronization": {
+          "type": "SynchronizationType",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Indicates whether the associated events of the SynchronizationTimingConstraint have a common response."
+        },
+        "tolerance": {
+          "type": "MultidimensionalTime",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The maximum time interval, within which the shall occur. The events may occur in within this time interval. The time interval starts point-in-time when one of the referenced events"
+        }
+      }
+    }
+  ]
+}

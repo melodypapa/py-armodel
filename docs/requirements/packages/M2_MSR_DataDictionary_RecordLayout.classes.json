@@ -1,0 +1,220 @@
+{
+  "package": "M2::MSR::DataDictionary::RecordLayout",
+  "classes": [
+    {
+      "name": "SwRecordLayout",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Defines how the data objects (variables, calibration parameters etc.) are to be stored in the ECU memory. As an example, this definition specifies the sequence of axis points in the ECU memory. Iterations through axis values are stored within the sub-elements swRecordLayoutGroup.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 421,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2066,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swRecord": {
+          "type": "SwRecordLayoutGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "This is the top level record layout group."
+        }
+      }
+    },
+    {
+      "name": "SwRecordLayoutV",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwRecordLayoutGroupContent.swRecordLayoutV"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element specifies which values are stored for the current SwRecordLayoutGroup. If no baseType is present, the SwBaseType referenced initially in the parent SwRecordLayoutGroup is valid. The specification of swRecordLayoutVAxis gives the axis of the values which shall be stored in accordance with the current record layout SwRecordLayoutGroup. In swRecordLayoutVProp one can specify the information which shall be stored.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 421,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "baseType": {
+          "type": "SwBaseType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association allows to refer to a base type in case a is intended. If no base type is referred, type referenced initially in the corresponding to be used."
+        },
+        "desc": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation allows for a brief description about the record layout value which can help to identify In-depth documentation should be added to the the surrounding record layout."
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies a name which can be used e.g. code is generated from the record layout"
+        },
+        "swGenericAxis": {
+          "type": "SwGenericAxisParam",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association supports the case that a value from a generic axis definition shall be stored. This value is a particular generic axis parameter type. 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11"
+        },
+        "swRecord": {
+          "type": "NameToken",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute describes the kind of values to be stored. details see below. The standardized values this attribute are defined in"
+        }
+      }
+    },
+    {
+      "name": "SwRecordLayoutGroup",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwRecordLayout.swRecordLayoutGroup",
+        "SwRecordLayoutGroupContent.swRecordLayoutGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "that depending on the arraySizeSemantics of Sw TextProps the iteration ends at the value specified in sw MaxTextSize. Table 5.99: SwRecordLayoutGroup",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 422,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 2066,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "category": {
+          "type": "AsamRecordLayout",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute denotes the semantics in particular in terms the corresponding A2L-Keyword. This is to support the the more general record layouts in AUTOSAR/ the specific A2l keywords. possible to express the specific semantics of A2l in swRecordlayoutGroup but not versa. Therefore the mapping is provided in attribute."
+        },
+        "desc": {
+          "type": "MultiLanguageOverview",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This aggregation allows a brief description about the record layout group which can help to identify In-depth documentation should be added to the the surrounding record layout."
+        },
+        "shortLabel": {
+          "type": "Identifier",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies a name which can be used e.g. code is generated from the record layout"
+        },
+        "swGenericAxis": {
+          "type": "SwGenericAxisParam",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This association allows to specify record layout groups to iterate over generic axis parameters. For example, if the parameter is an array, the record layout iterate over this array. axis referred to by swRecordLayoutGroup be a generic axis in which the referenced Sw aggregated."
+        },
+        "swRecord": {
+          "type": "RecordLayoutIterator",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies the end point for the iteration. Negative values are also possible, i.e. the value -4 counts the fourth value from the end. If this property is not iteration ends at \"-1\" which is the last element."
+        }
+      }
+    },
+    {
+      "name": "SwRecordLayoutGroupContent",
+      "package": "M2::MSR::DataDictionary::RecordLayout",
+      "is_abstract": false,
+      "atp_type": "atpMixed",
+      "parent": null,
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwRecordLayoutGroup.swRecordLayoutGroupContentType"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This is the contents of a RecordLayout which is inserted for every iteration. Note that since this is atp Mixed, multiple properties can be inserted for each iteration.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 424,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "swRecord": {
+          "type": "SwRecordLayoutV",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Particular Value specification for this record layout group. xml.sequenceOffset=120"
+        }
+      }
+    }
+  ]
+}

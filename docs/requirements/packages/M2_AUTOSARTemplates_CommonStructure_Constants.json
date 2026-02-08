@@ -1,0 +1,13 @@
+{
+  "name": "M2::AUTOSARTemplates::CommonStructure::Constants",
+  "path": "M2::AUTOSARTemplates::CommonStructure::Constants",
+  "files": {
+    "classes": "packages/M2_AUTOSARTemplates_CommonStructure_Constants.classes.json"
+  },
+  "subpackages": [],
+  "summary": {
+    "class_count": 23,
+    "enumeration_count": 0,
+    "primitive_count": 0
+  }
+}

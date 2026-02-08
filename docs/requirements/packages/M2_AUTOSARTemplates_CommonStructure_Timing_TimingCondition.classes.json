@@ -1,0 +1,314 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+  "classes": [
+    {
+      "name": "TimingCondition",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingCondition"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A TimingCondition describes a dependency on a specific condition. The element owns an expression which describes the timing condition dependency.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 35,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timingCondition": {
+          "type": "TimingCondition",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This is the expression describing the dependency on a specific condition."
+        }
+      }
+    },
+    {
+      "name": "TimingConditionFormula",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "is_abstract": false,
+      "atp_type": "atpMixedString",
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "FormulaExpression"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingCondition.timingConditionFormula"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A TimingConditionFormula describes a specific dependency. The expression shall be a boolean expression addressing modes, variables, arguments, and/or events.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 35,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timingArgumentArgumentInstance": {
+          "type": "AutosarOperation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to an argument of an operation call."
+        },
+        "timingCondition": {
+          "type": "TimingCondition",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to a timing condition that is part of an the dependency on a specific"
+        },
+        "timingEvent": {
+          "type": "TimingDescriptionEvent",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to a timing event."
+        },
+        "timingMode": {
+          "type": "TimingModeInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to a mode declaration."
+        },
+        "timingVariableInstance": {
+          "type": "AutosarVariable",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "This refers to a variable."
+        }
+      }
+    },
+    {
+      "name": "TimingExtensionResource",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingExtension.timingResource"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A TimingExtensionResource provides the capability to contain instance references referred from within a timing condition formula.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 35,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "timingArgument": {
+          "type": "AutosarOperation",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This refers to an instance reference of an argument of an call. atpVariation 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "timingMode": {
+          "type": "TimingModeInstance",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This refers to an instance reference of a mode atpVariation"
+        },
+        "timingVariable": {
+          "type": "AutosarVariable",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This refers to an instance reference of a variable. atpSplitable; atpVariation"
+        }
+      }
+    },
+    {
+      "name": "TimingModeInstance",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TDEventOccurrenceExpression.mode",
+        "TimingExtensionResource.timingMode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This class specifies the mode declaration to be checked in a specific instance of a mode declaration group. This is used in a timing condition formula as an operand of the unary timing function TIMEX_mode Active to check whether the mode declaration is active at the point in time this expression is evaluated.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 37,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "modeInstance": {
+          "type": "ModeInSwcBsw",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This refers to a specific mode declaration in the given"
+        }
+      }
+    },
+    {
+      "name": "ModeInBswInstanceRef",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "ModeInSwcBswInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingModeInstance.modeInstance"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Instance reference to be capable of referencing a specific ModeDeclaration of a ModeDeclarationGroup Prototype utilized in a BSW module.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 38,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "contextBsw": {
+          "type": "BswImplementation",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the BSW implementation that manifests the"
+        },
+        "contextMode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Specifies the mode declaration group prototype that manifests the context. xml.sequenceOffset=20"
+        },
+        "targetMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the specific mode declaration in the given"
+        }
+      }
+    },
+    {
+      "name": "ModeInSwcInstanceRef",
+      "package": "M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": null,
+      "bases": [
+        "ARObject",
+        "ModeInSwcBswInstanceRef"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "TimingModeInstance.modeInstance"
+      ],
+      "implements": [
+        "AtpInstanceRef"
+      ],
+      "implemented_by": [],
+      "note": "Instance reference to be capable of referencing a ModeDeclaration at a specific Mode Switch Port of a SW-C.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+          "page_number": 38,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "base": {
+          "type": "SwComponentType",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the SW component representing the base of the"
+        },
+        "context": {
+          "type": "SwComponent",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the SW component prototype representing the context."
+        },
+        "contextMode": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Specifies the mode declaration group prototype that manifests the context. xml.sequenceOffset=40"
+        },
+        "contextPort": {
+          "type": "PortPrototype",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "Specifies the port prototype representing the context. 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing Extensions for Classic R23-11"
+        },
+        "targetMode": {
+          "type": "ModeDeclaration",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Specifies the specific mode declaration in the given"
+        }
+      }
+    }
+  ]
+}

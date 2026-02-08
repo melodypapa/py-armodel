@@ -1,0 +1,1360 @@
+{
+  "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+  "classes": [
+    {
+      "name": "J1939NmNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmNode",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmNode",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmCluster.nmNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "J1939 specific NM Node attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+          "page_number": 322,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 691,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "address": {
+          "type": "J1939NmAddress",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA)."
+        },
+        "nodeName": {
+          "type": "J1939NodeName",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "NodeName configuration"
+        }
+      }
+    },
+    {
+      "name": "NmConfig",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "FibexElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "FibexElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable",
+        "UploadableDesignElement",
+        "UploadablePackageElement"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Contains the all configuration elements for AUTOSAR Nm.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 672,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nmCluster": {
+          "type": "NmClusterCoupling",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of NmClusterCouplings Derived, because NmCluster can vary. atpVariation"
+        },
+        "nmIfEcu": {
+          "type": "NmEcu",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Collection of NM ECUs because EcuInstance can be atpVariation"
+        }
+      }
+    },
+    {
+      "name": "NmCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "FlexrayNmCluster",
+        "CanNmCluster",
+        "UdpNmCluster",
+        "J1939NmCluster"
+      ],
+      "subclasses": [
+        "CanNmCluster",
+        "FlexrayNmCluster",
+        "J1939NmCluster",
+        "UdpNmCluster"
+      ],
+      "aggregated_by": [
+        "NmConfig.nmCluster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Set of NM nodes coordinated with use of the NM algorithm.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 672,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "communication": {
+          "type": "CommunicationCluster",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to a CommunicationCluster in the topology"
+        },
+        "nmChannel": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This parameter shall be set to indicate if the sleep of this can be absolutely decided by the local node only no other nodes can oppose that decision."
+        },
+        "nmNode": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables the Request Repeat Message Request support. valid if nmNodeIdEnabled is set to true."
+        },
+        "nmNodeIdEnabled": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables the source node identifier."
+        },
+        "nmPnc": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether this NmCluster contributes to the partial mechanism."
+        },
+        "nmRepeatMsg": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch for enabling the Repeat Message Bit Indication."
+        },
+        "nm": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If this parameter is true, then this network is a network for the NM coordination cluster it belongs to. The network is expected to call Nm_ regular intervals."
+        },
+        "pncCluster": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Optionally defines the length of the PNC Vector per (and VLAN in case of UdpNm). If then System.pncVectorLength applies. make the PNC Vector shorter (or same defined in System.pncVectorLength)."
+        }
+      }
+    },
+    {
+      "name": "NmEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmIfEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "ECU on which NM is running.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 674,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "busDependentNmEcu": {
+          "type": "BusspecificNmEcu",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Cluster specific NmEcu attributes"
+        },
+        "ecuInstance": {
+          "type": "EcuInstance",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to an ECUInstance in the topology"
+        },
+        "nmBusSynchronizationEnabled": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables bus synchronization support."
+        },
+        "nmComControlEnabled": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables the Communication Control support."
+        },
+        "nmCoordinator": {
+          "type": "NmCoordinator",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Nm ECU may coordinate different clusters."
+        },
+        "nmCycletime": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "The period between successive calls to the Main Function the NM Interface in seconds."
+        },
+        "nmPduRxIndicationEnabled": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch for enabling the PDU Rx Indication."
+        },
+        "nmRemote": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch for enabling remote sleep indication support."
+        },
+        "nmStateChange": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables the CAN Network Management state change"
+        },
+        "nmUserDataEnabled": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch for enabling user data support."
+        }
+      }
+    },
+    {
+      "name": "BusspecificNmEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "FlexrayNmEcu",
+        "CanNmEcu",
+        "UdpNmEcu",
+        "J1939NmEcu"
+      ],
+      "subclasses": [
+        "CanNmEcu",
+        "FlexrayNmEcu",
+        "J1939NmEcu",
+        "UdpNmEcu"
+      ],
+      "aggregated_by": [
+        "NmEcu.busDependentNmEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Busspecific NmEcu attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 675,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "NmCoordinator",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmEcu.nmCoordinator"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "A NM coordinator is an ECU, which is connected to at least two busses, and where the requirement exists that shutdown of NM of at least two of these busses (also referred to as coordinated busses) has to be performed synchronously.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 675,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "index": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identification of the NMCoordinator."
+        },
+        "nmCoordSync": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch for enabling NmCoordinatorSync (coordination of busses) support."
+        },
+        "nmGlobal": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute defines the maximum shutdown time (in of a connected and coordinated NM-Cluster."
+        },
+        "nmNode": {
+          "type": "NmNode",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "reference to busses (via NmNodes) that are coordinated NmCoordinator."
+        }
+      }
+    },
+    {
+      "name": "NmNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "Identifiable",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "Referrable"
+      ],
+      "children": [
+        "J1939NmNode",
+        "FlexrayNmNode",
+        "CanNmNode",
+        "UdpNmNode"
+      ],
+      "subclasses": [
+        "CanNmNode",
+        "FlexrayNmNode",
+        "J1939NmNode",
+        "UdpNmNode"
+      ],
+      "aggregated_by": [
+        "NmCluster.nmNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "The linking of NmEcus to NmClusters is realized via the NmNodes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 675,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "controller": {
+          "type": "Communication",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Association to an CommunicationController in the description."
+        },
+        "nmCoordCluster": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "NmCoordinationCluster identification number."
+        },
+        "nmCoordinator": {
+          "type": "NmCoordinatorRole",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute indicates the role the NM Coordinator will have on this channel. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "nmIfEcu": {
+          "type": "NmEcu",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the NmEcu that contains this NmNode. is referenced by the Nm be contained in the EcuInstance that is the NmEcu)."
+        },
+        "nmNodeId": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Node identifier of local NmNode. Shall be unique in the"
+        },
+        "nmPassive": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables support of the Passive Mode. The passive mode configurable per channel."
+        },
+        "rxNmPdu": {
+          "type": "NmPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "receive NM Pdu."
+        },
+        "txNmPdu": {
+          "type": "NmPdu",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "transmit NM Pdu"
+        }
+      }
+    },
+    {
+      "name": "NmClusterCoupling",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": true,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [
+        "FlexrayNmClusterCoupling",
+        "CanNmClusterCoupling",
+        "UdpNmClusterCoupling"
+      ],
+      "subclasses": [
+        "CanNmClusterCoupling",
+        "FlexrayNmClusterCoupling",
+        "UdpNmClusterCoupling"
+      ],
+      "aggregated_by": [
+        "NmConfig.nmClusterCoupling"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Attributes that are valid for each of the referenced (coupled) clusters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 676,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "FlexrayNmCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmCluster",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmCluster",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmCluster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay specific NM cluster attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 678,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nmCarWakeUp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true this attribute enables the support of CarWake bit evaluation in received NmPdus."
+        },
+        "nmDataCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of FlexRay Communication Cycles needed to Nm Data PDUs of all FlexRay Nm Ecus of"
+        },
+        "nmMain": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the processing cycle of the main function of FrNm"
+        },
+        "nmRemote": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for Remote Sleep Indication in seconds. It the time how long it shall take to recognize that all nodes are ready to sleep."
+        },
+        "nmRepeat": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for Repeat Message State in seconds. Defines time how long the NM shall stay in the Repeat"
+        },
+        "nmRepetition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of FlexRay Communication Cycles used to the transmission of the Nm vote Pdus of all Flex of this FlexRayNmCluster. This value shall integral multiple of nmVotingCycle."
+        },
+        "nmVotingCycle": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Number of FlexRay CommunicationCycles needed to Nm vote of Pdus of all FlexRay NmEcus of"
+        }
+      }
+    },
+    {
+      "name": "FlexrayNmEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusspecificNmEcu",
+      "bases": [
+        "ARObject",
+        "BusspecificNmEcu"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmEcu.busDependentNmEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay specific attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 679,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nmHwVote": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Switch for enabling the processing of FlexRay Hardware NM-Votes."
+        },
+        "nmMain": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Parameter describing if the execution of the FrNm_Main crosses theFlexRay cycle boundary or not."
+        }
+      }
+    },
+    {
+      "name": "FlexrayNmClusterCoupling",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmClusterCoupling",
+      "bases": [
+        "ARObject",
+        "NmClusterCoupling"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmClusterCoupling"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay attributes that are valid for each of the referenced (coupled) FlexRay clusters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 679,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "coupledCluster": {
+          "type": "FlexrayNmCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to coupled FlexRay Clusters."
+        },
+        "nmSchedule": {
+          "type": "FlexrayNmSchedule",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "FrNm schedule variant according to FrNm SWS."
+        }
+      }
+    },
+    {
+      "name": "FlexrayNmNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmNode",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmNode",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmCluster.nmNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "FlexRay specific NM Node attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 679,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CanNmCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmCluster",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmCluster",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmCluster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Can specific NmCluster attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 682,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nmBusload": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "It determines if bus load reduction for the respective Can channel is active or not."
+        },
+        "nmCarWakeUp": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies the bit position of the CarWakeUp within the Nm"
+        },
+        "nmCarWakeUpFilterNodeId": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Source node identifier for CarWakeUp filtering."
+        },
+        "nmCbvPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the position of the control bit vector within the Nm position). If this attribute is not configured, the Vector is not used."
+        },
+        "nmImmediate": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the number of immediate NmPdus which shall be If the value is zero no immediate NmPdus transmitted. The cycle time of immediate NmPdus is nmImmediateNmCycleTime."
+        },
+        "nmMessage": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout of an NmPdu in seconds. It determines how long NM shall wait with notification of transmission failure errors occur on the bus."
+        },
+        "nmMsgCycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Period of a NmPdu in seconds. It determines the periodic in the periodic transmission mode with bus load is the basis for transmit scheduling in the mode without bus load reduction."
+        },
+        "nmNetwork": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Network Timeout for NmPdus in seconds It denotes the how long the CanNm shall stay in the Network Mode into Prepare Bus-Sleep Mode shall take"
+        },
+        "nmNidPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the byte position of the source node identifier NmPdu. If this attribute is not configured, the is not used."
+        },
+        "nmRemote": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for Remote Sleep Indication in seconds. It the time how long it shall take to recognize that all nodes are ready to sleep."
+        },
+        "nmRepeat": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for Repeat Message State in seconds. Defines time how long the NM shall stay in the Repeat"
+        },
+        "nmWaitBus": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for bus calm down phase in seconds. It denotes time how long the CanNm shall stay in the Prepare before transition into Bus-Sleep Mode place."
+        }
+      }
+    },
+    {
+      "name": "CanNmEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusspecificNmEcu",
+      "bases": [
+        "ARObject",
+        "BusspecificNmEcu"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmEcu.busDependentNmEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN specific attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 683,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "CanNmClusterCoupling",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmClusterCoupling",
+      "bases": [
+        "ARObject",
+        "NmClusterCoupling"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmClusterCoupling"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN attributes that are valid for each of the referenced (coupled) CAN clusters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 684,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "coupledCluster": {
+          "type": "CanNmCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to coupled CAN Clusters."
+        },
+        "nmBusloadReductionEnabled": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables busload reduction support"
+        },
+        "nmImmediate": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables the asynchronous transmission of a CanNm upon bus-communication request in"
+        }
+      }
+    },
+    {
+      "name": "CanNmNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmNode",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmNode",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmCluster.nmNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "CAN specific NM Node attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 684,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allNmMessages": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if Nm drops irrelevant NM PDUs. Only NM PDUs with a Partial Network Information = true and containing a Partial Network request ECU trigger the standard RX indication handling keep the ECU awake NM PDU triggers the standard RX indication keeps the ECU awake"
+        },
+        "nmCarWakeUp": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "If set to true this attribute enables the support of CarWake bit evaluation in received NmPdus."
+        },
+        "nmMsgCycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Node specific time offset in the periodic transmission It determines the start delay of the transmission. seconds."
+        },
+        "nmMsg": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Node specific bus cycle time in the periodic transmission with bus load reduction. Specified in seconds."
+        }
+      }
+    },
+    {
+      "name": "UdpNmCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmCluster",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmCluster",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmCluster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Udp specific NmCluster attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 687,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "nmCbvPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the position of the control bit vector within the Nm position). If this attribute is not configured, the Vector is not used."
+        },
+        "nmImmediate": {
+          "type": "PositiveInteger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the number of immediate NmPdus which shall be If the value is zero no immediate NmPdus transmitted. The cycle time of immediate NmPdus is nmImmediateNmCycleTime."
+        },
+        "nmMessage": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout of a NmPdu in seconds. It determines how long NM shall wait with notification of transmission failure errors occur on the bus."
+        },
+        "nmMsgCycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Period of a NmPdu in seconds. It determines the periodic in the periodic transmission mode with bus load is the basis for transmit scheduling in the mode without bus load reduction."
+        },
+        "nmNetwork": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Network Timeout for NmPdus in seconds. It denotes the how long the UdpNm shall stay in the Network Mode into Prepare Bus-Sleep Mode shall take"
+        },
+        "nmNidPosition": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines the byte position of the source node identifier NmPdu. If this attribute is not configured, the is not used."
+        },
+        "nmRemote": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for Remote Sleep Indication in seconds. It the time how long it shall take to recognize that all nodes are ready to sleep."
+        },
+        "nmRepeat": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for Repeat Message State in seconds. Defines time how long the NM shall stay in the Repeat"
+        },
+        "nmWaitBus": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Timeout for bus calm down phase in seconds. It denotes time how long the CanNm shall stay in the Prepare before transition into Bus-Sleep Mode place."
+        },
+        "vlan": {
+          "type": "EthernetPhysical",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to the vlan (represented by the Ethernet this UdpNmCluster shall apply to."
+        }
+      }
+    },
+    {
+      "name": "UdpNmEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusspecificNmEcu",
+      "bases": [
+        "ARObject",
+        "BusspecificNmEcu"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmEcu.busDependentNmEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Udp NM specific ECU attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 688,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    },
+    {
+      "name": "UdpNmClusterCoupling",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmClusterCoupling",
+      "bases": [
+        "ARObject",
+        "NmClusterCoupling"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmClusterCoupling"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Udp attributes that are valid for each of the referenced (coupled) UdpNm clusters.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 688,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "coupledCluster": {
+          "type": "UdpNmCluster",
+          "multiplicity": "*",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "Reference to coupled UdpNm Clusters."
+        },
+        "nmImmediate": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Enables the asynchronous transmission of a CanNm upon bus-communication request in"
+        }
+      }
+    },
+    {
+      "name": "UdpNmNode",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmNode",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmNode",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmCluster.nmNode"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Udp specific NM Node attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 688,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "allNmMessages": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Specifies if Nm drops irrelevant NM PDUs. Only NM PDUs with a Partial Network Information = true and containing a Partial Network request ECU trigger the standard RX indication handling keep the ECU awake NM PDU triggers the standard RX indication keeps the ECU awake"
+        },
+        "nmMsgCycle": {
+          "type": "TimeValue",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Node specific time offset in the periodic transmission It determines the start delay of the transmission. seconds."
+        }
+      }
+    },
+    {
+      "name": "J1939NmCluster",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "NmCluster",
+      "bases": [
+        "ARObject",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "NmCluster",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmConfig.nmCluster"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "J1939 specific NmCluster attributes",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 691,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "addressClaim": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "This attribute specifies whether the J1939Nm Bsw is used or not. If this attribute is set to false then configuration shall not be derived from the But even in this case the nmNodeId be necessary for the J1939Rm and J1939Tp."
+        },
+        "usesDynamic": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Defines whether fully dynamic address resolution to SAE J1939-81 shall be supported on this The dynamically allocated addresses on the bus at runtime to the configured addresses. The addresses on the bus resemble the"
+        }
+      }
+    },
+    {
+      "name": "J1939NodeName",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "J1939NmNode.nodeName"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "This element contains attributes to configure the J1939NmNode NAME.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 691,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "arbitrary": {
+          "type": "Boolean",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Arbitrary Address Capable field of the NAME of this node."
+        },
+        "ecuInstance": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "ECU Instance field of the NAME of this node."
+        },
+        "function": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Function field of the NAME of this node."
+        },
+        "functionInstance": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Function Instance field of the NAME of this node."
+        },
+        "identitiyNumber": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Identity Number field of the NAME of this node."
+        },
+        "industryGroup": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Industry Group field of the NAME of this node."
+        },
+        "manufacturerCode": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Manufacturer Code field of the NAME of this node. 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11"
+        },
+        "vehicleSystem": {
+          "type": "Integer",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "Vehicle System Instance field of the NAME of this node."
+        }
+      }
+    },
+    {
+      "name": "J1939NmEcu",
+      "package": "M2::AUTOSARTemplates::SystemTemplate::NetworkManagement",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "BusspecificNmEcu",
+      "bases": [
+        "ARObject",
+        "BusspecificNmEcu"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "NmEcu.busDependentNmEcu"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "J1939 NmEcu specific attributes.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+          "page_number": 694,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {}
+    }
+  ]
+}

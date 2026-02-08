@@ -1,0 +1,210 @@
+{
+  "package": "M2::AUTOSARTemplates::CommonStructure::SwcBswMapping",
+  "classes": [
+    {
+      "name": "SwcBswMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SwcBswMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARElement",
+      "bases": [
+        "ARElement",
+        "ARObject",
+        "CollectableElement",
+        "Identifiable",
+        "MultilanguageReferrable",
+        "PackageableElement",
+        "Referrable"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "ARPackage.element",
+        "AtpClassifier.atpFeature"
+      ],
+      "implements": [
+        "AtpClassifier",
+        "AtpFeature",
+        "AtpStructureElement"
+      ],
+      "implemented_by": [],
+      "note": "Maps an SwcInternalBehavior to an BswInternalBehavior. This is required to coordinate the API generation and the scheduling for AUTOSAR Service Components, ECU Abstraction Components and Complex Driver Components by the RTE and the BSW scheduling mechanisms.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+          "page_number": 656,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        },
+        {
+          "pdf_file": "AUTOSAR_FO_TPS_StandardizationTemplate.pdf",
+          "page_number": 217,
+          "autosar_standard": "Foundation",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswBehavior": {
+          "type": "BswInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The mapped BswInternalBehavior"
+        },
+        "runnable": {
+          "type": "SwcBswRunnable",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A mapping between a pair of SWC and BSW runnables. Stereotypes: atpSplitable; atpVariation"
+        },
+        "swcBehavior": {
+          "type": "SwcInternalBehavior",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The mapped SwcInternalBehavior."
+        },
+        "synchronized": {
+          "type": "SwcBswSynchronized",
+          "multiplicity": "*",
+          "kind": "attribute",
+          "is_ref": false,
+          "note": "A pair of SWC and BSW Triggers to be synchronized by the scheduler. atpVariation"
+        }
+      }
+    },
+    {
+      "name": "SwcBswRunnableMapping",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SwcBswMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwcBswMapping.runnableMapping"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Maps a BswModuleEntity to a RunnableEntity if it is implemented as part of a BSW module (in the case of an AUTOSAR Service, a Complex Driver or an ECU Abstraction). The mapping can be used by a tool to find relevant information on the behavior, e.g. whether the bswEntity shall be running in interrupt context.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 110,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswEntity": {
+          "type": "BswModuleEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The mapped BswModuleEntity"
+        },
+        "swcRunnable": {
+          "type": "RunnableEntity",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": false,
+          "note": "The mapped SWC runnable."
+        }
+      }
+    },
+    {
+      "name": "SwcBswSynchronizedModeGroupPrototype",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SwcBswMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwcBswMapping.synchronizedModeGroup"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Synchronizes a mode group provided by a component via a port with a mode group provided by a BSW module or cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswModeGroupPrototype": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The BSW mode group prototype."
+        },
+        "swcModeGroupSwcInstanceRef": {
+          "type": "ModeDeclarationGroup",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: PModeGroupInAtomic"
+        }
+      }
+    },
+    {
+      "name": "SwcBswSynchronizedTrigger",
+      "package": "M2::AUTOSARTemplates::CommonStructure::SwcBswMapping",
+      "is_abstract": false,
+      "atp_type": null,
+      "parent": "ARObject",
+      "bases": [
+        "ARObject"
+      ],
+      "children": [],
+      "subclasses": [],
+      "aggregated_by": [
+        "SwcBswMapping.synchronizedTrigger"
+      ],
+      "implements": [],
+      "implemented_by": [],
+      "note": "Synchronizes a Trigger provided by a component via a port with a Trigger provided by a BSW module or cluster.",
+      "sources": [
+        {
+          "pdf_file": "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+          "page_number": 111,
+          "autosar_standard": "Classic Platform",
+          "standard_release": "R23-11"
+        }
+      ],
+      "attributes": {
+        "bswTrigger": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "reference",
+          "is_ref": true,
+          "note": "The BSW Trigger."
+        },
+        "swcTriggerTypeInstanceRef": {
+          "type": "Trigger",
+          "multiplicity": "0..1",
+          "kind": "attribute",
+          "is_ref": true,
+          "note": "by: PTriggerInAtomicSwc"
+        }
+      }
+    }
+  ]
+}
