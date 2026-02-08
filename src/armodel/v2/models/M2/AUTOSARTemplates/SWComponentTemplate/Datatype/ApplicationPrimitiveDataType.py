@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationDataType,
+)
+
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
     """
     A primitive data type defines a set of allowed values.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationPrimitiveDataType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 230, Classic Platform

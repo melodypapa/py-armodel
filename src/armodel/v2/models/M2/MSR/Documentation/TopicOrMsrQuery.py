@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TopicOrMsrQuery(ARObject):
@@ -8,7 +8,7 @@ class TopicOrMsrQuery(ARObject):
     This class provides the alternative of a Topic with an MsrQuery which
     delivers a topic.
 
-    Package: M2::MSR::Documentation::Chapters::TopicOrMsrQuery
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation

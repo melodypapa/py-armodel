@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -11,7 +14,7 @@ class FMFeatureRelation(Identifiable):
     FMFeatures, or conflicts with other FMFeatures. A FMFeature can only be part
     of a FMFeatureSelectionSet if all its relations are fulfilled.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureRelation
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 34, Foundation

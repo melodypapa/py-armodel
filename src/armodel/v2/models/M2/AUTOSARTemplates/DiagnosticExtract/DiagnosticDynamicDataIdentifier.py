@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticAbstractDataIdentifier
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticAbstractDataIdentifier,
+)
+
 
 class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
     """
     This meta-class represents the ability to define a diagnostic data
     identifier (DID) at run-time.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDynamicDataIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 34, Classic Platform

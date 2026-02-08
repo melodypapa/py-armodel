@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     """
@@ -6,7 +9,7 @@ class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     configuration of the J1939Rm, in particular for the case where an
     ApplicationSwComponentType needs to send a request to another J1939 node.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939RmOutgoingRequestServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 829, Classic Platform

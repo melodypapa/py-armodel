@@ -1,13 +1,13 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class UserDefinedCommunicationController(ARObject):
     """
     This element allows the modeling of arbitrary Communication Controllers.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCommunicationController
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 180, Classic Platform R23-11)

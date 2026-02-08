@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SignalPathConstraint(ARObject, ABC):
@@ -11,7 +11,7 @@ class SignalPathConstraint(ARObject, ABC):
     between two Software Components should take in the network without defining
     in which frame and with which timing it is transmitted.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SignalPathConstraint
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2057, Classic Platform R23-11)

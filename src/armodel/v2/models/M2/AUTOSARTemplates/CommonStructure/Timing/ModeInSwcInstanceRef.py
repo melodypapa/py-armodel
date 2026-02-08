@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +16,7 @@ class ModeInSwcInstanceRef(ARObject):
     Instance reference to be capable of referencing a ModeDeclaration at a
     specific Mode Switch Port of a SW-C.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInSwcInstanceRef
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 38, Classic Platform R23-11)

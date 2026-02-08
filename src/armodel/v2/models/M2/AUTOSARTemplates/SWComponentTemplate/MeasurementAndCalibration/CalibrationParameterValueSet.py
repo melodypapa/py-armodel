@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CalibrationParameterValueSet(ARElement):
@@ -7,7 +10,7 @@ class CalibrationParameterValueSet(ARElement):
     Specification of a constant that can be part of a package, i.e. it can be
     defined stand-alone.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter::CalibrationParameterValueSet
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::CalibrationParameter
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 477, Classic Platform

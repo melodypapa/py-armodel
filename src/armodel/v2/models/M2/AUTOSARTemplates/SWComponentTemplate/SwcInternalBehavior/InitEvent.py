@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import RTEEvent
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
+    RTEEvent,
+)
+
 
 class InitEvent(RTEEvent):
     """
@@ -8,7 +11,7 @@ class InitEvent(RTEEvent):
     ’regular’ RunnableEntities are executed for the first time. The execution
     order depends on the task mapping.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::InitEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform

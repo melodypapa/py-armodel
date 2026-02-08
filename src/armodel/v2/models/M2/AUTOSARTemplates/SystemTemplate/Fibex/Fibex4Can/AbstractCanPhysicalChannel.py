@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import PhysicalChannel
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    PhysicalChannel,
+)
 
 
 class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
@@ -7,7 +10,7 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     Abstract class that is used to collect the common TtCAN and CAN
     PhysicalChannel attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::AbstractCanPhysicalChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 73, Classic Platform R23-11)

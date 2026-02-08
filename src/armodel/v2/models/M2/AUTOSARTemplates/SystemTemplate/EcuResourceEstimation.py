@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +15,7 @@ class EcuResourceEstimation(ARObject):
     """
     Resource estimations for RTE and BSW of a single ECU instance.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::EcuResourceEstimation
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 260, Classic Platform R23-11)

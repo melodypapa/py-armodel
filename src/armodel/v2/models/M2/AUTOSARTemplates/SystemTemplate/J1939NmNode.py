@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmNode,
+)
 
 
 class J1939NmNode(NmNode):
     """
     J1939 specific NM Node attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmNode
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 322, Classic Platform

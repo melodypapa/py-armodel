@@ -17,8 +17,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable impo
     Traceable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -26,6 +26,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class TimingConstraint(Traceable, ABC):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint
     Abstract base class for all timing constraints in AUTOSAR.
     This class cannot be instantiated directly and serves as the base for concrete
     timing constraint implementations such as execution order constraints.

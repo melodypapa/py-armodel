@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RPortComSpec(ARObject, ABC):
@@ -11,7 +11,7 @@ class RPortComSpec(ARObject, ABC):
     contain attributes that are valid for all kinds of require-ports,
     independent of client-server or sender-receiver communication patterns.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::RPortComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 167, Classic Platform

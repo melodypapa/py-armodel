@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import (
+    HeapUsage,
+)
 
 
 class MeasuredHeapUsage(HeapUsage):
     """
     The heap usage has been measured.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage::MeasuredHeapUsage
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 152, Classic

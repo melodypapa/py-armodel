@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import IPdu
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    IPdu,
+)
 
 
 class J1939DcmIPdu(IPdu):
     """
     Represents the IPdus handled by J1939Dcm.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::J1939DcmIPdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 321, Classic Platform

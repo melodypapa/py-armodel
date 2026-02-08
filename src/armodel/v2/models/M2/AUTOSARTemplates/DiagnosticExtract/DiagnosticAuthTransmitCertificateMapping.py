@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
@@ -8,7 +14,7 @@ class DiagnosticAuthTransmitCertificateMapping(DiagnosticMapping):
     CryptoServiceCertificate with a DiagnosticAuth CertificateEvaluation with
     the purpose to configure the evaluation of the certificate.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticAuthTransmitCertificateMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 242, Classic Platform

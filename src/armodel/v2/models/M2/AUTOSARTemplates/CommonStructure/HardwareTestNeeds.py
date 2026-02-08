@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class HardwareTestNeeds(ServiceNeeds):
     """
@@ -6,7 +9,7 @@ class HardwareTestNeeds(ServiceNeeds):
     is interested in the results of the hardware test and will establish a
     PortPrototype to query the hardware test manager.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::HardwareTestNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 264, Classic

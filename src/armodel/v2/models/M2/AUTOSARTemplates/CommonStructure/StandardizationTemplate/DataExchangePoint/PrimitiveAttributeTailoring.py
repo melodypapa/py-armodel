@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data import AttributeTailoring
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data import (
+    AttributeTailoring,
+)
 
 
 class PrimitiveAttributeTailoring(AttributeTailoring):
@@ -8,7 +14,7 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     have a type which is marked by the stereotype <<primitive>> or
     <<enumeration>>
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::PrimitiveAttributeTailoring
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 111, Foundation R23-11)

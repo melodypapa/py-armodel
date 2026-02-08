@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
+
 
 class WarningIndicatorRequestedBitNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the ability to explicitly request the existence
     of the WarningIndicator RequestedBit.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::WarningIndicatorRequestedBitNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 811, Classic Platform

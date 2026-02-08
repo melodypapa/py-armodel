@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
+from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
+    HwDescriptionEntity,
+)
+
 
 class HwType(HwDescriptionEntity):
     """
@@ -7,7 +10,7 @@ class HwType(HwDescriptionEntity):
     category determines the applicable attributes. The possible categories and
     attributes are defined in HwCategory.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwType
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 17, Classic Platform

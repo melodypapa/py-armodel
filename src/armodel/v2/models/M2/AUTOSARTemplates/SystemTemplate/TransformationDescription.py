@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
 
 
 class TransformationDescription(Describable, ABC):
@@ -7,7 +10,7 @@ class TransformationDescription(Describable, ABC):
     The TransformationDescription is the abstract class that can be used by
     specific transformers to add transformer specific properties.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationDescription
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 199, Classic Platform

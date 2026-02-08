@@ -14,7 +14,7 @@ class SwConnector(Identifiable, ABC):
     The base class for connectors between ports. Connectors have to be
     identifiable to allow references from the system constraint template.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::SwConnector
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 307, Classic Platform R23-11)

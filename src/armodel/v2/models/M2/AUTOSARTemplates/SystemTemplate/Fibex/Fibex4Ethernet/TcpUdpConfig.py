@@ -1,12 +1,15 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import TransportProtocolConfiguration
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    TransportProtocolConfiguration,
+)
 
 
 class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     """
     Tcp or Udp Transport Protocol Configuration.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpUdpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)

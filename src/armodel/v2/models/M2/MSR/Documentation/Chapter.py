@@ -6,7 +6,7 @@ class Chapter(Paginateable):
     This meta-class represents a chapter of a document. Chapters are the primary
     structuring element in documentation.
 
-    Package: M2::MSR::Documentation::Chapters::Chapter
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 698, Classic Platform

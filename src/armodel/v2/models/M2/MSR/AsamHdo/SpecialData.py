@@ -1,8 +1,11 @@
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     MultilanguageReferrable,
 )
@@ -16,6 +19,7 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
 
 class Sd(ARObject):
     """
+    Package: M2::MSR::AsamHdo::SpecialData
     Represents special data with a global identifier and value.
     Base: ARObject
     """
@@ -42,6 +46,7 @@ class Sd(ARObject):
 
 class SdgCaption(MultilanguageReferrable):
     """
+    Package: M2::MSR::AsamHdo::SpecialData
     Represents a caption for special data groups with multilingual description.
     Base: MultilanguageReferrable
     """
@@ -61,6 +66,7 @@ class SdgCaption(MultilanguageReferrable):
 
 class Sdg(ARObject):
     """
+    Package: M2::MSR::AsamHdo::SpecialData
     Represents a special data group containing special data items and references.
     Base: ARObject
     """

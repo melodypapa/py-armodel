@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceInstance
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
 
 
 class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
@@ -8,7 +11,7 @@ class DiagnosticRequestFileTransfer(DiagnosticServiceInstance):
     146 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
     Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RequestFileTransfer::DiagnosticRequestFileTransfer
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::RequestFileTransfer
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 146, Classic Platform

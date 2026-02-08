@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import (
+    HeapUsage,
+)
 
 
 class RoughEstimateHeapUsage(HeapUsage):
     """
     Rough estimation of the heap usage.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage::RoughEstimateHeapUsage
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 153, Classic

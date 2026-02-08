@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -14,7 +17,7 @@ class DltLogChannel(Identifiable):
     tuple of ApplicationId and ContextId (verbose mode) or a SessionId
     (non-verbose mode).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Dlt::DltLogChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::Dlt
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 722, Classic Platform R23-11)

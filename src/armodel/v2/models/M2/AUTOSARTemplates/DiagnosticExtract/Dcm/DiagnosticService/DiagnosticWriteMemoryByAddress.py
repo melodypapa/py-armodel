@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import DiagnosticMemoryAddressableRangeAccess
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import (
+    DiagnosticMemoryAddressableRangeAccess,
+)
 
 
 class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
@@ -7,7 +10,7 @@ class DiagnosticWriteMemoryByAddress(DiagnosticMemoryAddressableRangeAccess):
     This represents an instance of the "Write Memory by Address" diagnostic
     service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticWriteMemoryByAddress
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 140, Classic Platform

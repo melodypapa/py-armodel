@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
@@ -10,7 +13,7 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     CpSoftwareClusterResource is used to convey the execution permission
     associated with the mapped function identifier.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterResourceToDiagFunctionIdMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 275, Classic Platform

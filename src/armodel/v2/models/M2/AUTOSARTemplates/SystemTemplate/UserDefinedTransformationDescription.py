@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationDescription
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    TransformationDescription,
+)
+
 
 class UserDefinedTransformationDescription(TransformationDescription):
     """
     The UserDefinedTransformationDescription is used to specify details and
     documentation for custom transformers.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::UserDefinedTransformationDescription
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 771, Classic Platform R23-11)

@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.Authentication import DiagnosticAuthentication
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.Authentication import (
+    DiagnosticAuthentication,
+)
 
 
 class DiagnosticAuthTransmitCertificate(DiagnosticAuthentication):
     """
     This meta-class represents the sub-function to transmit a certificate
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthTransmitCertificate
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform

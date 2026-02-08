@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import AbstractRuleBasedValueSpecification
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    AbstractRuleBasedValueSpecification,
+)
 
 
 class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
@@ -7,7 +13,7 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     This meta-class represents rule-based values for DataPrototypes typed by
     composite AutosarDataTypes.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::CompositeRuleBasedValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 471, Classic Platform

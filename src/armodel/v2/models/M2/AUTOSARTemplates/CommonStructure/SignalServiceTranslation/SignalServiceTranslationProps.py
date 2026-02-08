@@ -4,12 +4,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslat
     SignalServiceTranslationControlEnum,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SignalServiceTranslationProps(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
     Represents signal service translation properties in AUTOSAR.
     Defines properties for signal service translation.
     """

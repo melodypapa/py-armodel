@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceInstance
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
 
 
 class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
@@ -7,7 +10,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     This meta-class represents the ability to model an instance of the OBD mode
     0x02 service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze::DiagnosticRequestPowertrainFreezeFrameData
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 152, Classic Platform

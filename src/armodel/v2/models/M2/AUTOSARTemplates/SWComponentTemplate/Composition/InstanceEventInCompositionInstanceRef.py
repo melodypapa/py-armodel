@@ -1,14 +1,17 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class InstanceEventInCompositionInstanceRef(ARObject):
     """
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::InstanceEventInCompositionInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 959, Classic Platform

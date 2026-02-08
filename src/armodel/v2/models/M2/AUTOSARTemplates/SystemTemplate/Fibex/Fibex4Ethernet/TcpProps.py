@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TcpProps(ARObject):
@@ -10,7 +10,7 @@ class TcpProps(ARObject):
     This meta-class specifies the configuration options for TCP (Transmission
     Control Protocol).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 154, Classic Platform R23-11)

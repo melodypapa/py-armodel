@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DataFilter(ARObject):
@@ -11,7 +11,7 @@ class DataFilter(ARObject):
     attribute dataFilterType. Some of the filter types require additional
     arguments which are specified as attributes of this class.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Filter::DataFilter
+    Package: M2::AUTOSARTemplates::CommonStructure::Filter
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 182, Classic Platform

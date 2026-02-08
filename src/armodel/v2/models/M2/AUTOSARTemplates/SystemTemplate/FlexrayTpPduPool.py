@@ -10,7 +10,7 @@ class FlexrayTpPduPool(Identifiable):
     FlexrayTpPduPool is a set of N-PDUs which are defined for FrTp sending or
     receiving purpose.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpPduPool
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 596, Classic Platform R23-11)

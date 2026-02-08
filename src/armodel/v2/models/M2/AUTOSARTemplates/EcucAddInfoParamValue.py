@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucParameterValue
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucParameterValue,
+)
 
 
 class EcucAddInfoParamValue(EcucParameterValue):
     """
     This parameter corresponds to EcucAddInfoParamDef.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucAddInfoParamValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 129, Classic Platform R23-11)

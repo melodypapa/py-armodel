@@ -9,7 +9,7 @@ class IPv6ExtHeaderFilterList(Identifiable):
     """
     Permitted list for the filtering of IPv6 extension headers.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList::IPv6ExtHeaderFilterList
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 455, Classic Platform R23-11)

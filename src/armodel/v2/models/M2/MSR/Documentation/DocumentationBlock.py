@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class DocumentationBlock(ARObject):
     This class represents a documentation block. It is made of basic text
     structure elements which can be displayed in a table cell.
 
-    Package: M2::MSR::Documentation::BlockElements::DocumentationBlock
+    Package: M2::MSR::Documentation::BlockElements
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 52, Classic Platform

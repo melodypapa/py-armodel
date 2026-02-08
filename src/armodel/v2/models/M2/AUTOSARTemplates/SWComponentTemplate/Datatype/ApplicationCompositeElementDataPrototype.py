@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototype import (
     DataPrototype,
 )
@@ -11,7 +12,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     composite application data type (record or array). It is introduced to
     provide a better distinction between target and context in instance Refs.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationCompositeElementDataPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 306, Classic Platform

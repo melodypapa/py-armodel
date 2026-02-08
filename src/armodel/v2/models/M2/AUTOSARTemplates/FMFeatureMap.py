@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class FMFeatureMap(ARElement):
@@ -9,7 +12,7 @@ class FMFeatureMap(ARElement):
     variant criterions that shall be chosen whenever a certain combination of
     features (and system constants) is encountered.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMap
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 53, Foundation

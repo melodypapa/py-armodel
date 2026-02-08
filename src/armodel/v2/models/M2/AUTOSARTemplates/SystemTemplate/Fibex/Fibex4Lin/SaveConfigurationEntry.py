@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinConfigurationEntry
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinConfigurationEntry,
+)
+
 
 class SaveConfigurationEntry(LinConfigurationEntry):
     """
     This service is used to notify a slave node to store its configuration.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::SaveConfigurationEntry
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 439, Classic Platform R23-11)

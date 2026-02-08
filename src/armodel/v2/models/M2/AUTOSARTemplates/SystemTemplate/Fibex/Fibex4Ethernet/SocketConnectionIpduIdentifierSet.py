@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    FibexElement,
+)
 
 
 class SocketConnectionIpduIdentifierSet(FibexElement):
@@ -7,7 +10,7 @@ class SocketConnectionIpduIdentifierSet(FibexElement):
     Collection of PduIdentifiers used for transmission over a Socket Connection
     with the header option.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SocketConnectionIpduIdentifierSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 490, Classic Platform R23-11)

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleCallPoint
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswModuleCallPoint,
+)
 
 
 class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
@@ -7,7 +10,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     The callback point for an BswAsynchronousServerCallPoint i.e. the point at
     which the result can be retrieved from the BSW Scheduler.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswAsynchronousServerCallResultPoint
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 80, Classic

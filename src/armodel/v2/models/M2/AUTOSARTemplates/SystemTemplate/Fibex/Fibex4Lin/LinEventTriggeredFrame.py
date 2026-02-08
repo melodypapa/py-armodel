@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrame
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinFrame,
+)
 
 
 class LinEventTriggeredFrame(LinFrame):
@@ -13,7 +19,7 @@ class LinEventTriggeredFrame(LinFrame):
     collisions with the collisionResolvingScheduleTable. The event controlled
     frame shall not contain any Pdus.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinEventTriggeredFrame
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 430, Classic Platform R23-11)

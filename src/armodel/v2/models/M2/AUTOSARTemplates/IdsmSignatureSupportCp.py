@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class IdsmSignatureSupportCp(ARObject):
@@ -11,7 +11,7 @@ class IdsmSignatureSupportCp(ARObject):
     algorithm and key to be used by the IdsM instance for providing signature
     information in QSEv messages.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmSignatureSupportCp
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 64, Foundation R23-11)

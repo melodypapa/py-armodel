@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class AliasNameSet(ARElement):
@@ -7,7 +10,7 @@ class AliasNameSet(ARElement):
     This meta-class represents a set of AliasNames. The AliasNameSet can for
     example be an input to the A2L-Generator.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::AliasNameSet
+    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 174, Classic

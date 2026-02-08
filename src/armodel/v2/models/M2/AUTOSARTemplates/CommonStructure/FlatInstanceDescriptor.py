@@ -10,7 +10,7 @@ class FlatInstanceDescriptor(Identifiable):
     that in addition it is possible to assign alias names via
     AliasNameAssignment.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatInstanceDescriptor
+    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 316, Classic

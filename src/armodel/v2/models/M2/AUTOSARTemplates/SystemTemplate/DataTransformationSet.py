@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class DataTransformationSet(ARElement):
@@ -7,7 +10,7 @@ class DataTransformationSet(ARElement):
     This element is the system wide container of DataTransformations which
     represent transformer chains.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataTransformationSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 762, Classic Platform R23-11)

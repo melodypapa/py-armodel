@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucAbstractConfigurationClass(ARObject, ABC):
@@ -12,7 +12,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     MultiplicityConfigurationClass of a parameter/reference or a container for
     each ConfigurationVariant of the EcucModuleDef.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractConfigurationClass
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 51, Classic Platform R23-11)

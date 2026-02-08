@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TtcanCommunicationController(ARObject):
     """
     TTCAN bus specific communication port attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology::TtcanCommunicationController
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 76, Classic Platform R23-11)

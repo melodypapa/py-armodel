@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractReferenceDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractReferenceDef,
+)
 
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
@@ -10,7 +13,7 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     71 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of
     ECU Configuration AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractInternalReferenceDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 71, Classic Platform R23-11)

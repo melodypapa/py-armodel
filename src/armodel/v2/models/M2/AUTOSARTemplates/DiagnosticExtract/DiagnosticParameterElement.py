@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class DiagnosticParameterElement(Identifiable):
     This meta-class represents an element of a DiagnosticParameter if the
     DiagnosticParameter represents a structure.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterElement
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 36, Classic Platform

@@ -6,7 +6,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
     This meta-class represents the fact that the computation in this scale is
     represented as rational term.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleRationalFormula
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform

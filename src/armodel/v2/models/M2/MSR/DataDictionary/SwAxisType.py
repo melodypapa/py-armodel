@@ -10,7 +10,7 @@ class SwAxisType(ARElement):
     names and constraints. As a result, SwAxisType mainly reserves appropriate
     keywords.
 
-    Package: M2::MSR::DataDictionary::Axis::SwAxisType
+    Package: M2::MSR::DataDictionary::Axis
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 355, Classic Platform

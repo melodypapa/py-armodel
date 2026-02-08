@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MacSecCipherSuiteConfig(ARObject):
@@ -13,7 +13,7 @@ class MacSecCipherSuiteConfig(ARObject):
     ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11
     (cid:52)
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecCipherSuiteConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)

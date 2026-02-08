@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class LinTpConfig(TpConfig):
@@ -7,7 +10,7 @@ class LinTpConfig(TpConfig):
     This element defines exactly one Lin TP Configuration. One LinTpConfig
     element shall be created for each Lin Network in the System.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::LinTpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 614, Classic Platform R23-11)

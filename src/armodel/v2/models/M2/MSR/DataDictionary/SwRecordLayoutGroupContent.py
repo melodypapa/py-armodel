@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwRecordLayoutGroupContent(ARObject):
@@ -11,7 +11,7 @@ class SwRecordLayoutGroupContent(ARObject):
     iteration. Note that since this is atp Mixed, multiple properties can be
     inserted for each iteration.
 
-    Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutGroupContent
+    Package: M2::MSR::DataDictionary::RecordLayout
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 424, Classic Platform

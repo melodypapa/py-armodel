@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class StateDependentFirewall(ARElement):
     """
     Firewall rules that are defined in a firewall state
 
-    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::StateDependentFirewall
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 583, Classic Platform R23-11)

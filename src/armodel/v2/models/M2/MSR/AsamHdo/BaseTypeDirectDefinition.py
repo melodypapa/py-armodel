@@ -5,7 +5,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     """
     This BaseType is defined directly (as opposite to a derived BaseType)
 
-    Package: M2::MSR::AsamHdo::BaseTypes::BaseTypeDirectDefinition
+    Package: M2::MSR::AsamHdo::BaseTypes
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 302, Classic Platform

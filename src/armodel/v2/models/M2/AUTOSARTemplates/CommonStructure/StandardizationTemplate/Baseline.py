@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Baseline(ARObject):
@@ -14,7 +14,7 @@ class Baseline(ARObject):
     in this Data Exchange Point refer to specification elements that are part of
     this specification baseline.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Baseline
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 79, Foundation R23-11)

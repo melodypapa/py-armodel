@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
+
 
 class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
     """
@@ -6,7 +9,7 @@ class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
     of OBD Services in relation to a given InfoType (OBD Service 09) which is
     supported by this component or module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdInfoServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 324, Classic

@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MixedContentForParagraph(ARObject, ABC):
@@ -10,7 +10,7 @@ class MixedContentForParagraph(ARObject, ABC):
     This mainly represents the text model of a full blown paragraph within a
     documentation.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForParagraph
+    Package: M2::MSR::Documentation::TextModel::InlineTextModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 289, Foundation

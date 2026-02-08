@@ -11,7 +11,7 @@ class AssignFrameId(LinConfigurationEntry):
     """
     Schedule entry for an Assign Frame Id master request.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::AssignFrameId
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 436, Classic Platform R23-11)

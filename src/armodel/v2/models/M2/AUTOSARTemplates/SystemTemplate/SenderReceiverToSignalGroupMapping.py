@@ -12,7 +12,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     Mapping of a sender receiver communication data element with a composite
     datatype to a signal group.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderReceiverToSignalGroupMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 234, Classic Platform R23-11)

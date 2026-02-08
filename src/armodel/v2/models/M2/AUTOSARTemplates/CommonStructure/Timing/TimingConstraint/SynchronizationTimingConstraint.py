@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+    TimingConstraint,
+)
 
 
 class SynchronizationTimingConstraint(TimingConstraint):
@@ -26,7 +32,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
     than once in the given time interval. In other words multiple occurrences of
     an event within the given time interval are permitted.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming::SynchronizationTimingConstraint
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 92, Classic Platform R23-11)

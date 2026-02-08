@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+)
 
 
 class TDEventBswInternalBehavior(TimingDescriptionEvent):
@@ -7,7 +10,7 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     This is used to describe timing events related to the BswInternalBehavior of
     a BSW module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBswInternalBehavior
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 73, Classic Platform R23-11)

@@ -5,7 +5,7 @@ class LGraphic(LanguageSpecific):
     """
     This meta-class represents the figure in one particular language.
 
-    Package: M2::MSR::Documentation::BlockElements::Figure::LGraphic
+    Package: M2::MSR::Documentation::BlockElements::Figure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 307, Foundation

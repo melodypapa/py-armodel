@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ModeSwitchedAckRequest(ARObject):
     """
     Requests acknowledgements that a mode switch has been proceeded successfully
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchedAckRequest
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 190, Classic Platform

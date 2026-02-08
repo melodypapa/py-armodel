@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceInstance
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
 
 
 class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
@@ -7,7 +10,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
     This meta-class represents the ability to model an instance of the OBD mode
     0x01 service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x01_RequestCurrentPowertrain::DiagnosticRequestCurrentPowertrainData
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x01_RequestCurrentPowertrain
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 150, Classic Platform

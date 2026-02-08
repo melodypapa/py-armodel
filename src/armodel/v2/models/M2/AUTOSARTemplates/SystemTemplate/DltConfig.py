@@ -1,15 +1,18 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DltConfig(ARObject):
     """
     This element defines a Dlt configuration for a specific Ecu.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Dlt::DltConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::Dlt
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 722, Classic Platform R23-11)

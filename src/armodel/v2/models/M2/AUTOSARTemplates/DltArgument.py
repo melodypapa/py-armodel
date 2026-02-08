@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -9,7 +12,7 @@ class DltArgument(Identifiable):
     """
     This element defines an Argument in a DltMessage.
 
-    Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltArgument
+    Package: M2::AUTOSARTemplates::LogAndTraceExtract
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 983, Classic Platform

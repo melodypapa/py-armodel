@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DataConstrRule(ARObject):
@@ -10,7 +10,7 @@ class DataConstrRule(ARObject):
     This meta-class represents the ability to express one specific data
     constraint rule.
 
-    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::DataConstrRule
+    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 405, Classic Platform

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import (
+    SignalPathConstraint,
+)
 
 
 class CommonSignalPath(SignalPathConstraint):
@@ -8,7 +11,7 @@ class CommonSignalPath(SignalPathConstraint):
     SwcToSwcOperation Arguments shall take the same way (Signal Path) in the
     topology.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::CommonSignalPath
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 253, Classic Platform R23-11)

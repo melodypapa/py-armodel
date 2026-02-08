@@ -1,15 +1,18 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class InternalConstrs(ARObject):
     """
     This meta-class represents the ability to express internal constraints.
 
-    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::InternalConstrs
+    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 407, Classic Platform

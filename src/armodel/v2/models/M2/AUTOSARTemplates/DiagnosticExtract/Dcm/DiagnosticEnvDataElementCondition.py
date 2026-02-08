@@ -13,7 +13,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
     condition based on the value of a data element owned by the application
     software.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvDataElementCondition
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 85, Classic Platform

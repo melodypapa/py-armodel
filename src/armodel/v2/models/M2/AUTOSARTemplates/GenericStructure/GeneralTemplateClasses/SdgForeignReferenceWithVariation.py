@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgAbstractForeignReference
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgAbstractForeignReference,
+)
+
 
 class SdgForeignReferenceWithVariation(SdgAbstractForeignReference):
     """
     A reference with variation support that can point to any referrable object
     in an AUTOSAR Model. This class accepts the special data "Sdxf" reference.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgForeignReferenceWithVariation
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation

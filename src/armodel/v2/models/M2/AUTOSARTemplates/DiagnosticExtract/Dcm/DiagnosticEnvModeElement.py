@@ -15,7 +15,7 @@ class DiagnosticEnvModeElement(Referrable, ABC):
     needs to be defined once and can be used multiple times in the different
     DiagnosticEnvModeConditions.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvModeElement
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 89, Classic Platform

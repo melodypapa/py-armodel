@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceInstance
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
 
 
 class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
@@ -7,7 +13,7 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     This meta-class represents the ability to model an instance of the OBD mode
     0x06 service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard::DiagnosticRequestOnBoardMonitoringTestResults
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 156, Classic Platform

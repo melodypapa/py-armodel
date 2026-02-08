@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CryptoServicePrimitive(ARElement):
     """
     This meta-class has the ability to represent a crypto primitive.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServicePrimitive
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 376, Classic Platform R23-11)

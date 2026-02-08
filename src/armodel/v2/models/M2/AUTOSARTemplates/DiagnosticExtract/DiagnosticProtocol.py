@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticProtocol(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a diagnostic protocol.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticProtocol
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 58, Classic Platform

@@ -16,7 +16,7 @@ class SwServiceArg(Identifiable):
     be set to "MACRO". A reference to implementationDataType can optional be
     added if the actual argument has an implementationDataType.
 
-    Package: M2::MSR::DataDictionary::ServiceProcessTask::SwServiceArg
+    Package: M2::MSR::DataDictionary::ServiceProcessTask
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 38, Classic

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParameterDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucParameterDef,
+)
 
 
 class EcucFloatParamDef(EcucParameterDef):
     """
     Configuration parameter type for Float.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucFloatParamDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 61, Classic Platform R23-11)

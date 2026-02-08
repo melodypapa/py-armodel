@@ -1,13 +1,16 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+)
 
 
 class TDEventBsw(TimingDescriptionEvent, ABC):
     """
     This is used to describe timing events related to BSW modules.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBsw
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 251, Classic Platform R23-11)

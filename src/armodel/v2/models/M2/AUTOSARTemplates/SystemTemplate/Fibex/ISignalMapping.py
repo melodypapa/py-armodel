@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,7 +15,7 @@ class ISignalMapping(ARObject):
     Each pair consists in a source and a target referencing to a
     ISignalTriggering.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::ISignalMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 846, Classic Platform R23-11)

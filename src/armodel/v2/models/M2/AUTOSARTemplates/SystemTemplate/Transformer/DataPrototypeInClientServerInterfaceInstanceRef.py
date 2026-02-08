@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef import DataPrototypeInPortInterfaceInstanceRef
@@ -10,7 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRe
 class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfaceInstanceRef):
     """
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInClientServerInterfaceInstanceRef
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 788, Classic Platform R23-11)

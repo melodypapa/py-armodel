@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwConnector
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    SwConnector,
+)
 
 
 class PassThroughSwConnector(SwConnector):
@@ -7,7 +10,7 @@ class PassThroughSwConnector(SwConnector):
     This kind of SwConnector can be used inside a CompositionSwComponentType to
     connect two delegation PortPrototypes.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::PassThroughSwConnector
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 83, Classic Platform

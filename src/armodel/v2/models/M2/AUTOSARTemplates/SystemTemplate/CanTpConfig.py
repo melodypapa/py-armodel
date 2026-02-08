@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class CanTpConfig(TpConfig):
@@ -7,7 +10,7 @@ class CanTpConfig(TpConfig):
     This element defines exactly one CAN TP Configuration. One CanTpConfig
     element shall be created for each CAN Network in the System.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 606, Classic Platform R23-11)

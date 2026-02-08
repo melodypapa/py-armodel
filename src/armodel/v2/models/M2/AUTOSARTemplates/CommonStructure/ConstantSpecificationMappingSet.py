@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ConstantSpecificationMappingSet(ARElement):
@@ -9,7 +12,7 @@ class ConstantSpecificationMappingSet(ARElement):
     application domain and the other should be described in the implementation
     domain.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantSpecificationMappingSet
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 445, Classic Platform

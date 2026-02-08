@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DoIpServiceNeeds,
+)
+
 
 class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     """
@@ -9,7 +12,7 @@ class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     necessary. Note that this need is only relevant for DoIP synchronization
     masters.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpGidSynchronizationNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 805, Classic Platform

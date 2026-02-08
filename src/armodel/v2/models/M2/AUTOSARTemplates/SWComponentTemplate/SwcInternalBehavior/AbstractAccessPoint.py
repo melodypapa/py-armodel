@@ -10,7 +10,7 @@ class AbstractAccessPoint(Identifiable, ABC):
     """
     Abstract class indicating an access point from an ExecutableEntity.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount::AbstractAccessPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 57, Classic

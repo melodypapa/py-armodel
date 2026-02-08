@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    FibexElement,
+)
 
 
 class SecureCommunicationPropsSet(FibexElement):
     """
     Collection of properties used to configure SecuredIPdus.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationPropsSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 370, Classic Platform R23-11)

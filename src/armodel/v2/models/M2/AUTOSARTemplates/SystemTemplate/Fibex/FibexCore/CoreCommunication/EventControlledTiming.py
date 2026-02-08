@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
 
 
 class EventControlledTiming(Describable):
@@ -8,7 +11,7 @@ class EventControlledTiming(Describable):
     (numberOfRepeat + 1) times separated by the repetitionPeriod. If
     numberOfRepeats = 0, then the Pdu is sent just once.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::EventControlledTiming
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 397, Classic Platform R23-11)

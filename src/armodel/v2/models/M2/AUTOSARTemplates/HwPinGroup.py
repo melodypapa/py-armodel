@@ -15,7 +15,7 @@ class HwPinGroup(Identifiable):
     Thereby they allow to describe high level connections. Pin groups can even
     be nested.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroup
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 19, Classic Platform

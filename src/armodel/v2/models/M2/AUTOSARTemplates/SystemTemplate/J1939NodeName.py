@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class J1939NodeName(ARObject):
     """
     This element contains attributes to configure the J1939NmNode NAME.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NodeName
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 691, Classic Platform R23-11)

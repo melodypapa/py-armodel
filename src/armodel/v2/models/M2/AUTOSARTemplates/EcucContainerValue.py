@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -12,7 +15,7 @@ class EcucContainerValue(Identifiable):
     """
     Represents a Container definition in the ECU Configuration Description.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucContainerValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 119, Classic Platform R23-11)

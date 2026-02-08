@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class OperationInAtomicSwcInstanceRef(ARObject, ABC):
     """
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::OperationInAtomicSwcInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 946, Classic Platform

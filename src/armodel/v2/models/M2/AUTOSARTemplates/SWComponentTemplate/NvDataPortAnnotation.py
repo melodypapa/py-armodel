@@ -11,7 +11,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
     """
     Annotation to a port regarding a certain VariableDataPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::NvDataPortAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 160, Classic Platform

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import DiagnosticEnvModeElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import (
+    DiagnosticEnvModeElement,
+)
 
 
 class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
@@ -7,7 +10,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
     This meta-class represents the ability to refer to a specific
     ModeDeclaration in the scope of a BswModule Description.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvBswModeElement
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 90, Classic Platform

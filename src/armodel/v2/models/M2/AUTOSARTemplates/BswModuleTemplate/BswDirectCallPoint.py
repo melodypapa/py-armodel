@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleCallPoint
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswModuleCallPoint,
+)
 
 
 class BswDirectCallPoint(BswModuleCallPoint):
@@ -9,7 +12,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
     used to analyze call tree and resource locking scenarios. It is not needed
     to configure the BSW Scheduler.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswDirectCallPoint
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 78, Classic

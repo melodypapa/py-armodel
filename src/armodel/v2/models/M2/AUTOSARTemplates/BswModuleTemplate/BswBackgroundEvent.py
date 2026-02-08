@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswScheduleEvent,
+)
+
 
 class BswBackgroundEvent(BswScheduleEvent):
     """
@@ -6,7 +9,7 @@ class BswBackgroundEvent(BswScheduleEvent):
     similar to a BswTimingEvent but has no fixed time period and is activated
     only with low priority.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswBackgroundEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 89, Classic

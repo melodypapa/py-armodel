@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ class SwValues(ARObject):
     """
     that numerical values and textual values should not be mixed.
 
-    Package: M2::MSR::CalibrationData::CalibrationValue::SwValues
+    Package: M2::MSR::CalibrationData::CalibrationValue
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 458, Classic Platform

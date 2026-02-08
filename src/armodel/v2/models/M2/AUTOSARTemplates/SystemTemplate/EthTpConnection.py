@@ -12,7 +12,7 @@ class EthTpConnection(TpConnection):
     A connection identifies which PduTriggerings shall be handled using the "TP"
     semantics.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::EthTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 618, Classic Platform R23-11)

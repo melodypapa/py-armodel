@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticJ1939Node(DiagnosticCommonElement):
@@ -7,7 +10,7 @@ class DiagnosticJ1939Node(DiagnosticCommonElement):
     This meta-class represents the diagnostic configuration of a J1939 Nm node,
     which in turn represents a "virtual Ecu" on the J1939 communication bus.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939::DiagnosticJ1939Node
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 267, Classic Platform

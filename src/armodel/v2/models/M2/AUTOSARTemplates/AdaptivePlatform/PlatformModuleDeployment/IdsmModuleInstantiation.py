@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import IdsPlatformInstantiation
+from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (
+    IdsPlatformInstantiation,
+)
+
 
 class IdsmModuleInstantiation(IdsPlatformInstantiation):
     """
     This meta-class defines the attributes for the IdsM configuration on a
     specific machine.
 
-    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsmModuleInstantiation
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)

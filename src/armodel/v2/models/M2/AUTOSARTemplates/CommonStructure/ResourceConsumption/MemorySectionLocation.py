@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MemorySectionLocation(ARObject):
@@ -10,7 +10,7 @@ class MemorySectionLocation(ARObject):
     Specifies in which hardware ProvidedMemorySegment the softwareMemorySection
     is located.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::MemorySectionLocation
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 162, Classic

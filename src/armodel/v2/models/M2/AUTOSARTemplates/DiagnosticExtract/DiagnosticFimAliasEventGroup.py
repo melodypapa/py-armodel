@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent import DiagnosticAbstractAliasEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent import (
+    DiagnosticAbstractAliasEvent,
+)
 
 
 class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
@@ -8,7 +11,7 @@ class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
     summarized event. This alias can be used in early phases of the
     configuration process until a further refinement is possible.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimAliasEventGroup
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 263, Classic Platform

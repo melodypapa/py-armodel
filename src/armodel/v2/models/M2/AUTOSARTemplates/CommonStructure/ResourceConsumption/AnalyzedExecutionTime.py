@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import ExecutionTime
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
+    ExecutionTime,
+)
 
 
 class AnalyzedExecutionTime(ExecutionTime):
@@ -7,7 +10,7 @@ class AnalyzedExecutionTime(ExecutionTime):
     AnalyzedExecutionTime provides an analytic method for specifying the best
     and worst case execution time.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::AnalyzedExecutionTime
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 164, Classic

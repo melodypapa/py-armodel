@@ -6,7 +6,7 @@ class Prms(Paginateable):
     This metaclass represents the ability to specify a parameter table. It can
     be used e.g. to specify parameter tables in a data sheet.
 
-    Package: M2::MSR::Documentation::BlockElements::GerneralParameters::Prms
+    Package: M2::MSR::Documentation::BlockElements::GerneralParameters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 338, Foundation

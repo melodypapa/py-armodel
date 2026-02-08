@@ -11,7 +11,7 @@ class FMFeatureMapCondition(Identifiable):
     active. The condition is implemented as formula that is based on features
     and attributes and is defined by fmCond.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMapCondition
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 55, Foundation

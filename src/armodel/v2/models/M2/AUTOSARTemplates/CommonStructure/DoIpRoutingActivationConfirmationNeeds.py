@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpServiceNeeds
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DoIpServiceNeeds,
+)
 
 
 class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
@@ -8,7 +11,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     that owns this Service Needs will have a confirmation required for a DoIP
     routing activation service (0x0005) according to ISO 13400-2:2012.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpRoutingActivationConfirmationNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 807, Classic Platform

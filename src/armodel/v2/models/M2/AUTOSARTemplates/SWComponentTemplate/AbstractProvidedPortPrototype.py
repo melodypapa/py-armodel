@@ -10,7 +10,7 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a provided PortPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AbstractProvidedPortPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 67, Classic Platform

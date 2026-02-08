@@ -1,12 +1,13 @@
 from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FirewallRuleProps(ARObject):
     """
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
     Represents firewall rule properties in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines properties for firewall rule configuration.
     """

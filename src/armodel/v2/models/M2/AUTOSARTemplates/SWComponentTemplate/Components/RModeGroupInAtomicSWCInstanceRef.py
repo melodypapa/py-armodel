@@ -10,7 +10,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.Instan
 class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     """
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::RModeGroupInAtomicSWCInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 948, Classic Platform

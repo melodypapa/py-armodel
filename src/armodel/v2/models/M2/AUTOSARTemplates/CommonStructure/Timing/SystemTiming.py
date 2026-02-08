@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    TimingExtension,
+)
 
 
 class SystemTiming(TimingExtension):
@@ -11,7 +14,7 @@ class SystemTiming(TimingExtension):
     are derived from the class TDEventVfb, TDEventSwcInternalBehavior and
     TDEventCom.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::SystemTiming
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 26, Classic Platform R23-11)

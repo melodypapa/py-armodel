@@ -11,7 +11,7 @@ class ApplicationError(Identifiable):
     AUTOSAR interface. It is specific for the particular functionality or
     service provided by the AUTOSAR software component.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ApplicationError
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 108, Classic Platform

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class PostBuildVariantCriterionValueSet(ARElement):
@@ -7,7 +10,7 @@ class PostBuildVariantCriterionValueSet(ARElement):
     This meta-class represents the ability to denote one set of
     postBuildVariantCriterionValues.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValueSet
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1000, Classic

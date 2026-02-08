@@ -10,7 +10,7 @@ class FMFeatureRestriction(Identifiable):
     Defines restrictions for FMFeatures. A FMFeature can only be part of a
     FMFeatureSelectionSet if at least one of its restrictions evaluate to true.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureRestriction
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 32, Foundation

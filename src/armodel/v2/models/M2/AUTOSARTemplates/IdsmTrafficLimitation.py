@@ -12,7 +12,7 @@ class IdsmTrafficLimitation(Identifiable):
     (in terms of bandwidth) of security events (of any type) processed within a
     configurable time window is greater than a configurable threshold.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmTrafficLimitation
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 28, Foundation R23-11)

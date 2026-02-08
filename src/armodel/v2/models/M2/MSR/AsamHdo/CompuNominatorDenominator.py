@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompuNominatorDenominator(ARObject):
@@ -8,7 +8,7 @@ class CompuNominatorDenominator(ARObject):
     This class represents the ability to express a polynomial either as
     Nominator or as Denominator.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuNominatorDenominator
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 391, Classic Platform

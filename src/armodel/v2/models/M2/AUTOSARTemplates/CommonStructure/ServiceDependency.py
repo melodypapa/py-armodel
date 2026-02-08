@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ServiceDependency(ARObject, ABC):
@@ -15,7 +15,7 @@ class ServiceDependency(ARObject, ABC):
     required for tools in order to generate the related basic software
     configuration and ServiceSwComponentTypes.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ServiceDependency
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 225, Classic

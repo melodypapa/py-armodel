@@ -5,7 +5,7 @@ class CompuConstTextContent(CompuConstContent):
     """
     This meta-class represents the textual content of a scale.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstTextContent
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform

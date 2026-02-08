@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CommunicationControllerMapping(ARObject):
@@ -11,7 +11,7 @@ class CommunicationControllerMapping(ARObject):
     hardware (defined in the ECU Resource Template) to realize the specified
     CommunicationController in a physical topology.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping::CommunicationControllerMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 182, Classic Platform R23-11)

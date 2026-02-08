@@ -16,7 +16,7 @@ class AutosarVariableInstance(Identifiable):
     variables: • a variable provided via a PortPrototype as whole • an element
     inside of a composite variable provided via a PortPrototype
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::AutosarVariableInstance
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 85, Classic Platform R23-11)

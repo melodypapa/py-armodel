@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class LLongName(ARObject):
@@ -10,7 +10,7 @@ class LLongName(ARObject):
     MixedContentForLongNames in one particular language. The language is denoted
     in the attribute l.
 
-    Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LLongName
+    Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform

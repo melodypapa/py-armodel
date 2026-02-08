@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommConnectorPort
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommConnectorPort,
+)
 
 
 class IPduPort(CommConnectorPort):
@@ -7,7 +10,7 @@ class IPduPort(CommConnectorPort):
     Connectors reception or send port on the referenced channel referenced by a
     PduTriggering.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPduPort
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 304, Classic Platform R23-11)

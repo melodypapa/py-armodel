@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import IdsCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    IdsCommonElement,
+)
 
 
 class IdsmInstance(IdsCommonElement):
@@ -8,7 +14,7 @@ class IdsmInstance(IdsCommonElement):
     EcuInstance and a specific class of filters for security events that apply
     for all security events reported on the referenced EcuInstance.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmInstance
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 44, Foundation R23-11)

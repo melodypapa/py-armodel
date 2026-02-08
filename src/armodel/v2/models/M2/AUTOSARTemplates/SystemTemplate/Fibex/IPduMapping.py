@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class IPduMapping(ARObject):
     Arranges those IPdus that are transferred by the gateway from one channel to
     the other in pairs and defines the mapping between them.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::IPduMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 840, Classic Platform R23-11)

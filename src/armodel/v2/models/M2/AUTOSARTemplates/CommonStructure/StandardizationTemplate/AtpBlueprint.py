@@ -11,7 +11,7 @@ class AtpBlueprint(Identifiable, ABC):
     This meta-class represents the ability to act as a Blueprint. As this class
     is an abstract one, particular blueprint meta-classes inherit from this one.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprint
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 305, Classic

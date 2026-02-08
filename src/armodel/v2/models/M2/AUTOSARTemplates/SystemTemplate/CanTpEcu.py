@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CanTpEcu(ARObject):
@@ -10,7 +10,7 @@ class CanTpEcu(ARObject):
     ECU specific TP configuration parameters. Each TpEcu element has a reference
     to exactly one ECUInstance in the topology.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpEcu
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 610, Classic Platform R23-11)

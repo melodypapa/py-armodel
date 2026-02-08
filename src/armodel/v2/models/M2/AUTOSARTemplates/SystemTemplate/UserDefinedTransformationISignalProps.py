@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class UserDefinedTransformationISignalProps(ARObject):
@@ -8,7 +8,7 @@ class UserDefinedTransformationISignalProps(ARObject):
     The UserDefinedTransformationISignalProps is used to specify ISignal
     specific configuration properties for custom transformers.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::UserDefinedTransformationISignalProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 828, Classic Platform R23-11)

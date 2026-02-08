@@ -10,7 +10,7 @@ class NmCluster(Identifiable, ABC):
     """
     Set of NM nodes coordinated with use of the NM algorithm.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 672, Classic Platform R23-11)

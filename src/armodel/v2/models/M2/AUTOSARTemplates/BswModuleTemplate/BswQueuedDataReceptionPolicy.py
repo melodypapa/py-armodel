@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswDataReceptionPolicy,
+)
 
 
 class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     """
     Reception policy attributes specific for queued receiving.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswQueuedDataReceptionPolicy
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 105, Classic

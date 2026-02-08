@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import PhysicalChannel
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    PhysicalChannel,
+)
 
 
 class EthernetPhysicalChannel(PhysicalChannel):
@@ -8,7 +14,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
     untagged channel is modeled as an EthernetPhysicalChannel without an
     aggregated VLAN.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetPhysicalChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 314, Classic Platform

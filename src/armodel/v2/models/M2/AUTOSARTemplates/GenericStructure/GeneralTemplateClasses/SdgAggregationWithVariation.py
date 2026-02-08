@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgElementWithGid
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgElementWithGid,
+)
 
 
 class SdgAggregationWithVariation(SdgElementWithGid):
@@ -7,7 +10,7 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     Describes that the Sdg may contain another Sdg. The gid of the nested Sdg is
     defined by subSdg. Represents ’sdg’.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAggregationWithVariation
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation

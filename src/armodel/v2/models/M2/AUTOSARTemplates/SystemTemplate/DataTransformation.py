@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class DataTransformation(Identifiable):
     A DataTransformation represents a transformer chain. It is an ordered list
     of transformers.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataTransformation
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 149, Classic Platform

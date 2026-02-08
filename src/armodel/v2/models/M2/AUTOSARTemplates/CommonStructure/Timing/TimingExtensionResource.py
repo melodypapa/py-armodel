@@ -10,7 +10,7 @@ class TimingExtensionResource(Identifiable):
     A TimingExtensionResource provides the capability to contain instance
     references referred from within a timing condition formula.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingExtensionResource
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)

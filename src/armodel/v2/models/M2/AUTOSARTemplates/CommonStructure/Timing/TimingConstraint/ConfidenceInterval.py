@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ConfidenceInterval(ARObject):
@@ -11,7 +11,7 @@ class ConfidenceInterval(ARObject):
     confidence interval can be specified for the expected distance of two
     consecutive event occurrences with a given probability.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::ConfidenceInterval
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 112, Classic Platform R23-11)

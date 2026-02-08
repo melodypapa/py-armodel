@@ -14,7 +14,7 @@ class IEEE1722TpAcfBusPart(Identifiable, ABC):
     Definition of one IEEE1722Tp ACF part transported over the IEEE1722Tp
     channel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfBusPart
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 657, Classic Platform R23-11)

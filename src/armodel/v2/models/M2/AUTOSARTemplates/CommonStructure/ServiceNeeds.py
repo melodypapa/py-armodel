@@ -14,7 +14,7 @@ class ServiceNeeds(Identifiable, ABC):
     381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic
     Software Module Description Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 227, Classic

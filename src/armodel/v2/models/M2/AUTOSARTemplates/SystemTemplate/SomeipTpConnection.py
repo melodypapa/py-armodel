@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class SomeipTpConnection(ARObject):
     A connection identifies the sender and the receiver of this particular
     communication. The SOME/IP TP module routes a Pdu through this connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::SomeipTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 620, Classic Platform R23-11)

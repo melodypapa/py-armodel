@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucConditionSpecification(ARObject):
@@ -10,7 +13,7 @@ class EcucConditionSpecification(ARObject):
     Allows to define existence dependencies based on the value of parameter
     values.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucConditionSpecification
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 100, Classic Platform R23-11)

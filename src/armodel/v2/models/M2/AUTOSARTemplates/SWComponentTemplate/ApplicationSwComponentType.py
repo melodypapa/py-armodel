@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
+
 
 class ApplicationSwComponentType(AtomicSwComponentType):
     """
     The ApplicationSwComponentType is used to represent the application
     software.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ApplicationSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 231, Classic Platform

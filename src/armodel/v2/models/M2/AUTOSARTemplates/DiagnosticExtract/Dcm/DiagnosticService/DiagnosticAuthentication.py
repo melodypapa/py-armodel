@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceInstance
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
 
 
 class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
@@ -8,7 +11,7 @@ class DiagnosticAuthentication(DiagnosticServiceInstance, ABC):
     This meta-class represents the ability to configure the usage of the UDS
     service Authentication in the Diagnostic extract.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthentication
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 98, Classic Platform

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import AbstractSecurityEventFilter
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    AbstractSecurityEventFilter,
+)
 
 
 class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
@@ -8,7 +11,7 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
     security events occurring within a configured time frame into one (i.e. the
     last reported) security event.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventAggregationFilter
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 24, Foundation R23-11)

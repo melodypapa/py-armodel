@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -20,7 +20,7 @@ class RoleBasedDataAssignment(ARObject):
     NvBlockDescriptor, so that a tool is able to create the correct access or
     writing strategy.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::RoleBasedDataAssignment
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 226, Classic

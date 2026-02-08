@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AbstractValueRestriction(ARObject, ABC):
@@ -11,7 +11,7 @@ class AbstractValueRestriction(ARObject, ABC):
     Restricts primitive values. A value is valid if all rules that are defined
     by this restriction evaluate to true.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractValueRestriction
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 103, Foundation

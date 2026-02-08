@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BusMirrorChannel(ARObject):
     """
     This element assigns a busMirrorNetworkId to the referenced channel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 698, Classic Platform R23-11)

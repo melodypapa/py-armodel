@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import RestrictionWithSeverity
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    RestrictionWithSeverity,
+)
+
 
 class MultiplicityRestrictionWithSeverity(RestrictionWithSeverity):
     """
     Restriction that specifies the valid number of occurrences of an element in
     the current context.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::MultiplicityRestrictionWithSeverity
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 87, Foundation R23-11)

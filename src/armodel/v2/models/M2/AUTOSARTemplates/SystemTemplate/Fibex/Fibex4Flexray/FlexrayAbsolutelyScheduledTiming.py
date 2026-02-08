@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FlexrayAbsolutelyScheduledTiming(ARObject):
@@ -14,7 +14,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     be used. The main use case would be that a frame is sent twice within one
     communication cycle.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication::FlexrayAbsolutelyScheduledTiming
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 423, Classic Platform R23-11)

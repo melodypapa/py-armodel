@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ModeErrorBehavior(ARObject):
@@ -10,7 +10,7 @@ class ModeErrorBehavior(ARObject):
     This represents the ability to define the error behavior in the context of
     mode handling.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeErrorBehavior
+    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 44, Classic

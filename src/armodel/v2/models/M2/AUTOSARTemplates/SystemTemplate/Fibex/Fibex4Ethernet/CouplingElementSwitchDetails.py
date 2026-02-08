@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElementAbstractDetails
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    CouplingElementAbstractDetails,
+)
 
 
 class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
@@ -7,7 +10,7 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     Collection of specific details for the CouplingElement of couplingType
     switch.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingElementSwitchDetails
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 133, Classic Platform R23-11)

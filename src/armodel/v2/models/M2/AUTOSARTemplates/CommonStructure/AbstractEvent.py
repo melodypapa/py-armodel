@@ -11,7 +11,7 @@ class AbstractEvent(Identifiable, ABC):
     This meta-class represents the abstract ability to model an event that can
     be taken to implement application software or basic software in AUTOSAR.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::AbstractEvent
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 541, Classic Platform

@@ -1,4 +1,5 @@
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.ApplicationCompositeElementDataPrototype import (
     ApplicationCompositeElementDataPrototype,
 )
@@ -8,7 +9,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     """
     Describes the properties of the elements of an application array data type.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationArrayElement
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 252, Classic Platform

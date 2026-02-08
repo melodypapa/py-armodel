@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PduToFrameMapping(ARObject):
@@ -18,7 +18,7 @@ class PduToFrameMapping(ARObject):
     (cid:53) (cid:53) 346 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate
     System Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PduToFrameMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 346, Classic Platform R23-11)

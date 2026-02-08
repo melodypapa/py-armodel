@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticSwMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticSwMapping,
+)
 
 
 class DiagnosticEnableConditionPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticEnableCondition is mapped.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEnableConditionPortMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 251, Classic Platform

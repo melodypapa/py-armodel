@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -11,7 +14,7 @@ class TDCpSoftwareClusterMapping(Identifiable):
     temporal and dynamic resources and the software clusters that need these
     resources.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster::TDCpSoftwareClusterMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 157, Classic Platform R23-11)

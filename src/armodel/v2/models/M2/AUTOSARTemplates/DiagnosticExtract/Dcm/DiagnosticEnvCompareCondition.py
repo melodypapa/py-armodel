@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import DiagnosticEnvConditionFormulaPart
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import (
+    DiagnosticEnvConditionFormulaPart,
+)
 
 
 class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
@@ -10,7 +13,7 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     constant. The type of the comparison (==, !=, <, <=, ...) is specified in
     DiagnosticCompareCondition.compareType.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvCompareCondition
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 82, Classic Platform

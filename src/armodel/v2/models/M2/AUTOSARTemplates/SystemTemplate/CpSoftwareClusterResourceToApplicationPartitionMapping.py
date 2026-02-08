@@ -10,7 +10,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     This meta class maps a Software Cluster resource to an Application Partition
     to restrict the usage.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResourceToApplicationPartitionMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 284, Classic Platform R23-11)

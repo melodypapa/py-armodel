@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import RTEEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
+    RTEEvent,
+)
 
 
 class ModeSwitchedAckEvent(RTEEvent):
@@ -7,7 +10,7 @@ class ModeSwitchedAckEvent(RTEEvent):
     This event is raised when the referenced ModeSwitchPoint has been processed
     or an error occurred.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::ModeSwitchedAckEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 545, Classic Platform

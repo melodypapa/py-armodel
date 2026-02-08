@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrame
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinFrame,
+)
+
 
 class LinUnconditionalFrame(LinFrame):
     """
@@ -6,7 +9,7 @@ class LinUnconditionalFrame(LinFrame):
     scheduled frame slot and the designated slave node fills the frame with
     data.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinUnconditionalFrame
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 429, Classic Platform R23-11)

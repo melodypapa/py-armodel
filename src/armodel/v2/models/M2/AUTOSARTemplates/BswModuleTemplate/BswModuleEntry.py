@@ -1,5 +1,15 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    PositiveInteger,
+)
 
 
 class BswModuleEntry(ARElement):
@@ -10,7 +20,7 @@ class BswModuleEntry(ARElement):
     on the same CPU, special rules for "infixes" apply, see description of class
     BswImplementation.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswModuleEntry
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 32, Classic

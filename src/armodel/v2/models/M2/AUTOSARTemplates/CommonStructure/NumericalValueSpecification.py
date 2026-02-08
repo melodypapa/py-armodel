@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ValueSpecification,
+)
 
 
 class NumericalValueSpecification(ValueSpecification):
@@ -8,7 +11,7 @@ class NumericalValueSpecification(ValueSpecification):
     Primitive data element. Note that the numerical value is a variant, it can
     be computed by a formula.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::NumericalValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 324, Classic

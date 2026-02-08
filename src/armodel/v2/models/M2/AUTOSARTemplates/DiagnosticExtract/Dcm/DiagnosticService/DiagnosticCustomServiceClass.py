@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceClass
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
+)
 
 
 class DiagnosticCustomServiceClass(DiagnosticServiceClass):
@@ -9,7 +12,7 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     view of the diagnostic extract and consequently needs to be done on the
     level of ECUC.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService::DiagnosticCustomServiceClass
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 71, Classic Platform

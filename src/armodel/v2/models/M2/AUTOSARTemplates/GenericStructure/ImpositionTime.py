@@ -7,7 +7,7 @@ class ImpositionTime(Identifiable):
     """
     This meta class represents one particular imposition time.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::ImpositionTimes::ImpositionTime
+    Package: M2::AUTOSARTemplates::GenericStructure::ImpositionTimes
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 194, Foundation R23-11)

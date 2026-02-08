@@ -11,7 +11,7 @@ class AtpDefinition(Referrable, ABC):
     respective values. For example the value of a particular system constant is
     identified by the definition of this system constant.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AtpDefinition
+    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 383, Foundation

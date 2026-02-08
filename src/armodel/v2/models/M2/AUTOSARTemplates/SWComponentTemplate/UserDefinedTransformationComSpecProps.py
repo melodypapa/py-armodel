@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    TransformationComSpecProps,
+)
+
 
 class UserDefinedTransformationComSpecProps(TransformationComSpecProps):
     """
     The UserDefinedTransformationComSpecProps is used to specify port specific
     configuration properties for custom transformers.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::UserDefinedTransformationComSpecProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 200, Classic Platform

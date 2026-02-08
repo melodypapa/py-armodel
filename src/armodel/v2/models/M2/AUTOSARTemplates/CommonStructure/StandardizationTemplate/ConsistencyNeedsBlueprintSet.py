@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ConsistencyNeedsBlueprintSet(ARElement):
@@ -7,7 +10,7 @@ class ConsistencyNeedsBlueprintSet(ARElement):
     This meta class represents the ability to specify a set of blueprint for
     ConsistencyNeeds.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint::ConsistencyNeedsBlueprintSet
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 179, Foundation R23-11)

@@ -12,7 +12,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
     A ModeSwitchPoint is required by a RunnableEntity owned a Mode Manager. Its
     semantics implies the ability to initiate a mode switch.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup::ModeSwitchPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 323, Classic

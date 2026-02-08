@@ -1,9 +1,12 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AbstractVariationRestriction(ARObject, ABC):
@@ -11,7 +14,7 @@ class AbstractVariationRestriction(ARObject, ABC):
     Defines constraints on the usage of variation and on the valid binding
     times.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractVariationRestriction
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 104, Foundation

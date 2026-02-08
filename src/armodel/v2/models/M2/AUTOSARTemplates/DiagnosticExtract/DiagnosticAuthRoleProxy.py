@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DiagnosticAuthRoleProxy(ARObject):
@@ -11,7 +11,7 @@ class DiagnosticAuthRoleProxy(ARObject):
     question whether the authentication is done in general or whether it is done
     role-specific depends on the existence of references to DiagAuthRole.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticAuthRoleProxy
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 76, Classic Platform

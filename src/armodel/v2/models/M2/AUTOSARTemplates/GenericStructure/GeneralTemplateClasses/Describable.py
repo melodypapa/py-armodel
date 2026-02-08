@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Describable(ARObject, ABC):
@@ -11,7 +11,7 @@ class Describable(ARObject, ABC):
     This meta-class represents the ability to add a descriptive documentation to
     non identifiable elements.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::Describable
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 312, Classic

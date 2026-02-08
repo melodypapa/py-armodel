@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import IdsCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    IdsCommonElement,
+)
 
 
 class SecurityEventFilterChain(IdsCommonElement):
@@ -9,7 +12,7 @@ class SecurityEventFilterChain(IdsCommonElement):
     the follow order: SecurityEventStateFilter, SecurityEventOneEvery NFilter,
     SecurityEventAggregationFilter, SecurityEventThresholdFilter.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventFilterChain
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 20, Foundation R23-11)

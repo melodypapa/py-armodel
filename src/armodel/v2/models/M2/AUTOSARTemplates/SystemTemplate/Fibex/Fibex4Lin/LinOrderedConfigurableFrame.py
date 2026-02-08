@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class LinOrderedConfigurableFrame(ARObject):
@@ -11,7 +11,7 @@ class LinOrderedConfigurableFrame(ARObject):
     possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range
     command.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinOrderedConfigurableFrame
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 99, Classic Platform R23-11)

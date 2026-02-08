@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BuildActionIoElement(ARObject):
@@ -17,7 +20,7 @@ class BuildActionIoElement(ARObject):
     Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Generic Structure
     Template AUTOSAR FO R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionIoElement
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 368, Foundation

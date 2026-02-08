@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationProps
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    TransformationProps,
+)
 
 
 class SOMEIPTransformationProps(TransformationProps):
@@ -7,7 +10,7 @@ class SOMEIPTransformationProps(TransformationProps):
     The class SOMEIPTransformationProps specifies SOME/IP specific configuration
     properties.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::SOMEIPTransformationProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 783, Classic Platform R23-11)

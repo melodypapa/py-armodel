@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswScheduleEvent,
+)
+
 
 class BswOsTaskExecutionEvent(BswScheduleEvent):
     """
@@ -8,7 +11,7 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
     executed. The main use case for this event is scheduling of Runnables of
     Complex Drivers which have to react on task executions.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswOsTaskExecutionEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 89, Classic

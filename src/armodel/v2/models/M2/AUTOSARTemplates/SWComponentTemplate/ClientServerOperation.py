@@ -1,9 +1,15 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+)
     RefType,
 )
 
@@ -12,7 +18,7 @@ class ClientServerOperation(Identifiable):
     """
     An operation declared within the scope of a client/server interface.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerOperation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 309, Classic

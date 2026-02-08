@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticServiceTable(DiagnosticCommonElement):
@@ -7,7 +13,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     This meta-class represents a model of a diagnostic service table, i.e. the
     UDS services applicable for a given ECU.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticServiceTable
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 59, Classic Platform

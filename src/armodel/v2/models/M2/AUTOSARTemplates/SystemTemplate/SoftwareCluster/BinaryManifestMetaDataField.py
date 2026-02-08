@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import BinaryManifestAddressableObject
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import (
+    BinaryManifestAddressableObject,
+)
 
 
 class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
@@ -7,7 +10,7 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     This meta-class provides the ability to define a meta-data field for the
     binary manifest descriptor.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestMetaDataField
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 923, Classic Platform R23-11)

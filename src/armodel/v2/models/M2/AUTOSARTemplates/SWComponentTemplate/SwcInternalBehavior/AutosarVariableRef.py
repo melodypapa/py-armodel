@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -22,7 +22,7 @@ class AutosarVariableRef(ARObject):
     nvramData mapping) • an element inside of a composite variable provided via
     Port and typed by ImplementationDatatype (e.g. inputValue for a curve)
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::AutosarVariableRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 307, Classic

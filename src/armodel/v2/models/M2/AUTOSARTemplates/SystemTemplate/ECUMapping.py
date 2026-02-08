@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -13,7 +16,7 @@ class ECUMapping(Identifiable):
     ECUMapping allows to assign an ECU hardware type (defined in the ECU
     Resource Template) to an ECUInstance used in a physical topology.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping::ECUMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::ECUResourceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 182, Classic Platform R23-11)

@@ -11,7 +11,7 @@ class AtpBlueprintable(Identifiable, ABC):
     this class is an abstract one, particular blueprintable meta-classes inherit
     from this one.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprintable
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 424, Foundation

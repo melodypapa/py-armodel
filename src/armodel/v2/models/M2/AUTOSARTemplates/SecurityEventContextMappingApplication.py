@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import SecurityEventContextMapping
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    SecurityEventContextMapping,
+)
+
 
 class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     """
@@ -7,7 +10,7 @@ class SecurityEventContextMappingApplication(SecurityEventContextMapping):
     application (e.g. name of SWC on CP or name of SWCL on AP) in which this
     IdsM instance can receive reports for these security events.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingApplication
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 42, Foundation R23-11)

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SenderRecArrayElementMapping(ARObject):
@@ -20,7 +20,7 @@ class SenderRecArrayElementMapping(ARObject):
     SystemSignals. Regardless whether composite or primitive array element is
     mapped the indexed element always needs to be specified.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecArrayElementMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 237, Classic Platform R23-11)

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    AbstractDoIpLogicAddressProps,
+)
 
 
 class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
@@ -8,7 +11,7 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     DoIpLogicTesterAddress and collects DoIpLogic TesterAddress specific
     settings.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpLogicTesterAddressProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 556, Classic Platform R23-11)

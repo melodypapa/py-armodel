@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    FibexElement,
+)
 
 
 class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
@@ -7,7 +10,7 @@ class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
     This meta-class is the main element that aggregates different config set
     regarding the ethernet wakeup and sleep on data line.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetWakeupSleepOnDatalineConfigSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 159, Classic Platform R23-11)

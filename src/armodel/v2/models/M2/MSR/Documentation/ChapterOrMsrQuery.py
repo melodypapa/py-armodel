@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ChapterOrMsrQuery(ARObject):
@@ -8,7 +8,7 @@ class ChapterOrMsrQuery(ARObject):
     This meta-class represents the ability to denote a particular chapter or a
     query returning a chapter.
 
-    Package: M2::MSR::Documentation::Chapters::ChapterOrMsrQuery
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation

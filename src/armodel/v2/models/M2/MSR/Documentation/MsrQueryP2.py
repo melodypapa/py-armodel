@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MsrQueryP2(ARObject):
@@ -10,7 +10,7 @@ class MsrQueryP2(ARObject):
     This meta-class represents the ability to express a query which yields the
     content of a Documentation Block as a result.
 
-    Package: M2::MSR::Documentation::MsrQuery::MsrQueryP2
+    Package: M2::MSR::Documentation::MsrQuery
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 456, Foundation

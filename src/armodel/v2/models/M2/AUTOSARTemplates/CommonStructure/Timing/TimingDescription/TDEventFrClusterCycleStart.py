@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescription import TDEventCycleStart
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescription import (
+    TDEventCycleStart,
+)
 
 
 class TDEventFrClusterCycleStart(TDEventCycleStart):
@@ -7,7 +10,7 @@ class TDEventFrClusterCycleStart(TDEventCycleStart):
     This is used to describe the timing event related to a point in time where a
     communication cycle starts on a FlexRay cluster.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventFrClusterCycleStart
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 71, Classic Platform R23-11)

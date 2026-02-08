@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    PPortComSpec,
+)
 
 
 class ServerComSpec(PPortComSpec):
@@ -7,7 +13,7 @@ class ServerComSpec(PPortComSpec):
     Communication attributes for a server port (PPortPrototype and
     ClientServerInterface).
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ServerComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 188, Classic Platform

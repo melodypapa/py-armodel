@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
@@ -7,7 +10,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     This meta-class represents the needs of a software-component interested to
     get information regarding specific DTCs.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventInfoNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 312, Classic

@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import AbstractGlobalTimeDomainProps
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    AbstractGlobalTimeDomainProps,
+)
+
 
 class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Flexray GlobalTime specific properties.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::FrGlobalTimeDomainProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 878, Classic Platform R23-11)

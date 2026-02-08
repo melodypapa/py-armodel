@@ -11,7 +11,7 @@ class TDEventTrigger(TDEventVfbPort):
     """
     This is used to describe timing events related to triggers at VFB level.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventTrigger
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 58, Classic Platform R23-11)

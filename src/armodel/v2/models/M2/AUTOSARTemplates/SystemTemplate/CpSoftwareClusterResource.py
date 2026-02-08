@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class CpSoftwareClusterResource(Identifiable, ABC):
     """
     Represents a single resource required or provided by a CP Software Cluster.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResource
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 271, Classic Platform

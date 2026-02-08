@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import DiagnosticEnvCompareCondition
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import (
+    DiagnosticEnvCompareCondition,
+)
 
 
 class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
@@ -8,7 +11,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     current value of the referenced DiagnosticDataElement with a constant value
     defined by the ValueSpecification. All compareTypes are supported.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvDataCondition
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 84, Classic Platform

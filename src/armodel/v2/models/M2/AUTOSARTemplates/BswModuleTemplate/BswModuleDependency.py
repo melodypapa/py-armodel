@@ -10,7 +10,7 @@ class BswModuleDependency(Identifiable):
     This class collects the dependencies of a BSW module or cluster on a certain
     other BSW module.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswModuleDependency
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 47, Classic

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class HwCategory(ARElement):
@@ -7,7 +10,7 @@ class HwCategory(ARElement):
     This metaclass represents the ability to declare hardware categories and its
     particular attributes.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwCategory
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 24, Classic Platform

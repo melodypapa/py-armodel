@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Sd(ARObject):
     """
     This class represents a primitive element in a special data group.
 
-    Package: M2::MSR::AsamHdo::SpecialData::Sd
+    Package: M2::MSR::AsamHdo::SpecialData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 91, Foundation R23-11)

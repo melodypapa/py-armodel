@@ -1,9 +1,12 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CommunicationCluster(ARObject, ABC):
@@ -16,7 +19,7 @@ class CommunicationCluster(ARObject, ABC):
     both. A CommunicationCluster aggregates one or more physical channels. Tags:
     vh.latestBindingTime=postBuild
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 107, Classic Platform

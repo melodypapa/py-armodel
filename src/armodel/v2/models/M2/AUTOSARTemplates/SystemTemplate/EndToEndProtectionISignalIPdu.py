@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -20,7 +20,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
     ISignalGroup shall be protected (through which E2E Profile and with which
     E2E settings) is defined in the EndToEnd Description element.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection::EndToEndProtectionISignalIPdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 987, Classic Platform

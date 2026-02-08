@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SoftwareContext(ARObject):
     """
     Specifies the context of the software for this resource consumption.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::SoftwareContext
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 163, Classic

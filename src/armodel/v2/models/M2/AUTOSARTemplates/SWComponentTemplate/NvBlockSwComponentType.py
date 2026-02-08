@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
 
 
 class NvBlockSwComponentType(AtomicSwComponentType):
@@ -8,7 +11,7 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     shared between Sw ComponentPrototypes. The non volatile data of the
     NvBlockSwComponentType are accessible via provided and required ports.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::NvBlockSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 663, Classic Platform

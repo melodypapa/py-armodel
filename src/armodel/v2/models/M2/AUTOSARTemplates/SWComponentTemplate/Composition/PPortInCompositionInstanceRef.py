@@ -1,11 +1,14 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PortInCompositionTypeInstanceRef
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    PortInCompositionTypeInstanceRef,
+)
 
 
 class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     """
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::PPortInCompositionInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 951, Classic Platform

@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -13,7 +16,7 @@ class EcuInstance(FibexElement):
     the ECU is defined by a reference to an ECU specified with the ECU resource
     description.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::EcuInstance
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 312, Classic Platform

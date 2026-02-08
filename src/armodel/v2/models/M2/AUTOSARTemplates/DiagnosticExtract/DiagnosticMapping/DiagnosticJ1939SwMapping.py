@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticSwMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticSwMapping,
+)
 
 
 class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
@@ -8,7 +11,7 @@ class DiagnosticJ1939SwMapping(DiagnosticSwMapping):
     software to a J1939DiagnosticNode. By this means the diagnostic
     configuration can be associated with the application software.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticJ1939SwMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 268, Classic Platform

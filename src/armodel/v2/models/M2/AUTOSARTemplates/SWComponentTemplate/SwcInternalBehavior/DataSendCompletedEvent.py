@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import RTEEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
+    RTEEvent,
+)
 
 
 class DataSendCompletedEvent(RTEEvent):
@@ -7,7 +10,7 @@ class DataSendCompletedEvent(RTEEvent):
     This event is raised when the referenced explicit data element has been sent
     or an error occurred.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataSendCompletedEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 542, Classic Platform

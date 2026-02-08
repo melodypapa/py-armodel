@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannelMapping
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
+    BusMirrorChannelMapping,
+)
 
 
 class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
@@ -7,7 +13,7 @@ class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
     This element defines the bus mirroring between a CAN or LIN sourceChannel
     and a CAN targetChannel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannelMappingCan
+    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 700, Classic Platform R23-11)

@@ -11,7 +11,7 @@ class IPv6ExtHeaderFilterSet(ARElement):
     """
     Set of IPv6 Extension Header Filters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList::IPv6ExtHeaderFilterSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 455, Classic Platform R23-11)

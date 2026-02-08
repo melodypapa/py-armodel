@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SdgElementWithGid(ARObject, ABC):
@@ -11,7 +11,7 @@ class SdgElementWithGid(ARObject, ABC):
     A special data group element with gid is an abstract element that shall have
     a name (gid, "Generic Identifier").
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgElementWithGid
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 99, Foundation R23-11)

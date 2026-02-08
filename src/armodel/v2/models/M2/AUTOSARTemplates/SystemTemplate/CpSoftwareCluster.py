@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CpSoftwareCluster(ARElement):
@@ -10,7 +16,7 @@ class CpSoftwareCluster(ARElement):
     Software Cluster. Resources required or provided by this CP Software Cluster
     are given in the according mappings.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 309, Classic Platform

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TransmissionAcknowledgementRequest(ARObject):
@@ -10,7 +10,7 @@ class TransmissionAcknowledgementRequest(ARObject):
     Requests transmission acknowledgement that data has been sent successfully.
     Success/failure is reported via a SendPoint of a RunnableEntity.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransmissionAcknowledgementRequest
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 180, Classic Platform

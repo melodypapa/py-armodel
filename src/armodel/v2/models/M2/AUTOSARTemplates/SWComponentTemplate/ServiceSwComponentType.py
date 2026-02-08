@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
+
 
 class ServiceSwComponentType(AtomicSwComponentType):
     """
@@ -6,7 +9,7 @@ class ServiceSwComponentType(AtomicSwComponentType):
     Instances of this class are only to be created in ECU Configuration phase
     for the specific purpose of the service configuration.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ServiceSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 336, Classic

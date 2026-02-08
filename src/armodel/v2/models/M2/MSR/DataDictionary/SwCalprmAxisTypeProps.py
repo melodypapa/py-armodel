@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
@@ -13,7 +13,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     directly from SwCalPrmAxis, the sequence of common properties and the
     specializes ones would be different.
 
-    Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxisTypeProps
+    Package: M2::MSR::DataDictionary::CalibrationParameter
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 353, Classic Platform

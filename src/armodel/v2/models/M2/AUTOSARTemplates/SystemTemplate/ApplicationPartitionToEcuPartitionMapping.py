@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -12,7 +15,7 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     EcuPartitions in the System Design phase. The final and complete assignment
     is described in the OS Configuration.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ApplicationPartitionToEcuPartitionMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 201, Classic Platform R23-11)

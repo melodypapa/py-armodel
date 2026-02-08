@@ -1,11 +1,14 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 
 class MlFigure(Paginateable):
     """
     This metaclass represents the ability to embed a figure.
 
-    Package: M2::MSR::Documentation::BlockElements::Figure::MlFigure
+    Package: M2::MSR::Documentation::BlockElements::Figure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 307, Foundation

@@ -11,7 +11,7 @@ class PortInterfaceMappingSet(ARElement):
     """
     Specifies a set of (one or more) PortInterfaceMappings.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterfaceMappingSet
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 119, Classic Platform

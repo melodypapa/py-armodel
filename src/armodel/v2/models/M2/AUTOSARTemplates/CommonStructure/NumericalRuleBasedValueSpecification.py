@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import AbstractRuleBasedValueSpecification
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    AbstractRuleBasedValueSpecification,
+)
 
 
 class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
@@ -7,7 +10,7 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     This meta-class is used to support a rule-based initialization approach for
     data types with an array-nature (ImplementationDataType of category ARRAY).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::NumericalRuleBasedValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 467, Classic Platform

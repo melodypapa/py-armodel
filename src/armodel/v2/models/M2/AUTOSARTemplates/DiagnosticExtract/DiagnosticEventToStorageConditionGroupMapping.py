@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticEventToStorageConditionGroupMapping(DiagnosticMapping):
     """
     Defines which StorageConditionGroup is applicable for a DiagnosticEvent.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToStorageConditionGroupMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 248, Classic Platform

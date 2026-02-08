@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DataTypeMap(ARObject):
@@ -10,7 +10,7 @@ class DataTypeMap(ARObject):
     This class represents the relationship between ApplicationDataType and its
     implementing Abstract ImplementationDataType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::DataTypeMap
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 232, Classic Platform

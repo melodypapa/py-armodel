@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CouplingPortConnection(ARObject):
@@ -10,7 +13,7 @@ class CouplingPortConnection(ARObject):
     Connection between two CouplingPorts (firstPort and secondPort) or between a
     collection of Ports that are all referenced by the portCollection reference.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 112, Classic Platform R23-11)

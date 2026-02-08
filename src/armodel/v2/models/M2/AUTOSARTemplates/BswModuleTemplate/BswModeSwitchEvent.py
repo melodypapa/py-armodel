@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswScheduleEvent,
+)
 
 
 class BswModeSwitchEvent(BswScheduleEvent):
     """
     A BswEvent resulting from a mode switch.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModeSwitchEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 94, Classic

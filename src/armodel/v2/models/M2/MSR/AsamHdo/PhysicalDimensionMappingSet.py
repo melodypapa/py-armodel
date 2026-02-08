@@ -6,7 +6,7 @@ class PhysicalDimensionMappingSet(ARElement):
     This class represents a container for a list of mappings between
     PhysicalDimensions.
 
-    Package: M2::MSR::AsamHdo::Units::PhysicalDimensionMappingSet
+    Package: M2::MSR::AsamHdo::Units
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 399, Classic Platform

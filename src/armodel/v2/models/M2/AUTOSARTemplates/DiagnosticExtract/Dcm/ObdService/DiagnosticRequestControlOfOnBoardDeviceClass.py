@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceClass
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
+)
+
 
 class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
     """
@@ -6,7 +9,7 @@ class DiagnosticRequestControlOfOnBoardDeviceClass(DiagnosticServiceClass):
     instances of the "Request Control Of On-Board Device" OBD diagnostic
     service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard::DiagnosticRequestControlOfOnBoardDeviceClass
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x08_RequestControlOfOnBoard
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 158, Classic Platform

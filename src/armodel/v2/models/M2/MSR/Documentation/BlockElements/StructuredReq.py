@@ -1,11 +1,14 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 
 class StructuredReq(Paginateable):
     """
     that this can be rendered as a labeled list.
 
-    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::StructuredReq
+    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 168, Classic Platform

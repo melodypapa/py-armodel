@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DiagnosticTestIdentifier(ARObject):
@@ -10,7 +10,7 @@ class DiagnosticTestIdentifier(ARObject):
     This meta-class represents the ability to create a diagnostic test
     identifier.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult::DiagnosticTestIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTestResult
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 205, Classic Platform

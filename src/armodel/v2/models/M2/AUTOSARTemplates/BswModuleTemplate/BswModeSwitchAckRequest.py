@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BswModeSwitchAckRequest(ARObject):
     """
     Requests acknowledgements that a mode switch has been processed successfully
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModeSwitchAckRequest
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 103, Classic

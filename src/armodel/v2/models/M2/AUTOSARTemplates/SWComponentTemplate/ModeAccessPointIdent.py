@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    IdentCaption,
+)
+
 
 class ModeAccessPointIdent(IdentCaption):
     """
@@ -6,7 +9,7 @@ class ModeAccessPointIdent(IdentCaption):
     referenced into the meta-class Mode AccessPoint without breaking backwards
     compatibility.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::ModeAccessPointIdent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform

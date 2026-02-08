@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import IdsCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    IdsCommonElement,
+)
 
 
 class SecurityEventDefinition(IdsCommonElement):
@@ -7,7 +10,7 @@ class SecurityEventDefinition(IdsCommonElement):
     This meta-class defines a security-related event as part of the intrusion
     detection system.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventDefinition
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 259, Classic Platform

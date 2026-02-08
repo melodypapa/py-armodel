@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwComponentDocumentation(ARObject):
@@ -14,7 +17,7 @@ class SwComponentDocumentation(ARObject):
     AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module
     Description Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation::SwComponentDocumentation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 337, Classic

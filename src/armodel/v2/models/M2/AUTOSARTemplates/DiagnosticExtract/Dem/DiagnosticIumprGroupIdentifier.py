@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DiagnosticIumprGroupIdentifier(ARObject):
@@ -10,7 +10,7 @@ class DiagnosticIumprGroupIdentifier(ARObject):
     This meta-class provides the ability to the define the group identifier for
     an IumprGroup.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticIumprGroupIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 211, Classic Platform

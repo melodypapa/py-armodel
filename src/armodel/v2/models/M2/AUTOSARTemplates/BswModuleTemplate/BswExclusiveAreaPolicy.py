@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BswExclusiveAreaPolicy(ARObject):
     """
     The ExclusiveArea for which the BSW Scheduler using this policy.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswExclusiveAreaPolicy
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 82, Classic

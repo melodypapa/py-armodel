@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import BlueprintPolicy
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    BlueprintPolicy,
+)
+
 
 class BlueprintPolicyList(BlueprintPolicy):
     """
@@ -6,7 +9,7 @@ class BlueprintPolicyList(BlueprintPolicy):
     blueprinting. It applies only to attribute with upper multiplicity greater
     than 1.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicyList
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 164, Foundation R23-11)

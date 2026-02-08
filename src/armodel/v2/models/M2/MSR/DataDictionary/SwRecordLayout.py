@@ -12,7 +12,7 @@ class SwRecordLayout(ARElement):
     sequence of axis points in the ECU memory. Iterations through axis values
     are stored within the sub-elements swRecordLayoutGroup.
 
-    Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayout
+    Package: M2::MSR::DataDictionary::RecordLayout
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 421, Classic Platform

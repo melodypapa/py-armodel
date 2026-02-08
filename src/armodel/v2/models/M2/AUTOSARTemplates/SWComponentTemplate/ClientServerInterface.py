@@ -10,7 +10,7 @@ class ClientServerInterface(PortInterface):
     A client/server interface declares a number of operations that can be
     invoked on a server by a client.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 308, Classic

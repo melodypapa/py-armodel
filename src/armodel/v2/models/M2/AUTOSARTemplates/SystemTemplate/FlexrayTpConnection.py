@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    TpConnection,
+)
 
 
 class FlexrayTpConnection(TpConnection):
@@ -12,7 +18,7 @@ class FlexrayTpConnection(TpConnection):
     the sender side. The rxPduPool is mandatory on the receiver side. On Gateway
     ECUs both references are mandatory.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 594, Classic Platform R23-11)

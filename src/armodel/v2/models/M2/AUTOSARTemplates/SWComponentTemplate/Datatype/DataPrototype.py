@@ -10,7 +10,7 @@ class DataPrototype(Identifiable, ABC):
     """
     Base class for prototypical roles of any data type.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::DataPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic

@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmClusterCoupling
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmClusterCoupling,
+)
 
 
 class UdpNmClusterCoupling(NmClusterCoupling):
@@ -7,7 +13,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     Udp attributes that are valid for each of the referenced (coupled) UdpNm
     clusters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmClusterCoupling
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)

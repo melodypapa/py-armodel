@@ -14,7 +14,7 @@ class EcuTiming(TimingExtension):
     EcuTiming are allowed to use all events derived from the class Timing
     DescriptionEvent.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::EcuTiming
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 30, Classic Platform R23-11)

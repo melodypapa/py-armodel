@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -12,7 +15,7 @@ class HwAttributeDef(Identifiable):
     attributeValue. If the category is Enumeration the hw
     AttributeEnumerationLiterals specify the available literals.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeDef
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 26, Classic Platform

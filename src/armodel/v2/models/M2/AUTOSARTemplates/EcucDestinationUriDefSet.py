@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class EcucDestinationUriDefSet(ARElement):
     """
     This class represents a list of EcucDestinationUriDefs.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriDefSet
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 82, Classic Platform R23-11)

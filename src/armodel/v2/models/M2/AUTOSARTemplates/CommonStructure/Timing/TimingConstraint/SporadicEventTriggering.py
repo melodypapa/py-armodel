@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import EventTriggeringConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    EventTriggeringConstraint,
+)
 
 
 class SporadicEventTriggering(EventTriggeringConstraint):
     """
     Describes the behavior of an event which occurs occasionally or singularly.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::SporadicEventTriggering
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 105, Classic Platform R23-11)

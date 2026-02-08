@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EmphasisText(ARObject):
@@ -10,7 +10,7 @@ class EmphasisText(ARObject):
     This is an emphasized text. As a compromise it contains some rendering
     oriented attributes such as color and font.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::EmphasisText
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 316, Foundation

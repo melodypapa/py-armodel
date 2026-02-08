@@ -12,7 +12,7 @@ class TDEventBswModeDeclaration(TDEventBsw):
     This is used to describe timing events related to the mode communication on
     BSW level.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBswModeDeclaration
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 76, Classic Platform R23-11)

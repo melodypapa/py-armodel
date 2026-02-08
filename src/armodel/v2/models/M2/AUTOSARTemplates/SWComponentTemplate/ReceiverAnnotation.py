@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import SenderReceiverAnnotation
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    SenderReceiverAnnotation,
+)
 
 
 class ReceiverAnnotation(SenderReceiverAnnotation):
@@ -8,7 +11,7 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
     don’t affect communication or generation of the RTE. The given attributes
     are requirements on the required data.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ReceiverAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 153, Classic Platform

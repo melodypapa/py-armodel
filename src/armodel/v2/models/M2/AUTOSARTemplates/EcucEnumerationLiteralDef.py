@@ -9,7 +9,7 @@ class EcucEnumerationLiteralDef(Identifiable):
     """
     Configuration parameter type for enumeration literals definition.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucEnumerationLiteralDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 67, Classic Platform R23-11)

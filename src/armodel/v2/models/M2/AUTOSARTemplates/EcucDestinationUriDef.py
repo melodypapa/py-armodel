@@ -10,7 +10,7 @@ class EcucDestinationUriDef(Identifiable):
     Description of an EcucDestinationUriDef that is used as target of
     EcucUriReferenceDefs.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 82, Classic Platform R23-11)

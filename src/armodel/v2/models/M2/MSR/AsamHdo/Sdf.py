@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Sdf(ARObject):
@@ -10,7 +10,7 @@ class Sdf(ARObject):
     This class represents a numerical value in a special data group which may be
     subject to variability.
 
-    Package: M2::MSR::AsamHdo::SpecialData::Sdf
+    Package: M2::MSR::AsamHdo::SpecialData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 92, Foundation R23-11)

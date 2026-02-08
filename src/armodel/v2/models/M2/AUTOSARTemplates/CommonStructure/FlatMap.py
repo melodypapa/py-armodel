@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class FlatMap(ARElement):
@@ -12,7 +15,7 @@ class FlatMap(ARElement):
     before integration into a system. In this case it is not referred by a
     RootSwComposition Prototype.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatMap
+    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 317, Classic

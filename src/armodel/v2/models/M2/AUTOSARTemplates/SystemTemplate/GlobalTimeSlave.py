@@ -10,7 +10,7 @@ class GlobalTimeSlave(Identifiable, ABC):
     """
     This represents the generic concept of a global time slave.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeSlave
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 860, Classic Platform R23-11)

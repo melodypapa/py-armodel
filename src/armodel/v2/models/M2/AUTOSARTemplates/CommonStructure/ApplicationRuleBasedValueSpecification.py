@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import CompositeRuleBasedValueArgument
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    CompositeRuleBasedValueArgument,
+)
 
 
 class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
@@ -8,7 +14,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     ApplicationDataTypes (ApplicationArrayDataType or a compound
     ApplicationPrimitiveDataType which also boils down to an array-nature).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ApplicationRuleBasedValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 302, Classic

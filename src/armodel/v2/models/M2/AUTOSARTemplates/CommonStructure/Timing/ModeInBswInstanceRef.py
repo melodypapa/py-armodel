@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class ModeInBswInstanceRef(ARObject):
     Instance reference to be capable of referencing a specific ModeDeclaration
     of a ModeDeclarationGroup Prototype utilized in a BSW module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInBswInstanceRef
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 38, Classic Platform R23-11)

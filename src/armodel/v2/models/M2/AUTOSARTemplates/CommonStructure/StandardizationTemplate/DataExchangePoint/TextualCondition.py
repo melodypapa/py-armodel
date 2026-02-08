@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data import AbstractCondition
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data import (
+    AbstractCondition,
+)
+
 
 class TextualCondition(AbstractCondition):
     """
     Specifies additional conditions for one or more model elements. The
     condition is described using human language.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::TextualCondition
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 105, Foundation R23-11)

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
+    ServerCallPoint,
+)
 
 
 class SynchronousServerCallPoint(ServerCallPoint):
@@ -7,7 +10,7 @@ class SynchronousServerCallPoint(ServerCallPoint):
     This means that the RunnableEntity is supposed to perform a blocking wait
     for a response from the server.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::SynchronousServerCallPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 580, Classic Platform

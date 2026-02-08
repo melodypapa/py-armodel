@@ -1,13 +1,16 @@
 from abc import ABC
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import DiagnosticMemoryByAddress
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import (
+    DiagnosticMemoryByAddress,
+)
 
 
 class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
     """
     This abstract base class
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticMemoryAddressableRangeAccess
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 140, Classic Platform

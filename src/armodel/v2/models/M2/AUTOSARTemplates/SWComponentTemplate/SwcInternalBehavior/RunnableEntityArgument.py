@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RunnableEntityArgument(ARObject):
@@ -10,7 +10,7 @@ class RunnableEntityArgument(ARObject):
     This meta-class represents the ability to provide specific information
     regarding the arguments to a RunnableEntity.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity::RunnableEntityArgument
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 536, Classic Platform

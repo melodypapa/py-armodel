@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractConfigurationClass
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractConfigurationClass,
+)
+
 
 class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
     """
     Specifies the MultiplicityConfigurationClass of a parameter/reference or a
     container for each ConfigurationVariant of the EcucModuleDef.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucMultiplicityConfigurationClass
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 52, Classic Platform R23-11)

@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PrivacyLevel(ARObject):
     """
     This meta-class defines the Privacy Level for a Log and Trace content.
 
-    Package: M2::AUTOSARTemplates::LogAndTraceExtract::PrivacyLevel
+    Package: M2::AUTOSARTemplates::LogAndTraceExtract
 
     Sources:
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 18, Foundation R23-11)

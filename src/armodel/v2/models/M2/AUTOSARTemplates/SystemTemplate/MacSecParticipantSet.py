@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class MacSecParticipantSet(ARElement):
     """
     Collection of MACsec Kay Participants on an Ethernet Link.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecParticipantSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 174, Classic Platform R23-11)

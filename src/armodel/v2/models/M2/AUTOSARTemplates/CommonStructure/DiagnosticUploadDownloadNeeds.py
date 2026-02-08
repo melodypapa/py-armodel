@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
+
 
 class DiagnosticUploadDownloadNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the ability to specify needs regarding upload and
     download by means of diagnostic services.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticUploadDownloadNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 252, Classic

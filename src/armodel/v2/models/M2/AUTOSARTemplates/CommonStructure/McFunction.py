@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -14,7 +17,7 @@ class McFunction(ARElement):
     function • assign measurement variables to a logical function • structure
     functions hierarchically
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McFunction
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 186, Classic

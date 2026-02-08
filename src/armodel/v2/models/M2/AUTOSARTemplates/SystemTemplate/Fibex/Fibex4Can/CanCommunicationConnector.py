@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationConnector
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+    AbstractCanCommunicationConnector,
+)
 
 
 class CanCommunicationConnector(AbstractCanCommunicationConnector):
     """
     CAN bus specific communication connector attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanCommunicationConnector
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 74, Classic Platform R23-11)

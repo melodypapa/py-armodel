@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+    TimingConstraint,
+)
 
 
 class OffsetTimingConstraint(TimingConstraint):
@@ -13,7 +16,7 @@ class OffsetTimingConstraint(TimingConstraint):
     LatencyTimingConstraint, there shall not necessarily be a causal dependency
     between the source and target event.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint::OffsetTimingConstraint
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 114, Classic Platform R23-11)

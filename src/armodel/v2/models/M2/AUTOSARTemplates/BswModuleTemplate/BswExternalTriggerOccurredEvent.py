@@ -11,7 +11,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     """
     A BswEvent resulting from a trigger released by another module or cluster.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswExternalTriggerOccurredEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 91, Classic

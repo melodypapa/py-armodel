@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucContainerDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucContainerDef,
+)
 
 
 class EcucChoiceContainerDef(EcucContainerDef):
@@ -8,7 +11,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
     several EcucParamConfContainer Def. But in the actual ECU Configuration
     Values only one instance from the choice list will be present.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucChoiceContainerDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 41, Classic Platform R23-11)

@@ -1,15 +1,18 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MacSecLocalKayProps(ARObject):
     """
     Configuration of the MAC Security Key Agreement Entity (KaY).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecLocalKayProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 173, Classic Platform R23-11)

@@ -1,15 +1,15 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SpecificationScope(ARObject):
     """
     Specification of the relevant subset of Autosar specifications.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange::SpecificationScope
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 96, Foundation R23-11)

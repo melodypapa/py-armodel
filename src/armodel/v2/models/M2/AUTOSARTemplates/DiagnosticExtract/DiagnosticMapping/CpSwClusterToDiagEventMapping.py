@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class CpSwClusterToDiagEventMapping(DiagnosticMapping):
@@ -9,7 +12,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
     indicating that the CpSoftwareClusterResource is used to convey the
     reporting or status query of the mapped DiagnosticEvent.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterToDiagEventMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 272, Classic Platform

@@ -8,7 +8,7 @@ class HwAttributeLiteralDef(Identifiable):
     One available EnumerationLiteral of the Enumeration definition. Only
     applicable if the category of the Hw AttributeDef equals Enumeration.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeLiteralDef
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 26, Classic Platform

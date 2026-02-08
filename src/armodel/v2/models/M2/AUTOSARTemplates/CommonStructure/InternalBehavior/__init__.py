@@ -5,17 +5,27 @@ V2 M2::AUTOSARTemplates::CommonStructure::InternalBehavior package.
 from abc import ABC
 from typing import List
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.AbstractEvent import (
+    AbstractEvent,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExclusiveArea import (
+    ExclusiveArea,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExclusiveAreaNestingOrder import (
+    ExclusiveAreaNestingOrder,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExecutableEntity import (
+    ExecutableEntity,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExecutableEntityActivationReason import (
+    ExecutableEntityActivationReason,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.AbstractEvent import AbstractEvent
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExclusiveArea import ExclusiveArea
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExclusiveAreaNestingOrder import ExclusiveAreaNestingOrder
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExecutableEntity import ExecutableEntity
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExecutableEntityActivationReason import ExecutableEntityActivationReason
 
 
 class InternalBehavior(Identifiable, ABC):
@@ -23,7 +33,7 @@ class InternalBehavior(Identifiable, ABC):
     Common base class (abstract) for the internal behavior of both software
     components and basic software modules/clusters.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::InternalBehavior
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 64, Classic

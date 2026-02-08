@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class SwSystemconstantValueSet(ARElement):
@@ -7,7 +10,7 @@ class SwSystemconstantValueSet(ARElement):
     This meta-class represents the ability to specify a set of system constant
     values.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstantValueSet
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 313, Classic Platform R23-11)

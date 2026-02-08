@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticJ1939FreezeFrame(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model a J1939 Freeze Frame.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939::DiagnosticJ1939FreezeFrame
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 220, Classic Platform

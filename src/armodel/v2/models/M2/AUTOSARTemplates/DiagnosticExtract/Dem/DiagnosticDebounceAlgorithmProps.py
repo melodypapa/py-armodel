@@ -9,7 +9,7 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     """
     Defines properties for the debounce algorithm class.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm::DiagnosticDebounceAlgorithmProps
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 195, Classic Platform

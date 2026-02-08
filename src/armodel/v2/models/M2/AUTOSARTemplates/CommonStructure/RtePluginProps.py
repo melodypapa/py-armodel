@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RtePluginProps(ARObject):
@@ -10,7 +10,7 @@ class RtePluginProps(ARObject):
     The properties of a communication graph with respect to the utilization of
     RTE Implementation Plug-in.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::RtePluginProps
+    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 971, Classic Platform R23-11)

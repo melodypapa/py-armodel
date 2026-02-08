@@ -12,7 +12,7 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
     This represents the ability to react on errors occurring during mode
     handling.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModeManagerErrorEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 95, Classic

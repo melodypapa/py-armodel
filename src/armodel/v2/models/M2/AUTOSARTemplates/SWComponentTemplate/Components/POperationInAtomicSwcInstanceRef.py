@@ -1,11 +1,14 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import OperationInAtomicSwcInstanceRef
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    OperationInAtomicSwcInstanceRef,
+)
 
 
 class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     """
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::POperationInAtomicSwcInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 948, Classic Platform

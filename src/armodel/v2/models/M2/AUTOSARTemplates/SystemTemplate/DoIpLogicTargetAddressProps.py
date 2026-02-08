@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    AbstractDoIpLogicAddressProps,
+)
+
 
 class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """
@@ -6,7 +9,7 @@ class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     DoIpLogicTargetAddress and collects DoIpLogic TargetAddress specific
     settings.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpLogicTargetAddressProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 556, Classic Platform R23-11)

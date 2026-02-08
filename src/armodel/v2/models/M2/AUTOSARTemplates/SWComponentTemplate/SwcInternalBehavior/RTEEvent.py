@@ -1,13 +1,19 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    AbstractEvent,
+)
 
 
 class RTEEvent(AbstractEvent, ABC):
     """
     Abstract base class for all RTE-related events
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::RTEEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 327, Classic

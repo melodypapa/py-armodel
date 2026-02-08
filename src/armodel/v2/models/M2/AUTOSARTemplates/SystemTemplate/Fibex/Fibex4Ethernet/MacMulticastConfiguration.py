@@ -11,7 +11,7 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     """
     References a per cluster globally defined MAC-Multicast-Group.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::MacMulticastConfiguration
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 467, Classic Platform R23-11)

@@ -10,7 +10,7 @@ class Caption(MultilanguageReferrable):
     This meta-class represents the ability to express a caption which is a
     title, and a shortName.
 
-    Package: M2::MSR::Documentation::BlockElements::Caption
+    Package: M2::MSR::Documentation::BlockElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 432, Foundation

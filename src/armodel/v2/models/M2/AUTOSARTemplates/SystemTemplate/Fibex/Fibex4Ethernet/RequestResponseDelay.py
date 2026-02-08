@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RequestResponseDelay(ARObject):
     """
     Time to wait before answering the query.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::RequestResponseDelay
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 515, Classic Platform R23-11)

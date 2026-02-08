@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DataFormatTailoring(ARObject):
@@ -10,7 +10,7 @@ class DataFormatTailoring(ARObject):
     This class collects all rules that tailor the AUTOSAR templates for a
     specific data exchange point.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::DataFormatTailoring
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 180, Foundation R23-11)

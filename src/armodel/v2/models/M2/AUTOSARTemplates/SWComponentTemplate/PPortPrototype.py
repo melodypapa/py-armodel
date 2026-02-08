@@ -9,7 +9,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     """
     Component port providing a certain port interface.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PPortPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform

@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -13,7 +16,7 @@ class AclObjectSet(ARElement):
     it is stereotyped by atpUri Def. Stereotypes: atpUriDef Table 11.2:
     AclObjectSet
 
-    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclObjectSet
+    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 383, Foundation

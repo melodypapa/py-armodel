@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementRef
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    SubElementRef,
+)
 
 
 class ImplementationDataTypeSubElementRef(SubElementRef):
@@ -7,7 +10,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
     This meta-class represents the specialization of SubElementMapping with
     respect to Implementation DataTypes.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ImplementationDataTypeSubElementRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform

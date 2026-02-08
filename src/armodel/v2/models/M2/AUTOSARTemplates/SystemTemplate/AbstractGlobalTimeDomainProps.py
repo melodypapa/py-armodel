@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AbstractGlobalTimeDomainProps(ARObject, ABC):
@@ -10,7 +10,7 @@ class AbstractGlobalTimeDomainProps(ARObject, ABC):
     This abstract class enables a GlobalTimeDomain to specify additional
     properties.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::AbstractGlobalTimeDomainProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 859, Classic Platform R23-11)

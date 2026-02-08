@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import TracedFailure
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    TracedFailure,
+)
+
 
 class RuntimeError(TracedFailure):
     """
     The reported failure is classified as runtime error.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::RuntimeError
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic

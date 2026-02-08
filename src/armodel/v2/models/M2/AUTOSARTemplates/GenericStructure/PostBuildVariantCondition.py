@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PostBuildVariantCondition(ARObject):
@@ -11,7 +11,7 @@ class PostBuildVariantCondition(ARObject):
     variation point. In other words binding can be represented by (criterion1 ==
     value1) && (condition2 == value2) ...
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCondition
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 614, Classic Platform

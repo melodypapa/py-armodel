@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -13,7 +16,7 @@ class PduActivationRoutingGroup(Identifiable):
     Group of Pdus that can be activated or deactivated for transmission over a
     socket connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::PduActivationRoutingGroup
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 488, Classic Platform R23-11)

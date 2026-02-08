@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ChapterModel(ARObject):
@@ -12,7 +12,7 @@ class ChapterModel(ARObject):
     chapter has content on three levels: 1. chapter content 2. topics 3.
     subchapters
 
-    Package: M2::MSR::Documentation::Chapters::ChapterModel
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 699, Classic Platform

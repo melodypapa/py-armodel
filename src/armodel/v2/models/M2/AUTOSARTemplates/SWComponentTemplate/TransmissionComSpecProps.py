@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TransmissionComSpecProps(ARObject):
@@ -10,7 +10,7 @@ class TransmissionComSpecProps(ARObject):
     This meta-class defines a set of transmission attributes which the
     application software is assumed to implement.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransmissionComSpecProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform

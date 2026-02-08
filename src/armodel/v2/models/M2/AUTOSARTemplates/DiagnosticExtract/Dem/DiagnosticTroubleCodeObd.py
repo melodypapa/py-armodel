@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticTroubleCode import DiagnosticTroubleCode
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticTroubleCode import (
+    DiagnosticTroubleCode,
+)
 
 
 class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     """
     This element is used to define OBD-relevant DTCs.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeObd
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 174, Classic Platform

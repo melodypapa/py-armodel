@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwDataDependency(ARObject):
@@ -14,7 +14,7 @@ class SwDataDependency(ARObject):
     this property describes how the "virtual variable" can be computed from the
     real ones (by the MCD system).
 
-    Package: M2::MSR::DataDictionary::DataDefProperties::SwDataDependency
+    Package: M2::MSR::DataDictionary::DataDefProperties
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 373, Classic Platform

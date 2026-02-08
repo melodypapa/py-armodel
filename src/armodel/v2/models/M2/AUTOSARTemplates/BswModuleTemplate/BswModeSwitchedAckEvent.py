@@ -13,7 +13,7 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
     acknowledged or an error occurs. The referenced mode group shall be provided
     by this module.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModeSwitchedAckEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 95, Classic

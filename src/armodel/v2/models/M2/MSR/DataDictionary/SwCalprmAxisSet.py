@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwCalprmAxisSet(ARObject):
@@ -10,7 +10,7 @@ class SwCalprmAxisSet(ARObject):
     This element specifies the input parameter axes (abscissas) of parameters
     (and variables, if these are used adaptively).
 
-    Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxisSet
+    Package: M2::MSR::DataDictionary::CalibrationParameter
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 351, Classic Platform

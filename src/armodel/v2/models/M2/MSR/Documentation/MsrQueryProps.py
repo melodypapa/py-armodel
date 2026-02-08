@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MsrQueryProps(ARObject):
@@ -11,7 +14,7 @@ class MsrQueryProps(ARObject):
     documentation text. The qualities of the result are determined by the
     context in which the query is used.
 
-    Package: M2::MSR::Documentation::MsrQuery::MsrQueryProps
+    Package: M2::MSR::Documentation::MsrQuery
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation

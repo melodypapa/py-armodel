@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucMultilineStringParamDef(ARObject):
@@ -8,7 +8,7 @@ class EcucMultilineStringParamDef(ARObject):
     Configuration parameter type for multiline Strings (including "carriage
     return").
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucMultilineStringParamDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 64, Classic Platform R23-11)

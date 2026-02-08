@@ -13,7 +13,7 @@ class MultilanguageReferrable(Referrable, ABC):
     not considered to contribute substantially to the overall structure of an
     AUTOSAR description. In particular it does not contain other Referrables.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::MultilanguageReferrable
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform

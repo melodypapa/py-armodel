@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescription import TDEventSwc
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescription import (
+    TDEventSwc,
+)
 
 
 class TDEventSwcInternalBehaviorReference(TDEventSwc):
@@ -7,7 +10,7 @@ class TDEventSwcInternalBehaviorReference(TDEventSwc):
     This is used to reference timing description events related to the Software
     Component (SW-C) view which are specified in other timing views.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventSwcInternalBehaviorReference
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 63, Classic Platform R23-11)

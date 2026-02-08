@@ -13,7 +13,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     datatype to a System Signal (only one element of the composite data type is
     mapped).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderReceiverCompositeElementToSignalMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 247, Classic Platform R23-11)

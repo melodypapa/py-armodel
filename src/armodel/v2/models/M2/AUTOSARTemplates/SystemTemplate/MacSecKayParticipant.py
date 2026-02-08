@@ -9,7 +9,7 @@ class MacSecKayParticipant(Identifiable):
     """
     This meta-class configures a MKA participant.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecKayParticipant
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)

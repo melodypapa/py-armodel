@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    PortInterface,
+)
 
 
 class DataInterface(PortInterface, ABC):
@@ -8,7 +11,7 @@ class DataInterface(PortInterface, ABC):
     subclasses that share the semantics of being concerned about data (as
     opposed to e.g. operations).
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::DataInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 310, Classic Platform

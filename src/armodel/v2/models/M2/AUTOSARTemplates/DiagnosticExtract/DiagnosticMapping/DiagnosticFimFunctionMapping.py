@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticSwMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticSwMapping,
+)
 
 
 class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
@@ -8,7 +11,7 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     function identifier (FID) and the corresponding SwcServiceDependency in the
     application software resp. basic software.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticFimFunctionMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 264, Classic Platform

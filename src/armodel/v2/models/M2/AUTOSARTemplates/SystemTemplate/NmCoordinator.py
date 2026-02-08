@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class NmCoordinator(ARObject):
@@ -12,7 +15,7 @@ class NmCoordinator(ARObject):
     busses (also referred to as coordinated busses) has to be performed
     synchronously.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmCoordinator
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 675, Classic Platform R23-11)

@@ -1,6 +1,12 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    AbstractEvent,
+)
 
 
 class BswEvent(AbstractEvent, ABC):
@@ -10,7 +16,7 @@ class BswEvent(AbstractEvent, ABC):
     module or cluster. The short name of the meta-class instance is intended as
     an input to configure the required API of the BSW Scheduler.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 87, Classic

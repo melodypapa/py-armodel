@@ -12,7 +12,7 @@ class SignalServiceTranslationElementProps(Identifiable):
     """
     Defined translation properties for individual mapped elements.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationElementProps
+    Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 735, Classic Platform R23-11)

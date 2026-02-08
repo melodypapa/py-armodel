@@ -5,7 +5,7 @@ class LabeledItem(Paginateable):
     """
     this represents an item of a labeled list.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::LabeledItem
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 296, Foundation

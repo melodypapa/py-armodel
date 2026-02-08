@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import TracedFailure
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    TracedFailure,
+)
+
 
 class DevelopmentError(TracedFailure):
     """
     The reported failure is classified as development error.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DevelopmentError
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic

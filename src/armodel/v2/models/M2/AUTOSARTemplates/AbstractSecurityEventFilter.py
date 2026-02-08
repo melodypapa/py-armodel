@@ -9,7 +9,7 @@ class AbstractSecurityEventFilter(Identifiable, ABC):
     """
     This meta-class acts as a base class for security event filters.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::AbstractSecurityEventFilter
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 21, Foundation R23-11)

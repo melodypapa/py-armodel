@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import GeneralAnnotation
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
+    GeneralAnnotation,
+)
 
 
 class ClientServerAnnotation(GeneralAnnotation):
     """
     Annotation to a port regarding a certain Operation.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ClientServerAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 155, Classic Platform

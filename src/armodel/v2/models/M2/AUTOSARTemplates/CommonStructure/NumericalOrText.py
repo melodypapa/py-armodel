@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class NumericalOrText(ARObject):
@@ -13,7 +13,7 @@ class NumericalOrText(ARObject):
     while other instances yield numerical depending on the resolution of the
     binding expression.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::NumericalOrText
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 323, Classic

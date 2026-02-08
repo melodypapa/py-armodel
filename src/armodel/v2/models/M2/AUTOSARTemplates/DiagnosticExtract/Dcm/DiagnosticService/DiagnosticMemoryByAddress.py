@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceInstance
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
 
 
 class DiagnosticMemoryByAddress(DiagnosticServiceInstance, ABC):
@@ -7,7 +10,7 @@ class DiagnosticMemoryByAddress(DiagnosticServiceInstance, ABC):
     This represents an abstract base class for diagnostic services that deal
     with accessing memory by address.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticMemoryByAddress
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 139, Classic Platform

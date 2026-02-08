@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class DoIpInterface(Identifiable):
     A logical interface over which the DoIP Node is able to communicate via DoIP
     independently from other existing DoIpInterfaces.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpInterface
+    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 551, Classic Platform R23-11)

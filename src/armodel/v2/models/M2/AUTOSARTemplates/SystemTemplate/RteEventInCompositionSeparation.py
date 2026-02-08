@@ -11,7 +11,7 @@ class RteEventInCompositionSeparation(Identifiable):
     a SwComposition. The referenced RteEvents are not allowed to be mapped into
     the same OsTask.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInCompositionSeparation
+    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 212, Classic Platform R23-11)

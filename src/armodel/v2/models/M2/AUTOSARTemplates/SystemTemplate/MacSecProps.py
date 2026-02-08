@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MacSecProps(ARObject):
@@ -10,7 +10,7 @@ class MacSecProps(ARObject):
     This meta-class allows to configure MACsec (Media access control security)
     and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 173, Classic Platform R23-11)

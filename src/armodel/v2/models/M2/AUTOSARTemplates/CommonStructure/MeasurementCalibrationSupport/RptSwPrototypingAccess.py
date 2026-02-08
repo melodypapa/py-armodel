@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RptSwPrototypingAccess(ARObject):
@@ -10,7 +10,7 @@ class RptSwPrototypingAccess(ARObject):
     Describes the accessibility of data and modes by the rapid prototyping
     tooling.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptSwPrototypingAccess
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 199, Classic

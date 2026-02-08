@@ -1,13 +1,19 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucIndexableValue
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucIndexableValue,
+)
 
 
 class EcucParameterValue(EcucIndexableValue, ABC):
     """
     Common class to all types of configuration values.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucParameterValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 124, Classic Platform R23-11)

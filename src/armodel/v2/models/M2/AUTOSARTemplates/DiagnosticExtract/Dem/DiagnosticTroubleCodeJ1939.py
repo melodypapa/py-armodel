@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticTroubleCode import DiagnosticTroubleCode
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticTroubleCode import (
+    DiagnosticTroubleCode,
+)
 
 
 class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
@@ -7,7 +10,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
     This meta-class represents the ability to model specific trouble-code
     related properties for J1939.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeJ1939
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 221, Classic Platform

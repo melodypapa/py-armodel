@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataPrototypeReference
@@ -16,7 +19,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     even if the AutosarDataPrototype is typed by an ImplementationDataType and
     even if that ImplementationDataType represents a composite data type.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::ImplementationDataTypeElementInPortInterfaceRef
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 789, Classic Platform R23-11)

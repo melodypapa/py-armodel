@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
@@ -9,7 +12,7 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
     allows for indicating that the CpSoftwareClusterResource is used to convey
     the calling or result return of the mapped DiagnosticRoutine.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterToDiagRoutineSubfunctionMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 274, Classic Platform

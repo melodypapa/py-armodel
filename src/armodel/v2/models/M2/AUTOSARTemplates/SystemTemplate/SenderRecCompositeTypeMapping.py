@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SenderRecCompositeTypeMapping(ARObject, ABC):
@@ -17,7 +17,7 @@ class SenderRecCompositeTypeMapping(ARObject, ABC):
     (aggregation between the ArrayElementMapping and CompositeType Mapping or
     aggregation between the RecordElementMapping and CompositeTypeMapping).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecCompositeTypeMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 235, Classic Platform R23-11)

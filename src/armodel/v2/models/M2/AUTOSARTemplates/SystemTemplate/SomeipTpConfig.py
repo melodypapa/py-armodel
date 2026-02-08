@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class SomeipTpConfig(TpConfig):
     """
     This element defines exactly one SOME/IP TP Configuration.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::SomeipTpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 619, Classic Platform R23-11)

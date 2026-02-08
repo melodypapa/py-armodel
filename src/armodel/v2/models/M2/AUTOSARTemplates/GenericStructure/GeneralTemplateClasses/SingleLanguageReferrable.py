@@ -15,7 +15,7 @@ class SingleLanguageReferrable(Referrable, ABC):
     considered to contribute substantially to the overall structure of an
     AUTOSAR description. In particular it does not contain other Referrables.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::SingleLanguageReferrable
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 64, Foundation R23-11)

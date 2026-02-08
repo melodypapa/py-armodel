@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class VariationPoint(ARObject):
@@ -23,7 +23,7 @@ class VariationPoint(ARObject):
     AUTOSAR_CP_TPS_ECUConfiguration Specification of ECU Configuration AUTOSAR
     CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::VariationPoint
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 315, Classic Platform R23-11)

@@ -10,7 +10,7 @@ class J1939SharedAddressCluster(Identifiable):
     This meta-class represents the ability to identify several J1939Clusters
     that share a common address space for the routing of messages
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::J1939SharedAddressCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 694, Classic Platform R23-11)

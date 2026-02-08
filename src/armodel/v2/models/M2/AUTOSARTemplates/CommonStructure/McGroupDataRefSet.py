@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class McGroupDataRefSet(ARObject):
@@ -15,7 +15,7 @@ class McGroupDataRefSet(ARObject):
     model may be used with various representation of the data. Tags:
     vh.latestBindingTime=preCompileTime
 
-    Package: M2::AUTOSARTemplates::CommonStructure::McGroups::McGroupDataRefSet
+    Package: M2::AUTOSARTemplates::CommonStructure::McGroups
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 191, Classic

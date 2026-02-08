@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractExternalReferenceDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractExternalReferenceDef,
+)
 
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
@@ -7,7 +10,7 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     Specify a reference to an XML description of an entity described in another
     AUTOSAR template using the INSTANCE REFERENCE semantics.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucInstanceReferenceDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 77, Classic Platform R23-11)

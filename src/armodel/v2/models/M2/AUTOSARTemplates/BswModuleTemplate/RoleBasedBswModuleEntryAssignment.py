@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RoleBasedBswModuleEntryAssignment(ARObject):
@@ -13,7 +13,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     able to create appropriate configuration values for the module that
     implements the AUTOSAR Service.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::RoleBasedBswModuleEntryAssignment
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 226, Classic

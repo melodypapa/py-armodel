@@ -1,12 +1,13 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SignalServiceTranslationPropsSet(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
     Represents a set of signal service translation properties in AUTOSAR.
     Defines a collection of signal service translation property sets.
     """

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import StackUsage
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import (
+    StackUsage,
+)
 
 
 class MeasuredStackUsage(StackUsage):
     """
     The stack usage has been measured.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::MeasuredStackUsage
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 150, Classic

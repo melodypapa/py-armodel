@@ -14,7 +14,7 @@ class UnassignFrameId(LinConfigurationEntry):
     reception/transmission of a previously dynamically assigned frame
     identifier.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::UnassignFrameId
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 436, Classic Platform R23-11)

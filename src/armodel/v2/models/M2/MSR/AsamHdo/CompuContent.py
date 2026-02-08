@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompuContent(ARObject, ABC):
@@ -10,7 +10,7 @@ class CompuContent(ARObject, ABC):
     This abstract meta-class represents the various definition means of a
     computation method.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuContent
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 386, Classic Platform

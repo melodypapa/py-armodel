@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractInternalReferenceDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractInternalReferenceDef,
+)
 
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
@@ -7,7 +10,7 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     Specify references within the ECU Configuration Description between
     parameter containers.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucReferenceDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 73, Classic Platform R23-11)

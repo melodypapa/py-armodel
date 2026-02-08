@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RunnableEntityInCompositionInstanceRef(ARObject):
@@ -10,7 +13,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
     This meta-class represents the ability to define an InstanceRef to a
     RunnableEntity in the context of a CompositionSwComponentType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::RunnableEntityInCompositionInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 956, Classic Platform

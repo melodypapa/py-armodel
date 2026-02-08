@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import BusMirrorChannelMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
+    BusMirrorChannelMapping,
+)
 
 
 class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
@@ -7,7 +10,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
     This element defines the bus mirroring between a CAN, LIN or FlexRay
     sourceChannel and a FlexRay targetChannel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannelMappingFlexray
+    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 704, Classic Platform R23-11)

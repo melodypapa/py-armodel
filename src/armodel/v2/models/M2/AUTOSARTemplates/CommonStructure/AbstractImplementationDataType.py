@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    AutosarDataType,
+)
 
 
 class AbstractImplementationDataType(AutosarDataType, ABC):
@@ -7,7 +10,7 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
     This meta-class represents an abstract base class for different flavors of
     ImplementationDataType.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::AbstractImplementationDataType
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 267, Classic Platform

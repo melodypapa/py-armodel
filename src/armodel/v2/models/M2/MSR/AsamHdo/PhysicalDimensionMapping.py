@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PhysicalDimensionMapping(ARObject):
     """
     This class represents a specific mapping between two PhysicalDimensions.
 
-    Package: M2::MSR::AsamHdo::Units::PhysicalDimensionMapping
+    Package: M2::MSR::AsamHdo::Units
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 399, Classic Platform

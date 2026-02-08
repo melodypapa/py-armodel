@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
 )
@@ -13,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataProt
 
 class Field(AutosarDataPrototype):
     """
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface
     This meta-class represents the ability to define a piece of data that can be
     accessed with read and/or write semantics. It is also possible to generate a
     notification if the value of the data changes.

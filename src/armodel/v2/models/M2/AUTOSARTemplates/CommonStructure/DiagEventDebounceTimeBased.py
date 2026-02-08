@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceAlgorithm
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagEventDebounceAlgorithm,
+)
 
 
 class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
@@ -9,7 +12,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     This is related to set the EcuC choice container DemDebounceAlgorithmClass
     to DemDebounceTime Base.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceTimeBased
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 260, Classic

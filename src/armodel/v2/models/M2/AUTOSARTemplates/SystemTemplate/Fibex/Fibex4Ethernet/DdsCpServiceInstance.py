@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import AbstractServiceInstance
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    AbstractServiceInstance,
+)
 
 
 class DdsCpServiceInstance(AbstractServiceInstance, ABC):
@@ -8,7 +11,7 @@ class DdsCpServiceInstance(AbstractServiceInstance, ABC):
     Provided and Consumed Dds Service Instances that are available at the
     ApplicationEndpoint.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpServiceInstance
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 472, Classic Platform R23-11)

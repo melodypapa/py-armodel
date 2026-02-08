@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractRequiredPortPrototype
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AbstractRequiredPortPrototype,
+)
 
 
 class RPortPrototype(AbstractRequiredPortPrototype):
     """
     Component port requiring a certain port interface.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::RPortPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 68, Classic Platform

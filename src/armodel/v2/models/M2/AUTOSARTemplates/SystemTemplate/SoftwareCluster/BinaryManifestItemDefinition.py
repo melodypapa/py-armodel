@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class BinaryManifestItemDefinition(Identifiable):
     This meta-class provides the ability to define the handle definition or an
     auxiliary field of a binary manifest resource.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItemDefinition
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 920, Classic Platform R23-11)

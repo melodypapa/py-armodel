@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
+
 
 class DiagnosticControlNeeds(DiagnosticCapabilityElement):
     """
     This meta-class indicates a service use-case for reporting the controlled
     status by diagnostic services.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticControlNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 812, Classic Platform

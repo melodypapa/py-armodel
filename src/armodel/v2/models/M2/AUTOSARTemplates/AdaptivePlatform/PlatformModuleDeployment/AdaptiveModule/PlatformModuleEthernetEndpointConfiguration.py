@@ -4,8 +4,8 @@ from typing import (
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
 )
@@ -17,6 +17,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class PlatformModuleEthernetEndpointConfiguration(ARElement):
     """
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule
     This meta-class defines the attributes for the configuration of a port,
     protocol type and IP address of the communication on a VLAN. Tags:
     atp.recommendedPackage=PlatformModuleEndpointConfigurations

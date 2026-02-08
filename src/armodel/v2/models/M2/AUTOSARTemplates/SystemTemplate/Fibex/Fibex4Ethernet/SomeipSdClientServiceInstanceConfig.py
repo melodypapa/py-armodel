@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class SomeipSdClientServiceInstanceConfig(ARElement):
@@ -7,7 +10,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
     Client specific settings that are relevant for the configuration of SOME/IP
     Service-Discovery.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdClientServiceInstanceConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2058, Classic Platform R23-11)

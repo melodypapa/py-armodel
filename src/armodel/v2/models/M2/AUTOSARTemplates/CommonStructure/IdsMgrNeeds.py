@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
 
 
 class IdsMgrNeeds(ServiceNeeds):
@@ -7,7 +10,7 @@ class IdsMgrNeeds(ServiceNeeds):
     This meta-class is used to indicate that the enclosing SwcServiceDependency
     represents a service use case for the Intrusion Detection System Manager.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IdsMgrNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 842, Classic Platform

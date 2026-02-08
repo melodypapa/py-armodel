@@ -7,7 +7,7 @@ class LifeCycleState(Identifiable):
     """
     This meta class represents one particular state in the LifeCycle.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleState
+    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 388, Foundation

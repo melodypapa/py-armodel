@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CommunicationController(ARObject, ABC):
@@ -12,7 +12,7 @@ class CommunicationController(ARObject, ABC):
     which hosts are sending frames to and receiving frames from the
     communication medium. Tags: vh.latestBindingTime=postBuild
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationController
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 53, Classic Platform R23-11)

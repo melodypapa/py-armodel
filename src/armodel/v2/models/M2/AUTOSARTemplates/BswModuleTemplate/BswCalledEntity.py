@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswModuleEntity,
+)
+
 
 class BswCalledEntity(BswModuleEntity):
     """
     BSW module entity which is designed to be called from another BSW module or
     cluster.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswCalledEntity
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 74, Classic

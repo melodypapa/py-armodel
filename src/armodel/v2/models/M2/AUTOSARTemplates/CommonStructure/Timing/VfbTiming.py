@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    TimingExtension,
+)
 
 
 class VfbTiming(TimingExtension):
@@ -8,7 +11,7 @@ class VfbTiming(TimingExtension):
     level. TimingDescriptions aggregated by VfbTiming are restricted to event
     chains referring to events which are derived from the class TDEventVfb.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::VfbTiming
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 24, Classic Platform R23-11)

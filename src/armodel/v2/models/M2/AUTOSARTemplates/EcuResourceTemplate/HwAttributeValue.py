@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class HwAttributeValue(ARObject):
@@ -10,7 +10,7 @@ class HwAttributeValue(ARObject):
     This metaclass represents the ability to assign a hardware attribute value.
     Note that v and vt are mutually exclusive.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeValue
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 16, Classic Platform

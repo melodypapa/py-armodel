@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -15,7 +18,7 @@ class PortPrototype(Identifiable, ABC):
     of PortPrototypes is subject to variability with the purpose to support the
     conditional existence of ports.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PortPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 326, Classic

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
@@ -7,7 +10,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     This meta-class represents the needs of a software-component to provide the
     capability to set an enable condition.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEnableConditionNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 762, Classic Platform

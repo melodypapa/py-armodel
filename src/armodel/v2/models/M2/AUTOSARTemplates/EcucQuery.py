@@ -9,7 +9,7 @@ class EcucQuery(Identifiable):
     """
     Defines a query to the ECUC Description.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQuery
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 89, Classic Platform R23-11)

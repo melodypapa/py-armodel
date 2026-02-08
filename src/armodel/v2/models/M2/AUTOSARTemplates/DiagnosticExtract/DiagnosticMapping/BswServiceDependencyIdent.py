@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    IdentCaption,
+)
+
 
 class BswServiceDependencyIdent(IdentCaption):
     """
@@ -7,7 +10,7 @@ class BswServiceDependencyIdent(IdentCaption):
     Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract
     Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::BswServiceDependencyIdent
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 239, Classic Platform

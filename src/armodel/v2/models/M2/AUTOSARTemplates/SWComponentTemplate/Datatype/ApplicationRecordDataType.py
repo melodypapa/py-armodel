@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationCompositeDataType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationCompositeDataType,
+)
 
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
@@ -7,7 +10,7 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     An application data type which can be decomposed into prototypes of other
     application data types.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationRecordDataType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 261, Classic Platform

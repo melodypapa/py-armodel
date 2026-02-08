@@ -5,7 +5,7 @@ class CompuConstFormulaContent(CompuConstContent):
     computation method is represented by a variation point. This difference is
     due to compatibility with ASAM HDO.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstFormulaContent
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 900, Classic Platform

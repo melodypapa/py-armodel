@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
     ARElement,
@@ -15,7 +18,7 @@ class Collection(ARElement):
     represents an association from "sourceElement" to "targetElement" in the
     role "role".
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection::Collection
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2009, Classic Platform R23-11)

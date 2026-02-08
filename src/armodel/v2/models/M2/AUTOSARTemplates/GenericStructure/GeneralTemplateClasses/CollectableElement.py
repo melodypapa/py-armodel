@@ -12,7 +12,7 @@ class CollectableElement(Identifiable, ABC):
     extended beyond CollectableElement with Revision 4.0.3. For compatibility
     reasons the name of this meta Class was not changed.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection::CollectableElement
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 399, Foundation

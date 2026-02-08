@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import IdsCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    IdsCommonElement,
+)
 
 
 class IdsMapping(IdsCommonElement, ABC):
@@ -7,7 +10,7 @@ class IdsMapping(IdsCommonElement, ABC):
     This meta-class serves as abstract base class for mappings related to an IDS
     design.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsMapping
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 62, Foundation R23-11)

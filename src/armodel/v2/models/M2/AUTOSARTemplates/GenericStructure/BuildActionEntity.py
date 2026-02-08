@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -12,7 +15,7 @@ class BuildActionEntity(Identifiable, ABC):
     which might be specialized to environments as well as to individual build
     actions.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionEntity
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 370, Foundation

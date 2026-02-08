@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,7 +15,7 @@ class BswDataReceptionPolicy(ARObject, ABC):
     communication over the BSW Scheduler. To be used for inter-partition and/or
     inter-core communication.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswDataReceptionPolicy
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 104, Classic

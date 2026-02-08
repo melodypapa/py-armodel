@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticPowertrainFreezeFrame(DiagnosticCommonElement):
@@ -8,7 +11,7 @@ class DiagnosticPowertrainFreezeFrame(DiagnosticCommonElement):
     this meta-class would need an additional id attribute. However, legal
     regulations requires only a single value for this attribute anyway.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze::DiagnosticPowertrainFreezeFrame
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 153, Classic Platform

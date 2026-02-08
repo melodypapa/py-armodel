@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class RapidPrototypingScenario(ARElement):
@@ -8,7 +14,7 @@ class RapidPrototypingScenario(ARElement):
     Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects,
     the description of the byPassPoints and the relation to an rpt Hook.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RapidPrototypingScenario
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 327, Classic

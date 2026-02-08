@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswScheduleEvent,
+)
 
 
 class BswTimingEvent(BswScheduleEvent):
     """
     A recurring BswEvent driven by a time period.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswTimingEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 88, Classic

@@ -12,7 +12,7 @@ class ParameterAccess(AbstractAccessPoint):
     The presence of a ParameterAccess implies that a RunnableEntity needs access
     to a ParameterData Prototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::ParameterAccess
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic

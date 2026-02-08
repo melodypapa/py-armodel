@@ -9,7 +9,7 @@ class SwitchStreamFilterEntry(Identifiable):
     """
     Defines a Stream Filter Entry.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterEntry
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 141, Classic Platform R23-11)

@@ -12,7 +12,7 @@ class BlueprintMappingSet(ARElement):
     This represents a container of mappings between "actual" model elements and
     the "blueprint" that has been taken for their creation.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping::BlueprintMappingSet
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 48, Foundation R23-11)

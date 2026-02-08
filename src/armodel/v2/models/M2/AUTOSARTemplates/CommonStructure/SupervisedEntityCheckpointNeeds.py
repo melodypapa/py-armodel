@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Watchdog Manager to
     support a Checkpoint for a Supervised Entity.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SupervisedEntityCheckpointNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 254, Classic

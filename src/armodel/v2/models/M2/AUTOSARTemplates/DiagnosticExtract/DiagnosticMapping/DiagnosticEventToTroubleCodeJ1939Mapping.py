@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
@@ -7,7 +10,7 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     By means of this meta-class it is possible to associate a DiagnosticEvent to
     a DiagnosticTroubleCode J1939.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticEventToTroubleCodeJ1939Mapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 269, Classic Platform

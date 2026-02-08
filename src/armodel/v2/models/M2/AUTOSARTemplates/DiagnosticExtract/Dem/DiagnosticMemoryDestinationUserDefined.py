@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticMemoryDestination import DiagnosticMemoryDestination
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticMemoryDestination import (
+    DiagnosticMemoryDestination,
+)
 
 
 class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     """
     This represents a user-defined memory for a diagnostic event.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination::DiagnosticMemoryDestinationUserDefined
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 184, Classic Platform

@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -14,7 +17,7 @@ class McGroup(ARElement):
     parameters, measurement variables, and functions in a hierarchical manner
     (subGroups).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::McGroups::McGroup
+    Package: M2::AUTOSARTemplates::CommonStructure::McGroups
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 190, Classic

@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmNode,
+)
+
 
 class FlexrayNmNode(NmNode):
     """
     FlexRay specific NM Node attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmNode
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)

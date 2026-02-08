@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgAbstractPrimitiveAttribute
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgAbstractPrimitiveAttribute,
+)
+
 
 class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
     """
     Describes a primitive numerical special data attribute with variation. This
     class accepts a special data "sdf" element.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgPrimitiveAttributeWithVariation
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CpSoftwareClusterResourcePool(ARElement):
@@ -7,7 +10,7 @@ class CpSoftwareClusterResourcePool(ARElement):
     Represents the pool of resources which can be provided or required by CP
     Software Clusters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterResourcePool
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 901, Classic Platform R23-11)

@@ -2,15 +2,15 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DataPrototypeReference(ARObject, ABC):
     """
     This meta-class provides the ability to reference a DataPrototype.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeReference
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 787, Classic Platform R23-11)

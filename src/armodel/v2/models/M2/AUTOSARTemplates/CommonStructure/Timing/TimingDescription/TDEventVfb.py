@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+)
 
 
 class TDEventVfb(TimingDescriptionEvent, ABC):
@@ -8,7 +11,7 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
     This is the abstract parent class to describe timing events at Virtual
     Functional Bus (VFB) level.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVfb
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 51, Classic Platform R23-11)

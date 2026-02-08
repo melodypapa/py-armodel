@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PhysConstrs(ARObject):
@@ -10,7 +13,7 @@ class PhysConstrs(ARObject):
     This meta-class represents the ability to express physical constraints.
     Therefore it has (in opposite to InternalConstrs) a reference to a Unit.
 
-    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::PhysConstrs
+    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 406, Classic Platform

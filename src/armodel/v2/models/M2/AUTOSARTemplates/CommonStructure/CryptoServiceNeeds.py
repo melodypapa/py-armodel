@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
 
 
 class CryptoServiceNeeds(ServiceNeeds):
@@ -9,7 +12,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     is used to find out which ports of a software-component belong to this
     ConfigID.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::CryptoServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic

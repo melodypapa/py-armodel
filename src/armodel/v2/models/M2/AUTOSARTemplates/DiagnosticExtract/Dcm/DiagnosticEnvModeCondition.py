@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import DiagnosticEnvCompareCondition
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import (
+    DiagnosticEnvCompareCondition,
+)
 
 
 class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
@@ -13,7 +16,7 @@ class DiagnosticEnvModeCondition(DiagnosticEnvCompareCondition):
     DiagnosticCompareTypeEnum.isNotEqual are eligible values for
     DiagnosticAtomicCondition.compareType.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvModeCondition
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 88, Classic Platform

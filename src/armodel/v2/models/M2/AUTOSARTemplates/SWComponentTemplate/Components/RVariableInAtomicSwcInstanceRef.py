@@ -10,7 +10,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.Instan
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     """
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::RVariableInAtomicSwcInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 943, Classic Platform

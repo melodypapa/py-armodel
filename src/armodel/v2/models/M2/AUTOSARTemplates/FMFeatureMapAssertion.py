@@ -11,7 +11,7 @@ class FMFeatureMapAssertion(Identifiable):
     to become active. The expression is a formula that is based on features and
     system constants, and is defined by fmSyscond.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMapAssertion
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 55, Foundation

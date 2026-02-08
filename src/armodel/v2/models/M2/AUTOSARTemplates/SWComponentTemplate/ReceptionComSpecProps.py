@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ReceptionComSpecProps(ARObject):
@@ -10,7 +10,7 @@ class ReceptionComSpecProps(ARObject):
     This meta-class defines a set of reception attributes which the application
     software is assumed to implement.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ReceptionComSpecProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 174, Classic Platform

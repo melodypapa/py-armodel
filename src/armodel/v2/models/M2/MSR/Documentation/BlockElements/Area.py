@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Area(ARObject):
@@ -12,7 +12,7 @@ class Area(ARObject):
     activity to each region (e.g. load a document, launch a program etc.). For
     more details refer to the specification of HTML.
 
-    Package: M2::MSR::Documentation::BlockElements::Figure::Area
+    Package: M2::MSR::Documentation::BlockElements::Figure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 299, Foundation

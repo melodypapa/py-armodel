@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ValueGroup(ARObject):
@@ -11,7 +11,7 @@ class ValueGroup(ARObject):
     column-orientated groupings, so that these can be rendered properly e.g. as
     a table.
 
-    Package: M2::MSR::CalibrationData::CalibrationValue::ValueGroup
+    Package: M2::MSR::CalibrationData::CalibrationValue
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 458, Classic Platform

@@ -8,8 +8,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploy
     CryptoKeySlotContent,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -22,6 +22,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class CryptoKeySlot(Identifiable):
     """
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment
     This meta-class represents the ability to define a concrete key to be used
     for a crypto operation. Tags: atp.ManifestKind=MachineManifest
 

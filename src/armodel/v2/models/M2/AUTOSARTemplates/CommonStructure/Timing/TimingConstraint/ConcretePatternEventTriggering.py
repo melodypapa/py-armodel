@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import EventTriggeringConstraint
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    EventTriggeringConstraint,
+)
 
 
 class ConcretePatternEventTriggering(EventTriggeringConstraint):
@@ -7,7 +13,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     Describes the behavior of an event that occurs according to a precisely
     known pattern.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::ConcretePatternEventTriggering
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 106, Classic Platform R23-11)

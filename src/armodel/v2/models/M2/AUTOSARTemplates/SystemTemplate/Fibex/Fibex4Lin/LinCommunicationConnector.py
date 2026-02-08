@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationConnector,
+)
 
 
 class LinCommunicationConnector(CommunicationConnector):
     """
     LIN bus specific communication connector attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinCommunicationConnector
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 98, Classic Platform R23-11)

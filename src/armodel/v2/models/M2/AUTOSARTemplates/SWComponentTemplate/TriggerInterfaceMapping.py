@@ -12,7 +12,7 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
     Defines the mapping of unequal named Triggers in context of two different
     TriggerInterfaces.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TriggerInterfaceMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 134, Classic Platform

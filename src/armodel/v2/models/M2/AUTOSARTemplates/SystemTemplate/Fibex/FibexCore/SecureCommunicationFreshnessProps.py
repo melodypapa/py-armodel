@@ -9,7 +9,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
     """
     Freshness properties used to configure SecuredIPdus.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationFreshnessProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 370, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CanControllerFdConfiguration(ARObject):
@@ -10,7 +10,7 @@ class CanControllerFdConfiguration(ARObject):
     Bit timing related configuration of a CAN controller for payload and CRC of
     a CAN FD frame.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerFdConfiguration
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 66, Classic Platform R23-11)

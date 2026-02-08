@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompositeRuleBasedValueArgument(ARObject, ABC):
@@ -10,7 +10,7 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
     This meta-class has the ability to serve as the abstract base class for
     ValueSpecifications that can be used for compound primitive data types.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::CompositeRuleBasedValueArgument
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 473, Classic Platform

@@ -5,7 +5,7 @@ class Std(SingleLanguageReferrable):
     """
     This represents a reference to external standards.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::Std
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 318, Foundation

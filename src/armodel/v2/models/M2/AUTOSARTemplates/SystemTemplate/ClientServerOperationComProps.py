@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterCommunicationResourceProps
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareClusterCommunicationResourceProps,
+)
 
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
@@ -7,7 +10,7 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
     Defines additional attributes for the implementation of Client Server
     communication between software clusters
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::ClientServerOperationComProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)

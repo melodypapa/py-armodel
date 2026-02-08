@@ -10,7 +10,7 @@ class ModeDeclaration(Identifiable):
     Declaration of one Mode. The name and semantics of a specific mode is not
     defined in the meta-model.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeDeclaration
+    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 43, Classic

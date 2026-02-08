@@ -9,7 +9,7 @@ class VlanConfig(Identifiable):
     """
     VLAN Configuration attributes
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::VlanConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 106, Classic Platform R23-11)

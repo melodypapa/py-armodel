@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SubElementRef(ARObject, ABC):
@@ -10,7 +10,7 @@ class SubElementRef(ARObject, ABC):
     This meta-class provides the ability to reference elements of composite data
     type.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SubElementRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform

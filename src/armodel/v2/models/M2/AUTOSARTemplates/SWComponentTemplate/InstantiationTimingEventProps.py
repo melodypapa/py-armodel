@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import InstantiationRTEEventProps
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    InstantiationRTEEventProps,
+)
 
 
 class InstantiationTimingEventProps(InstantiationRTEEventProps):
@@ -8,7 +11,7 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
     particular instances of a software component. This approach supports an
     instance specific timing.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstantiationTimingEventProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 85, Classic Platform

@@ -7,7 +7,7 @@ class CompuConstNumericContent(CompuConstContent):
     computation method is a numerical value. It is separated from
     CompuConstFormulaContent to support compatibility with ASAM HDO.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstNumericContent
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 389, Classic Platform

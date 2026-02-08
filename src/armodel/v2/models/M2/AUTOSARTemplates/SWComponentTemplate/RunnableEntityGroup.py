@@ -13,7 +13,7 @@ class RunnableEntityGroup(Identifiable):
     This meta-class represents the ability to define a collection of
     RunnableEntities. The collection can be nested.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::RunnableEntityGroup
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 222, Classic Platform

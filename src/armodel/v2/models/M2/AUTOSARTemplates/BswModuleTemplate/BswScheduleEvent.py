@@ -1,12 +1,15 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswEvent,
+)
 
 
 class BswScheduleEvent(BswEvent, ABC):
     """
     BswEvent that is able to start a BswSchedulabeEntity.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswScheduleEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 88, Classic

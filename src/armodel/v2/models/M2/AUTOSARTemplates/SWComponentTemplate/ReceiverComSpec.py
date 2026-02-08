@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec
@@ -35,7 +38,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
     AUTOSAR_CP_TPS_SoftwareComponentTemplate Software Component Template AUTOSAR
     CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ReceiverComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 170, Classic Platform

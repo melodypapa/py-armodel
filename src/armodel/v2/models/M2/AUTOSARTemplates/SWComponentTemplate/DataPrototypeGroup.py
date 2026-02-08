@@ -14,7 +14,7 @@ class DataPrototypeGroup(Identifiable):
     DataPrototypes that are subject to the formal definition of implicit
     communication behavior. The definition of the collection can be nested.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::DataPrototypeGroup
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 223, Classic Platform

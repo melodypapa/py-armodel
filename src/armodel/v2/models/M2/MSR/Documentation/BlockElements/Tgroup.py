@@ -1,15 +1,18 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Tgroup(ARObject):
     """
     This meta-class represents the ability to denote a table section.
 
-    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Tgroup
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 334, Foundation

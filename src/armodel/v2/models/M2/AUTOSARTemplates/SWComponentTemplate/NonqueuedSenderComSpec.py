@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import SenderComSpec
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    SenderComSpec,
+)
 
 
 class NonqueuedSenderComSpec(SenderComSpec):
@@ -7,7 +10,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
     Communication attributes for non-queued sender/receiver communication
     (sender side)
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NonqueuedSenderComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class InterpolationRoutineMappingSet(ARElement):
@@ -8,7 +11,7 @@ class InterpolationRoutineMappingSet(ARElement):
     429 of 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate
     Software Component Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine::InterpolationRoutineMappingSet
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 429, Classic Platform

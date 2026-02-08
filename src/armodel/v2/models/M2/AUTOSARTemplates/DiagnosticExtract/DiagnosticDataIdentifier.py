@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticAbstractDataIdentifier
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticAbstractDataIdentifier,
+)
 
 
 class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
@@ -9,7 +15,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
     (cid:53) 33 of 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate
     Diagnostic Extract Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDataIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 33, Classic Platform

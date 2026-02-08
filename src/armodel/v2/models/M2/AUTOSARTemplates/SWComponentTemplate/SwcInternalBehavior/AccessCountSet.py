@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AccessCountSet(ARObject):
@@ -10,7 +13,7 @@ class AccessCountSet(ARObject):
     This meta-class provides a set of count values evaluated according to the
     rules of a specific countProfile.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount::AccessCountSet
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 57, Classic

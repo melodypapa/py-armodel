@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -9,7 +12,7 @@ class EcucValidationCondition(Identifiable):
     """
     Validation condition to perform a formula calculation based on EcucQueries.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucValidationCondition
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 103, Classic Platform R23-11)

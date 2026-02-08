@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import StackUsage
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import (
+    StackUsage,
+)
 
 
 class RoughEstimateStackUsage(StackUsage):
     """
     Rough estimation of the stack usage.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::RoughEstimateStackUsage
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 151, Classic

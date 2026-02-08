@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CryptoEllipticCurveProps(ARElement):
@@ -7,7 +10,7 @@ class CryptoEllipticCurveProps(ARElement):
     This meta-class provides attributes to specify the properties of elliptic
     curves.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoEllipticCurveProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 564, Classic Platform R23-11)

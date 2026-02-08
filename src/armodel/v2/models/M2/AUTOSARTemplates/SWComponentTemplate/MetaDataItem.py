@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MetaDataItem(ARObject):
     """
     This meta-class represents a single meta-data item.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::MetaDataItem
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 98, Classic Platform

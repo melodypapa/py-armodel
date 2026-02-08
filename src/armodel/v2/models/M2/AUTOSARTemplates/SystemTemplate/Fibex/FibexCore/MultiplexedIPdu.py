@@ -1,5 +1,11 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import IPdu
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    IPdu,
+)
 
 
 class MultiplexedIPdu(IPdu):
@@ -32,7 +38,7 @@ class MultiplexedIPdu(IPdu):
     0..1. (cid:53) 409 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate
     System Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::MultiplexedIPdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 408, Classic Platform R23-11)

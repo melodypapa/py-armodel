@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwBitRepresentation(ARObject):
@@ -12,7 +12,7 @@ class SwBitRepresentation(ARObject):
     swBitRepresentation) and the numberOfBits . In this way, interrelated memory
     areas can be described. Non-related memory areas are not supported.
 
-    Package: M2::MSR::DataDictionary::DataDefProperties::SwBitRepresentation
+    Package: M2::MSR::DataDictionary::DataDefProperties
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 333, Classic Platform

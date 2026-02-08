@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceClass
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceClass,
+)
+
 
 class DiagnosticRequestOnBoardMonitoringTestResultsClass(DiagnosticServiceClass):
     """
@@ -6,7 +9,7 @@ class DiagnosticRequestOnBoardMonitoringTestResultsClass(DiagnosticServiceClass)
     instances of the "Request On-Board Monitoring Test Results" OBD diagnostic
     service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard::DiagnosticRequestOnBoardMonitoringTestResultsClass
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x06_RequestOnBoard
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 156, Classic Platform

@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswModuleEntity,
+)
+
 
 class BswSchedulableEntity(BswModuleEntity):
     """
     BSW module entity, which is designed for control by the BSW Scheduler. It
     may for example implement a so-called "main" function.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswSchedulableEntity
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 75, Classic

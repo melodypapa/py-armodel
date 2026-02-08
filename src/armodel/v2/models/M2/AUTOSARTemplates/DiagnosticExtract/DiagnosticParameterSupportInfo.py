@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DiagnosticParameterSupportInfo(ARObject):
@@ -10,7 +10,7 @@ class DiagnosticParameterSupportInfo(ARObject):
     This represents a way to define which bit of the supportInfo is representing
     this part of the PID
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterSupportInfo
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 149, Classic Platform

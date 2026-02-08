@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import BinaryManifestResource
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import (
+    BinaryManifestResource,
+)
 
 
 class BinaryManifestProvideResource(BinaryManifestResource):
     """
     This meta-class represents a provided resource in the binary manifest.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestProvideResource
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 914, Classic Platform R23-11)

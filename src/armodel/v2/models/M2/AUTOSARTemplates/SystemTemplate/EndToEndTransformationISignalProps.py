@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EndToEndTransformationISignalProps(ARObject):
     """
     Holds all the ISignal specific attributes for the EndToEndTransformer.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationISignalProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 808, Classic Platform R23-11)

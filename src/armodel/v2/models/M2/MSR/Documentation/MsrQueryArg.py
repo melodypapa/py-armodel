@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MsrQueryArg(ARObject):
@@ -8,7 +8,7 @@ class MsrQueryArg(ARObject):
     This represents an argument to the query. Note that the arguments are not
     standardized and therefore subject to mutual agreement.
 
-    Package: M2::MSR::Documentation::MsrQuery::MsrQueryArg
+    Package: M2::MSR::Documentation::MsrQuery
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation

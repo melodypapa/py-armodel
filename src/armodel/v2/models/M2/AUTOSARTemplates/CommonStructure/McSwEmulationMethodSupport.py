@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -23,7 +26,7 @@ class McSwEmulationMethodSupport(ARObject):
     needed in these cases. Likewise, for double pointered method the reference
     table description can be accessed via the M1 model under baseReference.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McSwEmulationMethodSupport
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 180, Classic

@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ConditionByFormula(ARObject):
@@ -11,7 +11,7 @@ class ConditionByFormula(ARObject):
     a condition. • "0" represents "false"; • a value other than zero is
     considered "true"
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::ConditionByFormula
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 613, Classic Platform

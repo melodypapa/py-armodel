@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class IncludedDataTypeSet(ARObject):
@@ -16,7 +19,7 @@ class IncludedDataTypeSet(ARObject):
     literalPrefix is used to add a common prefix on enumeration literals,
     lowerLimit and upper Limit constants created by the RTE.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes::IncludedDataTypeSet
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 600, Classic Platform

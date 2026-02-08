@@ -9,7 +9,7 @@ class SwComponentPrototype(Identifiable):
     """
     Role of a software component within a composition.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::SwComponentPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 330, Classic Platform

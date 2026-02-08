@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ChapterContent(ARObject):
@@ -11,7 +11,7 @@ class ChapterContent(ARObject):
     basically the same as the one in a Topic but might have additional complex
     structures (e.g. Synopsis)
 
-    Package: M2::MSR::Documentation::Chapters::ChapterContent
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 330, Foundation

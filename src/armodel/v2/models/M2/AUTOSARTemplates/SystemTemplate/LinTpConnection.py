@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    TpConnection,
+)
 
 
 class LinTpConnection(TpConnection):
@@ -11,7 +17,7 @@ class LinTpConnection(TpConnection):
     to address one or more of its Lin Slaves. To support this an arbitrary
     number of LinTp Connections shall be described.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::LinTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 615, Classic Platform R23-11)

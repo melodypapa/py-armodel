@@ -9,7 +9,7 @@ class TransformationTechnology(Identifiable):
     """
     A TransformationTechnology is a transformer inside a transformer chain.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationTechnology
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 198, Classic Platform

@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescription
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescription,
+)
 
 
 class TimingDescriptionEventChain(TimingDescription):
@@ -10,7 +16,7 @@ class TimingDescriptionEventChain(TimingDescription):
     hierarchically decomposed into an arbitrary number of sub-chains, so called
     event chain segments.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEventChain
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 40, Classic Platform R23-11)

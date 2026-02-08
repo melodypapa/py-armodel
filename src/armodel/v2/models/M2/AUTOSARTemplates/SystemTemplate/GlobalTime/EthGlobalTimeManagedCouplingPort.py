@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EthGlobalTimeManagedCouplingPort(ARObject):
     """
     Specifies a CouplingPort which is managed by an Ethernet Global Time Domain.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthGlobalTimeManagedCouplingPort
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 874, Classic Platform R23-11)

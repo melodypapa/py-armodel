@@ -9,7 +9,7 @@ class FibexElement(PackageableElement, ABC):
     """
     ASAM FIBEX elements specifying Communication and Topology.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::FibexElement
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2026, Classic Platform R23-11)

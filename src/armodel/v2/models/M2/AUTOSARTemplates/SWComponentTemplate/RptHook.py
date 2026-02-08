@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RptHook(ARObject):
@@ -11,7 +14,7 @@ class RptHook(ARObject):
     This can either be described by an other AUTOSAR system with the category
     RPT_SYSTEM or as a non AUTOSAR software.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptHook
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 848, Classic Platform

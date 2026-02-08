@@ -5,7 +5,7 @@ class DataConstr(ARElement):
     """
     This meta-class represents the ability to specify constraints on data.
 
-    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::DataConstr
+    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 310, Classic Platform

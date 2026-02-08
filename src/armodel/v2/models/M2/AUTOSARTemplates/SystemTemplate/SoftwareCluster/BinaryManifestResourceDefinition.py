@@ -11,7 +11,7 @@ class BinaryManifestResourceDefinition(Identifiable):
     provides information that can be shared by all resources that refer to the
     respective resource definition.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestResourceDefinition
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 917, Classic Platform R23-11)

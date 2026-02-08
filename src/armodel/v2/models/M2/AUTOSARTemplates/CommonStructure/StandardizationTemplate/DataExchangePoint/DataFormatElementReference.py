@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import SpecElementReference
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    SpecElementReference,
+)
 
 
 class DataFormatElementReference(SpecElementReference, ABC):
@@ -8,7 +11,7 @@ class DataFormatElementReference(SpecElementReference, ABC):
     impact on the data exchange format (Meta-Classes, Meta-Attributes,
     constraints, SdgDefs)
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::DataFormatElementReference
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 91, Foundation R23-11)

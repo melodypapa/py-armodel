@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    IdentCaption,
+)
+
 
 class ExternalTriggeringPointIdent(IdentCaption):
     """
@@ -6,7 +9,7 @@ class ExternalTriggeringPointIdent(IdentCaption):
     referenced into the meta-class ExternalTriggeringPoint without breaking
     backwards compatibility.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::ExternalTriggeringPointIdent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmNode,
+)
 
 
 class UdpNmNode(NmNode):
     """
     Udp specific NM Node attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmNode
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 688, Classic Platform R23-11)

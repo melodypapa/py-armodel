@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ class Xref(ARObject):
     """
     This represents a cross-reference within documentation.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xref
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 320, Foundation

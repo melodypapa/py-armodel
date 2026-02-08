@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import ExecutionTime
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
+    ExecutionTime,
+)
 
 
 class MeasuredExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using measurement means.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::MeasuredExecutionTime
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 166, Classic

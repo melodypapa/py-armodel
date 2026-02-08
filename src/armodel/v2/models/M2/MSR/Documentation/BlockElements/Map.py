@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Map(ARObject):
@@ -13,7 +13,7 @@ class Map(ARObject):
     executed. The class follows the html approach and is intended to support
     interactive documents.
 
-    Package: M2::MSR::Documentation::BlockElements::Figure::Map
+    Package: M2::MSR::Documentation::BlockElements::Figure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 305, Foundation

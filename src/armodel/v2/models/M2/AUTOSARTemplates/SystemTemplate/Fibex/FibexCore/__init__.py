@@ -2,11 +2,79 @@
 V2 M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore package.
 """
 
-from .CoreCommunication import *
-from .CoreTopology import *
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommunicationDirectionType,
+    ContainedIPduCollectionSemanticsEnum,
+    ContainedIPduProps,
+    ContainerIPdu,
+    ContainerIPduHeaderTypeEnum,
+    ContainerIPduTriggerEnum,
+    DcmIPdu,
+    DiagPduType,
+    DynamicPart,
+    DynamicPartAlternative,
+    Frame,
+    FramePort,
+    FrameTriggering,
+    GeneralPurposeIPdu,
+    GeneralPurposePdu,
+    IPdu,
+    IPduPort,
+    IPduSignalProcessingEnum,
+    IPduTiming,
+    ISignal,
+    ISignalGroup,
+    ISignalIPdu,
+    ISignalIPduGroup,
+    ISignalPort,
+    ISignalProps,
+    ISignalToIPduMapping,
+    ISignalTriggering,
+    ISignalTypeEnum,
+    J1939DcmIPdu,
+    MultiplexedIPdu,
+    MultiplexedPart,
+    NmPdu,
+    NPdu,
+    Pdu,
+    PdurIPduGroup,
+    PduToFrameMapping,
+    PduTriggering,
+    RxAcceptContainedIPduEnum,
+    SecureCommunicationAuthenticationProps,
+    SecureCommunicationFreshnessProps,
+    SecureCommunicationProps,
+    SecureCommunicationPropsSet,
+    SecuredIPdu,
+    SecuredPduHeaderEnum,
+    SegmentPosition,
+    StaticPart,
+    SystemSignal,
+    SystemSignalGroup,
+    TransferPropertyEnum,
+    TriggerMode,
+    UserDefinedIPdu,
+    UserDefinedPdu,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    ClientIdRange,
+    CommConnectorPort,
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
+    CommunicationCycle,
+    CycleCounter,
+    CycleRepetition,
+    CycleRepetitionType,
+    EcuInstance,
+    PhysicalChannel,
+    PncGatewayTypeEnum,
+)
 
 # Classes:
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexElement import FibexElement
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexElement import (
+    FibexElement,
+)
 
 __all__ = [
     # .CoreCommunication.*,

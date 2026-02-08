@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
@@ -15,7 +18,7 @@ class CompositionSwComponentType(SwComponentType):
     of the CompositionSwComponentType. By this means, a hierarchical structures
     of software-components can be created.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::CompositionSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 307, Classic Platform

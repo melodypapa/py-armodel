@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucAbstractStringParamDef(ARObject, ABC):
@@ -13,7 +13,7 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags:
     vh.latestBindingTime=codeGenerationTime
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractStringParamDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 63, Classic Platform R23-11)

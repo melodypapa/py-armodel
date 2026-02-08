@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CanControllerXlConfiguration(ARObject):
     """
     This meta-class represents the CAN XL-specific controller attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerXlConfiguration
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 70, Classic Platform R23-11)

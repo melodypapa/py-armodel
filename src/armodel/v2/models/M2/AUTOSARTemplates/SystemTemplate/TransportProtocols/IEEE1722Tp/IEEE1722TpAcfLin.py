@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import IEEE1722TpAcfBus
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAcf import (
+    IEEE1722TpAcfBus,
+)
 
 
 class IEEE1722TpAcfLin(IEEE1722TpAcfBus):
     """
     ACF IEEE1722Tp bus used for LIN transport.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfLin
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 666, Classic Platform R23-11)

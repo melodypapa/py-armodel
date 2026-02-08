@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    IdentCaption,
+)
 
 
 class DiagnosticParameterIdent(IdentCaption):
@@ -8,7 +11,7 @@ class DiagnosticParameterIdent(IdentCaption):
     referenced into the meta-class AbstractDiagnosticParameter without breaking
     backwards compatibility.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterIdent
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 37, Classic Platform

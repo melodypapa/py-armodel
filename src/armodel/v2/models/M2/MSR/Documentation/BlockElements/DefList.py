@@ -5,7 +5,7 @@ class DefList(Paginateable):
     Note that a definition list might be rendered similar to a labeled list but
     has a particular semantics to denote definitions.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::DefList
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 297, Foundation

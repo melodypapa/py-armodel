@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterCommunicationResourceProps
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareClusterCommunicationResourceProps,
+)
 
 
 class DataComProps(CpSoftwareClusterCommunicationResourceProps):
@@ -7,7 +10,7 @@ class DataComProps(CpSoftwareClusterCommunicationResourceProps):
     Represents a single resource required or provided by a CP Software Cluster
     which relates to the port based communication on VFB level.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::DataComProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)

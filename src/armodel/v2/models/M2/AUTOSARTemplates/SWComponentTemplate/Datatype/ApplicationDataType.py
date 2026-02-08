@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    AutosarDataType,
+)
 
 
 class ApplicationDataType(AutosarDataType, ABC):
@@ -12,7 +15,7 @@ class ApplicationDataType(AutosarDataType, ABC):
     application level aspects of a VFB system by using ApplicationData Types
     only.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationDataType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 302, Classic

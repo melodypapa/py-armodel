@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeSlave
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeSlave,
+)
 
 
 class GlobalTimeEthSlave(GlobalTimeSlave):
@@ -7,7 +10,7 @@ class GlobalTimeEthSlave(GlobalTimeSlave):
     This represents the specialization of the GlobalTimeSlave for Ethernet
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::GlobalTimeEthSlave
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 867, Classic Platform R23-11)

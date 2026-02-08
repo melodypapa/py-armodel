@@ -7,7 +7,7 @@ class MultiLanguageVerbatim(Paginateable):
     white-space is maintained. When Verbatim is rendered in PDF or Online media,
     white-space is obeyed. Blanks are rendered as well as newline characters.
 
-    Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguageVerbatim
+    Package: M2::MSR::Documentation::TextModel::MultilanguageData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 291, Foundation

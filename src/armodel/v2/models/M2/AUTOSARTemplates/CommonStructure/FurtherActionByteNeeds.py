@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DoIpServiceNeeds,
+)
+
 
 class FurtherActionByteNeeds(DoIpServiceNeeds):
     """
     The FurtherActionByteNeeds indicates that the software-component is able to
     provide the "further action byte" to the DoIp Service Component.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FurtherActionByteNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 812, Classic Platform

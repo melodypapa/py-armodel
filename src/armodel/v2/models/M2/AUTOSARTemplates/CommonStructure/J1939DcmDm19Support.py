@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class J1939DcmDm19Support(ServiceNeeds):
     """
     The software-component provides information about calibration verification
     numbers for inclusion in DM19
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939DcmDm19Support
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 831, Classic Platform

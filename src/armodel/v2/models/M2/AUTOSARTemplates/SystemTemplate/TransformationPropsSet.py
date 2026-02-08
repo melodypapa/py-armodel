@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class TransformationPropsSet(ARElement):
     """
     Collection of TransformationProps.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationPropsSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 782, Classic Platform R23-11)

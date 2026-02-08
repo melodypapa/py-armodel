@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class FlexrayArTpConfig(TpConfig):
@@ -8,7 +11,7 @@ class FlexrayArTpConfig(TpConfig):
     FlexrayArTpConfig element shall be created for each FlexRay Network in the
     System that uses Flex Ray Autosar TP.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayArTpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 599, Classic Platform R23-11)

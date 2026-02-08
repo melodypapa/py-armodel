@@ -1,12 +1,13 @@
 from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class McSwEmulationMethodSupport(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
     Represents MC (Measurement and Calibration) software emulation method support in AUTOSAR.
     Defines support for software emulation methods in measurement and calibration.
     """

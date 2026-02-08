@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class AclOperation(ARElement):
@@ -7,7 +10,7 @@ class AclOperation(ARElement):
     This meta class represents the ability to denote a particular operation
     which may be performed on objects in an AUTOSAR model.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclOperation
+    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 384, Foundation

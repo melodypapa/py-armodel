@@ -10,7 +10,7 @@ class SomeipTpChannel(Identifiable):
     This element is used to assign properties to SomeipTpConnections that are
     referencing this SomeipTp Channel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::SomeipTpChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 620, Classic Platform R23-11)

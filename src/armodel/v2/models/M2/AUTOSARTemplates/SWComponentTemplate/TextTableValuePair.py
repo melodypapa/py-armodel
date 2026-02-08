@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TextTableValuePair(ARObject):
     """
     Defines a pair of text values which are translated into each other.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TextTableValuePair
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 146, Classic Platform

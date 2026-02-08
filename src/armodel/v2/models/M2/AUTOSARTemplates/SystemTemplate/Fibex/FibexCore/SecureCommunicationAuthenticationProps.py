@@ -9,7 +9,7 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     """
     Authentication properties used to configure SecuredIPdus.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationAuthenticationProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 371, Classic Platform R23-11)

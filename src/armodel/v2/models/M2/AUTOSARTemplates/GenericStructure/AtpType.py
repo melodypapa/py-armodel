@@ -10,7 +10,7 @@ class AtpType(Identifiable, ABC):
     A type is a classifier that may serve to type prototypes. It is a reusable
     classifier.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpType
+    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation

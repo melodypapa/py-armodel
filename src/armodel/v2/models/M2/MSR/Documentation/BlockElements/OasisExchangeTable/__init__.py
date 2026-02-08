@@ -1,7 +1,9 @@
 """
 V2 M2::MSR::Documentation::BlockElements::OasisExchangeTable package.
 """
-from armodel.v2.models.M2.MSR.Documentation.BlockElements.Colspec import Colspec
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.Colspec import (
+    Colspec,
+)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Entry import Entry
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Row import Row
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Table import Table

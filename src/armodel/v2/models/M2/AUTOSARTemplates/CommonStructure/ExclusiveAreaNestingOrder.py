@@ -11,7 +11,7 @@ class ExclusiveAreaNestingOrder(Referrable):
     ExclusiveAreas. A nesting order (that may occur in the executable code) is
     formally defined to be able to analyze the resource locking behavior.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExclusiveAreaNestingOrder
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 84, Classic

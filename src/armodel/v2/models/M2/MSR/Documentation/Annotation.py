@@ -3,7 +3,7 @@ class Annotation(GeneralAnnotation):
     """
     This is a plain annotation which does not have further formal data.
 
-    Package: M2::MSR::Documentation::Annotation::Annotation
+    Package: M2::MSR::Documentation::Annotation
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 334, Classic Platform

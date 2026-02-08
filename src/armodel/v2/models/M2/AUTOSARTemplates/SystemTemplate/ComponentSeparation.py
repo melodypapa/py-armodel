@@ -17,7 +17,7 @@ class ComponentSeparation(MappingConstraint):
     shall be mapped together with any of the atomic SW components making up the
     B composition. Furthermore, A and B shall be disjoint.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ComponentSeparation
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 205, Classic Platform R23-11)

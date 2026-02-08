@@ -12,7 +12,7 @@ class HwElementConnector(Describable):
     This meta-class represents the ability to connect two hardware elements. The
     details of the connection can be refined by hwPinGroupConnection.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementConnector
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 21, Classic Platform

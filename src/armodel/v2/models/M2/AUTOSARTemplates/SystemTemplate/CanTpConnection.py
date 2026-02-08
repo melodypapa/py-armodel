@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    TpConnection,
+)
 
 
 class CanTpConnection(TpConnection):
@@ -8,7 +14,7 @@ class CanTpConnection(TpConnection):
     communication. The CanTp module routes a Pdu through this connection.
     atpVariation: Derived, because TpNode can vary.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 608, Classic Platform R23-11)

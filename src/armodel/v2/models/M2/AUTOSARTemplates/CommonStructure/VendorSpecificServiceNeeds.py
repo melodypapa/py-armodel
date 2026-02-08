@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class VendorSpecificServiceNeeds(ServiceNeeds):
     """
     This represents the ability to define vendor-specific service needs.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::VendorSpecificServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 603, Classic Platform

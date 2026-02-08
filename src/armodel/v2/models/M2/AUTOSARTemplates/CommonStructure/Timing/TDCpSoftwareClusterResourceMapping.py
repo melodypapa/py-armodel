@@ -10,7 +10,7 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     This is used to assign an unequivocal global resource identification to a
     temporal and dynamic resource.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster::TDCpSoftwareClusterResourceMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 158, Classic Platform R23-11)

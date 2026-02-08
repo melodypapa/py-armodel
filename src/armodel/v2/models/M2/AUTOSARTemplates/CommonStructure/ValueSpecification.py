@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ValueSpecification(ARObject, ABC):
@@ -11,7 +11,7 @@ class ValueSpecification(ARObject, ABC):
     Base class for expressions leading to a value which can be used to
     initialize a data object.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 333, Classic Platform

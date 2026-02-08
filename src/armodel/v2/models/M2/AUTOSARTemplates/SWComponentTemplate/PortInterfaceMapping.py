@@ -11,7 +11,7 @@ class PortInterfaceMapping(Identifiable, ABC):
     by two different Port Interfaces with PortInterface elements having unequal
     names and/or unequal semantic (resolution or range).
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterfaceMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 119, Classic Platform

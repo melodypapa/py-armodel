@@ -11,7 +11,7 @@ class Compiler(Identifiable):
     requirements how the compiler shall be invoked. In case of object code this
     documents the used compiler settings.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Compiler
+    Package: M2::AUTOSARTemplates::CommonStructure::Implementation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 133, Classic

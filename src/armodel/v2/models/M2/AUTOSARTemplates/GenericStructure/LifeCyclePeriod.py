@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class LifeCyclePeriod(ARObject):
@@ -11,7 +11,7 @@ class LifeCyclePeriod(ARObject):
     specified period, e.g. the starting or end point, in which a specific life
     cycle state is valid/applies to.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCyclePeriod
+    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 392, Foundation

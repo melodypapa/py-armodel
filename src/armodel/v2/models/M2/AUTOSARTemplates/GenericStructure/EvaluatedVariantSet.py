@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class EvaluatedVariantSet(ARElement):
@@ -7,7 +10,7 @@ class EvaluatedVariantSet(ARElement):
     that the EvaluatedVariantSet is a CollectableElement. This allows to
     establish a hierarchy of EvaluatedVariantSets.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::EvaluatedVariantSet
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 257, Foundation

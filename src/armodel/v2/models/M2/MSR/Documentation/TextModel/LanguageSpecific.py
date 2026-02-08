@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class LanguageSpecific(ARObject, ABC):
@@ -10,7 +10,7 @@ class LanguageSpecific(ARObject, ABC):
     This meta-class represents the ability to denote a particular language for
     which an object is applicable.
 
-    Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LanguageSpecific
+    Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 350, Foundation

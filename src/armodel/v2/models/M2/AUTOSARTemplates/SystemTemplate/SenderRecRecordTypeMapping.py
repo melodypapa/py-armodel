@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecCompositeTypeMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    SenderRecCompositeTypeMapping,
+)
 
 
 class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
@@ -7,7 +10,7 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
     If the ApplicationCompositeDataType is a Record, the "RecordTypeMapping"
     will be used.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecRecordTypeMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 235, Classic Platform R23-11)

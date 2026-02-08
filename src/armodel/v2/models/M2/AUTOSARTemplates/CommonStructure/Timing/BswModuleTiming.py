@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    TimingExtension,
+)
 
 
 class BswModuleTiming(TimingExtension):
@@ -11,7 +14,7 @@ class BswModuleTiming(TimingExtension):
     aggregated by BswModuleTiming are restricted to event chains referring to
     events which are derived from the class TDEventBswInternalBehavior.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::BswModuleTiming
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 28, Classic Platform R23-11)

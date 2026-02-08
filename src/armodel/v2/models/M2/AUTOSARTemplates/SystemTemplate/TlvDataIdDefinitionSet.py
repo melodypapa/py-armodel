@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class TlvDataIdDefinitionSet(ARElement):
@@ -7,7 +10,7 @@ class TlvDataIdDefinitionSet(ARElement):
     This meta-class acts as a container of TlvDataIdDefinitions to be used in a
     given context
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TlvDataIdDefinitionSet
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 830, Classic Platform R23-11)

@@ -1,12 +1,15 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgElementWithGid
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgElementWithGid,
+)
 
 
 class SdgAbstractPrimitiveAttribute(SdgElementWithGid, ABC):
     """
     Describes primitive attributes of a special data group.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAbstractPrimitiveAttribute
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation

@@ -11,7 +11,7 @@ class PhysicalDimension(ARElement):
     this case the exponent value would be a rational number where the numerator
     value is 1 and the denominator value is 2.
 
-    Package: M2::MSR::AsamHdo::Units::PhysicalDimension
+    Package: M2::MSR::AsamHdo::Units
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 398, Classic Platform

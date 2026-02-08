@@ -11,7 +11,7 @@ class BswDistinguishedPartition(Referrable):
     implement different behavior per partition, for example to behave either as
     a master or satellite in a multicore ECU with shared BSW code.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswDistinguishedPartition
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 118, Classic

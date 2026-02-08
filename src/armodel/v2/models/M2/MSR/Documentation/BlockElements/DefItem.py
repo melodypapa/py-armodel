@@ -6,7 +6,7 @@ class DefItem(Paginateable):
     This represents an entry in a definition list. The defined item is specified
     using shortName and longName.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::DefItem
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 298, Foundation

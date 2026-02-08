@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwRecordLayoutV(ARObject):
@@ -14,7 +14,7 @@ class SwRecordLayoutV(ARObject):
     accordance with the current record layout SwRecordLayoutGroup. In
     swRecordLayoutVProp one can specify the information which shall be stored.
 
-    Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutV
+    Package: M2::MSR::DataDictionary::RecordLayout
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 421, Classic Platform

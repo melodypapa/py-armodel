@@ -12,7 +12,7 @@ class SoAdRoutingGroup(FibexElement):
     Routing of Pdus in the SoAd can be activated or deactivated. The ShortName
     of this element shall contain the RoutingGroupId.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel::SoAdRoutingGroup
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2057, Classic Platform R23-11)

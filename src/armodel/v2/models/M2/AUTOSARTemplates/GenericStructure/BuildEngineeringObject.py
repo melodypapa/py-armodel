@@ -1,9 +1,13 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
+    EngineeringObject,
+)
 
 
 class BuildEngineeringObject(EngineeringObject):
     """
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
     that instanceRefs are not supported, since there was no use case. It could
     be supported using a FlatMap.(cid:99)() • [TPS_GST_00237] engineeringObject
     (cid:100)This indicates an engineering ob- ject. The specified permissions

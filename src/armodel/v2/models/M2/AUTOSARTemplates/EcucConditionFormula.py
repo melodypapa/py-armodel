@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucConditionFormula(ARObject):
@@ -11,7 +11,7 @@ class EcucConditionFormula(ARObject):
     Note that the EcucCondition Formula is a mixed string. Therefore, the
     properties have the upper multiplicity 1.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucConditionFormula
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 100, Classic Platform R23-11)

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucParameterValue
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucParameterValue,
+)
 
 
 class EcucTextualParamValue(EcucParameterValue):
     """
     Holding a value which is not subject to variation.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucTextualParamValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 127, Classic Platform R23-11)

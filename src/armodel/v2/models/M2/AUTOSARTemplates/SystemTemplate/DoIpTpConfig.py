@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class DoIpTpConfig(TpConfig):
@@ -9,7 +12,7 @@ class DoIpTpConfig(TpConfig):
     describes a connection between a doIpSourceAddress and a doIpTargetAddress
     and the exchange of DcmIPdus between the PduR and DoIP.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::DoIpTpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)

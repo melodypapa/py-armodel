@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswModuleEntity,
+)
 
 
 class BswInterruptEntity(BswModuleEntity):
     """
     BSW module entity, which is designed to be triggered by an interrupt.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInterruptEntity
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 75, Classic

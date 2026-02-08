@@ -10,7 +10,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     An SwAxisGrouped is an axis which is shared between multiple calibration
     parameters.
 
-    Package: M2::MSR::DataDictionary::Axis::SwAxisGrouped
+    Package: M2::MSR::DataDictionary::Axis
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 357, Classic Platform

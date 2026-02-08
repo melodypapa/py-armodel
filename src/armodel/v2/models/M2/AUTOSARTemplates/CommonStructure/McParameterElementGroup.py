@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class McParameterElementGroup(ARObject):
     Denotes a group of calibration parameters which are handled by the RTE as
     one data structure.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McParameterElementGroup
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 181, Classic

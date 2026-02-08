@@ -1,15 +1,15 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwSystemconstValue(ARObject):
     """
     This meta-class assigns a particular value to a system constant.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstValue
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2068, Classic Platform R23-11)

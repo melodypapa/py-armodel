@@ -13,7 +13,7 @@ class ClientIdDefinition(Identifiable):
     Identifier of the transaction handle that is used by the RTE can be defined
     by this element.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::ClientIdDefinition
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 45, Classic Platform R23-11)

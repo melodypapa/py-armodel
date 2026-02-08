@@ -10,7 +10,7 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class to routine subfunctions.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRoutineSubfunction
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 121, Classic Platform

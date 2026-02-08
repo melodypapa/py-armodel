@@ -10,7 +10,7 @@ class TransformationProps(Identifiable, ABC):
     This meta-class represents a abstract base class for transformation
     settings.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 782, Classic Platform R23-11)

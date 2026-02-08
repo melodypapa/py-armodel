@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RoleBasedDataTypeAssignment(ARObject):
@@ -13,7 +13,7 @@ class RoleBasedDataTypeAssignment(ARObject):
     data type can be mapped to a specific ServiceNeeds element, so that a tool
     is able to create the correct access.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping::RoleBasedDataTypeAssignment
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 227, Classic

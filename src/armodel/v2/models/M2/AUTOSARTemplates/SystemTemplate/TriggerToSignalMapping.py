@@ -13,7 +13,7 @@ class TriggerToSignalMapping(DataMapping):
     size 0. The Trigger does not transport any other information than its
     existence, therefore the limitation in terms of signal length.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::TriggerToSignalMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 249, Classic Platform R23-11)

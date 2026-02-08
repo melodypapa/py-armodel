@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
@@ -8,7 +11,7 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     defined in the context of the Security Extract to a diagnostic event defined
     on the context of the DiagnosticExtract.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToSecurityEventMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 257, Classic Platform

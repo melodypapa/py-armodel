@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResource
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareClusterResource,
+)
 
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
@@ -7,7 +10,7 @@ class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
     Represents a single resource required or provided by a CP Software Cluster
     which relates to the BSW.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterServiceResource
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 904, Classic Platform R23-11)

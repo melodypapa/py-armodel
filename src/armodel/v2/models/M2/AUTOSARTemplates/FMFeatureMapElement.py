@@ -11,7 +11,7 @@ class FMFeatureMapElement(Identifiable):
     that shall be chosen whenever a certain combination of features (and system
     constants) is encountered.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMapElement
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 53, Foundation

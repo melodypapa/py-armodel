@@ -10,7 +10,7 @@ class BuildActionEnvironment(Identifiable):
     This meta-class represents the ability to specify a build action
     environment.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionEnvironment
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 370, Foundation

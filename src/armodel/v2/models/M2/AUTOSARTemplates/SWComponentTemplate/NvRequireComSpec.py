@@ -12,7 +12,7 @@ class NvRequireComSpec(RPortComSpec):
     Communication attributes of RPortPrototypes with respect to Nv data
     communication on the required side.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NvRequireComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 194, Classic Platform

@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SlParagraph(ARObject):
@@ -9,7 +9,7 @@ class SlParagraph(ARObject):
     defined by the context. The attribute l is there only for backwards
     compatibility and shall be ignored.
 
-    Package: M2::MSR::Documentation::TextModel::SingleLanguageData::SlParagraph
+    Package: M2::MSR::Documentation::TextModel::SingleLanguageData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 465, Foundation

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):
@@ -8,7 +11,7 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     the software representation of a sensor/actuator to its hardware description
     provided by the ECU Resource Template.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SensorActuatorSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 646, Classic Platform

@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class FlexrayTpNode(Identifiable):
     TP Node (Sender or Receiver) provides the TP Address and the connection to
     the Topology description.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpNode
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 596, Classic Platform R23-11)

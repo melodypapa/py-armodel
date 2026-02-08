@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class IEEE1722TpConfig(TpConfig):
     """
     Definition of the IEEE1722Tp protocol.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 636, Classic Platform R23-11)

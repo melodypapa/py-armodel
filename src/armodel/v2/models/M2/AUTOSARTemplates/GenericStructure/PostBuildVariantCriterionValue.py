@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PostBuildVariantCriterionValue(ARObject):
@@ -12,7 +12,7 @@ class PostBuildVariantCriterionValue(ARObject):
     criterion/value pairs are specified, they all shall match to bind the
     variation point.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValue
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)

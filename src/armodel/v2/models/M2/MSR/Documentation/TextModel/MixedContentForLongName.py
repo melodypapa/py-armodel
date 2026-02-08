@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MixedContentForLongName(ARObject, ABC):
@@ -13,7 +13,7 @@ class MixedContentForLongName(ARObject, ABC):
     plain text. The abstract class can be used for single language as well as
     for multi language elements.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForLongName
+    Package: M2::MSR::Documentation::TextModel::InlineTextModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 62, Foundation R23-11)

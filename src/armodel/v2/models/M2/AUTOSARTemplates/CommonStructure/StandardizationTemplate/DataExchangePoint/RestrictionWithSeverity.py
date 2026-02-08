@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RestrictionWithSeverity(ARObject, ABC):
@@ -10,7 +10,7 @@ class RestrictionWithSeverity(ARObject, ABC):
     A restriction that has a severity. The severity describes the severity level
     that is reported in case the restriction is violated.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::RestrictionWithSeverity
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 86, Foundation R23-11)

@@ -12,7 +12,7 @@ class EOCExecutableEntityRefAbstract(Identifiable, ABC):
     References (leaves) and Execution Order Constraint Executable Entity
     Reference Groups (composites).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::EOCExecutableEntityRefAbstract
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 119, Classic Platform R23-11)

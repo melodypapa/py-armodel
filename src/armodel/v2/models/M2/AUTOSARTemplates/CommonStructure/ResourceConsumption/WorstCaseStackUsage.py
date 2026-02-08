@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import StackUsage
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import (
+    StackUsage,
+)
 
 
 class WorstCaseStackUsage(StackUsage):
     """
     Provides a formal worst case stack usage.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::WorstCaseStackUsage
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 150, Classic

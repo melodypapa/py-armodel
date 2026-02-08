@@ -9,7 +9,7 @@ class DdsCpQosProfile(Identifiable):
     """
     Definition of a DDS QOS Profile.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpQosProfile
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 528, Classic Platform R23-11)

@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticAbstractAliasEvent(DiagnosticCommonElement, ABC):
@@ -7,7 +10,7 @@ class DiagnosticAbstractAliasEvent(DiagnosticCommonElement, ABC):
     This meta-class represents an abstract base class for all diagnostic alias
     events.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticAbstractAliasEvent
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 214, Classic Platform

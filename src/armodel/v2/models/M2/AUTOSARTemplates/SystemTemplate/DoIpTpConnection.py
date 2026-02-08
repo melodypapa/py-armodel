@@ -12,7 +12,7 @@ class DoIpTpConnection(TpConnection):
     A connection identifies the sender and the receiver of this particular
     communication. The DoIp module routes a tpSdu through this connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::DoIpTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)

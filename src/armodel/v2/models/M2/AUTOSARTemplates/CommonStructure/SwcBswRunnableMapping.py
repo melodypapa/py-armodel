@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwcBswRunnableMapping(ARObject):
@@ -13,7 +13,7 @@ class SwcBswRunnableMapping(ARObject):
     on the behavior, e.g. whether the bswEntity shall be running in interrupt
     context.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswRunnableMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 110, Classic

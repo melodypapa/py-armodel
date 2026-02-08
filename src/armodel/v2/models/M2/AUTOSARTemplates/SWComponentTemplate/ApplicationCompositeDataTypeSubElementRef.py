@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SubElementRef import SubElementRef
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SubElementRef import (
+    SubElementRef,
+)
 
 
 class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
@@ -7,7 +10,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     This meta-class represents the specialization of SubElementMapping with
     respect to Application CompositeDataTypes.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ApplicationCompositeDataTypeSubElementRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 138, Classic Platform

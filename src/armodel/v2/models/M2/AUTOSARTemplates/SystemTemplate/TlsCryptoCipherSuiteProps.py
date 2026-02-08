@@ -9,7 +9,7 @@ class TlsCryptoCipherSuiteProps(Identifiable):
     """
     This meta-class provides attributes to specify details of TLS Cipher Suites.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsCryptoCipherSuiteProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 563, Classic Platform R23-11)

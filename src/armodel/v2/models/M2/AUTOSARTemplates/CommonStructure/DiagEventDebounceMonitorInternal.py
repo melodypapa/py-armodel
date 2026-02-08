@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceAlgorithm
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagEventDebounceAlgorithm,
+)
+
 
 class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     """
@@ -7,7 +10,7 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     an internal debouncing algorithm and report qualified (debounced) results to
     the Dem/DM.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceMonitorInternal
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 260, Classic

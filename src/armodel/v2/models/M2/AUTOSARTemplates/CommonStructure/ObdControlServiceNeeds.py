@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
+
 
 class ObdControlServiceNeeds(DiagnosticCapabilityElement):
     """
@@ -6,7 +9,7 @@ class ObdControlServiceNeeds(DiagnosticCapabilityElement):
     of OBD Service 08 (request control of on-board system) in relation to a
     particular test-Identifier (TID) supported by this component or module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdControlServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 233, Classic Platform

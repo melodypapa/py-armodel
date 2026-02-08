@@ -2,8 +2,8 @@ from abc import ABC
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Referrable(ARObject, ABC):
@@ -11,7 +11,7 @@ class Referrable(ARObject, ABC):
     Instances of this class can be referred to by their identifier (while
     adhering to namespace borders).
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::Referrable
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 328, Classic

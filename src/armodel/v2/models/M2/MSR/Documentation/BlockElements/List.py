@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
@@ -10,7 +13,7 @@ class List(Paginateable):
     This meta-class represents the ability to express a list. The kind of list
     is specified in the attribute.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::List
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 295, Foundation

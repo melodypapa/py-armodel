@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PerInstanceMemorySize(ARObject):
@@ -11,7 +11,7 @@ class PerInstanceMemorySize(ARObject):
     instance. Note that these resources are not covered by an ObjectFileSection,
     because they are supposed to be allocated by the RTE.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation::PerInstanceMemorySize
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 623, Classic Platform

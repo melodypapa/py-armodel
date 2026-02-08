@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -9,7 +12,7 @@ class RptExecutableEntityEvent(Identifiable):
     """
     This describes an ExecutableEntity event instance which can be bypassed.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptExecutableEntityEvent
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 201, Classic

@@ -6,7 +6,7 @@ class UnitGroup(ARElement):
     that the UnitGroup does not ensure the physical compliance of the units.
     This is maintained by the physical dimension.
 
-    Package: M2::MSR::AsamHdo::Units::UnitGroup
+    Package: M2::MSR::AsamHdo::Units
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 314, Classic Platform R23-11)

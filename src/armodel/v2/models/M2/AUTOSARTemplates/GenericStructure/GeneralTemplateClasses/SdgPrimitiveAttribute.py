@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgAbstractPrimitiveAttribute
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgAbstractPrimitiveAttribute,
+)
+
 
 class SdgPrimitiveAttribute(SdgAbstractPrimitiveAttribute):
     """
     Describes primitive special data attributes without variation. This class
     accepts a special data "sd" attribute.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgPrimitiveAttribute
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation

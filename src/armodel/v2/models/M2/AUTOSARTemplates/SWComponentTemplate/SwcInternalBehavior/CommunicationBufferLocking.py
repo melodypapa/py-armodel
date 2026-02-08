@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import SwcSupportedFeature
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+    SwcSupportedFeature,
+)
 
 
 class CommunicationBufferLocking(SwcSupportedFeature):
@@ -8,7 +11,7 @@ class CommunicationBufferLocking(SwcSupportedFeature):
     locked communication buffers supplied by the RTE. It is able to cope with
     the error RTE_E_COM_BUSY.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions::CommunicationBufferLocking
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 595, Classic Platform

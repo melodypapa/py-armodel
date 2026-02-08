@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class LifeCycleInfoSet(ARElement):
@@ -9,7 +15,7 @@ class LifeCycleInfoSet(ARElement):
     particular period. This supports the definition of transition plans. If no
     period is specified, the life cycle state applies forever.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleInfoSet
+    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 391, Foundation

@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ValueSpecification,
+)
 
 
 class CompositeValueSpecification(ValueSpecification, ABC):
@@ -7,7 +10,7 @@ class CompositeValueSpecification(ValueSpecification, ABC):
     This abstract meta-class acts a base class for ValueSpecifications that have
     a composite form.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::CompositeValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 434, Classic Platform

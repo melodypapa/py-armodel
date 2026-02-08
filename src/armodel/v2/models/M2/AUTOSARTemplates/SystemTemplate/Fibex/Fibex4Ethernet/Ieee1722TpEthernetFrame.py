@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import AbstractEthernetFrame
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import (
+    AbstractEthernetFrame,
+)
 
 
 class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     """
     Ieee1722Tp Ethernet Frame
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::Ieee1722TpEthernetFrame
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 579, Classic Platform R23-11)

@@ -12,7 +12,7 @@ class SenderReceiverInterface(DataInterface):
     A sender/receiver interface declares a number of data elements to be sent
     and received.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SenderReceiverInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 335, Classic

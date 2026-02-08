@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmCluster
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmCluster,
+)
 
 
 class J1939NmCluster(NmCluster):
     """
     J1939 specific NmCluster attributes
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 691, Classic Platform R23-11)

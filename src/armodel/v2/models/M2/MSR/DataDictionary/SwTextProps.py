@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwTextProps(ARObject):
@@ -10,7 +10,7 @@ class SwTextProps(ARObject):
     This meta-class expresses particular properties applicable to strings in
     variables or calibration parameters.
 
-    Package: M2::MSR::DataDictionary::DataDefProperties::SwTextProps
+    Package: M2::MSR::DataDictionary::DataDefProperties
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 343, Classic

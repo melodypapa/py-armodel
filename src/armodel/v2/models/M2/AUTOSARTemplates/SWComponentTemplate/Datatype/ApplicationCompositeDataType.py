@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationDataType,
+)
 
 
 class ApplicationCompositeDataType(ApplicationDataType, ABC):
@@ -7,7 +10,7 @@ class ApplicationCompositeDataType(ApplicationDataType, ABC):
     Abstract base class for all application data types composed of other data
     types.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationCompositeDataType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 241, Classic Platform

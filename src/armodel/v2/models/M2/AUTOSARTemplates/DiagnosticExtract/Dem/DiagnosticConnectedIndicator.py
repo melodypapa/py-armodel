@@ -9,7 +9,7 @@ class DiagnosticConnectedIndicator(Identifiable):
     """
     Description of indicators that are defined per DiagnosticEvent.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticConnectedIndicator
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 166, Classic Platform

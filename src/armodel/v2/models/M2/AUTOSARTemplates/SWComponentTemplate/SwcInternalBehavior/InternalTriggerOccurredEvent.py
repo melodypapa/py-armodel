@@ -12,7 +12,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
     This event is raised when the referenced InternalTriggeringPoint has
     occurred.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::InternalTriggerOccurredEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeMaster
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeMaster,
+)
 
 
 class GlobalTimeCanMaster(GlobalTimeMaster):
@@ -7,7 +10,7 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     This represents the specialization of the GlobalTimeMaster for the CAN
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN::GlobalTimeCanMaster
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 864, Classic Platform R23-11)

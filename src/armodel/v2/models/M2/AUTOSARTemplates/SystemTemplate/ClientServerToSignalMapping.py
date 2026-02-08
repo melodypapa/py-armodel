@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    DataMapping,
+)
 
 
 class ClientServerToSignalMapping(DataMapping):
@@ -7,7 +10,7 @@ class ClientServerToSignalMapping(DataMapping):
     This element maps the ClientServerOperation to call- and
     return-SystemSignals.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::ClientServerToSignalMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 242, Classic Platform R23-11)

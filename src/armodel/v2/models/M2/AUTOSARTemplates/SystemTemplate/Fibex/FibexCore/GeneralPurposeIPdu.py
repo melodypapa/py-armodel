@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import IPdu
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    IPdu,
+)
+
 
 class GeneralPurposeIPdu(IPdu):
     """
@@ -6,7 +9,7 @@ class GeneralPurposeIPdu(IPdu):
     the PduR. Please note that the category name of such Pdus is standardized in
     the AUTOSAR System Template.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::GeneralPurposeIPdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 345, Classic Platform R23-11)

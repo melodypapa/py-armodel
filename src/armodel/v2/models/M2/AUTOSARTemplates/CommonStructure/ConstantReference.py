@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ValueSpecification,
+)
 
 
 class ConstantReference(ValueSpecification):
     """
     Instead of defining this value inline, a constant is referenced.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantReference
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 440, Classic Platform

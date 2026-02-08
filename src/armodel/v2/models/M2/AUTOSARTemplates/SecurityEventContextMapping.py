@@ -1,6 +1,12 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import IdsMapping
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    IdsMapping,
+)
 
 
 class SecurityEventContextMapping(IdsMapping, ABC):
@@ -9,7 +15,7 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     collection of security events, an IdsM instance which handles the security
     events and the filter chains applicable to the security events.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMapping
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 32, Foundation R23-11)

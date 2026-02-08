@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MacSecCryptoAlgoConfig(ARObject):
     """
     This meta-class defines the cryptography configuration for MACsec.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecCryptoAlgoConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)

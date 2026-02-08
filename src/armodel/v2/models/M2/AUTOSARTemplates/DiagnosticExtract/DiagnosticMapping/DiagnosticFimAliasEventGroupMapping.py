@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
@@ -8,7 +11,7 @@ class DiagnosticFimAliasEventGroupMapping(DiagnosticMapping):
     DiagnosticFimAliasEvent Group. By this means the "preliminary" modeling by
     way of a DiagnosticFimAliasEventGroup is further substantiated.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping::DiagnosticFimAliasEventGroupMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 263, Classic Platform

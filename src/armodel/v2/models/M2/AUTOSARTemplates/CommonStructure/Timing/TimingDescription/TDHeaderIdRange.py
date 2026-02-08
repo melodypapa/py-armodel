@@ -1,6 +1,9 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+)
     ARObject,
 )
 
@@ -11,7 +14,7 @@ class TDHeaderIdRange(ARObject):
     minimum and maximum header identifier; and the maximum header identifier
     shall be greater than or equal the minimum header identifier.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDHeaderIdRange
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 70, Classic Platform R23-11)

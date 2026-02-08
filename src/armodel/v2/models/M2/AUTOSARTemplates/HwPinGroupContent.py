@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ class HwPinGroupContent(ARObject):
     """
     This meta-class specifies a mixture of hwPins and hwPinGroups.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroupContent
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 20, Classic Platform

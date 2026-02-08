@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     """
@@ -7,7 +10,7 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     ApplicationSwComponentType needs to accept a request from another J1939
     node.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939RmIncomingRequestServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 829, Classic Platform

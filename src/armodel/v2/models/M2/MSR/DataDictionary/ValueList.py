@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ValueList(ARObject):
     """
     This is a generic list of numerical values.
 
-    Package: M2::MSR::DataDictionary::DataDefProperties::ValueList
+    Package: M2::MSR::DataDictionary::DataDefProperties
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 350, Classic

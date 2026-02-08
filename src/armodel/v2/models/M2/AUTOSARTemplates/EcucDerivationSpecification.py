@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucDerivationSpecification(ARObject):
@@ -11,7 +14,7 @@ class EcucDerivationSpecification(ARObject):
     of • other parameter values • elements (attributes/classes) defined in other
     AUTOSAR templates such as System template and SW component template
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDerivationSpecification
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 87, Classic Platform R23-11)

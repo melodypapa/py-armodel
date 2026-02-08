@@ -17,7 +17,7 @@ class CommConnectorPort(Identifiable, ABC):
     Gateway ECU only routes the Pdu without being interested in the content only
     a FramePort and an IPduPort needs to be created.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommConnectorPort
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 303, Classic Platform R23-11)

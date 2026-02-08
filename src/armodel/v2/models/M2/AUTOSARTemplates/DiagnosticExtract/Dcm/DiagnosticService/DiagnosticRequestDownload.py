@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import DiagnosticMemoryAddressableRangeAccess
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import (
+    DiagnosticMemoryAddressableRangeAccess,
+)
 
 
 class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
     """
     This represents an instance of the "Request Download" diagnostic service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticRequestDownload
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 144, Classic Platform

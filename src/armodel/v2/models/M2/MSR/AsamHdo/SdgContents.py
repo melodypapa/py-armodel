@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -14,7 +14,7 @@ class SdgContents(ARObject):
     can be an arbitrary mix of references, of primitive special data and nested
     special data groups.
 
-    Package: M2::MSR::AsamHdo::SpecialData::SdgContents
+    Package: M2::MSR::AsamHdo::SpecialData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 90, Foundation R23-11)

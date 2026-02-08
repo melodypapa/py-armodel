@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import SpecElementReference
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    SpecElementReference,
+)
 
 
 class DocumentElementScope(SpecElementReference):
@@ -14,7 +20,7 @@ class DocumentElementScope(SpecElementReference):
     specification items) or name (deliverable, artifact, task definition or
     activity)
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange::DocumentElementScope
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 97, Foundation R23-11)

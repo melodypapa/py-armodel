@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeMaster
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeMaster,
+)
 
 
 class GlobalTimeFrMaster(GlobalTimeMaster):
@@ -7,7 +10,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     This represents the specialization of the GlobalTimeMaster for Flexray
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR::GlobalTimeFrMaster
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::FR
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 877, Classic Platform R23-11)

@@ -7,7 +7,7 @@ class LabeledList(Paginateable):
     content. The policy how to render such items is specified in the labeled
     list.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::LabeledList
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 296, Foundation

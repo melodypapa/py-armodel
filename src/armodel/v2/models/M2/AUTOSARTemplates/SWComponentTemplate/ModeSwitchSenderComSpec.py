@@ -12,7 +12,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     Communication attributes of PPortPrototypes with respect to mode
     communication
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchSenderComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 190, Classic Platform

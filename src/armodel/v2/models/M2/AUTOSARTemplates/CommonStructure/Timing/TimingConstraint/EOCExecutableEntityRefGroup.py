@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRefAbstract
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCExecutableEntityRefAbstract,
+)
 
 
 class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
@@ -8,7 +14,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     Constraint Executable Entity References (leaves) and/or further Execution
     Order Constraint Executable Entity Reference Groups (composite).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::EOCExecutableEntityRefGroup
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 119, Classic Platform R23-11)

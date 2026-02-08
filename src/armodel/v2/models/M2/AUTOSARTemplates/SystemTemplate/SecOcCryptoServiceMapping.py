@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoServiceMapping,
+)
 
 
 class SecOcCryptoServiceMapping(CryptoServiceMapping):
@@ -7,7 +10,7 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     This meta-class has the ability to represent a crypto service mapping for
     the Pdu-based communication via SecOC.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::SecOcCryptoServiceMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 375, Classic Platform R23-11)

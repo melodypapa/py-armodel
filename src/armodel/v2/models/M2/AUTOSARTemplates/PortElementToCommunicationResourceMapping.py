@@ -14,7 +14,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     this case the kind of Port Prototype specified whether the Software Cluster
     has to provide or to require the resource.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::PortElementToCommunicationResourceMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 905, Classic Platform R23-11)

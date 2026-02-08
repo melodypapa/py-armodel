@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmCluster
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmCluster,
+)
 
 
 class FlexrayNmCluster(NmCluster):
     """
     FlexRay specific NM cluster attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 678, Classic Platform R23-11)

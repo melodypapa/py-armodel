@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -26,7 +29,7 @@ class DataPrototypeMapping(ARObject):
     Units and the CompuRationalCoeffs of a compuInternalToPhys of the referred
     CompuMethods.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::DataPrototypeMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 125, Classic Platform

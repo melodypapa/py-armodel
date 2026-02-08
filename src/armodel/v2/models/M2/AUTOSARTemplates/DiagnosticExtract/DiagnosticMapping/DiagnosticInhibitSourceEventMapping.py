@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
@@ -11,7 +14,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
     diagnostic events defined by the Dem are already available at the time the
     Fim configuration within the diagnostic extract is created.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping::DiagnosticInhibitSourceEventMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::FimMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 260, Classic Platform

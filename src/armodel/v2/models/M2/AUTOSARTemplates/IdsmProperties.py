@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import IdsCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    IdsCommonElement,
+)
 
 
 class IdsmProperties(IdsCommonElement):
@@ -7,7 +10,7 @@ class IdsmProperties(IdsCommonElement):
     This meta-class provides the ability to aggregate filters for security
     events.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmProperties
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)

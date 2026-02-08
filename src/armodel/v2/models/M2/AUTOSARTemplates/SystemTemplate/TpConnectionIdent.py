@@ -8,7 +8,7 @@ class TpConnectionIdent(Referrable):
     This meta-class is created to add the ability to become the target of a
     reference to the non-Referrable Tp Connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::TpConnectionIdent
+    Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 61, Classic Platform

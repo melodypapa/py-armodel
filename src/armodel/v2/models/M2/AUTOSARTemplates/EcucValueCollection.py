@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class EcucValueCollection(ARElement):
     """
     This represents the anchor point of the ECU configuration description.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucValueCollection
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 108, Classic Platform R23-11)

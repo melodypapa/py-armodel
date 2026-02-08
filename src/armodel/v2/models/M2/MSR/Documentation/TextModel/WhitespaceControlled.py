@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class WhitespaceControlled(ARObject, ABC):
@@ -11,7 +11,7 @@ class WhitespaceControlled(ARObject, ABC):
     e.g. in xml serialization. This is implemented by adding the attribute
     "space".
 
-    Package: M2::MSR::Documentation::TextModel::LanguageDataModel::WhitespaceControlled
+    Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 292, Foundation

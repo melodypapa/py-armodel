@@ -13,7 +13,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
     The ModeDeclarationGroupPrototype specifies a set of Modes
     (ModeDeclarationGroup) which is provided or required in the given context.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeDeclarationGroupPrototype
+    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 42, Classic
