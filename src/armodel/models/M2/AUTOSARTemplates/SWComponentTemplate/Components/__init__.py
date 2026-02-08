@@ -42,9 +42,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     SwComponentPrototype,
     SwConnector,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    SwcInternalBehavior,
-)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
     SwComponentType,
 )
@@ -286,21 +283,84 @@ class PortGroup(AtpStructureElement):
 
 
 class AtomicSwComponentType(SwComponentType, ABC):
+
+
     def __init__(self, parent: ARObject, short_name: str):
+
+
         super().__init__(parent, short_name)
 
+
+
+
+
         self.internalBehavior: SwcInternalBehavior = None
+
+
         self.symbolProps: SymbolProps = None
 
+
+
+
+
     def getInternalBehavior(self):
+
+
         return self.internalBehavior
 
-    def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
-        if (not self.IsElementExists(short_name, SwcInternalBehavior)):
-            behavior = SwcInternalBehavior(self, short_name)
-            self.addElement(behavior)
-            self.internalBehavior = behavior
-        return self.getElement(short_name, SwcInternalBehavior)
+
+
+
+
+    def createSwcInternalBehavior(self, short_name):
+
+
+
+
+
+            from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+
+
+
+
+
+                SwcInternalBehavior,
+
+
+
+
+
+            )
+
+
+
+
+
+            if (not self.IsElementExists(short_name, SwcInternalBehavior)):
+
+
+
+
+
+                behavior = SwcInternalBehavior(self, short_name)
+
+
+
+
+
+                self.addElement(behavior)
+
+
+
+
+
+                self.internalBehavior = behavior
+
+
+
+
+
+            return self.getElement(short_name, SwcInternalBehavior)
 
     def getSymbolProps(self):
         return self.symbolProps

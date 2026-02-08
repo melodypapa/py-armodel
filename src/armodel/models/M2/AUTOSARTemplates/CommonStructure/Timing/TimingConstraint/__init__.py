@@ -2,6 +2,9 @@
 This module contains timing constraint-related classes for AUTOSAR models.
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import (
     AgeConstraint,
 )
@@ -37,9 +40,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     EventOccurrenceKindEnum,
     SynchronizationTimingConstraint,
     SynchronizationTypeEnum,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
-    TimingConstraint,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
     SwcTiming,
