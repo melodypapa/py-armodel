@@ -1,359 +1,702 @@
-from abc import ABC
 from typing import (
     List,
-    Union,
+    Optional,
 )
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType
-
-    AtpStructureElement,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    AbstractImplementationDataType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-        ARObject,
-    )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    AREnum,
-    ARLiteral,
-    ARNumerical,
-    Boolean,
-    String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    SymbolProps,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
-    AutosarDataType,
-)
-from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
-    SwDataDefProps,
-)
-
-
-class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
-    def __init__(self, parent, short_name: str) -> None:
-        if type(self) is AbstractImplementationDataTypeElement:
-            raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
-        super().__init__(parent, short_name)
-
-
-class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
-    ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
-    ARRAY_SIZE_SEMANTICS_VARIABLE_SIZE = "VARIABLE_SIZE"
-
-    def __init__(self, parent, short_name: str) -> None:
-        super().__init__(parent, short_name)
-
-        self.arrayImplPolicy: Union[Union[ARLiteral, None] , None] = None
-        self.arraySize: Union[Union[ARNumerical, None] , None] = None
-        self.arraySizeHandling: Union[Union[ARLiteral, None] , None] = None
-        self.arraySizeSemantics: Union[Union[ARLiteral, None] , None] = None
-        self.isOptional: Union[Union[ARBoolean, None] , None] = None
-        self.subElements: List[ImplementationDataTypeElement] = []
-        self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
-
-    def getArrayImplPolicy(self) -> Union[ARLiteral, None]:
-        return self.arrayImplPolicy
-
-    def setArrayImplPolicy(self, value: ARLiteral) -> "ImplementationDataTypeElement":
-        if value is not None:
-            self.arrayImplPolicy = value
-        return self
-
-    def getArraySize(self) -> Union[ARNumerical, None]:
-        return self.arraySize
-
-    def setArraySize(self, value: ARNumerical) -> "ImplementationDataTypeElement":
-        if value is not None:
-            self.arraySize = value
-        return self
-
-    def getArraySizeHandling(self) -> Union[ARLiteral, None]:
-        return self.arraySizeHandling
-
-    def setArraySizeHandling(self, value: ARLiteral) -> "ImplementationDataTypeElement":
-        if value is not None:
-            self.arraySizeHandling = value
-        return self
-
-    def getArraySizeSemantics(self):
-        return self.arraySizeSemantics
-
-    def setArraySizeSemantics(self, value):
-        if value is not None:
-            self.arraySizeSemantics = value
-        return self
-
-    def getIsOptional(self):
-        return self.isOptional
-
-    def setIsOptional(self, value):
-        if value is not None:
-            self.isOptional = value
-        return self
-
-    def getSwDataDefProps(self):
-        return self.swDataDefProps
-
-    def setSwDataDefProps(self, value):
-        if value is not None:
-            self.swDataDefProps = value
-        return self
-
-    def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
-        if (not self.IsElementExists(short_name)):
-            type_element = ImplementationDataTypeElement(self, short_name)
-            self.addElement(type_element)
-            self.subElements.append(type_element)
-        return self.getElement(short_name, ImplementationDataTypeElement)
-
-    def getSubElements(self) -> List["ImplementationDataTypeElement"]:
-        return self.subElements
-
-
-class AbstractImplementationDataType(AutosarDataType, ABC):
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        if type(self) is AbstractImplementationDataType:
-            raise TypeError("AbstractImplementationDataType is an abstract class.")
-
-        super().__init__(parent, short_name)
 
 
 class ImplementationDataType(AbstractImplementationDataType):
     """
+    Describes a reusable data type on the implementation level. This will
+    typically correspond to a typedef in C-code.
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
-    Represents an implementation data type in AUTOSAR models.
-    This class defines how data types are implemented in code, including arrays, structures, and data references.
+
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 320, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 230, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 299, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 268, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2031, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 47, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 451, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 193, Foundation R23-11)
     """
+    def __init__(self):
+        super().__init__()
 
-    # Category constant for type reference implementation data types
-    CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
-    # Category constant for value implementation data types
-    CATEGORY_TYPE_VALUE = "VALUE"
-    # Category constant for structure implementation data types
-    CATEGORY_TYPE_STRUCTURE = "STRUCTURE"
-    # Category constant for data reference implementation data types
-    CATEGORY_DATA_REFERENCE = "DATA_REFERENCE"
-    # Category constant for array implementation data types
-    CATEGORY_ARRAY = "ARRAY"
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Specifies the profile which the array will follow in case this type is a
+        # variable size array.
+        self._dynamicArray: Optional["String"] = None
 
-    def __init__(self, parent: ARObject, short_name: str) -> None:
+    @property
+    def dynamic_array(self) -> Optional["String"]:
+        """Get dynamicArray (Pythonic accessor)."""
+        return self._dynamicArray
+
+    @dynamic_array.setter
+    def dynamic_array(self, value: Optional["String"]) -> None:
         """
-        Initializes the ImplementationDataType with a parent and short name.
+        Set dynamicArray with validation.
 
         Args:
-            parent: The parent ARObject that contains this implementation data type
-            short_name: The unique short name of this implementation data type
-        """
-        super().__init__(parent, short_name)
+            value: The dynamicArray to set
 
-        # Profile for dynamic array size (for variable-size arrays)
-        self.dynamicArraySizeProfile: Union[Union[String, None] , None] = None
-        # Flag indicating if this structure contains optional elements
-        self.isStructWithOptionalElement: Union[Union[Boolean, None] , None] = None
-        # List of sub-elements in this implementation data type
-        self.subElements: List['ImplementationDataTypeElement'] = []
-        # Symbol properties for this implementation data type
-        self.symbolProps: Union[Union[SymbolProps, None] , None] = None
-        # Type emitter for code generation
-        self.typeEmitter: Union[Union[ARLiteral, None] , None] = None
-
-    def getDynamicArraySizeProfile(self):
+        Raises:
+            TypeError: If value type is incorrect
         """
-        Gets the profile for dynamic array size (for variable-size arrays).
+        if value is None:
+            self._dynamicArray = None
+            return
+
+        if not isinstance(value, String):
+            raise TypeError(
+                f"dynamicArray must be String or None, got {type(value).__name__}"
+            )
+        self._dynamicArray = value
+        # Specifies an element of an array, struct, or union data type.
+        # of ImplementionDataTypeElement is variability with the purpose to support the
+                # of elements inside a Implementation a structure.
+        # atpVariation.
+        self._subElement: List["ImplementationData"] = []
+
+    @property
+    def sub_element(self) -> List["ImplementationData"]:
+        """Get subElement (Pythonic accessor)."""
+        return self._subElement
+        # This represents the SymbolProps for the Implementation.
+        self._symbolProps: Optional["SymbolProps"] = None
+
+    @property
+    def symbol_props(self) -> Optional["SymbolProps"]:
+        """Get symbolProps (Pythonic accessor)."""
+        return self._symbolProps
+
+    @symbol_props.setter
+    def symbol_props(self, value: Optional["SymbolProps"]) -> None:
+        """
+        Set symbolProps with validation.
+
+        Args:
+            value: The symbolProps to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._symbolProps = None
+            return
+
+        if not isinstance(value, SymbolProps):
+            raise TypeError(
+                f"symbolProps must be SymbolProps or None, got {type(value).__name__}"
+            )
+        self._symbolProps = value
+        # This attribute is used to control which part of the is supposed to trigger
+        # data type.
+        self._typeEmitter: Optional["NameToken"] = None
+
+    @property
+    def type_emitter(self) -> Optional["NameToken"]:
+        """Get typeEmitter (Pythonic accessor)."""
+        return self._typeEmitter
+
+    @type_emitter.setter
+    def type_emitter(self, value: Optional["NameToken"]) -> None:
+        """
+        Set typeEmitter with validation.
+
+        Args:
+            value: The typeEmitter to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._typeEmitter = None
+            return
+
+        if not isinstance(value, NameToken):
+            raise TypeError(
+                f"typeEmitter must be NameToken or None, got {type(value).__name__}"
+            )
+        self._typeEmitter = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getDynamicArray(self) -> "String":
+        """
+        AUTOSAR-compliant getter for dynamicArray.
 
         Returns:
-            String: The dynamic array size profile
-        """
-        return self.dynamicArraySizeProfile
+            The dynamicArray value
 
-    def setDynamicArraySizeProfile(self, value):
+        Note:
+            Delegates to dynamic_array property (CODING_RULE_V2_00017)
         """
-        Sets the profile for dynamic array size (for variable-size arrays).
-        Only sets the value if it is not None.
+        return self.dynamic_array  # Delegates to property
+
+    def setDynamicArray(self, value: "String") -> "ImplementationDataType":
+        """
+        AUTOSAR-compliant setter for dynamicArray with method chaining.
 
         Args:
-            value: The dynamic array size profile to set
+            value: The dynamicArray to set
 
         Returns:
             self for method chaining
+
+        Note:
+            Delegates to dynamic_array property setter (gets validation automatically)
         """
-        self.dynamicArraySizeProfile = value
+        self.dynamic_array = value  # Delegates to property setter
         return self
 
-    def getIsStructWithOptionalElement(self):
+    def getSubElement(self) -> List["ImplementationData"]:
         """
-        Gets the flag indicating if this structure contains optional elements.
+        AUTOSAR-compliant getter for subElement.
 
         Returns:
-            Boolean: The flag for optional elements in structure
-        """
-        return self.isStructWithOptionalElement
+            The subElement value
 
-    def setIsStructWithOptionalElement(self, value):
+        Note:
+            Delegates to sub_element property (CODING_RULE_V2_00017)
         """
-        Sets the flag indicating if this structure contains optional elements.
-        Only sets the value if it is not None.
+        return self.sub_element  # Delegates to property
+
+    def getSymbolProps(self) -> "SymbolProps":
+        """
+        AUTOSAR-compliant getter for symbolProps.
+
+        Returns:
+            The symbolProps value
+
+        Note:
+            Delegates to symbol_props property (CODING_RULE_V2_00017)
+        """
+        return self.symbol_props  # Delegates to property
+
+    def setSymbolProps(self, value: "SymbolProps") -> "ImplementationDataType":
+        """
+        AUTOSAR-compliant setter for symbolProps with method chaining.
 
         Args:
-            value: The flag for optional elements in structure to set
+            value: The symbolProps to set
 
         Returns:
             self for method chaining
+
+        Note:
+            Delegates to symbol_props property setter (gets validation automatically)
         """
-        self.isStructWithOptionalElement = value
+        self.symbol_props = value  # Delegates to property setter
         return self
 
-    def createImplementationDataTypeElement(self, short_name: str) -> 'ImplementationDataTypeElement':
+    def getTypeEmitter(self) -> "NameToken":
         """
-        Creates and adds an ImplementationDataTypeElement to this implementation data type's sub-elements.
+        AUTOSAR-compliant getter for typeEmitter.
+
+        Returns:
+            The typeEmitter value
+
+        Note:
+            Delegates to type_emitter property (CODING_RULE_V2_00017)
+        """
+        return self.type_emitter  # Delegates to property
+
+    def setTypeEmitter(self, value: "NameToken") -> "ImplementationDataType":
+        """
+        AUTOSAR-compliant setter for typeEmitter with method chaining.
 
         Args:
-            short_name: The short name for the new implementation data type element
-
-        Returns:
-            The created ImplementationDataTypeElement instance
-        """
-        if not self.IsElementExists(short_name):
-            type_element = ImplementationDataTypeElement(self, short_name)
-            self.addElement(type_element)
-            self.subElements.append(type_element)
-        return self.getElement(short_name)
-
-    def getSubElements(self) -> List['ImplementationDataTypeElement']:
-        """
-        Gets the list of sub-elements in this implementation data type.
-
-        Returns:
-            List of ImplementationDataTypeElement instances
-        """
-        return self.subElements
-
-    def getArrayElementType(self) -> str:
-        """
-        Gets the array element type for this implementation data type.
-        This is an internal property used for tracking the array type.
-
-        Returns:
-            str: The array element type
-        """
-        return getattr(self, '_array_type', None)
-
-    def setArrayElementType(self, type: str):
-        """
-        Sets the array element type for this implementation data type.
-        This is an internal property used for tracking the array type.
-
-        Args:
-            type: The array element type to set
+            value: The typeEmitter to set
 
         Returns:
             self for method chaining
+
+        Note:
+            Delegates to type_emitter property setter (gets validation automatically)
         """
-        self._array_type = type
+        self.type_emitter = value  # Delegates to property setter
         return self
 
-    def setTypeEmitter(self, emitter: str):
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_dynamic_array(self, value: Optional["String"]) -> "ImplementationDataType":
         """
-        Sets the type emitter for code generation for this implementation data type.
-        The type emitter defines how the type should be emitted in generated code.
+        Set dynamicArray and return self for chaining.
 
         Args:
-            emitter: The type emitter to set
+            value: The dynamicArray to set
 
         Returns:
             self for method chaining
+
+        Example:
+            >>> obj.with_dynamic_array("value")
         """
-        self.typeEmitter = emitter
+        self.dynamic_array = value  # Use property setter (gets validation)
         return self
 
-    def getTypeEmitter(self) -> str:
+    def with_symbol_props(self, value: Optional["SymbolProps"]) -> "ImplementationDataType":
         """
-        Gets the type emitter for code generation for this implementation data type.
-        The type emitter defines how the type should be emitted in generated code.
-
-        Returns:
-            str: The type emitter
-        """
-        return self.typeEmitter
-
-    def setStructElementType(self, type: str):
-        """
-        Sets the structure element type for this implementation data type.
-        This is an internal property used for tracking the structure type.
+        Set symbolProps and return self for chaining.
 
         Args:
-            type: The structure element type to set
+            value: The symbolProps to set
 
         Returns:
             self for method chaining
+
+        Example:
+            >>> obj.with_symbol_props("value")
         """
-        self._struct_type = type
+        self.symbol_props = value  # Use property setter (gets validation)
         return self
 
-    def getStructElementType(self) -> str:
+    def with_type_emitter(self, value: Optional["NameToken"]) -> "ImplementationDataType":
         """
-        Gets the structure element type for this implementation data type.
-        This is an internal property used for tracking the structure type.
-
-        Returns:
-            str: The structure element type
-        """
-        return getattr(self, '_struct_type', None)
-
-    def createSymbolProps(self, short_name: str) -> SymbolProps:
-        """
-        Creates and adds SymbolProps to this implementation data type.
+        Set typeEmitter and return self for chaining.
 
         Args:
-            short_name: The short name for the new symbol properties
+            value: The typeEmitter to set
 
         Returns:
-            The created SymbolProps instance
-        """
-        if short_name not in self.elements:
-            symbol_props = SymbolProps(self, short_name)
-            self.addElement(symbol_props)
-            self.symbolProps = symbol_props
-        return self.symbolProps
+            self for method chaining
 
-    def getSymbolProps(self) -> SymbolProps:
+        Example:
+            >>> obj.with_type_emitter("value")
         """
-        Gets the symbol properties for this implementation data type.
+        self.type_emitter = value  # Use property setter (gets validation)
+        return self
+
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    AbstractImplementationDataTypeElement,
+)
+
+
+class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+    """
+    Declares a data object which is locally aggregated. Such an element can only
+    be used within the scope where it is aggregated. This element either
+    consists of further subElements or it is further defined via its
+    swDataDefProps. There are several use cases within the system of
+    ImplementationDataTypes fur such a local declaration: • It can represent the
+    elements of an array, defining the element type and array size • It can
+    represent an element of a struct, defining its type • It can be the local
+    declaration of a debug element.
+
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
+
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 321, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 269, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2032, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 452, Foundation
+      R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This attribute controls the implementation of the payload array.
+        # It shall only be used if the enclosing an array.
+        # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
+                # Description Template R23-11.
+        self._arrayImplPolicy: Optional["ArrayImplPolicyEnum"] = None
+
+    @property
+    def array_impl_policy(self) -> Optional["ArrayImplPolicyEnum"]:
+        """Get arrayImplPolicy (Pythonic accessor)."""
+        return self._arrayImplPolicy
+
+    @array_impl_policy.setter
+    def array_impl_policy(self, value: Optional["ArrayImplPolicyEnum"]) -> None:
+        """
+        Set arrayImplPolicy with validation.
+
+        Args:
+            value: The arrayImplPolicy to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._arrayImplPolicy = None
+            return
+
+        if not isinstance(value, ArrayImplPolicyEnum):
+            raise TypeError(
+                f"arrayImplPolicy must be ArrayImplPolicyEnum or None, got {type(value).__name__}"
+            )
+        self._arrayImplPolicy = value
+        # This attribute controls the meaning of the value of the array size.
+        self._arraySize: Optional["ArraySizeSemantics"] = None
+
+    @property
+    def array_size(self) -> Optional["ArraySizeSemantics"]:
+        """Get arraySize (Pythonic accessor)."""
+        return self._arraySize
+
+    @array_size.setter
+    def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
+        """
+        Set arraySize with validation.
+
+        Args:
+            value: The arraySize to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._arraySize = None
+            return
+
+        if not isinstance(value, ArraySizeSemantics):
+            raise TypeError(
+                f"arraySize must be ArraySizeSemantics or None, got {type(value).__name__}"
+            )
+        self._arraySize = value
+        # This attribute represents the ability to declare the as optional.
+        # that, at runtime, the ImplementationDataType or may not have a valid value
+                # and shall ignored.
+        # runtime software provides means to set as not valid at end of a communication
+                # and determine its the receiving end.
+        self._isOptional: Optional["Boolean"] = None
+
+    @property
+    def is_optional(self) -> Optional["Boolean"]:
+        """Get isOptional (Pythonic accessor)."""
+        return self._isOptional
+
+    @is_optional.setter
+    def is_optional(self, value: Optional["Boolean"]) -> None:
+        """
+        Set isOptional with validation.
+
+        Args:
+            value: The isOptional to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._isOptional = None
+            return
+
+        if not isinstance(value, Boolean):
+            raise TypeError(
+                f"isOptional must be Boolean or None, got {type(value).__name__}"
+            )
+        self._isOptional = value
+        # Element of an array, struct, or union in case of a nested declaration (i.
+        # e.
+        # without using "typedefs").
+        # of ImplementionDataTypeElement is variability with the purpose to support the
+                # of elements inside a Implementation a structure.
+        # atpVariation.
+        self._subElement: List["ImplementationData"] = []
+
+    @property
+    def sub_element(self) -> List["ImplementationData"]:
+        """Get subElement (Pythonic accessor)."""
+        return self._subElement
+        # The properties of this ImplementationDataTypeElement.
+        # atpSplitable.
+        self._swDataDef: Optional["SwDataDefProps"] = None
+
+    @property
+    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+        """Get swDataDef (Pythonic accessor)."""
+        return self._swDataDef
+
+    @sw_data_def.setter
+    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+        """
+        Set swDataDef with validation.
+
+        Args:
+            value: The swDataDef to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._swDataDef = None
+            return
+
+        if not isinstance(value, SwDataDefProps):
+            raise TypeError(
+                f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
+            )
+        self._swDataDef = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getArrayImplPolicy(self) -> "ArrayImplPolicyEnum":
+        """
+        AUTOSAR-compliant getter for arrayImplPolicy.
 
         Returns:
-            SymbolProps: The symbol properties
+            The arrayImplPolicy value
+
+        Note:
+            Delegates to array_impl_policy property (CODING_RULE_V2_00017)
         """
-        return self.symbolProps
+        return self.array_impl_policy  # Delegates to property
+
+    def setArrayImplPolicy(self, value: "ArrayImplPolicyEnum") -> "ImplementationDataTypeElement":
+        """
+        AUTOSAR-compliant setter for arrayImplPolicy with method chaining.
+
+        Args:
+            value: The arrayImplPolicy to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to array_impl_policy property setter (gets validation automatically)
+        """
+        self.array_impl_policy = value  # Delegates to property setter
+        return self
+
+    def getArraySize(self) -> "ArraySizeSemantics":
+        """
+        AUTOSAR-compliant getter for arraySize.
+
+        Returns:
+            The arraySize value
+
+        Note:
+            Delegates to array_size property (CODING_RULE_V2_00017)
+        """
+        return self.array_size  # Delegates to property
+
+    def setArraySize(self, value: "ArraySizeSemantics") -> "ImplementationDataTypeElement":
+        """
+        AUTOSAR-compliant setter for arraySize with method chaining.
+
+        Args:
+            value: The arraySize to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to array_size property setter (gets validation automatically)
+        """
+        self.array_size = value  # Delegates to property setter
+        return self
+
+    def getIsOptional(self) -> "Boolean":
+        """
+        AUTOSAR-compliant getter for isOptional.
+
+        Returns:
+            The isOptional value
+
+        Note:
+            Delegates to is_optional property (CODING_RULE_V2_00017)
+        """
+        return self.is_optional  # Delegates to property
+
+    def setIsOptional(self, value: "Boolean") -> "ImplementationDataTypeElement":
+        """
+        AUTOSAR-compliant setter for isOptional with method chaining.
+
+        Args:
+            value: The isOptional to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to is_optional property setter (gets validation automatically)
+        """
+        self.is_optional = value  # Delegates to property setter
+        return self
+
+    def getSubElement(self) -> List["ImplementationData"]:
+        """
+        AUTOSAR-compliant getter for subElement.
+
+        Returns:
+            The subElement value
+
+        Note:
+            Delegates to sub_element property (CODING_RULE_V2_00017)
+        """
+        return self.sub_element  # Delegates to property
+
+    def getSwDataDef(self) -> "SwDataDefProps":
+        """
+        AUTOSAR-compliant getter for swDataDef.
+
+        Returns:
+            The swDataDef value
+
+        Note:
+            Delegates to sw_data_def property (CODING_RULE_V2_00017)
+        """
+        return self.sw_data_def  # Delegates to property
+
+    def setSwDataDef(self, value: "SwDataDefProps") -> "ImplementationDataTypeElement":
+        """
+        AUTOSAR-compliant setter for swDataDef with method chaining.
+
+        Args:
+            value: The swDataDef to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to sw_data_def property setter (gets validation automatically)
+        """
+        self.sw_data_def = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_array_impl_policy(self, value: Optional["ArrayImplPolicyEnum"]) -> "ImplementationDataTypeElement":
+        """
+        Set arrayImplPolicy and return self for chaining.
+
+        Args:
+            value: The arrayImplPolicy to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_array_impl_policy("value")
+        """
+        self.array_impl_policy = value  # Use property setter (gets validation)
+        return self
+
+    def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "ImplementationDataTypeElement":
+        """
+        Set arraySize and return self for chaining.
+
+        Args:
+            value: The arraySize to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_array_size("value")
+        """
+        self.array_size = value  # Use property setter (gets validation)
+        return self
+
+    def with_is_optional(self, value: Optional["Boolean"]) -> "ImplementationDataTypeElement":
+        """
+        Set isOptional and return self for chaining.
+
+        Args:
+            value: The isOptional to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_is_optional("value")
+        """
+        self.is_optional = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "ImplementationDataTypeElement":
+        """
+        Set swDataDef and return self for chaining.
+
+        Args:
+            value: The swDataDef to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_sw_data_def("value")
+        """
+        self.sw_data_def = value  # Use property setter (gets validation)
+        return self
+
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    AutosarDataType,
+)
 
 
-class ArrayImplPolicyEnum(AREnum):
+class AbstractImplementationDataType(AutosarDataType, ABC):
     """
-    Enumeration for array implementation policy.
+    This meta-class represents an abstract base class for different flavors of
+    ImplementationDataType.
+
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
+
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 267, Classic Platform
+      R23-11)
+      - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 42, Foundation
+      R23-11)
     """
+    def __init__(self):
+        if type(self) is AbstractImplementationDataType:
+            raise TypeError("AbstractImplementationDataType is an abstract class.")
+        super().__init__()
 
-    DYNAMIC = "dynamic"
-    STATIC = "static"
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
-    def __init__(self) -> None:
-        super().__init__([
-            ArrayImplPolicyEnum.DYNAMIC,
-            ArrayImplPolicyEnum.STATIC,
-        ])
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
 
 
-class ArraySizeSemanticsEnum(AREnum):
+class AbstractImplementationDataTypeElement(Identifiable, ABC):
     """
-    Enumeration for array size semantics.
+    This meta-class represents the ability to act as an abstract base class for
+    specific derived meta-classes that support the modeling of
+    ImplementationDataTypes for a particular language binding.
+
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
+
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 269, Classic Platform
+      R23-11)
     """
+    def __init__(self):
+        if type(self) is AbstractImplementationDataTypeElement:
+            raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
+        super().__init__()
 
-    FIXED_SIZE = "fixed-size"
-    VARIABLE_SIZE = "variable-size"
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
-    def __init__(self) -> None:
-        super().__init__([
-            ArraySizeSemanticsEnum.FIXED_SIZE,
-            ArraySizeSemanticsEnum.VARIABLE_SIZE,
-        ])
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====

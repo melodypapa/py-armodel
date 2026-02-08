@@ -1,83 +1,28 @@
-"""
-V2 M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore package.
-"""
+from abc import ABC
 
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    CommunicationDirectionType,
-    ContainedIPduCollectionSemanticsEnum,
-    ContainedIPduProps,
-    ContainerIPdu,
-    ContainerIPduHeaderTypeEnum,
-    ContainerIPduTriggerEnum,
-    DcmIPdu,
-    DiagPduType,
-    DynamicPart,
-    DynamicPartAlternative,
-    Frame,
-    FramePort,
-    FrameTriggering,
-    GeneralPurposeIPdu,
-    GeneralPurposePdu,
-    IPdu,
-    IPduPort,
-    IPduSignalProcessingEnum,
-    IPduTiming,
-    ISignal,
-    ISignalGroup,
-    ISignalIPdu,
-    ISignalIPduGroup,
-    ISignalPort,
-    ISignalProps,
-    ISignalToIPduMapping,
-    ISignalTriggering,
-    ISignalTypeEnum,
-    J1939DcmIPdu,
-    MultiplexedIPdu,
-    MultiplexedPart,
-    NmPdu,
-    NPdu,
-    Pdu,
-    PdurIPduGroup,
-    PduToFrameMapping,
-    PduTriggering,
-    RxAcceptContainedIPduEnum,
-    SecureCommunicationAuthenticationProps,
-    SecureCommunicationFreshnessProps,
-    SecureCommunicationProps,
-    SecureCommunicationPropsSet,
-    SecuredIPdu,
-    SecuredPduHeaderEnum,
-    SegmentPosition,
-    StaticPart,
-    SystemSignal,
-    SystemSignalGroup,
-    TransferPropertyEnum,
-    TriggerMode,
-    UserDefinedIPdu,
-    UserDefinedPdu,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
-    ClientIdRange,
-    CommConnectorPort,
-    CommunicationCluster,
-    CommunicationConnector,
-    CommunicationController,
-    CommunicationCycle,
-    CycleCounter,
-    CycleRepetition,
-    CycleRepetitionType,
-    EcuInstance,
-    PhysicalChannel,
-    PncGatewayTypeEnum,
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PackageableElement import (
+    PackageableElement,
 )
 
-# Classes:
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexElement import (
-    FibexElement,
-)
 
-__all__ = [
-    # .CoreCommunication.*,
-    # .CoreTopology.*,
-    "FibexElement",
-]
+class FibexElement(PackageableElement, ABC):
+    """
+    ASAM FIBEX elements specifying Communication and Topology.
+
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2026, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 445, Foundation
+      R23-11)
+    """
+    def __init__(self):
+        if type(self) is FibexElement:
+            raise TypeError("FibexElement is an abstract class.")
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
