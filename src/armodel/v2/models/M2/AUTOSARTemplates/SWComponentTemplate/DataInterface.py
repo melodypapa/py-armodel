@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface
 
 
 class DataInterface(PortInterface, ABC):

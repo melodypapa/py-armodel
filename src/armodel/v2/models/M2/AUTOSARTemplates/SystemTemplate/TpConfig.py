@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 
 class TpConfig(FibexElement, ABC):

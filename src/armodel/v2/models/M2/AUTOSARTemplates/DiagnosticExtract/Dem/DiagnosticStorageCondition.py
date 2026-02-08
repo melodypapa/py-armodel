@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticCondition import DiagnosticCondition
 
 class DiagnosticStorageCondition(DiagnosticCondition):
     """

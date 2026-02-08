@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import PhysicalChannel
 
 
 class AbstractCanPhysicalChannel(PhysicalChannel, ABC):

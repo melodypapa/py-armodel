@@ -2,6 +2,9 @@ from abc import ABC
 from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType
+
     AtpStructureElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

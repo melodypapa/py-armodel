@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 
 class TDEventComplex(TimingDescriptionEvent):
     """

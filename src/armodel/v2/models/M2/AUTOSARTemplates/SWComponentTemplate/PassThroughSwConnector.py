@@ -1,4 +1,5 @@
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwConnector
 
 
 class PassThroughSwConnector(SwConnector):

@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 
 
 class TDEventSLLET(TimingDescriptionEvent, ABC):

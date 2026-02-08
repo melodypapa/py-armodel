@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
 
 
 class DiagnosticSwMapping(DiagnosticMapping, ABC):

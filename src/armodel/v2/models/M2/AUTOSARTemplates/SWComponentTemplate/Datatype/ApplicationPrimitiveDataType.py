@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
     """

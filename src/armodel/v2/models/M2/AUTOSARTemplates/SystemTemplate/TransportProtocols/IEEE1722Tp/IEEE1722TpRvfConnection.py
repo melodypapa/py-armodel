@@ -1,4 +1,5 @@
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import IEEE1722TpAvConnection
 
 
 class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):

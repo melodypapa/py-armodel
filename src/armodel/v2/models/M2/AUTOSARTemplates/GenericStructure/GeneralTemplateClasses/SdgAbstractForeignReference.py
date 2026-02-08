@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgElementWithGid
 
 
 class SdgAbstractForeignReference(SdgElementWithGid, ABC):

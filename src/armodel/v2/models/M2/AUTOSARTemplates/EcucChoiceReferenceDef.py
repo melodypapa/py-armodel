@@ -1,4 +1,5 @@
 from typing import List
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractInternalReferenceDef
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):

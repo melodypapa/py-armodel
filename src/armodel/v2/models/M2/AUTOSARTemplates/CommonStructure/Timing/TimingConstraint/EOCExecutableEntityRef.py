@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRefAbstract
 
 
 class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):

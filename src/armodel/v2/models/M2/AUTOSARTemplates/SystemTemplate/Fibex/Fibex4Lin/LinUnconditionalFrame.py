@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrame
 
 class LinUnconditionalFrame(LinFrame):
     """

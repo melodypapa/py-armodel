@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionElement
 
 
 class EcucModuleDef(EcucDefinitionElement):

@@ -5,6 +5,11 @@ from abc import ABC
 from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmClusterCoupling
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import BusspecificNmEcu
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmCluster
+
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (

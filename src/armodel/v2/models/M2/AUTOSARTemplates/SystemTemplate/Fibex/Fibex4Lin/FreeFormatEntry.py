@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ScheduleTableEntry
 
 
 class FreeFormatEntry(ScheduleTableEntry, ABC):

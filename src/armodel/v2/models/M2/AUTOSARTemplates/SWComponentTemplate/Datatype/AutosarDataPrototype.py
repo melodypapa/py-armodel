@@ -1,5 +1,8 @@
 from abc import ABC
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototype import (
+    DataPrototype,
+    )
 
 
 class AutosarDataPrototype(DataPrototype, ABC):

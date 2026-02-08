@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 
 class BswSchedulerNamePrefix(ImplementationProps):
     """

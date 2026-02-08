@@ -1,4 +1,5 @@
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationDescription
 
 
 class EndToEndTransformationDescription(TransformationDescription):

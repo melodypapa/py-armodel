@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucIndexableValue
 
 
 class EcucParameterValue(EcucIndexableValue, ABC):

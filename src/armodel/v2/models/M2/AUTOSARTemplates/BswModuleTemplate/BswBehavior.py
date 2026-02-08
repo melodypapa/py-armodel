@@ -13,6 +13,12 @@ from abc import ABC
 from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleCallPoint
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
     AbstractEvent,
     ExecutableEntity,
     InternalBehavior,

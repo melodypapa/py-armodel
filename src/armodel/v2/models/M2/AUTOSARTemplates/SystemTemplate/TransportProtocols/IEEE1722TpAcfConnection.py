@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import IEEE1722TpConnection
 
 
 class IEEE1722TpAcfConnection(IEEE1722TpConnection):

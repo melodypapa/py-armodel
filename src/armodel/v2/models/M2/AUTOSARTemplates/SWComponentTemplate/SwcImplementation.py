@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 
 
 class SwcImplementation(Implementation):

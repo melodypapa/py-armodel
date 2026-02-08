@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import SpecElementReference
 
 
 class DataFormatElementReference(SpecElementReference, ABC):

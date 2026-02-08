@@ -1,3 +1,7 @@
+"""
+V2 M2::AUTOSARTemplates::CommonStructure::InternalBehavior package.
+"""
+
 from abc import ABC
 from typing import List
 
@@ -7,6 +11,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.AbstractEvent import AbstractEvent
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExclusiveArea import ExclusiveArea
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExclusiveAreaNestingOrder import ExclusiveAreaNestingOrder
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExecutableEntity import ExecutableEntity
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ExecutableEntityActivationReason import ExecutableEntityActivationReason
 
 
 class InternalBehavior(Identifiable, ABC):
@@ -35,7 +44,7 @@ class InternalBehavior(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Describes a read only memory object containing characteristic value(s)
-                # implemented by this Internal of ParameterDataPrototype has to be the ”C’
+                # implemented by this Internal of ParameterDataPrototype has to be the "C'
                 # identifier of the described constant.
         # value(s) might be shared between Sw the same SwComponentType.
         # of constantMemory is subject to the purpose to support variability in the or
@@ -76,9 +85,9 @@ class InternalBehavior(Identifiable, ABC):
         # Describes a read and writeable static memory object variables implemented by
                 # component.
         # The term "static" is used in the "non-temporary" and does not necessarily
-                # linker encapsulation.
+        # linker encapsulation.
         # This kind of memory is if supportsMultipleInstantiation is FALSE.
-        # of the VariableDataPrototype has to be the ”C’ identifier of the described
+        # of the VariableDataPrototype has to be the "C' identifier of the described
                 # variable.
         # of staticMemory is subject to variability purpose to support variability in
                 # the software algorithms in the implementation are number of memory objects.
@@ -153,3 +162,15 @@ class InternalBehavior(Identifiable, ABC):
         return self.static_memory  # Delegates to property
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+
+__all__ = [
+    "AbstractEvent",
+    "ApiPrincipleEnum",
+    "ExclusiveArea",
+    "ExclusiveAreaNestingOrder",
+    "ExecutableEntity",
+    "ExecutableEntityActivationReason",
+    "InternalBehavior",
+    "ReentrancyLevelEnum",
+]

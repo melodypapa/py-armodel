@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import IdsPlatformInstantiation
 
 class IdsmModuleInstantiation(IdsPlatformInstantiation):
     """

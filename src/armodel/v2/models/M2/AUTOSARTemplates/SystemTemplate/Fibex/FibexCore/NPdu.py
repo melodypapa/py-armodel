@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import IPdu
 
 class NPdu(IPdu):
     """

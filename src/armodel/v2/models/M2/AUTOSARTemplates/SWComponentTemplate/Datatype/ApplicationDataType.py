@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
 
 
 class ApplicationDataType(AutosarDataType, ABC):

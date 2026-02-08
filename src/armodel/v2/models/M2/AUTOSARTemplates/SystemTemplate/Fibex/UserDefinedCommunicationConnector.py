@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector
 
 class UserDefinedCommunicationConnector(CommunicationConnector):
     """

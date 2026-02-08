@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
 
 
 class AbstractRequiredPortPrototype(PortPrototype, ABC):

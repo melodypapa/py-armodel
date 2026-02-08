@@ -1,9 +1,14 @@
+"""
+V2 M2::AUTOSARTemplates::SWComponentTemplate::PortInterface package.
+"""
+
 from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
     ARElement,
 )
+from .InstanceRefs import *
 
 
 class PortInterface(ARElement, ABC):
@@ -181,3 +186,15 @@ class PortInterface(ARElement, ABC):
         """
         self.service_kind = value  # Use property setter (gets validation)
         return self
+
+
+# Classes defined in this package:
+from .ApplicationCompositeElementInPortInterfaceInstanceRef import (
+    ApplicationCompositeElementInPortInterfaceInstanceRef,
+)
+
+__all__ = [
+    # .InstanceRefs.*,
+    "PortInterface",
+    "ApplicationCompositeElementInPortInterfaceInstanceRef",
+]

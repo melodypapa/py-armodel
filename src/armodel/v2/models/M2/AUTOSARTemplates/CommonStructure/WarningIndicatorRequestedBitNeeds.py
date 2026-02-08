@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
 
 class WarningIndicatorRequestedBitNeeds(DiagnosticCapabilityElement):
     """
