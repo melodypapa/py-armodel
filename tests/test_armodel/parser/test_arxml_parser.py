@@ -1,7 +1,10 @@
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
-from armodel.parser.arxml_parser import ARXMLParser
 import xml.etree.ElementTree as ET
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
+    AUTOSARDoc,
+)
+from armodel.parser.arxml_parser import ARXMLParser
 
 
 class TestARXMLParser:

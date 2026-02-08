@@ -1,20 +1,27 @@
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Describable,
+    Identifiable,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
-    DataTransformationKindEnum,
-    DataTransformation,
     BufferProperties,
-    TransformationDescription,
     DataIdModeEnum,
+    DataTransformation,
+    DataTransformationKindEnum,
+    DataTransformationSet,
     EndToEndProfileBehaviorEnum,
     EndToEndTransformationDescription,
-    TransformerClassEnum,
-    TransformationTechnology,
-    DataTransformationSet,
+    EndToEndTransformationISignalProps,
+    TransformationDescription,
     TransformationISignalProps,
-    EndToEndTransformationISignalProps
+    TransformationTechnology,
+    TransformerClassEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement, Describable
 
 
 class MockParent(ARObject):
@@ -91,12 +98,12 @@ class TestTransformer:
         transformation = DataTransformation(parent, "test_transformation")
 
         assert isinstance(transformation, Identifiable)
-        
+
         # Test default values
         assert transformation.getDataTransformationKind() is None
         assert transformation.getExecuteDespiteDataUnavailability() is None
         assert transformation.getTransformerChainRefs() == []
-        
+
         # Test setter/getter methods with method chaining - with None values
         assert transformation == transformation.setDataTransformationKind(None)
         assert transformation.getDataTransformationKind() is None
@@ -109,11 +116,11 @@ class TestTransformer:
         transformation.setDataTransformationKind(mock_kind)
         assert transformation.getDataTransformationKind() == mock_kind
         assert transformation == transformation.setDataTransformationKind(mock_kind)
-        
+
         transformation.setExecuteDespiteDataUnavailability(True)
         assert transformation.getExecuteDespiteDataUnavailability() is True
         assert transformation == transformation.setExecuteDespiteDataUnavailability(True)
-        
+
         # Test addTransformerChainRef with method chaining
         transformation.addTransformerChainRef("chain_ref")
         assert transformation.getTransformerChainRefs() == ["chain_ref"]
@@ -137,7 +144,7 @@ class TestTransformer:
         data_set = DataTransformationSet(parent, "test_data_set")
 
         assert isinstance(data_set, ARElement)
-        
+
         # Test default values
         assert data_set.getDataTransformations() == []
         assert data_set.getTransformationTechnologies() == []
@@ -169,7 +176,7 @@ class TestTransformer:
         description = EndToEndTransformationDescription()
 
         assert isinstance(description, Describable)
-        
+
         # Test default values
         assert description.getClearFromValidToInvalid() is None
         assert description.getCounterOffset() is None
@@ -265,7 +272,7 @@ class TestTransformer:
         description.setCounterOffset(5)
         assert description.getCounterOffset() == 5
         assert description == description.setCounterOffset(5)
-        
+
         description.setClearFromValidToInvalid(True)
         assert description.getClearFromValidToInvalid() is True
         assert description == description.setClearFromValidToInvalid(True)
@@ -365,7 +372,7 @@ class TestTransformer:
         technology = TransformationTechnology(parent, "test_technology")
 
         assert isinstance(technology, Identifiable)
-        
+
         # Test default values
         assert technology.getBufferProperties() is None
         assert technology.getHasInternalState() is None
@@ -402,11 +409,11 @@ class TestTransformer:
         technology.setBufferProperties(mock_buffer)
         assert technology.getBufferProperties() == mock_buffer
         assert technology == technology.setBufferProperties(mock_buffer)
-        
+
         technology.setHasInternalState(True)
         assert technology.getHasInternalState() is True
         assert technology == technology.setHasInternalState(True)
-        
+
         technology.setProtocol("e2e")
         assert technology.getProtocol() == "e2e"
         assert technology == technology.setProtocol("e2e")

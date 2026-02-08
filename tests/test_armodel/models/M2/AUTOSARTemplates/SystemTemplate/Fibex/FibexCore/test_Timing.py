@@ -1,30 +1,36 @@
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import (
+    DataFilter,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
-    ModeDrivenTransmissionModeCondition,
-    TransmissionModeCondition,
-    TimeRangeType,
     CyclicTiming,
     EventControlledTiming,
+    ModeDrivenTransmissionModeCondition,
+    TimeRangeType,
+    TransmissionModeCondition,
+    TransmissionModeDeclaration,
     TransmissionModeTiming,
-    TransmissionModeDeclaration
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
 
 class Test_FibexCoreTiming:
     """Test cases for FibexCore Timing classes with method chaining."""
-    
+
     def test_ModeDrivenTransmissionModeCondition(self):
         """Test ModeDrivenTransmissionModeCondition class functionality with method chaining."""
         condition = ModeDrivenTransmissionModeCondition()
 
         assert isinstance(condition, ARObject)
-        
+
         # Test default values
         assert condition.getModeDeclarationRef() is None
-        
+
         # Test setter/getter methods with method chaining
         result = condition.setModeDeclarationRef("mode_ref")
         assert condition.getModeDeclarationRef() == "mode_ref"
@@ -40,7 +46,7 @@ class Test_FibexCoreTiming:
         condition = TransmissionModeCondition()
 
         assert isinstance(condition, ARObject)
-        
+
         # Test default values
         assert condition.getDataFilter() is None
         assert condition.getISignalInIPduRef() is None
@@ -69,7 +75,7 @@ class Test_FibexCoreTiming:
         time_range = TimeRangeType()
 
         assert isinstance(time_range, ARObject)
-        
+
         # Test default values
         assert time_range.getTolerance() is None
         assert time_range.getValue() is None
@@ -97,7 +103,7 @@ class Test_FibexCoreTiming:
         timing = CyclicTiming()
 
         assert isinstance(timing, Describable)
-        
+
         # Test default values
         assert timing.getTimeOffset() is None
         assert timing.getTimePeriod() is None
@@ -126,7 +132,7 @@ class Test_FibexCoreTiming:
         timing = EventControlledTiming()
 
         assert isinstance(timing, Describable)
-        
+
         # Test default values
         assert timing.getNumberOfRepetitions() is None
         assert timing.getRepetitionPeriod() is None
@@ -155,7 +161,7 @@ class Test_FibexCoreTiming:
         timing = TransmissionModeTiming()
 
         assert isinstance(timing, ARObject)
-        
+
         # Test default values
         assert timing.getCyclicTiming() is None
         assert timing.getEventControlledTiming() is None
@@ -185,7 +191,7 @@ class Test_FibexCoreTiming:
         declaration = TransmissionModeDeclaration()
 
         assert isinstance(declaration, ARObject)
-        
+
         # Test default values
         assert declaration.getModeDrivenFalseConditions() == []
         assert declaration.getModeDrivenTrueConditions() == []

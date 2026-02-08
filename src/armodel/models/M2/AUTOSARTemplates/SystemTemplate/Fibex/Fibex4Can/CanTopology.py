@@ -3,10 +3,21 @@
 
 from abc import ABC
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Float,
+    Integer,
+    PositiveInteger,
+    PositiveUnlimitedInteger,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationConnector,
+    CommunicationController,
+)
 
 
 class CanControllerFdConfiguration(ARObject):
@@ -431,7 +442,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
             raise TypeError("AbstractCanCommunicationControllerAttributes is an abstract class.")
-        
+
         super().__init__()
 
         self.canControllerFdAttributes: CanControllerFdConfiguration = None
@@ -536,7 +547,7 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
             raise TypeError("AbstractCanCommunicationController is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.canControllerAttributes: AbstractCanCommunicationControllerAttributes = None
@@ -568,7 +579,7 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
             raise TypeError("AbstractCanCommunicationConnector is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
 

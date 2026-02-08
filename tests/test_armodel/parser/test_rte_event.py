@@ -1,12 +1,14 @@
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
-
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
-
-
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
+    AUTOSARDoc,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    SwcInternalBehavior,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 
 
@@ -39,7 +41,7 @@ class TestRteEVent:
               </INTERNAL-BEHAVIORS>
             </APPLICATION-SW-COMPONENT-TYPE>
         """ # noqa E501
-        
+
         # prepare the XML content
         element = ET.fromstring(xml_content)
         document = AUTOSARDoc()
@@ -108,7 +110,7 @@ class TestRteEVent:
               </INTERNAL-BEHAVIORS>
             </APPLICATION-SW-COMPONENT-TYPE>
         """ # noqa E501
-        
+
         # prepare the XML content
         element = ET.fromstring(xml_content)
         document = AUTOSARDoc()

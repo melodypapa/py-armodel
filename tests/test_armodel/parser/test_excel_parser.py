@@ -1,6 +1,5 @@
 """Tests for excel_parser module."""
 
-from unittest.mock import MagicMock
 
 import pytest
 from openpyxl import Workbook

@@ -1,19 +1,38 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface, NvDataInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, SenderReceiverInterface
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpBlueprintable,
+    AtpType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    AtpPrototype,
+    AutosarDataPrototype,
+    DataPrototype,
+    VariableDataPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ApplicationError,
+    ArgumentDataPrototype,
+    ClientServerInterface,
+    ClientServerOperation,
+    DataInterface,
+    NvDataInterface,
+    ParameterInterface,
+    PortInterface,
+    SenderReceiverInterface,
+)
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
@@ -176,11 +195,15 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         element2 = cs_if.getPossibleErrors()[0]
         assert (element == element2)
-    
+
     def test_NvDataInterface_serviceKind(self):
         """Test NvDataInterface getServiceKind method to cover line 42 in PortInterface/__init__.py"""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            ARLiteral,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            NvDataInterface,
+        )
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         nv_data_if = NvDataInterface(ar_root, "NvDataInterface")
@@ -197,7 +220,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert nv_data_if == nv_data_if.setServiceKind(ar_literal)  # Test method chaining
 
         # Test setIsService and getIsService to cover lines 35, 38-39
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            ARBoolean,
+        )
         ar_bool = ARBoolean()
         nv_data_if.setIsService(ar_bool)
         assert nv_data_if.getIsService() == ar_bool

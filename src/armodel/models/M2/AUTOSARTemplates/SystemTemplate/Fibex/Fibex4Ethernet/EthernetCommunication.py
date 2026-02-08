@@ -2,10 +2,25 @@
 # It defines socket connections, connection bundles, and service instances for Ethernet networking
 
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Identifier,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    FibexElement,
+)
+
 
 class SocketConnection(Describable):
     """
@@ -42,7 +57,7 @@ class SocketConnection(Describable):
     def setAllowedTcpOptionsRef(self, value):
         self.allowedTcpOptionsRef = value
         return self
-    
+
     def getClientIpAddrFromConnectionRequest(self):
         return self.clientIpAddrFromConnectionRequest
 
@@ -63,7 +78,7 @@ class SocketConnection(Describable):
     def setClientPortFromConnectionRequest(self, value):
         self.clientPortFromConnectionRequest = value
         return self
-    
+
     def getPdus(self):
         return self.pdus
 

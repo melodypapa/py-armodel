@@ -3,9 +3,23 @@
 
 from abc import ABC
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Ip4AddressString,
+    Ip6AddressString,
+    PositiveInteger,
+    String,
+    TimeValue,
+)
+
 
 class NetworkEndpointAddress(ARObject, ABC):
     """
@@ -16,9 +30,9 @@ class NetworkEndpointAddress(ARObject, ABC):
     def __init__(self):
         if type(self) == NetworkEndpointAddress:
             raise TypeError("NetworkEndpointAddress is an abstract class.")
-        
+
         super().__init__()
-        
+
 class Ipv4Configuration(NetworkEndpointAddress):
     """
     Defines IPv4 network configuration properties for a network endpoint,
@@ -92,7 +106,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setTtl(self, value):
         self.ttl = value
         return self
-    
+
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Defines IPv6 network configuration properties for a network endpoint,
@@ -174,7 +188,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpv6AddressSource(self, value):
         self.ipv6AddressSource = value
         return self
-    
+
 class DoIpEntity(ARObject):
     """
     Defines properties for a DoIP (Diagnostics over IP) entity,
@@ -193,7 +207,7 @@ class DoIpEntity(ARObject):
         if value is not None:
             self.doIpEntityRole = value
         return self
-    
+
 class TimeSyncClientConfiguration(ARObject):
     """
     Configures time synchronization client properties, defining
@@ -269,7 +283,7 @@ class TimeSyncServerConfiguration(Referrable):
             self.timeSyncTechnology = value
         return self
 
-    
+
 class TimeSynchronization(ARObject):
     """
     Defines time synchronization configuration for network entities,

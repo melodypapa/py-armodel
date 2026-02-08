@@ -1,10 +1,21 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRefAbstract, EOCExecutableEntityRef, ExecutionOrderConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension, SwcTiming
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefAbstract,
+    ExecutionOrderConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    SwcTiming,
+    TimingExtension,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class TestTimingConstraint:
@@ -23,9 +34,9 @@ class TestTimingConstraint:
         class ConcreteTimingConstraint(TimingConstraint):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         constraint = ConcreteTimingConstraint(ar_root, "TestTimingConstraint")
-        
+
         # Test property setter and getter
         test_ref = RefType().setValue("TestRef")
         constraint.timingConditionRef = test_ref
@@ -47,7 +58,7 @@ class TestEOCExecutableEntityRef:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         entity_ref = EOCExecutableEntityRef(ar_root, "TestEntityRef")
-        
+
         assert entity_ref is not None
         assert entity_ref.getShortName() == "TestEntityRef"
         assert entity_ref.successor_refs == []
@@ -57,7 +68,7 @@ class TestEOCExecutableEntityRef:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         entity_ref = EOCExecutableEntityRef(ar_root, "TestEntityRef")
-        
+
         ref = RefType().setValue("SuccessorRef")
         entity_ref.addSuccessorRef(ref)
         assert ref in entity_ref.getSuccessorRefs()
@@ -69,7 +80,7 @@ class TestEOCExecutableEntityRef:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         entity_ref = EOCExecutableEntityRef(ar_root, "TestEntityRef")
-        
+
         refs = entity_ref.getSuccessorRefs()
         assert refs == []
         assert isinstance(refs, list)
@@ -81,7 +92,7 @@ class TestExecutionOrderConstraint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
-        
+
         assert constraint is not None
         assert constraint.getShortName() == "TestConstraint"
         assert constraint.ordered_elements == []
@@ -91,7 +102,7 @@ class TestExecutionOrderConstraint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
-        
+
         entity_ref = constraint.createEOCExecutableEntityRef("EntityRef")
         assert isinstance(entity_ref, EOCExecutableEntityRef)
         assert entity_ref.getShortName() == "EntityRef"
@@ -103,10 +114,10 @@ class TestExecutionOrderConstraint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
-        
+
         entity_ref1 = constraint.createEOCExecutableEntityRef("EntityRef")
         entity_ref2 = constraint.createEOCExecutableEntityRef("EntityRef")  # Should return same instance
-        
+
         assert entity_ref1 is entity_ref2
         assert len(constraint.getOrderedElements()) == 1
 
@@ -115,7 +126,7 @@ class TestExecutionOrderConstraint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
-        
+
         elements = constraint.getOrderedElements()
         assert elements == []
         assert isinstance(elements, list)
@@ -137,10 +148,10 @@ class TestTimingExtension:
         class ConcreteTimingExtension(TimingExtension):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         extension = ConcreteTimingExtension(ar_root, "TestTimingExtension")
         constraint = extension.createExecutionOrderConstraint("TestConstraint")
-        
+
         assert isinstance(constraint, ExecutionOrderConstraint)
         assert constraint.getShortName() == "TestConstraint"
         assert constraint in extension.getTimingRequirements()
@@ -153,7 +164,7 @@ class TestSwcTiming:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_timing = SwcTiming(ar_root, "TestSwcTiming")
-        
+
         assert swc_timing is not None
         assert swc_timing.getShortName() == "TestSwcTiming"
         assert swc_timing.timing_requirements == []
@@ -163,7 +174,7 @@ class TestSwcTiming:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_timing = SwcTiming(ar_root, "TestSwcTiming")
-        
+
         constraint = swc_timing.createExecutionOrderConstraint("TestConstraint")
         assert isinstance(constraint, ExecutionOrderConstraint)
         assert constraint.getShortName() == "TestConstraint"
@@ -175,7 +186,7 @@ class TestSwcTiming:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_timing = SwcTiming(ar_root, "TestSwcTiming")
-        
+
         requirements = swc_timing.getTimingRequirements()
         assert requirements == []
         assert isinstance(requirements, list)

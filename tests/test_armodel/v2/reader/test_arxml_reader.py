@@ -5,10 +5,7 @@ Test-Driven Development: Write test first, watch it fail, then implement.
 
 Following V1 test structure pattern from tests/test_armodel/parser/test_arxml_parser.py
 """
-import pytest
-import xml.etree.ElementTree as ET
-from pathlib import Path
-from armodel.v2.models.models import AUTOSAR, ARPackage
+from armodel.v2.models.models import AUTOSAR
 from armodel.v2.reader.base_reader import ARXMLReader
 
 

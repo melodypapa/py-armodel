@@ -1,8 +1,12 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class TestTimingConstraint:
@@ -21,9 +25,9 @@ class TestTimingConstraint:
         class ConcreteTimingConstraint(TimingConstraint):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         constraint = ConcreteTimingConstraint(ar_root, "TestTimingConstraint")
-        
+
         # Test property setter and getter
         test_ref = RefType().setValue("TestRef")
         constraint.timingConditionRef = test_ref

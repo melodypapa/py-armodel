@@ -4,10 +4,11 @@ Tests cover all classes and methods in the ServerCall.py file to achieve 100% te
 """
 
 import pytest
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
-    ServerCallPoint
-)
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
+    ServerCallPoint,
+)
 
 
 class TestServerCallPoint:
@@ -22,7 +23,9 @@ class TestServerCallPoint:
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of ServerCallPoint can be instantiated."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SynchronousServerCallPoint
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+            SynchronousServerCallPoint,
+        )
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -46,7 +49,9 @@ class TestServerCallPoint:
         # Test getOperationIRef and setOperationIRef to cover lines 20, 23-24
         assert call_point.getOperationIRef() is None
 
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ROperationInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+            ROperationInAtomicSwcInstanceRef,
+        )
         operation_ref = ROperationInAtomicSwcInstanceRef()
         call_point.setOperationIRef(operation_ref)
         assert call_point.getOperationIRef() == operation_ref

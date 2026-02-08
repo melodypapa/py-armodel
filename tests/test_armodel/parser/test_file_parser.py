@@ -1,11 +1,6 @@
 """Tests for file_parser module."""
 
-import os
-import tempfile
-from pathlib import Path
-from unittest.mock import MagicMock, patch
 
-import pytest
 
 from armodel.parser.file_parser import FileListParser
 

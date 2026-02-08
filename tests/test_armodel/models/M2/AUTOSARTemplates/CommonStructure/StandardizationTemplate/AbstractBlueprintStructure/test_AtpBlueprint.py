@@ -4,7 +4,9 @@ in the AUTOSAR CommonStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import AtpBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
+    AtpBlueprint,
+)
 
 
 class TestAtpBlueprint:
@@ -45,7 +47,9 @@ class TestAtpBlueprint:
         """
         Test that AtpBlueprint properly inherits from Identifiable.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+            Identifiable,
+        )
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")

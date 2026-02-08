@@ -6,7 +6,7 @@ These tests ensure 100% code coverage for the CLI argument parsing functionality
 import os
 import tempfile
 from pathlib import Path
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from armodel.lib.cli_args_parser import InputFileParser
 

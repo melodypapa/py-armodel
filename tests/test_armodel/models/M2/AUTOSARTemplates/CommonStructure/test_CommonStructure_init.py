@@ -5,21 +5,24 @@ to be thoroughly tested for complete coverage.
 """
 
 import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
-    ValueSpecification,
-    CompositeValueSpecification,
-    CompositeRuleBasedValueArgument,
     ApplicationValueSpecification,
+    ArrayValueSpecification,
+    CompositeRuleBasedValueArgument,
+    CompositeValueSpecification,
+    ConstantReference,
+    ConstantSpecification,
+    NumericalValueSpecification,
     RecordValueSpecification,
     TextValueSpecification,
-    NumericalValueSpecification,
-    ArrayValueSpecification,
-    ConstantSpecification,
-    ConstantReference
+    ValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARNumerical, ARLiteral, RefType
+    ARLiteral,
+    ARNumerical,
+    RefType,
 )
 
 
@@ -34,7 +37,7 @@ class TestValueSpecification:
         class ConcreteValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         spec = ConcreteValueSpecification()
         assert spec is not None
 
@@ -43,7 +46,7 @@ class TestValueSpecification:
         class ConcreteValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         spec = ConcreteValueSpecification()
         assert spec.getShortLabel() is None
 
@@ -52,7 +55,7 @@ class TestValueSpecification:
         class ConcreteValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         spec = ConcreteValueSpecification()
         test_label = "test_label"
         result = spec.setShortLabel(test_label)
@@ -64,7 +67,7 @@ class TestValueSpecification:
         class ConcreteValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         spec = ConcreteValueSpecification()
         result = spec.setShortLabel(None)
         assert result is spec
@@ -82,7 +85,7 @@ class TestCompositeValueSpecification:
         class ConcreteCompositeValueSpecification(CompositeValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         spec = ConcreteCompositeValueSpecification()
         assert spec is not None
 
@@ -98,7 +101,7 @@ class TestCompositeRuleBasedValueArgument:
         class ConcreteCompositeRuleBasedValueArgument(CompositeRuleBasedValueArgument):
             def __init__(self):
                 super().__init__()
-        
+
         arg = ConcreteCompositeRuleBasedValueArgument()
         assert arg is not None
 
@@ -107,7 +110,7 @@ class TestApplicationValueSpecification:
     def test_initialization(self):
         """Test ApplicationValueSpecification initialization"""
         spec = ApplicationValueSpecification()
-        
+
         assert spec is not None
         assert spec.category is None
         assert spec.swAxisCont == []
@@ -178,22 +181,22 @@ class TestRecordValueSpecification:
     def test_initialization(self):
         """Test RecordValueSpecification initialization"""
         spec = RecordValueSpecification()
-        
+
         assert spec is not None
         assert spec.fields == []
 
     def test_add_field(self):
         """Test addField method"""
         spec = RecordValueSpecification()
-        
+
         # Create a mock ValueSpecification for testing
         class MockValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         mock_field = MockValueSpecification()
         spec.addField(mock_field)
-        
+
         fields = spec.getFields()
         assert len(fields) == 1
         assert fields[0] == mock_field
@@ -210,7 +213,7 @@ class TestTextValueSpecification:
     def test_initialization(self):
         """Test TextValueSpecification initialization"""
         spec = TextValueSpecification()
-        
+
         assert spec is not None
         assert spec.value is None
 
@@ -240,7 +243,7 @@ class TestNumericalValueSpecification:
     def test_initialization(self):
         """Test NumericalValueSpecification initialization"""
         spec = NumericalValueSpecification()
-        
+
         assert spec is not None
         assert spec.value is None
 
@@ -270,7 +273,7 @@ class TestArrayValueSpecification:
     def test_initialization(self):
         """Test ArrayValueSpecification initialization"""
         spec = ArrayValueSpecification()
-        
+
         assert spec is not None
         assert spec.element == []
         assert spec.intendedPartialInitializationCount is None
@@ -298,15 +301,15 @@ class TestArrayValueSpecification:
     def test_add_element(self):
         """Test addElement method"""
         spec = ArrayValueSpecification()
-        
+
         # Create a mock ValueSpecification for testing
         class MockValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         mock_element = MockValueSpecification()
         spec.addElement(mock_element)
-        
+
         elements = spec.getElements()
         assert len(elements) == 1
         assert elements[0] == mock_element
@@ -325,7 +328,7 @@ class TestConstantSpecification:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         spec = ConstantSpecification(ar_root, "TestConstantSpec")
-        
+
         assert spec is not None
         assert spec.getShortName() == "TestConstantSpec"
         assert spec.valueSpec is None
@@ -342,12 +345,12 @@ class TestConstantSpecification:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         spec = ConstantSpecification(ar_root, "TestConstantSpec")
-        
+
         # Create a mock ValueSpecification for testing
         class MockValueSpecification(ValueSpecification):
             def __init__(self):
                 super().__init__()
-        
+
         mock_spec = MockValueSpecification()
         result = spec.setValueSpec(mock_spec)
         assert result is spec
@@ -367,7 +370,7 @@ class TestConstantReference:
     def test_initialization(self):
         """Test ConstantReference initialization"""
         spec = ConstantReference()
-        
+
         assert spec is not None
         assert spec.constantRef is None
 

@@ -3,16 +3,36 @@ This module contains classes for representing AUTOSAR runnable entities
 in software component internal behavior templates.
 """
 
-from typing import Dict, List
+from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint, AsynchronousServerCallPoint, SynchronousServerCallPoint, AsynchronousServerCallResultPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, InternalTriggeringPoint
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARBoolean
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ExecutableEntity,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    ARLiteral,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+    ParameterAccess,
+    VariableAccess,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
+    ModeAccessPoint,
+    ModeSwitchPoint,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
+    AsynchronousServerCallPoint,
+    AsynchronousServerCallResultPoint,
+    ServerCallPoint,
+    SynchronousServerCallPoint,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (
+    ExternalTriggeringPoint,
+    InternalTriggeringPoint,
+)
 
 
 class RunnableEntityArgument(ARObject):
@@ -116,7 +136,7 @@ class RunnableEntity(ExecutableEntity):
         return self.writtenLocalVariables
 
     def getParameterAccesses(self) -> List[ParameterAccess]:
-        return list(sorted(filter(lambda a: isinstance(a, ParameterAccess), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, ParameterAccess), self.elements), key=lambda o: o.short_name)
 
     def createParameterAccess(self, short_name: str) -> ParameterAccess:
         if not self.IsElementExists(short_name):
@@ -143,16 +163,16 @@ class RunnableEntity(ExecutableEntity):
         return self.getElement(short_name)
 
     def getSynchronousServerCallPoint(self) -> List[SynchronousServerCallPoint]:
-        return list(sorted(filter(lambda a: isinstance(a, SynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, SynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName())
 
     def getAsynchronousServerCallPoint(self) -> List[AsynchronousServerCallPoint]:
-        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName())
 
     def getAsynchronousServerCallResultPoints(self) -> List[AsynchronousServerCallResultPoint]:
-        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements), key=lambda o: o.getShortName())
 
     def getServerCallPoints(self) -> List[ServerCallPoint]:
-        return list(sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.elements), key=lambda o: o.getShortName())
 
     def createInternalTriggeringPoint(self, short_name: str) -> InternalTriggeringPoint:
         if not self.IsElementExists(short_name):
@@ -170,7 +190,7 @@ class RunnableEntity(ExecutableEntity):
         self.modeAccessPoints.append(value)
 
     def getModeSwitchPoints(self) -> List[ModeSwitchPoint]:
-        return list(sorted(filter(lambda a: isinstance(a, ModeSwitchPoint), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, ModeSwitchPoint), self.elements), key=lambda o: o.short_name)
 
     def createModeSwitchPoint(self, short_name: str) -> ModeSwitchPoint:
         if not self.IsElementExists(short_name):

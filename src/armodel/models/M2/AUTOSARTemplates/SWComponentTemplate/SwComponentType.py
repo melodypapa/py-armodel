@@ -3,13 +3,23 @@ This module contains the SwComponentType base class for AUTOSAR software compone
 """
 
 from abc import ABC
-from typing import List, TYPE_CHECKING
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import TYPE_CHECKING, List
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, RPortPrototype, PRPortPrototype, PortPrototype, PortGroup
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+        PortGroup,
+        PortPrototype,
+        PPortPrototype,
+        PRPortPrototype,
+        RPortPrototype,
+    )
 
 
 class SwComponentType(AtpType, ABC):
@@ -26,7 +36,9 @@ class SwComponentType(AtpType, ABC):
 
     def createPPortPrototype(self, short_name: str):
         # Import here to avoid circular dependency
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PPortPrototype,
+        )
         prototype = PPortPrototype(self, short_name)
         self.addElement(prototype)
         self.ports.append(prototype)
@@ -34,7 +46,9 @@ class SwComponentType(AtpType, ABC):
 
     def createRPortPrototype(self, short_name):
         # Import here to avoid circular dependency
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            RPortPrototype,
+        )
         prototype = RPortPrototype(self, short_name)
         self.addElement(prototype)
         self.ports.append(prototype)
@@ -42,34 +56,46 @@ class SwComponentType(AtpType, ABC):
 
     def createPRPortPrototype(self, short_name):
         # Import here to avoid circular dependency
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PRPortPrototype,
+        )
         prototype = PRPortPrototype(self, short_name)
         self.addElement(prototype)
         self.ports.append(prototype)
         return prototype
 
     def getPPortPrototypes(self) -> List['PPortPrototype']:
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
-        return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key=lambda o: o.short_name))
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PPortPrototype,
+        )
+        return sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key=lambda o: o.short_name)
 
     def getRPortPrototypes(self) -> List['RPortPrototype']:
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
-        return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key=lambda o: o.short_name))
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            RPortPrototype,
+        )
+        return sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key=lambda o: o.short_name)
 
     def getPRPortPrototypes(self) -> List['PRPortPrototype']:
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
-        return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.ports), key=lambda o: o.short_name))
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PRPortPrototype,
+        )
+        return sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.ports), key=lambda o: o.short_name)
 
     def getPortPrototypes(self) -> List['PortPrototype']:
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
-        return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name))
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PortPrototype,
+        )
+        return sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name)
 
     def getPortGroups(self) -> List['PortGroup']:
         return self.portGroups
 
     def createPortGroup(self, short_name):
         # Import here to avoid circular dependency
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PortGroup,
+        )
         port_group = PortGroup(self, short_name)
         self.addElement(port_group)
         self.portGroups.append(port_group)

@@ -1,7 +1,13 @@
 from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARLiteral,
+)
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral
 
 
 class SwImplPolicyEnum(AREnum):
@@ -93,10 +99,10 @@ class SwDataDefProps(ARObject):
     def setAdditionalNativeTypeQualifier(self, value):
         self.additionalNativeTypeQualifier = value
         return self
-    
+
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
-    
+
     def addAnnotation(self, annotation: Annotation):
         self.annotations.append(annotation)
         return self

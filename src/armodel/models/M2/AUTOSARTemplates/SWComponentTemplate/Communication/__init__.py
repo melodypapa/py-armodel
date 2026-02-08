@@ -8,14 +8,28 @@ and mode switching communications, as well as non-volatile and parameter communi
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, ARPositiveInteger, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ValueSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    AREnum,
+    ARNumerical,
+    ARPositiveInteger,
+    Boolean,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
 
 
 class HandleInvalidEnum(AREnum):
@@ -225,15 +239,15 @@ class NvRequireComSpec(RPortComSpec):
 
     def getInitValue(self):
         return self.initValue
-    
+
     def setInitValue(self, value: ValueSpecification):
         if value is not None:
             self.initValue = value
         return self
-    
+
     def getVariableRef(self):
         return self.variableRef
-    
+
     def setVariableRef(self, value: RefType):
         if value is not None:
             self.variableRef = value
@@ -435,10 +449,10 @@ class ServerComSpec(PPortComSpec):
     def setQueueLength(self, value):
         self.queueLength = value
         return self
-    
+
     def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
         return self.transformationComSpecProps
-    
+
     def addTransformationComSpecProps(self, transformationComSpecProps: TransformationComSpecProps):
         if transformationComSpecProps is not None:
             self.transformationComSpecProps.append(transformationComSpecProps)
@@ -455,28 +469,28 @@ class NvProvideComSpec(PPortComSpec):
 
     def getRamBlockInitValue(self):
         return self.ramBlockInitValue
-    
+
     def setRamBlockInitValue(self, value: ValueSpecification):
         if value is not None:
             self.ramBlockInitValue = value
         return self
-    
+
     def getRomBlockInitValue(self):
         return self.romBlockInitValue
-    
+
     def setRomBlockInitValue(self, value: ValueSpecification):
         if value is not None:
             self.romBlockInitValue = value
         return self
-    
+
     def getVariableRef(self):
         return self.variableRef
-    
+
     def setVariableRef(self, value: RefType):
         if value is not None:
             self.variableRef = value
         return self
-    
+
 
 class NonqueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):

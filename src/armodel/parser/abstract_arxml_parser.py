@@ -1,16 +1,28 @@
+import logging
+import re
+import xml.etree.ElementTree as ET
 from abc import ABC
 from typing import List
+
 from colorama import Fore
 
-import re
-import logging
-import xml.etree.ElementTree as ET
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, DateTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    ARLiteral,
+    ARNumerical,
+    Boolean,
+    DateTime,
+    Integer,
+    Limit,
+    PositiveInteger,
+    RefType,
+    RevisionLabelString,
+    TimeValue,
+)
 
 
 class AbstractARXMLParser(ABC):
@@ -18,12 +30,12 @@ class AbstractARXMLParser(ABC):
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLParser:
             raise TypeError("AbstractArxmlParser is an abstract class.")
-        
+
         self.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
         self.options = {}
         self.options['warning'] = False
         self.logger = logging.getLogger()
-        
+
         self._processOptions(options=options)
 
     def getTagName(self, tag: ET.Element) -> str:
@@ -43,16 +55,16 @@ class AbstractARXMLParser(ABC):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise ValueError(error_msg)
-        
+
     def notImplemented(self, error_msg):
         if (self.options['warning'] is True):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise NotImplementedError(error_msg)
-        
+
     def raiseWarning(self, error_msg):
         self.logger.warning(error_msg)
-        
+
     def getPureTagName(self, tag):
         return re.sub(r'\{[\w:\/.]+\}(\w+)', r'\1', tag)
 
@@ -72,7 +84,7 @@ class AbstractARXMLParser(ABC):
             return child_element.text
         return None
     '''
-    
+
     def getChildElementLiteral(self, short_name: str, element: ET.Element, key: str) -> ARLiteral:
         child_element = self.find(element, key)
         if (child_element is not None):
@@ -81,7 +93,7 @@ class AbstractARXMLParser(ABC):
             literal._value = child_element.text
             return literal
         self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
-        
+
     def getChildElementLiteralValueList(self, element: ET.Element, key: str) -> List[ARLiteral]:
         child_elements = self.findall(element, key)
         results = []
@@ -104,7 +116,7 @@ class AbstractARXMLParser(ABC):
             else:
                 literal.setValue(child_element.text)
         return literal
-    
+
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)
         literal = None
@@ -121,15 +133,15 @@ class AbstractARXMLParser(ABC):
             else:
                 literal.setValue(child_element.text)
         return literal
-    
+
     def getChildElementOptionalDataTime(self, element: ET.Element, key: str) -> DateTime:
         return self.getChildElementOptionalLiteral(element, key)
-    
+
     def _convertStringToBooleanValue(self, value: str) -> bool:
         if (value == "true"):
             return True
         return False
-    
+
     def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> ARFloat:
         child_element = self.find(element, key)
         float_value = None
@@ -138,7 +150,7 @@ class AbstractARXMLParser(ABC):
             self.readARObjectAttributes(child_element, float_value)
             float_value.setValue(child_element.text)
         return float_value
-    
+
     def getChildElementFloatValueList(self, element: ET.Element, key: str) -> ARFloat:
         child_elements = self.findall(element, key)
         results = []
@@ -147,7 +159,7 @@ class AbstractARXMLParser(ABC):
             float_value.setValue(child_element.text)
             results.append(float_value)
         return results
-    
+
     def getChildElementOptionalTimeValue(self, element: ET.Element, key: str) -> TimeValue:
         child_element = self.find(element, key)
         time_value = None
@@ -192,7 +204,7 @@ class AbstractARXMLParser(ABC):
             numerical.setShortLabel(child_element.attrib["SHORT-LABEL"])
         numerical.setValue(child_element.text)
         return numerical
-    
+
     def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Integer:
         child_element = self.find(element, key)
         if child_element is None:
@@ -201,7 +213,7 @@ class AbstractARXMLParser(ABC):
         self.readARObjectAttributes(child_element, numerical)
         numerical.setValue(child_element.text)
         return numerical
-    
+
     def getChildElementOptionalPositiveInteger(self, element: ET.Element, key: str) -> PositiveInteger:
         child_element = self.find(element, key)
         if child_element is None:
@@ -214,7 +226,7 @@ class AbstractARXMLParser(ABC):
         if numerical.getValue() < 0:
             raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
         return numerical
-        
+
     def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[ARNumerical]:
         child_elements = self.findall(element, key)
         results = []
@@ -223,7 +235,7 @@ class AbstractARXMLParser(ABC):
             numerical.setValue(child_element.text)
             results.append(numerical)
         return results
-    
+
     def getChildLimitElement(self, element: ET.Element, key: str) -> Limit:
         child_element = self.find(element, key)
         if (child_element is not None):
@@ -236,7 +248,7 @@ class AbstractARXMLParser(ABC):
             limit.value = child_element.text
             return limit
         return None
-    
+
     def _getChildElementRefTypeDestAndValue(self, element: ET.Element) -> RefType:
         ref = RefType()
         if 'BASE' in element.attrib:
@@ -270,12 +282,12 @@ class AbstractARXMLParser(ABC):
             ref.setValue(child_element.text)
             results.append(ref)
         return results
-    
+
     def readElementOptionalAttrib(self, element: ET.Element, key: str) -> str:
         if key in element.attrib:
             return element.attrib[key]
         return None
-    
+
     def readARObjectAttributes(self, element: ET.Element, ar_object: ARObject):
         ar_object.timestamp = self.readElementOptionalAttrib(element, "T")              # read the timestamp
         ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")                # read the uuid
@@ -295,12 +307,12 @@ class AbstractARXMLParser(ABC):
                 instance.addARObject(ar_object)
             # self.logger.debug("UUID: %s" % ar_object.uuid)
         '''
-    
+
     def getAUTOSARInfo(self, element: ET.Element, document: AUTOSAR):
         key = "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation"
         if key in element.attrib:
             document.schema_location = element.attrib[key]
-        
+
         self.logger.debug("schemaLocation %s" % document.schema_location)
 
     def getShortName(self, element: ET.Element) -> str:
@@ -315,9 +327,9 @@ class AbstractARXMLParser(ABC):
             if item != "*" and item != ".":
                 keys[idx] = "xmlns:%s" % item
         return "/".join(keys)
-       
+
     def find(self, parent: ET.Element, key: str) -> ET.Element:
         return parent.find(self.convert_find_key(key), self.nsmap)
-    
+
     def findall(self, parent: ET.Element, key: str) -> List[ET.Element]:
         return parent.findall(self.convert_find_key(key), self.nsmap)

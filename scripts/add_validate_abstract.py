@@ -4,10 +4,9 @@ Script to add _validate_abstract() method to concrete classes in V2 models.
 This fixes mypy "Cannot instantiate abstract class" errors.
 """
 
-import os
 import re
 from pathlib import Path
-from typing import List, Set
+from typing import Set
 
 
 def find_concrete_classes_needing_validation(directory: Path) -> Set[str]:
@@ -142,7 +141,7 @@ def main():
             success_count += 1
             print(f"✓ Added _validate_abstract to {class_name} in {file_path}")
 
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"Total fixes needed: {len(needed_fixes)}")
     print(f"Successfully applied: {success_count}")
     print(f"Failed: {len(needed_fixes) - success_count}")

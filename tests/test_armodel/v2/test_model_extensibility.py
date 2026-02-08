@@ -4,8 +4,7 @@ Test V2 model extensibility features.
 Tests for CODING_RULE_V2_00014: V2 Model Extensibility
 Tests for CODING_RULE_V2_00015: V2 Module Integration Contract
 """
-import pytest
-from armodel.v2.models import ARObject, AUTOSAR, ARPackage, Identifiable
+from armodel.v2.models import AUTOSAR, ARPackage, Identifiable
 
 
 class TestV2ModelExtensibility:

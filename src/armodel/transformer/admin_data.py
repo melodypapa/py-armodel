@@ -1,7 +1,13 @@
 import logging
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+)
 from armodel.transformer.abstract import AbstractTransformer
 
 
@@ -18,10 +24,7 @@ class AdminDataTransformer(AbstractTransformer):
         pkg.removeAdminData()
 
         for element in pkg.getElements():
-            if isinstance(element, Describable):
-                self.logger.debug("Remove AdminData of <%s>", element.getShortName())
-                element.removeAdminData()
-            elif isinstance(element, Identifiable):
+            if isinstance(element, Describable) or isinstance(element, Identifiable):
                 self.logger.debug("Remove AdminData of <%s>", element.getShortName())
                 element.removeAdminData()
 

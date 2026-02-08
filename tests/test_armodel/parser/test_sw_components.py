@@ -1,15 +1,28 @@
 import filecmp
-from pathlib import Path
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
+    AUTOSAR,
+    AUTOSARDoc,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    InternalBehavior,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
+    SwcImplementation,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    SwcInternalBehavior,
+)
 from armodel.parser.arxml_parser import ARXMLParser
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, AUTOSARDoc
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 def get_test_file_path(filename: str) -> str:
@@ -29,7 +42,7 @@ class TestSWComponents:
         root_pkgs = sorted(document.getARPackages(), key=lambda pkg: pkg.getShortName())
 
         assert (len(root_pkgs) == 1)
-        assert ("DemoApplication" == root_pkgs[0].getShortName())
+        assert (root_pkgs[0].getShortName() == "DemoApplication")
 
     def test_sw_component(self):
         document = AUTOSAR.getInstance()
@@ -78,12 +91,12 @@ class TestSWComponents:
         sw_component.removeAllAssemblySwConnector()
         assert (len(sw_component.getAssemblySwConnectors()) == 0)
         assert (len(sw_component.getDelegationSwConnectors()) == 3)
-        
+
         # remove all the DelegationSwConnector
         sw_component.removeAllDelegationSwConnector()
         assert (len(sw_component.getAssemblySwConnectors()) == 0)
         assert (len(sw_component.getDelegationSwConnectors()) == 0)
-        
+
     def test_bswm_mode_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -143,7 +156,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_basetypes_standard_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -155,7 +168,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_collection_body_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -167,7 +180,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_collection_chassis_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -179,7 +192,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_collection_mmedtelmhmi_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -191,7 +204,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_collection_occptpedsfty_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -203,7 +216,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_collection_pt_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -215,7 +228,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml", shallow=False) is True)
-        
+
     def test_autosar_mod_ai_specification_compumethod_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -241,7 +254,7 @@ class TestSWComponents:
         new_parser.load("data/generated_AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml", new_document)
         # Verify the reloaded document also has packages
         assert len(new_document.getARPackages()) > 0
-        
+
     def test_AUTOSAR_MOD_AISpecification_DataConstr_Blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -253,7 +266,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml", shallow=False) is True)
-    
+
     def test_AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -265,7 +278,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml", shallow=False) is True)
-        
+
     def test_AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -277,7 +290,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml", shallow=False) is True)
-        
+
     def test_AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -315,7 +328,7 @@ class TestSWComponents:
 
         assert (filecmp.cmp(get_test_file_path("AUTOSAR_MOD_AISpecification_PhysicalDimension_LifeCycle_Standard.arxml"),
                             "data/generated_AUTOSAR_MOD_AISpecification_PhysicalDimension_LifeCycle_Standard.arxml", shallow=False) is True)
-        
+
     def test_AUTOSAR_MOD_AISpecification_PhysicalDimension_Standard_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -405,7 +418,7 @@ class TestSWComponents:
         new_parser.load("data/generated_AUTOSAR_MOD_AISpecification_PortPrototypeBlueprint_Blueprint.arxml", new_document)
         # Verify the reloaded document also has packages
         assert len(new_document.getARPackages()) > 0
-        
+
     def test_AUTOSAR_MOD_AISpecification_PortPrototypeBlueprint_LifeCycle_Standard_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -431,7 +444,7 @@ class TestSWComponents:
         new_parser.load("data/generated_AUTOSAR_MOD_AISpecification_PortPrototypeBlueprint_LifeCycle_Standard.arxml", new_document)
         # Verify the reloaded document also has packages
         assert len(new_document.getARPackages()) > 0
-        
+
     def test_AUTOSAR_MOD_AISpecification_SwComponentTypes_Blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
@@ -568,16 +581,16 @@ class TestSwComponentsWithSameName:
         assert document.getARPackages()[0].getShortName() == "Components"
         assert document.getARPackages()[1].getShortName() == "Implementation"
         assert len(document.getARPackages()[0].getElements()) == 1
-        
+
         sw_component: AtomicSwComponentType = document.getARPackages()[0].getElement("DUPLICATE_NAME", AtomicSwComponentType)
         assert sw_component is not None
         assert sw_component.getShortName() == "DUPLICATE_NAME"
-        
+
         internal_behavior: SwcInternalBehavior = sw_component.getInternalBehavior()
         # Check if the internal behavior is present
         assert internal_behavior is not None
         assert internal_behavior.getShortName() == "DUPLICATE_NAME"
-        
+
         # Check if the runnable is present
         assert len(internal_behavior.getRunnableEntities()) == 1
         runnables = internal_behavior.getRunnableEntities()
@@ -586,4 +599,4 @@ class TestSwComponentsWithSameName:
         runnable = runnables[0]
         assert runnable is not None
         assert runnable.getShortName() == "RunnableInit"
-        
+

@@ -1,23 +1,27 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
-    SenderReceiverToSignalMapping,
-    SenderRecCompositeTypeMapping,
-    SenderRecRecordElementMapping,
-    SenderRecRecordTypeMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
-    SenderReceiverToSignalGroupMapping
+    SenderRecCompositeTypeMapping,
+    SenderReceiverToSignalGroupMapping,
+    SenderReceiverToSignalMapping,
+    SenderRecRecordElementMapping,
+    SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommunicationDirectionType,
+)
 
 
 class Test_DataMapping:
     """Test cases for DataMapping class and related data mapping classes."""
-    
+
     def test_DataMapping(self):
         """Test DataMapping abstract class instantiation."""
         with pytest.raises(TypeError):
@@ -29,14 +33,14 @@ class Test_DataMapping:
 
         assert isinstance(mapping, ARObject)
         assert isinstance(mapping, DataMapping)
-        
+
         # Test default values
         assert mapping.getCommunicationDirection() is None
         assert mapping.getDataElementIRef() is None
         assert mapping.getSenderToSignalTextTableMapping() is None
         assert mapping.getSignalToReceiverTextTableMapping() is None
         assert mapping.getSystemSignalRef() is None
-        
+
         # Test setter methods
         mock_direction = CommunicationDirectionType()
         result = mapping.setCommunicationDirection(mock_direction)
@@ -77,7 +81,7 @@ class Test_DataMapping:
         mapping = SenderRecRecordElementMapping()
 
         assert isinstance(mapping, ARObject)
-        
+
         # Test default values
         assert mapping.getApplicationRecordElementRef() is None
         assert mapping.getComplexTypeMapping() is None
@@ -141,10 +145,10 @@ class Test_DataMapping:
 
         assert isinstance(mapping, ARObject)
         assert isinstance(mapping, SenderRecCompositeTypeMapping)
-        
+
         # Test default values
         assert mapping.getRecordElementMappings() == []
-        
+
         # Test adding record element mapping
         mock_element = SenderRecRecordElementMapping()
         mapping.addRecordElementMapping(mock_element)
@@ -155,7 +159,7 @@ class Test_DataMapping:
         element = IndexedArrayElement()
 
         assert isinstance(element, ARObject)
-        
+
         # Test default values
         assert element.getApplicationArrayElementRef() is None
         assert element.getImplementationArrayElementRef() is None
@@ -170,7 +174,7 @@ class Test_DataMapping:
         # Test setter methods with None (should not change the value)
         element.setApplicationArrayElementRef(None)
         assert element.getApplicationArrayElementRef() == mock_ref  # Should remain unchanged
-        
+
         mock_impl_ref = "ImplRef"
         result = element.setImplementationArrayElementRef(mock_impl_ref)
         assert element.getImplementationArrayElementRef() == mock_impl_ref
@@ -178,7 +182,7 @@ class Test_DataMapping:
 
         element.setImplementationArrayElementRef(None)
         assert element.getImplementationArrayElementRef() == mock_impl_ref  # Should remain unchanged
-        
+
         mock_index = 42
         result = element.setIndex(mock_index)
         assert element.getIndex() == mock_index
@@ -192,7 +196,7 @@ class Test_DataMapping:
         mapping = SenderRecArrayElementMapping()
 
         assert isinstance(mapping, ARObject)
-        
+
         # Test default values
         assert mapping.getComplexTypeMapping() is None
         assert mapping.getIndexedArrayElement() is None
@@ -206,7 +210,7 @@ class Test_DataMapping:
 
         mapping.setComplexTypeMapping(None)
         assert mapping.getComplexTypeMapping() == mock_mapping  # Should remain unchanged
-        
+
         mock_element = IndexedArrayElement()
         result = mapping.setIndexedArrayElement(mock_element)
         assert mapping.getIndexedArrayElement() == mock_element
@@ -214,7 +218,7 @@ class Test_DataMapping:
 
         mapping.setIndexedArrayElement(None)
         assert mapping.getIndexedArrayElement() == mock_element  # Should remain unchanged
-        
+
         mock_system_ref = "SystemRef"
         result = mapping.setSystemSignalRef(mock_system_ref)
         assert mapping.getSystemSignalRef() == mock_system_ref
@@ -229,7 +233,7 @@ class Test_DataMapping:
 
         assert isinstance(mapping, ARObject)
         assert isinstance(mapping, SenderRecCompositeTypeMapping)
-        
+
         # Test default values
         assert mapping.getArrayElementMappings() == []
         assert mapping.getSenderToSignal() is None
@@ -243,7 +247,7 @@ class Test_DataMapping:
 
         mapping.setArrayElementMappings(None)
         assert mapping.getArrayElementMappings() == mock_mappings  # Should remain unchanged
-        
+
         mock_text_mapping = "TextMapping"
         result = mapping.setSenderToSignal(mock_text_mapping)
         assert mapping.getSenderToSignal() == mock_text_mapping
@@ -251,7 +255,7 @@ class Test_DataMapping:
 
         mapping.setSenderToSignal(None)
         assert mapping.getSenderToSignal() == mock_text_mapping  # Should remain unchanged
-        
+
         result = mapping.setSignalToReceiverTextTableMapping(mock_text_mapping)
         assert mapping.getSignalToReceiverTextTableMapping() == mock_text_mapping
         assert result is mapping  # Test method chaining
@@ -265,7 +269,7 @@ class Test_DataMapping:
 
         assert isinstance(mapping, ARObject)
         assert isinstance(mapping, DataMapping)
-        
+
         # Test default values
         assert mapping.getDataElementIRef() is None
         assert mapping.getSignalGroupRef() is None

@@ -5,7 +5,6 @@ Script to fix missing RefType imports in V2 model files.
 This script adds the missing import for RefType to all V2 model files
 that use RefType but don't import it.
 """
-import os
 import re
 from pathlib import Path
 

@@ -15,10 +15,8 @@ The hierarchy checker validates:
 """
 
 import ast
-import os
-import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Tuple
 
 
 def parse_hierarchy_md(file_path: str) -> Dict[str, Tuple[str, bool]]:
@@ -222,7 +220,7 @@ def check_hierarchy_deviations(
                 'documented_abstract': doc_abstract,
                 'actual_parent': 'Not Found',
                 'actual_abstract': 'N/A',
-                'notes': f'Class not found in source code'
+                'notes': 'Class not found in source code'
             })
             continue
 
@@ -278,7 +276,7 @@ def find_extra_classes(
                 'documented_abstract': 'N/A',
                 'actual_parent': parent,
                 'actual_abstract': is_abstract,
-                'notes': f'Class exists but not documented'
+                'notes': 'Class exists but not documented'
             })
 
     return extra_classes
@@ -437,8 +435,8 @@ def main():
     source_dir = project_root / 'src'
     output_dir = project_root / 'reports'
 
-    print(f"Py-ARModel Class Hierarchy Deviation Check Script")
-    print(f"=" * 50)
+    print("Py-ARModel Class Hierarchy Deviation Check Script")
+    print("=" * 50)
     print(f"Hierarchy file: {hierarchy_file}")
     print(f"Source directory: {source_dir}")
     print(f"Output directory: {output_dir}")

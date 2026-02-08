@@ -3,11 +3,30 @@
 
 from abc import ABC
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    ARLiteral,
+    ARNumerical,
+    Boolean,
+    Integer,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    RxIdentifierRange,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    FibexElement,
+)
+
 
 class NmClusterCoupling(ARObject, ABC):
     """
@@ -18,7 +37,7 @@ class NmClusterCoupling(ARObject, ABC):
     def __init__(self):
         if type(self) == NmClusterCoupling:
             raise TypeError("NmClusterCoupling is an abstract class.")
-        
+
         super().__init__()
 
 class CanNmClusterCoupling(NmClusterCoupling):
@@ -80,7 +99,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def setNmScheduleVariant(self, value):
         self.nmScheduleVariant = value
         return self
-    
+
 
 class NmNode(Identifiable, ABC):
     """
@@ -91,7 +110,7 @@ class NmNode(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == NmNode:
             raise TypeError("NmNode is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.controllerRef: RefType = None
@@ -209,7 +228,7 @@ class CanNmNode(NmNode):
     def setNmMsgReducedTime(self, value):
         self.nmMsgReducedTime = value
         return self
-    
+
     def getNmRangeConfig(self) -> RxIdentifierRange:
         return self.nmRangeConfig
 
@@ -304,7 +323,7 @@ class UdpNmEcu(BusspecificNmEcu):
     including synchronization point capabilities.
     """
     def __init__(self):
-        super().__init__()     
+        super().__init__()
 
         self.nmSynchronizationPointEnabled: Boolean = None
 
@@ -387,7 +406,7 @@ class NmEcu(Identifiable):
         if value is not None:
             self.nmCycletimeMainFunction = value
         return self
-    
+
     def getNmNodeDetectionEnabled(self):
         return self.nmNodeDetectionEnabled
 
@@ -419,7 +438,7 @@ class NmEcu(Identifiable):
         if value is not None:
             self.nmRemoteSleepIndEnabled = value
         return self
-    
+
     def getNmRepeatMsgIndEnabled(self):
         return self.nmRepeatMsgIndEnabled
 
@@ -442,7 +461,7 @@ class NmEcu(Identifiable):
     def setNmUserDataEnabled(self, value):
         if value is not None:
             self.nmUserDataEnabled = value
-        return self   
+        return self
 
 class NmConfig(FibexElement):
     """
@@ -461,7 +480,7 @@ class NmConfig(FibexElement):
             cluster = CanNmCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name)
-    
+
     def createUdpNmCluster(self, short_name: str):          # type: (str) -> UdpNmCluster
         if (short_name not in self.elements):
             cluster = UdpNmCluster(self, short_name)
@@ -469,14 +488,14 @@ class NmConfig(FibexElement):
         return self.getElement(short_name)
 
     def getCanNmClusters(self):                             # type: () -> List[CanNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key= lambda o:o.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key= lambda o:o.short_name)
+
     def getUdpNmClusters(self):                             # type: () -> List[UdpNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key= lambda o:o.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key= lambda o:o.short_name)
+
     def getNmClusters(self):                                # type: () -> List[NmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key= lambda o:o.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key= lambda o:o.short_name)
+
     def getNmClusterCouplings(self):
         return self.nmClusterCouplings
 
@@ -493,7 +512,7 @@ class NmConfig(FibexElement):
             self.addElement(cluster)
             self.nmIfEcus.append(cluster)
         return self.getElement(short_name)
-    
+
 class NmCluster(Identifiable, ABC):
     """
     Abstract base class for network management clusters,
@@ -543,22 +562,22 @@ class NmCluster(Identifiable, ABC):
             self.addElement(node)
             self.nmNodes.append(node)
         return self.getElement(short_name)
-    
+
     def readUdpNmNode(self, short_name: str) -> UdpNmNode:
         if (short_name not in self.elements):
             node = UdpNmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
         return self.getElement(short_name)
-    
+
     def getCanNmNodes(self) -> List[CanNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key= lambda o:o.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key= lambda o:o.short_name)
+
     def getUdpNmNodes(self) -> List[UdpNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key= lambda o:o.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key= lambda o:o.short_name)
+
     def getNmNodes(self) -> List[NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key= lambda o:o.short_name))
+        return sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key= lambda o:o.short_name)
 
     def getNmNodeDetectionEnabled(self):
         return self.nmNodeDetectionEnabled
@@ -641,7 +660,7 @@ class CanNmCluster(NmCluster):
     def setNmCarWakeUpFilterNodeId(self, value):
         self.nmCarWakeUpFilterNodeId = value
         return self
-    
+
     def getNmCarWakeUpRxEnabled(self):
         return self.nmCarWakeUpRxEnabled
 
@@ -655,7 +674,7 @@ class CanNmCluster(NmCluster):
     def setNmCbvPosition(self, value):
         self.nmCbvPosition = value
         return self
-    
+
     def getNmChannelActive(self):
         return self.nmChannelActive
 
@@ -718,7 +737,7 @@ class CanNmCluster(NmCluster):
     def setNmRepeatMessageTime(self, value):
         self.nmRepeatMessageTime = value
         return self
-    
+
     def getNmUserDataLength(self):
         return self.nmUserDataLength
 
@@ -809,7 +828,7 @@ class UdpNmCluster(NmCluster):
         if value is not None:
             self.nmCbvPosition = value
         return self
-    
+
     def getNmChannelActive(self):
         return self.nmChannelActive
 

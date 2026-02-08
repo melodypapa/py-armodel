@@ -1,6 +1,9 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec, RPortComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    PPortComSpec,
+    RPortComSpec,
+)
 
 
 class Test_PortPrototype:

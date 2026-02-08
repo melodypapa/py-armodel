@@ -1,19 +1,24 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+    AbstractCanCommunicationConnector,
+    AbstractCanCommunicationController,
+    AbstractCanCommunicationControllerAttributes,
+    CanCommunicationConnector,
+    CanCommunicationController,
+    CanControllerConfigurationRequirements,
     CanControllerFdConfiguration,
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
-    AbstractCanCommunicationControllerAttributes,
-    CanControllerConfigurationRequirements,
-    AbstractCanCommunicationController,
-    CanCommunicationController,
-    AbstractCanCommunicationConnector,
-    CanCommunicationConnector
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationConnector,
+    CommunicationController,
+)
 
 
 class MockParent(ARObject):
@@ -24,13 +29,13 @@ class MockParent(ARObject):
 
 class Test_Fibex4CanTopology:
     """Test cases for Fibex4Can Topology classes."""
-    
+
     def test_CanControllerFdConfiguration(self):
         """Test CanControllerFdConfiguration class functionality."""
         config = CanControllerFdConfiguration()
 
         assert isinstance(config, ARObject)
-        
+
         # Test default values
         assert config.getPaddingValue() is None
         assert config.getPropSeg() is None
@@ -96,7 +101,7 @@ class Test_Fibex4CanTopology:
         reqs = CanControllerFdConfigurationRequirements()
 
         assert isinstance(reqs, ARObject)
-        
+
         # Test default values
         assert reqs.getMaxNumberOfTimeQuantaPerBit() is None
         assert reqs.getMaxSamplePoint() is None
@@ -499,7 +504,7 @@ class Test_Fibex4CanTopology:
         connector = CanCommunicationConnector(parent, "test_can_comm_connector")
 
         assert isinstance(connector, CommunicationConnector)
-        
+
         # Test default values
         assert connector.getPncWakeupCanId() is None
         assert connector.getPncWakeupCanIdExtended() is None

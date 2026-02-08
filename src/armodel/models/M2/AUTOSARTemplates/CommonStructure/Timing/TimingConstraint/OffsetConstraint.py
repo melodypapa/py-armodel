@@ -7,10 +7,12 @@ Classes:
     OffsetTimingConstraint: Specifies timing offset requirements
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+    TimingConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
 class OffsetTimingConstraint(TimingConstraint):

@@ -2,12 +2,13 @@
 This module contains tests for the PaginationAndView module in MSR.Documentation.TextModel.BlockElements.
 """
 import pytest
+
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import *
 
 
 class TestDocumentViewSelectable:
     """Test class for DocumentViewSelectable class."""
-    
+
     def test_document_view_selectable_initialization(self):
         """Test that DocumentViewSelectable is abstract and cannot be instantiated directly."""
         # Test that DocumentViewSelectable cannot be instantiated directly

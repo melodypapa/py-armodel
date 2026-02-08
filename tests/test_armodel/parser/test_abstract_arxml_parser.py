@@ -2,15 +2,15 @@
 
 import logging
 import xml.etree.ElementTree as ET
-from unittest.mock import MagicMock, patch
 
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral, ARNumerical, Integer, PositiveInteger, Boolean,
-    ARFloat, TimeValue, RevisionLabelString, RefType, Limit
+    ARFloat,
+    ARLiteral,
+    ARNumerical,
+    Limit,
+    RevisionLabelString,
 )
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
@@ -81,14 +81,14 @@ class TestRaiseError:
 
     def test_raiseError_without_warning_mode(self):
         """Test raiseError raises ValueError when warning mode is False."""
-        
+
         parser = ConcreteARXMLParser(options={'warning': False})
         with pytest.raises(ValueError, match="Test error message"):
             parser.raiseError("Test error message")
 
     def test_raiseError_with_warning_mode(self, caplog):
         """Test raiseError logs error when warning mode is True."""
-        
+
         parser = ConcreteARXMLParser(options={'warning': True})
         with caplog.at_level(logging.ERROR):
             parser.raiseError("Test error message")
@@ -100,14 +100,14 @@ class TestNotImplemented:
 
     def test_notImplemented_without_warning_mode(self):
         """Test notImplemented raises NotImplementedError when warning mode is False."""
-        
+
         parser = ConcreteARXMLParser(options={'warning': False})
         with pytest.raises(NotImplementedError, match="Not implemented feature"):
             parser.notImplemented("Not implemented feature")
 
     def test_notImplemented_with_warning_mode(self, caplog):
         """Test notImplemented logs error when warning mode is True."""
-        
+
         parser = ConcreteARXMLParser(options={'warning': True})
         with caplog.at_level(logging.ERROR):
             parser.notImplemented("Not implemented feature")
@@ -119,7 +119,7 @@ class TestRaiseWarning:
 
     def test_raiseWarning(self, caplog):
         """Test raiseWarning logs warning."""
-        
+
         parser = ConcreteARXMLParser()
         with caplog.at_level(logging.WARNING):
             parser.raiseWarning("Test warning message")
@@ -131,7 +131,7 @@ class TestGetPureTagName:
 
     def test_getPureTagName(self):
         """Test getPureTagName removes namespace."""
-        
+
         parser = ConcreteARXMLParser()
         tag = "{http://autosar.org/schema/r4.0}SHORT-NAME"
         result = parser.getPureTagName(tag)
@@ -143,7 +143,7 @@ class TestGetChildElementLiteral:
 
     def test_getChildElementLiteral_found(self):
         """Test getChildElementLiteral when element is found."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -155,7 +155,7 @@ class TestGetChildElementLiteral:
 
     def test_getChildElementLiteral_not_found(self):
         """Test getChildElementLiteral when element is not found."""
-        
+
         parser = ConcreteARXMLParser(options={'warning': False})
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
 
@@ -168,7 +168,7 @@ class TestGetChildElementOptionalRevisionLabelString:
 
     def test_getChildElementOptionalRevisionLabelString_valid(self):
         """Test getChildElementOptionalRevisionLabelString with valid version."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -180,7 +180,7 @@ class TestGetChildElementOptionalRevisionLabelString:
 
     def test_getChildElementOptionalRevisionLabelString_invalid_format(self):
         """Test getChildElementOptionalRevisionLabelString with invalid format."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -191,7 +191,7 @@ class TestGetChildElementOptionalRevisionLabelString:
 
     def test_getChildElementOptionalRevisionLabelString_none_text(self):
         """Test getChildElementOptionalRevisionLabelString with None text."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -221,21 +221,21 @@ class TestConvertStringToBooleanValue:
 
     def test_convertStringToBooleanValue_true(self):
         """Test _convertStringToBooleanValue with 'true'."""
-        
+
         parser = ConcreteARXMLParser()
         result = parser._convertStringToBooleanValue("true")
         assert result is True
 
     def test_convertStringToBooleanValue_false(self):
         """Test _convertStringToBooleanValue with non-'true' value."""
-        
+
         parser = ConcreteARXMLParser()
         result = parser._convertStringToBooleanValue("false")
         assert result is False
 
     def test_convertStringToBooleanValue_other(self):
         """Test _convertStringToBooleanValue with any non-'true' value returns False."""
-        
+
         parser = ConcreteARXMLParser()
         result = parser._convertStringToBooleanValue("anything")
         assert result is False
@@ -246,7 +246,7 @@ class TestGetChildElementFloatValueList:
 
     def test_getChildElementFloatValueList(self):
         """Test getChildElementFloatValueList returns list of ARFloat."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child1 = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -264,7 +264,7 @@ class TestGetChildElementOptionalBooleanValue:
 
     def test_getChildElementOptionalBooleanValue_empty_text(self):
         """Test getChildElementOptionalBooleanValue with empty text returns None."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -279,21 +279,21 @@ class TestConvertStringToNumberValue:
 
     def test_convertStringToNumberValue_hex_lowercase(self):
         """Test _convertStringToNumberValue with lowercase hex."""
-        
+
         parser = ConcreteARXMLParser()
         result = parser._convertStringToNumberValue("0xff")
         assert result == 255
 
     def test_convertStringToNumberValue_hex_uppercase(self):
         """Test _convertStringToNumberValue with uppercase hex."""
-        
+
         parser = ConcreteARXMLParser()
         result = parser._convertStringToNumberValue("0xFF")
         assert result == 255
 
     def test_convertStringToNumberValue_decimal(self):
         """Test _convertStringToNumberValue with decimal."""
-        
+
         parser = ConcreteARXMLParser()
         result = parser._convertStringToNumberValue("42")
         assert result == 42
@@ -304,7 +304,7 @@ class TestGetChildElementOptionalNumericalValue:
 
     def test_getChildElementOptionalNumericalValue_with_short_label(self):
         """Test getChildElementOptionalNumericalValue with SHORT-LABEL attribute."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -321,7 +321,7 @@ class TestGetChildElementOptionalPositiveInteger:
 
     def test_getChildElementOptionalPositiveInteger_none_text(self):
         """Test getChildElementOptionalPositiveInteger with None text returns None."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -331,7 +331,7 @@ class TestGetChildElementOptionalPositiveInteger:
 
     def test_getChildElementOptionalPositiveInteger_negative_value(self):
         """Test getChildElementOptionalPositiveInteger with negative value."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -346,7 +346,7 @@ class TestGetChildElementNumericalValueList:
 
     def test_getChildElementNumericalValueList(self):
         """Test getChildElementNumericalValueList returns list of ARNumerical."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child1 = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -364,7 +364,7 @@ class TestGetChildLimitElement:
 
     def test_getChildLimitElement_without_interval_type(self):
         """Test getChildLimitElement without INTERVAL-TYPE attribute."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
         child = ET.SubElement(parent, "{http://autosar.org/schema/r4.0}child")
@@ -376,7 +376,7 @@ class TestGetChildLimitElement:
 
     def test_getChildLimitElement_none(self):
         """Test getChildLimitElement when element is None."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
 
@@ -389,7 +389,7 @@ class TestGetChildElementRefType:
 
     def test_getChildElementRefType_not_found(self):
         """Test getChildElementRefType when element is not found."""
-        
+
         parser = ConcreteARXMLParser(options={'warning': False})
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
 
@@ -402,7 +402,7 @@ class TestGetShortName:
 
     def test_getShortName_not_found(self):
         """Test getShortName when SHORT-NAME element is missing."""
-        
+
         parser = ConcreteARXMLParser()
         parent = ET.Element("{http://autosar.org/schema/r4.0}parent")
 

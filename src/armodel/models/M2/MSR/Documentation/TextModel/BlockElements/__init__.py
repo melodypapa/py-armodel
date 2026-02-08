@@ -1,8 +1,15 @@
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (
+    ARList,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageParagraph,
+)
 
 
 class DocumentationBlock(ARObject):
@@ -34,7 +41,7 @@ class DocumentationBlock(ARObject):
 
     def addFigure(self, value):
         if value is not None:
-            self.figures.append(value)  
+            self.figures.append(value)
         return self
 
     def getFormula(self):

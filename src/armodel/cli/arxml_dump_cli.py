@@ -1,17 +1,39 @@
 import getopt
-import sys
 import logging
+import sys
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface, ClientServerInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, PortPrototype, RPortPrototype, SwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import VariableAccess
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswInternalBehavior,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+    BswModuleDescription,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    ImplementationDataType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    PortPrototype,
+    PPortPrototype,
+    RPortPrototype,
+    SwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    DataTypeMappingSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerInterface,
+    SenderReceiverInterface,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    SwcInternalBehavior,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+    VariableAccess,
+)
 from armodel.parser import ARXMLParser
 
 
@@ -46,7 +68,7 @@ def show_type(indent: int, data_type: ImplementationDataType):
         if (data_type.getSwDataDefProps().getBaseTypeRef() is not None):
             base_type_ref = data_type.getSwDataDefProps().getBaseTypeRef()
             print("%s                    : %s (%s)" % (" " * indent, base_type_ref.getValue(), base_type_ref.getDest()))
-            
+
         if (data_type.getSwDataDefProps().getImplementationDataTypeRef() is not None):
             implementation_data_type_ref = data_type.getSwDataDefProps().getImplementationDataTypeRef()
             print("%s                    : %s (%s)" % (" " * indent, implementation_data_type_ref.getValue(), implementation_data_type_ref.getDest()))
@@ -135,7 +157,7 @@ def show_bsw_module_description(indent: int, description: BswModuleDescription):
 
 def show_ar_package(indent: int, ar_package: ARPackage):
     print("%s-%s (Pkg)" % (" " * indent, ar_package.short_name))
-     
+
     for sub_package in ar_package.getARPackages():
         show_ar_package(indent + 2, sub_package)
     # for data_type in ar_package.getImplementationDataTypes():
@@ -152,7 +174,7 @@ def show_ar_package(indent: int, ar_package: ARPackage):
         show_ar_package(indent + 2, child_pkg)
     for bsw_module_description in ar_package.getBswModuleDescriptions():
         show_bsw_module_description(indent + 2, bsw_module_description)
-    
+
 
 def _usage():
     print("Dump all the arxml data to screen")
@@ -171,7 +193,7 @@ def cli_main():
         _usage()
 
     logging.basicConfig(format='[%(levelname)s] : %(message)s', level=logging.DEBUG)
-    
+
     arxml_files = []
     for o, arg in opts:
         if o in ("--arxml"):
@@ -186,7 +208,7 @@ def cli_main():
 
     document = AUTOSAR().getInstance()
     parser = ARXMLParser()
-    
+
     for arxml_file in arxml_files:
         parser.load(arxml_file, document)
 

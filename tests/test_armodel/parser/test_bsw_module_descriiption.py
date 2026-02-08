@@ -1,17 +1,14 @@
 import filecmp
+import logging
 from pathlib import Path
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
-
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-
-
-
-from armodel import AUTOSAR
-
-from armodel import ARXMLParser, ARXMLWriter
-
-import logging
+from armodel import AUTOSAR, ARXMLParser, ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswInternalBehavior,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
+    BswImplementation,
+)
 
 
 def get_test_file_path(filename: str) -> str:
@@ -135,7 +132,7 @@ class TestBswMD:
 
         assert (mappings[0].bswBehaviorRef.getDest() == "BSW-INTERNAL-BEHAVIOR")
         assert (mappings[0].bswBehaviorRef.getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
-        
+
         assert (len(mappings[0].getRunnableMappings()) == 1)
         runnable_mapping = mappings[0].getRunnableMappings()[0]
         assert (runnable_mapping.getBswEntityRef().getDest() == "BSW-SCHEDULABLE-ENTITY")
@@ -151,7 +148,7 @@ class TestBswMD:
         impl = pkg.getBswImplementations()[0]
         assert (impl.short_name == "BswImplementation_0")
         assert (len(impl.getCodeDescriptors()) == 1)
-        
+
         code_desc = impl.getCodeDescriptors()[0]
         assert (code_desc.short_name == "Files")
         assert (len(code_desc.getArtifactDescriptors()) == 21)
@@ -212,7 +209,7 @@ class TestBswMD:
         writer.save("data/generated.arxml", document)
 
         assert (filecmp.cmp(get_test_file_path("SoftwareComponents.arxml"), "data/generated.arxml", shallow=False) is True)
-    
+
     def test_bswm_bswmd_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()

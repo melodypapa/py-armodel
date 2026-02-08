@@ -1,26 +1,32 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    SocketConnectionBundle,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
-    TransportProtocolConfiguration,
-    GenericTp,
-    TcpUdpConfig,
-    TpPort,
-    UdpTp,
-    TcpTp,
     AbstractServiceInstance,
+    ApplicationEndpoint,
     ConsumedEventGroup,
     ConsumedServiceInstance,
-    InitialSdDelayConfig,
-    SdServerConfig,
     EventHandler,
+    GenericTp,
+    InitialSdDelayConfig,
     ProvidedServiceInstance,
-    ApplicationEndpoint,
+    SdServerConfig,
+    SoAdConfig,
     SocketAddress,
-    SoAdConfig
+    TcpTp,
+    TcpUdpConfig,
+    TpPort,
+    TransportProtocolConfiguration,
+    UdpTp,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class MockParent(ARObject):
@@ -30,7 +36,7 @@ class MockParent(ARObject):
 
 class Test_Fibex4EthernetServiceInstances:
     """Test cases for Fibex4Ethernet ServiceInstances classes."""
-    
+
     def test_TransportProtocolConfiguration(self):
         """Test TransportProtocolConfiguration abstract class instantiation."""
         with pytest.raises(TypeError):
@@ -41,7 +47,7 @@ class Test_Fibex4EthernetServiceInstances:
         tp = GenericTp()
 
         assert isinstance(tp, TransportProtocolConfiguration)
-        
+
         # Test default values
         assert tp.getTpAddress() is None
         assert tp.getTpTechnology() is None
@@ -72,7 +78,7 @@ class Test_Fibex4EthernetServiceInstances:
         port = TpPort()
 
         assert isinstance(port, ARObject)
-        
+
         # Test default values
         assert port.getDynamicallyAssigned() is None
         assert port.getPortNumber() is None
@@ -98,7 +104,7 @@ class Test_Fibex4EthernetServiceInstances:
         tp = UdpTp()
 
         assert isinstance(tp, TcpUdpConfig)
-        
+
         # Test default values
         assert tp.getUdpTpPort() is None
 
@@ -117,7 +123,7 @@ class Test_Fibex4EthernetServiceInstances:
         tp = TcpTp()
 
         assert isinstance(tp, TcpUdpConfig)
-        
+
         # Test default values
         assert tp.getKeepAliveInterval() is None
         assert tp.getKeepAliveProbesMax() is None
@@ -240,7 +246,7 @@ class Test_Fibex4EthernetServiceInstances:
         group = ConsumedEventGroup(parent, "test_consumed_event_group")
 
         assert isinstance(group, Identifiable)
-        
+
         # Test default values
         assert group.getApplicationEndpointRef() is None
         assert group.getAutoRequire() is None
@@ -316,7 +322,7 @@ class Test_Fibex4EthernetServiceInstances:
         instance = ConsumedServiceInstance(parent, "test_consumed_service_instance")
 
         assert isinstance(instance, AbstractServiceInstance)
-        
+
         # Test default values
         assert instance.getAllowedServiceProviderRefs() == []
         assert instance.getAutoRequire() is None
@@ -425,7 +431,7 @@ class Test_Fibex4EthernetServiceInstances:
         config = InitialSdDelayConfig()
 
         assert isinstance(config, ARObject)
-        
+
         # Test default values
         assert config.getInitialDelayMaxValue() is None
         assert config.getInitialDelayMinValue() is None
@@ -467,7 +473,7 @@ class Test_Fibex4EthernetServiceInstances:
         config = SdServerConfig()
 
         assert isinstance(config, ARObject)
-        
+
         # Test default values
         assert config.getCapabilityRecords() == []
         assert config.getInitialOfferBehavior() is None
@@ -535,7 +541,7 @@ class Test_Fibex4EthernetServiceInstances:
         handler = EventHandler(parent, "test_event_handler")
 
         assert isinstance(handler, Identifiable)
-        
+
         # Test default values
         assert handler.getApplicationEndpointRef() is None
         assert handler.getConsumedEventGroupRefs() == []
@@ -582,7 +588,7 @@ class Test_Fibex4EthernetServiceInstances:
         instance = ProvidedServiceInstance(parent, "test_provided_service_instance")
 
         assert isinstance(instance, AbstractServiceInstance)
-        
+
         # Test default values
         assert instance.getEventHandlers() == []
         assert instance.getInstanceIdentifier() is None
@@ -632,7 +638,7 @@ class Test_Fibex4EthernetServiceInstances:
         endpoint = ApplicationEndpoint(parent, "test_app_endpoint")
 
         assert isinstance(endpoint, Identifiable)
-        
+
         # Test default values
         assert endpoint.getConsumedServiceInstances() == []
         assert endpoint.getMaxNumberOfConnections() is None
@@ -695,7 +701,7 @@ class Test_Fibex4EthernetServiceInstances:
         address = SocketAddress(parent, "test_socket_address")
 
         assert isinstance(address, Identifiable)
-        
+
         # Test default values
         assert address.getAllowedIPv6ExtHeadersRef() is None
         assert address.getAllowedTcpOptionsRef() is None
@@ -802,7 +808,7 @@ class Test_Fibex4EthernetServiceInstances:
         config = SoAdConfig()
 
         assert isinstance(config, ARObject)
-        
+
         # Test default values
         assert config.getConnections() == []
         assert config.getConnectionBundles() == []

@@ -4,8 +4,16 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ReferrableSubtypesEnum, Identifier, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+    ReferenceBase,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Identifier,
+    ReferrableSubtypesEnum,
+    RefType,
+)
 
 
 class TestReferenceBase:
@@ -144,7 +152,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         obj = ARPackage(ar_root, "TestPackage")
 
         # Verify basic properties
@@ -162,7 +170,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Initially should be empty
@@ -184,7 +192,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Create a sub-package
@@ -208,7 +216,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Initially should return None for non-existent elements
@@ -232,7 +240,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Create an ApplicationSwComponentType
@@ -251,7 +259,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Create a SenderReceiverInterface
@@ -270,7 +278,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Create an ImplementationDataType
@@ -289,7 +297,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Create a BswModuleDescription
@@ -308,7 +316,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Initially should be empty
@@ -328,7 +336,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Initially should be empty
@@ -346,7 +354,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Test creating various element types
@@ -377,7 +385,7 @@ class TestARPackage:
         app_prim_type = package.createApplicationPrimitiveDataType("AppPrimType")
         assert app_prim_type.getShortName() == "AppPrimType"
 
-        # Note: There's likely a bug in the original source code here - it creates ApplicationRecordDataType 
+        # Note: There's likely a bug in the original source code here - it creates ApplicationRecordDataType
         # but tries to retrieve as ApplicationPrimitiveDataType
         # Let's also test a few more
         app_rec_type = package.createApplicationRecordDataType("AppRecType")
@@ -467,7 +475,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Test additional create methods
@@ -540,7 +548,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Continue with more create methods
@@ -604,7 +612,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Test createEcuAbstractionSwComponentType
@@ -617,7 +625,7 @@ class TestARPackage:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         package = ARPackage(ar_root, "TestPackage")
 
         # Test all the getter methods exist and return appropriate types (even if empty)

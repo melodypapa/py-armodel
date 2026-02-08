@@ -1,39 +1,58 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayChannelName
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType, IPduSignalProcessingEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrameTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
+    NetworkEndpoint,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayFrameTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayChannelName,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinFrameTriggering,
+    LinScheduleTable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommunicationDirectionType,
+    IPduSignalProcessingEnum,
+    ISignalTriggering,
+    PduTriggering,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    AbstractCanCluster,
+    AbstractCanPhysicalChannel,
+    CanCluster,
+    CanClusterBusOffRecovery,
+    CanPhysicalChannel,
+    CommConnectorPort,
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
     CommunicationCycle,
     CycleCounter,
-    CycleRepetitionType,
     CycleRepetition,
-    PhysicalChannel,
-    AbstractCanPhysicalChannel,
-    CanPhysicalChannel,
-    LinPhysicalChannel,
-    VlanConfig,
+    CycleRepetitionType,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,
-    CommunicationCluster,
-    CanClusterBusOffRecovery,
-    AbstractCanCluster,
-    CanCluster,
-    LinCluster,
-    CommunicationController,
-    PncGatewayTypeEnum,
-    CommConnectorPort,
     FramePort,
     IPduPort,
     ISignalPort,
-    CommunicationConnector
+    LinCluster,
+    LinPhysicalChannel,
+    PhysicalChannel,
+    PncGatewayTypeEnum,
+    VlanConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalTriggering, PduTriggering
 
 
 class MockParent(ARObject):
@@ -43,13 +62,13 @@ class MockParent(ARObject):
 
 class Test_FibexCoreTopology:
     """Test cases for FibexCore Topology classes."""
-    
+
     def test_CommunicationCycle(self):
         """Test CommunicationCycle abstract class functionality."""
         # Test that CommunicationCycle cannot be instantiated directly
         with pytest.raises(TypeError, match="CommunicationCycle is an abstract class"):
             CommunicationCycle()
-        
+
         # Test that a concrete subclass can be instantiated
         cycle = CycleCounter()
         assert isinstance(cycle, ARObject)
@@ -60,10 +79,10 @@ class Test_FibexCoreTopology:
         counter = CycleCounter()
 
         assert isinstance(counter, CommunicationCycle)
-        
+
         # Test default values
         assert counter.getCycleCounter() is None
-        
+
         # Test setter/getter methods with method chaining - with None
         assert counter == counter.setCycleCounter(None)  # Test method chaining with None
         assert counter.getCycleCounter() is None  # Should remain None
@@ -83,7 +102,7 @@ class Test_FibexCoreTopology:
         repetition = CycleRepetition()
 
         assert isinstance(repetition, CommunicationCycle)
-        
+
         # Test default values
         assert repetition.getBaseCycle() is None
         assert repetition.getCycleRepetition() is None
@@ -130,7 +149,7 @@ class Test_FibexCoreTopology:
         channel = LinPhysicalChannel(parent, "test_lin_physical_channel")
 
         assert isinstance(channel, PhysicalChannel)
-        
+
         # Test default values
         assert channel.getBusIdleTimeoutPeriod() is None
         assert channel.getScheduleTables() == []
@@ -156,10 +175,10 @@ class Test_FibexCoreTopology:
         config = VlanConfig(parent, "test_vlan_config")
 
         assert isinstance(config, Identifiable)
-        
+
         # Test default values
         assert config.getVlanIdentifier() is None
-        
+
         # Test setter/getter methods with method chaining - with None
         assert config == config.setVlanIdentifier(None)  # Test method chaining with None
         assert config.getVlanIdentifier() is None  # Should remain None
@@ -234,7 +253,7 @@ class Test_FibexCoreTopology:
         recovery = CanClusterBusOffRecovery()
 
         assert isinstance(recovery, ARObject)
-        
+
         # Test default values
         assert recovery.getBorCounterL1ToL2() is None
         assert recovery.getBorTimeL1() is None

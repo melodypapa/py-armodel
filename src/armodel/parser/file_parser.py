@@ -9,7 +9,7 @@ from colorama import Fore
 class FileListParser:
     '''
         FileListParser supports to collect the arxml files from the following rules
-         
+
     '''
     def __init__(self) -> None:
         self.file_list = []
@@ -17,7 +17,7 @@ class FileListParser:
 
     def get_file_list(self) -> List[str]:
         return self.file_list
-    
+
     def parse_text_file(self, file):
         try:
             with open(file) as f_in:

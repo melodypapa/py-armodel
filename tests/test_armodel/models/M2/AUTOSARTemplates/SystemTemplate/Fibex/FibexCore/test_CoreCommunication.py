@@ -1,44 +1,50 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Describable,
+    Identifiable,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    FibexElement,
-    PduToFrameMapping,
-    Frame,
     ContainedIPduProps,
-    ISignalGroup,
-    ISignalIPduGroup,
-    Pdu,
+    DcmIPdu,
+    DynamicPart,
+    DynamicPartAlternative,
+    FibexElement,
+    Frame,
+    FrameTriggering,
+    GeneralPurposeIPdu,
+    GeneralPurposePdu,
     IPdu,
-    SecureCommunicationProps,
-    SecuredIPdu,
+    IPduTiming,
+    ISignal,
+    ISignalGroup,
+    ISignalIPdu,
+    ISignalIPduGroup,
     ISignalToIPduMapping,
+    ISignalTriggering,
+    MultiplexedIPdu,
+    MultiplexedPart,
     NmPdu,
     NPdu,
-    DcmIPdu,
-    IPduTiming,
-    ISignalIPdu,
-    ISignal,
+    Pdu,
+    PduToFrameMapping,
     PduTriggering,
-    FrameTriggering,
+    SecureCommunicationAuthenticationProps,
+    SecureCommunicationFreshnessProps,
+    SecureCommunicationProps,
+    SecureCommunicationPropsSet,
+    SecuredIPdu,
+    SegmentPosition,
+    StaticPart,
     SystemSignal,
     SystemSignalGroup,
-    ISignalTriggering,
-    SegmentPosition,
-    MultiplexedPart,
-    StaticPart,
-    DynamicPartAlternative,
-    DynamicPart,
-    MultiplexedIPdu,
-    GeneralPurposePdu,
-    GeneralPurposeIPdu,
-    SecureCommunicationPropsSet,
-    UserDefinedPdu,
     UserDefinedIPdu,
-    SecureCommunicationAuthenticationProps,
-    SecureCommunicationFreshnessProps
+    UserDefinedPdu,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement, Describable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class MockParent(ARObject):
@@ -48,7 +54,7 @@ class MockParent(ARObject):
 
 class Test_FibexCoreCommunication:
     """Test cases for FibexCore Communication classes."""
-    
+
     def test_FibexElement(self):
         """Test FibexElement abstract class instantiation."""
         parent = MockParent()
@@ -61,13 +67,13 @@ class Test_FibexCoreCommunication:
         mapping = PduToFrameMapping(parent, "test_pdu_to_frame_mapping")
 
         assert isinstance(mapping, Identifiable)
-        
+
         # Test default values
         assert mapping.getPackingByteOrder() is None
         assert mapping.getPduRef() is None
         assert mapping.getStartPosition() is None
         assert mapping.getUpdateIndicationBitPosition() is None
-        
+
         # Test setter/getter methods
         mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")
         assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
@@ -124,7 +130,7 @@ class Test_FibexCoreCommunication:
         props = ContainedIPduProps()
 
         assert isinstance(props, ARObject)
-        
+
         # Test default values
         assert props.getCollectionSemantics() is None
         assert props.getHeaderIdLongHeader() is None
@@ -169,7 +175,7 @@ class Test_FibexCoreCommunication:
         group = ISignalGroup(parent, "test_isignal_group")
 
         assert isinstance(group, FibexElement)
-        
+
         # Test default values
         assert group.getComBasedSignalGroupTransformationRefs() == []
         assert group.getISignalRefs() == []
@@ -203,7 +209,7 @@ class Test_FibexCoreCommunication:
         group = ISignalIPduGroup(parent, "test_isignal_ipdu_group")
 
         assert isinstance(group, FibexElement)
-        
+
         # Test default values
         assert group.getCommunicationDirection() is None
         assert group.getCommunicationMode() is None
@@ -300,7 +306,7 @@ class Test_FibexCoreCommunication:
         props = SecureCommunicationProps()
 
         assert isinstance(props, ARObject)
-        
+
         # Test default values
         assert props.getAuthDataFreshnessLength() is None
         assert props.getAuthDataFreshnessStartPosition() is None
@@ -429,7 +435,7 @@ class Test_FibexCoreCommunication:
         mapping = ISignalToIPduMapping(parent, "test_isignal_to_ipdu_mapping")
 
         assert isinstance(mapping, Identifiable)
-        
+
         # Test default values
         assert mapping.getISignalRef() is None
         assert mapping.getISignalGroupRef() is None
@@ -818,7 +824,7 @@ class Test_FibexCoreCommunication:
         class ConcreteMultiplexedPart(MultiplexedPart):
             def __init__(self):
                 super().__init__()
-        
+
         part = ConcreteMultiplexedPart()
         # Test default values
         assert part.getSegmentPositions() == []

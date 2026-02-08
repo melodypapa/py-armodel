@@ -4,13 +4,23 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpStructureElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    POperationInAtomicSwcInstanceRef,
+    RModeInAtomicSwcInstanceRef,
+    RVariableInAtomicSwcInstanceRef,
+)
 
 
 class RTEEvent(AtpStructureElement, ABC):
@@ -18,7 +28,7 @@ class RTEEvent(AtpStructureElement, ABC):
         if type(self) is RTEEvent:
             raise TypeError("RTEEvent is an abstract class.")
         super().__init__(parent, short_name)
-        
+
         self.disabledModeIRefs: List['RModeInAtomicSwcInstanceRef'] = []
         self.startOnEventRef: 'RefType' = None
 
@@ -166,7 +176,7 @@ class TimingEvent(RTEEvent):
                 return period_value * 1000
             else:
                 return (int)(period_value * 1000)
-        
+
     def getOffset(self):
         return self.offset
 

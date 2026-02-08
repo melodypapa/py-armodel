@@ -4,39 +4,40 @@ in the AUTOSAR CommonStructure module.
 """
 
 import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
-    RoleBasedDataAssignment,
-    ServiceNeeds,
-    RamBlockStatusControlEnum,
-    NvBlockNeedsReliabilityEnum,
-    NvBlockNeedsWritingPriorityEnum,
-    NvBlockNeeds,
-    RoleBasedDataTypeAssignment,
-    ServiceDiagnosticRelevanceEnum,
-    ServiceDependency,
-    DiagnosticAudienceEnum,
-    DiagnosticServiceRequestCallbackTypeEnum,
-    DiagnosticCapabilityElement,
-    DiagnosticRoutineTypeEnum,
-    DiagnosticCommunicationManagerNeeds,
-    DiagnosticRoutineNeeds,
-    DiagnosticValueAccessEnum,
-    DiagnosticProcessingStyleEnum,
-    DiagnosticValueNeeds,
+    CryptoServiceNeeds,
     DiagEventDebounceAlgorithm,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
-    DtcKindEnum,
-    DiagnosticEventInfoNeeds,
+    DiagnosticAudienceEnum,
+    DiagnosticCapabilityElement,
     DiagnosticClearDtcNotificationEnum,
-    DtcFormatTypeEnum,
-    DtcStatusChangeNotificationNeeds,
+    DiagnosticCommunicationManagerNeeds,
+    DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
-    CryptoServiceNeeds,
+    DiagnosticProcessingStyleEnum,
+    DiagnosticRoutineNeeds,
+    DiagnosticRoutineTypeEnum,
+    DiagnosticServiceRequestCallbackTypeEnum,
+    DiagnosticValueAccessEnum,
+    DiagnosticValueNeeds,
+    DltUserNeeds,
+    DtcFormatTypeEnum,
+    DtcKindEnum,
+    DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
-    DltUserNeeds
+    NvBlockNeeds,
+    NvBlockNeedsReliabilityEnum,
+    NvBlockNeedsWritingPriorityEnum,
+    RamBlockStatusControlEnum,
+    RoleBasedDataAssignment,
+    RoleBasedDataTypeAssignment,
+    ServiceDependency,
+    ServiceDiagnosticRelevanceEnum,
+    ServiceNeeds,
 )
 
 
@@ -44,7 +45,7 @@ class TestRoleBasedDataAssignment:
     def test_initialization(self):
         """Test RoleBasedDataAssignment initialization"""
         assignment = RoleBasedDataAssignment()
-        
+
         assert assignment is not None
         assert assignment.role is None
         assert assignment.usedDataElement is None
@@ -54,18 +55,18 @@ class TestRoleBasedDataAssignment:
     def test_get_set_role(self):
         """Test getRole and setRole methods"""
         assignment = RoleBasedDataAssignment()
-        
+
         assert assignment.getRole() is None
-        
+
         assignment.setRole("TestRole")
         assert assignment.getRole() == "TestRole"
 
     def test_get_set_used_data_element(self):
         """Test getUsedDataElement and setUsedDataElement methods"""
         assignment = RoleBasedDataAssignment()
-        
+
         assert assignment.getUsedDataElement() is None
-        
+
         class MockVariableRef:
             pass
         var_ref = MockVariableRef()
@@ -75,9 +76,9 @@ class TestRoleBasedDataAssignment:
     def test_get_set_used_parameter_element(self):
         """Test getUsedParameterElement and setUsedParameterElement methods"""
         assignment = RoleBasedDataAssignment()
-        
+
         assert assignment.getUsedParameterElement() is None
-        
+
         class MockParameterRef:
             pass
         param_ref = MockParameterRef()
@@ -87,9 +88,9 @@ class TestRoleBasedDataAssignment:
     def test_get_set_used_pim_ref(self):
         """Test getUsedPimRef and setUsedPimRef methods"""
         assignment = RoleBasedDataAssignment()
-        
+
         assert assignment.getUsedPimRef() is None
-        
+
         class MockRefType:
             pass
         ref_type = MockRefType()
@@ -102,7 +103,7 @@ class TestServiceNeeds:
         """Test that ServiceNeeds cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         with pytest.raises(TypeError):
             ServiceNeeds(ar_root, "TestServiceNeeds")
 
@@ -111,13 +112,13 @@ class TestRamBlockStatusControlEnum:
     def test_initialization(self):
         """Test RamBlockStatusControlEnum initialization"""
         enum = RamBlockStatusControlEnum()
-        
+
         # Enum values are stored in enumValues attribute as a tuple
         assert enum.enumValues == (
             "api",
             "nvRamManager"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert RamBlockStatusControlEnum.API == "api"
@@ -128,13 +129,13 @@ class TestNvBlockNeedsReliabilityEnum:
     def test_initialization(self):
         """Test NvBlockNeedsReliabilityEnum initialization"""
         enum = NvBlockNeedsReliabilityEnum()
-        
+
         assert enum.enumValues == (
             "errorCorrection",
             "errorDetection",
             "noProtection"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert NvBlockNeedsReliabilityEnum.ERROR_CORRECTION == "errorCorrection"
@@ -146,13 +147,13 @@ class TestNvBlockNeedsWritingPriorityEnum:
     def test_initialization(self):
         """Test NvBlockNeedsWritingPriorityEnum initialization"""
         enum = NvBlockNeedsWritingPriorityEnum()
-        
+
         assert enum.enumValues == (
             "high",
             "low",
             "medium"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert NvBlockNeedsWritingPriorityEnum.HIGH == "high"
@@ -166,7 +167,7 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block is not None
         assert nv_block.getShortName() == "TestNvBlock"
         assert nv_block.calcRamBlockCrc is None
@@ -197,9 +198,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getCalcRamBlockCrc() is None
-        
+
         nv_block.setCalcRamBlockCrc(True)
         assert nv_block.getCalcRamBlockCrc() is True
 
@@ -208,9 +209,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getCheckStaticBlockId() is None
-        
+
         nv_block.setCheckStaticBlockId(True)
         assert nv_block.getCheckStaticBlockId() is True
 
@@ -219,9 +220,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getCyclicWritingPeriod() is None
-        
+
         class MockTimeValue:
             pass
         time_value = MockTimeValue()
@@ -233,9 +234,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getNDataSets() is None
-        
+
         nv_block.setNDataSets(5)
         assert nv_block.getNDataSets() == 5
 
@@ -244,9 +245,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getNRomBlocks() is None
-        
+
         nv_block.setNRomBlocks(3)
         assert nv_block.getNRomBlocks() == 3
 
@@ -255,9 +256,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getRamBlockStatusControl() is None
-        
+
         enum_val = RamBlockStatusControlEnum.NV_RAM_MANAGER
         nv_block.setRamBlockStatusControl(enum_val)
         assert nv_block.getRamBlockStatusControl() == enum_val
@@ -267,9 +268,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getReadonly() is None
-        
+
         nv_block.setReadonly(True)
         assert nv_block.getReadonly() is True
 
@@ -278,9 +279,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getReliability() is None
-        
+
         enum_val = NvBlockNeedsReliabilityEnum.ERROR_DETECTION
         nv_block.setReliability(enum_val)
         assert nv_block.getReliability() == enum_val
@@ -290,9 +291,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getResistantToChangedSw() is None
-        
+
         nv_block.setResistantToChangedSw(True)
         assert nv_block.getResistantToChangedSw() is True
 
@@ -301,9 +302,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getRestoreAtStart() is None
-        
+
         nv_block.setRestoreAtStart(True)
         assert nv_block.getRestoreAtStart() is True
 
@@ -312,9 +313,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getSelectBlockForFirstInitAll() is None
-        
+
         nv_block.setSelectBlockForFirstInitAll(True)
         assert nv_block.getSelectBlockForFirstInitAll() is True
 
@@ -323,9 +324,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getStoreAtShutdown() is None
-        
+
         nv_block.setStoreAtShutdown(True)
         assert nv_block.getStoreAtShutdown() is True
 
@@ -334,9 +335,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getStoreCyclic() is None
-        
+
         nv_block.setStoreCyclic(True)
         assert nv_block.getStoreCyclic() is True
 
@@ -345,9 +346,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getStoreEmergency() is None
-        
+
         nv_block.setStoreEmergency(True)
         assert nv_block.getStoreEmergency() is True
 
@@ -356,9 +357,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getStoreImmediate() is None
-        
+
         nv_block.setStoreImmediate(True)
         assert nv_block.getStoreImmediate() is True
 
@@ -367,9 +368,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getStoreOnChange() is None
-        
+
         nv_block.setStoreOnChange(True)
         assert nv_block.getStoreOnChange() is True
 
@@ -378,9 +379,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getUseAutoValidationAtShutDown() is None
-        
+
         nv_block.setUseAutoValidationAtShutDown(True)
         assert nv_block.getUseAutoValidationAtShutDown() is True
 
@@ -389,9 +390,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getUseCRCCompMechanism() is None
-        
+
         nv_block.setUseCRCCompMechanism(True)
         assert nv_block.getUseCRCCompMechanism() is True
 
@@ -400,9 +401,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getWriteOnlyOnce() is None
-        
+
         nv_block.setWriteOnlyOnce(True)
         assert nv_block.getWriteOnlyOnce() is True
 
@@ -411,9 +412,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getWriteVerification() is None
-        
+
         nv_block.setWriteVerification(True)
         assert nv_block.getWriteVerification() is True
 
@@ -422,9 +423,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getWritingFrequency() is None
-        
+
         nv_block.setWritingFrequency(10)
         assert nv_block.getWritingFrequency() == 10
 
@@ -433,9 +434,9 @@ class TestNvBlockNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         nv_block = NvBlockNeeds(ar_root, "TestNvBlock")
-        
+
         assert nv_block.getWritingPriority() is None
-        
+
         enum_val = NvBlockNeedsWritingPriorityEnum.HIGH
         nv_block.setWritingPriority(enum_val)
         assert nv_block.getWritingPriority() == enum_val
@@ -445,7 +446,7 @@ class TestRoleBasedDataTypeAssignment:
     def test_initialization(self):
         """Test RoleBasedDataTypeAssignment initialization"""
         assignment = RoleBasedDataTypeAssignment()
-        
+
         assert assignment is not None
         assert assignment.role is None
         assert assignment.usedImplementationDataTypeRef is None
@@ -453,18 +454,18 @@ class TestRoleBasedDataTypeAssignment:
     def test_get_set_role(self):
         """Test getRole and setRole methods"""
         assignment = RoleBasedDataTypeAssignment()
-        
+
         assert assignment.getRole() is None
-        
+
         assignment.setRole("TestRole")
         assert assignment.getRole() == "TestRole"
 
     def test_get_set_used_implementation_data_type_ref(self):
         """Test getUsedImplementationDataTypeRef and setUsedImplementationDataTypeRef methods"""
         assignment = RoleBasedDataTypeAssignment()
-        
+
         assert assignment.getUsedImplementationDataTypeRef() is None
-        
+
         class MockRefType:
             pass
         ref_type = MockRefType()
@@ -476,7 +477,7 @@ class TestServiceDiagnosticRelevanceEnum:
     def test_initialization(self):
         """Test ServiceDiagnosticRelevanceEnum initialization"""
         enum = ServiceDiagnosticRelevanceEnum()
-        
+
         assert enum.enumValues == []
 
 
@@ -490,7 +491,9 @@ class TestServiceDependency:
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of ServiceDependency can be instantiated"""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (
+            SwcServiceDependency,
+        )
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -504,7 +507,9 @@ class TestServiceDependency:
 
     def test_get_assigned_data_types(self):
         """Test getAssignedDataTypes method"""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (
+            SwcServiceDependency,
+        )
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -514,7 +519,9 @@ class TestServiceDependency:
 
     def test_add_assigned_data_type(self):
         """Test addAssignedDataType method"""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (
+            SwcServiceDependency,
+        )
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -530,7 +537,9 @@ class TestServiceDependency:
 
     def test_get_set_diagnostic_relevance(self):
         """Test getDiagnosticRelevance and setDiagnosticRelevance methods"""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (
+            SwcServiceDependency,
+        )
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -567,7 +576,7 @@ class TestDiagnosticAudienceEnum:
     def test_initialization(self):
         """Test DiagnosticAudienceEnum initialization"""
         enum = DiagnosticAudienceEnum()
-        
+
         assert enum.enumValues == (
             "aftermarket",
             "afterSales",
@@ -575,7 +584,7 @@ class TestDiagnosticAudienceEnum:
             "manufacturing",
             "supplier"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert DiagnosticAudienceEnum.AFTER_MARKET == "aftermarket"
@@ -589,12 +598,12 @@ class TestDiagnosticServiceRequestCallbackTypeEnum:
     def test_initialization(self):
         """Test DiagnosticServiceRequestCallbackTypeEnum initialization"""
         enum = DiagnosticServiceRequestCallbackTypeEnum()
-        
+
         assert enum.enumValues == (
             "requestCallbackTypeManufacturer",
             "requestCallbackTypeSupplier"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER == "requestCallbackTypeManufacturer"
@@ -606,7 +615,7 @@ class TestDiagnosticCapabilityElement:
         """Test that DiagnosticCapabilityElement cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         with pytest.raises(TypeError):
             DiagnosticCapabilityElement(ar_root, "TestDiagnosticCapabilityElement")
 
@@ -615,12 +624,12 @@ class TestDiagnosticRoutineTypeEnum:
     def test_initialization(self):
         """Test DiagnosticRoutineTypeEnum initialization"""
         enum = DiagnosticRoutineTypeEnum()
-        
+
         assert enum.enumValues == (
             "asynchronous",
             "synchronous"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert DiagnosticRoutineTypeEnum.ASYNCHRONOUS == "asynchronous"
@@ -633,7 +642,7 @@ class TestDiagnosticCommunicationManagerNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_comm = DiagnosticCommunicationManagerNeeds(ar_root, "TestDiagnosticCommunicationManagerNeeds")
-        
+
         assert diag_comm is not None
         assert diag_comm.getShortName() == "TestDiagnosticCommunicationManagerNeeds"
         assert diag_comm.audiences == []
@@ -646,9 +655,9 @@ class TestDiagnosticCommunicationManagerNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_comm = DiagnosticCommunicationManagerNeeds(ar_root, "TestDiagnosticCommunicationManagerNeeds")
-        
+
         assert diag_comm.getServiceRequestCallbackType() is None
-        
+
         enum_val = DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER
         result = diag_comm.setServiceRequestCallbackType(enum_val)
         assert result is diag_comm
@@ -659,9 +668,9 @@ class TestDiagnosticCommunicationManagerNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_comm = DiagnosticCommunicationManagerNeeds(ar_root, "TestDiagnosticCommunicationManagerNeeds")
-        
+
         assert diag_comm.getAudiences() == []
-        
+
         enum_val = DiagnosticAudienceEnum.DEVELOPMENT
         result = diag_comm.addAudience(enum_val)
         assert result is diag_comm
@@ -672,9 +681,9 @@ class TestDiagnosticCommunicationManagerNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_comm = DiagnosticCommunicationManagerNeeds(ar_root, "TestDiagnosticCommunicationManagerNeeds")
-        
+
         assert diag_comm.getDiagRequirement() is None
-        
+
         result = diag_comm.setDiagRequirement("REQ-001")
         assert result is diag_comm
         assert diag_comm.getDiagRequirement() == "REQ-001"
@@ -684,9 +693,9 @@ class TestDiagnosticCommunicationManagerNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_comm = DiagnosticCommunicationManagerNeeds(ar_root, "TestDiagnosticCommunicationManagerNeeds")
-        
+
         assert diag_comm.getSecurityAccessLevel() is None
-        
+
         result = diag_comm.setSecurityAccessLevel(2)
         assert result is diag_comm
         assert diag_comm.getSecurityAccessLevel() == 2
@@ -698,7 +707,7 @@ class TestDiagnosticRoutineNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_routine = DiagnosticRoutineNeeds(ar_root, "TestDiagnosticRoutineNeeds")
-        
+
         assert diag_routine is not None
         assert diag_routine.getShortName() == "TestDiagnosticRoutineNeeds"
         assert diag_routine.audiences == []
@@ -712,9 +721,9 @@ class TestDiagnosticRoutineNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_routine = DiagnosticRoutineNeeds(ar_root, "TestDiagnosticRoutineNeeds")
-        
+
         assert diag_routine.getDiagRoutineType() is None
-        
+
         enum_val = DiagnosticRoutineTypeEnum.ASYNCHRONOUS
         result = diag_routine.setDiagRoutineType(enum_val)
         assert result is diag_routine
@@ -725,9 +734,9 @@ class TestDiagnosticRoutineNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_routine = DiagnosticRoutineNeeds(ar_root, "TestDiagnosticRoutineNeeds")
-        
+
         assert diag_routine.getRidNumber() is None
-        
+
         result = diag_routine.setRidNumber(1234)
         assert result is diag_routine
         assert diag_routine.getRidNumber() == 1234
@@ -737,9 +746,9 @@ class TestDiagnosticRoutineNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_routine = DiagnosticRoutineNeeds(ar_root, "TestDiagnosticRoutineNeeds")
-        
+
         assert diag_routine.getAudiences() == []
-        
+
         enum_val = DiagnosticAudienceEnum.AFTER_MARKET
         result = diag_routine.addAudience(enum_val)
         assert result is diag_routine
@@ -750,9 +759,9 @@ class TestDiagnosticRoutineNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_routine = DiagnosticRoutineNeeds(ar_root, "TestDiagnosticRoutineNeeds")
-        
+
         assert diag_routine.getDiagRequirement() is None
-        
+
         result = diag_routine.setDiagRequirement("REQ-002")
         assert result is diag_routine
         assert diag_routine.getDiagRequirement() == "REQ-002"
@@ -762,9 +771,9 @@ class TestDiagnosticRoutineNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_routine = DiagnosticRoutineNeeds(ar_root, "TestDiagnosticRoutineNeeds")
-        
+
         assert diag_routine.getSecurityAccessLevel() is None
-        
+
         result = diag_routine.setSecurityAccessLevel(3)
         assert result is diag_routine
         assert diag_routine.getSecurityAccessLevel() == 3
@@ -774,13 +783,13 @@ class TestDiagnosticValueAccessEnum:
     def test_initialization(self):
         """Test DiagnosticValueAccessEnum initialization"""
         enum = DiagnosticValueAccessEnum()
-        
+
         assert enum.enumValues == (
             "readOnly",
             "readWrite",
             "writeOnly"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert DiagnosticValueAccessEnum.READ_ONLY == "readOnly"
@@ -792,13 +801,13 @@ class TestDiagnosticProcessingStyleEnum:
     def test_initialization(self):
         """Test DiagnosticProcessingStyleEnum initialization"""
         enum = DiagnosticProcessingStyleEnum()
-        
+
         assert enum.enumValues == (
             "processingStyleAsynchronous",
             "processingStyleAsynchronousWithError",
             "processingStyleSynchronous"
         )
-    
+
     def test_values(self):
         """Test enum values"""
         assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS == "processingStyleAsynchronous"
@@ -812,7 +821,7 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value is not None
         assert diag_value.getShortName() == "TestDiagnosticValueNeeds"
         assert diag_value.audiences == []
@@ -829,9 +838,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getDataLength() is None
-        
+
         result = diag_value.setDataLength(256)
         assert result is diag_value
         assert diag_value.getDataLength() == 256
@@ -841,9 +850,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getDiagnosticValueAccess() is None
-        
+
         enum_val = DiagnosticValueAccessEnum.READ_WRITE
         result = diag_value.setDiagnosticValueAccess(enum_val)
         assert result is diag_value
@@ -854,9 +863,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getDidNumber() is None
-        
+
         result = diag_value.setDidNumber(12345)
         assert result is diag_value
         assert diag_value.getDidNumber() == 12345
@@ -866,9 +875,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getFixedLength() is None
-        
+
         result = diag_value.setFixedLength(True)
         assert result is diag_value
         assert diag_value.getFixedLength() is True
@@ -878,9 +887,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getProcessingStyle() is None
-        
+
         enum_val = DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS
         result = diag_value.setProcessingStyle(enum_val)
         assert result is diag_value
@@ -891,9 +900,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getAudiences() == []
-        
+
         enum_val = DiagnosticAudienceEnum.SUPPLIER
         result = diag_value.addAudience(enum_val)
         assert result is diag_value
@@ -904,9 +913,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getDiagRequirement() is None
-        
+
         result = diag_value.setDiagRequirement("REQ-003")
         assert result is diag_value
         assert diag_value.getDiagRequirement() == "REQ-003"
@@ -916,9 +925,9 @@ class TestDiagnosticValueNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_value = DiagnosticValueNeeds(ar_root, "TestDiagnosticValueNeeds")
-        
+
         assert diag_value.getSecurityAccessLevel() is None
-        
+
         result = diag_value.setSecurityAccessLevel(4)
         assert result is diag_value
         assert diag_value.getSecurityAccessLevel() == 4
@@ -929,7 +938,7 @@ class TestDiagEventDebounceAlgorithm:
         """Test that DiagEventDebounceAlgorithm cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         with pytest.raises(TypeError):
             DiagEventDebounceAlgorithm(ar_root, "TestDiagEventDebounceAlgorithm")
 
@@ -940,7 +949,7 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce is not None
         assert debounce.getShortName() == "TestDiagEventDebounceCounterBased"
         assert debounce.counterBasedFdcThresholdStorageValue is None
@@ -958,9 +967,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterBasedFdcThresholdStorageValue() is None
-        
+
         result = debounce.setCounterBasedFdcThresholdStorageValue(100)
         assert result is debounce
         assert debounce.getCounterBasedFdcThresholdStorageValue() == 100
@@ -970,9 +979,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterDecrementStepSize() is None
-        
+
         result = debounce.setCounterDecrementStepSize(5)
         assert result is debounce
         assert debounce.getCounterDecrementStepSize() == 5
@@ -982,9 +991,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterFailedThreshold() is None
-        
+
         result = debounce.setCounterFailedThreshold(200)
         assert result is debounce
         assert debounce.getCounterFailedThreshold() == 200
@@ -994,9 +1003,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterIncrementStepSize() is None
-        
+
         result = debounce.setCounterIncrementStepSize(3)
         assert result is debounce
         assert debounce.getCounterIncrementStepSize() == 3
@@ -1006,9 +1015,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterJumpDown() is None
-        
+
         result = debounce.setCounterJumpDown(150)
         assert result is debounce
         assert debounce.getCounterJumpDown() == 150
@@ -1018,9 +1027,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterJumpDownValue() is None
-        
+
         result = debounce.setCounterJumpDownValue(50)
         assert result is debounce
         assert debounce.getCounterJumpDownValue() == 50
@@ -1030,9 +1039,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterJumpUp() is None
-        
+
         result = debounce.setCounterJumpUp(250)
         assert result is debounce
         assert debounce.getCounterJumpUp() == 250
@@ -1042,9 +1051,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterJumpUpValue() is None
-        
+
         result = debounce.setCounterJumpUpValue(75)
         assert result is debounce
         assert debounce.getCounterJumpUpValue() == 75
@@ -1054,9 +1063,9 @@ class TestDiagEventDebounceCounterBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceCounterBased(ar_root, "TestDiagEventDebounceCounterBased")
-        
+
         assert debounce.getCounterPassedThreshold() is None
-        
+
         result = debounce.setCounterPassedThreshold(180)
         assert result is debounce
         assert debounce.getCounterPassedThreshold() == 180
@@ -1068,7 +1077,7 @@ class TestDiagEventDebounceMonitorInternal:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceMonitorInternal(ar_root, "TestDiagEventDebounceMonitorInternal")
-        
+
         assert debounce is not None
         assert debounce.getShortName() == "TestDiagEventDebounceMonitorInternal"
 
@@ -1079,7 +1088,7 @@ class TestDiagEventDebounceTimeBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceTimeBased(ar_root, "TestDiagEventDebounceTimeBased")
-        
+
         assert debounce is not None
         assert debounce.getShortName() == "TestDiagEventDebounceTimeBased"
         assert debounce.timeBasedFdcThresholdStorageValue is None
@@ -1091,9 +1100,9 @@ class TestDiagEventDebounceTimeBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceTimeBased(ar_root, "TestDiagEventDebounceTimeBased")
-        
+
         assert debounce.getTimeBasedFdcThresholdStorageValue() is None
-        
+
         class MockTimeValue:
             pass
         time_value = MockTimeValue()
@@ -1106,9 +1115,9 @@ class TestDiagEventDebounceTimeBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceTimeBased(ar_root, "TestDiagEventDebounceTimeBased")
-        
+
         assert debounce.getTimeFailedThreshold() is None
-        
+
         class MockTimeValue:
             pass
         time_value = MockTimeValue()
@@ -1121,9 +1130,9 @@ class TestDiagEventDebounceTimeBased:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         debounce = DiagEventDebounceTimeBased(ar_root, "TestDiagEventDebounceTimeBased")
-        
+
         assert debounce.getTimePassedThreshold() is None
-        
+
         class MockTimeValue:
             pass
         time_value = MockTimeValue()
@@ -1136,7 +1145,7 @@ class TestDtcKindEnum:
     def test_initialization(self):
         """Test DtcKindEnum initialization"""
         enum = DtcKindEnum()
-        
+
         assert enum.enumValues == []
 
 
@@ -1146,7 +1155,7 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info is not None
         assert diag_event_info.getShortName() == "TestDiagnosticEventInfoNeeds"
         assert diag_event_info.audiences == []
@@ -1161,9 +1170,9 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info.getDtcKind() is None
-        
+
         enum_val = DtcKindEnum()
         result = diag_event_info.setDtcKind(enum_val)
         assert result is diag_event_info
@@ -1174,9 +1183,9 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info.getObdDtcNumber() is None
-        
+
         result = diag_event_info.setObdDtcNumber(500)
         assert result is diag_event_info
         assert diag_event_info.getObdDtcNumber() == 500
@@ -1186,9 +1195,9 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info.getUdsDtcNumber() is None
-        
+
         result = diag_event_info.setUdsDtcNumber(600)
         assert result is diag_event_info
         assert diag_event_info.getUdsDtcNumber() == 600
@@ -1198,9 +1207,9 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info.getAudiences() == []
-        
+
         enum_val = DiagnosticAudienceEnum.MANUFACTURING
         result = diag_event_info.addAudience(enum_val)
         assert result is diag_event_info
@@ -1211,9 +1220,9 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info.getDiagRequirement() is None
-        
+
         result = diag_event_info.setDiagRequirement("REQ-004")
         assert result is diag_event_info
         assert diag_event_info.getDiagRequirement() == "REQ-004"
@@ -1223,9 +1232,9 @@ class TestDiagnosticEventInfoNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event_info = DiagnosticEventInfoNeeds(ar_root, "TestDiagnosticEventInfoNeeds")
-        
+
         assert diag_event_info.getSecurityAccessLevel() is None
-        
+
         result = diag_event_info.setSecurityAccessLevel(5)
         assert result is diag_event_info
         assert diag_event_info.getSecurityAccessLevel() == 5
@@ -1235,7 +1244,7 @@ class TestDiagnosticClearDtcNotificationEnum:
     def test_initialization(self):
         """Test DiagnosticClearDtcNotificationEnum initialization"""
         enum = DiagnosticClearDtcNotificationEnum()
-        
+
         assert enum.enumValues == []
 
 
@@ -1243,7 +1252,7 @@ class TestDtcFormatTypeEnum:
     def test_initialization(self):
         """Test DtcFormatTypeEnum initialization"""
         enum = DtcFormatTypeEnum()
-        
+
         assert enum.enumValues == []
 
 
@@ -1253,7 +1262,7 @@ class TestDtcStatusChangeNotificationNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         notification = DtcStatusChangeNotificationNeeds(ar_root, "TestDtcStatusChangeNotificationNeeds")
-        
+
         assert notification is not None
         assert notification.getShortName() == "TestDtcStatusChangeNotificationNeeds"
         assert notification.audiences == []
@@ -1267,9 +1276,9 @@ class TestDtcStatusChangeNotificationNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         notification = DtcStatusChangeNotificationNeeds(ar_root, "TestDtcStatusChangeNotificationNeeds")
-        
+
         assert notification.getDtcFormatType() is None
-        
+
         enum_val = DtcFormatTypeEnum()
         result = notification.setDtcFormatType(enum_val)
         assert result is notification
@@ -1280,9 +1289,9 @@ class TestDtcStatusChangeNotificationNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         notification = DtcStatusChangeNotificationNeeds(ar_root, "TestDtcStatusChangeNotificationNeeds")
-        
+
         assert notification.getNotificationTime() is None
-        
+
         enum_val = DiagnosticClearDtcNotificationEnum()
         result = notification.setNotificationTime(enum_val)
         assert result is notification
@@ -1293,9 +1302,9 @@ class TestDtcStatusChangeNotificationNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         notification = DtcStatusChangeNotificationNeeds(ar_root, "TestDtcStatusChangeNotificationNeeds")
-        
+
         assert notification.getAudiences() == []
-        
+
         enum_val = DiagnosticAudienceEnum.DEVELOPMENT
         result = notification.addAudience(enum_val)
         assert result is notification
@@ -1306,9 +1315,9 @@ class TestDtcStatusChangeNotificationNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         notification = DtcStatusChangeNotificationNeeds(ar_root, "TestDtcStatusChangeNotificationNeeds")
-        
+
         assert notification.getDiagRequirement() is None
-        
+
         result = notification.setDiagRequirement("REQ-005")
         assert result is notification
         assert notification.getDiagRequirement() == "REQ-005"
@@ -1318,9 +1327,9 @@ class TestDtcStatusChangeNotificationNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         notification = DtcStatusChangeNotificationNeeds(ar_root, "TestDtcStatusChangeNotificationNeeds")
-        
+
         assert notification.getSecurityAccessLevel() is None
-        
+
         result = notification.setSecurityAccessLevel(6)
         assert result is notification
         assert notification.getSecurityAccessLevel() == 6
@@ -1332,7 +1341,7 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event is not None
         assert diag_event.getShortName() == "TestDiagnosticEventNeeds"
         assert diag_event.audiences == []
@@ -1352,9 +1361,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getDeferringFidRefs() == []
-        
+
         class MockRefType:
             pass
         ref = MockRefType()
@@ -1367,7 +1376,7 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getDiagEventDebounceAlgorithm() is None
 
     def test_create_diag_event_debounce_counter_based(self):
@@ -1375,7 +1384,7 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         debounce_algo = diag_event.createDiagEventDebounceCounterBased("CounterBasedAlgo")
         assert debounce_algo is not None
         assert isinstance(debounce_algo, DiagEventDebounceCounterBased)
@@ -1385,7 +1394,7 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         debounce_algo = diag_event.createDiagEventDebounceMonitorInternal("MonitorInternalAlgo")
         assert debounce_algo is not None
         assert isinstance(debounce_algo, DiagEventDebounceMonitorInternal)
@@ -1395,7 +1404,7 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         debounce_algo = diag_event.createDiagEventDebounceTimeBased("TimeBasedAlgo")
         assert debounce_algo is not None
         assert isinstance(debounce_algo, DiagEventDebounceTimeBased)
@@ -1405,9 +1414,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getInhibitingFidRef() is None
-        
+
         class MockRefType:
             pass
         ref = MockRefType()
@@ -1420,9 +1429,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getInhibitingSecondaryFidRef() is None
-        
+
         class MockRefType:
             pass
         ref = MockRefType()
@@ -1435,9 +1444,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getPrestoredFreezeframeStoredInNvm() is None
-        
+
         result = diag_event.setPrestoredFreezeframeStoredInNvm(True)
         assert result is diag_event
         assert diag_event.getPrestoredFreezeframeStoredInNvm() is True
@@ -1447,9 +1456,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getUsesMonitorData() is None
-        
+
         result = diag_event.setUsesMonitorData(True)
         assert result is diag_event
         assert diag_event.getUsesMonitorData() is True
@@ -1459,9 +1468,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getDtcKind() is None
-        
+
         result = diag_event.setDtcKind("TEST_DTC")
         assert result is diag_event
         assert diag_event.getDtcKind() == "TEST_DTC"
@@ -1471,9 +1480,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getUdsDtcNumber() is None
-        
+
         result = diag_event.setUdsDtcNumber(789)
         assert result is diag_event
         assert diag_event.getUdsDtcNumber() == 789
@@ -1483,9 +1492,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getAudiences() == []
-        
+
         enum_val = DiagnosticAudienceEnum.AFTER_MARKET
         result = diag_event.addAudience(enum_val)
         assert result is diag_event
@@ -1496,9 +1505,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getDiagRequirement() is None
-        
+
         result = diag_event.setDiagRequirement("REQ-006")
         assert result is diag_event
         assert diag_event.getDiagRequirement() == "REQ-006"
@@ -1508,9 +1517,9 @@ class TestDiagnosticEventNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
-        
+
         assert diag_event.getSecurityAccessLevel() is None
-        
+
         result = diag_event.setSecurityAccessLevel(7)
         assert result is diag_event
         assert diag_event.getSecurityAccessLevel() == 7
@@ -1522,7 +1531,7 @@ class TestCryptoServiceNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         crypto_service = CryptoServiceNeeds(ar_root, "TestCryptoServiceNeeds")
-        
+
         assert crypto_service is not None
         assert crypto_service.getShortName() == "TestCryptoServiceNeeds"
         assert crypto_service.algorithmFamily is None
@@ -1535,9 +1544,9 @@ class TestCryptoServiceNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         crypto_service = CryptoServiceNeeds(ar_root, "TestCryptoServiceNeeds")
-        
+
         assert crypto_service.getAlgorithmFamily() is None
-        
+
         result = crypto_service.setAlgorithmFamily("AES")
         assert result is crypto_service
         assert crypto_service.getAlgorithmFamily() == "AES"
@@ -1547,9 +1556,9 @@ class TestCryptoServiceNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         crypto_service = CryptoServiceNeeds(ar_root, "TestCryptoServiceNeeds")
-        
+
         assert crypto_service.getAlgorithmMode() is None
-        
+
         result = crypto_service.setAlgorithmMode("CBC")
         assert result is crypto_service
         assert crypto_service.getAlgorithmMode() == "CBC"
@@ -1559,9 +1568,9 @@ class TestCryptoServiceNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         crypto_service = CryptoServiceNeeds(ar_root, "TestCryptoServiceNeeds")
-        
+
         assert crypto_service.getCryptoKeyDescription() is None
-        
+
         result = crypto_service.setCryptoKeyDescription("AES-256 key")
         assert result is crypto_service
         assert crypto_service.getCryptoKeyDescription() == "AES-256 key"
@@ -1571,9 +1580,9 @@ class TestCryptoServiceNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         crypto_service = CryptoServiceNeeds(ar_root, "TestCryptoServiceNeeds")
-        
+
         assert crypto_service.getMaximumKeyLength() is None
-        
+
         result = crypto_service.setMaximumKeyLength(256)
         assert result is crypto_service
         assert crypto_service.getMaximumKeyLength() == 256
@@ -1585,7 +1594,7 @@ class TestEcuStateMgrUserNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         ecu_state = EcuStateMgrUserNeeds(ar_root, "TestEcuStateMgrUserNeeds")
-        
+
         assert ecu_state is not None
         assert ecu_state.getShortName() == "TestEcuStateMgrUserNeeds"
 
@@ -1596,6 +1605,6 @@ class TestDltUserNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         dlt_user = DltUserNeeds(ar_root, "TestDltUserNeeds")
-        
+
         assert dlt_user is not None
         assert dlt_user.getShortName() == "TestDltUserNeeds"

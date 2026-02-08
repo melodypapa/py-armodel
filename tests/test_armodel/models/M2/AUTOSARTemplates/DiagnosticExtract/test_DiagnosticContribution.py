@@ -5,11 +5,11 @@ in the AUTOSAR DiagnosticExtract module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import (
-    DiagnosticServiceTable
+    DiagnosticServiceTable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
-    RefType
+    RefType,
 )
 
 

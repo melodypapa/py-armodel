@@ -22,25 +22,19 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
 
 # Add scripts/lib to path
 sys.path.insert(0, str(Path(__file__).parent / 'lib'))
 
-from package_loader import (
-    get_all_packages,
-    load_package_json,
-    load_requirements_index
-)
 from code_generator import (
-    generate_class_code,
+    _camel_to_snake,
+    _generate_docstring,
+    _generate_init_code,
     _generate_property_based_attributes,
     _generate_property_based_methods,
-    _generate_init_code,
-    _generate_docstring,
-    _camel_to_snake
 )
-
+from package_loader import get_all_packages
 
 # =============================================================================
 # Configuration
@@ -268,7 +262,6 @@ class V2ModelGenerator:
         Args:
             packages_dir: Path to packages directory
         """
-        import json
 
         type_mapping = {}
 
@@ -304,7 +297,7 @@ class V2ModelGenerator:
                         if module_path:
                             type_mapping[class_name] = module_path
 
-            except Exception as e:
+            except Exception:
                 # Ignore errors in package files
                 pass
 
@@ -546,7 +539,6 @@ class V2ModelGenerator:
         imports = self._generate_v2_imports(class_info, package_path)
 
         # Generate docstring
-        from code_generator import _generate_docstring
         docstring = _generate_docstring(class_info, package_path)
 
         # Class declaration
@@ -564,7 +556,6 @@ class V2ModelGenerator:
             class_decl = f"class {class_name}({', '.join(bases)}):"
 
         # Generate __init__ code
-        from code_generator import _generate_init_code
         has_short_name_init = False  # Simplified for now
         is_arobject_child = (parent == 'ARObject' and class_name != 'ARObject')
         init_code = _generate_init_code(

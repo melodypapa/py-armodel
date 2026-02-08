@@ -1,27 +1,36 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    AbstractDoIpLogicAddressProps,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    FibexElement,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
-    TpConfig,
     CanTpAddress,
     CanTpChannel,
-    TpConnectionIdent,
-    TpConnection,
+    CanTpConfig,
     CanTpConnection,
     CanTpEcu,
     CanTpNode,
-    CanTpConfig,
     DoIpLogicAddress,
-    DoIpTpConnection,
     DoIpTpConfig,
-    TpAddress,
+    DoIpTpConnection,
+    LinTpConfig,
     LinTpConnection,
     LinTpNode,
-    LinTpConfig
+    TpAddress,
+    TpConfig,
+    TpConnection,
+    TpConnectionIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 
 
 class MockParent(ARObject):
@@ -31,7 +40,7 @@ class MockParent(ARObject):
 
 class Test_TransportProtocols:
     """Test cases for TransportProtocols-related classes."""
-    
+
     def test_TpConfig(self):
         """Test TpConfig abstract class instantiation."""
         parent = MockParent()
@@ -44,15 +53,15 @@ class Test_TransportProtocols:
         address = CanTpAddress(parent, "test_can_tp_address")
 
         assert isinstance(address, Identifiable)
-        
+
         # Test default values
         assert address.getTpAddress() is None
         assert address.getTpAddressExtensionValue() is None
-        
+
         # Test setter/getter methods
         address.setTpAddress(123)
         assert address.getTpAddress() == 123
-        
+
         address.setTpAddressExtensionValue(456)
         assert address.getTpAddressExtensionValue() == 456
 
@@ -62,15 +71,15 @@ class Test_TransportProtocols:
         channel = CanTpChannel(parent, "test_can_tp_channel")
 
         assert isinstance(channel, Identifiable)
-        
+
         # Test default values
         assert channel.getChannelId() is None
         assert channel.getChannelMode() is None
-        
+
         # Test setter/getter methods
         channel.setChannelId(1)
         assert channel.getChannelId() == 1
-        
+
         channel.setChannelMode("normal")
         assert channel.getChannelMode() == "normal"
 
@@ -91,7 +100,7 @@ class Test_TransportProtocols:
         connection = CanTpConnection()
 
         assert isinstance(connection, TpConnection)
-        
+
         # Test default values
         assert connection.getAddressingFormat() is None
         assert connection.getCancellation() is None
@@ -109,19 +118,19 @@ class Test_TransportProtocols:
         assert connection.getTimeoutCs() is None
         assert connection.getTpSduRef() is None
         assert connection.getTransmitterRef() is None
-        
+
         # Test setter/getter methods
         connection.setAddressingFormat("extended")
         assert connection.getAddressingFormat() == "extended"
-        
+
         connection.setCancellation(True)
         assert connection.getCancellation() is True
-        
+
         # Test adding receiver refs
         mock_receiver_ref = "receiver_ref"
         connection.addReceiverRef(mock_receiver_ref)
         assert connection.getReceiverRefs() == [mock_receiver_ref]
-        
+
         connection.setTaType("physical")
         assert connection.getTaType() == "physical"
 
@@ -130,15 +139,15 @@ class Test_TransportProtocols:
         ecu = CanTpEcu()
 
         assert isinstance(ecu, ARObject)
-        
+
         # Test default values
         assert ecu.getCycleTimeMainFunction() is None
         assert ecu.getEcuInstanceRef() is None
-        
+
         # Test setter/getter methods
         ecu.setCycleTimeMainFunction("10ms")
         assert ecu.getCycleTimeMainFunction() == "10ms"
-        
+
         ecu.setEcuInstanceRef("ecu_ref")
         assert ecu.getEcuInstanceRef() == "ecu_ref"
 
@@ -148,7 +157,7 @@ class Test_TransportProtocols:
         node = CanTpNode(parent, "test_can_tp_node")
 
         assert isinstance(node, Identifiable)
-        
+
         # Test default values
         assert node.getConnectorRef() is None
         assert node.getMaxFcWait() is None
@@ -156,14 +165,14 @@ class Test_TransportProtocols:
         assert node.getTimeoutAr() is None
         assert node.getTimeoutAs() is None
         assert node.getTpAddressRef() is None
-        
+
         # Test setter/getter methods
         node.setConnectorRef("connector_ref")
         assert node.getConnectorRef() == "connector_ref"
-        
+
         node.setMaxFcWait(10)
         assert node.getMaxFcWait() == 10
-        
+
         node.setStMin("5ms")
         assert node.getStMin() == "5ms"
 
@@ -199,20 +208,20 @@ class Test_TransportProtocols:
         address = DoIpLogicAddress(parent, "test_doip_logic_address")
 
         assert isinstance(address, Identifiable)
-        
+
         # Test default values
         assert address.getAddress() is None
         assert address.getDoIpLogicAddressProps() is None
-        
+
         # Test setter/getter methods
         address.setAddress(123)
         assert address.getAddress() == 123
-        
+
         # Note: Creating a mock for AbstractDoIpLogicAddressProps since it's also abstract
         class MockDoIpLogicAddressProps(AbstractDoIpLogicAddressProps):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         mock_props = MockDoIpLogicAddressProps(parent, "mock_props")
         address.setDoIpLogicAddressProps(mock_props)
         assert address.getDoIpLogicAddressProps() == mock_props
@@ -222,19 +231,19 @@ class Test_TransportProtocols:
         connection = DoIpTpConnection()
 
         assert isinstance(connection, TpConnection)
-        
+
         # Test default values
         assert connection.getDoIpSourceAddressRef() is None
         assert connection.getDoIpTargetAddressRef() is None
         assert connection.getTpSduRef() is None
-        
+
         # Test setter/getter methods
         connection.setDoIpSourceAddressRef("src_ref")
         assert connection.getDoIpSourceAddressRef() == "src_ref"
-        
+
         connection.setDoIpTargetAddressRef("target_ref")
         assert connection.getDoIpTargetAddressRef() == "target_ref"
-        
+
         connection.setTpSduRef("sdu_ref")
         assert connection.getTpSduRef() == "sdu_ref"
 
@@ -244,7 +253,7 @@ class Test_TransportProtocols:
         config = DoIpTpConfig(parent, "test_doip_tp_config")
 
         assert isinstance(config, FibexElement)
-        
+
         # Test default values
         assert config.getDoIpLogicAddresses() == []
         assert config.getTpConnections() == []
@@ -255,10 +264,10 @@ class Test_TransportProtocols:
         address = TpAddress(parent, "test_tp_address")
 
         assert isinstance(address, Identifiable)
-        
+
         # Test default values
         assert address.getTpAddress() is None
-        
+
         # Test setter/getter methods
         address.setTpAddress(456)
         assert address.getTpAddress() == 456
@@ -268,7 +277,7 @@ class Test_TransportProtocols:
         connection = LinTpConnection()
 
         assert isinstance(connection, TpConnection)
-        
+
         # Test default values
         assert connection.getDataPduRef() is None
         assert connection.getFlowControlRef() is None
@@ -279,11 +288,11 @@ class Test_TransportProtocols:
         assert connection.getTimeoutCr() is None
         assert connection.getTimeoutCs() is None
         assert connection.getTransmitterRef() is None
-        
+
         # Test setter/getter methods
         connection.setDataPduRef("data_pdu_ref")
         assert connection.getDataPduRef() == "data_pdu_ref"
-        
+
         # Test adding receiver refs
         mock_receiver_ref = "receiver_ref"
         connection.addReceiverRef(mock_receiver_ref)
@@ -295,7 +304,7 @@ class Test_TransportProtocols:
         node = LinTpNode(parent, "test_lin_tp_node")
 
         assert isinstance(node, Identifiable)
-        
+
         # Test default values
         assert node.getConnectorRef() is None
         assert node.getDropNotRequestedNad() is None
@@ -303,14 +312,14 @@ class Test_TransportProtocols:
         assert node.getP2Max() is None
         assert node.getP2Timing() is None
         assert node.getTpAddressRef() is None
-        
+
         # Test setter/getter methods
         node.setConnectorRef("connector_ref")
         assert node.getConnectorRef() == "connector_ref"
-        
+
         node.setDropNotRequestedNad(True)
         assert node.getDropNotRequestedNad() is True
-        
+
         node.setMaxNumberOfRespPendingFrames(5)
         assert node.getMaxNumberOfRespPendingFrames() == 5
 
@@ -320,7 +329,7 @@ class Test_TransportProtocols:
         config = LinTpConfig(parent, "test_lin_tp_config")
 
         assert isinstance(config, FibexElement)
-        
+
         # Test default values
         assert config.getTpAddresses() == []
         assert config.getTpConnections() == []
