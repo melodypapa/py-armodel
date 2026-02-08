@@ -81,34 +81,35 @@ class Area(ARObject):
                 f"alt must be String or None, got {type(value).__name__}"
             )
         self._alt = value
-        # Blank separated list of classes.
-        self._class: Optional["String"] = None
+        # Blank separated list of CSS classes for styling and identification.
+        # Used to apply styles and for JavaScript DOM manipulation.
+        self._areaClass: Optional["String"] = None
 
     @property
-    def class(self) -> Optional["String"]:
-        """Get class (Pythonic accessor)."""
-        return self._class
+    def area_class(self) -> Optional["String"]:
+        """Get areaClass (Pythonic accessor) - CSS class list for styling."""
+        return self._areaClass
 
-    @class.setter
-    def class(self, value: Optional["String"]) -> None:
+    @area_class.setter
+    def area_class(self, value: Optional["String"]) -> None:
         """
-        Set class with validation.
+        Set areaClass with validation.
 
         Args:
-            value: The class to set
+            value: The areaClass to set (blank-separated CSS classes)
 
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._class = None
+            self._areaClass = None
             return
 
         if not isinstance(value, String):
             raise TypeError(
-                f"class must be String or None, got {type(value).__name__}"
+                f"areaClass must be String or None, got {type(value).__name__}"
             )
-        self._class = value
+        self._areaClass = value
         # This attribute specifies the position and shape on the number of values and
         # their order depend on figure defined.
         self._coords: Optional["String"] = None
@@ -730,27 +731,27 @@ class Area(ARObject):
         AUTOSAR-compliant getter for class.
 
         Returns:
-            The class value
+            The class value (CSS class list)
 
         Note:
-            Delegates to class property (CODING_RULE_V2_00017)
+            Delegates to area_class property (CODING_RULE_V2_00017)
         """
-        return self.class  # Delegates to property
+        return self.area_class  # Delegates to property
 
     def setClass(self, value: "String") -> "Area":
         """
         AUTOSAR-compliant setter for class with method chaining.
 
         Args:
-            value: The class to set
+            value: The class to set (CSS class list)
 
         Returns:
             self for method chaining
 
         Note:
-            Delegates to class property setter (gets validation automatically)
+            Delegates to area_class property setter (gets validation automatically)
         """
-        self.class = value  # Delegates to property setter
+        self.area_class = value  # Delegates to property setter
         return self
 
     def getCoords(self) -> "String":
@@ -1324,7 +1325,7 @@ class Area(ARObject):
         Set class and return self for chaining.
 
         Args:
-            value: The class to set
+            value: The class to set (CSS class list)
 
         Returns:
             self for method chaining
@@ -1332,7 +1333,7 @@ class Area(ARObject):
         Example:
             >>> obj.with_class("value")
         """
-        self.class = value  # Use property setter (gets validation)
+        self.area_class = value  # Use property setter (gets validation)
         return self
 
     def with_coords(self, value: Optional["String"]) -> "Area":
