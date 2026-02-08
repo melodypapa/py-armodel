@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 
 
 class DiagnosticAbstractAliasEvent(DiagnosticCommonElement, ABC):

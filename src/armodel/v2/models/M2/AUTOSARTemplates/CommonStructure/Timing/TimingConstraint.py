@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import Traceable
 
 
 class TimingConstraint(Traceable, ABC):

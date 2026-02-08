@@ -1,4 +1,5 @@
 from typing import List
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import MultiplexedPart
 
 
 class DynamicPart(MultiplexedPart):

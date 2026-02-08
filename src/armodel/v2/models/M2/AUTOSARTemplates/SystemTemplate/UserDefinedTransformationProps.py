@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationProps
 
 class UserDefinedTransformationProps(TransformationProps):
     """

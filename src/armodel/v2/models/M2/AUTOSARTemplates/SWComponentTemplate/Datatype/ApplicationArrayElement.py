@@ -1,4 +1,7 @@
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.ApplicationCompositeElementDataPrototype import (
+    ApplicationCompositeElementDataPrototype,
+)
 
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):

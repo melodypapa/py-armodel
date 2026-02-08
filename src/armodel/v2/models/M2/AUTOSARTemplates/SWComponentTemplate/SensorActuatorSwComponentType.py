@@ -1,4 +1,5 @@
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):

@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
 
 class V2xDataManagerNeeds(ServiceNeeds):
     """

@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data import DataFormatElementScope
 
 
 class AttributeTailoring(DataFormatElementScope, ABC):

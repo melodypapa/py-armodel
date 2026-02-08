@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
 
 class BswCalledEntity(BswModuleEntity):
     """

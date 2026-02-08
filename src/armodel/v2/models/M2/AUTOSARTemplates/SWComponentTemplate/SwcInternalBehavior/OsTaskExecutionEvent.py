@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import RTEEvent
 
 class OsTaskExecutionEvent(RTEEvent):
     """

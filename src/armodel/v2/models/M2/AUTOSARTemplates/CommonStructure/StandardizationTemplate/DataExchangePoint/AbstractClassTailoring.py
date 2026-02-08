@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import DataFormatElementReference
 
 
 class AbstractClassTailoring(DataFormatElementReference, ABC):

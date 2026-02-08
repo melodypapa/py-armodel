@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
 
 class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """

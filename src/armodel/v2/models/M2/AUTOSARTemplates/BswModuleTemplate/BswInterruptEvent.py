@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
 
 class BswInterruptEvent(BswEvent):
     """

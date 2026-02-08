@@ -5,12 +5,12 @@ and the actual Python implementation.
 
 ## Summary
 
-- ✓ **Match**: 610 classes correctly implemented
+- ✓ **Match**: 613 classes correctly implemented
 - ✗ **Missing**: 1189 classes documented but not found
-- ⚠ **Path Mismatch**: 87 classes in wrong location
+- ⚠ **Path Mismatch**: 84 classes in wrong location
 - + **Extra**: 207 undocumented classes
 - **Total Documented Classes**: 1886
-- **Total Deviations**: 1483
+- **Total Deviations**: 1480
 
 ## Deviations Table
 
@@ -457,7 +457,6 @@ and the actual Python implementation.
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQueryExpression (interface)<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucQueryExpression (interface)<br>Actual: Not Found | Class EcucQueryExpression (interface) not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucStringParamDef (interface)<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucStringParamDef (interface)<br>Actual: Not Found | Class EcucStringParamDef (interface) not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::EcuResourceTemplate::HwDescriptionEntity (abstract)<br>Expected: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwDescriptionEntity (abstract)<br>Actual: Not Found | Class HwDescriptionEntity (abstract) not found in source code |
-| ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeLiteralDef<br>Expected: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory.HwAttributeLiteralDef<br>Actual: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue.HwAttributeLiteralDef | Class exists but in different location |
 | ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementConnector<br>Expected: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector<br>Actual: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector.HwElementConnector | Class exists but in different location |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinConnector<br>Expected: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector<br>Actual: Not Found | Class HwPinConnector not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroupConnector<br>Expected: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector<br>Actual: Not Found | Class HwPinGroupConnector not found in source code |
@@ -1102,7 +1101,6 @@ and the actual Python implementation.
 | ✗ MISSING | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeReference (abstract)<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.DataPrototypeReference (abstract)<br>Actual: Not Found | Class DataPrototypeReference (abstract) not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeTransformationProps<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.DataPrototypeTransformationProps<br>Actual: Not Found | Class DataPrototypeTransformationProps not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::E2EProfileCompatibilityProps<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.E2EProfileCompatibilityProps<br>Actual: Not Found | Class E2EProfileCompatibilityProps not found in source code |
-| ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationComSpecProps<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.EndToEndTransformationComSpecProps<br>Actual: armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication.EndToEndTransformationComSpecProps | Class exists but in different location |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationISignalProps (interface)<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.EndToEndTransformationISignalProps (interface)<br>Actual: Not Found | Class EndToEndTransformationISignalProps (interface) not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInClientServerInterfaceInstanceRef<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef.DataPrototypeInClientServerInterfaceInstanceRef<br>Actual: Not Found | Class DataPrototypeInClientServerInterfaceInstanceRef not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInPortInterfaceInstanceRef (abstract)<br>Expected: armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef.DataPrototypeInPortInterfaceInstanceRef (abstract)<br>Actual: Not Found | Class DataPrototypeInPortInterfaceInstanceRef (abstract) not found in source code |
@@ -1199,7 +1197,6 @@ and the actual Python implementation.
 | ✗ MISSING | M2: M2::MSR::DataDictionary::DatadictionaryProxies::SwCalprmRefProxy<br>Expected: armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies.SwCalprmRefProxy<br>Actual: Not Found | Class SwCalprmRefProxy not found in source code |
 | ✗ MISSING | M2: M2::MSR::DataDictionary::DatadictionaryProxies::SwVariableRefProxy<br>Expected: armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies.SwVariableRefProxy<br>Actual: Not Found | Class SwVariableRefProxy not found in source code |
 | ✗ MISSING | M2: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutGroupContent (interface)<br>Expected: armodel.models.M2.MSR.DataDictionary.RecordLayout.SwRecordLayoutGroupContent (interface)<br>Actual: Not Found | Class SwRecordLayoutGroupContent (interface) not found in source code |
-| ⚠ PATH_MISMATCH | M2: M2::MSR::DataDictionary::ServiceProcessTask::SwServiceImplPolicyEnum<br>Expected: armodel.models.M2.MSR.DataDictionary.ServiceProcessTask.SwServiceImplPolicyEnum<br>Actual: armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces.SwServiceImplPolicyEnum | Class exists but in different location |
 | ✗ MISSING | M2: M2::MSR::Documentation::BlockElements::Caption<br>Expected: armodel.models.M2.MSR.Documentation.BlockElements.Caption<br>Actual: Not Found | Class Caption not found in source code |
 | ✗ MISSING | M2: M2::MSR::Documentation::BlockElements::DocumentationBlock (interface)<br>Expected: armodel.models.M2.MSR.Documentation.BlockElements.DocumentationBlock (interface)<br>Actual: Not Found | Class DocumentationBlock (interface) not found in source code |
 | ✗ MISSING | M2: M2::MSR::Documentation::BlockElements::Figure::Area<br>Expected: armodel.models.M2.MSR.Documentation.BlockElements.Figure.Area<br>Actual: Not Found | Class Area not found in source code |
@@ -1328,6 +1325,7 @@ and the actual Python implementation.
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds.TracedFailure | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint.AtpBlueprint | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint.AtpBlueprintMapping | Class exists but not documented |
+| + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint.AtpBlueprintable | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingConditionFormula.TimingConditionFormula | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint.EOCExecutableEntityRefAbstract | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions.TimingExtension | Class exists but not documented |
@@ -1356,7 +1354,6 @@ and the actual Python implementation.
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucSymbolicNameReferenceDef | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwDescriptionEntity | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupContent | Class exists but not documented |
-| + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure.AtpBlueprintable | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure.AtpClassifier | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure.AtpFeature | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure.AtpInstanceRef | Class exists but not documented |

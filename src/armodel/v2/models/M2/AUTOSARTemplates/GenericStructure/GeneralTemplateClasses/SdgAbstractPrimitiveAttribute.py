@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgElementWithGid
 
 
 class SdgAbstractPrimitiveAttribute(SdgElementWithGid, ABC):

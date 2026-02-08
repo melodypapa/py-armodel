@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticAbstractDataIdentifier
 
 class DiagnosticDynamicDataIdentifier(DiagnosticAbstractDataIdentifier):
     """

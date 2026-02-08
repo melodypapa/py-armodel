@@ -1,4 +1,7 @@
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.AutosarDataPrototype import (
+    AutosarDataPrototype,
+    )
 
 
 class ParameterDataPrototype(AutosarDataPrototype):

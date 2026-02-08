@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import DiagnosticServiceClass
 
 class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceClass):
     """

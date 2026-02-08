@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import Optional
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import DiagnosticEnvConditionFormulaPart
 
 
 class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):

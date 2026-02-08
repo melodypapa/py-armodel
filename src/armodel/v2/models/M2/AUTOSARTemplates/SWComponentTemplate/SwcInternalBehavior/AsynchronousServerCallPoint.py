@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 
 class AsynchronousServerCallPoint(ServerCallPoint):
     """

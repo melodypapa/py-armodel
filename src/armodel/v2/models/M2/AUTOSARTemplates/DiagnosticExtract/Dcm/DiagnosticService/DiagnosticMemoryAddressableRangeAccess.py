@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.MemoryByAddress import DiagnosticMemoryByAddress
 
 
 class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):

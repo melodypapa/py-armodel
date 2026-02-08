@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgAbstractPrimitiveAttribute
 
 class SdgPrimitiveAttributeWithVariation(SdgAbstractPrimitiveAttribute):
     """

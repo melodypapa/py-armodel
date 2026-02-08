@@ -1,3 +1,4 @@
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanPhysicalChannel
 
 class TtcanPhysicalChannel(AbstractCanPhysicalChannel):
     """
