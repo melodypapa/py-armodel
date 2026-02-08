@@ -1,7 +1,9 @@
+import logging
 from typing import Dict
+
 from openpyxl.worksheet.worksheet import Worksheet
 
-import logging
+
 class AbstractExcelParser:
     def __init__(self) -> None:
         self._logger = logging.getLogger()

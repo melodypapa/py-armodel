@@ -1,10 +1,25 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType, AbstractImplementationDataTypeElement, ImplementationDataTypeElement, ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String, ARBoolean
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    AbstractImplementationDataType,
+    AbstractImplementationDataTypeElement,
+    ImplementationDataType,
+    ImplementationDataTypeElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    ARLiteral,
+    ARNumerical,
+    Boolean,
+    String,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    SymbolProps,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
 
 
 class TestAbstractImplementationDataTypeElement:
@@ -20,7 +35,7 @@ class TestAbstractImplementationDataTypeElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
-        
+
         assert element is not None
         assert element.getShortName() == "TestElement"
 
@@ -31,7 +46,7 @@ class TestImplementationDataTypeElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
-        
+
         assert element is not None
         assert element.getShortName() == "TestElement"
         assert element.arrayImplPolicy is None
@@ -210,7 +225,7 @@ class TestImplementationDataTypeElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
-        
+
         sub_element = element.createImplementationDataTypeElement("SubElement")
         assert isinstance(sub_element, ImplementationDataTypeElement)
         assert sub_element.getShortName() == "SubElement"
@@ -222,10 +237,10 @@ class TestImplementationDataTypeElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
-        
+
         sub_element1 = element.createImplementationDataTypeElement("SubElement")
         sub_element2 = element.createImplementationDataTypeElement("SubElement")  # Should return same instance
-        
+
         assert sub_element1 is sub_element2
         assert len(element.getSubElements()) == 1
 
@@ -241,7 +256,7 @@ class TestImplementationDataTypeElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
-        
+
         # Set all properties
         element.setArrayImplPolicy(ARLiteral().setValue("POLICY"))
         element.setArraySize(ARNumerical().setValue(10))
@@ -249,7 +264,7 @@ class TestImplementationDataTypeElement:
         element.setArraySizeSemantics(ARLiteral().setValue("FIXED-SIZE"))
         element.setIsOptional(ARBoolean().setValue(True))
         element.setSwDataDefProps(SwDataDefProps())
-        
+
         # Verify all properties are set
         assert element.getArrayImplPolicy().getValue() == "POLICY"
         assert element.getArraySize().getValue() == 10
@@ -274,7 +289,7 @@ class TestImplementationDataType:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        
+
         assert data_type is not None
         assert data_type.getShortName() == "TestImplementationDataType"
         assert data_type.dynamicArraySizeProfile is None
@@ -353,7 +368,7 @@ class TestImplementationDataType:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        
+
         element = data_type.createImplementationDataTypeElement("Element")
         assert isinstance(element, ImplementationDataTypeElement)
         assert element.getShortName() == "Element"
@@ -419,7 +434,7 @@ class TestImplementationDataType:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        
+
         symbol_props = data_type.createSymbolProps("SymbolProps")
         assert isinstance(symbol_props, SymbolProps)
         assert symbol_props.getShortName() == "SymbolProps"
@@ -437,12 +452,12 @@ class TestImplementationDataType:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        
+
         # Set all properties
         data_type.setDynamicArraySizeProfile(String().setValue("PROFILE"))
         data_type.setIsStructWithOptionalElement(Boolean().setValue(True))
         data_type.setTypeEmitter("EMITTER")
-        
+
         # Verify all properties are set
         assert data_type.getDynamicArraySizeProfile().getValue() == "PROFILE"
         assert data_type.getIsStructWithOptionalElement().getValue() is True

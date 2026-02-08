@@ -1,17 +1,28 @@
-import pytest
-import tempfile
 import os
+import tempfile
 import xml.etree.cElementTree as ET
 from unittest.mock import patch
 
+import pytest
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    ARFloat,
+    ARLiteral,
+    ARNumerical,
+    ARPositiveInteger,
+    DateTime,
+    Integer,
+    RefType,
+    RevisionLabelString,
+    TimeValue,
+)
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 from armodel.writer.arxml_writer import ARXMLWriter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARFloat, ARLiteral, ARNumerical, DateTime, Integer, 
-    RevisionLabelString, TimeValue, RefType, ARBoolean, ARPositiveInteger
-)
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class ConcreteARXMLWriter(AbstractARXMLWriter):
@@ -81,7 +92,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
         ar_obj.timestamp = "2024-01-01T00:00:00"
-        
+
         writer.writeARObjectAttributes(parent, ar_obj)
         assert parent.attrib['T'] == "2024-01-01T00:00:00"
 
@@ -91,7 +102,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
         ar_obj.uuid = "12345678-1234-1234-1234-123456789012"
-        
+
         writer.writeARObjectAttributes(parent, ar_obj)
         assert parent.attrib['UUID'] == "12345678-1234-1234-1234-123456789012"
 
@@ -102,7 +113,7 @@ class TestAbstractARXMLWriter:
         ar_obj = ConcreteTestARObject(None, "TestObj")
         ar_obj.timestamp = "2024-01-01T00:00:00"
         ar_obj.uuid = "12345678-1234-1234-1234-123456789012"
-        
+
         writer.writeARObjectAttributes(parent, ar_obj)
         assert parent.attrib['T'] == "2024-01-01T00:00:00"
         assert parent.attrib['UUID'] == "12345678-1234-1234-1234-123456789012"
@@ -112,7 +123,7 @@ class TestAbstractARXMLWriter:
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
-        
+
         writer.writeARObjectAttributes(parent, ar_obj)
         assert 'T' not in parent.attrib
         assert 'UUID' not in parent.attrib
@@ -124,7 +135,7 @@ class TestAbstractARXMLWriter:
         numerical = ARNumerical()
         numerical._text = "123"
         numerical.setValue(123)
-        
+
         writer.setChildElementOptionalNumericalValue(parent, "test-num", numerical)
         assert len(parent) == 1
         child = parent.find("test-num")
@@ -138,7 +149,7 @@ class TestAbstractARXMLWriter:
         numerical._text = "456"
         numerical.setValue(456)
         numerical.shortLabel = "test"
-        
+
         writer.setChildElementOptionalNumericalValue(parent, "test-num", numerical)
         child = parent.find("test-num")
         assert child.attrib["SHORT-LABEL"] == "test"
@@ -148,7 +159,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalNumericalValue with None"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        
+
         writer.setChildElementOptionalNumericalValue(parent, "test-num", None)
         assert len(parent) == 0
 
@@ -159,7 +170,7 @@ class TestAbstractARXMLWriter:
         integer = Integer()
         integer.setValue(42)
         integer._text = "42"  # Set the text attribute used by writer
-        
+
         writer.setChildElementOptionalIntegerValue(parent, "test-int", integer)
         assert len(parent) == 1
         child = parent.find("test-int")
@@ -172,7 +183,7 @@ class TestAbstractARXMLWriter:
         pos_int = ARPositiveInteger()
         pos_int.setValue(100)
         pos_int._text = "100"  # Set the text attribute used by writer
-        
+
         writer.setChildElementOptionalPositiveInteger(parent, "test-pos-int", pos_int)
         assert len(parent) == 1
         child = parent.find("test-pos-int")
@@ -184,7 +195,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         revision = RevisionLabelString()
         revision.setValue("1.0.0")
-        
+
         writer.setChildElementOptionalRevisionLabelString(parent, "test-revision", revision)
         assert len(parent) == 1
         child = parent.find("test-revision")
@@ -196,7 +207,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         datetime = DateTime()
         datetime.setValue("2024-01-01T00:00:00")
-        
+
         writer.setChildElementOptionalDataTime(parent, "test-datetime", datetime)
         assert len(parent) == 1
         child = parent.find("test-datetime")
@@ -209,7 +220,7 @@ class TestAbstractARXMLWriter:
         ref = RefType()
         ref.setBase("SwComponentType")
         ref.setValue("/AUTOSAR/MyComponent")
-        
+
         writer.setChildElementOptionalRefType(parent, "test-ref", ref)
         assert len(parent) == 1
         child = parent.find("test-ref")
@@ -223,7 +234,7 @@ class TestAbstractARXMLWriter:
         ref = RefType()
         ref.setDest("SenderReceiverInterface")
         ref.setValue("/AUTOSAR/MyInterface")
-        
+
         writer.setChildElementOptionalRefType(parent, "test-ref", ref)
         assert len(parent) == 1
         child = parent.find("test-ref")
@@ -238,7 +249,7 @@ class TestAbstractARXMLWriter:
         ref.setBase("SwComponentType")
         ref.setDest("SenderReceiverInterface")
         ref.setValue("/AUTOSAR/MyComponent")
-        
+
         writer.setChildElementOptionalRefType(parent, "test-ref", ref)
         assert len(parent) == 1
         child = parent.find("test-ref")
@@ -250,7 +261,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalRefType with None"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        
+
         writer.setChildElementOptionalRefType(parent, "test-ref", None)
         assert len(parent) == 0
 
@@ -260,7 +271,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         float_val = ARFloat()
         float_val.setValue(3.14)
-        
+
         writer.setChildElementOptionalFloatValue(parent, "test-float", float_val)
         assert len(parent) == 1
         child = parent.find("test-float")
@@ -272,7 +283,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         time_val = TimeValue()
         time_val.setValue(0.001)
-        
+
         writer.setChildElementOptionalTimeValue(parent, "test-time", time_val)
         assert len(parent) == 1
         child = parent.find("test-time")
@@ -284,7 +295,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         bool_val = ARBoolean()
         bool_val.setValue(True)
-        
+
         result = writer.setChildElementOptionalBooleanValue(parent, "test-bool", bool_val)
         assert result is parent
         assert len(parent) == 1
@@ -297,7 +308,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         bool_val = ARBoolean()
         bool_val.setValue(False)
-        
+
         writer.setChildElementOptionalBooleanValue(parent, "test-bool", bool_val)
         assert len(parent) == 1
         child = parent.find("test-bool")
@@ -309,7 +320,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         literal = ARLiteral()
         literal.setValue("test-value")
-        
+
         result = writer.setChildElementOptionalLiteral(parent, "test-literal", literal)
         assert result is parent
         assert len(parent) == 1
@@ -337,14 +348,14 @@ class TestAbstractARXMLWriter:
         root = ET.Element("AUTOSAR")
         child = ET.SubElement(root, "AR-PACKAGES")
         ET.SubElement(child, "AR-PACKAGE", {"UUID": "test-uuid"})
-        
+
         with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.arxml') as tmp:
             tmp_path = tmp.name
-        
+
         try:
             writer.saveToFile(tmp_path, root)
             assert os.path.exists(tmp_path)
-            
+
             with open(tmp_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             assert '<?xml version' in content
@@ -411,7 +422,7 @@ class TestAbstractARXMLWriter:
 
 class TestARXMLWriterIntegration:
     """Integration tests using the actual ARXMLWriter implementation"""
-    
+
     def test_arxml_writer_initialization(self):
         """Test ARXMLWriter initialization"""
         writer = ARXMLWriter()
@@ -427,19 +438,19 @@ class TestARXMLWriterIntegration:
         """Test ARXMLWriter writes valid ARXML file"""
         autosar = AUTOSAR.getInstance()
         autosar.clear()
-        
+
         pkg = autosar.createARPackage("TestPackage")
         pkg.createApplicationPrimitiveDataType("TestType")
-        
+
         with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.arxml') as tmp:
             tmp_path = tmp.name
-        
+
         try:
             writer = ARXMLWriter()
             writer.save(tmp_path, autosar)
-            
+
             assert os.path.exists(tmp_path)
-            
+
             with open(tmp_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             assert '<?xml version' in content

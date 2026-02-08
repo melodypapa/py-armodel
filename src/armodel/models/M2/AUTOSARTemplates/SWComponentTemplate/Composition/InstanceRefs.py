@@ -5,14 +5,20 @@ operations within compositions and atomic SWC instances.
 """
 
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         if type(self) == PortInCompositionTypeInstanceRef:
             raise TypeError("PortInCompositionTypeInstanceRef is an abstract class.")
-        
+
         super().__init__()
 
         self.abstractContextComponentRef: RefType = None

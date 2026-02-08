@@ -17,7 +17,6 @@ from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
-
 # Global counter for progress tracking
 _test_counter = 0
 _total_tests = 0

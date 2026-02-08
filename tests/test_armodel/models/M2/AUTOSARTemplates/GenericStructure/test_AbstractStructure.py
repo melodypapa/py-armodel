@@ -4,9 +4,18 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef, AtpBlueprintable, AtpStructureElement, AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpBlueprintable,
+    AtpInstanceRef,
+    AtpStructureElement,
+    AtpType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
+    AnyInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class TestAtpInstanceRef:
@@ -235,11 +244,11 @@ class TestAtpStructureElement:
         # Test that a concrete implementation of AtpStructureElement works
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteAtpStructureElement(AtpStructureElement):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         element = ConcreteAtpStructureElement(ar_root, "test_element")
         assert isinstance(element, AtpStructureElement)
         assert element.getShortName() == "test_element"
@@ -268,15 +277,17 @@ class TestAtpType:
         Test that a concrete implementation of AtpType works correctly.
         This test covers the super().__init__(parent, short_name) call in AtpType.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-        
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+            AtpType,
+        )
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteAtpType(AtpType):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteAtpType(ar_root, "ConcreteAtpType")
         assert obj is not None
         assert obj.getShortName() == "ConcreteAtpType"

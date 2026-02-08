@@ -19,4 +19,4 @@ class AssemblySwConnectorData(SwConnectorData):
         self.provider_swc= ""
         self.p_port = ""
         self.r_swc = ""
-        self.r_port = ""        
+        self.r_port = ""

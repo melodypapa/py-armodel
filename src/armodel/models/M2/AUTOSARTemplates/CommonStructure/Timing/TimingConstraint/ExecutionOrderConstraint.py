@@ -11,12 +11,21 @@ Classes:
     ExecutionOrderConstraint: Constraint defining the execution order of entities
 """
 
-from typing import List
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
+from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class EOCExecutableEntityRefAbstract(Identifiable, ABC):
@@ -45,7 +54,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def addSuccessorRef(self, ref: RefType):
         """
         Adds a reference to a successor executable entity.
-        
+
         Args:
             ref: Reference to the successor entity
         """
@@ -54,7 +63,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getSuccessorRefs(self) -> List[RefType]:
         """
         Returns the list of successor references for this entity.
-        
+
         Returns:
             List of successor entity references
         """
@@ -75,10 +84,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def createEOCExecutableEntityRef(self, short_name: str)-> EOCExecutableEntityRef:
         """
         Creates a new executable entity reference with the specified short name.
-        
+
         Args:
             short_name: Short name for the new entity reference
-            
+
         Returns:
             The created EOCExecutableEntityRef instance
         """
@@ -91,7 +100,7 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
         """
         Returns the list of ordered executable entity references.
-        
+
         Returns:
             List of ordered executable entity references
         """

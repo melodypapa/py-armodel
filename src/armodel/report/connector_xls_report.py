@@ -1,8 +1,16 @@
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models import (
+    AUTOSAR,
+    PPortInCompositionInstanceRef,
+    RPortInCompositionInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.excel_report import ExcelReporter
-from armodel.models import AUTOSAR
-from armodel.models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
+
 
 class ConnectorXlsReport(ExcelReporter):
     def __init__(self) -> None:
@@ -66,7 +74,7 @@ class ConnectorXlsReport(ExcelReporter):
 
     def write(self, filename: str):
         swc_list = filter(lambda o: isinstance(o, CompositionSwComponentType), self.swcs)
-        
+
         idx = 1
         for swc in sorted(swc_list, key = lambda o: o.short_name):
             self._logger.info("CompositionSwComponentType %s" % swc.short_name)

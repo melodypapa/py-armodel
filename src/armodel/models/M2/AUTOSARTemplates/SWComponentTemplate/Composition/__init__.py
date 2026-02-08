@@ -1,12 +1,27 @@
 from abc import ABC
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpPrototype
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import RPortInCompositionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpPrototype,
+    AtpStructureElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    PortInCompositionTypeInstanceRef,
+    PPortInCompositionInstanceRef,
+    RPortInCompositionInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
 
 
 class SwComponentPrototype(AtpPrototype):
@@ -64,7 +79,7 @@ class AssemblySwConnector(SwConnector):
 class DelegationSwConnector(SwConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.innerPortIRref: PortInCompositionTypeInstanceRef = None
         self.outerPortRef: RefType = None
 
@@ -135,10 +150,10 @@ class CompositionSwComponentType(SwComponentType):
         return self.getElement(short_name, DelegationSwConnector)
 
     def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements), key=lambda c: c.short_name))
+        return sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements), key=lambda c: c.short_name)
 
     def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements), key=lambda c: c.short_name))
+        return sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements), key=lambda c: c.short_name)
 
     def getSwConnectors(self) -> List[SwConnector]:
         return list(filter(lambda e: isinstance(e, SwConnector), self.elements))

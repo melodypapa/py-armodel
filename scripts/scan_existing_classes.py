@@ -5,11 +5,11 @@ This script walks through the source code and discovers all classes that are
 actually implemented, so we can verify only those against mapping.json.
 """
 
-import sys
-import os
 import json
+import os
+import sys
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import List, Set, Tuple
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -114,7 +114,7 @@ def main():
             print(f"[FAIL] {module_path}: {error}")
 
     print("=" * 80)
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"  Total modules scanned: {len(py_files)}")
     print(f"  Successful imports: {successful_modules}")
     print(f"  Failed imports: {failed_modules}")

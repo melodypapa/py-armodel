@@ -3,7 +3,6 @@
 Script to remove _validate_abstract() method from V2 model classes.
 """
 
-import os
 import re
 from pathlib import Path
 
@@ -57,7 +56,7 @@ def main():
             success_count += 1
             print(f"✓ Removed _validate_abstract from {py_file.relative_to(directory)}")
 
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"Total files processed: {len(py_files)}")
     print(f"Successfully removed from: {success_count}")
 

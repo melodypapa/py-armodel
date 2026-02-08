@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DefItem(Paginateable):
     """
@@ -17,29 +17,36 @@ class DefItem(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the definition part of the DefItem.
-        self._def: "DocumentationBlock" = None
+        # Contains the actual definition or description text for a term in a definition list.
+        # Origin: HTML/AUTOSAR specification attribute 'def'
+        # Reason: Renamed to 'definition' to avoid Python reserved keyword 'def'
+        self._definition: "DocumentationBlock" = None
 
     @property
-    def def(self) -> "DocumentationBlock":
-        """Get def (Pythonic accessor)."""
-        return self._def
+    def definition(self) -> "DocumentationBlock":
+        """Get definition (Pythonic accessor) - renamed from HTML 'def' to avoid Python keyword."""
+        return self._definition
 
-    @def.setter
-    def def(self, value: "DocumentationBlock") -> None:
+    @definition.setter
+    def definition(self, value: "DocumentationBlock") -> None:
         """
-        Set def with validation.
+        Set definition with validation.
 
         Args:
-            value: The def to set
+            value: The definition to set (definition text block)
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: HTML/AUTOSAR specification attribute 'def'
+            Reason: Renamed to 'definition' to avoid Python reserved keyword 'def'
         """
         if not isinstance(value, DocumentationBlock):
             raise TypeError(
-                f"def must be DocumentationBlock, got {type(value).__name__}"
+                f"definition must be DocumentationBlock, got {type(value).__name__}"
             )
-        self._def = value
+        self._definition = value
         # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
@@ -78,27 +85,27 @@ class DefItem(Paginateable):
         AUTOSAR-compliant getter for def.
 
         Returns:
-            The def value
+            The def value (definition text block)
 
         Note:
-            Delegates to def property (CODING_RULE_V2_00017)
+            Delegates to definition property (CODING_RULE_V2_00017)
         """
-        return self.def  # Delegates to property
+        return self.definition  # Delegates to property
 
     def setDef(self, value: "DocumentationBlock") -> "DefItem":
         """
         AUTOSAR-compliant setter for def with method chaining.
 
         Args:
-            value: The def to set
+            value: The def to set (definition text block)
 
         Returns:
             self for method chaining
 
         Note:
-            Delegates to def property setter (gets validation automatically)
+            Delegates to definition property setter (gets validation automatically)
         """
-        self.def = value  # Delegates to property setter
+        self.definition = value  # Delegates to property setter
         return self
 
     def getHelpEntry(self) -> "String":
@@ -136,7 +143,7 @@ class DefItem(Paginateable):
         Set def and return self for chaining.
 
         Args:
-            value: The def to set
+            value: The def to set (definition text block)
 
         Returns:
             self for method chaining
@@ -144,7 +151,7 @@ class DefItem(Paginateable):
         Example:
             >>> obj.with_def("value")
         """
-        self.def = value  # Use property setter (gets validation)
+        self.definition = value  # Use property setter (gets validation)
         return self
 
     def with_help_entry(self, value: Optional["String"]) -> "DefItem":

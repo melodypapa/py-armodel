@@ -1,8 +1,15 @@
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
+    FlatInstanceDescriptor,
+    FlatMap,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
+    AnyInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+)
 
 
 class TestFlatInstanceDescriptor:
@@ -11,7 +18,7 @@ class TestFlatInstanceDescriptor:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_instance = FlatInstanceDescriptor(ar_root, "TestInstance")
-        
+
         assert flat_instance is not None
         assert flat_instance.getShortName() == "TestInstance"
         assert flat_instance.ecuExtractReferenceIRef is None
@@ -87,7 +94,9 @@ class TestFlatInstanceDescriptor:
         ar_root = document.createARPackage("AUTOSAR")
         flat_instance = FlatInstanceDescriptor(ar_root, "TestInstance")
         # Import SwDataDefProps to use in test
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+            SwDataDefProps,
+        )
         test_value = SwDataDefProps()
         result = flat_instance.setSwDataDefProps(test_value)
         assert result is flat_instance  # Method chaining
@@ -115,17 +124,19 @@ class TestFlatInstanceDescriptor:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_instance = FlatInstanceDescriptor(ar_root, "TestInstance")
-        
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+            SwDataDefProps,
+        )
         ecu_ref = AnyInstanceRef()
         role = Identifier().setValue("TestRole")
         sw_data_def = SwDataDefProps()
-        
+
         flat_instance.setEcuExtractReferenceIRef(ecu_ref)
         flat_instance.setRole(role)
         flat_instance.setSwDataDefProps(sw_data_def)
         flat_instance.setUpstreamReferenceIRef(ecu_ref)
-        
+
         assert flat_instance.getEcuExtractReferenceIRef() == ecu_ref
         assert flat_instance.getRole() == role
         assert flat_instance.getSwDataDefProps() == sw_data_def
@@ -138,7 +149,7 @@ class TestFlatMap:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_map = FlatMap(ar_root, "TestFlatMap")
-        
+
         assert flat_map is not None
         assert flat_map.getShortName() == "TestFlatMap"
         assert flat_map.instances == []
@@ -148,7 +159,7 @@ class TestFlatMap:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_map = FlatMap(ar_root, "TestFlatMap")
-        
+
         instance = flat_map.createFlatInstanceDescriptor("TestInstance")
         assert instance is not None
         assert instance.getShortName() == "TestInstance"
@@ -160,7 +171,7 @@ class TestFlatMap:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_map = FlatMap(ar_root, "TestFlatMap")
-        
+
         instance1 = flat_map.createFlatInstanceDescriptor("TestInstance")
         instance2 = flat_map.createFlatInstanceDescriptor("TestInstance")  # Should return the same instance
         assert instance1 is instance2
@@ -170,7 +181,7 @@ class TestFlatMap:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_map = FlatMap(ar_root, "TestFlatMap")
-        
+
         instances = flat_map.getInstances()
         assert instances == []
 
@@ -179,11 +190,11 @@ class TestFlatMap:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_map = FlatMap(ar_root, "TestFlatMap")
-        
+
         # Create instances in reverse order to test sorting
         flat_map.createFlatInstanceDescriptor("Instance2")
         flat_map.createFlatInstanceDescriptor("Instance1")
-        
+
         instances = flat_map.getInstances()
         assert len(instances) == 2
         assert instances[0].getShortName() == "Instance1"

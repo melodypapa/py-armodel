@@ -1,27 +1,67 @@
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-from armodel.models.utils.uuid_mgr import UUIDMgr
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswCalledEntity,
+    BswSchedulableEntity,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswModuleEntry,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    Implementation,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    ImplementationDataType,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    InternalBehavior,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    CollectableElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+    PortPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    VariableDataPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationDataType,
+    DataTypeMap,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    RunnableEntity,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
+    RootSwCompositionPrototype as RootSwCompositionPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    SystemSignal,
+    SystemSignalGroup,
+)
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock as DocumentationBlock
-
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, PortPrototype
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype as RootSwCompositionPrototype, System
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulableEntity, BswCalledEntity
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock as DocumentationBlock,
+)
+from armodel.models.utils.uuid_mgr import UUIDMgr
 
 
 class FileInfoComment(ARObject):
@@ -123,7 +163,7 @@ class AbstractAUTOSAR(CollectableElement):
         return CollectableElement.getElement(self, short_name)
 
     def getARPackages(self) -> List[ARPackage]:
-        return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
+        return sorted(self.arPackages.values(), key=lambda a: a.short_name)
 
     def createARPackage(self, short_name: str) -> ARPackage:
         if (short_name not in self.arPackages):
@@ -262,7 +302,7 @@ class AbstractAUTOSAR(CollectableElement):
             self.systems[short_name] = system
 
     def getSystems(self) -> List[System]:
-        return list(sorted(self.systems.values(), key=lambda a: a.getShortName()))
+        return sorted(self.systems.values(), key=lambda a: a.getShortName())
 
     def getCompositionSwComponentTypes(self):
         return self.compositionSwComponentTypes

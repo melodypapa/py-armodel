@@ -1,8 +1,6 @@
 """
 Unit tests for V2 ARXMLWriter.
 """
-import pytest
-from pathlib import Path
 from armodel.v2.models.models import AUTOSAR, ARPackage
 from armodel.v2.writer.base_writer import ARXMLWriter
 

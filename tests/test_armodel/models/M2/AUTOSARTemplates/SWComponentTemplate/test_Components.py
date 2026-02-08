@@ -4,26 +4,41 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 """
 
 import pytest
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    SymbolProps, PortPrototype, AbstractProvidedPortPrototype, AbstractRequiredPortPrototype,
-    PPortPrototype, RPortPrototype, PRPortPrototype, PortGroup, SwComponentType,
-    AtomicSwComponentType, EcuAbstractionSwComponentType, ApplicationSwComponentType,
-    ComplexDeviceDriverSwComponentType, NvBlockSwComponentType, SensorActuatorSwComponentType,
-    ServiceProxySwComponentType, ServiceSwComponentType
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AbstractProvidedPortPrototype,
+    AbstractRequiredPortPrototype,
+    ApplicationSwComponentType,
+    AtomicSwComponentType,
+    ComplexDeviceDriverSwComponentType,
+    EcuAbstractionSwComponentType,
+    NvBlockSwComponentType,
+    PortGroup,
+    PortPrototype,
+    PPortPrototype,
+    PRPortPrototype,
+    RPortPrototype,
+    SensorActuatorSwComponentType,
+    ServiceProxySwComponentType,
+    ServiceSwComponentType,
+    SwComponentType,
+    SymbolProps,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
 
 
 class TestSymbolProps:
     """Test class for SymbolProps class."""
-    
+
     def test_symbol_props_initialization(self):
         """Test SymbolProps initialization."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         symbol_props = SymbolProps(ar_root, "TestSymbolProps")
-        
+
         assert symbol_props.parent == ar_root
         assert symbol_props.short_name == "TestSymbolProps"
 
@@ -40,7 +55,9 @@ class TestPortPrototype:
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of PortPrototype can be instantiated."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PRPortPrototype,
+        )
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -86,12 +103,12 @@ class TestPortPrototype:
         param_annotation = "test_param_annotation"
         port_proto.addParameterPortAnnotation(param_annotation)
         assert param_annotation in port_proto.getParameterPortAnnotations()
-        
+
         # Test senderReceiverAnnotations methods
         sr_annotation = "test_sr_annotation"
         port_proto.addSenderReceiverAnnotation(sr_annotation)
         assert sr_annotation in port_proto.getSenderReceiverAnnotations()
-        
+
         # Test triggerPortAnnotations methods
         trigger_annotation = "test_trigger_annotation"
         port_proto.addTriggerPortAnnotation(trigger_annotation)
@@ -110,7 +127,9 @@ class TestAbstractProvidedPortPrototype:
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of AbstractProvidedPortPrototype can be instantiated."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            PPortPrototype,
+        )
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -129,8 +148,12 @@ class TestAbstractProvidedPortPrototype:
         assert provided_port.providedComSpecs == []
 
         # Test providedComSpecs methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedSenderComSpec
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            RefType,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+            NonqueuedSenderComSpec,
+        )
         com_spec = NonqueuedSenderComSpec()
         # Set required fields to pass validation
         data_ref = RefType()
@@ -153,7 +176,9 @@ class TestAbstractRequiredPortPrototype:
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of AbstractRequiredPortPrototype can be instantiated."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+            RPortPrototype,
+        )
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -172,8 +197,12 @@ class TestAbstractRequiredPortPrototype:
         assert required_port.requiredComSpecs == []
 
         # Test requiredComSpecs methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            RefType,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+            ClientComSpec,
+        )
         com_spec = ClientComSpec()
         # Set required fields for validation
         operation_ref = RefType()
@@ -186,13 +215,13 @@ class TestAbstractRequiredPortPrototype:
 
 class TestPPortPrototype:
     """Test class for PPortPrototype class."""
-    
+
     def test_p_port_prototype_initialization(self):
         """Test PPortPrototype initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         p_port = PPortPrototype(ar_root, "TestPPortPrototype")
-        
+
         assert p_port.parent == ar_root
         assert p_port.short_name == "TestPPortPrototype"
         assert p_port.clientServerAnnotations == []
@@ -205,9 +234,11 @@ class TestPPortPrototype:
         assert p_port.triggerPortAnnotations == []
         assert p_port.providedComSpecs == []
         assert p_port.providedInterfaceTRef is None
-        
+
         # Test providedInterfaceTRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            TRefType,
+        )
         t_ref = TRefType()
         t_ref.setValue("/Interface/Ref")
         p_port.setProvidedInterfaceTRef(t_ref)
@@ -216,13 +247,13 @@ class TestPPortPrototype:
 
 class TestRPortPrototype:
     """Test class for RPortPrototype class."""
-    
+
     def test_r_port_prototype_initialization(self):
         """Test RPortPrototype initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         r_port = RPortPrototype(ar_root, "TestRPortPrototype")
-        
+
         assert r_port.parent == ar_root
         assert r_port.short_name == "TestRPortPrototype"
         assert r_port.clientServerAnnotations == []
@@ -236,16 +267,20 @@ class TestRPortPrototype:
         assert r_port.requiredComSpecs == []
         assert r_port.mayBeUnconnected is None
         assert r_port.requiredInterfaceTRef is None
-        
+
         # Test mayBeUnconnected methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            ARBoolean,
+        )
         may_be_unconnected = ARBoolean()
         may_be_unconnected.setValue(True)
         r_port.setMayBeUnconnected(may_be_unconnected)
         assert r_port.getMayBeUnconnected() == may_be_unconnected
-        
+
         # Test requiredInterfaceTRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            TRefType,
+        )
         t_ref = TRefType()
         t_ref.setValue("/Interface/Ref")
         r_port.setRequiredInterfaceTRef(t_ref)
@@ -254,33 +289,39 @@ class TestRPortPrototype:
 
 class TestPRPortPrototype:
     """Test class for PRPortPrototype class."""
-    
+
     def test_pr_port_prototype_initialization(self):
         """Test PRPortPrototype initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         pr_port = PRPortPrototype(ar_root, "TestPRPortPrototype")
-        
+
         assert pr_port.parent == ar_root
         assert pr_port.short_name == "TestPRPortPrototype"
         assert pr_port.providedComSpecs == []
         assert pr_port.requiredComSpecs == []
         assert pr_port.providedRequiredInterface is None
-        
+
         # Test providedComSpecs methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedSenderComSpec
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+            NonqueuedSenderComSpec,
+        )
         provided_spec = NonqueuedSenderComSpec()
         pr_port.addProvidedComSpec(provided_spec)
         assert provided_spec in pr_port.getProvidedComSpecs()
-        
+
         # Test requiredComSpecs methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+            ClientComSpec,
+        )
         required_spec = ClientComSpec()
         pr_port.addRequiredComSpec(required_spec)
         assert required_spec in pr_port.getRequiredComSpecs()
-        
+
         # Test providedRequiredInterface methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            TRefType,
+        )
         interface_ref = TRefType()
         interface_ref.setValue("/Interface/Ref")
         pr_port.setProvidedRequiredInterface(interface_ref)
@@ -289,26 +330,30 @@ class TestPRPortPrototype:
 
 class TestPortGroup:
     """Test class for PortGroup class."""
-    
+
     def test_port_group_initialization(self):
         """Test PortGroup initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         port_group = PortGroup(ar_root, "TestPortGroup")
-        
+
         assert port_group.parent == ar_root
         assert port_group.short_name == "TestPortGroup"
         assert port_group._inner_group_iref == []
         assert port_group._outer_port_ref == []
-        
+
         # Test inner group IRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+            InnerPortGroupInCompositionInstanceRef,
+        )
         iref = InnerPortGroupInCompositionInstanceRef()
         port_group.addInnerGroupIRef(iref)
         assert iref in port_group.getInnerGroupIRefs()
-        
+
         # Test outer port ref methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            RefType,
+        )
         ref = RefType()
         ref.setValue("/Outer/Port/Ref")
         port_group.addOuterPortRef(ref)
@@ -339,7 +384,7 @@ class TestSwComponentType:
 
 class TestAtomicSwComponentType:
     """Test class for AtomicSwComponentType class."""
-    
+
     def test_atomic_sw_component_type_initialization(self):
         """Test AtomicSwComponentType initialization and methods."""
         document = AUTOSAR.getInstance()
@@ -347,7 +392,7 @@ class TestAtomicSwComponentType:
         # AtomicSwComponentType is marked as abstract with ABCMeta, but has no abstract methods
         # so it can actually be instantiated
         atomic_comp_type = AtomicSwComponentType(ar_root, "TestAtomicSwComponentType")
-        
+
         assert atomic_comp_type.parent == ar_root
         assert atomic_comp_type.short_name == "TestAtomicSwComponentType"
         assert atomic_comp_type.ports == []
@@ -358,13 +403,13 @@ class TestAtomicSwComponentType:
 
 class TestEcuAbstractionSwComponentType:
     """Test class for EcuAbstractionSwComponentType class."""
-    
+
     def test_ecu_abstraction_sw_component_type_initialization(self):
         """Test EcuAbstractionSwComponentType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = EcuAbstractionSwComponentType(ar_root, "TestEcuAbstractionSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestEcuAbstractionSwComponentType"
         assert comp_type.ports == []
@@ -372,9 +417,11 @@ class TestEcuAbstractionSwComponentType:
         assert comp_type.internalBehavior is None
         assert comp_type.symbolProps is None
         assert comp_type.hardwareElementRefs == []
-        
+
         # Test hardwareElementRefs methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            RefType,
+        )
         ref = RefType()
         ref.setValue("/Hardware/Element")
         comp_type.addHardwareElementRefs(ref)
@@ -383,13 +430,13 @@ class TestEcuAbstractionSwComponentType:
 
 class TestApplicationSwComponentType:
     """Test class for ApplicationSwComponentType class."""
-    
+
     def test_application_sw_component_type_initialization(self):
         """Test ApplicationSwComponentType initialization."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = ApplicationSwComponentType(ar_root, "TestApplicationSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestApplicationSwComponentType"
         assert comp_type.ports == []
@@ -400,13 +447,13 @@ class TestApplicationSwComponentType:
 
 class TestComplexDeviceDriverSwComponentType:
     """Test class for ComplexDeviceDriverSwComponentType class."""
-    
+
     def test_complex_device_driver_sw_component_type_initialization(self):
         """Test ComplexDeviceDriverSwComponentType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = ComplexDeviceDriverSwComponentType(ar_root, "TestComplexDeviceDriverSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestComplexDeviceDriverSwComponentType"
         assert comp_type.ports == []
@@ -414,9 +461,11 @@ class TestComplexDeviceDriverSwComponentType:
         assert comp_type.internalBehavior is None
         assert comp_type.symbolProps is None
         assert comp_type.hardwareElementRefs == []
-        
+
         # Test hardwareElementRefs methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            RefType,
+        )
         ref = RefType()
         ref.setValue("/Hardware/Element")
         comp_type.addHardwareElementRefs(ref)
@@ -425,13 +474,13 @@ class TestComplexDeviceDriverSwComponentType:
 
 class TestNvBlockSwComponentType:
     """Test class for NvBlockSwComponentType class."""
-    
+
     def test_nv_block_sw_component_type_initialization(self):
         """Test NvBlockSwComponentType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = NvBlockSwComponentType(ar_root, "TestNvBlockSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestNvBlockSwComponentType"
         assert comp_type.ports == []
@@ -440,12 +489,12 @@ class TestNvBlockSwComponentType:
         assert comp_type.symbolProps is None
         assert comp_type.bulkNvDataDescriptors == []
         assert comp_type.nvBlockDescriptors == []
-        
+
         # Test bulkNvDataDescriptors methods
         bulk_desc = "test_bulk_desc"
         comp_type.addBulkNvDataDescriptor(bulk_desc)
         assert bulk_desc in comp_type.getBulkNvDataDescriptors()
-        
+
         # Test nvBlockDescriptors methods
         block_desc = "test_block_desc"
         comp_type.setNvBlockDescriptor(block_desc)
@@ -455,13 +504,13 @@ class TestNvBlockSwComponentType:
 
 class TestSensorActuatorSwComponentType:
     """Test class for SensorActuatorSwComponentType class."""
-    
+
     def test_sensor_actuator_sw_component_type_initialization(self):
         """Test SensorActuatorSwComponentType initialization."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = SensorActuatorSwComponentType(ar_root, "TestSensorActuatorSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestSensorActuatorSwComponentType"
         assert comp_type.ports == []
@@ -472,13 +521,13 @@ class TestSensorActuatorSwComponentType:
 
 class TestServiceProxySwComponentType:
     """Test class for ServiceProxySwComponentType class."""
-    
+
     def test_service_proxy_sw_component_type_initialization(self):
         """Test ServiceProxySwComponentType initialization."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = ServiceProxySwComponentType(ar_root, "TestServiceProxySwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestServiceProxySwComponentType"
         assert comp_type.ports == []
@@ -489,13 +538,13 @@ class TestServiceProxySwComponentType:
 
 class TestServiceSwComponentType:
     """Test class for ServiceSwComponentType class."""
-    
+
     def test_service_sw_component_type_initialization(self):
         """Test ServiceSwComponentType initialization."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = ServiceSwComponentType(ar_root, "TestServiceSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestServiceSwComponentType"
         assert comp_type.ports == []
@@ -506,13 +555,13 @@ class TestServiceSwComponentType:
 
 class TestCompositionSwComponentType:
     """Test class for CompositionSwComponentType class."""
-    
+
     def test_composition_sw_component_type_initialization(self):
         """Test CompositionSwComponentType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         comp_type = CompositionSwComponentType(ar_root, "TestCompositionSwComponentType")
-        
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestCompositionSwComponentType"
         assert comp_type.ports == []
@@ -525,47 +574,49 @@ class TestCompositionSwComponentType:
         assert comp_type.constantValueMappingRefs == []
         assert comp_type.dataTypeMappingRefs == []
         assert comp_type.instantiationRTEEventProps == []
-        
+
         # Test component methods
         comp_proto = comp_type.createSwComponentPrototype("TestComponent")
         assert comp_proto is not None
         assert comp_proto.short_name == "TestComponent"
         assert comp_proto in comp_type.getComponents()
-        
+
         # Test data type mapping methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            RefType,
+        )
         data_type_ref = RefType()
         data_type_ref.setValue("/Data/Type/Ref")
         comp_type.addDataTypeMapping(data_type_ref)
         assert data_type_ref in comp_type.getDataTypeMappings()
-        
+
         # Test connector methods
         assembly_connector = comp_type.createAssemblySwConnector("TestAssemblyConnector")
         assert assembly_connector is not None
         assert assembly_connector.short_name == "TestAssemblyConnector"
         assert assembly_connector in comp_type.getAssemblySwConnectors()
-        
+
         delegation_connector = comp_type.createDelegationSwConnector("TestDelegationConnector")
         assert delegation_connector is not None
         assert delegation_connector.short_name == "TestDelegationConnector"
         assert delegation_connector in comp_type.getDelegationSwConnectors()
-        
+
         # Test port creation methods
         p_port = comp_type.createPPortPrototype("TestPPort")
         assert p_port is not None
         assert p_port.short_name == "TestPPort"
         assert p_port in comp_type.getPPortPrototypes()
-        
+
         r_port = comp_type.createRPortPrototype("TestRPort")
         assert r_port is not None
         assert r_port.short_name == "TestRPort"
         assert r_port in comp_type.getRPortPrototypes()
-        
+
         pr_port = comp_type.createPRPortPrototype("TestPRPort")
         assert pr_port is not None
         assert pr_port.short_name == "TestPRPort"
         assert pr_port in comp_type.getPRPortPrototypes()
-        
+
         port_group = comp_type.createPortGroup("TestPortGroup")
         assert port_group is not None
         assert port_group.short_name == "TestPortGroup"

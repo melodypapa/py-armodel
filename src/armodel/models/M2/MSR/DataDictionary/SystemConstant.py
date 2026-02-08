@@ -1,7 +1,6 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
     AtpDefinition,
 )

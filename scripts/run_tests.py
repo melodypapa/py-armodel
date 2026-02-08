@@ -409,8 +409,8 @@ def generate_coverage_markdown(
                 f.write(f"![coverage](https://img.shields.io/badge/coverage-{line_pct:.1f}%25-{badge_color})\n\n")
 
                 f.write("### Summary\n\n")
-                f.write(f"| Metric | Covered | Valid | Percentage |\n")
-                f.write(f"|--------|---------|-------|------------|\n")
+                f.write("| Metric | Covered | Valid | Percentage |\n")
+                f.write("|--------|---------|-------|------------|\n")
                 f.write(f"| **Lines** | {overall['lines_covered']} | {overall['lines_valid']} | **{line_pct:.2f}%** |\n")
                 f.write(f"| **Branches** | {overall['branches_covered']} | {overall['branches_valid']} | **{branch_pct:.2f}%** |\n\n")
 
@@ -518,8 +518,8 @@ def generate_coverage_markdown(
                 f.write(f"![coverage](https://img.shields.io/badge/integration-{line_pct:.1f}%25-{badge_color})\n\n")
 
                 f.write("### Summary\n\n")
-                f.write(f"| Metric | Covered | Valid | Percentage |\n")
-                f.write(f"|--------|---------|-------|------------|\n")
+                f.write("| Metric | Covered | Valid | Percentage |\n")
+                f.write("|--------|---------|-------|------------|\n")
                 f.write(f"| **Lines** | {overall['lines_covered']} | {overall['lines_valid']} | **{line_pct:.2f}%** |\n")
                 f.write(f"| **Branches** | {overall['branches_covered']} | {overall['branches_valid']} | **{branch_pct:.2f}%** |\n\n")
 

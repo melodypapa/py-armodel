@@ -13,10 +13,19 @@ Classes:
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    ExecutionOrderConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+)
 
 
 class TimingExtension(ARElement):
@@ -38,10 +47,10 @@ class TimingExtension(ARElement):
     def createExecutionOrderConstraint(self, short_name: str)-> ExecutionOrderConstraint:
         """
         Creates a new execution order constraint with the specified short name.
-        
+
         Args:
             short_name: Short name for the new execution order constraint
-            
+
         Returns:
             The created ExecutionOrderConstraint instance
         """
@@ -54,7 +63,7 @@ class TimingExtension(ARElement):
     def getTimingRequirements(self) -> List[TimingConstraint]:
         """
         Returns the list of timing requirements for this extension.
-        
+
         Returns:
             List of timing constraint requirements
         """

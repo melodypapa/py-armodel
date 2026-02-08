@@ -1,8 +1,6 @@
 """
 Integration tests for V2 ARXML reader and writer.
 """
-import pytest
-from pathlib import Path
 from armodel.v2.models.models import AUTOSAR
 from armodel.v2.reader.base_reader import ARXMLReader
 from armodel.v2.writer.base_writer import ARXMLWriter

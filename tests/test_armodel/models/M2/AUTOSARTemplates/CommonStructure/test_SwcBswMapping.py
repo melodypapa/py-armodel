@@ -1,14 +1,19 @@
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswRunnableMapping, SwcBswMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
+    SwcBswMapping,
+    SwcBswRunnableMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class TestSwcBswRunnableMapping:
     def test_initialization(self):
         """Test SwcBswRunnableMapping initialization"""
         mapping = SwcBswRunnableMapping()
-        
+
         assert mapping is not None
         assert mapping.bswEntityRef is None
         assert mapping.swcRunnableRef is None
@@ -42,13 +47,13 @@ class TestSwcBswRunnableMapping:
     def test_all_properties(self):
         """Test setting all properties"""
         mapping = SwcBswRunnableMapping()
-        
+
         bsw_ref = RefType().setValue("BswEntityRef")
         swc_ref = RefType().setValue("SwcRunnableRef")
-        
+
         mapping.setBswEntityRef(bsw_ref)
         mapping.setSwcRunnableRef(swc_ref)
-        
+
         assert mapping.getBswEntityRef() == bsw_ref
         assert mapping.getSwcRunnableRef() == swc_ref
 
@@ -59,7 +64,7 @@ class TestSwcBswMapping:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_bsw_mapping = SwcBswMapping(ar_root, "TestSwcBswMapping")
-        
+
         assert swc_bsw_mapping is not None
         assert swc_bsw_mapping.getShortName() == "TestSwcBswMapping"
         assert swc_bsw_mapping.bswBehaviorRef is None

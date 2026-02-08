@@ -3,18 +3,44 @@
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum, PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
-
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpPrototype,
+    AtpStructureElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ByteOrderEnum,
+    PositiveInteger,
+    RefType,
+    RevisionLabelString,
+    TRefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    DataMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
+    ECUMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoServiceMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartitionToEcuPartitionMapping,
+    SwcToEcuMapping,
+    SwcToImplMapping,
+)
 
 
 class ComManagementMapping(Identifiable):
@@ -245,9 +271,9 @@ class SystemMapping(Identifiable):
 
     def getSwMappings(self):
         return self.swMappings
-    
+
     def getSwcToEcuMappings(self) -> List[SwcToEcuMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, SwcToEcuMapping), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, SwcToEcuMapping), self.elements), key=lambda o: o.short_name)
 
     def createSwcToEcuMapping(self, short_name: str) -> SwcToEcuMapping:
         if short_name not in self.elements:
@@ -394,17 +420,17 @@ class System(AtpStructureElement):
         return self
 
     def getMappings(self) -> List[SystemMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name)
+
     def getSystemMappings(self) -> List[SystemMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name)
 
     def createSystemMapping(self, short_name) -> SystemMapping:
         if not self.IsElementExists(short_name):
             mapping = SystemMapping(self, short_name)
             self.addElement(mapping)
         return self.getElement(short_name, SystemMapping)
-    
+
     def getPncVectorLength(self):
         return self.pncVectorLength
 

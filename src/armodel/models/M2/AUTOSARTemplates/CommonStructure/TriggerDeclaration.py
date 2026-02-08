@@ -4,11 +4,18 @@ in the CommonStructure module. Triggers define events that can initiate specific
 behaviors or actions in AUTOSAR components and systems.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpStructureElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwImplPolicyEnum,
+)
 
 
 class Trigger(AtpStructureElement):
@@ -16,11 +23,11 @@ class Trigger(AtpStructureElement):
     Represents a trigger in AUTOSAR models.
     Triggers define events that can initiate specific behaviors or actions in AUTOSAR components and systems.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Trigger with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this trigger
             short_name: The unique short name of this trigger
@@ -30,12 +37,12 @@ class Trigger(AtpStructureElement):
         # Software implementation policy for this trigger
         self.swImplPolicy: SwImplPolicyEnum = None
         # Period for this trigger (MultidimensionalTime type)
-        self.triggerPeriod = None                               
+        self.triggerPeriod = None
 
     def getSwImplPolicy(self):
         """
         Gets the software implementation policy for this trigger.
-        
+
         Returns:
             SwImplPolicyEnum: The software implementation policy
         """
@@ -45,10 +52,10 @@ class Trigger(AtpStructureElement):
         """
         Sets the software implementation policy for this trigger.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The software implementation policy to set
-            
+
         Returns:
             self for method chaining
         """
@@ -59,7 +66,7 @@ class Trigger(AtpStructureElement):
     def getTriggerPeriod(self):
         """
         Gets the period for this trigger.
-        
+
         Returns:
             MultidimensionalTime: The trigger period
         """
@@ -69,10 +76,10 @@ class Trigger(AtpStructureElement):
         """
         Sets the period for this trigger.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The trigger period to set
-            
+
         Returns:
             self for method chaining
         """
@@ -86,7 +93,7 @@ class TriggerMapping(ARObject):
     Represents a mapping between triggers in AUTOSAR models.
     This class defines relationships between different triggers across system boundaries or components.
     """
-    
+
     def __init__(self):
         """
         Initializes the TriggerMapping with default values.
@@ -94,14 +101,14 @@ class TriggerMapping(ARObject):
         super().__init__()
 
         # Reference to the first trigger in the mapping
-        self.firstTriggerRef: RefType = None                             
+        self.firstTriggerRef: RefType = None
         # Reference to the second trigger in the mapping
-        self.secondTriggerRef: RefType = None                            
+        self.secondTriggerRef: RefType = None
 
     def getFirstTriggerRef(self):
         """
         Gets the reference to the first trigger in the mapping.
-        
+
         Returns:
             RefType: The first trigger reference
         """
@@ -111,10 +118,10 @@ class TriggerMapping(ARObject):
         """
         Sets the reference to the first trigger in the mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The first trigger reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -125,7 +132,7 @@ class TriggerMapping(ARObject):
     def getSecondTriggerRef(self):
         """
         Gets the reference to the second trigger in the mapping.
-        
+
         Returns:
             RefType: The second trigger reference
         """
@@ -135,10 +142,10 @@ class TriggerMapping(ARObject):
         """
         Sets the reference to the second trigger in the mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The second trigger reference to set
-            
+
         Returns:
             self for method chaining
         """

@@ -3,10 +3,20 @@ This module contains classes for representing AUTOSAR port API options
 in software component internal behavior templates.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType
 from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ValueSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    RefType,
+    TRefType,
+)
+
 
 class PortDefinedArgumentValue(ARObject):
     def __init__(self):

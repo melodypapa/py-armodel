@@ -1,24 +1,65 @@
 from abc import ABC
-from enum import Enum
 from typing import TYPE_CHECKING, List
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import (
+    DataFilter,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    Boolean,
+    Integer,
+    PositiveInteger,
+    PositiveUnlimitedInteger,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrameTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
+    NetworkEndpoint,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayFrameTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinFrameTriggering,
+    LinScheduleTable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    FibexElement,
+    FrameTriggering,
+    ISignalTriggering,
+    PduTriggering,
+)
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector, FlexrayCommunicationController, FlexrayChannelName
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType, IPduSignalProcessingEnum
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+        CanCommunicationConnector,
+        CanCommunicationController,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+        EthernetCommunicationConnector,
+        EthernetCommunicationController,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+        FlexrayCommunicationConnector,
+        FlexrayCommunicationController,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+        LinCommunicationConnector,
+        LinMaster,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+        CommunicationDirectionType,
+        IPduSignalProcessingEnum,
+    )
 
 
 class CommunicationCycle(ARObject, ABC):
@@ -102,7 +143,7 @@ class PhysicalChannel (Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
             raise TypeError("PhysicalChannel is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.commConnectorRefs: List[RefType] = []
@@ -117,7 +158,7 @@ class PhysicalChannel (Identifiable, ABC):
         return self
 
     def getFrameTriggerings(self) -> List[FrameTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements), key=lambda o: o.getShortName())
 
     def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
         if (short_name not in self.elements):
@@ -125,14 +166,14 @@ class PhysicalChannel (Identifiable, ABC):
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
         return self.getElement(short_name)
-    
+
     def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
         if (short_name not in self.elements):
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
         return self.getElement(short_name)
-    
+
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
         if (short_name not in self.elements):
             triggering = FlexrayFrameTriggering(self, short_name)
@@ -141,7 +182,7 @@ class PhysicalChannel (Identifiable, ABC):
         return self.getElement(short_name)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements), key=lambda o: o.getShortName())
 
     def createISignalTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -155,9 +196,9 @@ class PhysicalChannel (Identifiable, ABC):
     def addManagedPhysicalChannelRef(self, value):
         self.managedPhysicalChannelRefs.append(value)
         return self
-    
+
     def getPduTriggerings(self) -> List[PduTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements), key=lambda o: o.getShortName())
 
     def createPduTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -175,7 +216,7 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     def __init__(self, parent, short_name):
         if type(self) is AbstractCanPhysicalChannel:
             raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
-         
+
         super().__init__(parent, short_name)
 
 
@@ -311,7 +352,7 @@ class CommunicationCluster(FibexElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
             raise TypeError("CommunicationCluster is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.baudrate = None                    # type: ARFloat
@@ -327,38 +368,38 @@ class CommunicationCluster(FibexElement, ABC):
         return self
 
     def getPhysicalChannels(self) -> List[PhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+        return sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements), key=lambda o: o.getShortName())
+
     def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+        return sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements), key=lambda o: o.getShortName())
+
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+        return sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements), key=lambda o: o.getShortName())
+
     def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+        return sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements), key=lambda o: o.getShortName())
+
     def createCanPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
-    
+
     def createLinPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = LinPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
-    
+
     def createEthernetPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = EthernetPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
-    
+
     def createFlexrayPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = FlexrayPhysicalChannel(self, short_name)
@@ -446,7 +487,7 @@ class AbstractCanCluster(CommunicationCluster, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
             raise TypeError("AbstractCanCluster is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.busOffRecovery: CanClusterBusOffRecovery = None
@@ -512,7 +553,7 @@ class CommunicationController(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationController:
             raise TypeError("CommunicationController is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.wakeUpByControllerSupported: Boolean = None
@@ -552,9 +593,9 @@ class CommConnectorPort(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
             raise TypeError("CommConnectorPort is an abstract class.")
-        
+
         super().__init__(parent, short_name)
-        
+
         self.communicationDirection: CommunicationDirectionType = None
 
     def getCommunicationDirection(self):
@@ -583,7 +624,7 @@ class IPduPort(CommConnectorPort):
     """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.iPduSignalProcessing: "IPduSignalProcessingEnum" = None
         self.keyId: PositiveInteger = None
         self.rxSecurityVerification: Boolean = None
@@ -639,7 +680,7 @@ class ISignalPort(CommConnectorPort):
     """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.dataFilter: DataFilter = None
         self.ddsQosProfileRef: RefType = None
         self.firstTimeout: TimeValue = None
@@ -697,7 +738,7 @@ class CommunicationConnector(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
             raise TypeError("CommunicationConnector is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.commControllerRef: RefType = None
@@ -729,7 +770,7 @@ class CommunicationConnector(Identifiable, ABC):
         return self
 
     def getEcuCommPortInstances(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements), key=lambda o: o.getShortName()))
+        return sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements), key=lambda o: o.getShortName())
 
     def createFramePort(self, short_name) -> FramePort:
         if short_name not in self.elements:
@@ -744,7 +785,7 @@ class CommunicationConnector(Identifiable, ABC):
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
-    
+
     def createISignalPort(self, short_name) -> ISignalPort:
         if short_name not in self.elements:
             port = ISignalPort(self, short_name)
@@ -862,67 +903,83 @@ class EcuInstance(FibexElement):
         return self
 
     def getCommControllers(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key= lambda o:o.short_name))
+        return sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key= lambda o:o.short_name)
 
     def createCanCommunicationController(self, short_name: str) -> "CanCommunicationController":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+                CanCommunicationController,
+            )
             controller = CanCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
+
     def createEthernetCommunicationController(self, short_name: str) -> "EthernetCommunicationController":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+                EthernetCommunicationController,
+            )
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
+
     def createLinMaster(self, short_name: str) -> "LinMaster":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinMaster
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+                LinMaster,
+            )
             controller = LinMaster(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
+
     def createFlexrayCommunicationController(self, short_name: str) -> "FlexrayCommunicationController":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+                FlexrayCommunicationController,
+            )
             controller = FlexrayCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
 
     def getConnectors(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key= lambda o:o.short_name))
+        return sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key= lambda o:o.short_name)
 
     def createCanCommunicationConnector(self, short_name: str) -> "CanCommunicationConnector":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+                CanCommunicationConnector,
+            )
             connector = CanCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def createEthernetCommunicationConnector(self, short_name: str) -> "EthernetCommunicationConnector":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+                EthernetCommunicationConnector,
+            )
             connector = EthernetCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def createLinCommunicationConnector(self, short_name: str) -> "LinCommunicationConnector":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+                LinCommunicationConnector,
+            )
             connector = LinCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def createFlexrayCommunicationConnector(self, short_name: str) -> "FlexrayCommunicationConnector":
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector
+            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+                FlexrayCommunicationConnector,
+            )
             connector = FlexrayCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def getDiagnosticAddress(self):
         return self.diagnosticAddress
 

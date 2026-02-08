@@ -1,8 +1,17 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ReentrancyLevelEnum, ExclusiveArea, ExecutableEntity, InternalBehavior, AbstractEvent
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    AbstractEvent,
+    ExclusiveArea,
+    ExecutableEntity,
+    InternalBehavior,
+    ReentrancyLevelEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    RefType,
+)
 
 
 class TestReentrancyLevelEnum:
@@ -24,7 +33,7 @@ class TestExclusiveArea:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         exclusive_area = ExclusiveArea(ar_root, "TestExclusiveArea")
-        
+
         assert exclusive_area is not None
         assert exclusive_area.getShortName() == "TestExclusiveArea"
 
@@ -41,11 +50,11 @@ class TestExecutableEntity:
         """Test that a concrete subclass of ExecutableEntity can be instantiated"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         assert exec_entity is not None
         assert exec_entity.getShortName() == "TestExecutableEntity"
@@ -59,11 +68,11 @@ class TestExecutableEntity:
         """Test getActivationReasons method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         assert exec_entity.getActivationReasons() == []
 
@@ -71,18 +80,18 @@ class TestExecutableEntity:
         """Test addActivationReason method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
-        
+
         # Create a mock activation reason for testing
         class MockActivationReason:
             pass
         reason = MockActivationReason()
-        
+
         result = exec_entity.addActivationReason(reason)
         assert result is exec_entity  # Method chaining
         assert len(exec_entity.getActivationReasons()) == 1
@@ -92,11 +101,11 @@ class TestExecutableEntity:
         """Test getMinimumStartInterval method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         assert exec_entity.getMinimumStartInterval() is None
 
@@ -104,11 +113,11 @@ class TestExecutableEntity:
         """Test setMinimumStartInterval method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         test_value = ARFloat().setValue(0.001)  # 1ms
         result = exec_entity.setMinimumStartInterval(test_value)
@@ -119,11 +128,11 @@ class TestExecutableEntity:
         """Test setMinimumStartInterval with None value"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         result = exec_entity.setMinimumStartInterval(None)
         assert result is exec_entity  # Method chaining
@@ -133,11 +142,11 @@ class TestExecutableEntity:
         """Test getReentrancyLevel method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         assert exec_entity.getReentrancyLevel() is None
 
@@ -145,11 +154,11 @@ class TestExecutableEntity:
         """Test setReentrancyLevel method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         test_value = ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT
         result = exec_entity.setReentrancyLevel(test_value)
@@ -160,11 +169,11 @@ class TestExecutableEntity:
         """Test getSwAddrMethodRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         assert exec_entity.getSwAddrMethodRef() is None
 
@@ -172,11 +181,11 @@ class TestExecutableEntity:
         """Test setSwAddrMethodRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         test_value = RefType().setValue("AddrMethodRef")
         result = exec_entity.setSwAddrMethodRef(test_value)
@@ -187,16 +196,16 @@ class TestExecutableEntity:
         """Test minimumStartIntervalMs property"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
-        
+
         # Test with no minimum start interval
         assert exec_entity.minimumStartIntervalMs is None
-        
+
         # Test with minimum start interval set
         interval = ARFloat().setValue(0.002)  # 0.002 seconds = 2ms
         exec_entity.setMinimumStartInterval(interval)
@@ -206,19 +215,19 @@ class TestExecutableEntity:
         """Test addCanEnterExclusiveAreaRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
-        
+
         ref1 = RefType().setValue("ExclusiveArea1")
         ref2 = RefType().setValue("ExclusiveArea2")
-        
+
         exec_entity.addCanEnterExclusiveAreaRef(ref1)
         exec_entity.addCanEnterExclusiveAreaRef(ref2)
-        
+
         refs = exec_entity.getCanEnterExclusiveAreaRefs()
         assert len(refs) == 2
         assert refs[0] == ref1
@@ -228,11 +237,11 @@ class TestExecutableEntity:
         """Test getCanEnterExclusiveAreaRefs method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteExecutableEntity(ExecutableEntity):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
         refs = exec_entity.getCanEnterExclusiveAreaRefs()
         assert refs == []
@@ -250,11 +259,11 @@ class TestInternalBehavior:
         """Test that a concrete subclass of InternalBehavior can be instantiated"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         assert internal_behavior is not None
         assert internal_behavior.getShortName() == "TestInternalBehavior"
@@ -269,14 +278,14 @@ class TestInternalBehavior:
         """Test createConstantMemory method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         constant_memory = internal_behavior.createConstantMemory("TestConstant")
-        
+
         assert constant_memory is not None
         assert constant_memory.getShortName() == "TestConstant"
         assert len(internal_behavior.constantMemories) == 1
@@ -286,15 +295,15 @@ class TestInternalBehavior:
         """Test getConstantMemories method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         constant_memory1 = internal_behavior.createConstantMemory("TestConstant1")
         constant_memory2 = internal_behavior.createConstantMemory("TestConstant2")
-    
+
         memories = internal_behavior.getConstantMemories()
         assert len(memories) == 2
         # Note: getConstantMemories returns elements in insertion order, not sorted by default
@@ -305,19 +314,19 @@ class TestInternalBehavior:
         """Test addDataTypeMappingRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-    
+
         ref1 = RefType().setValue("DataTypeRef1")
         ref2 = RefType().setValue("DataTypeRef2")
-    
+
         internal_behavior.addDataTypeMappingRef(ref1)
         internal_behavior.addDataTypeMappingRef(ref2)
-    
+
         refs = internal_behavior.getDataTypeMappingRefs()
         assert len(refs) == 2
         assert refs[0] == ref1
@@ -327,11 +336,11 @@ class TestInternalBehavior:
         """Test getDataTypeMappingRefs method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         refs = internal_behavior.getDataTypeMappingRefs()
         assert refs == []
@@ -340,14 +349,14 @@ class TestInternalBehavior:
         """Test createExclusiveArea method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         exclusive_area = internal_behavior.createExclusiveArea("TestArea")
-    
+
         assert exclusive_area is not None
         assert exclusive_area.getShortName() == "TestArea"
         assert len(internal_behavior.exclusiveAreas) == 1
@@ -357,15 +366,15 @@ class TestInternalBehavior:
         """Test getExclusiveAreas method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         area1 = internal_behavior.createExclusiveArea("Area1")
         area2 = internal_behavior.createExclusiveArea("Area2")
-    
+
         areas = internal_behavior.getExclusiveAreas()
         assert len(areas) == 2
         # getExclusiveAreas uses filter to return only ExclusiveArea instances
@@ -377,27 +386,27 @@ class TestInternalBehavior:
         """Test getStaticMemories method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         memories = internal_behavior.getStaticMemories()
         assert memories == []
-        
+
     def test_create_static_memory(self):
         """Test createStaticMemory method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-    
+
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-    
+
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         static_memory = internal_behavior.createStaticMemory("TestStatic")
-    
+
         assert static_memory is not None
         assert static_memory.getShortName() == "TestStatic"
         assert len(internal_behavior.staticMemories) == 1
@@ -418,7 +427,9 @@ class TestAbstractEvent:
         ar_root = parent.createARPackage("AUTOSAR")
 
         # Use BswEvent as a concrete subclass
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+            BswEvent,
+        )
 
         class ConcreteBswEvent(BswEvent):
             def __init__(self, parent, short_name):
@@ -435,7 +446,9 @@ class TestAbstractEvent:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+            BswEvent,
+        )
 
         class ConcreteBswEvent(BswEvent):
             def __init__(self, parent, short_name):
@@ -449,7 +462,9 @@ class TestAbstractEvent:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+            BswEvent,
+        )
 
         class ConcreteBswEvent(BswEvent):
             def __init__(self, parent, short_name):
@@ -466,7 +481,9 @@ class TestAbstractEvent:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+            BswEvent,
+        )
 
         class ConcreteBswEvent(BswEvent):
             def __init__(self, parent, short_name):

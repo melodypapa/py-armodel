@@ -6,7 +6,7 @@ This module handles generation of pytest test cases for AUTOSAR classes.
 """
 
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 # Import pluralization helper from code_generator
 from . import code_generator
@@ -33,7 +33,7 @@ def generate_test_case(
     Returns:
         Generated test code
     """
-    from . import type_resolver, code_generator
+    from . import type_resolver
 
     is_abstract = class_info.get('is_abstract', False)
     attributes = class_info.get('attributes', {})
@@ -184,7 +184,7 @@ def _generate_list_attribute_tests(
     Returns:
         Test method code
     """
-    from . import code_generator, type_resolver
+    from . import type_resolver
 
     # Compute singular form for create/add method names
     singular_attr = code_generator._singularize_attr_name(py_attr_name)

@@ -1,11 +1,8 @@
 """Tests for format_xml_cli module."""
 
-import sys
 import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
-
-import pytest
 
 from armodel.cli.format_xml_cli import main, patch_xml, perform_format
 

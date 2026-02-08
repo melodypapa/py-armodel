@@ -1,8 +1,18 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototypeMapping, ModeDeclaration, ModeRequestTypeMap, ModeDeclarationGroup, ModeDeclarationGroupPrototype
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclaration,
+    ModeDeclarationGroup,
+    ModeDeclarationGroupPrototype,
+    ModeDeclarationGroupPrototypeMapping,
+    ModeRequestTypeMap,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARNumerical,
+    RefType,
+    TRefType,
+)
 
 
 class TestModeDeclarationGroupPrototypeMapping:
@@ -77,15 +87,15 @@ class TestModeDeclarationGroupPrototypeMapping:
     def test_all_properties(self):
         """Test setting all properties"""
         mapping = ModeDeclarationGroupPrototypeMapping()
-        
+
         ref1 = RefType().setValue("ModeGroup1")
         ref2 = RefType().setValue("ModeGroup2")
         set_ref = RefType().setValue("MappingSetRef")
-        
+
         mapping.setFirstModeGroupRef(ref1)
         mapping.setSecondModeGroupRef(ref2)
         mapping.setModeDeclarationMappingSetRef(set_ref)
-        
+
         assert mapping.getFirstModeGroupRef() == ref1
         assert mapping.getSecondModeGroupRef() == ref2
         assert mapping.getModeDeclarationMappingSetRef() == set_ref
@@ -97,7 +107,7 @@ class TestModeDeclaration:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_decl = ModeDeclaration(ar_root, "TestMode")
-        
+
         assert mode_decl is not None
         assert mode_decl.getShortName() == "TestMode"
         assert mode_decl.value is None
@@ -107,7 +117,7 @@ class TestModeDeclaration:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_decl = ModeDeclaration(ar_root, "TestMode")
-        
+
         test_value = ARNumerical().setValue(1)
         result = mode_decl.setValue(test_value)
         assert result is mode_decl  # Method chaining
@@ -118,7 +128,7 @@ class TestModeDeclaration:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_decl = ModeDeclaration(ar_root, "TestMode")
-        
+
         result = mode_decl.setValue(None)
         assert result is mode_decl  # Method chaining
         assert mode_decl.getValue() is None
@@ -168,13 +178,13 @@ class TestModeRequestTypeMap:
     def test_all_properties(self):
         """Test setting all properties"""
         map_obj = ModeRequestTypeMap()
-        
+
         impl_ref = RefType().setValue("ImplDataTypeRef")
         group_ref = RefType().setValue("ModeGroupRef")
-        
+
         map_obj.setImplementationDataTypeRef(impl_ref)
         map_obj.setModeGroupRef(group_ref)
-        
+
         assert map_obj.getImplementationDataTypeRef() == impl_ref
         assert map_obj.getModeGroupRef() == group_ref
 
@@ -185,7 +195,7 @@ class TestModeDeclarationGroup:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
-        
+
         assert mode_group is not None
         assert mode_group.getShortName() == "TestModeGroup"
         assert mode_group.initialModeRef is None
@@ -200,7 +210,7 @@ class TestModeDeclarationGroup:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
-        
+
         mode_decl = mode_group.createModeDeclaration("TestMode")
         assert mode_decl is not None
         assert mode_decl.getShortName() == "TestMode"
@@ -212,7 +222,7 @@ class TestModeDeclarationGroup:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
-        
+
         declarations = mode_group.getModeDeclarations()
         assert declarations == []
 
@@ -221,11 +231,11 @@ class TestModeDeclarationGroup:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
-        
+
         # Create mode declarations in reverse order to test sorting
         mode_group.createModeDeclaration("Mode2")
         mode_group.createModeDeclaration("Mode1")
-        
+
         declarations = mode_group.getModeDeclarations()
         assert len(declarations) == 2
         assert declarations[0].getShortName() == "Mode1"
@@ -236,7 +246,7 @@ class TestModeDeclarationGroup:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
-        
+
         test_value = RefType().setValue("InitialModeRef")
         result = mode_group.setInitialModeRef(test_value)
         assert result is mode_group  # Method chaining
@@ -254,7 +264,7 @@ class TestModeDeclarationGroup:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
-        
+
         result = mode_group.setOnTransitionValue(42)
         assert result is mode_group  # Method chaining
         # When an integer is passed, it should be converted to ARNumerical
@@ -275,7 +285,7 @@ class TestModeDeclarationGroupPrototype:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-        
+
         assert mode_group_proto is not None
         assert mode_group_proto.getShortName() == "TestModeGroupProto"
         assert mode_group_proto._swCalibrationAccess is None
@@ -286,10 +296,10 @@ class TestModeDeclarationGroupPrototype:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-        
+
         # Initially None
         assert mode_group_proto.sw_calibration_access is None
-        
+
         # Set a value
         mode_group_proto._swCalibrationAccess = "readOnly"
         assert mode_group_proto.sw_calibration_access == "readOnly"
@@ -299,14 +309,14 @@ class TestModeDeclarationGroupPrototype:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-        
+
         # Test valid values
         mode_group_proto.sw_calibration_access = "notAccessible"
         assert mode_group_proto._swCalibrationAccess == "notAccessible"
-        
+
         mode_group_proto.sw_calibration_access = "readOnly"
         assert mode_group_proto._swCalibrationAccess == "readOnly"
-        
+
         mode_group_proto.sw_calibration_access = "readWrite"
         assert mode_group_proto._swCalibrationAccess == "readWrite"
 
@@ -315,7 +325,7 @@ class TestModeDeclarationGroupPrototype:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-        
+
         with pytest.raises(ValueError, match=r"Invalid SwCalibrationAccess <invalid> of ModeDeclarationGroupPrototype <TestModeGroupProto>"):
             mode_group_proto.sw_calibration_access = "invalid"
 
@@ -324,10 +334,10 @@ class TestModeDeclarationGroupPrototype:
             parent = AUTOSAR.getInstance()
             ar_root = parent.createARPackage("AUTOSAR")
             mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-            
+
             # Initially should return None
             assert mode_group_proto.getSwCalibrationAccess() is None
-            
+
             # Set a value and check it's returned
             mode_group_proto.setSwCalibrationAccess("readOnly")
             assert mode_group_proto.getSwCalibrationAccess() == "readOnly"
@@ -336,12 +346,12 @@ class TestModeDeclarationGroupPrototype:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-        
+
         # Test setting a valid value
         result = mode_group_proto.setSwCalibrationAccess("readOnly")
         assert result is mode_group_proto  # Method chaining
         assert mode_group_proto.getSwCalibrationAccess() == "readOnly"
-        
+
         # Test setting another value
         mode_group_proto.setSwCalibrationAccess("readWrite")
         assert mode_group_proto.getSwCalibrationAccess() == "readWrite"

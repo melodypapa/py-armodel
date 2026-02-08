@@ -1,12 +1,12 @@
 import argparse
-from armodel import __version__
 import logging
-import sys
 import os.path
+import sys
 
+from armodel.lib import InputFileParser, SystemSignalAnalyzer
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser import ARXMLParser
-from armodel.lib import InputFileParser, SystemSignalAnalyzer
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -17,7 +17,7 @@ def main():
     args = ap.parse_args()
 
     logger = logging.getLogger()
-    
+
     formatter = logging.Formatter('[%(levelname)s] : %(message)s')
 
     stdout_handler = logging.StreamHandler(sys.stderr)
@@ -37,12 +37,12 @@ def main():
 
     if args.verbose:
         stdout_handler.setLevel(logging.DEBUG)
-        
+
     else:
         stdout_handler.setLevel(logging.INFO)
 
     logger.addHandler(file_handler)
-    logger.addHandler(stdout_handler)    
+    logger.addHandler(stdout_handler)
 
     try:
         parser = InputFileParser(args.INPUT)
@@ -63,7 +63,7 @@ def main():
         analyzer.print_out({
             'format': format,
         })
-        
+
     except Exception as e:
         print(e)
         #raise e

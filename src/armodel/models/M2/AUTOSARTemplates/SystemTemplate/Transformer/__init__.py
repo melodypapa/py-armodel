@@ -2,15 +2,30 @@
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
 from abc import ABC
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Describable,
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    AREnum,
+    Boolean,
+    Integer,
+    NameToken,
+    PositiveInteger,
+    RefType,
+    String,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    TransformationComSpecProps,
+)
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuScale
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
 
 if TYPE_CHECKING:
     pass
@@ -62,7 +77,7 @@ class DataTransformation(Identifiable):
         if value is not None:
             self.transformerChainRefs.append(value)
         return self
-    
+
 
 class BufferProperties(ARObject):
     """
@@ -100,8 +115,8 @@ class BufferProperties(ARObject):
         if value is not None:
             self.inPlace = value
         return self
-    
-    
+
+
 class TransformationDescription(Describable, ABC):
     """
     Abstract base class for transformation descriptions,
@@ -507,7 +522,7 @@ class EndToEndTransformationDescription(TransformationDescription):
 
 
 class TransformerClassEnum(AREnum):
-    
+
     CUSTOM = "custom"
     SAFETY = "safety"
     SECURITY = "security"

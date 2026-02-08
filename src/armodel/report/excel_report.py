@@ -1,12 +1,13 @@
+import logging
+
 from openpyxl import Workbook
 
-import logging
 
 class ExcelReporter:
     def __init__(self) -> None:
         self.wb = Workbook()
         self._logger = logging.getLogger()
-    
+
     def write_revision(self):
         sheet = self.wb['Sheet']
         sheet.title = "History"
@@ -30,7 +31,7 @@ class ExcelReporter:
             cell.value = title_row[idx]
 
     def write_cell(self, sheet, row, column, value, format = None):
-        cell = sheet.cell(row = row, column=column) 
+        cell = sheet.cell(row = row, column=column)
         cell.value = value
         if (format != None):
             if ('alignment' in format):

@@ -1,23 +1,26 @@
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
-    TpConfig,
     CanTpAddress,
     CanTpChannel,
-    TpConnectionIdent,
-    TpConnection,
+    CanTpConfig,
     CanTpConnection,
     CanTpEcu,
     CanTpNode,
-    CanTpConfig,
     DoIpLogicAddress,
-    DoIpTpConnection,
     DoIpTpConfig,
-    TpAddress,
+    DoIpTpConnection,
+    LinTpConfig,
     LinTpConnection,
     LinTpNode,
-    LinTpConfig
+    TpAddress,
+    TpConfig,
+    TpConnection,
+    TpConnectionIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class MockParent(ARObject):

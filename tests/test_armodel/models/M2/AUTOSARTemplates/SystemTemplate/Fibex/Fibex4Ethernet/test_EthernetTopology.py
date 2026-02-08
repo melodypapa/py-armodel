@@ -8,29 +8,32 @@ of the respective classes.
 """
 
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
-    MacMulticastGroup,
-    EthernetCluster,
-    CouplingPortStructuralElement,
+    CouplingPort,
+    CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortScheduler,
-    EthernetPriorityRegeneration,
-    CouplingPortDetails,
-    VlanMembership,
-    CouplingPort,
-    EthernetCommunicationController,
+    CouplingPortStructuralElement,
+    EthernetCluster,
     EthernetCommunicationConnector,
-    RequestResponseDelay,
+    EthernetCommunicationController,
+    EthernetPriorityRegeneration,
     InitialSdDelayConfig,
-    SdClientConfig
+    MacMulticastGroup,
+    RequestResponseDelay,
+    SdClientConfig,
+    VlanMembership,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class MockParent(ARObject):
     """
     Mock parent class for testing purposes.
-    
+
     This class extends ARObject to provide a concrete implementation
     that can be used as a parent for testing classes that require
     an ARObject instance during initialization.
@@ -42,7 +45,7 @@ class MockParent(ARObject):
 class TestEthernetTopology:
     """
     Test class for EthernetTopology module functionality.
-    
+
     This class contains test methods for validating the behavior of
     Ethernet communication topology classes, including their initialization,
     inheritance relationships, and property accessors.
@@ -54,10 +57,10 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         group = MacMulticastGroup(parent, "TestGroup")
-        
+
         assert group.getShortName() == "TestGroup"
         assert group.getMacMulticastAddress() is None
-        
+
         # Test setting MAC multicast address
         test_address = "01:02:03:04:05:06"
         result = group.setMacMulticastAddress(test_address)
@@ -70,13 +73,13 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         cluster = EthernetCluster(parent, "TestCluster")
-        
+
         assert cluster.getShortName() == "TestCluster"
         assert cluster.getCouplingPorts() == []
         assert cluster.getCouplingPortStartupActiveTime() is None
         assert cluster.getCouplingPortSwitchoffDelay() is None
         assert cluster.getMacMulticastGroups() == []
-        
+
         # Test setting timing values with method chaining
         test_time = 100
         result = cluster.setCouplingPortStartupActiveTime(test_time)
@@ -86,12 +89,12 @@ class TestEthernetTopology:
         result = cluster.setCouplingPortSwitchoffDelay(test_time)
         assert cluster.getCouplingPortSwitchoffDelay() == test_time
         assert result == cluster  # Test method chaining
-        
+
         # Test adding coupling port
         result = cluster.addCouplingPort("port1")
         assert cluster.getCouplingPorts() == ["port1"]
         assert result == cluster  # Test method chaining
-        
+
         # Test creating MAC multicast group
         test_group = cluster.createMacMulticastGroup("TestMulticastGroup")
         assert isinstance(test_group, MacMulticastGroup)
@@ -102,7 +105,7 @@ class TestEthernetTopology:
         Test the CouplingPortStructuralElement abstract class.
         """
         parent = MockParent()
-        
+
         # Test that abstract class cannot be instantiated directly
         with pytest.raises(TypeError):
             CouplingPortStructuralElement(parent, "TestElement")
@@ -113,18 +116,18 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         fifo = CouplingPortFifo(parent, "TestFifo")
-        
+
         assert fifo.getShortName() == "TestFifo"
         assert fifo.getAssignedTrafficClasses() == []
         assert fifo.getMinimumFifoLength() is None
         assert fifo.getShaper() is None
         assert fifo.getTrafficClassPreemptionSupport() is None
-        
+
         # Test adding traffic class with method chaining
         result = fifo.addAssignedTrafficClass(5)
         assert fifo.getAssignedTrafficClasses() == [5]
         assert result == fifo  # Test method chaining
-        
+
         # Test setting minimum FIFO length with method chaining
         result = fifo.setMinimumFifoLength(1024)
         assert fifo.getMinimumFifoLength() == 1024
@@ -146,16 +149,16 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         scheduler = CouplingPortScheduler(parent, "TestScheduler")
-        
+
         assert scheduler.getShortName() == "TestScheduler"
         assert scheduler.getPredecessorRefs() == []
         assert scheduler.getPortScheduler() is None
-        
+
         # Test adding predecessor reference with method chaining
         result = scheduler.addPredecessorRef("TestRef")
         assert scheduler.getPredecessorRefs() == ["TestRef"]
         assert result == scheduler  # Test method chaining
-        
+
         # Test setting port scheduler with method chaining
         result = scheduler.setPortScheduler("RoundRobin")
         assert scheduler.getPortScheduler() == "RoundRobin"
@@ -167,11 +170,11 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         regeneration = EthernetPriorityRegeneration(parent, "TestRegeneration")
-        
+
         assert regeneration.getShortName() == "TestRegeneration"
         assert regeneration.getIngressPriority() is None
         assert regeneration.getRegeneratedPriority() is None
-        
+
         # Test setting priorities with method chaining
         result = regeneration.setIngressPriority(3)
         assert regeneration.getIngressPriority() == 3
@@ -186,7 +189,7 @@ class TestEthernetTopology:
         Test the CouplingPortDetails class initialization and methods.
         """
         details = CouplingPortDetails()
-        
+
         assert details.getCouplingPortStructuralElements() == []
         assert details.getDefaultTrafficClass() is None
         assert details.getEthernetPriorityRegenerations() == []
@@ -196,7 +199,7 @@ class TestEthernetTopology:
         assert details.getLastEgressSchedulerRef() is None
         assert details.getRatePolicies() == []
         assert details.getVlanTranslationTables() == []
-        
+
         # Test setting default traffic class with method chaining
         result = details.setDefaultTrafficClass(5)
         assert details.getDefaultTrafficClass() == 5
@@ -257,12 +260,12 @@ class TestEthernetTopology:
         Test the VlanMembership class initialization and methods.
         """
         membership = VlanMembership()
-        
+
         assert membership.getDefaultPriority() is None
         assert membership.getDhcpAddressAssignment() is None
         assert membership.getSendActivity() is None
         assert membership.getVlanRef() is None
-        
+
         # Test setting values with method chaining
         result = membership.setDefaultPriority(3)
         assert membership.getDefaultPriority() == 3
@@ -286,7 +289,7 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         port = CouplingPort(parent, "TestPort")
-        
+
         assert port.getShortName() == "TestPort"
         assert port.getConnectionNegotiationBehavior() is None
         assert port.getCouplingPortDetails() is None
@@ -302,7 +305,7 @@ class TestEthernetTopology:
         assert port.getReceiveActivity() is None
         assert port.getVlanMemberships() == []
         assert port.getWakeupSleepOnDatalineConfigRef() is None
-        
+
         # Test setting values with method chaining
         result = port.setConnectionNegotiationBehavior("Auto")
         assert port.getConnectionNegotiationBehavior() == "Auto"
@@ -372,7 +375,7 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         controller = EthernetCommunicationController(parent, "TestController")
-        
+
         assert controller.getShortName() == "TestController"
         assert controller.getCanXlConfigRef() is None
         assert controller.getCouplingPorts() == []
@@ -382,7 +385,7 @@ class TestEthernetTopology:
         assert controller.getMaximumTransmitBufferLength() is None
         assert controller.getSlaveActAsPassiveCommunicationSlave() is None
         assert controller.getSlaveQualifiedUnexpectedLinkDownTime() is None
-        
+
         # Test setting values with method chaining
         result = controller.setCanXlConfigRef("CanXlConfigRef")
         assert controller.getCanXlConfigRef() == "CanXlConfigRef"
@@ -422,7 +425,7 @@ class TestEthernetTopology:
         """
         parent = MockParent()
         connector = EthernetCommunicationConnector(parent, "TestConnector")
-        
+
         assert connector.getShortName() == "TestConnector"
         assert connector.getEthIpPropsRef() is None
         assert connector.getMaximumTransmissionUnit() is None
@@ -430,7 +433,7 @@ class TestEthernetTopology:
         assert connector.getNetworkEndpointRefs() == []
         assert connector.getPathMtuEnabled() is None
         assert connector.getPathMtuTimeout() is None
-        
+
         # Test setting values with method chaining
         result = connector.setEthIpPropsRef("EthIpPropsRef")
         assert connector.getEthIpPropsRef() == "EthIpPropsRef"
@@ -466,10 +469,10 @@ class TestEthernetTopology:
         Test the RequestResponseDelay class initialization and methods.
         """
         delay = RequestResponseDelay()
-        
+
         assert delay.getMaxValue() is None
         assert delay.getMinValue() is None
-        
+
         # Test setting values with method chaining
         result = delay.setMaxValue(5000)
         assert delay.getMaxValue() == 5000
@@ -484,12 +487,12 @@ class TestEthernetTopology:
         Test the InitialSdDelayConfig class initialization and methods.
         """
         config = InitialSdDelayConfig()
-        
+
         assert config.getInitialDelayMaxValue() is None
         assert config.getInitialDelayMinValue() is None
         assert config.getInitialRepetitionsBaseDelay() is None
         assert config.getInitialRepetitionsMax() is None
-        
+
         # Test setting values with method chaining
         result = config.setInitialDelayMaxValue(2000)
         assert config.getInitialDelayMaxValue() == 2000
@@ -512,7 +515,7 @@ class TestEthernetTopology:
         Test the SdClientConfig class initialization and methods.
         """
         config = SdClientConfig()
-    
+
         # Note: SdClientConfig doesn't have getCapabilityRecord() method
         # Check other properties that exist
         assert config.getClientServiceMajorVersion() is None
@@ -520,7 +523,7 @@ class TestEthernetTopology:
         assert config.getInitialFindBehavior() is None
         assert config.getRequestResponseDelay() is None
         assert config.getTtl() is None
-        
+
         # Test setting values with method chaining
         result = config.setClientServiceMajorVersion(1)
         assert config.getClientServiceMajorVersion() == 1

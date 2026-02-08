@@ -4,7 +4,9 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import AtpDefinition
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
+    AtpDefinition,
+)
 
 
 class TestAtpDefinition:
@@ -45,7 +47,9 @@ class TestAtpDefinition:
         """
         Test that AtpDefinition properly inherits from Referrable.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+            Referrable,
+        )
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")

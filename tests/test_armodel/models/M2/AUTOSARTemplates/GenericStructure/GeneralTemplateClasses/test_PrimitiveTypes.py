@@ -4,12 +4,37 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARType, ARNumerical, ARFloat, Float, TimeValue, ARLiteral, AREnum, String,
-    ReferrableSubtypesEnum, ARPositiveInteger, ARBoolean, NameToken, PositiveInteger,
-    Integer, UnlimitedInteger, Boolean, Identifier,
-    CIdentifier, Limit, RefType, TRefType, DiagRequirementIdString,
-    ArgumentDirectionEnum, Ip4AddressString, Ip6AddressString, MacAddressString,
-    CategoryString, ByteOrderEnum, DateTime, VerbatimString, RegularExpression
+    ARBoolean,
+    AREnum,
+    ARFloat,
+    ArgumentDirectionEnum,
+    ARLiteral,
+    ARNumerical,
+    ARPositiveInteger,
+    ARType,
+    Boolean,
+    ByteOrderEnum,
+    CategoryString,
+    CIdentifier,
+    DateTime,
+    DiagRequirementIdString,
+    Float,
+    Identifier,
+    Integer,
+    Ip4AddressString,
+    Ip6AddressString,
+    Limit,
+    MacAddressString,
+    NameToken,
+    PositiveInteger,
+    ReferrableSubtypesEnum,
+    RefType,
+    RegularExpression,
+    String,
+    TimeValue,
+    TRefType,
+    UnlimitedInteger,
+    VerbatimString,
 )
 
 
@@ -25,7 +50,7 @@ class TestARType:
         # ARType is abstract but doesn't raise an error on instantiation
         # as it uses ABCMeta but doesn't have explicit type check
         obj = ARType()
-        
+
         # Verify basic properties
         assert obj is not None
         assert obj.timestamp is None
@@ -94,7 +119,7 @@ class TestARNumerical:
         Test value property with integer values.
         """
         numerical = ARNumerical()
-        
+
         # Set integer value
         numerical.value = 42
         assert numerical.value == 42
@@ -105,7 +130,7 @@ class TestARNumerical:
         Test value property with string values.
         """
         numerical = ARNumerical()
-        
+
         # Set string value that converts to integer
         numerical.value = "42"
         assert numerical.value == 42
@@ -116,7 +141,7 @@ class TestARNumerical:
         Test _convertStringToNumberValue method.
         """
         numerical = ARNumerical()
-        
+
         # Test decimal
         assert numerical._convertStringToNumberValue("42") == 42
         # Test hex
@@ -170,7 +195,7 @@ class TestARFloat:
         Test value property with float values.
         """
         ar_float = ARFloat()
-        
+
         # Set float value
         ar_float.value = 42.5
         assert ar_float.value == 42.5
@@ -181,7 +206,7 @@ class TestARFloat:
         Test value property with integer values (should convert to float).
         """
         ar_float = ARFloat()
-        
+
         # Set integer value
         ar_float.value = 42
         assert ar_float.value == 42.0
@@ -192,7 +217,7 @@ class TestARFloat:
         Test value property with string values.
         """
         ar_float = ARFloat()
-        
+
         # Set string value that converts to float
         ar_float.value = "42.5"
         assert ar_float.value == 42.5
@@ -253,10 +278,10 @@ class TestARLiteral:
         Test value property with string values.
         """
         literal = ARLiteral()
-        
+
         # Test default value
         assert literal.value == ""
-        
+
         # Set string value
         literal.value = "test"
         assert literal.value == "test"
@@ -310,7 +335,7 @@ class TestAREnum:
         # Test valid value
         assert enum.validateEnumValue("value1") is True
         assert enum.validateEnumValue("value2") is True
-        
+
         # Test invalid value
         assert enum.validateEnumValue("invalid") is False
 
@@ -369,7 +394,7 @@ class TestARPositiveInteger:
         Test value property with positive integer values.
         """
         pos_int = ARPositiveInteger()
-        
+
         # Set positive integer value
         pos_int.value = 42
         assert pos_int.value == 42
@@ -380,7 +405,7 @@ class TestARPositiveInteger:
         Test value property with string values.
         """
         pos_int = ARPositiveInteger()
-        
+
         # Set string value that converts to positive integer
         pos_int.value = "42"
         assert pos_int.value == 42
@@ -419,7 +444,7 @@ class TestARBoolean:
         Test value property with boolean values.
         """
         boolean = ARBoolean()
-        
+
         # Set boolean value
         boolean.value = True
         assert boolean.value is True
@@ -434,7 +459,7 @@ class TestARBoolean:
         Test value property with integer values.
         """
         boolean = ARBoolean()
-        
+
         # Set integer value
         boolean.value = 1
         assert boolean.value is True
@@ -449,7 +474,7 @@ class TestARBoolean:
         Test value property with string values.
         """
         boolean = ARBoolean()
-        
+
         # Set string values that convert to boolean
         boolean.value = "true"
         assert boolean.value is True
@@ -470,7 +495,7 @@ class TestARBoolean:
         Test _convertNumberToBoolean method.
         """
         boolean = ARBoolean()
-        
+
         assert boolean._convertNumberToBoolean(0) is False
         assert boolean._convertNumberToBoolean(1) is True
         assert boolean._convertNumberToBoolean(42) is True
@@ -480,7 +505,7 @@ class TestARBoolean:
         Test _convertStringToBoolean method.
         """
         boolean = ARBoolean()
-        
+
         assert boolean._convertStringToBoolean("true") is True
         assert boolean._convertStringToBoolean("TRUE") is True
         assert boolean._convertStringToBoolean("1") is True
@@ -754,13 +779,13 @@ class TestCIdentifier:
         result = c_id.setNamePattern("TestPattern")
         assert result is c_id  # Verify method chaining
         assert c_id.getNamePattern() == "TestPattern"
-    
+
     def test_arnumerical_unsupported_type(self):
         """
         Test ARNumerical with unsupported type to cover line 123.
         """
         numerical = ARNumerical()
-        
+
         # Try to set value with unsupported type
         try:
             numerical.value = [1, 2, 3]  # list is not supported
@@ -773,7 +798,7 @@ class TestCIdentifier:
         Test ARFloat with unsupported type to cover line 191.
         """
         ar_float = ARFloat()
-        
+
         # Try to set value with unsupported type
         try:
             ar_float.value = {'key': 'value'}  # dict is not supported
@@ -786,7 +811,7 @@ class TestCIdentifier:
         Test ARNumerical _convertStringToNumberValue with invalid string to cover lines 106-108.
         """
         numerical = ARNumerical()
-        
+
         # Test the exception path in _convertStringToNumberValue
         try:
             numerical._convertStringToNumberValue('invalid_number')
@@ -799,7 +824,7 @@ class TestCIdentifier:
         Test ARPositiveInteger with unsupported type to cover line 351.
         """
         pos_int = ARPositiveInteger()
-        
+
         try:
             pos_int.value = object()  # object is not supported
             assert False, "Should have raised ValueError"
@@ -811,7 +836,7 @@ class TestCIdentifier:
         Test ARBoolean with unsupported type to cover line 413.
         """
         boolean = ARBoolean()
-        
+
         try:
             boolean.value = set([1, 2, 3])  # set is not supported
             assert False, "Should have raised ValueError"
@@ -823,7 +848,7 @@ class TestCIdentifier:
         Test ARBoolean _convertStringToBoolean with invalid string to cover line 395.
         """
         boolean = ARBoolean()
-        
+
         # This should trigger the recursive call to convertNumberToBoolean with a string that needs to be converted to int first
         result = boolean._convertStringToBoolean('42')
         assert result is True  # 42 as int would be truthy

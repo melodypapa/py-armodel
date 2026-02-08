@@ -1,12 +1,18 @@
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
-    SocketConnection,
-    SocketConnectionIpduIdentifier,
-    SocketConnectionBundle,
-    SoAdRoutingGroup
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    SoAdRoutingGroup,
+    SocketConnection,
+    SocketConnectionBundle,
+    SocketConnectionIpduIdentifier,
+)
 
 
 class MockParent(ARObject):
@@ -16,13 +22,13 @@ class MockParent(ARObject):
 
 class Test_Fibex4EthernetCommunication:
     """Test cases for Fibex4Ethernet Communication classes."""
-    
+
     def test_SocketConnection(self):
         """Test SocketConnection class functionality."""
         connection = SocketConnection()
 
         assert isinstance(connection, Describable)
-        
+
         # Test default values
         assert connection.getAllowedIPv6ExtHeadersRef() is None
         assert connection.getAllowedTcpOptionsRef() is None
@@ -36,7 +42,7 @@ class Test_Fibex4EthernetCommunication:
         assert connection.getRuntimeIpAddressConfiguration() is None
         assert connection.getRuntimePortConfiguration() is None
         assert connection.getShortLabel() is None
-        
+
         # Test setter/getter methods
         connection.setAllowedIPv6ExtHeadersRef("ipv6_ref")
         assert connection.getAllowedIPv6ExtHeadersRef() == "ipv6_ref"
@@ -95,7 +101,7 @@ class Test_Fibex4EthernetCommunication:
         identifier = SocketConnectionIpduIdentifier()
 
         assert isinstance(identifier, ARObject)
-        
+
         # Test default values
         assert identifier.getHeaderId() is None
         assert identifier.getPduCollectionPduTimeout() is None
@@ -104,7 +110,7 @@ class Test_Fibex4EthernetCommunication:
         assert identifier.getPduRef() is None
         assert identifier.getPduTriggeringRef() is None
         assert identifier.getRoutingGroupRefs() == []
-        
+
         # Test setter/getter methods
         identifier.setHeaderId(123)
         assert identifier.getHeaderId() == 123
@@ -141,7 +147,7 @@ class Test_Fibex4EthernetCommunication:
         bundle = SocketConnectionBundle(parent, "test_socket_conn_bundle")
 
         assert isinstance(bundle, Referrable)
-        
+
         # Test default values
         assert bundle.getBundledConnections() == []
         assert bundle.getDifferentiatedServiceField() is None
@@ -150,7 +156,7 @@ class Test_Fibex4EthernetCommunication:
         assert bundle.getPdus() == []
         assert bundle.getServerPortRef() is None
         assert bundle.getUdpChecksumHandling() is None
-        
+
         # Test setter/getter methods
         bundle.setDifferentiatedServiceField(48)
         assert bundle.getDifferentiatedServiceField() == 48
@@ -188,10 +194,10 @@ class Test_Fibex4EthernetCommunication:
         group = SoAdRoutingGroup(parent, "test_soad_routing_group")
 
         assert isinstance(group, Identifiable)
-        
+
         # Test default values
         assert group.getEventGroupControlType() is None
-        
+
         # Test setter/getter methods
         group.setEventGroupControlType("control_type")
         assert group.getEventGroupControlType() == "control_type"

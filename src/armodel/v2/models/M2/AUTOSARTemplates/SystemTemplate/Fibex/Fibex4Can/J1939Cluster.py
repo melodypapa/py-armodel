@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class J1939Cluster(ARObject):
     """
@@ -16,9 +19,14 @@ class J1939Cluster(ARObject):
     def __init__(self):
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the network ID for the J1939 cluster.
         self._networkId: Optional["PositiveInteger"] = None
+        # Enables support for the Request2 PGN (RQST2).
+        self._request2Support: Optional["Boolean"] = None
+        # Defines whether the nodes attached to this channel use initial address claim,
+        # and whether they react to claims of other nodes.
+        self._usesAddress: Optional["Boolean"] = None
 
     @property
     def network_id(self) -> Optional["PositiveInteger"]:
@@ -45,40 +53,32 @@ class J1939Cluster(ARObject):
                 f"networkId must be PositiveInteger or None, got {type(value).__name__}"
             )
         self._networkId = value
-        # Enables support for the Request2 PGN (RQST2).
-        self._re-: Optional["Boolean"] = None
 
     @property
-    def re-(self) -> Optional["Boolean"]:
-        """Get re- (Pythonic accessor)."""
-        return self._re-
+    def request2_pgn(self) -> Optional["Boolean"]:
+        """Get request2Support (Pythonic accessor)."""
+        return self._request2Support
 
-    @re-.setter
-    def re-(self, value: Optional["Boolean"]) -> None:
+    @request2_pgn.setter
+    def request2_pgn(self, value: Optional["Boolean"]) -> None:
         """
-        Set re- with validation.
+        Set request2Support with validation.
 
         Args:
-            value: The re- to set
+            value: The request2Support to set
 
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._re- = None
+            self._request2Support = None
             return
 
         if not isinstance(value, Boolean):
             raise TypeError(
-                f"re- must be Boolean or None, got {type(value).__name__}"
+                f"request2Support must be Boolean or None, got {type(value).__name__}"
             )
-        self._re- = value
-        # Defines whether the nodes attached to this channel use initial address claim,
-                # and whether they react to claims of other nodes.
-        # initial address claim is sent, and the node address claims of other nodes.
-        # node only sends an address claim upon does not care for contending address
-                # claims.
-        self._usesAddress: Optional["Boolean"] = None
+        self._request2Support = value
 
     @property
     def uses_address(self) -> Optional["Boolean"]:
@@ -136,32 +136,32 @@ class J1939Cluster(ARObject):
         self.network_id = value  # Delegates to property setter
         return self
 
-    def getRe-(self) -> "Boolean":
+    def getRequest2Support(self) -> "Boolean":
         """
-        AUTOSAR-compliant getter for re-.
+        AUTOSAR-compliant getter for request2Support.
 
         Returns:
-            The re- value
+            The request2Suppor value
 
         Note:
-            Delegates to re- property (CODING_RULE_V2_00017)
+            Delegates to request2_pgn property (CODING_RULE_V2_00017)
         """
-        return self.re-  # Delegates to property
+        return self.request2_pgn  # Delegates to property
 
-    def setRe-(self, value: "Boolean") -> "J1939Cluster":
+    def setRequest2Support(self, value: "Boolean") -> "J1939Cluster":
         """
-        AUTOSAR-compliant setter for re- with method chaining.
+        AUTOSAR-compliant setter for request2Support with method chaining.
 
         Args:
-            value: The re- to set
+            value: The request2Support to set
 
         Returns:
             self for method chaining
 
         Note:
-            Delegates to re- property setter (gets validation automatically)
+            Delegates to request2_pgn property setter (gets validation automatically)
         """
-        self.re- = value  # Delegates to property setter
+        self.request2_pgn = value  # Delegates to property setter
         return self
 
     def getUsesAddress(self) -> "Boolean":
@@ -210,20 +210,20 @@ class J1939Cluster(ARObject):
         self.network_id = value  # Use property setter (gets validation)
         return self
 
-    def with_re-(self, value: Optional["Boolean"]) -> "J1939Cluster":
+    def with_request_2_support(self, value: Optional["Boolean"]) -> "J1939Cluster":
         """
-        Set re- and return self for chaining.
+        Set request2Support and return self for chaining.
 
         Args:
-            value: The re- to set
+            value: The request2Support to set
 
         Returns:
             self for method chaining
 
         Example:
-            >>> obj.with_re-("value")
+            >>> obj.with_request2_pgn("value")
         """
-        self.re- = value  # Use property setter (gets validation)
+        self.request2_pgn = value  # Use property setter (gets validation)
         return self
 
     def with_uses_address(self, value: Optional["Boolean"]) -> "J1939Cluster":

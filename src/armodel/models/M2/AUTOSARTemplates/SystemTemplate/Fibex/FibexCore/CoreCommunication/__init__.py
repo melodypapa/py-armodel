@@ -1,13 +1,36 @@
 from abc import ABC
-from typing import List
 from enum import Enum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable, PackageableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger, AREnum
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import TransmissionModeDeclaration
+from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Describable,
+    Identifiable,
+    PackageableElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    AREnum,
+    ARLiteral,
+    ARNumerical,
+    ARPositiveInteger,
+    Boolean,
+    ByteOrderEnum,
+    Integer,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+    UnlimitedInteger,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
+    TransmissionModeDeclaration,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
 
 
 class CommunicationDirectionType(AREnum):
@@ -82,7 +105,7 @@ class PduToFrameMapping(Identifiable):
     def setStartPosition(self, value):
         self.startPosition = value
         return self
-    
+
     def getUpdateIndicationBitPosition(self):
         return self.updateIndicationBitPosition
 
@@ -121,7 +144,7 @@ class Frame(FibexElement, ABC):
         return self.getElement(short_name, PduToFrameMapping)
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name)
 
 
 class ContainedIPduProps(ARObject):
@@ -294,7 +317,7 @@ class Pdu(FibexElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Pdu:
             raise TypeError("Pdu is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.hasDynamicLength: Boolean = None
@@ -314,7 +337,7 @@ class Pdu(FibexElement, ABC):
     def setLength(self, value):
         self.length = value
         return self
-    
+
 
 class IPdu(Pdu, ABC):
     """
@@ -325,7 +348,7 @@ class IPdu(Pdu, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
             raise TypeError("IPdu is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.containedIPduProps: ContainedIPduProps = None
@@ -418,7 +441,7 @@ class SecureCommunicationProps(ARObject):
         if value is not None:
             self.freshnessValueId = value
         return self
-    
+
     def getFreshnessValueLength(self):
         return self.freshnessValueLength
 
@@ -902,7 +925,7 @@ class FrameTriggering(Identifiable, ABC):
     def __init__(self, parent, short_name):
         if type(self) is FrameTriggering:
             raise TypeError("FrameTriggering is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.frameRef: RefType = None
@@ -1067,7 +1090,7 @@ class MultiplexedPart(ARObject, ABC):
     def __init__(self):
         if type(self) is MultiplexedPart:
             raise TypeError("MultiplexedPart is an abstract class.")
-        
+
         super().__init__()
 
         self.segmentPositions = []                                 # type: List[SegmentPosition]
@@ -1099,7 +1122,7 @@ class StaticPart(MultiplexedPart):
         if value is not None:
             self.iPduRef = value
         return self
-    
+
 
 class DynamicPartAlternative(ARObject):
     """

@@ -1,18 +1,30 @@
+import re
 from typing import Dict, List
-from openpyxl.worksheet.worksheet import Worksheet
 
 import openpyxl
-import re
+from openpyxl.worksheet.worksheet import Worksheet
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-
-from armodel.parser.excel_parser import AbstractExcelParser
-from armodel.data_models.sw_connector import AssemblySwConnectorData, DelegationSwConnectorData, SwConnectorData
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from armodel.data_models.sw_connector import (
+    AssemblySwConnectorData,
+    DelegationSwConnectorData,
+    SwConnectorData,
+)
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    PPortInCompositionInstanceRef,
+    RPortInCompositionInstanceRef,
+)
+from armodel.parser.excel_parser import AbstractExcelParser
+
 
 class ConnectorXls:
 
@@ -50,17 +62,17 @@ class ConnectorXlsReader(AbstractExcelParser):
         }
 
         self.sw_connectors = {}    # type: Dict[str, List[DelegationSwConnectorData]]
-        
+
 
     def getCompositionSwComponentList(self) -> List[str]:
         return self.sw_connectors.keys()
-            
+
     def getSwConnectorList(self, swc: str) -> List[SwConnectorData]:
         if swc not in self.sw_connectors:
             self.sw_connectors[swc] = []
         return self.sw_connectors[swc]
         #return sorted(self.sw_connectors[swc], key = lambda o: o.short_name)
-            
+
     def readDelegationSwConnectors(self, sheet: Worksheet, swc: str, start_row: int, column_list: Dict[str, int]):
         connectors = self.getSwConnectorList(swc)
         for row in sheet.iter_rows(min_row = start_row, values_only= True):
@@ -99,9 +111,9 @@ class ConnectorXlsReader(AbstractExcelParser):
         self.getColumnTitles(sheet, 1, self.column_assembly_sw_connectors)
         self.checkColumnTitles(self.column_assembly_sw_connectors, "Invalid AssemblySwConnectors Excel and column <%s> cannot be located.")
         self.readAssemblySwConnectors(sheet, swc, 2, self.column_assembly_sw_connectors)
-        
+
     def read(self, excel_file: str):
-        self._logger.info("Parse excel file <%s>" % excel_file) 
+        self._logger.info("Parse excel file <%s>" % excel_file)
 
         wb = openpyxl.load_workbook(excel_file, data_only=True)
 
@@ -114,7 +126,7 @@ class ConnectorXlsReader(AbstractExcelParser):
                     self.parseAssemblySWConnectors(wb[name], m.group(1))
                 else:
                     raise ValueError("Invalid sheet")
-                
+
     def _addAssemblySwConnector(self, swc: CompositionSwComponentType, connector: AssemblySwConnectorData):
         sw_connector = swc.createAssemblySwConnector(connector.short_name)
 
@@ -161,7 +173,7 @@ class ConnectorXlsReader(AbstractExcelParser):
         else:
             raise ValueError("Invalid DelegationSwConnector Configuration")
 
-                
+
     def _updateCompositionSwComponent(self, swc: CompositionSwComponentType):
         # remove all the sw connector first
         swc.removeAllAssemblySwConnector()
@@ -177,7 +189,7 @@ class ConnectorXlsReader(AbstractExcelParser):
                 self._addDelegationSwConnector(swc, connector)
             else:
                 raise ValueError("Invalid connector information")
-                
+
     def _locateCompositionSwComponent(self, swc_name: str, parent: ARPackage):
         for swc in parent.getSwComponentTypes():
             if swc.short_name == swc_name:
@@ -190,4 +202,3 @@ class ConnectorXlsReader(AbstractExcelParser):
             for pkg in document.getARPackages():
                 self._locateCompositionSwComponent(name, pkg)
 
-    

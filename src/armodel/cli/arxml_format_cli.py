@@ -1,18 +1,18 @@
 import argparse
-from armodel import __version__
 import logging
-import sys
 import os.path
+import sys
 
-from armodel.transformer.admin_data import AdminDataTransformer
+from armodel import __version__
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
+from armodel.transformer.admin_data import AdminDataTransformer
 from armodel.writer import ARXMLWriter
 
 
 def perform_format(args):
     logger = logging.getLogger()
-    
+
     formatter = logging.Formatter('[%(levelname)s] : %(message)s')
 
     stdout_handler = logging.StreamHandler(sys.stderr)
@@ -55,7 +55,7 @@ def perform_format(args):
 
         writer = ARXMLWriter()
         writer.save(args.OUTPUT, document)
-        
+
     except Exception as e:
         # print(e)
         logger.error(e)

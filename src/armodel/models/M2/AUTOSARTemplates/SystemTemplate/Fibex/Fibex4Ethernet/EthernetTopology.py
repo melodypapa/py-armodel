@@ -1,9 +1,17 @@
 from abc import ABC
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
+)
 
 
 class MacMulticastGroup(Identifiable):
@@ -34,7 +42,7 @@ class EthernetCluster(CommunicationCluster):
     """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.couplingPorts = []                                             # type: List[CouplingPortConnection]
         self.couplingPortStartupActiveTime = None                           # type: TimeValue
         self.couplingPortSwitchoffDelay = None                              # type: TimeValue
@@ -73,7 +81,7 @@ class EthernetCluster(CommunicationCluster):
             self.addElement(group)
             self.macMulticastGroups.append(group)
         return self.getElement(short_name)
-    
+
 
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
@@ -84,9 +92,9 @@ class CouplingPortStructuralElement(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortStructuralElement:
             raise TypeError("CouplingPortStructuralElement is an abstract class.")
-        
+
         super().__init__(parent, short_name)
-        
+
 
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
@@ -219,12 +227,12 @@ class CouplingPortDetails(ARObject):
         fifo = CouplingPortFifo(self, short_name)
         self.couplingPortStructuralElements.append(fifo)
         return fifo
-    
+
     def createCouplingPortScheduler(self, short_name: str) -> CouplingPortScheduler:
         scheduler = CouplingPortScheduler(self, short_name)
         self.couplingPortStructuralElements.append(scheduler)
         return scheduler
-    
+
     def createEthernetPriorityRegeneration(self, short_name: str) -> EthernetPriorityRegeneration:
         regeneration = EthernetPriorityRegeneration(self, short_name)
         self.ethernetPriorityRegenerations.append(regeneration)
@@ -304,7 +312,7 @@ class VlanMembership(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.defaultPriority = None                                 # type: PositiveInteger        
+        self.defaultPriority = None                                 # type: PositiveInteger
         self.dhcpAddressAssignment = None                           # type: DhcpServerConfiguration
         self.sendActivity = None                                    # type: EthernetSwitchVlanEgressTaggingEnum
         self.vlanRef = None                                         # type: RefType
@@ -593,7 +601,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setNeighborCacheSize(self, value):
         self.neighborCacheSize = value
         return self
-    
+
     def getNetworkEndpointRefs(self):
         return self.networkEndpointRefs
 
@@ -615,7 +623,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setPathMtuTimeout(self, value):
         self.pathMtuTimeout = value
         return self
-    
+
 
 class RequestResponseDelay(ARObject):
     """
@@ -692,7 +700,7 @@ class InitialSdDelayConfig(ARObject):
             self.initialRepetitionsMax = value
         return self
 
-    
+
 class SdClientConfig(ARObject):
     """
     Configures Service Discovery (SD) client properties, including

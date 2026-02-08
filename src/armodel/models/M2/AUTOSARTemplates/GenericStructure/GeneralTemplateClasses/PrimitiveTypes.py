@@ -3,10 +3,13 @@ This module contains primitive type classes for AUTOSAR models
 in the GenericStructure module.
 """
 
-from abc import ABC
 import re
-from typing import List, Optional, Union, Any
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Any, List, Optional, Union
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
 
 class ARType(ABC):
@@ -14,7 +17,7 @@ class ARType(ABC):
     Abstract base class for all AUTOSAR types.
     This class provides the basic structure for all AUTOSAR type definitions.
     """
-    
+
     def __init__(self) -> None:
         self.timestamp: Optional[str] = None
         self.uuid: Optional[str] = None
@@ -32,7 +35,7 @@ class ARType(ABC):
     def getValue(self) -> Optional[Any]:
         """
         Gets the current value of this AUTOSAR type.
-        
+
         Returns:
             The current value, or None if not set
         """
@@ -42,10 +45,10 @@ class ARType(ABC):
         """
         Sets the value of this AUTOSAR type.
         Only sets the value if it is not None.
-        
+
         Args:
             val: The value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -56,7 +59,7 @@ class ARType(ABC):
     def getText(self) -> str:
         """
         Gets the text representation of this type.
-        
+
         Returns:
             String representation of this type
         """
@@ -68,7 +71,7 @@ class ARNumerical(ARType):
     Base class for numerical AUTOSAR types.
     This class provides functionality for numerical values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -78,13 +81,13 @@ class ARNumerical(ARType):
     def _convertStringToNumberValue(self, value: str) -> Union[int, float]:
         """
         Converts a string value to a numerical value.
-        
+
         Args:
             value: The string value to convert
-            
+
         Returns:
             The converted numerical value
-            
+
         Raises:
             ValueError: If the value cannot be converted to a numerical type
         """
@@ -127,11 +130,11 @@ class ARNumerical(ARType):
             return self._text
         else:
             return str(self._value)
-        
+
     def getValue(self) -> Optional[Union[int, float]]:
         """
         Gets the numerical value of this type.
-        
+
         Returns:
             The numerical value, or None if not set
         """
@@ -141,33 +144,33 @@ class ARNumerical(ARType):
         """
         Sets the short label for this numerical type.
         Only sets the value if it is not None.
-        
+
         Args:
             val: The short label to set
-            
+
         Returns:
             self for method chaining
         """
         if val is not None:
             self.shortLabel = val
         return self
-    
+
     def getShortLabel(self) -> Optional[str]:
         """
         Gets the short label of this numerical type.
-        
+
         Returns:
             The short label, or None if not set
         """
         return self.shortLabel
-    
+
 
 class ARFloat(ARNumerical):
     """
     Base class for floating-point AUTOSAR types.
     This class provides functionality for floating-point values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -226,7 +229,7 @@ class ARLiteral(ARType):
     Base class for literal AUTOSAR types.
     This class provides functionality for literal values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -250,7 +253,7 @@ class ARLiteral(ARType):
     def upper(self) -> str:
         """
         Gets the uppercase representation of this literal.
-        
+
         Returns:
             Uppercase string representation
         """
@@ -262,16 +265,16 @@ class AREnum(ARLiteral):
     Base class for enumeration AUTOSAR types.
     This class provides functionality for enumeration values in AUTOSAR models.
     """
-    
+
     def __init__(self, enum_values: List[str]):
         super().__init__()
-        
+
         self.enumValues: List[str] = enum_values
 
     def getEnumValues(self) -> List[str]:
         """
         Gets the list of possible enum values.
-        
+
         Returns:
             List of possible enum values
         """
@@ -280,10 +283,10 @@ class AREnum(ARLiteral):
     def setEnumValues(self, values: List[str]):
         """
         Sets the list of possible enum values.
-        
+
         Args:
             values: The list of possible enum values to set
-            
+
         Returns:
             self for method chaining
         """
@@ -293,10 +296,10 @@ class AREnum(ARLiteral):
     def validateEnumValue(self, value: str) -> bool:
         """
         Validates if the provided value is one of the allowed enum values.
-        
+
         Args:
             value: The value to validate
-            
+
         Returns:
             True if the value is valid, False otherwise
         """
@@ -310,7 +313,7 @@ class String(ARLiteral):
     Represents a string AUTOSAR type.
     This class provides functionality for string values in AUTOSAR models.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -319,7 +322,7 @@ class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -329,7 +332,7 @@ class ARPositiveInteger(ARNumerical):
     Base class for positive integer AUTOSAR types.
     This class provides functionality for positive integer values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -356,7 +359,7 @@ class ARBoolean(ARType):
     Base class for boolean AUTOSAR types.
     This class provides functionality for boolean values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -365,10 +368,10 @@ class ARBoolean(ARType):
     def _convertNumberToBoolean(self, value: int) -> bool:
         """
         Converts a numerical value to a boolean value.
-        
+
         Args:
             value: The numerical value to convert
-            
+
         Returns:
             Boolean representation of the value
         """
@@ -379,10 +382,10 @@ class ARBoolean(ARType):
     def _convertStringToBoolean(self, value: str) -> bool:
         """
         Converts a string value to a boolean value.
-        
+
         Args:
             value: The string value to convert
-            
+
         Returns:
             Boolean representation of the value
         """
@@ -427,10 +430,10 @@ class NameToken(ARLiteral):
         This is an identifier as used in xml, e.g. xml-names. Typical usages are, for example, the names of type
         emitters, protocols, or profiles. For details see NMTOKEN definition on the W3C website
         (https://www.w3.org/TR/xml/#NT-Nmtoken).
-        
+
         Note: Although NameToken supports a wide range of characters, the actually allowed patterns for a
         certain attribute typed by NameToken may be further restricted by the specification of that attribute.
-        
+
         Tags:
             * xml.xsd.customType=NMTOKEN-STRING
             * xml.xsd.type=NMTOKEN
@@ -443,7 +446,7 @@ class PositiveInteger(ARPositiveInteger):
     r'''\n
         This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is
         between 0 and 4294967295.
-        
+
         Tags:
             * xml.xsd.customType=POSITIVE-INTEGER
             * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
@@ -457,7 +460,7 @@ class PositiveInteger(ARPositiveInteger):
 class PositiveUnlimitedInteger(ARPositiveInteger):
     r'''
         This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal.
-        
+
         Tags:
             * xml.xsd.customType=POSITIVE-UNLIMITED-INTEGER
             * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
@@ -471,7 +474,7 @@ class Integer(ARNumerical):
         The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
         can only be expressed in decimal notation
         Range is from -2147483648 and 2147483647.
-        
+
         Tags:
             * xml.xsd.customType=INTEGER
             * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
@@ -487,7 +490,7 @@ class UnlimitedInteger(Integer):
         The range is limited by constraint 2534.
         The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
         can only be expressed in decimal notation.
-        
+
         Tags:
             * xml.xsd.customType=UNLIMITED-INTEGER
             * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
@@ -501,7 +504,7 @@ class Boolean(ARBoolean):
     '''
         A Boolean value denotes a logical condition that is either 'true' or 'false'. It can be one of "0", "1", "true",
         "false"
-        
+
         Tags:
             * xml.xsd.customType=BOOLEAN
             * xml.xsd.pattern=0|1|true|false
@@ -517,7 +520,7 @@ class Identifier(ARLiteral):
         programming languages define for their Identifiers.
         This datatype represents a string, that can be used as a c-Identifier.
         It shall start with a letter, may consist of letters, digits and underscores.
-        
+
         Tags:
             * xml.xsd.customType=IDENTIFIER
             * xml.xsd.maxLength=128
@@ -531,7 +534,7 @@ class Identifier(ARLiteral):
 class CIdentifier(ARLiteral):
     '''
         This datatype represents a string, that follows the rules of C-identifiers.
-        
+
         Tags:
             * xml.xsd.customType=C-IDENTIFIER
             * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*
@@ -546,7 +549,7 @@ class CIdentifier(ARLiteral):
     def getBlueprintValue(self) -> Optional[str]:
         """
         Gets the blueprint value of this C identifier.
-        
+
         Returns:
             The blueprint value, or None if not set
         """
@@ -555,10 +558,10 @@ class CIdentifier(ARLiteral):
     def setBlueprintValue(self, value: str):
         """
         Sets the blueprint value of this C identifier.
-        
+
         Args:
             value: The blueprint value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -568,7 +571,7 @@ class CIdentifier(ARLiteral):
     def getNamePattern(self) -> Optional[str]:
         """
         Gets the name pattern of this C identifier.
-        
+
         Returns:
             The name pattern, or None if not set
         """
@@ -577,10 +580,10 @@ class CIdentifier(ARLiteral):
     def setNamePattern(self, value: str):
         """
         Sets the name pattern of this C identifier.
-        
+
         Args:
             value: The name pattern to set
-            
+
         Returns:
             self for method chaining
         """
@@ -601,13 +604,13 @@ class RevisionLabelString(ARLiteral):
             * 4.0.0;12
     '''
 
-    
+
 class Limit(ARObject):
     """
     Represents a limit in AUTOSAR models.
     This class defines limits with interval type and value.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -617,7 +620,7 @@ class Limit(ARObject):
     def getIntervalType(self) -> Optional[str]:
         """
         Gets the interval type of this limit.
-        
+
         Returns:
             The interval type, or None if not set
         """
@@ -626,10 +629,10 @@ class Limit(ARObject):
     def setIntervalType(self, value: str):
         """
         Sets the interval type of this limit.
-        
+
         Args:
             value: The interval type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -639,7 +642,7 @@ class Limit(ARObject):
     def getValue(self) -> Optional[str]:
         """
         Gets the value of this limit.
-        
+
         Returns:
             The limit value, or None if not set
         """
@@ -648,10 +651,10 @@ class Limit(ARObject):
     def setValue(self, value: str):
         """
         Sets the value of this limit.
-        
+
         Args:
             value: The limit value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -664,7 +667,7 @@ class RefType(ARObject):
     Represents a reference type in AUTOSAR models.
     This class defines references with base, destination and value properties.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -675,7 +678,7 @@ class RefType(ARObject):
     def getBase(self) -> Optional[str]:
         """
         Gets the base of this reference type.
-        
+
         Returns:
             The base string, or None if not set
         """
@@ -684,10 +687,10 @@ class RefType(ARObject):
     def setBase(self, value: str):
         """
         Sets the base of this reference type.
-        
+
         Args:
             value: The base to set
-            
+
         Returns:
             self for method chaining
         """
@@ -697,7 +700,7 @@ class RefType(ARObject):
     def getDest(self) -> Optional[str]:
         """
         Gets the destination of this reference type.
-        
+
         Returns:
             The destination string, or None if not set
         """
@@ -706,10 +709,10 @@ class RefType(ARObject):
     def setDest(self, value: str):
         """
         Sets the destination of this reference type.
-        
+
         Args:
             value: The destination to set
-            
+
         Returns:
             self for method chaining
         """
@@ -719,7 +722,7 @@ class RefType(ARObject):
     def getValue(self) -> Optional[str]:
         """
         Gets the value of this reference type.
-        
+
         Returns:
             The reference value, or None if not set
         """
@@ -728,10 +731,10 @@ class RefType(ARObject):
     def setValue(self, value: str):
         """
         Sets the value of this reference type.
-        
+
         Args:
             value: The reference value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -741,10 +744,10 @@ class RefType(ARObject):
     def getShortValue(self) -> str:
         """
         Gets the short value of this reference type.
-        
+
         Returns:
             The short value as a string
-            
+
         Raises:
             ValueError: If the value is None
         """
@@ -761,7 +764,7 @@ class TRefType(RefType):
     Represents a typed reference type in AUTOSAR models.
     This class extends RefType with additional type-specific functionality.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -799,7 +802,7 @@ class ArgumentDirectionEnum(AREnum):
 class Ip4AddressString(ARLiteral):
     r'''
         This is used to specify an IP4 address. Notation: 255.255.255.255
-        
+
         Tags
             * xml.xsd.customType=IP4-ADDRESS-STRING
             * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
@@ -814,7 +817,7 @@ class Ip6AddressString(ARLiteral):
         This is used to specify an IP6 address. Notation: FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF
         Alternative notations, short-cuts with duplicate colons like ::, etc. or mixtures using colons and dots, are
         not allowed.
-        
+
         Tags:
             * xml.xsd.customType=IP6-ADDRESS-STRING
             * xml.xsd.pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY
@@ -828,7 +831,7 @@ class MacAddressString(ARLiteral):
     '''
         This primitive specifies a Mac Address. Notation: FF:FF:FF:FF:FF:FF
         Alternative notations, e.g. using dash instead of colon, or another grouping of numbers, is not allowed.
-        
+
         Tags:
             * xml.xsd.customType=MAC-ADDRESS-STRING
             * xml.xsd.pattern=([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}
@@ -843,7 +846,7 @@ class CategoryString(ARLiteral):
         This represents the pattern applicable to categories.
         It is basically the same as Identifier but has a different semantics. Therefore it is modeled as a primitive
         of its own.
-        
+
         Tags:
             * xml.xsd.customType=CATEGORY-STRING
             * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
@@ -857,7 +860,7 @@ class ByteOrderEnum(AREnum):
     """
     Enumeration for byte order in AUTOSAR models.
     """
-    
+
     def __init__(self):
         super().__init__([])
 
@@ -868,7 +871,7 @@ class DateTime(ARLiteral):
         This datatype represents a timestamp in the format yyyy-mm-dd followed by an optional time. The lead-in
         character for the time is "T" and the format is hh:mm:ss. In addition, a time zone designator shall be
         specified. The time zone designator can either be "Z" (for UTC) or the time offset to UTC, i.e. (+|-)hh:mm.
-        
+
         Examples:
             2009-07-23
             2009-07-23T14:38:00+01:00
@@ -887,7 +890,7 @@ class VerbatimString(ARLiteral):
     Represents a verbatim string in AUTOSAR models.
     This class is used for strings that should be preserved exactly as written.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -897,6 +900,6 @@ class RegularExpression(ARLiteral):
     Represents a regular expression in AUTOSAR models.
     This class is used for storing and handling regular expression patterns.
     """
-    
+
     def __init__(self):
         super().__init__()

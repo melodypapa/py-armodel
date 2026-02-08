@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Map(ARObject):
     """
@@ -48,37 +51,43 @@ class Map(ARObject):
                 f"area must be Area, got {type(value).__name__}"
             )
         self._area = value
-        # This attribute assigns a class name or set of class names element.
+        # This attribute assigns a class name or set of class names to the image map element.
         # Any number of elements may be assigned class name or set of class names.
-        # Multiple shall be separated by white space names are typically used to apply
-                # CSS to an element.
-        self._class: Optional["String"] = None
+        # Multiple class names shall be separated by white space and are typically used to apply
+        # CSS styles to the image map element.
+        # Origin: HTML/AUTOSAR specification attribute 'class'
+        # Reason: Renamed to 'mapClass' to avoid Python reserved keyword 'class'
+        self._mapClass: Optional["String"] = None
 
     @property
-    def class(self) -> Optional["String"]:
-        """Get class (Pythonic accessor)."""
-        return self._class
+    def map_class(self) -> Optional["String"]:
+        """Get mapClass (Pythonic accessor) - renamed from HTML 'class' to avoid Python keyword."""
+        return self._mapClass
 
-    @class.setter
-    def class(self, value: Optional["String"]) -> None:
+    @map_class.setter
+    def map_class(self, value: Optional["String"]) -> None:
         """
-        Set class with validation.
+        Set mapClass with validation.
 
         Args:
-            value: The class to set
+            value: The mapClass to set (blank-separated CSS classes)
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: HTML/AUTOSAR specification attribute 'class'
+            Reason: Renamed to 'mapClass' to avoid Python reserved keyword 'class'
         """
         if value is None:
-            self._class = None
+            self._mapClass = None
             return
 
         if not isinstance(value, String):
             raise TypeError(
-                f"class must be String or None, got {type(value).__name__}"
+                f"mapClass must be String or None, got {type(value).__name__}"
             )
-        self._class = value
+        self._mapClass = value
         # This attribute assigns a name to the image map in the This name can be used
                 # to be referenced in image through the attribute USEMAP.
         # Although not actually necessary in the MSR model, it was order to support the
@@ -471,27 +480,27 @@ class Map(ARObject):
         AUTOSAR-compliant getter for class.
 
         Returns:
-            The class value
+            The class value (CSS class list)
 
         Note:
-            Delegates to class property (CODING_RULE_V2_00017)
+            Delegates to map_class property (CODING_RULE_V2_00017)
         """
-        return self.class  # Delegates to property
+        return self.map_class  # Delegates to property
 
     def setClass(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for class with method chaining.
 
         Args:
-            value: The class to set
+            value: The class to set (CSS class list)
 
         Returns:
             self for method chaining
 
         Note:
-            Delegates to class property setter (gets validation automatically)
+            Delegates to map_class property setter (gets validation automatically)
         """
-        self.class = value  # Delegates to property setter
+        self.map_class = value  # Delegates to property setter
         return self
 
     def getName(self) -> "NameToken":
@@ -853,7 +862,7 @@ class Map(ARObject):
         Set class and return self for chaining.
 
         Args:
-            value: The class to set
+            value: The class to set (CSS class list)
 
         Returns:
             self for method chaining
@@ -861,7 +870,7 @@ class Map(ARObject):
         Example:
             >>> obj.with_class("value")
         """
-        self.class = value  # Use property setter (gets validation)
+        self.map_class = value  # Use property setter (gets validation)
         return self
 
     def with_name(self, value: Optional["NameToken"]) -> "Map":

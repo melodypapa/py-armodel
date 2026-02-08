@@ -1,10 +1,11 @@
 import argparse
-import sys
-from armodel import __version__
-import xml.etree.ElementTree as ET
-from xml.dom import minidom
 import logging
 import re
+import sys
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
+
+from armodel import __version__
 
 
 def patch_xml(xml: str) -> str:
@@ -16,7 +17,7 @@ def patch_xml(xml: str) -> str:
 
 def perform_format(args):
     try:
-        # Load XML file 
+        # Load XML file
         logging.info("Loading XML file: %s" % args.INPUT)
         tree = ET.parse(args.INPUT)
         ET.register_namespace("", "http://autosar.org/schema/r4.0")
@@ -24,7 +25,7 @@ def perform_format(args):
 
         # Save the XML file
         xml = ET.tostring(root, encoding="UTF-8", xml_declaration=True, short_empty_elements=False)
-        
+
         dom = minidom.parse(args.INPUT)
         xml = dom.toprettyxml(indent="  ", encoding="UTF-8")
 
@@ -39,11 +40,11 @@ def perform_format(args):
                 if line.strip() == "":
                     continue
                 f_out.write(line + "\n")
-        
+
     except Exception as e:
         logging.error(e)
         sys.exit(1)
-        
+
 
 def main():
     version = __version__

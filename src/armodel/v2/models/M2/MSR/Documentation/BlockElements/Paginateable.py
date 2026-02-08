@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class Paginateable(DocumentViewSelectable, ABC):
     """
@@ -18,34 +19,41 @@ class Paginateable(DocumentViewSelectable, ABC):
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This attributes allows to specify a forced page break.
-        self._break: Optional["ChapterEnumBreak"] = None
+        # This attribute allows to specify a forced page break at the chapter level.
+        # Controls whether a page break should be inserted before or after this element.
+        # Origin: AUTOSAR specification attribute 'break'
+        # Reason: Renamed to 'chapterBreak' to avoid Python reserved keyword 'break'
+        self._chapterBreak: Optional["ChapterEnumBreak"] = None
 
     @property
-    def break(self) -> Optional["ChapterEnumBreak"]:
-        """Get break (Pythonic accessor)."""
-        return self._break
+    def chapter_break(self) -> Optional["ChapterEnumBreak"]:
+        """Get chapterBreak (Pythonic accessor) - renamed from AUTOSAR 'break' to avoid Python keyword."""
+        return self._chapterBreak
 
-    @break.setter
-    def break(self, value: Optional["ChapterEnumBreak"]) -> None:
+    @chapter_break.setter
+    def chapter_break(self, value: Optional["ChapterEnumBreak"]) -> None:
         """
-        Set break with validation.
+        Set chapterBreak with validation.
 
         Args:
-            value: The break to set
+            value: The chapterBreak to set (controls page break behavior)
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: AUTOSAR specification attribute 'break'
+            Reason: Renamed to 'chapterBreak' to avoid Python reserved keyword 'break'
         """
         if value is None:
-            self._break = None
+            self._chapterBreak = None
             return
 
         if not isinstance(value, ChapterEnumBreak):
             raise TypeError(
-                f"break must be ChapterEnumBreak or None, got {type(value).__name__}"
+                f"chapterBreak must be ChapterEnumBreak or None, got {type(value).__name__}"
             )
-        self._break = value
+        self._chapterBreak = value
         # This attribute denotes the pagination policy.
         # In particular it if the containing text block shall be kept together previous
                 # block.
@@ -84,27 +92,27 @@ class Paginateable(DocumentViewSelectable, ABC):
         AUTOSAR-compliant getter for break.
 
         Returns:
-            The break value
+            The break value (page break control)
 
         Note:
-            Delegates to break property (CODING_RULE_V2_00017)
+            Delegates to chapter_break property (CODING_RULE_V2_00017)
         """
-        return self.break  # Delegates to property
+        return self.chapter_break  # Delegates to property
 
     def setBreak(self, value: "ChapterEnumBreak") -> "Paginateable":
         """
         AUTOSAR-compliant setter for break with method chaining.
 
         Args:
-            value: The break to set
+            value: The break to set (page break control)
 
         Returns:
             self for method chaining
 
         Note:
-            Delegates to break property setter (gets validation automatically)
+            Delegates to chapter_break property setter (gets validation automatically)
         """
-        self.break = value  # Delegates to property setter
+        self.chapter_break = value  # Delegates to property setter
         return self
 
     def getKeepWith(self) -> "KeepWithPreviousEnum":
@@ -142,7 +150,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         Set break and return self for chaining.
 
         Args:
-            value: The break to set
+            value: The break to set (page break control)
 
         Returns:
             self for method chaining
@@ -150,7 +158,7 @@ class Paginateable(DocumentViewSelectable, ABC):
         Example:
             >>> obj.with_break("value")
         """
-        self.break = value  # Use property setter (gets validation)
+        self.chapter_break = value  # Use property setter (gets validation)
         return self
 
     def with_keep_with(self, value: Optional["KeepWithPreviousEnum"]) -> "Paginateable":

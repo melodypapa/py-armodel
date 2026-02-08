@@ -1,28 +1,30 @@
 import pytest
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
-    NmClusterCoupling,
-    CanNmClusterCoupling,
-    FlexrayNmClusterCoupling,
-    NmNode,
-    CanNmNode,
-    FlexrayNmNode,
-    J1939NmNode,
-    UdpNmNode,
-    BusspecificNmEcu,
-    CanNmEcu,
-    FlexrayNmEcu,
-    J1939NmEcu,
-    UdpNmEcu,
-    NmEcu,
-    NmConfig,
-    NmCluster,
-    CanNmCluster,
-    FlexrayNmCluster,
-    J1939NmCluster,
-    UdpNmClusterCoupling,
-    UdpNmCluster
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    BusspecificNmEcu,
+    CanNmCluster,
+    CanNmClusterCoupling,
+    CanNmEcu,
+    CanNmNode,
+    FlexrayNmCluster,
+    FlexrayNmClusterCoupling,
+    FlexrayNmEcu,
+    FlexrayNmNode,
+    J1939NmCluster,
+    J1939NmEcu,
+    J1939NmNode,
+    NmClusterCoupling,
+    NmConfig,
+    NmEcu,
+    NmNode,
+    UdpNmCluster,
+    UdpNmClusterCoupling,
+    UdpNmEcu,
+    UdpNmNode,
+)
 
 
 class MockParent(ARObject):

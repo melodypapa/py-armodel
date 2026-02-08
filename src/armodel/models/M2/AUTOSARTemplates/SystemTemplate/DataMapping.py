@@ -4,16 +4,27 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    TextTableMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommunicationDirectionType,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    VariableDataPrototypeInSystemInstanceRef,
+)
 
 
 class DataMapping(ARObject, ABC):
     """
-    Abstract base class for data mapping elements that define relationships between 
+    Abstract base class for data mapping elements that define relationships between
     AUTOSAR software component data elements and system-level communication signals.
     This class serves as the foundation for various types of data mappings used in
     system design to connect component interfaces with communication infrastructure.
@@ -21,7 +32,7 @@ class DataMapping(ARObject, ABC):
     def __init__(self):
         if type(self) is DataMapping:
             raise TypeError("DataMapping is an abstract class.")
-        
+
         super().__init__()
 
         self.introduction = None
@@ -95,7 +106,7 @@ class SenderRecCompositeTypeMapping(ARObject, ABC):
     def __init__(self):
         if type(self) is SenderRecCompositeTypeMapping:
             raise TypeError("SenderRecCompositeTypeMapping is an abstract class.")
-        
+
         super().__init__()
 
 
@@ -221,12 +232,12 @@ class IndexedArrayElement(ARObject):
         if value is not None:
             self.index = value
         return self
-        
+
 
 class SenderRecArrayElementMapping(ARObject):
     """
     Maps individual elements of an array data type between sender/receiver
-    interfaces and system signals, including complex type mapping for 
+    interfaces and system signals, including complex type mapping for
     nested data structures and indexed array elements.
     """
     def __init__(self):

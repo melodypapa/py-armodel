@@ -4,14 +4,14 @@ CommonStructure module re-exports classes from submodules for backward compatibi
 
 # Re-export ValueSpecification classes from Constants submodule
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
-    ValueSpecification,
-    CompositeValueSpecification,
-    CompositeRuleBasedValueArgument,
     ApplicationValueSpecification,
+    ArrayValueSpecification,
+    CompositeRuleBasedValueArgument,
+    CompositeValueSpecification,
+    ConstantReference,
+    ConstantSpecification,
+    NumericalValueSpecification,
     RecordValueSpecification,
     TextValueSpecification,
-    NumericalValueSpecification,
-    ArrayValueSpecification,
-    ConstantSpecification,
-    ConstantReference,
+    ValueSpecification,
 )

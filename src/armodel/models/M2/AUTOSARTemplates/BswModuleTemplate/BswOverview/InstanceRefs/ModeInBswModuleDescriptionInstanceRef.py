@@ -1,3 +1,5 @@
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
     BswModuleDescription,
 )
@@ -10,7 +12,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from typing import Optional
 
 
 class ModeInBswModuleDescriptionInstanceRef(ARObject):

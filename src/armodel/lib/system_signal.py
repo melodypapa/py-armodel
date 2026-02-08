@@ -1,8 +1,14 @@
 import logging
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    SystemSignal,
+)
+
 
 class SystemSignalAnalyzer:
     def __init__(self) -> None:
@@ -13,12 +19,12 @@ class SystemSignalAnalyzer:
 
     def get_system_signals(self) -> List[SystemSignal]:
         return self.system_signals
-    
+
     def parse_pkg(self, parent: ARPackage):
         for pkg in parent.getARPackages():
             self.parse_pkg(pkg)
         for signal in parent.getSystemSignals():
-            
+
             self.add_system_signal(signal)
 
     def import_data(self, document: AUTOSAR):

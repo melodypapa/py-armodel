@@ -1,11 +1,16 @@
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
-    FlexrayFrame,
-    FlexrayAbsolutelyScheduledTiming,
-    FlexrayFrameTriggering
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayAbsolutelyScheduledTiming,
+    FlexrayFrame,
+    FlexrayFrameTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    Frame,
+    FrameTriggering,
+)
 
 
 class MockParent(ARObject):
@@ -15,7 +20,7 @@ class MockParent(ARObject):
 
 class Test_Fibex4FlexrayCommunication:
     """Test cases for Fibex4Flexray Communication classes."""
-    
+
     def test_FlexrayFrame(self):
         """Test FlexrayFrame class functionality."""
         parent = MockParent()
@@ -28,7 +33,7 @@ class Test_Fibex4FlexrayCommunication:
         """Test FlexrayFrame class creation to ensure the __init__ method is covered."""
         parent = MockParent()
         frame = FlexrayFrame(parent, "test_frame")
-        
+
         # Verify that the frame was created properly
         assert frame.short_name == "test_frame"
         assert frame.parent == parent
@@ -38,15 +43,15 @@ class Test_Fibex4FlexrayCommunication:
         timing = FlexrayAbsolutelyScheduledTiming()
 
         assert isinstance(timing, ARObject)
-        
+
         # Test default values
         assert timing.getCommunicationCycle() is None
         assert timing.getSlotID() is None
-        
+
         # Test setter/getter methods
         timing.setCommunicationCycle("cycle1")
         assert timing.getCommunicationCycle() == "cycle1"
-        
+
         timing.setSlotID(10)
         assert timing.getSlotID() == 10
 
@@ -85,23 +90,23 @@ class Test_Fibex4FlexrayCommunication:
         triggering = FlexrayFrameTriggering(parent, "test_flexray_frame_triggering")
 
         assert isinstance(triggering, FrameTriggering)
-        
+
         # Test default values
         assert triggering.getAbsolutelyScheduledTimings() == []
         assert triggering.getAllowDynamicLSduLength() is None
         assert triggering.getMessageId() is None
         assert triggering.getPayloadPreambleIndicator() is None
-        
+
         # Test setter/getter methods
         triggering.setAllowDynamicLSduLength(True)
         assert triggering.getAllowDynamicLSduLength() is True
-        
+
         triggering.setMessageId(42)
         assert triggering.getMessageId() == 42
-        
+
         triggering.setPayloadPreambleIndicator(True)
         assert triggering.getPayloadPreambleIndicator() is True
-        
+
         # Test adding absolutely scheduled timings
         timing = FlexrayAbsolutelyScheduledTiming()
         triggering.addAbsolutelyScheduledTiming(timing)
@@ -149,23 +154,27 @@ class Test_Fibex4FlexrayCommunication:
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
-    FlexrayCommunicationController,
+    FlexrayCluster,
     FlexrayCommunicationConnector,
-    FlexrayCluster
+    FlexrayCommunicationController,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector, CommunicationCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
+)
 
 
 class Test_Fibex4FlexrayTopology:
     """Test cases for Fibex4Flexray Topology classes."""
-    
+
     def test_FlexrayCommunicationController(self):
         """Test FlexrayCommunicationController class functionality."""
         parent = MockParent()
         controller = FlexrayCommunicationController(parent, "test_flexray_comm_controller")
 
         assert isinstance(controller, CommunicationController)
-        
+
         # Test default values
         assert controller.getAcceptedStartupRange() is None
         assert controller.getAllowHaltDueToClock() is None
@@ -199,11 +208,11 @@ class Test_Fibex4FlexrayTopology:
         assert controller.getSecondKeySlotId() is None
         assert controller.getTwoKeySlotMode() is None
         assert controller.getWakeUpPattern() is None
-        
+
         # Test setter/getter methods
         controller.setKeySlotID(10)
         assert controller.getKeySlotID() == 10
-        
+
         controller.setAllowHaltDueToClock(True)
         assert controller.getAllowHaltDueToClock() is True
 
@@ -213,12 +222,12 @@ class Test_Fibex4FlexrayTopology:
         connector = FlexrayCommunicationConnector(parent, "test_flexray_comm_connector")
 
         assert isinstance(connector, CommunicationConnector)
-        
+
         # Test default values
         assert connector.getNmReadySleepTime() is None
         assert connector.getPncFilterDataMask() is None
         assert connector.getWakeUpChannel() is None
-        
+
         # Test setter/getter methods
         connector.setNmReadySleepTime(10.5)
         assert connector.getNmReadySleepTime() == 10.5
@@ -229,7 +238,7 @@ class Test_Fibex4FlexrayTopology:
         cluster = FlexrayCluster(parent, "test_flexray_cluster")
 
         assert isinstance(cluster, CommunicationCluster)
-        
+
         # Test default values
         assert cluster.getActionPointOffset() is None
         assert cluster.getBit() is None
@@ -266,7 +275,7 @@ class Test_Fibex4FlexrayTopology:
         assert cluster.getWakeupRxWindow() is None
         assert cluster.getWakeupTxActive() is None
         assert cluster.getWakeupTxIdle() is None
-        
+
         # Test setter/getter methods
         cluster.setColdStartAttempts(5)
         assert cluster.getColdStartAttempts() == 5

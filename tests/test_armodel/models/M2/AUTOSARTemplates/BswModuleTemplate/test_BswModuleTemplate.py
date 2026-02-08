@@ -1,10 +1,20 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswModuleEntity
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from armodel import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswCalledEntity,
+    BswModuleEntity,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswModuleEntry,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+    BswModuleDescription,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CategoryString,
+)
+
 
 class TestBswModuleDescription:
     def test_construct(self):
@@ -35,7 +45,7 @@ class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces:
         entry = BswModuleEntry(ar_root, "bsw_entry")
         assert(entry != None)
         assert(entry.short_name == "bsw_entry")
- 
+
 class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior:
     def test_BswModuleEntity(self):
         document = AUTOSAR.getInstance()

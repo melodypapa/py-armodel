@@ -5,8 +5,12 @@ in the EcuResourceTemplate module.
 
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class HwElementConnector(Describable):
@@ -27,7 +31,7 @@ class HwElementConnector(Describable):
     def getHwElementRef(self) -> Optional[RefType]:
         """
         Gets the reference to the connected hardware element.
-        
+
         Returns:
             RefType representing the hardware element reference, or None if not set
         """
@@ -37,10 +41,10 @@ class HwElementConnector(Describable):
         """
         Sets the reference to the connected hardware element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The hardware element reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -51,7 +55,7 @@ class HwElementConnector(Describable):
     def getHwPinRef(self) -> Optional[RefType]:
         """
         Gets the reference to the connected hardware pin.
-        
+
         Returns:
             RefType representing the hardware pin reference, or None if not set
         """
@@ -61,10 +65,10 @@ class HwElementConnector(Describable):
         """
         Sets the reference to the connected hardware pin.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The hardware pin reference to set
-            
+
         Returns:
             self for method chaining
         """

@@ -6,7 +6,7 @@ This module handles generation of Python class code from AUTOSAR requirements.
 """
 
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 
 def _is_container_class(class_name: str, parent: str, attributes: Dict[str, Any]) -> bool:
@@ -767,7 +767,7 @@ def _generate_property_based_attributes(
 
         # Generate @property getter
         attr_code.append('')
-        attr_code.append(f'    @property')
+        attr_code.append('    @property')
         attr_code.append(f'    def {py_prop_name}(self) -> {py_type}:')
         attr_code.append(f'        """Get {attr_name} (Pythonic accessor)."""')
         attr_code.append(f'        return self.{private_attr}')
@@ -777,31 +777,31 @@ def _generate_property_based_attributes(
             attr_code.append('')
             attr_code.append(f'    @{py_prop_name}.setter')
             attr_code.append(f'    def {py_prop_name}(self, value: {py_type}) -> None:')
-            attr_code.append(f'        """')
+            attr_code.append('        """')
             attr_code.append(f'        Set {attr_name} with validation.')
-            attr_code.append(f'        ')
-            attr_code.append(f'        Args:')
+            attr_code.append('        ')
+            attr_code.append('        Args:')
             attr_code.append(f'            value: The {attr_name} to set')
-            attr_code.append(f'        ')
-            attr_code.append(f'        Raises:')
-            attr_code.append(f'            TypeError: If value type is incorrect')
-            attr_code.append(f'        """')
+            attr_code.append('        ')
+            attr_code.append('        Raises:')
+            attr_code.append('            TypeError: If value type is incorrect')
+            attr_code.append('        """')
 
             # Add type validation
             if multiplicity == '0..1':
                 # Optional attribute
-                attr_code.append(f'        if value is None:')
+                attr_code.append('        if value is None:')
                 attr_code.append(f'            self.{private_attr} = None')
-                attr_code.append(f'            return')
-                attr_code.append(f'')
+                attr_code.append('            return')
+                attr_code.append('')
                 if is_ref or attr_type == 'Any':
                     # RefType or Any - minimal validation
                     attr_code.append(f'        self.{private_attr} = value')
                 else:
                     attr_code.append(f'        if not isinstance(value, {attr_type}):')
-                    attr_code.append(f'            raise TypeError(')
+                    attr_code.append('            raise TypeError(')
                     attr_code.append(f'                f"{attr_name} must be {attr_type} or None, got {{type(value).__name__}}"')
-                    attr_code.append(f'            )')
+                    attr_code.append('            )')
                     attr_code.append(f'        self.{private_attr} = value')
             else:
                 # Required attribute
@@ -809,9 +809,9 @@ def _generate_property_based_attributes(
                     attr_code.append(f'        self.{private_attr} = value')
                 else:
                     attr_code.append(f'        if not isinstance(value, {attr_type}):')
-                    attr_code.append(f'            raise TypeError(')
+                    attr_code.append('            raise TypeError(')
                     attr_code.append(f'                f"{attr_name} must be {attr_type}, got {{type(value).__name__}}"')
-                    attr_code.append(f'            )')
+                    attr_code.append('            )')
                     attr_code.append(f'        self.{private_attr} = value')
 
     return attr_code
@@ -878,15 +878,15 @@ def _generate_property_based_methods(
         # AUTOSAR method name should be camelCase (getCategory), not snake_case
         autosar_getter = f'get{attr_name[0].upper()}{attr_name[1:]}'
         methods_code.append(f'    def {autosar_getter}(self) -> {return_type}:')
-        methods_code.append(f'        """')
+        methods_code.append('        """')
         methods_code.append(f'        AUTOSAR-compliant getter for {attr_name}.')
-        methods_code.append(f'        ')
-        methods_code.append(f'        Returns:')
+        methods_code.append('        ')
+        methods_code.append('        Returns:')
         methods_code.append(f'            The {attr_name} value')
-        methods_code.append(f'        ')
-        methods_code.append(f'        Note:')
+        methods_code.append('        ')
+        methods_code.append('        Note:')
         methods_code.append(f'            Delegates to {py_prop_name} property (CODING_RULE_V2_00017)')
-        methods_code.append(f'        """')
+        methods_code.append('        """')
         methods_code.append(f'        return self.{py_prop_name}  # Delegates to property')
 
         # Generate AUTOSAR setter (delegates to property) - not for lists
@@ -895,20 +895,20 @@ def _generate_property_based_methods(
             # AUTOSAR method name should be camelCase (setCategory), not snake_case
             autosar_setter = f'set{attr_name[0].upper()}{attr_name[1:]}'
             methods_code.append(f'    def {autosar_setter}(self, value: {return_type}) -> "{class_name}":')
-            methods_code.append(f'        """')
+            methods_code.append('        """')
             methods_code.append(f'        AUTOSAR-compliant setter for {attr_name} with method chaining.')
-            methods_code.append(f'        ')
-            methods_code.append(f'        Args:')
+            methods_code.append('        ')
+            methods_code.append('        Args:')
             methods_code.append(f'            value: The {attr_name} to set')
-            methods_code.append(f'        ')
-            methods_code.append(f'        Returns:')
-            methods_code.append(f'            self for method chaining')
-            methods_code.append(f'        ')
-            methods_code.append(f'        Note:')
+            methods_code.append('        ')
+            methods_code.append('        Returns:')
+            methods_code.append('            self for method chaining')
+            methods_code.append('        ')
+            methods_code.append('        Note:')
             methods_code.append(f'            Delegates to {py_prop_name} property setter (gets validation automatically)')
-            methods_code.append(f'        """')
+            methods_code.append('        """')
             methods_code.append(f'        self.{py_prop_name} = value  # Delegates to property setter')
-            methods_code.append(f'        return self')
+            methods_code.append('        return self')
 
     # Generate fluent with_ methods
     methods_code.append('')
@@ -950,20 +950,20 @@ def _generate_property_based_methods(
         # Generate fluent with_ method
         methods_code.append('')
         methods_code.append(f'    def with_{py_prop_name}(self, value: {param_type}) -> "{class_name}":')
-        methods_code.append(f'        """')
+        methods_code.append('        """')
         methods_code.append(f'        Set {attr_name} and return self for chaining.')
-        methods_code.append(f'        ')
-        methods_code.append(f'        Args:')
+        methods_code.append('        ')
+        methods_code.append('        Args:')
         methods_code.append(f'            value: The {attr_name} to set')
-        methods_code.append(f'        ')
-        methods_code.append(f'        Returns:')
-        methods_code.append(f'            self for method chaining')
-        methods_code.append(f'        ')
-        methods_code.append(f'        Example:')
+        methods_code.append('        ')
+        methods_code.append('        Returns:')
+        methods_code.append('            self for method chaining')
+        methods_code.append('        ')
+        methods_code.append('        Example:')
         methods_code.append(f'            >>> obj.with_{py_prop_name}("value")')
-        methods_code.append(f'        """')
+        methods_code.append('        """')
         methods_code.append(f'        self.{py_prop_name} = value  # Use property setter (gets validation)')
-        methods_code.append(f'        return self')
+        methods_code.append('        return self')
 
     return methods_code
 

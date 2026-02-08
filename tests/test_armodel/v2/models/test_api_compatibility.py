@@ -1,6 +1,5 @@
 """Test V2 API compatibility with V1."""
 
-import pytest
 
 
 class TestV2APICompatibility:
@@ -8,8 +7,8 @@ class TestV2APICompatibility:
 
     def test_v2_has_autosar(self):
         """Test V2 has AUTOSAR class like V1."""
-        from armodel.v2.models import AUTOSAR
         from armodel.models import AUTOSAR as V1_AUTOSAR
+        from armodel.v2.models import AUTOSAR
 
         # Both should have getInstance method
         assert hasattr(AUTOSAR, "getInstance")
@@ -24,8 +23,8 @@ class TestV2APICompatibility:
 
     def test_v2_has_ar_object(self):
         """Test V2 has ARObject base class like V1."""
-        from armodel.v2.models import ARObject as V2_ARObject
         from armodel.models import ARObject as V1_ARObject
+        from armodel.v2.models import ARObject as V2_ARObject
 
         # Both should have getTagName method
         assert hasattr(V2_ARObject, "getTagName")
@@ -36,11 +35,11 @@ class TestV2APICompatibility:
 
     def test_v2_has_sw_component_type(self):
         """Test V2 has SwComponentType like V1."""
-        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-            SwComponentType as V2_SwComponentType,
-        )
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
             SwComponentType as V1_SwComponentType,
+        )
+        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+            SwComponentType as V2_SwComponentType,
         )
 
         # Both should have short_name property (V2 uses Pythonic properties)

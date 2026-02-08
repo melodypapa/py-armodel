@@ -8,10 +8,12 @@ Classes:
     AgeConstraint: Specifies the maximum allowed age of data
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+    TimingConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
 class AgeConstraint(TimingConstraint):

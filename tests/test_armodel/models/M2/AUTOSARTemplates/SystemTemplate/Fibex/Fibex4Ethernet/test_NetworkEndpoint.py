@@ -1,19 +1,24 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
-    NetworkEndpointAddress,
+    DoIpEntity,
+    InfrastructureServices,
     Ipv4Configuration,
     Ipv6Configuration,
-    DoIpEntity,
+    NetworkEndpoint,
+    NetworkEndpointAddress,
     TimeSyncClientConfiguration,
-    TimeSyncServerConfiguration,
     TimeSynchronization,
-    InfrastructureServices,
-    NetworkEndpoint
+    TimeSyncServerConfiguration,
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 
 
 class MockParent(ARObject):
@@ -23,7 +28,7 @@ class MockParent(ARObject):
 
 class Test_Fibex4EthernetNetworkEndpoint:
     """Test cases for Fibex4Ethernet NetworkEndpoint classes."""
-    
+
     def test_NetworkEndpointAddress(self):
         """Test NetworkEndpointAddress abstract class instantiation."""
         with pytest.raises(TypeError):
@@ -34,7 +39,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         config = Ipv4Configuration()
 
         assert isinstance(config, NetworkEndpointAddress)
-        
+
         # Test default values
         assert config.getAssignmentPriority() is None
         assert config.getDefaultGateway() is None
@@ -44,7 +49,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getIpv4AddressSource() is None
         assert config.getNetworkMask() is None
         assert config.getTtl() is None
-        
+
         # Test setter/getter methods with method chaining
         result = config.setAssignmentPriority(1)
         assert config.getAssignmentPriority() == 1
@@ -88,7 +93,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         config = Ipv6Configuration()
 
         assert isinstance(config, NetworkEndpointAddress)
-        
+
         # Test default values
         assert config.getAssignmentPriority() is None
         assert config.getDefaultRouter() is None
@@ -99,7 +104,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getIpAddressPrefixLength() is None
         assert config.getIpv6Address() is None
         assert config.getIpv6AddressSource() is None
-        
+
         # Test setter/getter methods with method chaining
         result = config.setAssignmentPriority(2)
         assert config.getAssignmentPriority() == 2
@@ -143,10 +148,10 @@ class Test_Fibex4EthernetNetworkEndpoint:
         entity = DoIpEntity()
 
         assert isinstance(entity, ARObject)
-        
+
         # Test default values
         assert entity.getDoIpEntityRole() is None
-        
+
         # Test setter/getter methods with method chaining
         result = entity.setDoIpEntityRole("tester")
         assert entity.getDoIpEntityRole() == "tester"
@@ -157,11 +162,11 @@ class Test_Fibex4EthernetNetworkEndpoint:
         config = TimeSyncClientConfiguration()
 
         assert isinstance(config, ARObject)
-        
+
         # Test default values
         assert config.getOrderedMasters() == []
         assert config.getTimeSyncTechnology() is None
-        
+
         # Test setter/getter methods with method chaining
         result = config.setTimeSyncTechnology("IEEE_1588")
         assert config.getTimeSyncTechnology() == "IEEE_1588"
@@ -183,14 +188,14 @@ class Test_Fibex4EthernetNetworkEndpoint:
         config = TimeSyncServerConfiguration(ar_package, "time_sync_config")
 
         assert isinstance(config, Referrable)
-        
+
         # Test default values
         assert config.getShortName() == "time_sync_config"
         assert config.getPriority() is None
         assert config.getSyncInterval() is None
         assert config.getTimeSyncServerIdentifier() is None
         assert config.getTimeSyncTechnology() is None
-        
+
         # Test setter/getter methods with method chaining
         result = config.setPriority(10)
         assert config.getPriority() == 10
@@ -213,11 +218,11 @@ class Test_Fibex4EthernetNetworkEndpoint:
         sync = TimeSynchronization()
 
         assert isinstance(sync, ARObject)
-        
+
         # Test default values
         assert sync.getTimeSyncClient() is None
         assert sync.getTimeSyncServer() is None
-        
+
         # Test setter/getter methods with method chaining
         client_config = TimeSyncClientConfiguration()
         result = sync.setTimeSyncClient(client_config)
@@ -236,11 +241,11 @@ class Test_Fibex4EthernetNetworkEndpoint:
         services = InfrastructureServices()
 
         assert isinstance(services, ARObject)
-        
+
         # Test default values
         assert services.getDoIpEntity() is None
         assert services.getTimeSynchronization() is None
-        
+
         # Test setter/getter methods with method chaining
         doip_entity = DoIpEntity()
         result = services.setDoIpEntity(doip_entity)
@@ -258,14 +263,14 @@ class Test_Fibex4EthernetNetworkEndpoint:
         endpoint = NetworkEndpoint(parent, "test_network_endpoint")
 
         assert isinstance(endpoint, Identifiable)
-        
+
         # Test default values
         assert endpoint.getFullyQualifiedDomainName() is None
         assert endpoint.getInfrastructureServices() is None
         assert endpoint.getIpSecConfig() is None
         assert endpoint.getNetworkEndpointAddresses() == []
         assert endpoint.getPriority() is None
-        
+
         # Test setter/getter methods with method chaining
         result = endpoint.setFullyQualifiedDomainName("example.com")
         assert endpoint.getFullyQualifiedDomainName() == "example.com"

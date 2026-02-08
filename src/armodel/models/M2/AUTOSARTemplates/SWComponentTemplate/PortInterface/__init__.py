@@ -8,18 +8,45 @@ parameter interfaces, as well as mapping classes for interface mappings.
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    TextValueSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclarationGroupPrototype,
+    ModeDeclarationGroupPrototypeMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintable,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import (
+    Trigger,
+    TriggerMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpStructureElement,
+    AtpType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    ArgumentDirectionEnum,
+    ARLiteral,
+    ARNumerical,
+    Boolean,
+    PositiveInteger,
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    AutosarDataPrototype,
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
 
 
 class PortInterface(AtpType, ABC):
@@ -181,12 +208,12 @@ class SenderReceiverInterface(DataInterface):
 
     def getDataElement(self, short_name) -> VariableDataPrototype:
         return self.getElement(short_name, VariableDataPrototype)
-    
+
     def createInvalidationPolicy(self) -> InvalidationPolicy:
         policy = InvalidationPolicy()
         self.invalidationPolicies.append(policy)
         return policy
-    
+
     def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
         return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
 
@@ -324,9 +351,9 @@ class ModeSwitchInterface(PortInterface):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addElement(prototype)
         return self.getElement(short_name, ModeDeclarationGroupPrototype)
-    
+
     def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name)
 
 
 class PortInterfaceMapping(AtpBlueprintable, ABC):
@@ -361,7 +388,7 @@ class ClientServerApplicationErrorMapping(ARObject):
 class ClientServerOperationMapping(ARObject):
     def __init__(self):
         super().__init__()
-        
+
         self.argumentMappings: List['DataPrototypeMapping'] = []
         self.firstOperationRef: RefType = None
         self.firstToSecondDataTransformationRef: RefType = None
@@ -394,7 +421,7 @@ class ClientServerOperationMapping(ARObject):
     def setSecondOperationRef(self, value):
         self.secondOperationRef = value
         return self
-    
+
 
 class DataPrototypeMapping(ARObject):
     def __init__(self):
@@ -491,7 +518,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
 class ModeInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.modeMapping: 'ModeDeclarationGroupPrototypeMapping' = None
 
     def getModeMapping(self):
@@ -574,21 +601,21 @@ class PortInterfaceMappingSet(AtpBlueprintable):
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
-    
+
     def createClientServerInterfaceMapping(self, short_name: str):
         if (not self.IsElementExists(short_name)):
             mapping = ClientServerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
-    
+
     def createModeInterfaceMapping(self, short_name: str):
         if (not self.IsElementExists(short_name)):
             mapping = ModeInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
-    
+
     def createTriggerInterfaceMapping(self, short_name: str):
         if (not self.IsElementExists(short_name)):
             mapping = TriggerInterfaceMapping(self, short_name)
