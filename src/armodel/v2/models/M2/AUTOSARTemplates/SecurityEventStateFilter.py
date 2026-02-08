@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import AbstractSecurityEventFilter
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    AbstractSecurityEventFilter,
+)
 
 
 class SecurityEventStateFilter(AbstractSecurityEventFilter):
@@ -10,7 +13,7 @@ class SecurityEventStateFilter(AbstractSecurityEventFilter):
     relevant state machine (which depends on whether the IdsM instance runs on
     the Classic or the Adaptive Platform).
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventStateFilter
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 22, Foundation R23-11)

@@ -13,7 +13,7 @@ class BswModuleClientServerEntry(Referrable):
     seen as a wrapper around the Bsw ModuleEntry to which it refers (property
     encapsulatedEntry).
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswModuleClientServerEntry
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 53, Classic

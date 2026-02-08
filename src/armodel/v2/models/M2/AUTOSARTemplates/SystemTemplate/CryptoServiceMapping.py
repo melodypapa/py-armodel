@@ -10,7 +10,7 @@ class CryptoServiceMapping(Identifiable, ABC):
     This meta-class represents an abstract base class for specializations of
     crypto service mappings.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::CryptoServiceMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 375, Classic Platform R23-11)

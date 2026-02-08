@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import BusspecificNmEcu
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    BusspecificNmEcu,
+)
+
 
 class CanNmEcu(BusspecificNmEcu):
     """
     CAN specific attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmEcu
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 683, Classic Platform R23-11)

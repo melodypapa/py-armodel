@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -16,7 +16,7 @@ class SwAxisCont(ARObject):
     are for display only. For editing and processing, only the values in the
     related GroupAxis are binding.
 
-    Package: M2::MSR::CalibrationData::CalibrationValue::SwAxisCont
+    Package: M2::MSR::CalibrationData::CalibrationValue
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 457, Classic Platform

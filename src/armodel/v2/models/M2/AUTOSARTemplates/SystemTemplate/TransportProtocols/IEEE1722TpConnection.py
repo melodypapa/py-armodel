@@ -12,7 +12,7 @@ class IEEE1722TpConnection(ARElement, ABC):
     """
     Definition of the IEEE1722Tp protocol.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 637, Classic Platform R23-11)

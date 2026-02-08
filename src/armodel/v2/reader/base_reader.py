@@ -3,7 +3,11 @@ V2 ARXML reader - deserializes ARXML to model objects using reflection.
 """
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import (
+    Any,
+    Dict,
+    Optional,
+)
 
 from armodel.v2.models.models import AUTOSAR
 from armodel.v2.reader.element_handler import ElementHandler

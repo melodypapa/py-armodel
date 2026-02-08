@@ -14,7 +14,7 @@ class DiagnosticServiceDataMapping(DiagnosticSwMapping):
     of SenderReceiverInterfaces or event/notifier semantics in ServiceInterfaces
     on the adaptive platform.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticServiceDataMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 228, Classic Platform

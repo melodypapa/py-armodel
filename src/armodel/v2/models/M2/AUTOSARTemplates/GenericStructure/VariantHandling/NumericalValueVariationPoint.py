@@ -1,13 +1,13 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class NumericalValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model only.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::NumericalValueVariationPoint
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)

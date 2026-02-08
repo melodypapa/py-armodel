@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.DataByIdentifier import DiagnosticDataByIdentifier
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.DataByIdentifier import (
+    DiagnosticDataByIdentifier,
+)
 
 
 class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
@@ -7,7 +10,7 @@ class DiagnosticReadScalingDataByIdentifier(DiagnosticDataByIdentifier):
     This represents an instance of the "Read Scaling Data by Identifier"
     diagnostic service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadScalingDataByIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 116, Classic Platform

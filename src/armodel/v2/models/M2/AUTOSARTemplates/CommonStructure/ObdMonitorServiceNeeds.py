@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
@@ -8,7 +11,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     of OBD Services in relation to a particular on-board monitoring test
     supported by this component or module. (OBD Service 06).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdMonitorServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform

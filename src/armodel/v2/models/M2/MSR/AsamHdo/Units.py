@@ -1,8 +1,11 @@
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
 )
@@ -16,6 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class PhysicalDimension(ARElement):
     """
+    Package: M2::MSR::AsamHdo::Units
     Represents a physical dimension with exponents for SI base units.
     Base: ARElement
     """
@@ -83,6 +87,7 @@ class PhysicalDimension(ARElement):
 
 class SingleLanguageUnitNames(ARLiteral):
     """
+    Package: M2::MSR::Documentation::TextModel::SingleLanguageData
     Represents single language unit names.
     Base: ARLiteral
     """
@@ -93,6 +98,7 @@ class SingleLanguageUnitNames(ARLiteral):
 
 class Unit(ARElement):
     """
+    Package: M2::MSR::AsamHdo::Units
     Represents a unit with display name, conversion factor, and physical dimension reference.
     Base: ARElement
     """
@@ -136,6 +142,7 @@ class Unit(ARElement):
 
 class UnitGroup(ARElement):
     """
+    Package: M2::MSR::AsamHdo::Units
     Represents a group of units in the AUTOSAR model.
 
     This class is used to group related units together for organizational purposes.

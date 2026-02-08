@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BswEntryRelationship(ARObject):
@@ -10,7 +10,7 @@ class BswEntryRelationship(ARObject):
     Describes a relationship between two BswModuleEntrys and the type of
     relationship.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswEntryRelationship
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 51, Classic

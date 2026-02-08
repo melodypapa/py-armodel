@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Sdg(ARObject):
@@ -15,7 +15,7 @@ class Sdg(ARObject):
     explicit model is available. If an sdg Caption is available, it is possible
     to establish a reference to the sdg structure.
 
-    Package: M2::MSR::AsamHdo::SpecialData::Sdg
+    Package: M2::MSR::AsamHdo::SpecialData
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 328, Classic Platform

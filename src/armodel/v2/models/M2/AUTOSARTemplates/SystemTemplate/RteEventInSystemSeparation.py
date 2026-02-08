@@ -11,7 +11,7 @@ class RteEventInSystemSeparation(Identifiable):
     the System. The referenced RteEvents are not allowed to be mapped into the
     same OsTask.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInSystemSeparation
+    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 214, Classic Platform R23-11)

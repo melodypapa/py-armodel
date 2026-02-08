@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import DiagnosticEnvConditionFormulaPart
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.EnvironmentalCondition import (
+    DiagnosticEnvConditionFormulaPart,
+)
 
 
 class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
@@ -15,7 +18,7 @@ class DiagnosticEnvConditionFormula(DiagnosticEnvConditionFormulaPart):
     the NRC is directly related to the specific formula and is therefore
     formalized in the attribute DiagnosticEnvCondition Formula.nrcValue.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvConditionFormula
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 80, Classic Platform

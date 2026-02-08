@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MixedContentForOverviewParagraph(ARObject, ABC):
@@ -11,7 +11,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
     documentation. Such restricted paragraphs are used mainly for overview
     items, e.g. desc.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForOverviewParagraph
+    Package: M2::MSR::Documentation::TextModel::InlineTextModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 289, Foundation

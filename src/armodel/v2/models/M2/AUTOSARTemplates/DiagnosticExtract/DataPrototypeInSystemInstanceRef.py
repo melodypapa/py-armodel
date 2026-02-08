@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -11,7 +14,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class DataPrototypeInSystemInstanceRef(ARObject):
     """
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::DataPrototypeInSystemInstanceRef
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 368, Classic Platform

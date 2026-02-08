@@ -11,7 +11,7 @@ class TracedFailure(Identifiable, ABC):
     Specifies the ability to report a specific failure to the error tracer. The
     short name specifies the literal applicable for the Default Error Tracer.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::TracedFailure
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic

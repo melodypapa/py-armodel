@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
@@ -7,7 +10,7 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     This meta-class shall be used to indicate that a software-component wants to
     access the in-use-monitoring performance ration denominator.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdRatioDenominatorNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 802, Classic Platform

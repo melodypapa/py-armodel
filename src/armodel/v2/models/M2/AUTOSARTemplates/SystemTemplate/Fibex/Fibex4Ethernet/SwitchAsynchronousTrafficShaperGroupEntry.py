@@ -9,7 +9,7 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     """
     Defines an Asynchronous Traffic Shapter (ATS) Group for a switch.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchAsynchronousTrafficShaperGroupEntry
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 142, Classic Platform R23-11)

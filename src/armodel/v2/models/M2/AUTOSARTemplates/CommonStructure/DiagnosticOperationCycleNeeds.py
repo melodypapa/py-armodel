@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
@@ -7,7 +10,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     This meta-class represents the needs of a software-component to provide
     information regarding the operation cycle management to the Dem module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticOperationCycleNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 761, Classic Platform

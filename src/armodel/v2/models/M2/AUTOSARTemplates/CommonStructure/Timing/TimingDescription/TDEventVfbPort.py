@@ -13,7 +13,7 @@ class TDEventVfbPort(TDEventVfb, ABC):
     This is the abstract parent class to describe specific timing event types at
     Virtual Functional Bus (VFB) level.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVfbPort
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 52, Classic Platform R23-11)

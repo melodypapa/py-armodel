@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BlueprintMapping(ARObject):
@@ -8,7 +8,7 @@ class BlueprintMapping(ARObject):
     This meta-class represents the ability to map two an object and its
     blueprint.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic::BlueprintMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 163, Foundation R23-11)

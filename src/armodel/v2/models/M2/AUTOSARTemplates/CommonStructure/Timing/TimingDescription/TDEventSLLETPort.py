@@ -11,7 +11,7 @@ class TDEventSLLETPort(TDEventSLLET):
     """
     Used to describe SL-LET timing events on the level of a SWC port.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventSLLETPort
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 79, Classic Platform R23-11)

@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 
 class MlFormula(Paginateable):
@@ -8,7 +11,7 @@ class MlFormula(Paginateable):
     one representation is available, they need to be consistent. The rendering
     system can use the representation which is most appropriate.
 
-    Package: M2::MSR::Documentation::BlockElements::Formula::MlFormula
+    Package: M2::MSR::Documentation::BlockElements::Formula
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 301, Classic Platform R23-11)

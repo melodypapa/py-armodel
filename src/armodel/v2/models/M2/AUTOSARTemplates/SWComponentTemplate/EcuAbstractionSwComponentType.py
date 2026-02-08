@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
@@ -10,7 +13,7 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
     the possibility to link from the software representation to its hardware
     description provided by the ECU Resource Template.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::EcuAbstractionSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 313, Classic

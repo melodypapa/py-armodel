@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
@@ -7,7 +13,7 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     The diagnostic trouble code group defines the DTCs belonging together and
     thereby forming a group.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeGroup
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 177, Classic Platform

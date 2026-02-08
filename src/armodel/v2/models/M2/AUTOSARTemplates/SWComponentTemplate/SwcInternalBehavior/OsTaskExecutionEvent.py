@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import RTEEvent
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
+    RTEEvent,
+)
+
 
 class OsTaskExecutionEvent(RTEEvent):
     """
@@ -8,7 +11,7 @@ class OsTaskExecutionEvent(RTEEvent):
     case for this event is scheduling of Runnables of Complex Drivers which have
     to react on task executions.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::OsTaskExecutionEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 547, Classic Platform

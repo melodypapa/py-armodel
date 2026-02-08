@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DiagnosticControlEnableMaskBit(ARObject):
@@ -10,7 +13,7 @@ class DiagnosticControlEnableMaskBit(ARObject):
     This meta-class has the ability to represent one bit in the control enable
     mask record.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl::DiagnosticControlEnableMaskBit
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 119, Classic Platform

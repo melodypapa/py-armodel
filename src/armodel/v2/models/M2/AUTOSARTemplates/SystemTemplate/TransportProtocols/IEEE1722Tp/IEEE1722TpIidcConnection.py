@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import IEEE1722TpAvConnection
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (
+    IEEE1722TpAvConnection,
+)
 
 
 class IEEE1722TpIidcConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp IIDC connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv::IEEE1722TpIidcConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 648, Classic Platform R23-11)

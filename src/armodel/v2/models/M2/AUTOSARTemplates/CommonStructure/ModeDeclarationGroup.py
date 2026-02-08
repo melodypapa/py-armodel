@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ModeDeclarationGroup(ARElement):
@@ -7,7 +13,7 @@ class ModeDeclarationGroup(ARElement):
     A collection of Mode Declarations. Also, the initial mode is explicitly
     identified.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeDeclarationGroup
+    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 42, Classic

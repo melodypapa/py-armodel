@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ConstantSpecification(ARElement):
@@ -7,7 +10,7 @@ class ConstantSpecification(ARElement):
     Specification of a constant that can be part of a package, i.e. it can be
     defined stand-alone.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic

@@ -6,7 +6,7 @@ class CompuScales(CompuContent):
     This meta-class represents the ability to stepwise express a computation
     method.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuScales
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import EventTriggeringConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    EventTriggeringConstraint,
+)
 
 
 class ArbitraryEventTriggering(EventTriggeringConstraint):
@@ -9,7 +12,7 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     occurrences captured by data acquisition tools (background debugger, trace
     analyzer, etc.) during system runtime.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::ArbitraryEventTriggering
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 111, Classic Platform R23-11)

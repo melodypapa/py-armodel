@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeSlave
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeSlave,
+)
+
 
 class UserDefinedGlobalTimeSlave(GlobalTimeSlave):
     """
     This represents the specialization of the GlobalTimeSlave for user defined
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::UserDefined::UserDefinedGlobalTimeSlave
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::UserDefined
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 879, Classic Platform R23-11)

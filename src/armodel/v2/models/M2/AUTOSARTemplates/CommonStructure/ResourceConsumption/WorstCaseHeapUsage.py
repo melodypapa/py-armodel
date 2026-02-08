@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import (
+    HeapUsage,
+)
 
 
 class WorstCaseHeapUsage(HeapUsage):
     """
     Provides a formal worst case heap usage.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage::WorstCaseHeapUsage
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 152, Classic

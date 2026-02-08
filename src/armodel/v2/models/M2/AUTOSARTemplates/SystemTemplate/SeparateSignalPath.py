@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import (
+    SignalPathConstraint,
+)
 
 
 class SeparateSignalPath(SignalPathConstraint):
@@ -9,7 +12,7 @@ class SeparateSignalPath(SignalPathConstraint):
     topology (e.g. Redundancy). This means that the signals are not allowed to
     share even a single physical channel in their path.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SeparateSignalPath
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 257, Classic Platform R23-11)

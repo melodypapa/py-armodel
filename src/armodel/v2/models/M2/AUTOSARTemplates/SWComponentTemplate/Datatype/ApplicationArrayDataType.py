@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationCompositeDataType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationCompositeDataType,
+)
 
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
@@ -7,7 +10,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     An application data type which is an array, each element is of the same
     application data type.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationArrayDataType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 252, Classic Platform

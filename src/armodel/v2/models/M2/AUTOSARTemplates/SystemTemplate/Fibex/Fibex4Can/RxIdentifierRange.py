@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RxIdentifierRange(ARObject):
@@ -12,7 +12,7 @@ class RxIdentifierRange(ARObject):
     All frames received within a range are mapped to the same Pdu that is passed
     to a upper layer module (e.g. Nm, CDD, PduR).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication::RxIdentifierRange
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 444, Classic Platform R23-11)

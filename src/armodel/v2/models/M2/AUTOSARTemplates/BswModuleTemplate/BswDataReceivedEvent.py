@@ -12,7 +12,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
     This event is thrown on reception of the referenced data via
     Sender-Receiver-Communication over the BSW Scheduler.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswDataReceivedEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 99, Classic

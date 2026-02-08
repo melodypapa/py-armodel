@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import BusspecificNmEcu
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    BusspecificNmEcu,
+)
 
 
 class FlexrayNmEcu(BusspecificNmEcu):
     """
     FlexRay specific attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmEcu
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)

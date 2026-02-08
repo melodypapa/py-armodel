@@ -13,7 +13,7 @@ class SystemMapping(Identifiable):
     The system mapping aggregates all mapping aspects (mapping of SW components
     to ECUs, mapping of data elements to signals, and mapping constraints).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SystemMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 190, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,7 +15,7 @@ class InvalidationPolicy(ARObject):
     considered to yield the identical result as if the handleInvalid attribute
     was set to dontInvalidate.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InvalidationPolicy
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 97, Classic Platform

@@ -4,8 +4,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibratio
     RptAccessEnum,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class RptSwPrototypingAccess(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
     Represents RPT software prototyping access in AUTOSAR.
     Defines access controls for software prototyping through RPT.
     """

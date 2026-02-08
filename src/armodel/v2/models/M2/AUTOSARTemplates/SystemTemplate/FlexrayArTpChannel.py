@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FlexrayArTpChannel(ARObject):
@@ -12,7 +15,7 @@ class FlexrayArTpChannel(ARObject):
     concurrently, thus each of them requires its own state machine and
     management data structures and its own PDU-IDs.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayArTpChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 600, Classic Platform R23-11)

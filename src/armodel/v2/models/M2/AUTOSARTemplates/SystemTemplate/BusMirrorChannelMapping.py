@@ -1,10 +1,15 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    FibexElement,
+)
 
 
 class BusMirrorChannelMapping(FibexElement, ABC):
@@ -13,7 +18,7 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     communication bus (sourceChannel) is forwarded to another one
     (targetChannel).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannelMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 697, Classic Platform R23-11)

@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.Authentication import DiagnosticAuthentication
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.Authentication import (
+    DiagnosticAuthentication,
+)
+
 
 class DiagnosticVerifyCertificateUnidirectional(DiagnosticAuthentication):
     """
     This meta-class represents the subfunction to do a unidirectional
     verification of the certificate.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticVerifyCertificateUnidirectional
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 100, Classic Platform

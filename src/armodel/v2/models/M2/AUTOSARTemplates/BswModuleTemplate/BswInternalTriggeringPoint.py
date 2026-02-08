@@ -10,7 +10,7 @@ class BswInternalTriggeringPoint(Identifiable):
     Represents the activation point for one or more
     BswInternalTriggerOccurredEvents.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInternalTriggeringPoint
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 91, Classic

@@ -12,7 +12,7 @@ class ReferenceValueSpecification(ValueSpecification):
     Specifies a reference to a data prototype to be used as an initial value for
     a pointer in the software.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ReferenceValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 436, Classic Platform

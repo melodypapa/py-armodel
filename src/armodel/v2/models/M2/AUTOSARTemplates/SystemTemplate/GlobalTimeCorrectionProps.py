@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class GlobalTimeCorrectionProps(ARObject):
     """
     This meta-class defines the attributes for rate and offset correction.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeCorrectionProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 862, Classic Platform R23-11)

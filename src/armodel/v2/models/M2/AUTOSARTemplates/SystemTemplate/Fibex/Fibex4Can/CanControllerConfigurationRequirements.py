@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationControllerAttributes
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+    AbstractCanCommunicationControllerAttributes,
+)
 
 
 class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerAttributes):
@@ -8,7 +11,7 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
     configuration parameters. These ranges are taken as requirements and have to
     be respected by the ECU developer.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerConfigurationRequirements
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 65, Classic Platform R23-11)

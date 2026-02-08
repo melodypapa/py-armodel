@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucQueryExpression(ARObject):
@@ -11,7 +11,7 @@ class EcucQueryExpression(ARObject):
     an numerical value. Due to the "mixedString" nature of the formula there can
     be several EcuQueryExpressions used.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQueryExpression
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 89, Classic Platform R23-11)

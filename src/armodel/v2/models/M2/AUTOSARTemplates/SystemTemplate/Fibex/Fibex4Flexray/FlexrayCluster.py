@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FlexrayCluster(ARObject):
     """
     FlexRay specific attributes to the physicalCluster
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 80, Classic Platform R23-11)

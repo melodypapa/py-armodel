@@ -13,7 +13,7 @@ class NvDataInterface(DataInterface):
     be exchanged between non volatile block components and atomic software
     components.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::NvDataInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform

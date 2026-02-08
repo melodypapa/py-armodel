@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AliasNameAssignment(ARObject):
     """
     that flatInstance and identifiable are mutually exclusive.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::AliasNameAssignment
+    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 175, Classic

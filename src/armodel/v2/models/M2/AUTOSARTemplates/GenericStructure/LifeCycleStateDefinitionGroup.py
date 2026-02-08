@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class LifeCycleStateDefinitionGroup(ARElement):
@@ -7,7 +10,7 @@ class LifeCycleStateDefinitionGroup(ARElement):
     This meta class represents the ability to define the states and properties
     of one particular life cycle.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleStateDefinitionGroup
+    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 388, Foundation

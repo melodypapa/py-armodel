@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MultilanguageLongName(ARObject):
@@ -9,7 +9,7 @@ class MultilanguageLongName(ARObject):
     the role of a headline. It is intended for human readers. Per language it
     should be around max 80 characters.
 
-    Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultilanguageLongName
+    Package: M2::MSR::Documentation::TextModel::MultilanguageData
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform

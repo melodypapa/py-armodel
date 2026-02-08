@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FMFeatureDecomposition(ARObject):
@@ -12,7 +15,7 @@ class FMFeatureDecomposition(ARObject):
     FMFeatureDecomposition). The kind of dependency is defined by the attribute
     category.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureDecomposition
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 27, Foundation

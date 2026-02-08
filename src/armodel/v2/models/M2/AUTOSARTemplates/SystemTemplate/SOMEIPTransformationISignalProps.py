@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +16,7 @@ class SOMEIPTransformationISignalProps(ARObject):
     The class SOMEIPTransformationISignalProps specifies ISignal specific
     configuration properties for SOME/IP transformer attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::SOMEIPTransformationISignalProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 778, Classic Platform R23-11)

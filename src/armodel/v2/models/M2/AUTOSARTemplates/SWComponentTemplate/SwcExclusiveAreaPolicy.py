@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwcExclusiveAreaPolicy(ARObject):
@@ -11,7 +11,7 @@ class SwcExclusiveAreaPolicy(ARObject):
     SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values
     apply.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::SwcExclusiveAreaPolicy
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 556, Classic Platform

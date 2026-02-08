@@ -12,7 +12,7 @@ class ModePortAnnotation(GeneralAnnotation):
     Annotation to a port used for calibration regarding a certain
     ModeDeclarationGroupPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ModePortAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 159, Classic Platform

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RptExecutableEntityProperties(ARObject):
@@ -10,7 +10,7 @@ class RptExecutableEntityProperties(ARObject):
     Describes the code preparation for rapid prototyping at ExecutableEntity
     invocation.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptExecutableEntityProperties
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 203, Classic

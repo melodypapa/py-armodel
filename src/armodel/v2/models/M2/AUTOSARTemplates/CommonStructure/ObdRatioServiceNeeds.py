@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
@@ -8,7 +11,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     of OBD Services in relation to a particular "ratio monitoring" which is
     supported by this component or module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdRatioServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 795, Classic Platform

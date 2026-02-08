@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucAbstractReferenceValue,
+)
 
 
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     """
     InstanceReference representation in the ECU Configuration.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucInstanceReferenceValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 134, Classic Platform R23-11)

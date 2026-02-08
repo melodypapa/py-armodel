@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class DataTypeMappingSet(ARElement):
@@ -8,7 +11,7 @@ class DataTypeMappingSet(ARElement):
     ImplementationDataTypes. In addition, it can contain mappings between
     ImplementationDataTypes and ModeDeclarationGroups.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::DataTypeMappingSet
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic

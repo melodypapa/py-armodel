@@ -6,7 +6,7 @@ class Table(Paginateable):
     This class implements an exchange table according to OASIS Technical
     Resolution TR 9503:1995. http://www.oasis-open.org/specs/a503.htm
 
-    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Table
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 332, Foundation

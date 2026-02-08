@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RuleBasedValueSpecification(ARObject):
@@ -12,7 +12,7 @@ class RuleBasedValueSpecification(ARObject):
     ImplementationDataType of category ARRAY) or a compound Application
     PrimitiveDataType (which also boils down to an array-nature).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::RuleBasedValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 331, Classic

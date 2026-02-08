@@ -14,7 +14,7 @@ class SoConIPduIdentifier(Referrable):
     required in case that multiple Pdus are transmitted over the same socket
     connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SoConIPduIdentifier
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 489, Classic Platform R23-11)

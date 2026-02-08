@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import (
+    SignalPathConstraint,
+)
 
 
 class PermissibleSignalPath(SignalPathConstraint):
@@ -13,7 +16,7 @@ class PermissibleSignalPath(SignalPathConstraint):
     and not path B (1. CAN channel, FlexRay channel A). This has an effect on
     the frame generation and the frame path.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::PermissibleSignalPath
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 256, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BlueprintPolicy(ARObject, ABC):
@@ -12,7 +12,7 @@ class BlueprintPolicy(ARObject, ABC):
     ID 535: AUTOSAR_FO_TPS_StandardizationTemplate Standardization Template
     AUTOSAR FO R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicy
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 163, Foundation R23-11)

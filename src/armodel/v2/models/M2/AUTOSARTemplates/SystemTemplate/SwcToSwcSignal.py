@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -17,7 +17,7 @@ class SwcToSwcSignal(ARObject):
     information which is exchanged between one P-Port of a SW Component and one
     R-Port of another SW Component.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SwcToSwcSignal
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 253, Classic Platform R23-11)

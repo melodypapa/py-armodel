@@ -13,7 +13,7 @@ class ApplicationInterface(PortInterface):
     composition of commands (method calls), indications (events) and attributes
     (fields)
 
-    Package: M2::AUTOSARTemplates::AbstractPlatform::ApplicationInterface
+    Package: M2::AUTOSARTemplates::AbstractPlatform
 
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 28, Foundation

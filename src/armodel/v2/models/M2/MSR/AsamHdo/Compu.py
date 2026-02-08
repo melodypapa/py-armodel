@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Compu(ARObject):
@@ -10,7 +10,7 @@ class Compu(ARObject):
     This meta-class represents the ability to express one particular
     computation.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::Compu
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 386, Classic Platform

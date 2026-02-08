@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticDataIdentifierSet(DiagnosticCommonElement):
@@ -7,7 +10,7 @@ class DiagnosticDataIdentifierSet(DiagnosticCommonElement):
     This represents the ability to define a list of DiagnosticDataIdentifiers
     that can be reused in different contexts.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticDataIdentifierSet
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 187, Classic Platform

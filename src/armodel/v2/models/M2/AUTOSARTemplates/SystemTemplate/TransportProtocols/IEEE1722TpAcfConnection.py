@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import IEEE1722TpConnection
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (
+    IEEE1722TpConnection,
+)
 
 
 class IEEE1722TpAcfConnection(IEEE1722TpConnection):
     """
     ACF IEEE1722Tp connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcfConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 656, Classic Platform R23-11)

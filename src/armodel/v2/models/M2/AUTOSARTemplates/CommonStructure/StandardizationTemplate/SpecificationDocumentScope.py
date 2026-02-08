@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import SpecElementReference
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    SpecElementReference,
+)
 
 
 class SpecificationDocumentScope(SpecElementReference):
@@ -8,7 +14,7 @@ class SpecificationDocumentScope(SpecElementReference):
     Component Template, Main Requirements, Specification of Communication, etc.
     Autosar specifications are referenced via their title.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange::SpecificationDocumentScope
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 97, Foundation R23-11)

@@ -10,7 +10,7 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     Abstract meta-class that collects common properties for all specialized
     DoIpLogicAddressProps.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::AbstractDoIpLogicAddressProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 556, Classic Platform R23-11)

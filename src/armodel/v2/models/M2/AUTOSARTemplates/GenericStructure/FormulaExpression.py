@@ -2,8 +2,8 @@ from abc import ABC
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -16,7 +16,7 @@ class FormulaExpression(ARObject, ABC):
     cases. For each use case the referable objects might be specified in the
     specialization.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::FormulaLanguage::FormulaExpression
+    Package: M2::AUTOSARTemplates::GenericStructure::FormulaLanguage
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 223, Classic Platform R23-11)

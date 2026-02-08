@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class FMFeature(ARElement):
@@ -7,7 +13,7 @@ class FMFeature(ARElement):
     A FMFeature describes an essential characteristic of a product. Each
     FMFeature is contained in exactly one FMFeatureModel.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeature
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 24, Foundation

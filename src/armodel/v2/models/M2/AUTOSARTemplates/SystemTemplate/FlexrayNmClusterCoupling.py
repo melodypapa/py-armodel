@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmClusterCoupling
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmClusterCoupling,
+)
 
 
 class FlexrayNmClusterCoupling(NmClusterCoupling):
@@ -7,7 +13,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     FlexRay attributes that are valid for each of the referenced (coupled)
     FlexRay clusters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::FlexrayNmClusterCoupling
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 679, Classic Platform R23-11)

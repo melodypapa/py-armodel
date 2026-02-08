@@ -12,7 +12,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
     Used to define configuration containers that can hierarchically contain
     other containers and/or parameter definitions.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParamConfContainerDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 39, Classic Platform R23-11)

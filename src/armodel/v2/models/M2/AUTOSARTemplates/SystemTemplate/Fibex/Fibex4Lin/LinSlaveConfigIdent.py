@@ -8,7 +8,7 @@ class LinSlaveConfigIdent(Referrable):
     This meta-class is created to add the ability to become the target of a
     reference to the non-Referrable Lin SlaveConfig.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinSlaveConfigIdent
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 95, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class McDataAccessDetails(ARObject):
@@ -11,7 +11,7 @@ class McDataAccessDetails(ARObject):
     VariableDataPrototype are implicitly given be the referred instances of
     RTEEvent and VariableAccess.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McDataAccessDetails
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 195, Classic

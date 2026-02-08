@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class EthTpConfig(TpConfig):
@@ -7,7 +10,7 @@ class EthTpConfig(TpConfig):
     This element defines which PduTriggerings shall be handled using "TP"
     semantics.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::EthTpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 617, Classic Platform R23-11)

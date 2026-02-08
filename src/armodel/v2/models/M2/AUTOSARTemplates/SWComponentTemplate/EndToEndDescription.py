@@ -1,12 +1,13 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EndToEndDescription(ARObject):
     """
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection
     that if the receiver does not receive new Data at a consecutive read, then
     the receiver increments the tolerance by 1. maxNoNewOr PositiveInteger 0..1
     attr The maximum amount of missing or repeated Data which RepeatedData the

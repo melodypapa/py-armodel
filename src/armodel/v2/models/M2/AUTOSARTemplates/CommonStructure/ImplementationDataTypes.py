@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement
@@ -8,8 +11,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTyp
     AtpStructureElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
     AREnum,
@@ -120,6 +123,7 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
 
 class ImplementationDataType(AbstractImplementationDataType):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
     Represents an implementation data type in AUTOSAR models.
     This class defines how data types are implemented in code, including arrays, structures, and data references.
     """

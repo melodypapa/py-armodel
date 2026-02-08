@@ -12,7 +12,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
     linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to
     the SystemSignal is not yet available.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SystemSignalToCommunicationResourceMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 289, Classic Platform R23-11)

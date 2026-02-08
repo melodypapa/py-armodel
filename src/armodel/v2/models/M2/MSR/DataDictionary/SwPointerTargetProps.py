@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwPointerTargetProps(ARObject):
@@ -14,7 +14,7 @@ class SwPointerTargetProps(ARObject):
     properties of the target which is either a data description or a function
     signature.
 
-    Package: M2::MSR::DataDictionary::DataDefProperties::SwPointerTargetProps
+    Package: M2::MSR::DataDictionary::DataDefProperties
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 39, Classic

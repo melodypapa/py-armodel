@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DoIpServiceNeeds,
+)
+
 
 class DoIpActivationLineNeeds(DoIpServiceNeeds):
     """
@@ -7,7 +10,7 @@ class DoIpActivationLineNeeds(DoIpServiceNeeds):
     event. Examples would be a Pdu via a regular communication bus, a PWM
     signal, or an I/O. For details please refer to the ISO 13400.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpActivationLineNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 807, Classic Platform

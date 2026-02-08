@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
@@ -11,7 +11,7 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
     An expression that has the syntax of the AUTOSAR formula language and may
     use references to features or system constants as operands.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFormulaByFeaturesAndSwSystemconsts
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 63, Foundation

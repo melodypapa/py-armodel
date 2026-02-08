@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -12,7 +15,7 @@ class Gateway(FibexElement):
     A gateway is an ECU that is connected to two or more clusters (channels, but
     not redundant), and performs a frame, Pdu or signal mapping between them.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::Gateway
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 837, Classic Platform R23-11)

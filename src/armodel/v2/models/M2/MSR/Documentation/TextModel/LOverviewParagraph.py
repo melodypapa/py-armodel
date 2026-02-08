@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class LOverviewParagraph(ARObject):
@@ -10,7 +10,7 @@ class LOverviewParagraph(ARObject):
     MixedContentForOverviewParagraph in one particular language. The language is
     denoted in the attribute l.
 
-    Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LOverviewParagraph
+    Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 348, Foundation

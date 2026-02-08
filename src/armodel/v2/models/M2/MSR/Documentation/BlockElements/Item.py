@@ -1,9 +1,13 @@
+from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
+    DocumentationBlock,
+)
+
 
 class Item(Paginateable):
     """
     This meta-class represents one particular item in a list.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::Item
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 295, Foundation

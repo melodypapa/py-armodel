@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MixedContentForPlainText(ARObject, ABC):
@@ -10,7 +10,7 @@ class MixedContentForPlainText(ARObject, ABC):
     This represents a plain text which conceptually is handled as mixed
     contents. It is modeled as such for symmetry reasons.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForPlainText
+    Package: M2::MSR::Documentation::TextModel::InlineTextModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 349, Foundation

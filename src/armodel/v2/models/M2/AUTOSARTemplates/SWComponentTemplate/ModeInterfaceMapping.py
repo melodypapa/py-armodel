@@ -12,7 +12,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     Defines the mapping of ModeDeclarationGroupPrototypes in context of two
     different ModeInterfaces.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeInterfaceMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 130, Classic Platform

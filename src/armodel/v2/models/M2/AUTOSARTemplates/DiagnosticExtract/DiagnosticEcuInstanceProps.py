@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
@@ -10,7 +16,7 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     it is therefore possible to specify the diagnostic-related information
     related to a given EcuInstance even if the EcuInstance does not yet exist.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticEcuInstanceProps
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 207, Classic Platform

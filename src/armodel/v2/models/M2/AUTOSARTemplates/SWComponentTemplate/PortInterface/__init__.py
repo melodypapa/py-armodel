@@ -8,7 +8,9 @@ from typing import Optional
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
     ARElement,
 )
-from .InstanceRefs import *
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import (
+    ApplicationCompositeElementInPortInterfaceInstanceRef,
+)
 
 
 class PortInterface(ARElement, ABC):
@@ -16,7 +18,7 @@ class PortInterface(ARElement, ABC):
     Abstract base class for an interface that is either provided or required by
     a port of a software component.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 326, Classic Platform

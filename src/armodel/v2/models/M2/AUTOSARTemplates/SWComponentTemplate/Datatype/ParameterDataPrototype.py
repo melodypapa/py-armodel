@@ -1,7 +1,8 @@
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.AutosarDataPrototype import (
     AutosarDataPrototype,
-    )
+)
 
 
 class ParameterDataPrototype(AutosarDataPrototype):
@@ -12,7 +13,7 @@ class ParameterDataPrototype(AutosarDataPrototype):
     used in various contexts and the specific context gives the otherwise
     generic ParameterDataPrototype a dedicated semantics.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ParameterDataPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 107, Classic

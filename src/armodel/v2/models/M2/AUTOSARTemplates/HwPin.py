@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -9,7 +12,7 @@ class HwPin(Identifiable):
     """
     This meta-class represents the possibility to describe a hardware pin.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPin
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 20, Classic Platform

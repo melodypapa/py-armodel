@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompuConst(ARObject):
@@ -10,7 +10,7 @@ class CompuConst(ARObject):
     This meta-class represents the fact that the value of a computation method
     scale is constant.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuConst
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform

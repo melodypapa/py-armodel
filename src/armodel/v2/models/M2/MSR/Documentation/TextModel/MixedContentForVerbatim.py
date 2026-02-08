@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MixedContentForVerbatim(ARObject, ABC):
@@ -16,7 +16,7 @@ class MixedContentForVerbatim(ARObject, ABC):
     inline elements, the length of the data shall not be influenced by
     formatting.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForVerbatim
+    Package: M2::MSR::Documentation::TextModel::InlineTextModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 292, Foundation

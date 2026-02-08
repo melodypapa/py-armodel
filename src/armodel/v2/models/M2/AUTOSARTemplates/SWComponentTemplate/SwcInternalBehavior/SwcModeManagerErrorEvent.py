@@ -12,7 +12,7 @@ class SwcModeManagerErrorEvent(RTEEvent):
     This event is raised when an error occurred during the handling of the
     referenced ModeDeclarationGroup Prototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::SwcModeManagerErrorEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 637, Classic Platform

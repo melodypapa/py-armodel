@@ -1,13 +1,13 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class IndexEntry(ARObject):
     """
     This class represents an index entry.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::IndexEntry
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 317, Foundation

@@ -3,7 +3,7 @@ class SwBaseType(BaseType):
     """
     This meta-class represents a base type used within ECU software.
 
-    Package: M2::MSR::AsamHdo::BaseTypes::SwBaseType
+    Package: M2::MSR::AsamHdo::BaseTypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 337, Classic

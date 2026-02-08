@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticSwMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticSwMapping,
+)
 
 
 class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
@@ -7,7 +10,7 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     Defines to which SWC service ports with DiagnosticStorageConditionNeeds the
     DiagnosticStorage Condition is mapped.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticStorageConditionPortMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 253, Classic Platform

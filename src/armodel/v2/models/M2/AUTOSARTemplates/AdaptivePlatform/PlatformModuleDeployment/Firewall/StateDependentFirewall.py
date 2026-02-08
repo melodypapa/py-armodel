@@ -1,8 +1,11 @@
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -10,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class StateDependentFirewall(ARObject):
     """
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
     Represents a state-dependent firewall in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines firewall rules that depend on system states.
     """

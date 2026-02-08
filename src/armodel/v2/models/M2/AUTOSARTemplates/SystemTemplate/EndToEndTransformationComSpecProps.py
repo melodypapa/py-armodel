@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    TransformationComSpecProps,
+)
 
 
 class EndToEndTransformationComSpecProps(TransformationComSpecProps):
@@ -7,7 +10,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     The class EndToEndTransformationIComSpecProps specifies port specific
     configuration properties for EndToEnd transformer attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationComSpecProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 200, Classic Platform

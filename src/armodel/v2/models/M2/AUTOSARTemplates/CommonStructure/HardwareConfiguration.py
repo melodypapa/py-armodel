@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class HardwareConfiguration(ARObject):
@@ -10,7 +10,7 @@ class HardwareConfiguration(ARObject):
     Describes in which mode the hardware is operating while needing this
     resource consumption.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HardwareConfiguration
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 161, Classic

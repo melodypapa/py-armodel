@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ReceiverComSpec
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    ReceiverComSpec,
+)
 
 
 class QueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to queued receiving.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::QueuedReceiverComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 173, Classic Platform

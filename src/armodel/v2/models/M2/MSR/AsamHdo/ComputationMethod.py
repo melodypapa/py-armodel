@@ -1,12 +1,15 @@
 from abc import ABC
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CIdentifier,
     Identifier,
@@ -22,6 +25,7 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
 
 class CompuContent(ARObject, ABC):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Abstract base class for computation content.
     Base: ARObject
     """
@@ -34,6 +38,7 @@ class CompuContent(ARObject, ABC):
 
 class CompuConst(ARObject):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the fact that the value of a computation method scale is constant.
     Base            : ARObject
     Aggregated by   : Compu.compuDefaultValue, CompuScale.compuInverseValue, CompuScaleConstantContents.compuCons
@@ -53,6 +58,7 @@ class CompuConst(ARObject):
 
 class Compu(ARObject):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Base class for computation methods.
     Base: ARObject
     """
@@ -80,6 +86,7 @@ class Compu(ARObject):
 
 class CompuConstContent(ARObject, ABC):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the fact that the constant value of the computation method can be numerical or textual.
     Base            : ARObject
     Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
@@ -94,6 +101,7 @@ class CompuConstContent(ARObject, ABC):
 
 class CompuConstTextContent(CompuConstContent):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the textual content of a scale.
     Base:           ARObject, CompuConstContent
     Aggregated by:  CompuConst.compuConstContentType
@@ -112,6 +120,7 @@ class CompuConstTextContent(CompuConstContent):
 
 class CompuConstNumericContent(CompuConstContent):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the numeric content of a scale.
     Base: ARObject, CompuConstContent
     """
@@ -129,6 +138,7 @@ class CompuConstNumericContent(CompuConstContent):
 
 class CompuConstFormulaContent(CompuConstContent):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the formula content of a scale.
     Base: ARObject, CompuConstContent
     """
@@ -149,6 +159,7 @@ class CompuConstFormulaContent(CompuConstContent):
 
 class CompuScaleContents(ARObject, ABC):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Abstract base class for computation scale contents.
     Base: ARObject
     """
@@ -161,6 +172,7 @@ class CompuScaleContents(ARObject, ABC):
 
 class CompuScaleConstantContents(CompuScaleContents):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Represents constant contents of a computation scale.
     Base: CompuScaleContents
     """
@@ -178,6 +190,7 @@ class CompuScaleConstantContents(CompuScaleContents):
 
 class CompuRationalCoeffs(ARObject):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator.
     Base            : ARObject
     Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
@@ -205,6 +218,7 @@ class CompuRationalCoeffs(ARObject):
 
 class CompuScaleRationalFormula(CompuScaleContents):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This meta-class represents the fact that the computation in this scale is represented as rational term.
     Base: CompuScaleContents
     """
@@ -222,6 +236,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
 
 class CompuNominatorDenominator(ARObject):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     This class represents the ability to express a polynomial either as Nominator or as Denominator.
     Base          : ARObject
     Aggregated by : CompuRationalCoeffs.compuDenominator, CompuRationalCoeffs.compuNumerator
@@ -241,6 +256,7 @@ class CompuNominatorDenominator(ARObject):
 
 class CompuScale(ARObject):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Represents a single scale in a computation method with limits and content.
     Base: ARObject
     """
@@ -324,6 +340,7 @@ class CompuScale(ARObject):
 
 class CompuScales(CompuContent):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Container for multiple computation scales.
     Base: CompuContent
     """
@@ -341,6 +358,7 @@ class CompuScales(CompuContent):
 
 class CompuMethod(AtpBlueprintable):
     """
+    Package: M2::MSR::AsamHdo::ComputationMethod
     Represents a computation method for converting between internal and physical values.
     Base: AtpBlueprintable
     """

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommConnectorPort
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommConnectorPort,
+)
 
 
 class ISignalPort(CommConnectorPort):
@@ -8,7 +11,7 @@ class ISignalPort(CommConnectorPort):
     ISignalTriggering. If different timeouts or DataFilters for ISignals need to
     be specified several ISignalPorts may be created.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalPort
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 305, Classic Platform R23-11)

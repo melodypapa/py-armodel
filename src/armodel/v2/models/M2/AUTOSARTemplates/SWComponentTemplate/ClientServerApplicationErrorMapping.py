@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ClientServerApplicationErrorMapping(ARObject):
@@ -10,7 +10,7 @@ class ClientServerApplicationErrorMapping(ARObject):
     This meta-class represents the ability to map ApplicationErrors onto each
     other.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerApplicationErrorMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 129, Classic Platform

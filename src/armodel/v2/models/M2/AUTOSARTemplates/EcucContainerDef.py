@@ -1,6 +1,12 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucDefinitionElement,
+)
 
 
 class EcucContainerDef(EcucDefinitionElement, ABC):
@@ -8,7 +14,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
     Base class used to gather common attributes of configuration container
     definitions.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucContainerDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 36, Classic Platform R23-11)

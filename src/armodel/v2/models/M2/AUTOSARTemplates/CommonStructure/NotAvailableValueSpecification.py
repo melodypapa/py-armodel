@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ValueSpecification,
+)
 
 
 class NotAvailableValueSpecification(ValueSpecification):
@@ -9,7 +12,7 @@ class NotAvailableValueSpecification(ValueSpecification):
     to support the existence of ApplicationRecordElements where attribute
     isOptional ist set to the value true.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::NotAvailableValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 440, Classic Platform

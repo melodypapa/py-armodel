@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ConstantSpecificationMapping(ARObject):
@@ -15,7 +15,7 @@ class ConstantSpecificationMapping(ARObject):
     associated to a ConstantSpecification in the other domain. This information
     is crucial for the RTE generator.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantSpecificationMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 443, Classic Platform

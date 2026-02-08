@@ -1,18 +1,16 @@
-from abc import ABC
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-        DiagnosticCommonElement,
-    )
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
-class DiagnosticAbstractDataIdentifier("DiagnosticCommonElement", ABC):
+class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement):
     """
     This meta-class represents an abstract base class for the modeling of a
     diagnostic data identifier (DID).
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticAbstractDataIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 34, Classic Platform

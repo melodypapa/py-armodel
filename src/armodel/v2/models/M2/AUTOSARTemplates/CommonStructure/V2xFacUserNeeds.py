@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class V2xFacUserNeeds(ServiceNeeds):
     """
     This meta-class represents the ability to define service needs for V2x
     facilities.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::V2xFacUserNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 834, Classic Platform

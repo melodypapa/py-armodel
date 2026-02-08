@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucLinkerSymbolDef(ARObject):
@@ -8,7 +8,7 @@ class EcucLinkerSymbolDef(ARObject):
     Configuration parameter type for Linker Symbol Names like those used to
     specify memory locations of variables and constants.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucLinkerSymbolDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 65, Classic Platform R23-11)

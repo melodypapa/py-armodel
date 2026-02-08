@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    PortInterfaceMapping,
+)
 
 
 class ClientServerInterfaceMapping(PortInterfaceMapping):
@@ -7,7 +10,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     Defines the mapping of ClientServerOperations in context of two different
     ClientServerInterfaces.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerInterfaceMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 128, Classic Platform

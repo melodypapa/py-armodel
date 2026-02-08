@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TimingConditionFormula(ARObject):
@@ -11,7 +11,7 @@ class TimingConditionFormula(ARObject):
     shall be a boolean expression addressing modes, variables, arguments, and/or
     events.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingConditionFormula
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)

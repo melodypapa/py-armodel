@@ -1,16 +1,18 @@
-from typing import List, Optional, TYPE_CHECKING
+from typing import (
+    List,
+    Optional,
+)
 
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-        DiagnosticCommonElement,
-    )
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
-class DiagnosticInfoType("DiagnosticCommonElement"):
+class DiagnosticInfoType(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model an OBD info type.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticInfoType
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 160, Classic Platform

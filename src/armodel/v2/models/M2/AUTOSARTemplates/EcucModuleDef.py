@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucDefinitionElement,
+)
 
 
 class EcucModuleDef(EcucDefinitionElement):
@@ -7,7 +13,7 @@ class EcucModuleDef(EcucDefinitionElement):
     Used as the top-level element for configuration definition for Software
     Modules, including BSW and RTE as well as ECU Infrastructure.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucModuleDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 314, Classic

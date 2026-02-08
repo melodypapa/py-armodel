@@ -1,15 +1,15 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BaseTypeDefinition(ARObject, ABC):
     """
     This meta-class represents the ability to define a basetype.
 
-    Package: M2::MSR::AsamHdo::BaseTypes::BaseTypeDefinition
+    Package: M2::MSR::AsamHdo::BaseTypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 290, Classic Platform

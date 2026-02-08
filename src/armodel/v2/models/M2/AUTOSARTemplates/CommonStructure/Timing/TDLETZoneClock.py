@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TimingClock
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import (
+    TimingClock,
+)
 
 
 class TDLETZoneClock(TimingClock):
     """
     Describes a LET zone clock.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TDLETZoneClock
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 252, Classic Platform R23-11)

@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec
@@ -13,7 +16,7 @@ class SenderComSpec(PPortComSpec, ABC):
     Communication attributes for a sender port (PPortPrototype typed by
     SenderReceiverInterface).
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::SenderComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 178, Classic Platform

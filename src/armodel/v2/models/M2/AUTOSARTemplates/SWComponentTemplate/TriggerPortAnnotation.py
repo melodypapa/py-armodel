@@ -11,7 +11,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
     """
     Annotation to a port used for calibration regarding a certain Trigger.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::TriggerPortAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 160, Classic Platform

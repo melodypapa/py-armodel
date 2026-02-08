@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AbstractNumericalVariationPoint(ARObject, ABC):
@@ -11,7 +11,7 @@ class AbstractNumericalVariationPoint(ARObject, ABC):
     support the case that additional attributes are required for particular
     purposes.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AbstractNumericalVariationPoint
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 969, Classic Platform

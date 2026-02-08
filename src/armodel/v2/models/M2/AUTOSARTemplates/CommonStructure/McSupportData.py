@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class McSupportData(ARObject):
@@ -12,7 +15,7 @@ class McSupportData(ARObject):
     to the RTE implementation (if it owns MC data) and a separate one for each
     module or component, which owns private MC data.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McSupportData
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 172, Classic

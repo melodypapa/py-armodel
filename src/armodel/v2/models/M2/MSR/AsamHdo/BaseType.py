@@ -6,7 +6,7 @@ class BaseType(ARElement, ABC):
     This abstract meta-class represents the ability to specify a platform
     dependent base type.
 
-    Package: M2::MSR::AsamHdo::BaseTypes::BaseType
+    Package: M2::MSR::AsamHdo::BaseTypes
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 302, Classic Platform

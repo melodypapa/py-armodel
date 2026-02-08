@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescription
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescription,
+)
 
 
 class TimingDescriptionEvent(TimingDescription, ABC):
@@ -13,7 +16,7 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     existing event descriptions in the AUTOSAR templates the timing specific
     event types use the prefix TD.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEvent
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 253, Classic Platform R23-11)

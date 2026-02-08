@@ -9,7 +9,7 @@ class PackageableElement(CollectableElement, ABC):
     """
     This meta-class specifies the ability to be a member of an AUTOSAR package.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::PackageableElement
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)

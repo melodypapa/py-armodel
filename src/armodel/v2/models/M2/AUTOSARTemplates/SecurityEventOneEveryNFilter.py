@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import AbstractSecurityEventFilter
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    AbstractSecurityEventFilter,
+)
 
 
 class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
@@ -7,7 +10,7 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     This meta-class represents the configuration of a sampling (i.e. every n-th
     event is sampled) filter for security events.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventOneEveryNFilter
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 24, Foundation R23-11)

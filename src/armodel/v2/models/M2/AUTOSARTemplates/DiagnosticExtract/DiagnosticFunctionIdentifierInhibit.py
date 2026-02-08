@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
@@ -7,7 +13,7 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     This meta-class represents the ability to define the inhibition of a
     specific function identifier within the Fim configuration.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionIdentifierInhibit
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 215, Classic Platform

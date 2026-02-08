@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class E2EProfileCompatibilityProps(ARElement):
@@ -7,7 +10,7 @@ class E2EProfileCompatibilityProps(ARElement):
     This meta-class collects settings for configuration of the E2E state
     machine.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::E2EProfileCompatibilityProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 202, Classic Platform

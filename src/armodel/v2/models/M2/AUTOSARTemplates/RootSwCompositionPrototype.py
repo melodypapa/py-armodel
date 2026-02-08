@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -23,7 +26,7 @@ class RootSwCompositionPrototype(Identifiable):
     VariableDataPrototypes, SwcInternalBehavior etc.), and their ports are
     interconnected using SwConnectorPrototypes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::RootSwCompositionPrototype
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1003, Classic

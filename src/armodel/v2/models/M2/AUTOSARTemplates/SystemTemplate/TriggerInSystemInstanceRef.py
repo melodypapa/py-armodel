@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -11,7 +11,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class TriggerInSystemInstanceRef(ARObject):
     """
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::InstanceRefs::TriggerInSystemInstanceRef
+    Package: M2::AUTOSARTemplates::SystemTemplate::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1005, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwGenericAxisParam(ARObject):
@@ -13,7 +13,7 @@ class SwGenericAxisParam(ARObject):
     case that it is not changeable during calibration. Example is shift / offset
     in a fixed axis.
 
-    Package: M2::MSR::DataDictionary::Axis::SwGenericAxisParam
+    Package: M2::MSR::DataDictionary::Axis
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 356, Classic Platform

@@ -11,7 +11,7 @@ class AtpFeature(Identifiable, ABC):
     classifier has features and every M0 instance of it will have those
     features.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpFeature
+    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 173, Foundation

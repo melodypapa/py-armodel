@@ -13,7 +13,7 @@ class DoIpRoutingActivation(Identifiable):
     received by socketConnections that are referenced by the same DoIpInterface
     that aggregates this DoIpRoutingActivation are activated.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpRoutingActivation
+    Package: M2::AUTOSARTemplates::SystemTemplate::DoIP
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 553, Classic Platform R23-11)

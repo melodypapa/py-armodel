@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
 
 
 class ComMgrUserNeeds(ServiceNeeds):
@@ -7,7 +10,7 @@ class ComMgrUserNeeds(ServiceNeeds):
     Specifies the abstract needs on the configuration of the Communication
     Manager for one "user".
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ComMgrUserNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic

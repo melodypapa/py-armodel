@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwcSupportedFeature(ARObject, ABC):
@@ -10,7 +10,7 @@ class SwcSupportedFeature(ARObject, ABC):
     This meta-class represents a abstract base class for features that can be
     supported by a RunnableEntity.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions::SwcSupportedFeature
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 594, Classic Platform

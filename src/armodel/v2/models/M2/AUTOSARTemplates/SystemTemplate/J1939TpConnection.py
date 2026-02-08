@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    TpConnection,
+)
 
 
 class J1939TpConnection(TpConnection):
@@ -9,7 +15,7 @@ class J1939TpConnection(TpConnection):
     this particular communication. The J1939Tp module routes a Pdu (J1939 PGN)
     through the connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::J1939TpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 624, Classic Platform R23-11)

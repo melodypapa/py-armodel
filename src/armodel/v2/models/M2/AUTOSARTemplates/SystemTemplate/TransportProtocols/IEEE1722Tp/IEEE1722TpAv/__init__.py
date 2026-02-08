@@ -1,10 +1,18 @@
 """
 V2 M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv package.
 """
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAafConnection import IEEE1722TpAafConnection
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpCrfConnection import IEEE1722TpCrfConnection
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpIidcConnection import IEEE1722TpIidcConnection
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpRvfConnection import IEEE1722TpRvfConnection
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAafConnection import (
+    IEEE1722TpAafConnection,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpCrfConnection import (
+    IEEE1722TpCrfConnection,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpIidcConnection import (
+    IEEE1722TpIidcConnection,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpRvfConnection import (
+    IEEE1722TpRvfConnection,
+)
 
 __all__ = [
     "IEEE1722TpAafAes3DataTypeEnum",

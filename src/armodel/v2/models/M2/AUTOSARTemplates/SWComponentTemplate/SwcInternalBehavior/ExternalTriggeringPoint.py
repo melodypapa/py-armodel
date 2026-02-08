@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class ExternalTriggeringPoint(ARObject):
     If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to raise
     an ExternalTriggerOccurred Event.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger::ExternalTriggeringPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 315, Classic

@@ -6,7 +6,7 @@ class MsrQueryP1(Paginateable):
     This meta-class represents the ability to express a query which yields the
     content of a topic as a result.
 
-    Package: M2::MSR::Documentation::MsrQuery::MsrQueryP1
+    Package: M2::MSR::Documentation::MsrQuery
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 343, Foundation

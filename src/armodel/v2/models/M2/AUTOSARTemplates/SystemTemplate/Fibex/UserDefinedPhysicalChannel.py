@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import PhysicalChannel
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    PhysicalChannel,
+)
+
 
 class UserDefinedPhysicalChannel(PhysicalChannel):
     """
     This element allows the modeling of arbitrary Physical Channels.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedPhysicalChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)

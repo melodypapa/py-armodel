@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticJ1939Spn(DiagnosticCommonElement):
@@ -7,7 +10,7 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
     This meta-class represents the ability to model a J1939 Suspect Parameter
     Number (SPN).
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939::DiagnosticJ1939Spn
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::J1939
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 219, Classic Platform

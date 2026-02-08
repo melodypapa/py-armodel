@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import MappingConstraint
@@ -14,7 +17,7 @@ class ComponentClustering(MappingConstraint):
     attribute. If mappingScope is not specified then mappingScopeEcu shall be
     assumed.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ComponentClustering
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 203, Classic Platform R23-11)

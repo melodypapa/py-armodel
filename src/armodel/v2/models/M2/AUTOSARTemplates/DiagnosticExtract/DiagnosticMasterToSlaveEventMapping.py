@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
@@ -8,7 +11,7 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
     slave diagnostic event such that reporting of the master event with a given
     value also reports the slave event with the same value
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticMasterToSlaveEventMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 256, Classic Platform

@@ -10,7 +10,7 @@ class GlobalTimeGateway(Identifiable):
     This represents the ability to define a time gateway for establishing a
     global time domain over several communication clusters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeGateway
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 861, Classic Platform R23-11)

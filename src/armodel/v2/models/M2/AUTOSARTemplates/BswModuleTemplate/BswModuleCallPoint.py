@@ -11,7 +11,7 @@ class BswModuleCallPoint(Referrable, ABC):
     Represents a point at which a BswModuleEntity handles a procedure call into
     a BswModuleEntry, either directly or via the BSW Scheduler.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModuleCallPoint
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 77, Classic

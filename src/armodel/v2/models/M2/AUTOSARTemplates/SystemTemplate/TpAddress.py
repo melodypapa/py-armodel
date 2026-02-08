@@ -10,7 +10,7 @@ class TpAddress(Identifiable):
     An ECUs TP address on the referenced channel. This represents the diagnostic
     Address.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::TpAddress
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 588, Classic Platform R23-11)

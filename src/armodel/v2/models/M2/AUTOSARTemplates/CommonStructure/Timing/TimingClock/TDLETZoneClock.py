@@ -1,8 +1,8 @@
 from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -10,6 +10,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class TDLETZoneClock(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock
     Represents a TDLET zone clock in AUTOSAR timing specifications.
     Defines a clock for TDLET (Time Domain LET) zones.
     """

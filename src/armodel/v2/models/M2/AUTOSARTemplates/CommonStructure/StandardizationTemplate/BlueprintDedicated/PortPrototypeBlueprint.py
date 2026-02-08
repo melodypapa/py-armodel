@@ -17,7 +17,7 @@ class PortPrototypeBlueprint(ARElement):
     software-components with PortPrototypes typed by the standardized Port
     Interfaces.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port::PortPrototypeBlueprint
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 237, Classic Platform R23-11)

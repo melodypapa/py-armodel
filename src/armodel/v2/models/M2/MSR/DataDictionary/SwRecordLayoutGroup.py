@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwRecordLayoutGroup(ARObject):
@@ -10,7 +10,7 @@ class SwRecordLayoutGroup(ARObject):
     that depending on the arraySizeSemantics of Sw TextProps the iteration ends
     at the value specified in sw MaxTextSize. Table 5.99: SwRecordLayoutGroup
 
-    Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutGroup
+    Package: M2::MSR::DataDictionary::RecordLayout
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 422, Classic Platform

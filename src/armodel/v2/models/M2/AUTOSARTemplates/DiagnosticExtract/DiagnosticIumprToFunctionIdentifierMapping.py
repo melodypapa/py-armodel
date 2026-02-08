@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
@@ -7,7 +10,7 @@ class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
     This meta-class represents the ability to associate a
     DiagnosticFunctionIdentifier with a DiagnosticIumpr.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticIumprToFunctionIdentifierMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 265, Classic Platform

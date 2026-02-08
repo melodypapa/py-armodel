@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MultiLanguagePlainText(ARObject):
@@ -8,7 +8,7 @@ class MultiLanguagePlainText(ARObject):
     This is a multilingual plaint Text.It is intended to be rendered as a
     paragraph.
 
-    Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguagePlainText
+    Package: M2::MSR::Documentation::TextModel::MultilanguageData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 349, Foundation

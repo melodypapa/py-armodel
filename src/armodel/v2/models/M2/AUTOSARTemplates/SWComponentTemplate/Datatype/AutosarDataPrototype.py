@@ -1,15 +1,16 @@
 from abc import ABC
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototype import (
     DataPrototype,
-    )
+)
 
 
 class AutosarDataPrototype(DataPrototype, ABC):
     """
     Base class for prototypical roles of an AutosarDataType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::AutosarDataPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 305, Classic

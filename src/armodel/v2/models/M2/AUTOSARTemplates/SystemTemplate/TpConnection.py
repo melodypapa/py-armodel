@@ -2,15 +2,15 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TpConnection(ARObject, ABC):
     """
     TpConnection Base Class.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::TpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 633, Classic Platform R23-11)

@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+)
 
 
 class TransformationComSpecProps(Describable, ABC):
@@ -7,7 +10,7 @@ class TransformationComSpecProps(Describable, ABC):
     TransformationComSpecProps holds all the attributes for transformers that
     are port specific.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransformationComSpecProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 196, Classic Platform

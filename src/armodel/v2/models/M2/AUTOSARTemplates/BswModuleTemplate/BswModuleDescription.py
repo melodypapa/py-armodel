@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -13,7 +16,7 @@ class BswModuleDescription(ARElement):
     case it describes a BSW module, the short name of this element equals the
     name of the BSW module.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::BswModuleDescription
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 26, Classic

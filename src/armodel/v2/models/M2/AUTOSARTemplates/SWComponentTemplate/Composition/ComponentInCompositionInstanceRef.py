@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ComponentInCompositionInstanceRef(ARObject):
@@ -10,7 +13,7 @@ class ComponentInCompositionInstanceRef(ARObject):
     The ComponentInCompositionInstanceRef points to a concrete
     SwComponentPrototype within a CompositionSwComponentType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::ComponentInCompositionInstanceRef
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 950, Classic Platform

@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import AbstractGlobalTimeDomainProps
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    AbstractGlobalTimeDomainProps,
+)
 
 
 class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Ethernet Global Time specific properties.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthGlobalTimeDomainProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 867, Classic Platform R23-11)

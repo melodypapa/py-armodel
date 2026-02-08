@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescription import TDEventCycleStart
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescription import (
+    TDEventCycleStart,
+)
 
 
 class TDEventTTCanCycleStart(TDEventCycleStart):
@@ -7,7 +10,7 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
     This is used to describe the timing event related to a point in time where a
     communication cycle starts on a TTCAN cluster.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventTTCanCycleStart
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 72, Classic Platform R23-11)

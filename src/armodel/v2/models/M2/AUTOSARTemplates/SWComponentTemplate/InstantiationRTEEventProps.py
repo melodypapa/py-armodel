@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class InstantiationRTEEventProps(ARObject, ABC):
@@ -11,7 +11,7 @@ class InstantiationRTEEventProps(ARObject, ABC):
     This meta-class represents the ability to refine the properties of RTEEvents
     for particular instances of a software component.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstantiationRTEEventProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 85, Classic Platform

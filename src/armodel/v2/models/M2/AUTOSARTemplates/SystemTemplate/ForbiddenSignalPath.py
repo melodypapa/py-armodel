@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import (
+    SignalPathConstraint,
+)
 
 
 class ForbiddenSignalPath(SignalPathConstraint):
@@ -9,7 +12,7 @@ class ForbiddenSignalPath(SignalPathConstraint):
     the communication matrix, because such a path has an effect on the frame
     generation and the frame path.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::ForbiddenSignalPath
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 255, Classic Platform R23-11)

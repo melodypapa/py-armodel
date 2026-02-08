@@ -12,7 +12,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     Communication attributes of RPortPrototypes with respect to mode
     communication
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ModeSwitchReceiverComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 191, Classic Platform

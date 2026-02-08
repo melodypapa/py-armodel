@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class DltUserNeeds(ServiceNeeds):
     """
@@ -10,7 +13,7 @@ class DltUserNeeds(ServiceNeeds):
     actual SessionId value is stored in the PortDefinedArgumentValue of the
     respective PortPrototype specification.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DltUserNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic

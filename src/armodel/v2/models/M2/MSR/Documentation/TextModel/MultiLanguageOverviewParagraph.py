@@ -1,13 +1,13 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MultiLanguageOverviewParagraph(ARObject):
     """
     This is the content of a multilingual paragraph in an overview item.
 
-    Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguageOverviewParagraph
+    Package: M2::MSR::Documentation::TextModel::MultilanguageData
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 53, Classic Platform

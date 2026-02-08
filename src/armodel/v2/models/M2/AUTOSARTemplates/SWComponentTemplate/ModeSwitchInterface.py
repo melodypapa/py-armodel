@@ -12,7 +12,7 @@ class ModeSwitchInterface(PortInterface):
     A mode switch interface declares a ModeDeclarationGroupPrototype to be sent
     and received.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeSwitchInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 113, Classic Platform

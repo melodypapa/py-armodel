@@ -7,7 +7,7 @@ class Paginateable(DocumentViewSelectable, ABC):
     This meta-class represents the ability to control the pagination policy when
     creating documents.
 
-    Package: M2::MSR::Documentation::BlockElements::PaginationAndView::Paginateable
+    Package: M2::MSR::Documentation::BlockElements::PaginationAndView
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 339, Foundation

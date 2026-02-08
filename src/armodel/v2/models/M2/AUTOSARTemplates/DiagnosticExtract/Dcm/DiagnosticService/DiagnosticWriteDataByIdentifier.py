@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.DataByIdentifier import DiagnosticDataByIdentifier
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.DataByIdentifier import (
+    DiagnosticDataByIdentifier,
+)
 
 
 class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
@@ -7,7 +10,7 @@ class DiagnosticWriteDataByIdentifier(DiagnosticDataByIdentifier):
     This represents an instance of the "Write Data by Identifier" diagnostic
     service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticWriteDataByIdentifier
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform

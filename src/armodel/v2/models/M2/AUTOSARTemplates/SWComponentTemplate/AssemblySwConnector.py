@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwConnector
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    SwConnector,
+)
 
 
 class AssemblySwConnector(SwConnector):
@@ -7,7 +10,7 @@ class AssemblySwConnector(SwConnector):
     AssemblySwConnectors are exclusively used to connect SwComponentPrototypes
     in the context of a CompositionSwComponentType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::AssemblySwConnector
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 289, Classic Platform R23-11)

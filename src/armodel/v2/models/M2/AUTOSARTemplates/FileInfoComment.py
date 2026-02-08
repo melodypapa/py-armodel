@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FileInfoComment(ARObject):
@@ -10,7 +10,7 @@ class FileInfoComment(ARObject):
     This class supports StructuredComment to provide auxiliary information with
     the goal to create a comment.
 
-    Package: M2::AUTOSARTemplates::AutosarTopLevelStructure::FileInfoComment
+    Package: M2::AUTOSARTemplates::AutosarTopLevelStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 29, Foundation R23-11)

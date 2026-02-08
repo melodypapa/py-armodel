@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class DltEcu(ARElement):
@@ -7,7 +13,7 @@ class DltEcu(ARElement):
     This element represents an Ecu or Machine that produces logging and tracing
     information.
 
-    Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltEcu
+    Package: M2::AUTOSARTemplates::LogAndTraceExtract
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2018, Classic Platform R23-11)

@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmClusterCoupling
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmClusterCoupling,
+)
 
 
 class CanNmClusterCoupling(NmClusterCoupling):
@@ -7,7 +13,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
     CAN attributes that are valid for each of the referenced (coupled) CAN
     clusters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmClusterCoupling
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 684, Classic Platform R23-11)

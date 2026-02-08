@@ -10,7 +10,7 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     This meta-class represents the ability to configure a certificate evaluation
     in the context of a diagnostic authentication.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthTransmitCertificateEvaluation
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 101, Classic Platform

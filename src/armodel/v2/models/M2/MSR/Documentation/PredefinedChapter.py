@@ -1,13 +1,13 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PredefinedChapter(ARObject):
     """
     This represents a predefined chapter.
 
-    Package: M2::MSR::Documentation::Chapters::PredefinedChapter
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 330, Foundation

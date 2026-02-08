@@ -10,7 +10,7 @@ class AtpStructureElement(Identifiable, ABC):
     A structure element is both a classifier and a feature. As a feature, its
     structure is given by the feature it owns as a classifier.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpStructureElement
+    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation

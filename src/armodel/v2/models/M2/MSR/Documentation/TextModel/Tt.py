@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Tt(ARObject):
@@ -10,7 +10,7 @@ class Tt(ARObject):
     This meta-class represents the ability to express specific technical terms.
     The kind of term is denoted in the attribute "type".
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::Tt
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 318, Foundation

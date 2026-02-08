@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationDataType,
+)
+
 
 class ApplicationDeferredDataType(ApplicationDataType):
     """
     A placeholder data type in which the precise application data type is
     deferred to a later stage.
 
-    Package: M2::AUTOSARTemplates::AbstractPlatform::ApplicationDeferredDataType
+    Package: M2::AUTOSARTemplates::AbstractPlatform
 
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 37, Foundation

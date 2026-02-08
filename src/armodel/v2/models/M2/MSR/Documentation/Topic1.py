@@ -8,7 +8,7 @@ class Topic1(Paginateable):
     content. Topics can be used to produce intermediate headlines thus
     structuring a chapter internally.
 
-    Package: M2::MSR::Documentation::Chapters::Topic1
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 338, Foundation

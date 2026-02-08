@@ -13,7 +13,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     context of two different SenderReceiverInterfaces, NvDataInterfaces or
     ParameterInterfaces.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::VariableAndParameterInterfaceMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 124, Classic Platform

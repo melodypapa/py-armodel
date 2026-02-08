@@ -9,7 +9,7 @@ class RptServicePoint(Identifiable):
     """
     Description of a Service Point implemented for rapid prototyping.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptServicePoint
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 206, Classic

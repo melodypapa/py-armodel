@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TopicContent(ARObject):
@@ -10,7 +10,7 @@ class TopicContent(ARObject):
     This meta-class represents the content of a topic. It is mainly a
     documentation block, but can also be a table.
 
-    Package: M2::MSR::Documentation::Chapters::TopicContent
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 478, Foundation

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticSession(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a diagnostic session.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticSession
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 73, Classic Platform

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     """
     This element defines a rule for remapping a single LIN Frame.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorLinPidToCanIdMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 702, Classic Platform R23-11)

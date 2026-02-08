@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticCondition import DiagnosticCondition
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticCondition import (
+    DiagnosticCondition,
+)
+
 
 class DiagnosticEnableCondition(DiagnosticCondition):
     """
     Specification of an enable condition.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition::DiagnosticEnableCondition
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticCondition
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 194, Classic Platform

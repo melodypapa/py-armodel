@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AbstractMultiplicityRestriction(ARObject, ABC):
@@ -11,7 +11,7 @@ class AbstractMultiplicityRestriction(ARObject, ABC):
     Restriction that specifies the valid number of occurrences of an element in
     the current context.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractMultiplicityRestriction
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 422, Foundation

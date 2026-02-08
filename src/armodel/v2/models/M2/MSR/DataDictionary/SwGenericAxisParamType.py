@@ -13,7 +13,7 @@ class SwGenericAxisParamType(Identifiable):
     of possibilities. • If this parameter contains structures, these can be
     simulated through the recursive use of SwGeneric AxisParamTypes.
 
-    Package: M2::MSR::DataDictionary::Axis::SwGenericAxisParamType
+    Package: M2::MSR::DataDictionary::Axis
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 356, Classic Platform

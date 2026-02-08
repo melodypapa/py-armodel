@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import GeneralAnnotation
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
+    GeneralAnnotation,
+)
 
 
 class DelegatedPortAnnotation(GeneralAnnotation):
@@ -7,7 +10,7 @@ class DelegatedPortAnnotation(GeneralAnnotation):
     Annotation to a "delegated port" to specify the Signal Fan In or Signal Fan
     Out inside the CompositionSw ComponentType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::DelegatedPortAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 162, Classic Platform

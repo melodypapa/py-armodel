@@ -11,7 +11,7 @@ class ImplementationProps(Referrable, ABC):
     Defines a symbol to be used as (depending on the concrete case) either a
     complete replacement or a prefix when generating code artifacts.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Implementation::ImplementationProps
+    Package: M2::AUTOSARTemplates::CommonStructure::Implementation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 86, Classic

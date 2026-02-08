@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    AbstractImplementationDataType,
+)
 
 
 class ImplementationDataType(AbstractImplementationDataType):
@@ -7,7 +13,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     Describes a reusable data type on the implementation level. This will
     typically correspond to a typedef in C-code.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::ImplementationDataType
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 320, Classic

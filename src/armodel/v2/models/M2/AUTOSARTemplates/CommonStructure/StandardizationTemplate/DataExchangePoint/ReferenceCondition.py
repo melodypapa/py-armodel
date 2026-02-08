@@ -10,7 +10,7 @@ class ReferenceCondition(AttributeCondition):
     The ReferenceCondition evaluates to true, if the referenced reference is
     accepted by all rules of this condition.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ReferenceCondition
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 104, Foundation R23-11)

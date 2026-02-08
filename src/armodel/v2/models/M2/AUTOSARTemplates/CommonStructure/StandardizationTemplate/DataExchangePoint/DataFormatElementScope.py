@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import SpecElementScope
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    SpecElementScope,
+)
 
 
 class DataFormatElementScope(SpecElementScope, ABC):
@@ -7,7 +10,7 @@ class DataFormatElementScope(SpecElementScope, ABC):
     This class specifies if a Meta Class, Meta Attribute, Constraint or SdgDef
     is relevant for the Data Exchange Point.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::DataFormatElementScope
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 91, Foundation R23-11)

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FMAttributeValue(ARObject):
@@ -10,7 +10,7 @@ class FMAttributeValue(ARObject):
     This defines a value for the attribute that is referred to in the role
     definition.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMAttributeValue
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 42, Foundation

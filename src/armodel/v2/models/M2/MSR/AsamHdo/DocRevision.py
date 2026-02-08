@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DocRevision(ARObject):
@@ -10,7 +13,7 @@ class DocRevision(ARObject):
     This meta-class represents the ability to maintain information which relates
     to revision management of documents or objects.
 
-    Package: M2::MSR::AsamHdo::AdminData::DocRevision
+    Package: M2::MSR::AsamHdo::AdminData
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 293, Classic Platform R23-11)

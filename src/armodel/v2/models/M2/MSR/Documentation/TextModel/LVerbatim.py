@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class LVerbatim(ARObject):
@@ -8,7 +8,7 @@ class LVerbatim(ARObject):
     MixedContentForVerbatim in one particular language. The language is denoted
     in the attribute l.
 
-    Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LVerbatim
+    Package: M2::MSR::Documentation::TextModel::LanguageDataModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 347, Foundation

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmCluster
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmCluster,
+)
 
 
 class UdpNmCluster(NmCluster):
     """
     Udp specific NmCluster attributes
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmCluster
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 687, Classic Platform R23-11)

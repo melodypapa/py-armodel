@@ -6,7 +6,7 @@ class CompuScaleConstantContents(CompuScaleContents):
     This meta-class represents the fact that a particular scale of the
     computation method is constant.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleConstantContents
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform

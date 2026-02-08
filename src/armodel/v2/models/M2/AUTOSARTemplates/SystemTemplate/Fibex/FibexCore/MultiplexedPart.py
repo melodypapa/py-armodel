@@ -2,8 +2,8 @@ from abc import ABC
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MultiplexedPart(ARObject, ABC):
@@ -11,7 +11,7 @@ class MultiplexedPart(ARObject, ABC):
     The StaticPart and the DynamicPart have common properties. Both can be
     separated in multiple segments within the multiplexed PDU.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::MultiplexedPart
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 411, Classic Platform R23-11)

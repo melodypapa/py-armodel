@@ -12,7 +12,7 @@ class EcuPartition(Identifiable):
     for each partition. Partitions can be terminated or restarted during
     run-time as a result of a detected error.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::EcuPartition
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 201, Classic Platform R23-11)

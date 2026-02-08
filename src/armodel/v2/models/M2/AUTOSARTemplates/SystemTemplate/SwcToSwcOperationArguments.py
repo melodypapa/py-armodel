@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwcToSwcOperationArguments(ARObject):
@@ -16,7 +19,7 @@ class SwcToSwcOperationArguments(ARObject):
     SwcToSwcOperationArguments, in direction == OUT, it’s the arguments sent
     back from server to client.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SwcToSwcOperationArguments
+    Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 253, Classic Platform R23-11)

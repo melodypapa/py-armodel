@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
 
 
 class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
@@ -7,7 +10,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     This meta-class represents the needs of a software-component interested to
     get information regarding any DTC status change.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DtcStatusChangeNotificationNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 776, Classic Platform

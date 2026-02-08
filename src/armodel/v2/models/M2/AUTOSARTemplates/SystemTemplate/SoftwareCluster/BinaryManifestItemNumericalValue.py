@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import BinaryManifestItemValue
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import (
+    BinaryManifestItemValue,
+)
 
 
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
@@ -7,7 +10,7 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     This meta-class has the ability to provide a numerical value for a binary
     manifest item.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItemNumericalValue
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 922, Classic Platform R23-11)

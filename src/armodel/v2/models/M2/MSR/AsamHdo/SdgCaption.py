@@ -10,7 +10,7 @@ class SdgCaption(MultilanguageReferrable):
     This meta-class represents the caption of a special data group. This allows
     to have some parts of special data as identifiable.
 
-    Package: M2::MSR::AsamHdo::SpecialData::SdgCaption
+    Package: M2::MSR::AsamHdo::SpecialData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 91, Foundation R23-11)

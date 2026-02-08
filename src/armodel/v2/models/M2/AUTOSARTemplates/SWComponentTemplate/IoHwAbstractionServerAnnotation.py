@@ -12,7 +12,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     that the "server" in the name of this meta-class is not meant to restrict
     the usage to ClientServer Interfaces.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::IoHwAbstractionServerAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 156, Classic Platform

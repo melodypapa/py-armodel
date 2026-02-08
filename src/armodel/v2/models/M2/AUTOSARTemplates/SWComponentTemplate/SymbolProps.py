@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ImplementationProps,
+)
+
 
 class SymbolProps(ImplementationProps):
     """
@@ -7,7 +10,7 @@ class SymbolProps(ImplementationProps):
     meta-class, e.g. AtomicSwComponentType, that is a potential subject to a
     name clash on the level of RTE source code.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SymbolProps
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 288, Classic Platform

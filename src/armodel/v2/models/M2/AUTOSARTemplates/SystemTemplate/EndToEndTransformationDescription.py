@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationDescription
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    TransformationDescription,
+)
 
 
 class EndToEndTransformationDescription(TransformationDescription):
@@ -7,7 +10,7 @@ class EndToEndTransformationDescription(TransformationDescription):
     EndToEndTransformationDescription holds these attributes which are profile
     specific and have the same value for all E2E transformers.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationDescription
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 987, Classic Platform

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ValueSpecification,
+)
 
 
 class TextValueSpecification(ValueSpecification):
@@ -12,7 +15,7 @@ class TextValueSpecification(ValueSpecification):
     attribute value shall exist at the time when the contract phase generation
     is executed.(cid:99)()
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::TextValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 435, Classic Platform

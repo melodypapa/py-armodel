@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RoleBasedResourceDependency(ARObject):
     """
     This class specifies a dependency between CpSoftwareClusterResources.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::RoleBasedResourceDependency
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 272, Classic Platform

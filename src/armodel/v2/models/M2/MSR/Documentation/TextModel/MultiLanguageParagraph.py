@@ -5,7 +5,7 @@ class MultiLanguageParagraph(Paginateable):
     """
     This is the content model of a multilingual paragraph in a documentation.
 
-    Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguageParagraph
+    Package: M2::MSR::Documentation::TextModel::MultilanguageData
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 290, Foundation

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PortDefinedArgumentValue(ARObject):
@@ -11,7 +11,7 @@ class PortDefinedArgumentValue(ARObject):
     ClientServerOperations provided by a given PortPrototype. Note that this is
     restricted to PPortPrototypes of a ClientServer Interface.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions::PortDefinedArgumentValue
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 326, Classic

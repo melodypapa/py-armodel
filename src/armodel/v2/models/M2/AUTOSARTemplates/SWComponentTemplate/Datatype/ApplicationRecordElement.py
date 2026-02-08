@@ -1,7 +1,8 @@
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.ApplicationCompositeElementDataPrototype import (
     ApplicationCompositeElementDataPrototype,
-    )
+)
 
 
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
@@ -9,7 +10,7 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     Describes the properties of one particular element of an application record
     data type.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationRecordElement
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 261, Classic Platform

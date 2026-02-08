@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwCalprmAxis(ARObject):
     """
     This element specifies an individual input parameter axis (abscissa).
 
-    Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxis
+    Package: M2::MSR::DataDictionary::CalibrationParameter
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 352, Classic Platform

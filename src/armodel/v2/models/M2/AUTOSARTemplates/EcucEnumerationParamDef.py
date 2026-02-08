@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParameterDef
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucParameterDef,
+)
 
 
 class EcucEnumerationParamDef(EcucParameterDef):
     """
     Configuration parameter type for Enumeration.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucEnumerationParamDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 66, Classic Platform R23-11)

@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import SpecElementReference
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    SpecElementReference,
+)
 
 
 class SpecElementScope(SpecElementReference, ABC):
@@ -8,7 +11,7 @@ class SpecElementScope(SpecElementReference, ABC):
     This class defines if a specification element is relevant within the context
     of this data exchange point.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::SpecElementScope
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 84, Foundation R23-11)

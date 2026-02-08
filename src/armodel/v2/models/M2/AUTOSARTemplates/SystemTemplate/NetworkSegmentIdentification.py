@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class NetworkSegmentIdentification(ARObject):
@@ -11,7 +11,7 @@ class NetworkSegmentIdentification(ARObject):
     system scope in a numerical way. One possible application of this approach
     is the Time Validation.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::NetworkSegmentIdentification
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 859, Classic Platform R23-11)

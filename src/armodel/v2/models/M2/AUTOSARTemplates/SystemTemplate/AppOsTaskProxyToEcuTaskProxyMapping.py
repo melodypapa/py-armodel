@@ -11,7 +11,7 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     context of a SwComponent to an OsTaskProxy that was created in the context
     of an Ecu.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::AppOsTaskProxyToEcuTaskProxyMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 209, Classic Platform R23-11)

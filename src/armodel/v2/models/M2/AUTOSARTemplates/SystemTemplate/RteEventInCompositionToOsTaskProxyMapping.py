@@ -13,7 +13,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
     be mapped together into an OsTask. Optionally the relative position of the
     RteEvents in the OsTask can be defined in the mapping.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInCompositionToOsTaskProxyMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 211, Classic Platform R23-11)

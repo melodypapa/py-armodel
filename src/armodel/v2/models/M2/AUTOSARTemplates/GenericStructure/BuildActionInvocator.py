@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BuildActionInvocator(ARObject):
@@ -13,7 +13,7 @@ class BuildActionInvocator(ARObject):
     aggr This represents a general data structure intended to denote parameters
     for the BuildAction. Table 10.6: BuildActionInvocator
 
-    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionInvocator
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 372, Foundation

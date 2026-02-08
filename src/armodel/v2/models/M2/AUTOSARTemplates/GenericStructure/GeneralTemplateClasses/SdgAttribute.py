@@ -9,7 +9,7 @@ class SdgAttribute(Identifiable, ABC):
     """
     Describes the attributes of an Sdg.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAttribute
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 100, Foundation

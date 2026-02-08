@@ -1,15 +1,15 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompuScaleContents(ARObject, ABC):
     """
     This abstract meta-class represents the content of one particular scale.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuScaleContents
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform

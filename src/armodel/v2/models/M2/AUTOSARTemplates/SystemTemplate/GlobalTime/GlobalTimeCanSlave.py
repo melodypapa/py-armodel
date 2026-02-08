@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeSlave
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeSlave,
+)
 
 
 class GlobalTimeCanSlave(GlobalTimeSlave):
@@ -7,7 +10,7 @@ class GlobalTimeCanSlave(GlobalTimeSlave):
     This represents the specialization of the GlobalTimeSlave for the CAN
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN::GlobalTimeCanSlave
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 864, Classic Platform R23-11)

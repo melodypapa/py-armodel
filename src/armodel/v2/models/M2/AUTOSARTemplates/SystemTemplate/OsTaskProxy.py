@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class OsTaskProxy(ARElement):
     """
     This meta-class represents a proxy for an OsTask in the System Description.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::OsTaskProxy
+    Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 208, Classic Platform R23-11)

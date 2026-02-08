@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
+    EngineeringObject,
+)
+
 
 class AutosarEngineeringObject(EngineeringObject):
     """
@@ -6,7 +9,7 @@ class AutosarEngineeringObject(EngineeringObject):
     specialization of the abstract class EngineeringObject for usage within
     AUTOSAR.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject::AutosarEngineeringObject
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 132, Classic

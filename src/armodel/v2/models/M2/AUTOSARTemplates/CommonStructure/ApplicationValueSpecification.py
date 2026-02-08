@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ValueSpecification,
+)
 
 
 class ApplicationValueSpecification(ValueSpecification):
@@ -9,7 +15,7 @@ class ApplicationValueSpecification(ValueSpecification):
     further details refer to ASAM CDF 2.0. This meta-class corresponds to some
     extent with SW-INSTANCE in ASAM CDF 2.0.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ApplicationValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 299, Classic Platform

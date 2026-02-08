@@ -13,7 +13,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     type EcucAbstractReference Def (used for all of its specializations
     excluding EcucInstanceReferenceDef).
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucReferenceValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 132, Classic Platform R23-11)

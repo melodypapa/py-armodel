@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PPortComSpec(ARObject, ABC):
@@ -11,7 +11,7 @@ class PPortComSpec(ARObject, ABC):
     contain attributes that are valid for all kinds of provide ports,
     independent of client-server or sender-receiver communication patterns.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::PPortComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 166, Classic Platform

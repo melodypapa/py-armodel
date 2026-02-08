@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class DltApplication(Identifiable):
     This meta-class represents the application from which the log and trace
     message originates.
 
-    Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltApplication
+    Package: M2::AUTOSARTemplates::LogAndTraceExtract
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2017, Classic Platform R23-11)

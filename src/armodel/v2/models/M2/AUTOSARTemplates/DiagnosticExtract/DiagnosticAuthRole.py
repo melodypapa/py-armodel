@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticAuthRole(DiagnosticCommonElement):
@@ -7,7 +10,7 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     This meta-class represents the ability to specify an authentication role
     that can be used to deliver fine-grained access rights.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticAuthRole
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 77, Classic Platform

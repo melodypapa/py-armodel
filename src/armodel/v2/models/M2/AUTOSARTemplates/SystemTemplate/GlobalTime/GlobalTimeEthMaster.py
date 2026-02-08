@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeMaster
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeMaster,
+)
 
 
 class GlobalTimeEthMaster(GlobalTimeMaster):
@@ -7,7 +10,7 @@ class GlobalTimeEthMaster(GlobalTimeMaster):
     This represents the specialization of the GlobalTimeMaster for Ethernet
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::GlobalTimeEthMaster
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 866, Classic Platform R23-11)

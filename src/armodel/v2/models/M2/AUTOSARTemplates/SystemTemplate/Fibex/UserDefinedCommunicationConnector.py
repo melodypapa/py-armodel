@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationConnector,
+)
+
 
 class UserDefinedCommunicationConnector(CommunicationConnector):
     """
     This element allows the modeling of arbitrary Communication Connectors.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCommunicationConnector
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)

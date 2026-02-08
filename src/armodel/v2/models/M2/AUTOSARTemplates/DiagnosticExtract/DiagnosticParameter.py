@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticAbstractParameter
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticAbstractParameter,
+)
 
 
 class DiagnosticParameter(DiagnosticAbstractParameter):
@@ -8,7 +11,7 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     the execution of a specific diagnostic service, i.e. it can be taken to
     parameterize the service.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameter
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 36, Classic Platform

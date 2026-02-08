@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class IdsCommonElement(ARElement, ABC):
@@ -8,7 +11,7 @@ class IdsCommonElement(ARElement, ABC):
     the Security Extract. It does not contribute any specific functionality
     other than the ability to become the target of a reference.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsCommonElement
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 62, Foundation R23-11)

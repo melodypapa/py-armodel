@@ -7,8 +7,8 @@ data processing, such as when to update values based on filters or limits.
 from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     PositiveInteger,
@@ -54,6 +54,7 @@ class DataFilterTypeEnum(AREnum):
 
 class DataFilter(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::Filter
     Represents a data filter configuration in AUTOSAR models.
     This class defines conditions and parameters for filtering data updates in AUTOSAR systems.
     """

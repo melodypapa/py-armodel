@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TimeValueValueVariationPoint(ARObject):
@@ -8,7 +8,7 @@ class TimeValueValueVariationPoint(ARObject):
     This class represents the ability to express a formula for a numerical time
     value.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::TimeValueValueVariationPoint
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 242, Foundation

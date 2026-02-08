@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import ExecutionTime
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
+    ExecutionTime,
+)
 
 
 class SimulatedExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using simulation means.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::SimulatedExecutionTime
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 167, Classic

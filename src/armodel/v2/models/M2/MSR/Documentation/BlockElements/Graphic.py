@@ -6,7 +6,7 @@ class Graphic(EngineeringObject):
     This class represents an artifact containing the image to be inserted in the
     document
 
-    Package: M2::MSR::Documentation::BlockElements::Figure::Graphic
+    Package: M2::MSR::Documentation::BlockElements::Figure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 302, Foundation

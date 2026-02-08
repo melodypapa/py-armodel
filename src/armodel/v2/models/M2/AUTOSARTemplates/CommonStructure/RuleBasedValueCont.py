@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class RuleBasedValueCont(ARObject):
     This represents the values of a compound primitive (CURVE, MAP, CUBOID,
     CUBE_4, CUBE_5, VAL_ BLK) or an array.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::RuleBasedValueCont
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 330, Classic

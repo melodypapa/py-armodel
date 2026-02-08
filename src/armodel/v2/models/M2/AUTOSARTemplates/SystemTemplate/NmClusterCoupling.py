@@ -1,15 +1,15 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class NmClusterCoupling(ARObject, ABC):
     """
     Attributes that are valid for each of the referenced (coupled) clusters.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmClusterCoupling
+    Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 676, Classic Platform R23-11)

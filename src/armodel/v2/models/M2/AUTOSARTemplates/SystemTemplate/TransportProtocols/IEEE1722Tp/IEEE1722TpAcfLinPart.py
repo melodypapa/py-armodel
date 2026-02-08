@@ -11,7 +11,7 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     """
     Definition of one LIN part transported over the IEEE1722Tp channel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfLinPart
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 667, Classic Platform R23-11)

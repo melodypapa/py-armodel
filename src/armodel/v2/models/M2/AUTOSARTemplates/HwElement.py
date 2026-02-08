@@ -14,7 +14,7 @@ class HwElement(HwDescriptionEntity):
     This category determines the applicable attributes. The possible categories
     and attributes are defined in HwCategory.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElement
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 296, Classic Platform R23-11)

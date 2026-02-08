@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
+    AbstractAccessPoint,
+)
 
 
 class ServerCallPoint(AbstractAccessPoint, ABC):
@@ -9,7 +12,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     particular ClientServerOperation of a specific RPortPrototype of the
     corresponding AtomicSwComponentType
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::ServerCallPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 335, Classic

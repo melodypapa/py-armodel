@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import TracedFailure
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    TracedFailure,
+)
 
 
 class TransientFault(TracedFailure):
     """
     The reported failure is classified as runtime error.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::TransientFault
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1009, Classic

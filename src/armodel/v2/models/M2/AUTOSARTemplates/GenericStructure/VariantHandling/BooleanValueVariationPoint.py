@@ -1,13 +1,13 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BooleanValueVariationPoint(ARObject):
     """
     that this class might be used in the extended meta-model on
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::BooleanValueVariationPoint
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 240, Foundation

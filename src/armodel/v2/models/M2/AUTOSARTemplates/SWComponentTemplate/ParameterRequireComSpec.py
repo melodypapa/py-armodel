@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    RPortComSpec,
+)
 
 
 class ParameterRequireComSpec(RPortComSpec):
@@ -7,7 +10,7 @@ class ParameterRequireComSpec(RPortComSpec):
     "Communication" specification that applies to parameters on the required
     side of a connection.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ParameterRequireComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 193, Classic Platform

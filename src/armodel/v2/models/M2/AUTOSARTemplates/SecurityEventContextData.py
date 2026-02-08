@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SecurityEventContextData(ARObject):
@@ -10,7 +10,7 @@ class SecurityEventContextData(ARObject):
     exist for a SecurityEventDefinition, then no context data shall be provided
     for this SecurityEventDefinition.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextData
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 66, Foundation R23-11)

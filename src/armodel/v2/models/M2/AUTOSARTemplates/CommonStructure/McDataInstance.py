@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -24,7 +27,7 @@ class McDataInstance(Identifiable):
     be copied into the M1 artifact which holds the complete McSupportData for a
     given Implementation.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McDataInstance
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 177, Classic

@@ -10,7 +10,7 @@ class CanTpNode(Identifiable):
     TP Node (Sender or Receiver) provides the TP Address and the connection to
     the Topology description.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpNode
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 611, Classic Platform R23-11)

@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AttributeValueVariationPoint(ARObject, ABC):
@@ -12,7 +12,7 @@ class AttributeValueVariationPoint(ARObject, ABC):
     a system constant (by Sw SystemconstDependentFormula). It also provides a
     bindingTime.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::AttributeValueVariationPoint
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 617, Classic Platform

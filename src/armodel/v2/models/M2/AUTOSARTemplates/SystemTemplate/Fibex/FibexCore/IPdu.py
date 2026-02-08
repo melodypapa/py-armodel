@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Pdu
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    Pdu,
+)
 
 
 class IPdu(Pdu, ABC):
@@ -8,7 +11,7 @@ class IPdu(Pdu, ABC):
     The IPdu (Interaction Layer Protocol Data Unit) element is used to sum up
     all Pdus that are routed by the PduR.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 341, Classic Platform R23-11)

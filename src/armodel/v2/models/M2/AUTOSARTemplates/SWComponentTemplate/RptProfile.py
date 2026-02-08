@@ -10,7 +10,7 @@ class RptProfile(Identifiable):
     The RptProfile describes the common properties of a Rapid Prototyping
     method.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptProfile
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 853, Classic Platform

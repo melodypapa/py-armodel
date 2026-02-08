@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import RestrictionWithSeverity
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    RestrictionWithSeverity,
+)
 
 
 class ConstraintTailoring(RestrictionWithSeverity):
@@ -8,7 +11,7 @@ class ConstraintTailoring(RestrictionWithSeverity):
     defines its Error Severity Level. If it is not in scope, then the constraint
     is disabled.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ConstraintTailoring
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 117, Foundation R23-11)

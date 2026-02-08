@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MsrQueryResultChapter(ARObject):
@@ -10,7 +10,7 @@ class MsrQueryResultChapter(ARObject):
     This metaclass represents the result of an msrquery which is a set of
     chapters.
 
-    Package: M2::MSR::Documentation::MsrQuery::MsrQueryResultChapter
+    Package: M2::MSR::Documentation::MsrQuery
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation

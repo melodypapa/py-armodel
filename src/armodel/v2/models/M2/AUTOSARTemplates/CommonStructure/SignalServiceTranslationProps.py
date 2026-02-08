@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -13,7 +16,7 @@ class SignalServiceTranslationProps(Identifiable):
     This element allows to define the properties which are applicable for the
     signal/service translation service.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationProps
+    Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 336, Classic

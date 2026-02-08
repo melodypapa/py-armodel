@@ -4,7 +4,10 @@ ARXML Writer for V2 models.
 import sys
 import xml.etree.ElementTree as ET
 
-from armodel.v2.models.models import AUTOSAR, ARPackage
+from armodel.v2.models.models import (
+    AUTOSAR,
+    ARPackage,
+)
 
 
 class ARXMLWriter:

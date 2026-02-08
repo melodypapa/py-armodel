@@ -17,7 +17,7 @@ class AutosarOperationArgumentInstance(Identifiable):
     ClientServerInterface • an element inside of a composite argument used in an
     operation of a PortPrototype with ClientServer Interface
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::AutosarOperationArgumentInstance
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 85, Classic Platform R23-11)

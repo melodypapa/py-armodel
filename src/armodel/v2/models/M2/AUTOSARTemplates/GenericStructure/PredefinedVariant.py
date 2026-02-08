@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class PredefinedVariant(ARElement):
@@ -9,7 +12,7 @@ class PredefinedVariant(ARElement):
     aggregated within all referenced system constant value sets and post build
     variant criterion value sets plus the value sets of the included variants.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PredefinedVariant
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)

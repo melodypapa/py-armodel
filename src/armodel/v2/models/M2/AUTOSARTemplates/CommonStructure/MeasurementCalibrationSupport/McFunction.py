@@ -1,8 +1,11 @@
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -10,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class McFunction(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
     Represents an MC (Measurement and Calibration) function in AUTOSAR.
     Defines a function that can be used for measurement and calibration purposes.
     """

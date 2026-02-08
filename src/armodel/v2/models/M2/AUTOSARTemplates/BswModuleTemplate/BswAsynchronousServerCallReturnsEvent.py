@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswScheduleEvent,
+)
 
 
 class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
@@ -9,7 +12,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     Client-Server call. Its eventSource specifies the call point to be used for
     retrieving the result.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswAsynchronousServerCallReturnsEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 98, Classic

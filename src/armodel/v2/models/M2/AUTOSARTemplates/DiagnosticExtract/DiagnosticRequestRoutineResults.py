@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticRoutineSubfunction
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticRoutineSubfunction,
+)
 
 
 class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
@@ -7,7 +10,7 @@ class DiagnosticRequestRoutineResults(DiagnosticRoutineSubfunction):
     This meta-class represents the ability to define the result of a diagnostic
     routine execution.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRequestRoutineResults
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 125, Classic Platform

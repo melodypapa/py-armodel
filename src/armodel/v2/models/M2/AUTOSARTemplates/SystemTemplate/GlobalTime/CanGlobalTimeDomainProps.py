@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import AbstractGlobalTimeDomainProps
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    AbstractGlobalTimeDomainProps,
+)
+
 
 class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
     """
     Enables the definition of Can Global Time specific properties.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN::CanGlobalTimeDomainProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 864, Classic Platform R23-11)

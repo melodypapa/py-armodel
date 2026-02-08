@@ -9,7 +9,7 @@ class TimingClockSyncAccuracy(Identifiable):
     """
     Describes the synchronization accuracy between exactly two TDClocks.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TimingClockSyncAccuracy
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 252, Classic Platform R23-11)

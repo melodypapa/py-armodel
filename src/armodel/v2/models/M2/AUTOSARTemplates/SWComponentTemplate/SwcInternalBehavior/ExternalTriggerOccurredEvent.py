@@ -11,7 +11,7 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     """
     This event is raised when the referenced Trigger has occurred.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::ExternalTriggerOccurredEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 545, Classic Platform

@@ -12,7 +12,7 @@ class AclPermission(ARElement):
     This meta class represents the ability to represent permissions granted on
     objects in an AUTOSAR model.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclPermission
+    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 382, Foundation

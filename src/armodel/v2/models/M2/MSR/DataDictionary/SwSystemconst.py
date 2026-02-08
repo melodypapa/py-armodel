@@ -6,7 +6,7 @@ class SwSystemconst(ARElement):
     that the binding process can only happen if a value was assigned to to the
     referenced system constants.
 
-    Package: M2::MSR::DataDictionary::SystemConstant::SwSystemconst
+    Package: M2::MSR::DataDictionary::SystemConstant
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 343, Classic

@@ -6,7 +6,7 @@ class MsrQueryChapter(Paginateable):
     This meta-class represents the ability to express a query which yields a set
     of chapters as a result.
 
-    Package: M2::MSR::Documentation::MsrQuery::MsrQueryChapter
+    Package: M2::MSR::Documentation::MsrQuery
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 343, Foundation

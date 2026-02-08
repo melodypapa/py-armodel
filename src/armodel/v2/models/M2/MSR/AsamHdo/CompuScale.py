@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompuScale(ARObject):
@@ -10,7 +10,7 @@ class CompuScale(ARObject):
     This meta-class represents the ability to specify one segment of a segmented
     computation method.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuScale
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 387, Classic Platform

@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataInterface
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    DataInterface,
+)
 
 
 class ParameterInterface(DataInterface):
@@ -7,7 +10,7 @@ class ParameterInterface(DataInterface):
     A parameter interface declares a number of parameter and characteristic
     values to be exchanged between parameter components and software components.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ParameterInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 41, Classic Platform

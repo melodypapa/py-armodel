@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationDescription
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    TransformationDescription,
+)
 
 
 class SOMEIPTransformationDescription(TransformationDescription):
@@ -7,7 +10,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
     The SOMEIPTransformationDescription is used to specify SOME/IP transformer
     specific attributes.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::SOMEIPTransformationDescription
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 777, Classic Platform R23-11)

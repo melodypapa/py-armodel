@@ -9,7 +9,7 @@ class CanTpChannel(Identifiable):
     """
     Configuration parameters of the CanTp channel.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 608, Classic Platform R23-11)

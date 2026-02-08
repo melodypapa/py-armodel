@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import EventTriggeringConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    EventTriggeringConstraint,
+)
 
 
 class BurstPatternEventTriggering(EventTriggeringConstraint):
@@ -7,7 +10,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     Describes the maximum number of occurrences of the same event in a given
     time interval. Typically used to model a worst case activation scenario.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::BurstPatternEventTriggering
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 109, Classic Platform R23-11)

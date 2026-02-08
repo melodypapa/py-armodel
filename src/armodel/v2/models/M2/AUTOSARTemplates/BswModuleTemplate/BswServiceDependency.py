@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceDependency,
+)
 
 
 class BswServiceDependency(ServiceDependency):
@@ -8,7 +14,7 @@ class BswServiceDependency(ServiceDependency):
     BswInternalBehavior. It allows to associate BswModuleEntries and data
     defined for a BSW module or cluster to a given ServiceNeeds element.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswServiceDependency
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 225, Classic

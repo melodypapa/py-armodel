@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticConditionGroup import DiagnosticConditionGroup
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticConditionGroup import (
+    DiagnosticConditionGroup,
+)
 
 
 class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):
     """
     Enable condition group which includes one or several enable conditions.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticConditionGroup::DiagnosticEnableConditionGroup
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticConditionGroup
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 200, Classic Platform

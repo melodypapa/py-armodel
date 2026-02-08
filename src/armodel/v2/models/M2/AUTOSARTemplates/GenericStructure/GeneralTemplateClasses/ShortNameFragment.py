@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ShortNameFragment(ARObject):
@@ -8,7 +8,7 @@ class ShortNameFragment(ARObject):
     This class describes how the Referrable.shortName is composed of several
     shortNameFragments.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::ShortNameFragment
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 64, Foundation R23-11)

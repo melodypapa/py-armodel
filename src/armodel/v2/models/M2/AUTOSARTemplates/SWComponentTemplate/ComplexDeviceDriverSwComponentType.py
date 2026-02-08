@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
 
 
 class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
@@ -11,7 +14,7 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     the software representation to its hardware description provided by the ECU
     Resource Template.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ComplexDeviceDriverSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 310, Classic

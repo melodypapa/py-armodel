@@ -13,7 +13,7 @@ class AtpPrototype(Identifiable, ABC):
     role indicated by the feature in the owning classifier. A feature is not an
     instance but an indication of an instance-to-be.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpPrototype
+    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation

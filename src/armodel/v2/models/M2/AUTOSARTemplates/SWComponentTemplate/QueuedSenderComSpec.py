@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import SenderComSpec
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    SenderComSpec,
+)
+
 
 class QueuedSenderComSpec(SenderComSpec):
     """
     Communication attributes specific to distribution of events (PPortPrototype,
     SenderReceiverInterface and dataElement carries an "event").
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::QueuedSenderComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform

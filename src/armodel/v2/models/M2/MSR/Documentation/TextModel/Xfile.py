@@ -5,7 +5,7 @@ class Xfile(SingleLanguageReferrable):
     """
     This represents to reference an external file within a documentation.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xfile
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 319, Foundation

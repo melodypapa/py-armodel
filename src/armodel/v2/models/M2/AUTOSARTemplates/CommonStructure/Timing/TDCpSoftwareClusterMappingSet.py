@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class TDCpSoftwareClusterMappingSet(ARElement):
     """
     This is used to gather of classic platform software cluster mappings.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster::TDCpSoftwareClusterMappingSet
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 156, Classic Platform R23-11)

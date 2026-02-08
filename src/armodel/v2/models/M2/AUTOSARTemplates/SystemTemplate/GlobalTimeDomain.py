@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -11,7 +14,7 @@ class GlobalTimeDomain(FibexElement):
     """
     This represents the ability to define a global time domain.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeDomain
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 858, Classic Platform R23-11)

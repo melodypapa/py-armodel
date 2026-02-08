@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ScaleConstr(ARObject):
@@ -10,7 +10,7 @@ class ScaleConstr(ARObject):
     This meta-class represents the ability to specify constraints as a list of
     intervals (called scales).
 
-    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::ScaleConstr
+    Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1003, Classic

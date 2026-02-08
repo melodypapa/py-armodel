@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwAxisGeneric(ARObject):
@@ -13,7 +16,7 @@ class SwAxisGeneric(ARObject):
     data component of the ECU. Therefore these parameters are specified in the
     data declaration, not in the calibration data.
 
-    Package: M2::MSR::DataDictionary::Axis::SwAxisGeneric
+    Package: M2::MSR::DataDictionary::Axis
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 355, Classic Platform

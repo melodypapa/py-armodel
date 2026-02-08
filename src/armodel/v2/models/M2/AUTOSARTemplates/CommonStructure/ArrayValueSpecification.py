@@ -1,12 +1,18 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import CompositeValueSpecification
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    CompositeValueSpecification,
+)
 
 
 class ArrayValueSpecification(CompositeValueSpecification):
     """
     Specifies the values for an array.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::ArrayValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 303, Classic

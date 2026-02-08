@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DocumentViewSelectable(ARObject, ABC):
@@ -11,7 +11,7 @@ class DocumentViewSelectable(ARObject, ABC):
     This meta-class represents the ability to be dedicated to a particular
     audience or document view.
 
-    Package: M2::MSR::Documentation::BlockElements::PaginationAndView::DocumentViewSelectable
+    Package: M2::MSR::Documentation::BlockElements::PaginationAndView
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 340, Foundation

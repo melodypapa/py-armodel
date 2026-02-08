@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -12,7 +15,7 @@ class EcucDefinitionElement(Identifiable, ABC):
     references and containers. If not stated otherwise the default multiplicity
     is exactly one mandatory occurrence of the specified element.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDefinitionElement
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 45, Classic Platform R23-11)

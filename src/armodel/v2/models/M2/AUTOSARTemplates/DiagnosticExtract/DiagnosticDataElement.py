@@ -10,7 +10,7 @@ class DiagnosticDataElement(Identifiable):
     This meta-class represents the ability to describe a concrete piece of data
     to be taken into account for diagnostic purposes.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDataElement
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 41, Classic Platform

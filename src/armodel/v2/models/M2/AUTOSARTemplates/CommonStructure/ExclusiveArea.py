@@ -7,7 +7,7 @@ class ExclusiveArea(Identifiable):
     """
     Prevents an executable entity running in the area from being preempted.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExclusiveArea
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 82, Classic

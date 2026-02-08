@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    TpConnection,
+)
 
 
 class FlexrayArTpConnection(TpConnection):
@@ -8,7 +14,7 @@ class FlexrayArTpConnection(TpConnection):
     particular communication. The FlexRay Autosar Tp module routes a Pdu through
     this connection.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayArTpConnection
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 603, Classic Platform R23-11)

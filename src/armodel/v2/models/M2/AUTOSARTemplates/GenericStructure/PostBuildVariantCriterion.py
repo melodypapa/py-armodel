@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
+
 
 class PostBuildVariantCriterion(ARElement):
     """
     This class specifies one particular PostBuildVariantSelector.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterion
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 304, Classic Platform R23-11)

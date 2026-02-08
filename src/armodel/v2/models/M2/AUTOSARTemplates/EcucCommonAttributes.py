@@ -1,13 +1,19 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucDefinitionElement,
+)
 
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
     """
     Attributes used by Configuration Parameters as well as References.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucCommonAttributes
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 48, Classic Platform R23-11)

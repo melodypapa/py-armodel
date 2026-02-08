@@ -9,7 +9,7 @@ class Note(Paginateable):
     nested notes e.g. the note icon of inner notes might be omitted while
     rendering the note.
 
-    Package: M2::MSR::Documentation::BlockElements::Note::Note
+    Package: M2::MSR::Documentation::BlockElements::Note
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 310, Foundation

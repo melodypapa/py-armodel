@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -10,7 +13,7 @@ class ExecutableEntity(Identifiable, ABC):
     """
     Abstraction of executable code.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExecutableEntity
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 70, Classic

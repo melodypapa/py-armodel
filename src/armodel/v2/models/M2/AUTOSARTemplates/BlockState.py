@@ -11,7 +11,7 @@ class BlockState(Identifiable):
     SecurityEventStateFilter that references the block state which is currently
     active in the IdsM.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::BlockState
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 52, Foundation R23-11)

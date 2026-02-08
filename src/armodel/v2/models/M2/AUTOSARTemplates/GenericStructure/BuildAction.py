@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildActionEntity,
+)
 
 
 class BuildAction(BuildActionEntity):
     """
     This meta-class represents the ability to specify a build action.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildAction
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 366, Foundation

@@ -1,14 +1,17 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwcServiceDependencyInSystemInstanceRef(ARObject):
     """
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::SwcServiceDependencyInSystemInstanceRef
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 369, Classic Platform

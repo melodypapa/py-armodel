@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class FMFeatureModel(ARElement):
@@ -7,7 +13,7 @@ class FMFeatureModel(ARElement):
     A Feature model describes the features of a product line and their
     dependencies. Feature models are an optional part of an AUTOSAR model.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureModel
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 21, Foundation

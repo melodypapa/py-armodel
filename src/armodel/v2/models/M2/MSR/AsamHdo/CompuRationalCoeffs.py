@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompuRationalCoeffs(ARObject):
@@ -10,7 +10,7 @@ class CompuRationalCoeffs(ARObject):
     This meta-class represents the ability to express a rational function by
     specifying the coefficients of nominator and denominator.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuRationalCoeffs
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 389, Classic Platform

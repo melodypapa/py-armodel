@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
+    AbstractAccessPoint,
+)
 
 
 class InternalTriggeringPoint(AbstractAccessPoint):
@@ -8,7 +11,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     trigger the execution of Runnable Entities of the corresponding
     software-component.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger::InternalTriggeringPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 322, Classic

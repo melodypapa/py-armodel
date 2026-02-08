@@ -1,12 +1,15 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import DataFormatElementReference
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (
+    DataFormatElementReference,
+)
 
 
 class AbstractClassTailoring(DataFormatElementReference, ABC):
     """
     Tailoring of abstract classes in the AUTOSAR meta-model
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::AbstractClassTailoring
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 101, Foundation R23-11)

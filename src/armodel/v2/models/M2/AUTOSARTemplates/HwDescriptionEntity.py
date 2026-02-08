@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
     Referrable,
@@ -10,7 +13,7 @@ class HwDescriptionEntity(Referrable, ABC):
     """
     This meta-class represents the ability to describe a hardware entity.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwDescriptionEntity
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 15, Classic Platform

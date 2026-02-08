@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
+    AbstractAccessPoint,
+)
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint):
@@ -11,7 +14,7 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     occurrence of this event can either unblock a WaitPoint or can lead to the
     invocation of a RunnableEntity.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::AsynchronousServerCallResultPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 304, Classic

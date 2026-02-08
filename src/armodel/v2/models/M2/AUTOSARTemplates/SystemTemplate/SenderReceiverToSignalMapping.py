@@ -11,7 +11,7 @@ class SenderReceiverToSignalMapping(DataMapping):
     """
     Mapping of a sender receiver communication data element to a signal.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderReceiverToSignalMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1005, Classic

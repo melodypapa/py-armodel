@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class TriggerMapping(ARObject):
     Defines the mapping of two particular unequally named Triggers in the given
     context.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration::TriggerMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 134, Classic Platform

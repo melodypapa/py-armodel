@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ClientIdDefinitionSet(ARElement):
@@ -7,7 +10,7 @@ class ClientIdDefinitionSet(ARElement):
     Set of Client Identifiers that are used for inter-ECU client-server
     communication in the System.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::ClientIdDefinitionSet
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 44, Classic Platform R23-11)

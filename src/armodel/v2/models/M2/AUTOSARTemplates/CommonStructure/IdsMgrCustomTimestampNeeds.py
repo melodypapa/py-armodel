@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     """
@@ -6,7 +9,7 @@ class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     represents a service use case for the retrieval of a custom timestamp by the
     Intrusion Detection System Manager.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IdsMgrCustomTimestampNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 842, Classic Platform

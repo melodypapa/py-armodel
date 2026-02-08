@@ -13,7 +13,7 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
     expected or implemented debouncing and to use the category for the
     identification of the expected / implemented debouncing.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceAlgorithm
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 259, Classic

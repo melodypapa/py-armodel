@@ -5,7 +5,7 @@ class Row(Paginateable):
     """
     This meta-class represents the ability to express one row in a table.
 
-    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Row
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 336, Foundation

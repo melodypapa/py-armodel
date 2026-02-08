@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class IPSecConfig(ARObject):
@@ -10,7 +13,7 @@ class IPSecConfig(ARObject):
     IPsec is a protocol that is designed to provide "end-to-end"
     cryptographically-based security for IP network connections.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 571, Classic Platform R23-11)

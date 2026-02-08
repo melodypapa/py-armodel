@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwComponentPrototypeAssignment(ARObject):
@@ -10,7 +10,7 @@ class SwComponentPrototypeAssignment(ARObject):
     This meta-class is only required to allow for the variant modeling of an
     instanceRef.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::SwComponentPrototypeAssignment
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 894, Classic Platform R23-11)

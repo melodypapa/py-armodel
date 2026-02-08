@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractInternalReferenceDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractInternalReferenceDef,
+)
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
@@ -7,7 +10,7 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     Specify alternative references where in the ECU Configuration description
     only one of the specified references will actually be used.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucChoiceReferenceDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 74, Classic Platform R23-11)

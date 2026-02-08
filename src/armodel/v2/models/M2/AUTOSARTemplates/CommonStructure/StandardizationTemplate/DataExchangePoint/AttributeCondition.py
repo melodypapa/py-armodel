@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import AbstractMultiplicityRestriction
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes import (
+    AbstractMultiplicityRestriction,
+)
 
 
 class AttributeCondition(AbstractMultiplicityRestriction, ABC):
@@ -7,7 +10,7 @@ class AttributeCondition(AbstractMultiplicityRestriction, ABC):
     The AttributeCondition evaluates to true, if the referenced attribute is
     accepted by all rules of this condition.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::AttributeCondition
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 102, Foundation R23-11)

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswEvent,
+)
 
 
 class BswOperationInvokedEvent(BswEvent):
     """
     this event is not needed in case of direct function calls.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswOperationInvokedEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 97, Classic

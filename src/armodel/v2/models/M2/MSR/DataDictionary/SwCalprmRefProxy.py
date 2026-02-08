@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ class SwCalprmRefProxy(ARObject):
     """
     Wrapper class for different kinds of references to a calibration parameter.
 
-    Package: M2::MSR::DataDictionary::DatadictionaryProxies::SwCalprmRefProxy
+    Package: M2::MSR::DataDictionary::DatadictionaryProxies
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 370, Classic Platform

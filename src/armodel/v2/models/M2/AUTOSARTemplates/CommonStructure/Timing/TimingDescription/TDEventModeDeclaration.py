@@ -12,7 +12,7 @@ class TDEventModeDeclaration(TDEventVfbPort):
     This is used to describe timing events related to mode switch communication
     at VFB level.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventModeDeclaration
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 57, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucParameterDerivationFormula(ARObject):
@@ -10,7 +10,7 @@ class EcucParameterDerivationFormula(ARObject):
     This formula is intended to specify how an ecu parameter can be derived from
     other information in the Autosar Templates.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParameterDerivationFormula
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 88, Classic Platform R23-11)

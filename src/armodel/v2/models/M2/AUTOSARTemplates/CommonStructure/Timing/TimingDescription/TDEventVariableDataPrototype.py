@@ -12,7 +12,7 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     This is used to describe timing events related to sender-receiver
     communication at VFB level.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVariableDataPrototype
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 53, Classic Platform R23-11)

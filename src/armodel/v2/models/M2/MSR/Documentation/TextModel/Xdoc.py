@@ -6,7 +6,7 @@ class Xdoc(SingleLanguageReferrable):
     This meta-class represents the ability to refer to an external document
     which can be rendered as printed matter.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xdoc
+    Package: M2::MSR::Documentation::TextModel::InlineTextElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 319, Foundation

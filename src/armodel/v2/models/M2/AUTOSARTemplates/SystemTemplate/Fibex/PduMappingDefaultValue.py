@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class PduMappingDefaultValue(ARObject):
@@ -10,7 +10,7 @@ class PduMappingDefaultValue(ARObject):
     Default Value which will be distributed if no I-Pdu has been received since
     last sending.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::PduMappingDefaultValue
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 841, Classic Platform R23-11)

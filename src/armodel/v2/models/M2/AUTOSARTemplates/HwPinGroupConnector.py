@@ -11,7 +11,7 @@ class HwPinGroupConnector(Describable):
     """
     This meta-class represents the ability to connect two pin groups.
 
-    Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroupConnector
+    Package: M2::AUTOSARTemplates::EcuResourceTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 22, Classic Platform

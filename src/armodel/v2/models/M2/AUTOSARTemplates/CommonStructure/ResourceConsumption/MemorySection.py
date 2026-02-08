@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -33,7 +36,7 @@ class MemorySection(Identifiable):
     Description resp. the SwComponentType. It can be superseded by the prefix
     attribute.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage::MemorySection
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 143, Classic

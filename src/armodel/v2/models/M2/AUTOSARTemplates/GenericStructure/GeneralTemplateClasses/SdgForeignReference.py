@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import SdgAbstractForeignReference
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
+    SdgAbstractForeignReference,
+)
+
 
 class SdgForeignReference(SdgAbstractForeignReference):
     """
@@ -6,7 +9,7 @@ class SdgForeignReference(SdgAbstractForeignReference):
     object in an AUTOSAR Model. This class accepts the special data "Sdx"
     reference.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgForeignReference
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation

@@ -11,7 +11,7 @@ class SwcToApplicationPartitionMapping(Identifiable):
     at a point in time when the corresponding EcuInstance is not yet known or
     defined.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::SwcToApplicationPartitionMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 200, Classic Platform R23-11)

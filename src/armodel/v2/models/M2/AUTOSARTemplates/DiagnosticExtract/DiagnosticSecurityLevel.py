@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticSecurityLevel(DiagnosticCommonElement):
@@ -7,7 +10,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
     This meta-class represents the ability to define a security level considered
     for diagnostic purposes.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticSecurityLevel
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 75, Classic Platform

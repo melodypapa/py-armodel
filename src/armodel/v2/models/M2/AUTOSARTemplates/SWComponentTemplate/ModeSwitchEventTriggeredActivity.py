@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ModeSwitchEventTriggeredActivity(ARObject):
@@ -10,7 +10,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
     This meta-class defines an activity of the NvBlockSwComponentType for a
     specific NvBlock which is triggered by a ModeSwitchEvent.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::ModeSwitchEventTriggeredActivity
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 675, Classic Platform

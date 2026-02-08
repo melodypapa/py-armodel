@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TlsPskIdentity(ARObject):
@@ -11,7 +11,7 @@ class TlsPskIdentity(ARObject):
     handshake among the communication parties, to establish a TLS connection if
     the handshake is based on the existence of a pre-shared key.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsPskIdentity
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 563, Classic Platform R23-11)

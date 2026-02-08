@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import SecurityEventContextMapping
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    SecurityEventContextMapping,
+)
+
 
 class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     """
@@ -7,7 +10,7 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     functional cluster in which this IdsM instance can receive reports for these
     security events.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingFunctionalCluster
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 39, Foundation R23-11)

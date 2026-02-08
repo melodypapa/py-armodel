@@ -11,7 +11,7 @@ class SecurityEventContextProps(Identifiable):
     IdsmInstance and adds mapping-dependent properties of this security event
     valid only for this specific mapping.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextProps
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 258, Classic Platform

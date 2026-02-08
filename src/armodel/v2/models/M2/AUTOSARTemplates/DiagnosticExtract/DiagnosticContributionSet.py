@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class DiagnosticContributionSet(ARElement):
@@ -10,7 +16,7 @@ class DiagnosticContributionSet(ARElement):
     decentralized configuration, i.e. different contributors can come up with an
     own DiagnosticContribution Set.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticContributionSet
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 56, Classic Platform

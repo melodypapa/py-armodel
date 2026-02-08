@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class EcuStateMgrUserNeeds(ServiceNeeds):
     """
@@ -7,7 +10,7 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
     regarded as a symbol identifying the user from the viewpoint of the
     component or module which owns this class.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::EcuStateMgrUserNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic

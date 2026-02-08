@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -12,7 +12,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
     PortPrototypeBlueprints. These init values act as a kind of blueprint from
     which for example proper ComSpecs can be derived.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port::PortPrototypeBlueprintInitValue
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 60, Foundation R23-11)

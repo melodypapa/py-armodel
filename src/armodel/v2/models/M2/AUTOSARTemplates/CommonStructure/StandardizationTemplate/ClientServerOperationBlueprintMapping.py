@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ClientServerOperationBlueprintMapping(ARObject):
@@ -10,7 +10,7 @@ class ClientServerOperationBlueprintMapping(ARObject):
     This class describes a specific mapping between a ClientServerOperation in a
     ClientServerInterface blueprint and a BswModuleEntry blueprint.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw::ClientServerOperationBlueprintMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 68, Foundation R23-11)

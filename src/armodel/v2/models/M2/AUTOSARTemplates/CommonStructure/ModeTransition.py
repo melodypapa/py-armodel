@@ -10,7 +10,7 @@ class ModeTransition(Identifiable):
     This meta-class represents the ability to describe possible ModeTransitions
     in the context of a Mode DeclarationGroup.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeTransition
+    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 43, Classic

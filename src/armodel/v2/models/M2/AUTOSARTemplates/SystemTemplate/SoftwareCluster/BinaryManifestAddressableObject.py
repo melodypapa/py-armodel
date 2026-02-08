@@ -11,7 +11,7 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     This meta-class acts as an abstract base class for addressable objects in
     the context of the binary manifest of a CP software cluster.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestAddressableObject
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 920, Classic Platform R23-11)

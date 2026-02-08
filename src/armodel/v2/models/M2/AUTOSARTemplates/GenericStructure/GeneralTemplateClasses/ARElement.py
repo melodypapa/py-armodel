@@ -10,7 +10,7 @@ class ARElement(PackageableElement, ABC):
     An element that can be defined stand-alone, i.e. without being part of
     another element (except for packages of course).
 
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARElement
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic

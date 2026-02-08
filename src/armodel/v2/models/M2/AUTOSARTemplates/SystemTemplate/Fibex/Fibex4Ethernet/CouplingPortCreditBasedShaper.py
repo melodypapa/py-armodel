@@ -9,7 +9,7 @@ class CouplingPortCreditBasedShaper(Identifiable):
     """
     Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortCreditBasedShaper
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2013, Classic Platform R23-11)

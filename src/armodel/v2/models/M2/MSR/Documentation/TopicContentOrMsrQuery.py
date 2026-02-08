@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TopicContentOrMsrQuery(ARObject):
@@ -8,7 +8,7 @@ class TopicContentOrMsrQuery(ARObject):
     This meta-class represents a topic or a topic content which is generated
     using queries.
 
-    Package: M2::MSR::Documentation::Chapters::TopicContentOrMsrQuery
+    Package: M2::MSR::Documentation::Chapters
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation

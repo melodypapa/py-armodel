@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
+)
 
 
 class J1939TpConfig(TpConfig):
@@ -7,7 +10,7 @@ class J1939TpConfig(TpConfig):
     This element defines exactly one J1939 TP Configuration. One J1939TpConfig
     element shall be created for each J1939 Network in the System.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::J1939TpConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 623, Classic Platform R23-11)

@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class TriggerIPduSendCondition(ARObject):
@@ -11,7 +11,7 @@ class TriggerIPduSendCondition(ARObject):
     referenced modeDeclarations (OR associated) is active. The condition is used
     to define when the Pdu is triggered with the Com_Trigger IPDUSend API call.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::TriggerIPduSendCondition
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 399, Classic Platform R23-11)

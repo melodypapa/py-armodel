@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
@@ -12,7 +15,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
     grouped axis represents the counterpart to this. It is conceived as an
     independent parameter (see class SwAxisGrouped).
 
-    Package: M2::MSR::DataDictionary::Axis::SwAxisIndividual
+    Package: M2::MSR::DataDictionary::Axis
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 354, Classic Platform

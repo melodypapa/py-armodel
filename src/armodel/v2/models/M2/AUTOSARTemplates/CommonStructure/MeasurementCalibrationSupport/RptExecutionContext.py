@@ -8,7 +8,7 @@ class RptExecutionContext(Identifiable):
     Defines an environment for the execution of ExecutableEntites which is
     qualified by • OSTask • communication buffer usage
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport::RptExecutionContext
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 205, Classic

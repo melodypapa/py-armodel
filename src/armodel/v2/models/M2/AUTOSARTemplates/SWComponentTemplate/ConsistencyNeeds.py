@@ -13,7 +13,7 @@ class ConsistencyNeeds(Identifiable):
     This meta-class represents the ability to define requirements on the
     implicit communication behavior.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::ConsistencyNeeds
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 221, Classic Platform

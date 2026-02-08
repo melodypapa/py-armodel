@@ -1,6 +1,6 @@
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class FMConditionByFeaturesAndAttributes(ARObject):
@@ -9,7 +9,7 @@ class FMConditionByFeaturesAndAttributes(ARObject):
     uses only references to features or feature attributes (not system
     constants) as operands.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMConditionByFeaturesAndAttributes
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 62, Foundation

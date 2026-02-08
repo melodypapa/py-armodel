@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import EventTriggeringConstraint
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    EventTriggeringConstraint,
+)
 
 
 class PeriodicEventTriggering(EventTriggeringConstraint):
@@ -9,7 +12,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
     strictness of the periodic occurrence behavior by specifying a jitter, so
     that there can be a deviation from the period up to the size of the jitter.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::PeriodicEventTriggering
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 101, Classic Platform R23-11)

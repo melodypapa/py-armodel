@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticFimEventGroup(DiagnosticCommonElement):
@@ -8,7 +11,7 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
     known as a summary event in Fim terminology. This represents a group of
     single diagnostic events.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimEventGroup
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 217, Classic Platform

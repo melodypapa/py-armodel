@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 
 
 class DiagnosticAccessPermission(DiagnosticCommonElement):
@@ -10,7 +16,7 @@ class DiagnosticAccessPermission(DiagnosticCommonElement):
     mapping element between several (otherwise unrelated) pieces of information
     that are put into context for the purpose of checking for access rights.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticAccessPermission
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 73, Classic Platform

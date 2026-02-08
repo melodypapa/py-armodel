@@ -2,36 +2,298 @@
 V2 M2::AUTOSARTemplates::SystemTemplate package.
 """
 
-from .BusMirror import *
-from .DataMapping import *
-from .DiagnosticConnection import *
-from .Dlt import *
-from .DoIP import *
-from .ECUResourceMapping import *
-from .EndToEndProtection import *
-from .Fibex import *
-from .GeneralPurposeConnection import *
-from .GlobalTime import *
-from .InstanceRefs import *
-from .NetworkManagement import *
-from .PncMapping import *
-from .RteEventToOsTaskMapping import *
-from .SWmapping import *
-from .SecureCommunication import *
-from .SignalPaths import *
-from .SoftwareCluster import *
-from .Transformer import *
-from .TransportProtocols import *
-
 # Classes:
-from armodel.v2.models.M2.AUTOSARTemplates.ClientIdDefinition import ClientIdDefinition
-from armodel.v2.models.M2.AUTOSARTemplates.ClientIdDefinitionSet import ClientIdDefinitionSet
-from armodel.v2.models.M2.AUTOSARTemplates.ComManagementMapping import ComManagementMapping
-from armodel.v2.models.M2.AUTOSARTemplates.J1939SharedAddressCluster import J1939SharedAddressCluster
-from armodel.v2.models.M2.AUTOSARTemplates.PortElementToCommunicationResourceMapping import PortElementToCommunicationResourceMapping
-from armodel.v2.models.M2.AUTOSARTemplates.RootSwCompositionPrototype import RootSwCompositionPrototype
+from armodel.v2.models.M2.AUTOSARTemplates.ClientIdDefinition import (
+    ClientIdDefinition,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.ClientIdDefinitionSet import (
+    ClientIdDefinitionSet,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.ComManagementMapping import (
+    ComManagementMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.J1939SharedAddressCluster import (
+    J1939SharedAddressCluster,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.PortElementToCommunicationResourceMapping import (
+    PortElementToCommunicationResourceMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.RootSwCompositionPrototype import (
+    RootSwCompositionPrototype,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.System import System
 from armodel.v2.models.M2.AUTOSARTemplates.SystemMapping import SystemMapping
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.BusMirror import (
+    BusMirrorCanIdRangeMapping,
+    BusMirrorCanIdToCanIdMapping,
+    BusMirrorChannel,
+    BusMirrorChannelMapping,
+    BusMirrorChannelMappingCan,
+    BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingIp,
+    BusMirrorChannelMappingUserDefined,
+    BusMirrorLinPidToCanIdMapping,
+    MirroringProtocolEnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    ClientServerToSignalMapping,
+    DataMapping,
+    DataTypePolicyEnum,
+    IndexedArrayElement,
+    SenderRecArrayElementMapping,
+    SenderRecArrayTypeMapping,
+    SenderRecCompositeTypeMapping,
+    SenderReceiverCompositeElementToSignalMapping,
+    SenderReceiverToSignalGroupMapping,
+    SenderReceiverToSignalMapping,
+    SenderRecRecordElementMapping,
+    SenderRecRecordTypeMapping,
+    TriggerToSignalMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    DiagnosticConnection,
+    DoIpTpConnection,
+    TpConnection,
+    TpConnectionIdent,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import (
+    DltConfig,
+    DltDefaultTraceStateEnum,
+    DltLogChannel,
+    LogTraceDefaultLogLevelEnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    AbstractDoIpLogicAddressProps,
+    DoIpConfig,
+    DoIpInterface,
+    DoIpLogicTargetAddressProps,
+    DoIpLogicTesterAddressProps,
+    DoIpRoutingActivation,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
+    CommunicationControllerMapping,
+    ECUMapping,
+    HwPortMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import (
+    EndToEndProtectionISignalIPdu,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GeneralPurposeConnection import (
+    GeneralPurposeConnection,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    AbstractGlobalTimeDomainProps,
+    GlobalTimeCorrectionProps,
+    GlobalTimeCrcSupportEnum,
+    GlobalTimeCrcValidationEnum,
+    GlobalTimeDomain,
+    GlobalTimeGateway,
+    GlobalTimeIcvSupportEnum,
+    GlobalTimeIcvVerificationEnum,
+    GlobalTimeMaster,
+    GlobalTimeSlave,
+    NetworkSegmentIdentification,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    OperationInSystemInstanceRef,
+    PortGroupInSystemInstanceRef,
+    TriggerInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    BusspecificNmEcu,
+    CanNmCluster,
+    CanNmClusterCoupling,
+    CanNmEcu,
+    CanNmNode,
+    FlexrayNmCluster,
+    FlexrayNmClusterCoupling,
+    FlexrayNmEcu,
+    FlexrayNmNode,
+    FlexrayNmScheduleVariant,
+    J1939NmAddressConfigurationCapabilityEnum,
+    J1939NmCluster,
+    J1939NmEcu,
+    J1939NmNode,
+    J1939NodeName,
+    NmCluster,
+    NmClusterCoupling,
+    NmConfig,
+    NmCoordinator,
+    NmCoordinatorRoleEnum,
+    NmEcu,
+    NmNode,
+    UdpNmCluster,
+    UdpNmClusterCoupling,
+    UdpNmEcu,
+    UdpNmNode,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import (
+    PncMapping,
+    PncMappingIdent,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+    OsTaskPreemptabilityEnum,
+    OsTaskProxy,
+    RteEventInCompositionSeparation,
+    RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemSeparation,
+    RteEventInSystemToOsTaskProxyMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoCertificateAlgorithmFamilyEnum,
+    CryptoCertificateFormatEnum,
+    CryptoEllipticCurveProps,
+    CryptoServiceCertificate,
+    CryptoServiceKey,
+    CryptoServiceKeyGenerationEnum,
+    CryptoServiceMapping,
+    CryptoServicePrimitive,
+    CryptoServiceQueue,
+    CryptoSignatureScheme,
+    IPSecConfig,
+    IPSecConfigProps,
+    IPsecDpdActionEnum,
+    IPsecHeaderTypeEnum,
+    IPsecIpProtocolEnum,
+    IPsecModeEnum,
+    IPsecPolicyEnum,
+    IPSecRule,
+    MacSecCapabilityEnum,
+    MacSecCipherSuiteConfig,
+    MacSecConfidentialityOffsetEnum,
+    MacSecCryptoAlgoConfig,
+    MacSecFailPermissiveModeEnum,
+    MacSecGlobalKayProps,
+    MacSecKayParticipant,
+    MacSecLocalKayProps,
+    MacSecParticipantSet,
+    MacSecProps,
+    MacSecRoleEnum,
+    SecOcCryptoServiceMapping,
+    TlsCryptoCipherSuite,
+    TlsCryptoCipherSuiteProps,
+    TlsCryptoServiceMapping,
+    TlsPskIdentity,
+    TlsVersionEnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import (
+    CommonSignalPath,
+    ForbiddenSignalPath,
+    PermissibleSignalPath,
+    SeparateSignalPath,
+    SignalPathConstraint,
+    SwcToSwcOperationArguments,
+    SwcToSwcOperationArgumentsDirectionEnum,
+    SwcToSwcSignal,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    ClientServerOperationComProps,
+    CpSoftwareCluster,
+    CpSoftwareClusterCommunicationResource,
+    CpSoftwareClusterCommunicationResourceProps,
+    CpSoftwareClusterMappingSet,
+    CpSoftwareClusterResource,
+    CpSoftwareClusterResourcePool,
+    CpSoftwareClusterResourceToApplicationPartitionMapping,
+    CpSoftwareClusterServiceResource,
+    CpSoftwareClusterToApplicationPartitionMapping,
+    CpSoftwareClusterToEcuInstanceMapping,
+    CpSoftwareClusterToResourceMapping,
+    DataComProps,
+    DataConsistencyPolicyEnum,
+    RoleBasedResourceDependency,
+    SendIndicationEnum,
+    SwComponentPrototypeAssignment,
+    SystemSignalGroupToCommunicationResourceMapping,
+    SystemSignalToCommunicationResourceMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
+    ApplicationPartitionToEcuPartitionMapping,
+    ComponentClustering,
+    ComponentSeparation,
+    EcuPartition,
+    EcuResourceEstimation,
+    J1939ControllerApplication,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
+    MappingConstraint,
+    MappingScopeEnum,
+    SwcToApplicationPartitionMapping,
+    SwcToEcuMapping,
+    SwcToImplMapping,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    BufferProperties,
+    CSTransformerErrorReactionEnum,
+    DataIdModeEnum,
+    DataPrototypeInPortInterfaceRef,
+    DataPrototypeReference,
+    DataPrototypeTransformationProps,
+    DataTransformation,
+    DataTransformationKindEnum,
+    DataTransformationSet,
+    E2EProfileCompatibilityProps,
+    EndToEndProfileBehaviorEnum,
+    EndToEndTransformationComSpecProps,
+    EndToEndTransformationDescription,
+    EndToEndTransformationISignalProps,
+    SOMEIPMessageTypeEnum,
+    SOMEIPTransformationDescription,
+    SOMEIPTransformationISignalProps,
+    SOMEIPTransformationProps,
+    TlvDataIdDefinition,
+    TlvDataIdDefinitionSet,
+    TransformationDescription,
+    TransformationISignalProps,
+    TransformationProps,
+    TransformationPropsSet,
+    TransformationTechnology,
+    TransformerClassEnum,
+    UserDefinedTransformationDescription,
+    UserDefinedTransformationISignalProps,
+    UserDefinedTransformationProps,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    CanTpAddress,
+    CanTpAddressingFormatType,
+    CanTpChannel,
+    CanTpConfig,
+    CanTpConnection,
+    CanTpEcu,
+    CanTpNode,
+    DoIpLogicAddress,
+    DoIpTpConfig,
+    EthTpConfig,
+    EthTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpConnection,
+    FlexrayArTpNode,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
+    FrArTpAckType,
+    J1939TpConfig,
+    J1939TpConnection,
+    J1939TpNode,
+    J1939TpPg,
+    LinTpConfig,
+    LinTpConnection,
+    LinTpNode,
+    MaximumMessageLengthType,
+    NetworkTargetAddressType,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
+    TpAddress,
+    TpConfig,
+)
 
 __all__ = [
     # .BusMirror.*,

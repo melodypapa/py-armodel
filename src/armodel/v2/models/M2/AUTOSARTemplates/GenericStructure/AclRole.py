@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class AclRole(ARElement):
@@ -8,7 +11,7 @@ class AclRole(ARElement):
     used to grant access rights to AUTOSAR model. The purpose of this meta-class
     is to support the mutual agreements between the involved parties.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclRole
+    Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 384, Foundation

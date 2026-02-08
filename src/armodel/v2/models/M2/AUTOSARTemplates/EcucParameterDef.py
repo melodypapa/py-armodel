@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucCommonAttributes
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucCommonAttributes,
+)
 
 
 class EcucParameterDef(EcucCommonAttributes, ABC):
@@ -8,7 +11,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     Abstract class used to define the similarities of all ECU Configuration
     Parameter types defined as subclasses.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParameterDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 57, Classic Platform R23-11)

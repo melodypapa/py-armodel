@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EthTSynCrcFlags(ARObject):
@@ -10,7 +10,7 @@ class EthTSynCrcFlags(ARObject):
     Defines the fields of the message which shall be taken into account for CRC
     calculation and verification.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthTSynCrcFlags
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 868, Classic Platform R23-11)

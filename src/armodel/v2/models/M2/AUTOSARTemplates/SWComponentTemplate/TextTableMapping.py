@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -14,7 +17,7 @@ class TextTableMapping(ARObject):
     refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or
     BITFIELD_TEXTTABLE.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TextTableMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 145, Classic Platform

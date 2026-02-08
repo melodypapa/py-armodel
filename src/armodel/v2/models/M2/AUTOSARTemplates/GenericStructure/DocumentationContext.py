@@ -11,7 +11,7 @@ class DocumentationContext(MultilanguageReferrable):
     standalone documentation. Note that this is an <<atpMixed>>. The contents
     needs to be considered as ordered.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1::DocumentationContext
+    Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 327, Foundation

@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MappingConstraint(ARObject, ABC):
@@ -12,7 +12,7 @@ class MappingConstraint(ARObject, ABC):
     to applicable ECUs, Partitions or Cores depending on the mappingScope
     attribute.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::MappingConstraint
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 202, Classic Platform R23-11)

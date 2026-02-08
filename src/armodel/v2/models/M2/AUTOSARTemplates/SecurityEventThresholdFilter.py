@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import AbstractSecurityEventFilter
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    AbstractSecurityEventFilter,
+)
 
 
 class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
@@ -9,7 +12,7 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     security events . All subsequently arriving security events (within the
     configured time interval) pass the filter.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventThresholdFilter
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 26, Foundation R23-11)

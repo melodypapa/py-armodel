@@ -1,9 +1,12 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -16,7 +19,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
     DataPrototype which is typed by an ApplicationDatatype in the context of a
     PortInterface.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef::DataPrototypeInPortInterfaceInstanceRef
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1009, Classic Platform R23-11)

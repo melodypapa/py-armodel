@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
@@ -10,7 +13,7 @@ class DiagnosticSecurityEventReportingModeMapping(DiagnosticMapping):
     event. This means that the reporting mode of the security event can be set
     via the diagnostic service WriteDataByIdentifier.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticSecurityEventReportingModeMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 243, Classic Platform

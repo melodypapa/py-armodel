@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -22,7 +22,7 @@ class SenderRecRecordElementMapping(ARObject):
     will aggregate the complexTypeMapping element. In that way also the
     composite datatypes can be mapped to SystemSignals.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecRecordElementMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 236, Classic Platform R23-11)

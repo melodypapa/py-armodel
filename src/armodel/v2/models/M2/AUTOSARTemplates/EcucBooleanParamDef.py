@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParameterDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucParameterDef,
+)
 
 
 class EcucBooleanParamDef(EcucParameterDef):
     """
     Configuration parameter type for Boolean. Allowed values are true and false.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucBooleanParamDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 58, Classic Platform R23-11)

@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ReceiverComSpec
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    ReceiverComSpec,
+)
 
 
 class NonqueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to non-queued receiving.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NonqueuedReceiverComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 172, Classic Platform

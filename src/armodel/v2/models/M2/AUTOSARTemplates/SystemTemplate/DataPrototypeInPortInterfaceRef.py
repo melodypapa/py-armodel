@@ -13,7 +13,7 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     ApplicationDataType or Implementation DataType or a DataTypeElement that is
     aggregated within a composite application data type (record or array).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeInPortInterfaceRef
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 787, Classic Platform R23-11)

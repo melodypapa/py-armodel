@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class IndentSample(ARObject):
@@ -11,7 +11,7 @@ class IndentSample(ARObject):
     providing a sample content. This content can be measured by the rendering
     system in order to determine the width of indentation.
 
-    Package: M2::MSR::Documentation::BlockElements::ListElements::IndentSample
+    Package: M2::MSR::Documentation::BlockElements::ListElements
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 297, Foundation

@@ -13,7 +13,7 @@ class ParameterSwComponentType(SwComponentType):
     accessible via provided Ports. The provided values are the same for all
     connected SwComponentPrototypes
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ParameterSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 41, Classic Platform

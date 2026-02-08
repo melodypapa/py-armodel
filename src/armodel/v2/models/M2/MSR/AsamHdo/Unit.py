@@ -13,7 +13,7 @@ class Unit(ARElement):
     (offsetSiToUnit ) are applied. y {siUnit} := (x*{unit} - offsetSiToUnit
     [{unit}]) / (factorSiToUnit [[unit]/{siUnit}]
 
-    Package: M2::MSR::AsamHdo::Units::Unit
+    Package: M2::MSR::AsamHdo::Units
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 333, Classic Platform

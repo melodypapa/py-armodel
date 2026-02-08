@@ -1,6 +1,12 @@
 from abc import ABC
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class TimingExtension(ARElement, ABC):
@@ -10,7 +16,7 @@ class TimingExtension(ARElement, ABC):
     descriptions and timing constraints, that can be used to specify the timing
     behavior, are restricted.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::TimingExtension
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 254, Classic Platform R23-11)

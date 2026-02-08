@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     """
@@ -9,7 +12,7 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     and response ports of the same time-base. The actual time-base value is
     stored in the PortDefinedArgumentValue of the respective port specification.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SyncTimeBaseMgrUserNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic

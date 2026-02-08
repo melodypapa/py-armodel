@@ -1,18 +1,23 @@
-from typing import List, Optional, TYPE_CHECKING
+from typing import (
+    List,
+    Optional,
+)
 
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-        DiagnosticCommonElement,
-    )
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+)
+    DiagnosticCommonElement,
+)
 
 
-class DiagnosticEvent("DiagnosticCommonElement"):
+class DiagnosticEvent(DiagnosticCommonElement):
     """
     This element is used to configure DiagnosticEvents. (cid:53) 164 of 719
     Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract
     Template AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticEvent
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 164, Classic Platform

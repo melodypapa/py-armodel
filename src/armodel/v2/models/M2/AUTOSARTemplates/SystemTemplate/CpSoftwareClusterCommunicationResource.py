@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResource
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareClusterResource,
+)
 
 
 class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
@@ -7,7 +10,7 @@ class CpSoftwareClusterCommunicationResource(CpSoftwareClusterResource):
     Represents a single resource required or provided by a CP Software Cluster
     which relates to the port based communication on VFB level.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterCommunicationResource
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 902, Classic Platform R23-11)

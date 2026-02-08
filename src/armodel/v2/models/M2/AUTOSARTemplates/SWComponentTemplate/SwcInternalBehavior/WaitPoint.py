@@ -9,7 +9,7 @@ class WaitPoint(Identifiable):
     """
     This defines a wait-point for which the RunnableEntity can wait.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::WaitPoint
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 550, Classic Platform

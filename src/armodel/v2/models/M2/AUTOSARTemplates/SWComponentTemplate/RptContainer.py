@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -15,7 +18,7 @@ class RptContainer(Identifiable):
     structure of the Software Component Descriptions. The category attribute
     denotes which level of the Software Component Description is annotated.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptContainer
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 847, Classic Platform

@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class Documentation(ARElement):
@@ -10,7 +16,7 @@ class Documentation(ARElement):
     an entity of its own which denotes its context by reference to other objects
     and instances.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1::Documentation
+    Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 294, Classic Platform R23-11)

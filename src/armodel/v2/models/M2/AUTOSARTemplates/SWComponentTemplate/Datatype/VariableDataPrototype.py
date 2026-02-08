@@ -1,7 +1,8 @@
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.AutosarDataPrototype import (
     AutosarDataPrototype,
-    )
+)
 
 
 class VariableDataPrototype(AutosarDataPrototype):
@@ -11,7 +12,7 @@ class VariableDataPrototype(AutosarDataPrototype):
     VariableDataPrototype is used in various contexts and the specific context
     gives the otherwise generic VariableDataPrototype a dedicated semantics.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::VariableDataPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 107, Classic

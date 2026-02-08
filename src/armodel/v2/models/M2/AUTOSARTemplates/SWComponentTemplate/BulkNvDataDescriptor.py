@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -15,7 +18,7 @@ class BulkNvDataDescriptor(Identifiable):
     access to information uploaded to the vehicle at e.g. the end of the
     production line.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::BulkNvDataDescriptor
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 692, Classic Platform

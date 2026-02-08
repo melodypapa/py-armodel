@@ -13,7 +13,7 @@ class VariableAccess(AbstractAccessPoint):
     to a VariableData Prototype. The kind of access is specified by the role in
     which the class is used.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::VariableAccess
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 351, Classic

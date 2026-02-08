@@ -10,7 +10,7 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     This meta-class represents the ability to define an inhibition source in the
     context of the Fim configuration.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionInhibitSource
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 216, Classic Platform

@@ -9,7 +9,7 @@ class SwcToImplMapping(Identifiable):
     """
     Map instances of an AtomicSwComponentType to a specific Implementation.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::SwcToImplMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 199, Classic Platform R23-11)

@@ -2,15 +2,15 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SwSystemconstDependentFormula(ARObject, ABC):
     """
     This class represents an expression depending on system constants.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstDependentFormula
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1006, Classic

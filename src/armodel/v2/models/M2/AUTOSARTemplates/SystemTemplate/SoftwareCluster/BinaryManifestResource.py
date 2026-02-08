@@ -10,7 +10,7 @@ class BinaryManifestResource(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class for specializations.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestResource
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 915, Classic Platform R23-11)

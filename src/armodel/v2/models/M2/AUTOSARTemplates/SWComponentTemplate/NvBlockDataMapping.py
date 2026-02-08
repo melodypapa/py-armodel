@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -16,7 +16,7 @@ class NvBlockDataMapping(ARObject):
     referenced sub-element (inside a CompositeDataType) of the
     VariableDataPrototype representing the RAM Block shall be compatible.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::NvBlockDataMapping
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 688, Classic Platform

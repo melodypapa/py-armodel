@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class AdminData(ARObject):
@@ -20,7 +23,7 @@ class AdminData(ARObject):
     288 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of
     ECU Configuration AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::MSR::AsamHdo::AdminData::AdminData
+    Package: M2::MSR::AsamHdo::AdminData
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 288, Classic Platform R23-11)

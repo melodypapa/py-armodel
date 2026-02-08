@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class EcucDefinitionCollection(ARElement):
@@ -7,7 +10,7 @@ class EcucDefinitionCollection(ARElement):
     This represents the anchor point of an ECU Configuration Parameter
     Definition within the AUTOSAR templates structure.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDefinitionCollection
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 25, Classic Platform R23-11)

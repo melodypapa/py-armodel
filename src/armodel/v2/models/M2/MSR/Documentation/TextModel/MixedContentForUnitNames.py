@@ -1,8 +1,8 @@
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class MixedContentForUnitNames(ARObject, ABC):
@@ -12,7 +12,7 @@ class MixedContentForUnitNames(ARObject, ABC):
     be transcribed to a plain text model either by using appropriate characters
     or by transcribing like mˆ2.
 
-    Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForUnitNames
+    Package: M2::MSR::Documentation::TextModel::InlineTextModel
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 456, Foundation

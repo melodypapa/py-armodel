@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -14,7 +17,7 @@ class ViewMap(Identifiable):
     artifacts within the AUTOSAR environment. The references to the mapped
     elements can be plain references and/or InstanceRefs.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet::ViewMap
+    Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2079, Classic Platform R23-11)

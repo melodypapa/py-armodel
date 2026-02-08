@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class BuildActionManifest(ARElement):
@@ -7,7 +10,7 @@ class BuildActionManifest(ARElement):
     This meta-class represents the ability to specify a manifest for processing
     artifacts. An example use case is the processing of ECUC parameter values.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionManifest
+    Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 134, Classic

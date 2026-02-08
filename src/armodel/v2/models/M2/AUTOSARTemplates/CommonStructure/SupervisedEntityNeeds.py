@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
 
 
 class SupervisedEntityNeeds(ServiceNeeds):
@@ -9,7 +15,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
     Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software
     Module Description Template AUTOSAR CP R23-11
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SupervisedEntityNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 234, Classic

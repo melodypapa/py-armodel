@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent import DiagnosticAbstractAliasEvent
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent import (
+    DiagnosticAbstractAliasEvent,
+)
+
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
     """
@@ -8,7 +11,7 @@ class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
     Therefore, the DiagnosticFimAliasEvent has a reference to the actual
     DiagnosticEvent and by this the final connection is created.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFimAliasEvent
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 214, Classic Platform

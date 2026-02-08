@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class CompositeNetworkRepresentation(ARObject):
@@ -10,7 +10,7 @@ class CompositeNetworkRepresentation(ARObject):
     This meta-class is used to define the network representation of leaf
     elements of composite application data types.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::CompositeNetworkRepresentation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 181, Classic Platform

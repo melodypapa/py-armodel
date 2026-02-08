@@ -1,4 +1,7 @@
-from typing import List, Union
+from typing import (
+    List,
+    Union,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptEnablerImplTypeEnum import (
     RptEnablerImplTypeEnum,
@@ -10,8 +13,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibratio
     RptPreparationEnum,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -19,6 +22,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class RptSupportData(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
     Represents RPT support data in AUTOSAR.
     Defines data structures for supporting read-protect-transform functionality.
     """

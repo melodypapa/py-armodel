@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
@@ -13,7 +16,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
     Specifies the smallest code fragment which can be described for a BSW module
     or cluster within AUTOSAR.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModuleEntity
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 70, Classic

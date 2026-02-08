@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class FunctionInhibitionNeeds(ServiceNeeds):
     """
@@ -7,7 +10,7 @@ class FunctionInhibitionNeeds(ServiceNeeds):
     attributes. Its name can be regarded as a symbol identifying the FID from
     the viewpoint of the component or module which owns this class.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FunctionInhibitionNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 237, Classic

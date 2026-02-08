@@ -10,7 +10,7 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
     Defines an Asynchronous Traffic Shaper (ATS) for the CouplingPort egress
     structure.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortAsynchronousTrafficShaper
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2012, Classic Platform R23-11)

@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponentType,
+)
+
 
 class ServiceProxySwComponentType(AtomicSwComponentType):
     """
@@ -21,7 +24,7 @@ class ServiceProxySwComponentType(AtomicSwComponentType):
     shall be no connectors between two prototypes of any
     ServiceProxySwComponentType.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ServiceProxySwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 661, Classic Platform

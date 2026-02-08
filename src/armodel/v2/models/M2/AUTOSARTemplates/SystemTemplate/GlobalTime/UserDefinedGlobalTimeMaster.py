@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import GlobalTimeMaster
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.GlobalTime import (
+    GlobalTimeMaster,
+)
+
 
 class UserDefinedGlobalTimeMaster(GlobalTimeMaster):
     """
     This represents the specialization of the GlobalTimeMaster for user defined
     communication.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::UserDefined::UserDefinedGlobalTimeMaster
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::UserDefined
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 879, Classic Platform R23-11)

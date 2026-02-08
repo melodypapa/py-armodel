@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class IdsDesign(ARElement):
@@ -9,7 +12,7 @@ class IdsDesign(ARElement):
     implemented by referencing all SecurityExtract meta-classes that need to be
     included into the IDS development process.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsDesign
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 16, Foundation R23-11)

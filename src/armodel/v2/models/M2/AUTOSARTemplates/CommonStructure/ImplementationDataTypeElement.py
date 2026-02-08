@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    AbstractImplementationDataTypeElement,
+)
 
 
 class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
@@ -13,7 +19,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     represent an element of a struct, defining its type • It can be the local
     declaration of a debug element.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::ImplementationDataTypeElement
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 321, Classic

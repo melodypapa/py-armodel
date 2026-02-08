@@ -12,7 +12,7 @@ class NvProvideComSpec(PPortComSpec):
     Communication attributes of PPortPrototypes with respect to Nv data
     communication on the provided side.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NvProvideComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 195, Classic Platform

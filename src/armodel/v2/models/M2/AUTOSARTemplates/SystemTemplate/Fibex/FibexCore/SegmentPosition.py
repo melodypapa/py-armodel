@@ -1,12 +1,13 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class SegmentPosition(ARObject):
     """
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
     that the absolute position of the segment in the MultiplexedIPdu is
     determined by the definition of the segmentByteOrder attribute of the
     SegmentPosition. If Big Endian is specified, the start position indicates

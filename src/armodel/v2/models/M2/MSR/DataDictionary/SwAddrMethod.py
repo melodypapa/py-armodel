@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 
 class SwAddrMethod(ARElement):
@@ -7,7 +10,7 @@ class SwAddrMethod(ARElement):
     data or code objects. These objects could actually live in different modules
     or components.
 
-    Package: M2::MSR::DataDictionary::AuxillaryObjects::SwAddrMethod
+    Package: M2::MSR::DataDictionary::AuxillaryObjects
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 144, Classic

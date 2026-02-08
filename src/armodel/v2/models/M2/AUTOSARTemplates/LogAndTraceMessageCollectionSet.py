@@ -1,12 +1,15 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class LogAndTraceMessageCollectionSet(ARElement):
     """
     Collection of DltMessages
 
-    Package: M2::AUTOSARTemplates::LogAndTraceExtract::LogAndTraceMessageCollectionSet
+    Package: M2::AUTOSARTemplates::LogAndTraceExtract
 
     Sources:
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 12, Foundation R23-11)

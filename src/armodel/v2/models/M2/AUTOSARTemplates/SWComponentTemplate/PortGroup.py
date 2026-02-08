@@ -20,7 +20,7 @@ class PortGroup(Identifiable):
     group into the components which are part of a composition. A PortGroup
     within an atomic SWC cannot be linked to inner groups.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PortGroup
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 203, Classic Platform

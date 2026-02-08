@@ -10,7 +10,7 @@ class Trigger(Identifiable):
     A trigger which is provided (i.e. released) or required (i.e. used to
     activate something) in the given context.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration::Trigger
+    Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 45, Classic

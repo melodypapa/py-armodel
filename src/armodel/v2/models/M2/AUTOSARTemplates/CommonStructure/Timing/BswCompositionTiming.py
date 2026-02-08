@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    TimingExtension,
+)
 
 
 class BswCompositionTiming(TimingExtension):
@@ -14,7 +17,7 @@ class BswCompositionTiming(TimingExtension):
     ID 411: AUTOSAR_CP_TPS_TimingExtensions Specification of Timing Extensions
     for Classic Platform AUTOSAR CP R23-11 (cid:52)
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::BswCompositionTiming
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 28, Classic Platform R23-11)

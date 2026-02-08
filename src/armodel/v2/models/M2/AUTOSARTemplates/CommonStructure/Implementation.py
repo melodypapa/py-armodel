@@ -1,5 +1,8 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
     ARElement,
@@ -13,7 +16,7 @@ class Implementation(ARElement, ABC):
     """
     Description of an implementation a single software component or module.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Implementation
+    Package: M2::AUTOSARTemplates::CommonStructure::Implementation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 126, Classic

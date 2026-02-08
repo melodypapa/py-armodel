@@ -12,7 +12,7 @@ class TriggerInterface(PortInterface):
     A trigger interface declares a number of triggers that can be sent by an
     trigger source.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TriggerInterface
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 109, Classic Platform

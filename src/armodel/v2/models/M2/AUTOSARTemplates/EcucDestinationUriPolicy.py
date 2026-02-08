@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -14,7 +17,7 @@ class EcucDestinationUriPolicy(ARObject):
     targeted by EcucUriReference Defs. The type of the description is dependent
     of the destinationUriNestingContract attribute.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriPolicy
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 83, Classic Platform R23-11)

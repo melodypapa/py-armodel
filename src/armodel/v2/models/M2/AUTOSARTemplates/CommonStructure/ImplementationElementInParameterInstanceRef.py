@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ImplementationElementInParameterInstanceRef(ARObject):
@@ -12,7 +12,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
     either, especially because ImplementationDataType Element isn’t derived from
     AtpPrototype.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::ImplementationElementInParameterInstanceRef
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 184, Classic

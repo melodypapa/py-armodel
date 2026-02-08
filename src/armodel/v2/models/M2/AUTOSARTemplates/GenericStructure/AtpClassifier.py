@@ -12,7 +12,7 @@ class AtpClassifier(Identifiable, ABC):
     classifier is something that has instances - an M1 classifier has M0
     instances.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpClassifier
+    Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 173, Foundation

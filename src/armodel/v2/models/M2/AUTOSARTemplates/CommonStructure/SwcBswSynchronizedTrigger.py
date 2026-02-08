@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -13,7 +13,7 @@ class SwcBswSynchronizedTrigger(ARObject):
     Synchronizes a Trigger provided by a component via a port with a Trigger
     provided by a BSW module or cluster.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswSynchronizedTrigger
+    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 111, Classic

@@ -2,15 +2,15 @@ from abc import ABC
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EcucIndexableValue(ARObject, ABC):
     """
     Used to support the specification of ordering of parameter values.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucIndexableValue
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 110, Classic Platform R23-11)

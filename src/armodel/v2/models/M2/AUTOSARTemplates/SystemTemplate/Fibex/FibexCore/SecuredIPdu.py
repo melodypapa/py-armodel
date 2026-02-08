@@ -17,7 +17,7 @@ class SecuredIPdu(IPdu):
     Authentic IPdu is described by the Pdu that is referenced with the payload
     reference from this SecuredIPdu.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecuredIPdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 367, Classic Platform R23-11)

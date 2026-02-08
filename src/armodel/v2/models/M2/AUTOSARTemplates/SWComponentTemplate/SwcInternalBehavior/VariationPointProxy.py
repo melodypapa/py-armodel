@@ -15,7 +15,7 @@ class VariationPointProxy(Identifiable):
     value acts as Binding Function for the VariationPoint. Point Table 7.61:
     VariationPointProxy
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling::VariationPointProxy
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 613, Classic Platform

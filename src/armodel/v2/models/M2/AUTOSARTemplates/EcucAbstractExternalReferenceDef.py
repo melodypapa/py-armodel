@@ -1,5 +1,8 @@
 from abc import ABC
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractReferenceDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractReferenceDef,
+)
 
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
@@ -8,7 +11,7 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
     the destination is not located in the ECU Configuration Description but in
     an another AUTOSAR Template).
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractExternalReferenceDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 72, Classic Platform R23-11)

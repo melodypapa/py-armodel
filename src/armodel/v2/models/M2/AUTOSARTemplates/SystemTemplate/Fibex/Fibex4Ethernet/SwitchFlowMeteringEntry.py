@@ -9,7 +9,7 @@ class SwitchFlowMeteringEntry(Identifiable):
     """
     Defines a Flow Metering Entry for a switch.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchFlowMeteringEntry
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 143, Classic Platform R23-11)

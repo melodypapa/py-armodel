@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import GeneralAnnotation
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation import (
+    GeneralAnnotation,
+)
 
 
 class ParameterPortAnnotation(GeneralAnnotation):
@@ -7,7 +10,7 @@ class ParameterPortAnnotation(GeneralAnnotation):
     Annotation to a port used for calibration regarding a certain
     ParameterDataPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::ParameterPortAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 158, Classic Platform

@@ -12,7 +12,7 @@ class FMFeatureSelectionSet(ARElement):
     A FMFeatureSelectionSet is a set of FMFeatures that describes a specific
     product.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureSelectionSet
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 44, Foundation

@@ -1,3 +1,7 @@
+from armodel.v2.models.M2.MSR.Documentation.DocumentationBlock import (
+    DocumentationBlock,
+)
+
 
 class TraceableText(Paginateable):
     """
@@ -6,7 +10,7 @@ class TraceableText(Paginateable):
     the tag for tracing • longName represents the head line • category
     represents the kind of the tagged text (see [constr_2540])
 
-    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::TraceableText
+    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 178, Classic Platform

@@ -8,7 +8,7 @@ class PncMappingIdent(Referrable):
     This meta-class is created to add the ability to become the target of a
     reference to the non-Referrable PncMapping.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping::PncMappingIdent
+    Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2044, Classic Platform R23-11)

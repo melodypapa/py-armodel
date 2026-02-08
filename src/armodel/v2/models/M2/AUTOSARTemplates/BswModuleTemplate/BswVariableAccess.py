@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
@@ -14,7 +17,7 @@ class BswVariableAccess(Referrable):
     access to a VariableData Prototype via the BSW Scheduler. The kind of access
     is specified by the role in which the class is used.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswVariableAccess
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 81, Classic

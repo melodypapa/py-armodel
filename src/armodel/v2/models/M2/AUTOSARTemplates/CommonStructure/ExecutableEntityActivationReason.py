@@ -1,4 +1,5 @@
 from typing import Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationProps import (
     ImplementationProps,
 )
@@ -9,7 +10,7 @@ class ExecutableEntityActivationReason(ImplementationProps):
     This meta-class represents the ability to define the reason for the
     activation of the enclosing Executable Entity.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExecutableEntityActivationReason
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 315, Classic

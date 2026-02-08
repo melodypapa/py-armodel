@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class Entry(ARObject):
     """
     This represents one particular table cell.
 
-    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Entry
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 336, Foundation

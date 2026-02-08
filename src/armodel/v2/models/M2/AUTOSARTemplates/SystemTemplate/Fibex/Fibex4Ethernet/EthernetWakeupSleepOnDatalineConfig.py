@@ -13,7 +13,7 @@ class EthernetWakeupSleepOnDatalineConfig(Identifiable):
     configurations regarding the wakeup and sleep on dataline
     (EthernetWakeupSleepOnDatalineConfig).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetWakeupSleepOnDatalineConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 158, Classic Platform R23-11)

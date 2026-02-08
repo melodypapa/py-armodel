@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
 
 
 class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
@@ -7,7 +10,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     Specifies the abstract needs on the configuration of the Function Inhibition
     Manager to provide the control function for one Function Identifier (FID).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FunctionInhibitionAvailabilityNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 318, Classic

@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import DiagnosticMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
+    DiagnosticMapping,
+)
 
 
 class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
@@ -9,7 +12,7 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
     indicating that the CpSoftwareClusterResource is used to convey the
     Diagnostic DataElement.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterResourceToDiagDataElemMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 273, Classic Platform

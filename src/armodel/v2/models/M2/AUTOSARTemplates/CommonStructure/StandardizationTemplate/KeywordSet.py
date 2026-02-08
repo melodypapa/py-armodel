@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class KeywordSet(ARElement):
@@ -7,7 +10,7 @@ class KeywordSet(ARElement):
     This meta–class represents the ability to collect a set of predefined
     keywords.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword::KeywordSet
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 194, Foundation R23-11)

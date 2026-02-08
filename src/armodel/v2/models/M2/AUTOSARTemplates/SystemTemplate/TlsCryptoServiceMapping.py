@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    CryptoServiceMapping,
+)
 
 
 class TlsCryptoServiceMapping(CryptoServiceMapping):
@@ -7,7 +13,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     This meta-class has the ability to represent a crypto service mapping for
     the socket-based configuration of Transport Layer Security (TLS).
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::TlsCryptoServiceMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 559, Classic Platform R23-11)

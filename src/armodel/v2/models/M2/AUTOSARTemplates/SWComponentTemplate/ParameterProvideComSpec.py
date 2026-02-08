@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    PPortComSpec,
+)
 
 
 class ParameterProvideComSpec(PPortComSpec):
@@ -7,7 +10,7 @@ class ParameterProvideComSpec(PPortComSpec):
     "Communication" specification that applies to parameters on the provided
     side of a connection.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ParameterProvideComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 192, Classic Platform

@@ -13,7 +13,7 @@ class ComManagementMapping(Identifiable):
     Describes a mapping between one or several Mode Management PortGroups and
     communication channels.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::ComManagementMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 282, Classic Platform R23-11)

@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import BinaryManifestAddressableObject
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest import (
+    BinaryManifestAddressableObject,
+)
 
 
 class BinaryManifestItem(BinaryManifestAddressableObject):
@@ -7,7 +13,7 @@ class BinaryManifestItem(BinaryManifestAddressableObject):
     This meta-class represents the ability to describe a specific handle or
     auxiliary field in the context of binary manifest resource.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItem
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 919, Classic Platform R23-11)

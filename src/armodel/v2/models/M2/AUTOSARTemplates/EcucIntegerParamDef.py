@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParameterDef
+
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucParameterDef,
+)
 
 
 class EcucIntegerParamDef(EcucParameterDef):
     """
     Configuration parameter type for Integer.
 
-    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucIntegerParamDef
+    Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 60, Classic Platform R23-11)

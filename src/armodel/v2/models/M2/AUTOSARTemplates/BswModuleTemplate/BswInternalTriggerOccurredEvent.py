@@ -15,7 +15,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     task context. Activation and switching are handled within the same module or
     cluster only.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInternalTriggerOccurredEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 91, Classic

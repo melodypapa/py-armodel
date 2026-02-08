@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractRequiredPortPrototype
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AbstractRequiredPortPrototype,
+)
 
 
 class PRPortPrototype(AbstractRequiredPortPrototype):
@@ -7,7 +10,7 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
     This kind of PortPrototype can take the role of both a required and a
     provided PortPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PRPortPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic

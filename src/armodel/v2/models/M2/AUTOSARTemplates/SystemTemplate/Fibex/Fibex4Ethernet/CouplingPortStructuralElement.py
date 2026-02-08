@@ -9,7 +9,7 @@ class CouplingPortStructuralElement(Identifiable, ABC):
     """
     General class to define structural elements a CouplingPort may consist of.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortStructuralElement
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 122, Classic Platform R23-11)

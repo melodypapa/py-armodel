@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class IndexedArrayElement(ARObject):
@@ -11,7 +11,7 @@ class IndexedArrayElement(ARObject):
     applicationArrayElement or implementationArrayElement reference shall be
     used.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::IndexedArrayElement
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 237, Classic Platform R23-11)

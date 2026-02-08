@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class BusMirrorCanIdRangeMapping(ARObject):
     """
     This element defines a rule for remapping a set of CAN IDs.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorCanIdRangeMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 702, Classic Platform R23-11)

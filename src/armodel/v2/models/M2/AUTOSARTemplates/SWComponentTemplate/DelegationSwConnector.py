@@ -14,7 +14,7 @@ class DelegationSwConnector(SwConnector):
     compatible type that belongs directly to the composition (a port that is
     owned by the composition).
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::DelegationSwConnector
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 80, Classic Platform

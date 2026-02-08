@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
@@ -9,7 +15,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     subject to integrator work and therefore not a part of the definition of the
     CP software cluster itself.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::CpSoftwareClusterBinaryManifestDescriptor
+    Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 913, Classic Platform R23-11)

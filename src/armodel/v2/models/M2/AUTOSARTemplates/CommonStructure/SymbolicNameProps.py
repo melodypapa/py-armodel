@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ImplementationProps,
+)
+
 
 class SymbolicNameProps(ImplementationProps):
     """
     This meta-class can be taken to contribute to the creation of symbolic name
     values.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SymbolicNameProps
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 610, Classic Platform

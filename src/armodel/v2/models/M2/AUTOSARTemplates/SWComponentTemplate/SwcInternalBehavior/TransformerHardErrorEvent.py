@@ -13,7 +13,7 @@ class TransformerHardErrorEvent(RTEEvent):
     Client/Server operation or an external Trigger but during transformation of
     the data a hard transformer error occurred.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::TransformerHardErrorEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform

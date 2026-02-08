@@ -10,7 +10,7 @@ class IdentCaption(Identifiable, ABC):
     This meta-class represents the caption. This allows having some meta-classes
     optionally identifiable.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::IdentCaption
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 317, Classic Platform

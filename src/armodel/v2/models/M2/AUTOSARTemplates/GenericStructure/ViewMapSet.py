@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class ViewMapSet(ARElement):
@@ -7,7 +10,7 @@ class ViewMapSet(ARElement):
     Collection of ViewMaps that are used to establish relationships between
     different AUTOSAR artifacts.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet::ViewMapSet
+    Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2079, Classic Platform R23-11)

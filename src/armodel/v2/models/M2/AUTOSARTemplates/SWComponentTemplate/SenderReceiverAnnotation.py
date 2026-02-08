@@ -13,7 +13,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     Annotation of the data elements in a port that realizes a sender/receiver
     interface.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::SenderReceiverAnnotation
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 152, Classic Platform

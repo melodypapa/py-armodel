@@ -10,7 +10,7 @@ class Linker(Identifiable):
     Specifies the linker attributes used to describe how the linker shall be
     invoked.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Linker
+    Package: M2::AUTOSARTemplates::CommonStructure::Implementation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 134, Classic

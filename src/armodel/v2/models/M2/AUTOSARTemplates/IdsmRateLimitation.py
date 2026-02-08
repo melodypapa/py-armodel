@@ -10,7 +10,7 @@ class IdsmRateLimitation(Identifiable):
     of events (of any type) processed within a configurable time window is
     greater than a configurable threshold.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmRateLimitation
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 28, Foundation R23-11)

@@ -1,6 +1,9 @@
 from abc import ABC
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    SwComponentType,
+)
 
 
 class AtomicSwComponentType(SwComponentType, ABC):
@@ -8,7 +11,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
     An atomic software component is atomic in the sense that it cannot be
     further decomposed and distributed across multiple ECUs.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AtomicSwComponentType
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 304, Classic

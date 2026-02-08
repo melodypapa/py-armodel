@@ -13,7 +13,7 @@ class TimingModeInstance(Identifiable):
     check whether the mode declaration is active at the point in time this
     expression is evaluated.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingModeInstance
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 37, Classic Platform R23-11)

@@ -32,7 +32,7 @@ class FMFeatureSelection(Identifiable):
     attribute state that defines how the feature referred to by feature
     contributes to the selection.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureSelection
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 40, Foundation

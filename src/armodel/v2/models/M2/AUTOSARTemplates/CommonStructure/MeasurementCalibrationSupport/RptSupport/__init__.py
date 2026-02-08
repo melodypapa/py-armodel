@@ -1,7 +1,10 @@
 """
 V2 M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport package.
 """
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McFunctionDataRefSet import McFunctionDataRefSet
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McFunctionDataRefSet import (
+    McFunctionDataRefSet,
+)
+
 from .RptComponent import RptComponent
 from .RptExecutableEntity import RptExecutableEntity
 from .RptExecutableEntityEvent import RptExecutableEntityEvent

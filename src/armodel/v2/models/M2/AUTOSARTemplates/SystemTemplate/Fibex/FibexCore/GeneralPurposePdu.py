@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Pdu
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    Pdu,
+)
+
 
 class GeneralPurposePdu(Pdu):
     """
@@ -6,7 +9,7 @@ class GeneralPurposePdu(Pdu):
     routed by a bus interface. Please note that the category name of such Pdus
     is standardized in the AUTOSAR System Template.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::GeneralPurposePdu
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 344, Classic Platform R23-11)

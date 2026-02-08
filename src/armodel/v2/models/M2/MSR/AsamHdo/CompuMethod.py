@@ -7,7 +7,7 @@ class CompuMethod(ARElement):
     types. It only specifies the formula how the internal value corresponds to
     its physical pendant.
 
-    Package: M2::MSR::AsamHdo::ComputationMethod::CompuMethod
+    Package: M2::MSR::AsamHdo::ComputationMethod
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 310, Classic

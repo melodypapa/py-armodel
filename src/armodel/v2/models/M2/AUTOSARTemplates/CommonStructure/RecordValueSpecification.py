@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import CompositeValueSpecification
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    CompositeValueSpecification,
+)
+
 
 class RecordValueSpecification(CompositeValueSpecification):
     """
     Specifies the values for a record.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Constants::RecordValueSpecification
+    Package: M2::AUTOSARTemplates::CommonStructure::Constants
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 328, Classic

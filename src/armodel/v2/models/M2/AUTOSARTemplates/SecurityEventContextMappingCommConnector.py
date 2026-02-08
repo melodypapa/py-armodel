@@ -1,5 +1,8 @@
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import SecurityEventContextMapping
+
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    SecurityEventContextMapping,
+)
 
 
 class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
@@ -9,7 +12,7 @@ class SecurityEventContextMappingCommConnector(SecurityEventContextMapping):
     CommunicationConnector in which this IdsM instance can receive reports for
     these security events.
 
-    Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingCommConnector
+    Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 40, Foundation R23-11)

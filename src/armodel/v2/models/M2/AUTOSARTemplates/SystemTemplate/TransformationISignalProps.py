@@ -1,9 +1,12 @@
 from abc import ABC
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -15,7 +18,7 @@ class TransformationISignalProps(ARObject, ABC):
     TransformationTechnologies that are ISignal specific. Tags:
     vh.latestBindingTime=postBuild
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationISignalProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::Transformer
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 772, Classic Platform R23-11)

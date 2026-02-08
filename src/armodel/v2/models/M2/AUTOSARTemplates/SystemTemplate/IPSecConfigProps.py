@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class IPSecConfigProps(ARElement):
@@ -7,7 +13,7 @@ class IPSecConfigProps(ARElement):
     This element holds all the attributes for configuration of IPsec that are
     independent of specific IPsec rules.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecConfigProps
+    Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 572, Classic Platform R23-11)

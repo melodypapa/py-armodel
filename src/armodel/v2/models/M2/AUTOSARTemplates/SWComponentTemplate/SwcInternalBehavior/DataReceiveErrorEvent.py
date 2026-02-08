@@ -12,7 +12,7 @@ class DataReceiveErrorEvent(RTEEvent):
     This event is raised when the Com layer detects and notifies an error
     concerning the reception of the referenced VariableDataPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::DataReceiveErrorEvent
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 543, Classic Platform

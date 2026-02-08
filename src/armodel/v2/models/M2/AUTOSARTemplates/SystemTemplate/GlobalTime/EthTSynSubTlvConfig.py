@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class EthTSynSubTlvConfig(ARObject):
     """
     Defines the subTLV fields which shall be included in the time sync message.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthTSynSubTlvConfig
+    Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 867, Classic Platform R23-11)

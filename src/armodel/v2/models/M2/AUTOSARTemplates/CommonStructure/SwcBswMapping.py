@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class SwcBswMapping(ARElement):
@@ -9,7 +15,7 @@ class SwcBswMapping(ARElement):
     Components, ECU Abstraction Components and Complex Driver Components by the
     RTE and the BSW scheduling mechanisms.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswMapping
+    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 110, Classic

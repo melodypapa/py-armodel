@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
@@ -14,7 +17,7 @@ class RunnableEntity(ExecutableEntity):
     RunnableEntities are for instance set up to respond to data reception or
     operation invocation on a server.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 331, Classic

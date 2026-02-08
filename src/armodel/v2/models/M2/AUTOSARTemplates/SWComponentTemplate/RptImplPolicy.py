@@ -1,15 +1,15 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RptImplPolicy(ARObject):
     """
     Describes the code preparation for rapid prototyping at data accesses.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptImplPolicy
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 202, Classic

@@ -9,7 +9,7 @@ class FMAttributeDef(Identifiable):
     """
     This metaclass represents the ability to define attributes for a feature.
 
-    Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMAttributeDef
+    Package: M2::AUTOSARTemplates::FeatureModelTemplate
 
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 26, Foundation

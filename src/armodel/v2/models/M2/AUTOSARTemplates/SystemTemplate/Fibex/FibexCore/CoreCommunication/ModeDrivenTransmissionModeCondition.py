@@ -1,8 +1,8 @@
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class ModeDrivenTransmissionModeCondition(ARObject):
@@ -13,7 +13,7 @@ class ModeDrivenTransmissionModeCondition(ARObject):
     is used to define which TransmissionMode shall be activated using
     Com_SwitchIpduTx Mode.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::ModeDrivenTransmissionModeCondition
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 393, Classic Platform R23-11)

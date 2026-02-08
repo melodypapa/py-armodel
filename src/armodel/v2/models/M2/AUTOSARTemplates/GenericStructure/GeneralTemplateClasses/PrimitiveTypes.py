@@ -11,7 +11,10 @@ Compatible with V1 API.
 """
 
 import re
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 from typing import (
     Any,
     List,

@@ -1,11 +1,14 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+
 
 class BswMgrNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Basic Software
     Manager for one "user".
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::BswMgrNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 716, Classic Platform

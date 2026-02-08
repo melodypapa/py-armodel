@@ -1,13 +1,16 @@
 from abc import ABC
 from typing import List
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    PortPrototype,
+)
 
 
 class AbstractRequiredPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a required PortPrototype.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AbstractRequiredPortPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Components
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 67, Classic Platform

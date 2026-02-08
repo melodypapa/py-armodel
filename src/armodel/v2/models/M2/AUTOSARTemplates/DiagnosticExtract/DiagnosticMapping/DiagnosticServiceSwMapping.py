@@ -14,7 +14,7 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     this kind of service mapping is applicable for the usage of
     ClientServerInterfaces.
 
-    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticServiceSwMapping
+    Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 238, Classic Platform

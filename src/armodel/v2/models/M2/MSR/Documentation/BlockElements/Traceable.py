@@ -13,7 +13,7 @@ class Traceable(MultilanguageReferrable, ABC):
     from MultilanguageReferrable in order to provide a common reference target
     for all Traceables.
 
-    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::Traceable
+    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 312, Foundation

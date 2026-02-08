@@ -1,10 +1,13 @@
-from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswEvent,
+)
+
 
 class BswInterruptEvent(BswEvent):
     """
     This meta-class represents an event triggered by an interrupt.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInterruptEvent
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 88, Classic

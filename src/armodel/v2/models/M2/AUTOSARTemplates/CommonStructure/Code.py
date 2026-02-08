@@ -10,7 +10,7 @@ class Code(Identifiable):
     A generic code descriptor. The type of the code (source or object) is
     defined via the category attribute of the associated engineering object.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Code
+    Package: M2::AUTOSARTemplates::CommonStructure::Implementation
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 130, Classic

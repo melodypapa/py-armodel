@@ -9,7 +9,7 @@ class DoIpLogicAddress(Identifiable):
     """
     The logical DoIP address.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::DoIpLogicAddress
+    Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)

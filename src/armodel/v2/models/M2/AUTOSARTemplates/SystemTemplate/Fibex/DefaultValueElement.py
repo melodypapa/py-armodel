@@ -1,8 +1,8 @@
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class DefaultValueElement(ARObject):
@@ -10,7 +10,7 @@ class DefaultValueElement(ARObject):
     The default value consists of a number of elements. Each element is one byte
     long and the number of elements is specified by SduLength.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::DefaultValueElement
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 841, Classic Platform R23-11)

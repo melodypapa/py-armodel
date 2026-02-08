@@ -11,7 +11,7 @@ class AbstractImplementationDataTypeElement(Identifiable, ABC):
     specific derived meta-classes that support the modeling of
     ImplementationDataTypes for a particular language binding.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::AbstractImplementationDataTypeElement
+    Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 269, Classic Platform

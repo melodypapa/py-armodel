@@ -12,7 +12,7 @@ class EnumerationMappingTable(PackageableElement):
     """
     that this class might be used in the extended meta-model only.
 
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::EnumerationMappingTable
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints
 
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 444, Foundation

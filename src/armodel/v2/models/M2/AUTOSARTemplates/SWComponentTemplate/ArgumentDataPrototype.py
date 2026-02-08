@@ -1,5 +1,8 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    AutosarDataPrototype,
+)
 
 
 class ArgumentDataPrototype(AutosarDataPrototype):
@@ -7,7 +10,7 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     An argument of an operation, much like a data element, but also carries
     direction information and is owned by a particular ClientServerOperation.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ArgumentDataPrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 303, Classic

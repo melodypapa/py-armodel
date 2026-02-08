@@ -1,4 +1,7 @@
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticCapabilityElement,
+)
+
 
 class ObdPidServiceNeeds(DiagnosticCapabilityElement):
     """
@@ -10,7 +13,7 @@ class ObdPidServiceNeeds(DiagnosticCapabilityElement):
     appropriate naming conventions) are specified in the related software
     specifications (SWS).
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdPidServiceNeeds
+    Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic

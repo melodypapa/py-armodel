@@ -1,4 +1,7 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -14,7 +17,7 @@ class SwcToEcuMapping(Identifiable):
     For each combination of ECUInstance and the optional ProcessingUnit and the
     optional SensorActuator only one SwcToEcuMapping shall be used.
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::SwcToEcuMapping
+    Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 197, Classic Platform R23-11)

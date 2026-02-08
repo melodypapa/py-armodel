@@ -13,7 +13,7 @@ class BswInternalBehavior(InternalBehavior):
     entities visible by the BSW Scheduler. It is possible to have several
     different BswInternalBehaviors referring to the same BswModule Description.
 
-    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInternalBehavior
+    Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 65, Classic

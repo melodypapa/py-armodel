@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    RPortComSpec,
+)
 
 
 class ClientComSpec(RPortComSpec):
@@ -7,7 +13,7 @@ class ClientComSpec(RPortComSpec):
     Client-specific communication attributes (RPortPrototype typed by
     ClientServerInterface).
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ClientComSpec
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 187, Classic Platform

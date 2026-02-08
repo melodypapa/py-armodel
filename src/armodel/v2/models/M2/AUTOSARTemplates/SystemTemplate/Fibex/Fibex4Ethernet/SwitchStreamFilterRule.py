@@ -9,7 +9,7 @@ class SwitchStreamFilterRule(Identifiable):
     """
     SwitchStreamIdentification
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterRule
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 136, Classic Platform R23-11)

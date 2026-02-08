@@ -12,7 +12,7 @@ class SectionNamePrefix(ImplementationProps):
     A prefix to be used for generated code artifacts defining a memory section
     name in the source code of the using module or SWC.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage::SectionNamePrefix
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 147, Classic

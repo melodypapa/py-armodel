@@ -1,12 +1,15 @@
 from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import ExecutionTime
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
+    ExecutionTime,
+)
 
 
 class RoughEstimateOfExecutionTime(ExecutionTime):
     """
     Provides a description of a rough estimate on the ExecutionTime.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::RoughEstimateOfExecutionTime
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 167, Classic

@@ -1,8 +1,11 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
@@ -21,7 +24,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
     projects (without legacy constraints due to carry-over parts) shall use the
     fully standardized E2E transformer approach.
 
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection::EndToEndProtectionVariablePrototype
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection
 
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 215, Classic Platform

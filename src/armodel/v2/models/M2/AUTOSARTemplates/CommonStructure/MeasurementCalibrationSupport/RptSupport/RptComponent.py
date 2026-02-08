@@ -1,12 +1,13 @@
 from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
+        ARObject,
+    )
 
 
 class RptComponent(ARObject):
     """
+    Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
     Represents an RPT (Read-Protect-Transform) component in AUTOSAR.
     Defines a component that supports read-protect-transform functionality.
     """

@@ -1,5 +1,11 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from typing import (
+    List,
+    Optional,
+)
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 
 
 class EcucModuleConfigurationValues(ARElement):
@@ -14,7 +20,7 @@ class EcucModuleConfigurationValues(ARElement):
     EcucModuleConfigurationValues (as part of the base ECU configuration) is
     created to fill parameters with initial values.
 
-    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucModuleConfigurationValues
+    Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 313, Classic

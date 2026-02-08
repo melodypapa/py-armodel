@@ -10,7 +10,7 @@ class SpecElementReference(Identifiable, ABC):
     """
     This is a reference to a specification element in the Autosar standard.
 
-    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::SpecElementReference
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common
 
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 82, Foundation R23-11)

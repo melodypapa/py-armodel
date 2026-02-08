@@ -19,7 +19,7 @@ class PhysicalChannel(Identifiable, ABC):
     An ECU is part of a cluster if it contains at least one controller that is
     connected to at least one channel of the cluster.#
 
-    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::PhysicalChannel
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology
 
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 325, Classic Platform
