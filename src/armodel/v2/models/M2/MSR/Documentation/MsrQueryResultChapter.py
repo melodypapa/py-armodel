@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MsrQueryResultChapter(ARObject):
     """
     This metaclass represents the result of an msrquery which is a set of
     chapters.
-    
+
     Package: M2::MSR::Documentation::MsrQuery::MsrQueryResultChapter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 344, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class MsrQueryResultChapter(ARObject):
     def getChapter(self) -> List["Chapter"]:
         """
         AUTOSAR-compliant getter for chapter.
-        
+
         Returns:
             The chapter value
-        
+
         Note:
             Delegates to chapter property (CODING_RULE_V2_00017)
         """

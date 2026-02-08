@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswOperationInvokedEvent(BswEvent):
     """
     this event is not needed in case of direct function calls.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswOperationInvokedEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 97, Classic
       Platform R23-11)
@@ -27,10 +27,10 @@ class BswOperationInvokedEvent(BswEvent):
     def entry(self, value: Optional["BswModuleClientServer"]) -> None:
         """
         Set entry with validation.
-        
+
         Args:
             value: The entry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class BswOperationInvokedEvent(BswEvent):
     def getEntry(self) -> "BswModuleClientServer":
         """
         AUTOSAR-compliant getter for entry.
-        
+
         Returns:
             The entry value
-        
+
         Note:
             Delegates to entry property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class BswOperationInvokedEvent(BswEvent):
     def setEntry(self, value: "BswModuleClientServer") -> "BswOperationInvokedEvent":
         """
         AUTOSAR-compliant setter for entry with method chaining.
-        
+
         Args:
             value: The entry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to entry property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class BswOperationInvokedEvent(BswEvent):
     def with_entry(self, value: Optional["BswModuleClientServer"]) -> "BswOperationInvokedEvent":
         """
         Set entry and return self for chaining.
-        
+
         Args:
             value: The entry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_entry("value")
         """

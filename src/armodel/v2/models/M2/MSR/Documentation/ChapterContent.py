@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ChapterContent(ARObject):
     """
     This class represents the content which is directly in a chapter. It is
     basically the same as the one in a Topic but might have additional complex
     structures (e.g. Synopsis)
-    
+
     Package: M2::MSR::Documentation::Chapters::ChapterContent
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 330, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class ChapterContent(ARObject):
     def prms(self, value: "Prms") -> None:
         """
         Set prms with validation.
-        
+
         Args:
             value: The prms to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class ChapterContent(ARObject):
     def topic_content(self, value: Optional["TopicContentOrMsr"]) -> None:
         """
         Set topicContent with validation.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class ChapterContent(ARObject):
     def getPrms(self) -> "Prms":
         """
         AUTOSAR-compliant getter for prms.
-        
+
         Returns:
             The prms value
-        
+
         Note:
             Delegates to prms property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class ChapterContent(ARObject):
     def setPrms(self, value: "Prms") -> "ChapterContent":
         """
         AUTOSAR-compliant setter for prms with method chaining.
-        
+
         Args:
             value: The prms to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prms property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class ChapterContent(ARObject):
     def getTopicContent(self) -> "TopicContentOrMsr":
         """
         AUTOSAR-compliant getter for topicContent.
-        
+
         Returns:
             The topicContent value
-        
+
         Note:
             Delegates to topic_content property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class ChapterContent(ARObject):
     def setTopicContent(self, value: "TopicContentOrMsr") -> "ChapterContent":
         """
         AUTOSAR-compliant setter for topicContent with method chaining.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic_content property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class ChapterContent(ARObject):
     def with_prms(self, value: "Prms") -> "ChapterContent":
         """
         Set prms and return self for chaining.
-        
+
         Args:
             value: The prms to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prms("value")
         """
@@ -151,13 +154,13 @@ class ChapterContent(ARObject):
     def with_topic_content(self, value: Optional["TopicContentOrMsr"]) -> "ChapterContent":
         """
         Set topicContent and return self for chaining.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic_content("value")
         """

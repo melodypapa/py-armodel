@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class V2xMUserNeeds(ServiceNeeds):
     """
     This meta-class represents the ability to express service needs for the V2x
     management.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::V2xMUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 835, Classic Platform
       R23-11)

@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Watchdog Manager to
     support a Checkpoint for a Supervised Entity.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SupervisedEntityCheckpointNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 254, Classic
       Platform R23-11)

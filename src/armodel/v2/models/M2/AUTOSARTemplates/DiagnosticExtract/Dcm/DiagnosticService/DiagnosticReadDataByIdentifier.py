@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     """
     This represents an instance of the "Read Data by Identifier" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadDataByIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 112, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def read_class(self, value: Optional["DiagnosticReadDataBy"]) -> None:
         """
         Set readClass with validation.
-        
+
         Args:
             value: The readClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def getReadClass(self) -> "DiagnosticReadDataBy":
         """
         AUTOSAR-compliant getter for readClass.
-        
+
         Returns:
             The readClass value
-        
+
         Note:
             Delegates to read_class property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def setReadClass(self, value: "DiagnosticReadDataBy") -> "DiagnosticReadDataByIdentifier":
         """
         AUTOSAR-compliant setter for readClass with method chaining.
-        
+
         Args:
             value: The readClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_class property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class DiagnosticReadDataByIdentifier(DiagnosticDataByIdentifier):
     def with_read_class(self, value: Optional["DiagnosticReadDataBy"]) -> "DiagnosticReadDataByIdentifier":
         """
         Set readClass and return self for chaining.
-        
+
         Args:
             value: The readClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_class("value")
         """

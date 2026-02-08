@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DiagnosticTroubleCode(DiagnosticCommonElement, ABC):
     """
     A diagnostic trouble code defines a unique identifier that is shown to the
     diagnostic tester.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 176, Classic Platform
       R23-11)

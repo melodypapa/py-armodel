@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class IdsmInstance(IdsCommonElement):
     """
     This meta-class provides the ability to create a relation between an
     EcuInstance and a specific class of filters for security events that apply
     for all security events reported on the referenced EcuInstance.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmInstance
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 44, Foundation R23-11)
     """
@@ -36,10 +36,10 @@ class IdsmInstance(IdsCommonElement):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class IdsmInstance(IdsCommonElement):
     def idsm_instance_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set idsmInstanceId with validation.
-        
+
         Args:
             value: The idsmInstanceId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class IdsmInstance(IdsCommonElement):
     def idsm_module(self, value: Optional["IdsmModule"]) -> None:
         """
         Set idsmModule with validation.
-        
+
         Args:
             value: The idsmModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class IdsmInstance(IdsCommonElement):
     def rate_limitation(self, value: Optional["IdsmRateLimitation"]) -> None:
         """
         Set rateLimitation with validation.
-        
+
         Args:
             value: The rateLimitation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -155,10 +155,10 @@ class IdsmInstance(IdsCommonElement):
     def signature(self, value: Optional["IdsmSignatureSupport"]) -> None:
         """
         Set signature with validation.
-        
+
         Args:
             value: The signature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -190,10 +190,10 @@ class IdsmInstance(IdsCommonElement):
     def timestamp(self, value: Optional["String"]) -> None:
         """
         Set timestamp with validation.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -220,10 +220,10 @@ class IdsmInstance(IdsCommonElement):
     def traffic_limitation(self, value: Optional["IdsmTrafficLimitation"]) -> None:
         """
         Set trafficLimitation with validation.
-        
+
         Args:
             value: The trafficLimitation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -242,10 +242,10 @@ class IdsmInstance(IdsCommonElement):
     def getBlockState(self) -> List["BlockState"]:
         """
         AUTOSAR-compliant getter for blockState.
-        
+
         Returns:
             The blockState value
-        
+
         Note:
             Delegates to block_state property (CODING_RULE_V2_00017)
         """
@@ -254,10 +254,10 @@ class IdsmInstance(IdsCommonElement):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -266,13 +266,13 @@ class IdsmInstance(IdsCommonElement):
     def setEcuInstance(self, value: "EcuInstance") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -282,10 +282,10 @@ class IdsmInstance(IdsCommonElement):
     def getIdsmInstanceId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for idsmInstanceId.
-        
+
         Returns:
             The idsmInstanceId value
-        
+
         Note:
             Delegates to idsm_instance_id property (CODING_RULE_V2_00017)
         """
@@ -294,13 +294,13 @@ class IdsmInstance(IdsCommonElement):
     def setIdsmInstanceId(self, value: "PositiveInteger") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for idsmInstanceId with method chaining.
-        
+
         Args:
             value: The idsmInstanceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idsm_instance_id property setter (gets validation automatically)
         """
@@ -310,10 +310,10 @@ class IdsmInstance(IdsCommonElement):
     def getIdsmModule(self) -> "IdsmModule":
         """
         AUTOSAR-compliant getter for idsmModule.
-        
+
         Returns:
             The idsmModule value
-        
+
         Note:
             Delegates to idsm_module property (CODING_RULE_V2_00017)
         """
@@ -322,13 +322,13 @@ class IdsmInstance(IdsCommonElement):
     def setIdsmModule(self, value: "IdsmModule") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for idsmModule with method chaining.
-        
+
         Args:
             value: The idsmModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idsm_module property setter (gets validation automatically)
         """
@@ -338,10 +338,10 @@ class IdsmInstance(IdsCommonElement):
     def getRateLimitation(self) -> "IdsmRateLimitation":
         """
         AUTOSAR-compliant getter for rateLimitation.
-        
+
         Returns:
             The rateLimitation value
-        
+
         Note:
             Delegates to rate_limitation property (CODING_RULE_V2_00017)
         """
@@ -350,13 +350,13 @@ class IdsmInstance(IdsCommonElement):
     def setRateLimitation(self, value: "IdsmRateLimitation") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for rateLimitation with method chaining.
-        
+
         Args:
             value: The rateLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_limitation property setter (gets validation automatically)
         """
@@ -366,10 +366,10 @@ class IdsmInstance(IdsCommonElement):
     def getSignature(self) -> "IdsmSignatureSupport":
         """
         AUTOSAR-compliant getter for signature.
-        
+
         Returns:
             The signature value
-        
+
         Note:
             Delegates to signature property (CODING_RULE_V2_00017)
         """
@@ -378,13 +378,13 @@ class IdsmInstance(IdsCommonElement):
     def setSignature(self, value: "IdsmSignatureSupport") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for signature with method chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signature property setter (gets validation automatically)
         """
@@ -394,10 +394,10 @@ class IdsmInstance(IdsCommonElement):
     def getTimestamp(self) -> "String":
         """
         AUTOSAR-compliant getter for timestamp.
-        
+
         Returns:
             The timestamp value
-        
+
         Note:
             Delegates to timestamp property (CODING_RULE_V2_00017)
         """
@@ -406,13 +406,13 @@ class IdsmInstance(IdsCommonElement):
     def setTimestamp(self, value: "String") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp property setter (gets validation automatically)
         """
@@ -422,10 +422,10 @@ class IdsmInstance(IdsCommonElement):
     def getTrafficLimitation(self) -> "IdsmTrafficLimitation":
         """
         AUTOSAR-compliant getter for trafficLimitation.
-        
+
         Returns:
             The trafficLimitation value
-        
+
         Note:
             Delegates to traffic_limitation property (CODING_RULE_V2_00017)
         """
@@ -434,13 +434,13 @@ class IdsmInstance(IdsCommonElement):
     def setTrafficLimitation(self, value: "IdsmTrafficLimitation") -> "IdsmInstance":
         """
         AUTOSAR-compliant setter for trafficLimitation with method chaining.
-        
+
         Args:
             value: The trafficLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traffic_limitation property setter (gets validation automatically)
         """
@@ -452,13 +452,13 @@ class IdsmInstance(IdsCommonElement):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "IdsmInstance":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -468,13 +468,13 @@ class IdsmInstance(IdsCommonElement):
     def with_idsm_instance_id(self, value: Optional["PositiveInteger"]) -> "IdsmInstance":
         """
         Set idsmInstanceId and return self for chaining.
-        
+
         Args:
             value: The idsmInstanceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idsm_instance_id("value")
         """
@@ -484,13 +484,13 @@ class IdsmInstance(IdsCommonElement):
     def with_idsm_module(self, value: Optional["IdsmModule"]) -> "IdsmInstance":
         """
         Set idsmModule and return self for chaining.
-        
+
         Args:
             value: The idsmModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idsm_module("value")
         """
@@ -500,13 +500,13 @@ class IdsmInstance(IdsCommonElement):
     def with_rate_limitation(self, value: Optional["IdsmRateLimitation"]) -> "IdsmInstance":
         """
         Set rateLimitation and return self for chaining.
-        
+
         Args:
             value: The rateLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_limitation("value")
         """
@@ -516,13 +516,13 @@ class IdsmInstance(IdsCommonElement):
     def with_signature(self, value: Optional["IdsmSignatureSupport"]) -> "IdsmInstance":
         """
         Set signature and return self for chaining.
-        
+
         Args:
             value: The signature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signature("value")
         """
@@ -532,13 +532,13 @@ class IdsmInstance(IdsCommonElement):
     def with_timestamp(self, value: Optional["String"]) -> "IdsmInstance":
         """
         Set timestamp and return self for chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp("value")
         """
@@ -548,13 +548,13 @@ class IdsmInstance(IdsCommonElement):
     def with_traffic_limitation(self, value: Optional["IdsmTrafficLimitation"]) -> "IdsmInstance":
         """
         Set trafficLimitation and return self for chaining.
-        
+
         Args:
             value: The trafficLimitation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traffic_limitation("value")
         """

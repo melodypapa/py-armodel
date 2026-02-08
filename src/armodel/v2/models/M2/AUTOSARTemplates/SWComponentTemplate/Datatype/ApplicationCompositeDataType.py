@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class ApplicationCompositeDataType(ApplicationDataType, ABC):
     """
     Abstract base class for all application data types composed of other data
     types.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationCompositeDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 241, Classic Platform
       R23-11)

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DynamicPartAlternative(ARObject):
     """
@@ -8,9 +11,9 @@ class DynamicPartAlternative(ARObject):
     the MultiplexedIPdu. The selectorFieldCode specifies which Com IPdu is
     contained in the DynamicPart within a certain transmission of a multiplexed
     PDU.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::DynamicPartAlternative
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 411, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class DynamicPartAlternative(ARObject):
     def initial_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set initialDynamic with validation.
-        
+
         Args:
             value: The initialDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class DynamicPartAlternative(ARObject):
     def i_pdu(self, value: Optional["ISignalIPdu"]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class DynamicPartAlternative(ARObject):
     def selector_field(self, value: Optional["Integer"]) -> None:
         """
         Set selectorField with validation.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class DynamicPartAlternative(ARObject):
     def getInitialDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for initialDynamic.
-        
+
         Returns:
             The initialDynamic value
-        
+
         Note:
             Delegates to initial_dynamic property (CODING_RULE_V2_00017)
         """
@@ -124,13 +127,13 @@ class DynamicPartAlternative(ARObject):
     def setInitialDynamic(self, value: "Boolean") -> "DynamicPartAlternative":
         """
         AUTOSAR-compliant setter for initialDynamic with method chaining.
-        
+
         Args:
             value: The initialDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_dynamic property setter (gets validation automatically)
         """
@@ -140,10 +143,10 @@ class DynamicPartAlternative(ARObject):
     def getIPdu(self) -> "ISignalIPdu":
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class DynamicPartAlternative(ARObject):
     def setIPdu(self, value: "ISignalIPdu") -> "DynamicPartAlternative":
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class DynamicPartAlternative(ARObject):
     def getSelectorField(self) -> "Integer":
         """
         AUTOSAR-compliant getter for selectorField.
-        
+
         Returns:
             The selectorField value
-        
+
         Note:
             Delegates to selector_field property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class DynamicPartAlternative(ARObject):
     def setSelectorField(self, value: "Integer") -> "DynamicPartAlternative":
         """
         AUTOSAR-compliant setter for selectorField with method chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to selector_field property setter (gets validation automatically)
         """
@@ -198,13 +201,13 @@ class DynamicPartAlternative(ARObject):
     def with_initial_dynamic(self, value: Optional["Boolean"]) -> "DynamicPartAlternative":
         """
         Set initialDynamic and return self for chaining.
-        
+
         Args:
             value: The initialDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_dynamic("value")
         """
@@ -214,13 +217,13 @@ class DynamicPartAlternative(ARObject):
     def with_i_pdu(self, value: Optional["ISignalIPdu"]) -> "DynamicPartAlternative":
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """
@@ -230,13 +233,13 @@ class DynamicPartAlternative(ARObject):
     def with_selector_field(self, value: Optional["Integer"]) -> "DynamicPartAlternative":
         """
         Set selectorField and return self for chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_selector_field("value")
         """

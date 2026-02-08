@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class BswServiceDependency(ServiceDependency):
     """
     Specialization of ServiceDependency in the context of an
     BswInternalBehavior. It allows to associate BswModuleEntries and data
     defined for a BSW module or cluster to a given ServiceNeeds element.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswServiceDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 225, Classic
       Platform R23-11)
@@ -50,10 +50,10 @@ class BswServiceDependency(ServiceDependency):
     def ident(self, value: Optional["BswService"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class BswServiceDependency(ServiceDependency):
     def service_needs(self, value: Optional["ServiceNeeds"]) -> None:
         """
         Set serviceNeeds with validation.
-        
+
         Args:
             value: The serviceNeeds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +100,10 @@ class BswServiceDependency(ServiceDependency):
     def getAssignedData(self) -> List["RoleBasedData"]:
         """
         AUTOSAR-compliant getter for assignedData.
-        
+
         Returns:
             The assignedData value
-        
+
         Note:
             Delegates to assigned_data property (CODING_RULE_V2_00017)
         """
@@ -112,10 +112,10 @@ class BswServiceDependency(ServiceDependency):
     def getAssignedEntry(self) -> List["RoleBasedBswModule"]:
         """
         AUTOSAR-compliant getter for assignedEntry.
-        
+
         Returns:
             The assignedEntry value
-        
+
         Note:
             Delegates to assigned_entry property (CODING_RULE_V2_00017)
         """
@@ -124,10 +124,10 @@ class BswServiceDependency(ServiceDependency):
     def getIdent(self) -> "BswService":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -136,13 +136,13 @@ class BswServiceDependency(ServiceDependency):
     def setIdent(self, value: "BswService") -> "BswServiceDependency":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -152,10 +152,10 @@ class BswServiceDependency(ServiceDependency):
     def getServiceNeeds(self) -> "ServiceNeeds":
         """
         AUTOSAR-compliant getter for serviceNeeds.
-        
+
         Returns:
             The serviceNeeds value
-        
+
         Note:
             Delegates to service_needs property (CODING_RULE_V2_00017)
         """
@@ -164,13 +164,13 @@ class BswServiceDependency(ServiceDependency):
     def setServiceNeeds(self, value: "ServiceNeeds") -> "BswServiceDependency":
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
-        
+
         Args:
             value: The serviceNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_needs property setter (gets validation automatically)
         """
@@ -182,13 +182,13 @@ class BswServiceDependency(ServiceDependency):
     def with_ident(self, value: Optional["BswService"]) -> "BswServiceDependency":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -198,13 +198,13 @@ class BswServiceDependency(ServiceDependency):
     def with_service_needs(self, value: Optional["ServiceNeeds"]) -> "BswServiceDependency":
         """
         Set serviceNeeds and return self for chaining.
-        
+
         Args:
             value: The serviceNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_needs("value")
         """

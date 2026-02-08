@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class NmNode(Identifiable, ABC):
     """
     The linking of NmEcus to NmClusters is realized via the NmNodes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 675, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class NmNode(Identifiable, ABC):
     def controller(self, value: Optional["Communication"]) -> None:
         """
         Set controller with validation.
-        
+
         Args:
             value: The controller to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class NmNode(Identifiable, ABC):
     def nm_coord_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmCoordCluster with validation.
-        
+
         Args:
             value: The nmCoordCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class NmNode(Identifiable, ABC):
     def nm_coordinator(self, value: Optional["NmCoordinatorRole"]) -> None:
         """
         Set nmCoordinator with validation.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class NmNode(Identifiable, ABC):
     def nm_if_ecu(self, value: Optional["NmEcu"]) -> None:
         """
         Set nmIfEcu with validation.
-        
+
         Args:
             value: The nmIfEcu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class NmNode(Identifiable, ABC):
     def nm_node_id(self, value: Optional["Integer"]) -> None:
         """
         Set nmNodeId with validation.
-        
+
         Args:
             value: The nmNodeId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +178,10 @@ class NmNode(Identifiable, ABC):
     def nm_passive(self, value: Optional["Boolean"]) -> None:
         """
         Set nmPassive with validation.
-        
+
         Args:
             value: The nmPassive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -211,10 +214,10 @@ class NmNode(Identifiable, ABC):
     def getController(self) -> "Communication":
         """
         AUTOSAR-compliant getter for controller.
-        
+
         Returns:
             The controller value
-        
+
         Note:
             Delegates to controller property (CODING_RULE_V2_00017)
         """
@@ -223,13 +226,13 @@ class NmNode(Identifiable, ABC):
     def setController(self, value: "Communication") -> "NmNode":
         """
         AUTOSAR-compliant setter for controller with method chaining.
-        
+
         Args:
             value: The controller to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to controller property setter (gets validation automatically)
         """
@@ -239,10 +242,10 @@ class NmNode(Identifiable, ABC):
     def getNmCoordCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmCoordCluster.
-        
+
         Returns:
             The nmCoordCluster value
-        
+
         Note:
             Delegates to nm_coord_cluster property (CODING_RULE_V2_00017)
         """
@@ -251,13 +254,13 @@ class NmNode(Identifiable, ABC):
     def setNmCoordCluster(self, value: "PositiveInteger") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmCoordCluster with method chaining.
-        
+
         Args:
             value: The nmCoordCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coord_cluster property setter (gets validation automatically)
         """
@@ -267,10 +270,10 @@ class NmNode(Identifiable, ABC):
     def getNmCoordinator(self) -> "NmCoordinatorRole":
         """
         AUTOSAR-compliant getter for nmCoordinator.
-        
+
         Returns:
             The nmCoordinator value
-        
+
         Note:
             Delegates to nm_coordinator property (CODING_RULE_V2_00017)
         """
@@ -279,13 +282,13 @@ class NmNode(Identifiable, ABC):
     def setNmCoordinator(self, value: "NmCoordinatorRole") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coordinator property setter (gets validation automatically)
         """
@@ -295,10 +298,10 @@ class NmNode(Identifiable, ABC):
     def getNmIfEcu(self) -> "NmEcu":
         """
         AUTOSAR-compliant getter for nmIfEcu.
-        
+
         Returns:
             The nmIfEcu value
-        
+
         Note:
             Delegates to nm_if_ecu property (CODING_RULE_V2_00017)
         """
@@ -307,13 +310,13 @@ class NmNode(Identifiable, ABC):
     def setNmIfEcu(self, value: "NmEcu") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmIfEcu with method chaining.
-        
+
         Args:
             value: The nmIfEcu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_if_ecu property setter (gets validation automatically)
         """
@@ -323,10 +326,10 @@ class NmNode(Identifiable, ABC):
     def getNmNodeId(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmNodeId.
-        
+
         Returns:
             The nmNodeId value
-        
+
         Note:
             Delegates to nm_node_id property (CODING_RULE_V2_00017)
         """
@@ -335,13 +338,13 @@ class NmNode(Identifiable, ABC):
     def setNmNodeId(self, value: "Integer") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmNodeId with method chaining.
-        
+
         Args:
             value: The nmNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_node_id property setter (gets validation automatically)
         """
@@ -351,10 +354,10 @@ class NmNode(Identifiable, ABC):
     def getNmPassive(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmPassive.
-        
+
         Returns:
             The nmPassive value
-        
+
         Note:
             Delegates to nm_passive property (CODING_RULE_V2_00017)
         """
@@ -363,13 +366,13 @@ class NmNode(Identifiable, ABC):
     def setNmPassive(self, value: "Boolean") -> "NmNode":
         """
         AUTOSAR-compliant setter for nmPassive with method chaining.
-        
+
         Args:
             value: The nmPassive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_passive property setter (gets validation automatically)
         """
@@ -379,10 +382,10 @@ class NmNode(Identifiable, ABC):
     def getRxNmPdu(self) -> List["NmPdu"]:
         """
         AUTOSAR-compliant getter for rxNmPdu.
-        
+
         Returns:
             The rxNmPdu value
-        
+
         Note:
             Delegates to rx_nm_pdu property (CODING_RULE_V2_00017)
         """
@@ -391,10 +394,10 @@ class NmNode(Identifiable, ABC):
     def getTxNmPdu(self) -> List["NmPdu"]:
         """
         AUTOSAR-compliant getter for txNmPdu.
-        
+
         Returns:
             The txNmPdu value
-        
+
         Note:
             Delegates to tx_nm_pdu property (CODING_RULE_V2_00017)
         """
@@ -405,13 +408,13 @@ class NmNode(Identifiable, ABC):
     def with_controller(self, value: Optional["Communication"]) -> "NmNode":
         """
         Set controller and return self for chaining.
-        
+
         Args:
             value: The controller to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_controller("value")
         """
@@ -421,13 +424,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_coord_cluster(self, value: Optional["PositiveInteger"]) -> "NmNode":
         """
         Set nmCoordCluster and return self for chaining.
-        
+
         Args:
             value: The nmCoordCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coord_cluster("value")
         """
@@ -437,13 +440,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_coordinator(self, value: Optional["NmCoordinatorRole"]) -> "NmNode":
         """
         Set nmCoordinator and return self for chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coordinator("value")
         """
@@ -453,13 +456,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_if_ecu(self, value: Optional["NmEcu"]) -> "NmNode":
         """
         Set nmIfEcu and return self for chaining.
-        
+
         Args:
             value: The nmIfEcu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_if_ecu("value")
         """
@@ -469,13 +472,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_node_id(self, value: Optional["Integer"]) -> "NmNode":
         """
         Set nmNodeId and return self for chaining.
-        
+
         Args:
             value: The nmNodeId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_node_id("value")
         """
@@ -485,13 +488,13 @@ class NmNode(Identifiable, ABC):
     def with_nm_passive(self, value: Optional["Boolean"]) -> "NmNode":
         """
         Set nmPassive and return self for chaining.
-        
+
         Args:
             value: The nmPassive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_passive("value")
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SectionNamePrefix(ImplementationProps):
     """
     A prefix to be used for generated code artifacts defining a memory section
     name in the source code of the using module or SWC.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage::SectionNamePrefix
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 147, Classic
       Platform R23-11)
@@ -34,10 +37,10 @@ class SectionNamePrefix(ImplementationProps):
     def implemented_in(self, value: RefType) -> None:
         """
         Set implementedIn with validation.
-        
+
         Args:
             value: The implementedIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class SectionNamePrefix(ImplementationProps):
     def getImplementedIn(self) -> RefType:
         """
         AUTOSAR-compliant getter for implementedIn.
-        
+
         Returns:
             The implementedIn value
-        
+
         Note:
             Delegates to implemented_in property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class SectionNamePrefix(ImplementationProps):
     def setImplementedIn(self, value: RefType) -> "SectionNamePrefix":
         """
         AUTOSAR-compliant setter for implementedIn with method chaining.
-        
+
         Args:
             value: The implementedIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implemented_in property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class SectionNamePrefix(ImplementationProps):
     def with_implemented_in(self, value: Optional[RefType]) -> "SectionNamePrefix":
         """
         Set implementedIn and return self for chaining.
-        
+
         Args:
             value: The implementedIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implemented_in("value")
         """

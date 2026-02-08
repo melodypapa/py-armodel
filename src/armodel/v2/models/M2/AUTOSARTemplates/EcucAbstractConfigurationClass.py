@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EcucAbstractConfigurationClass(ARObject, ABC):
     """
     Specifies the ValueConfigurationClass of a parameter/reference or the
     MultiplicityConfigurationClass of a parameter/reference or a container for
     each ConfigurationVariant of the EcucModuleDef.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractConfigurationClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 51, Classic Platform R23-11)
     """
@@ -31,10 +35,10 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def config_class(self, value: Optional["EcucConfigurationClass"]) -> None:
         """
         Set configClass with validation.
-        
+
         Args:
             value: The configClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +63,10 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def config_variant(self, value: Optional["EcucConfiguration"]) -> None:
         """
         Set configVariant with validation.
-        
+
         Args:
             value: The configVariant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +85,10 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def getConfigClass(self) -> "EcucConfigurationClass":
         """
         AUTOSAR-compliant getter for configClass.
-        
+
         Returns:
             The configClass value
-        
+
         Note:
             Delegates to config_class property (CODING_RULE_V2_00017)
         """
@@ -93,13 +97,13 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def setConfigClass(self, value: "EcucConfigurationClass") -> "EcucAbstractConfigurationClass":
         """
         AUTOSAR-compliant setter for configClass with method chaining.
-        
+
         Args:
             value: The configClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to config_class property setter (gets validation automatically)
         """
@@ -109,10 +113,10 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def getConfigVariant(self) -> "EcucConfiguration":
         """
         AUTOSAR-compliant getter for configVariant.
-        
+
         Returns:
             The configVariant value
-        
+
         Note:
             Delegates to config_variant property (CODING_RULE_V2_00017)
         """
@@ -121,13 +125,13 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def setConfigVariant(self, value: "EcucConfiguration") -> "EcucAbstractConfigurationClass":
         """
         AUTOSAR-compliant setter for configVariant with method chaining.
-        
+
         Args:
             value: The configVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to config_variant property setter (gets validation automatically)
         """
@@ -139,13 +143,13 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def with_config_class(self, value: Optional["EcucConfigurationClass"]) -> "EcucAbstractConfigurationClass":
         """
         Set configClass and return self for chaining.
-        
+
         Args:
             value: The configClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_config_class("value")
         """
@@ -155,13 +159,13 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
     def with_config_variant(self, value: Optional["EcucConfiguration"]) -> "EcucAbstractConfigurationClass":
         """
         Set configVariant and return self for chaining.
-        
+
         Args:
             value: The configVariant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_config_variant("value")
         """

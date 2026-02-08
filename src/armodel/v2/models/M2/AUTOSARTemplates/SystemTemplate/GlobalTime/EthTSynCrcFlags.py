@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EthTSynCrcFlags(ARObject):
     """
     Defines the fields of the message which shall be taken into account for CRC
     calculation and verification.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthTSynCrcFlags
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 868, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class EthTSynCrcFlags(ARObject):
     def crc_correction(self, value: Optional["Boolean"]) -> None:
         """
         Set crcCorrection with validation.
-        
+
         Args:
             value: The crcCorrection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class EthTSynCrcFlags(ARObject):
     def crc_domain(self, value: Optional["Boolean"]) -> None:
         """
         Set crcDomain with validation.
-        
+
         Args:
             value: The crcDomain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class EthTSynCrcFlags(ARObject):
     def crc_message(self, value: Optional["Boolean"]) -> None:
         """
         Set crcMessage with validation.
-        
+
         Args:
             value: The crcMessage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class EthTSynCrcFlags(ARObject):
     def crc_precise(self, value: Optional["Boolean"]) -> None:
         """
         Set crcPrecise with validation.
-        
+
         Args:
             value: The crcPrecise to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +147,10 @@ class EthTSynCrcFlags(ARObject):
     def crc_sequence_id(self, value: Optional["Boolean"]) -> None:
         """
         Set crcSequenceId with validation.
-        
+
         Args:
             value: The crcSequenceId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +176,10 @@ class EthTSynCrcFlags(ARObject):
     def crc_source_port(self, value: Optional["Boolean"]) -> None:
         """
         Set crcSourcePort with validation.
-        
+
         Args:
             value: The crcSourcePort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -195,10 +198,10 @@ class EthTSynCrcFlags(ARObject):
     def getCrcCorrection(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for crcCorrection.
-        
+
         Returns:
             The crcCorrection value
-        
+
         Note:
             Delegates to crc_correction property (CODING_RULE_V2_00017)
         """
@@ -207,13 +210,13 @@ class EthTSynCrcFlags(ARObject):
     def setCrcCorrection(self, value: "Boolean") -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant setter for crcCorrection with method chaining.
-        
+
         Args:
             value: The crcCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_correction property setter (gets validation automatically)
         """
@@ -223,10 +226,10 @@ class EthTSynCrcFlags(ARObject):
     def getCrcDomain(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for crcDomain.
-        
+
         Returns:
             The crcDomain value
-        
+
         Note:
             Delegates to crc_domain property (CODING_RULE_V2_00017)
         """
@@ -235,13 +238,13 @@ class EthTSynCrcFlags(ARObject):
     def setCrcDomain(self, value: "Boolean") -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant setter for crcDomain with method chaining.
-        
+
         Args:
             value: The crcDomain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_domain property setter (gets validation automatically)
         """
@@ -251,10 +254,10 @@ class EthTSynCrcFlags(ARObject):
     def getCrcMessage(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for crcMessage.
-        
+
         Returns:
             The crcMessage value
-        
+
         Note:
             Delegates to crc_message property (CODING_RULE_V2_00017)
         """
@@ -263,13 +266,13 @@ class EthTSynCrcFlags(ARObject):
     def setCrcMessage(self, value: "Boolean") -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant setter for crcMessage with method chaining.
-        
+
         Args:
             value: The crcMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_message property setter (gets validation automatically)
         """
@@ -279,10 +282,10 @@ class EthTSynCrcFlags(ARObject):
     def getCrcPrecise(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for crcPrecise.
-        
+
         Returns:
             The crcPrecise value
-        
+
         Note:
             Delegates to crc_precise property (CODING_RULE_V2_00017)
         """
@@ -291,13 +294,13 @@ class EthTSynCrcFlags(ARObject):
     def setCrcPrecise(self, value: "Boolean") -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant setter for crcPrecise with method chaining.
-        
+
         Args:
             value: The crcPrecise to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_precise property setter (gets validation automatically)
         """
@@ -307,10 +310,10 @@ class EthTSynCrcFlags(ARObject):
     def getCrcSequenceId(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for crcSequenceId.
-        
+
         Returns:
             The crcSequenceId value
-        
+
         Note:
             Delegates to crc_sequence_id property (CODING_RULE_V2_00017)
         """
@@ -319,13 +322,13 @@ class EthTSynCrcFlags(ARObject):
     def setCrcSequenceId(self, value: "Boolean") -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant setter for crcSequenceId with method chaining.
-        
+
         Args:
             value: The crcSequenceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_sequence_id property setter (gets validation automatically)
         """
@@ -335,10 +338,10 @@ class EthTSynCrcFlags(ARObject):
     def getCrcSourcePort(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for crcSourcePort.
-        
+
         Returns:
             The crcSourcePort value
-        
+
         Note:
             Delegates to crc_source_port property (CODING_RULE_V2_00017)
         """
@@ -347,13 +350,13 @@ class EthTSynCrcFlags(ARObject):
     def setCrcSourcePort(self, value: "Boolean") -> "EthTSynCrcFlags":
         """
         AUTOSAR-compliant setter for crcSourcePort with method chaining.
-        
+
         Args:
             value: The crcSourcePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_source_port property setter (gets validation automatically)
         """
@@ -365,13 +368,13 @@ class EthTSynCrcFlags(ARObject):
     def with_crc_correction(self, value: Optional["Boolean"]) -> "EthTSynCrcFlags":
         """
         Set crcCorrection and return self for chaining.
-        
+
         Args:
             value: The crcCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_correction("value")
         """
@@ -381,13 +384,13 @@ class EthTSynCrcFlags(ARObject):
     def with_crc_domain(self, value: Optional["Boolean"]) -> "EthTSynCrcFlags":
         """
         Set crcDomain and return self for chaining.
-        
+
         Args:
             value: The crcDomain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_domain("value")
         """
@@ -397,13 +400,13 @@ class EthTSynCrcFlags(ARObject):
     def with_crc_message(self, value: Optional["Boolean"]) -> "EthTSynCrcFlags":
         """
         Set crcMessage and return self for chaining.
-        
+
         Args:
             value: The crcMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_message("value")
         """
@@ -413,13 +416,13 @@ class EthTSynCrcFlags(ARObject):
     def with_crc_precise(self, value: Optional["Boolean"]) -> "EthTSynCrcFlags":
         """
         Set crcPrecise and return self for chaining.
-        
+
         Args:
             value: The crcPrecise to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_precise("value")
         """
@@ -429,13 +432,13 @@ class EthTSynCrcFlags(ARObject):
     def with_crc_sequence_id(self, value: Optional["Boolean"]) -> "EthTSynCrcFlags":
         """
         Set crcSequenceId and return self for chaining.
-        
+
         Args:
             value: The crcSequenceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_sequence_id("value")
         """
@@ -445,13 +448,13 @@ class EthTSynCrcFlags(ARObject):
     def with_crc_source_port(self, value: Optional["Boolean"]) -> "EthTSynCrcFlags":
         """
         Set crcSourcePort and return self for chaining.
-        
+
         Args:
             value: The crcSourcePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_source_port("value")
         """

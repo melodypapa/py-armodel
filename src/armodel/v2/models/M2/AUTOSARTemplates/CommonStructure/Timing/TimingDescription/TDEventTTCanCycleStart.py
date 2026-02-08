@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventTTCanCycleStart(TDEventCycleStart):
     """
     This is used to describe the timing event related to a point in time where a
     communication cycle starts on a TTCAN cluster.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventTTCanCycleStart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 72, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
     def tt_can_cluster(self, value: Optional["TtcanCluster"]) -> None:
         """
         Set ttCanCluster with validation.
-        
+
         Args:
             value: The ttCanCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
     def getTtCanCluster(self) -> "TtcanCluster":
         """
         AUTOSAR-compliant getter for ttCanCluster.
-        
+
         Returns:
             The ttCanCluster value
-        
+
         Note:
             Delegates to tt_can_cluster property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
     def setTtCanCluster(self, value: "TtcanCluster") -> "TDEventTTCanCycleStart":
         """
         AUTOSAR-compliant setter for ttCanCluster with method chaining.
-        
+
         Args:
             value: The ttCanCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tt_can_cluster property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class TDEventTTCanCycleStart(TDEventCycleStart):
     def with_tt_can_cluster(self, value: Optional["TtcanCluster"]) -> "TDEventTTCanCycleStart":
         """
         Set ttCanCluster and return self for chaining.
-        
+
         Args:
             value: The ttCanCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tt_can_cluster("value")
         """

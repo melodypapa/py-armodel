@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class AbstractEthernetFrame(Frame, ABC):
     """
     Ethernet specific attributes to the Frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetFrame::AbstractEthernetFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 578, Classic Platform R23-11)
     """

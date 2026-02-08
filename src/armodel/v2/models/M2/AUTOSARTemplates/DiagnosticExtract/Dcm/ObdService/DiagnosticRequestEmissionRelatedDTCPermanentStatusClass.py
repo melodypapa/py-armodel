@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceClass):
     """
@@ -8,9 +6,9 @@ class DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(DiagnosticServiceC
     diagnostic service. (cid:53) 161 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x0A_RequestEmissionRelated::DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 161, Classic Platform
       R23-11)

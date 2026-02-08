@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SecureCommunicationAuthenticationProps(Identifiable):
     """
     Authentication properties used to configure SecuredIPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationAuthenticationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 371, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def auth_info_tx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set authInfoTx with validation.
-        
+
         Args:
             value: The authInfoTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def getAuthInfoTx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for authInfoTx.
-        
+
         Returns:
             The authInfoTx value
-        
+
         Note:
             Delegates to auth_info_tx property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def setAuthInfoTx(self, value: "PositiveInteger") -> "SecureCommunicationAuthenticationProps":
         """
         AUTOSAR-compliant setter for authInfoTx with method chaining.
-        
+
         Args:
             value: The authInfoTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auth_info_tx property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def with_auth_info_tx(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationAuthenticationProps":
         """
         Set authInfoTx and return self for chaining.
-        
+
         Args:
             value: The authInfoTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auth_info_tx("value")
         """

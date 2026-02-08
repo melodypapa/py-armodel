@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import MultilanguageReferrable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import (
+    MultilanguageReferrable,
+)
+
 
 class SdgCaption(MultilanguageReferrable):
     """
     This meta-class represents the caption of a special data group. This allows
     to have some parts of special data as identifiable.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::SdgCaption
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 91, Foundation R23-11)
     """
@@ -32,10 +34,10 @@ class SdgCaption(MultilanguageReferrable):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +56,10 @@ class SdgCaption(MultilanguageReferrable):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -66,13 +68,13 @@ class SdgCaption(MultilanguageReferrable):
     def setDesc(self, value: "MultiLanguageOverview") -> "SdgCaption":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -84,13 +86,13 @@ class SdgCaption(MultilanguageReferrable):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "SdgCaption":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """

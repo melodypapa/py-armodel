@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class InstantiationDataDefProps(ARObject):
     """
@@ -19,9 +24,9 @@ class InstantiationDataDefProps(ARObject):
     in PIM or a ParameterDataPrototype used as ROM Block and shall be typed by
     the same data type as NVRAM Block). This class overcomes such a restriction
     if applied properly.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstantiationDataDefProps::InstantiationDataDefProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 588, Classic Platform
       R23-11)
@@ -43,10 +48,10 @@ class InstantiationDataDefProps(ARObject):
     def parameter(self, value: RefType) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +72,10 @@ class InstantiationDataDefProps(ARObject):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +101,10 @@ class InstantiationDataDefProps(ARObject):
     def variable_instance(self, value: RefType) -> None:
         """
         Set variableInstance with validation.
-        
+
         Args:
             value: The variableInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +119,10 @@ class InstantiationDataDefProps(ARObject):
     def getParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -126,13 +131,13 @@ class InstantiationDataDefProps(ARObject):
     def setParameter(self, value: RefType) -> "InstantiationDataDefProps":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -142,10 +147,10 @@ class InstantiationDataDefProps(ARObject):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -154,13 +159,13 @@ class InstantiationDataDefProps(ARObject):
     def setSwDataDef(self, value: "SwDataDefProps") -> "InstantiationDataDefProps":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -170,10 +175,10 @@ class InstantiationDataDefProps(ARObject):
     def getVariableInstance(self) -> RefType:
         """
         AUTOSAR-compliant getter for variableInstance.
-        
+
         Returns:
             The variableInstance value
-        
+
         Note:
             Delegates to variable_instance property (CODING_RULE_V2_00017)
         """
@@ -182,13 +187,13 @@ class InstantiationDataDefProps(ARObject):
     def setVariableInstance(self, value: RefType) -> "InstantiationDataDefProps":
         """
         AUTOSAR-compliant setter for variableInstance with method chaining.
-        
+
         Args:
             value: The variableInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable_instance property setter (gets validation automatically)
         """
@@ -200,13 +205,13 @@ class InstantiationDataDefProps(ARObject):
     def with_parameter(self, value: Optional[RefType]) -> "InstantiationDataDefProps":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """
@@ -216,13 +221,13 @@ class InstantiationDataDefProps(ARObject):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "InstantiationDataDefProps":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """
@@ -232,13 +237,13 @@ class InstantiationDataDefProps(ARObject):
     def with_variable_instance(self, value: Optional[RefType]) -> "InstantiationDataDefProps":
         """
         Set variableInstance and return self for chaining.
-        
+
         Args:
             value: The variableInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable_instance("value")
         """

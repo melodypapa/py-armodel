@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbstractVariationRestriction(ARObject, ABC):
     """
     Defines constraints on the usage of variation and on the valid binding
     times.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ModelRestrictionTypes::AbstractVariationRestriction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 104, Foundation
       R23-11)
@@ -41,10 +45,10 @@ class AbstractVariationRestriction(ARObject, ABC):
     def variation(self, value: Optional["Boolean"]) -> None:
         """
         Set variation with validation.
-        
+
         Args:
             value: The variation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +67,10 @@ class AbstractVariationRestriction(ARObject, ABC):
     def getValidBinding(self) -> List["FullBindingTimeEnum"]:
         """
         AUTOSAR-compliant getter for validBinding.
-        
+
         Returns:
             The validBinding value
-        
+
         Note:
             Delegates to valid_binding property (CODING_RULE_V2_00017)
         """
@@ -75,10 +79,10 @@ class AbstractVariationRestriction(ARObject, ABC):
     def getVariation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for variation.
-        
+
         Returns:
             The variation value
-        
+
         Note:
             Delegates to variation property (CODING_RULE_V2_00017)
         """
@@ -87,13 +91,13 @@ class AbstractVariationRestriction(ARObject, ABC):
     def setVariation(self, value: "Boolean") -> "AbstractVariationRestriction":
         """
         AUTOSAR-compliant setter for variation with method chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variation property setter (gets validation automatically)
         """
@@ -105,13 +109,13 @@ class AbstractVariationRestriction(ARObject, ABC):
     def with_variation(self, value: Optional["Boolean"]) -> "AbstractVariationRestriction":
         """
         Set variation and return self for chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variation("value")
         """

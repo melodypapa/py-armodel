@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DoIpServiceNeeds(ServiceNeeds, ABC):
     """
     This represents an abstract base class for ServiceNeeds related to DoIP.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 237, Classic
       Platform R23-11)

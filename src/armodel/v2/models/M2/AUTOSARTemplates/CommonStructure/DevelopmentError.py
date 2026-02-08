@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DevelopmentError(TracedFailure):
     """
     The reported failure is classified as development error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DevelopmentError
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsDestinationOrder(ARObject):
     """
     Describes the DDS DESTINATION_ORDER QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDestinationOrder
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 536, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class DdsDestinationOrder(ARObject):
     def destination(self, value: Optional["DdsDestinationOrder"]) -> None:
         """
         Set destination with validation.
-        
+
         Args:
             value: The destination to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class DdsDestinationOrder(ARObject):
     def getDestination(self) -> "DdsDestinationOrder":
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class DdsDestinationOrder(ARObject):
     def setDestination(self, value: "DdsDestinationOrder") -> "DdsDestinationOrder":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class DdsDestinationOrder(ARObject):
     def with_destination(self, value: Optional["DdsDestinationOrder"]) -> "DdsDestinationOrder":
         """
         Set destination and return self for chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination("value")
         """

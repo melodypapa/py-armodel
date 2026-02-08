@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class AbstractEvent(Identifiable, ABC):
     """
     This meta-class represents the abstract ability to model an event that can
     be taken to implement application software or basic software in AUTOSAR.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::AbstractEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 541, Classic Platform
       R23-11)
@@ -35,10 +38,10 @@ class AbstractEvent(Identifiable, ABC):
     def activation(self, value: Optional["ExecutableEntity"]) -> None:
         """
         Set activation with validation.
-        
+
         Args:
             value: The activation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class AbstractEvent(Identifiable, ABC):
     def getActivation(self) -> "ExecutableEntity":
         """
         AUTOSAR-compliant getter for activation.
-        
+
         Returns:
             The activation value
-        
+
         Note:
             Delegates to activation property (CODING_RULE_V2_00017)
         """
@@ -69,13 +72,13 @@ class AbstractEvent(Identifiable, ABC):
     def setActivation(self, value: "ExecutableEntity") -> "AbstractEvent":
         """
         AUTOSAR-compliant setter for activation with method chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to activation property setter (gets validation automatically)
         """
@@ -87,13 +90,13 @@ class AbstractEvent(Identifiable, ABC):
     def with_activation(self, value: Optional["ExecutableEntity"]) -> "AbstractEvent":
         """
         Set activation and return self for chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_activation("value")
         """

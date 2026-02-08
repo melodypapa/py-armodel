@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
     This meta-class represents rule-based values for DataPrototypes typed by
     composite AutosarDataTypes.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::CompositeRuleBasedValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 471, Classic Platform
       R23-11)
@@ -45,10 +45,10 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def max_size_to_fill(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSizeToFill with validation.
-        
+
         Args:
             value: The maxSizeToFill to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def rule(self, value: Optional["Identifier"]) -> None:
         """
         Set rule with validation.
-        
+
         Args:
             value: The rule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def getArgument(self) -> List["CompositeValue"]:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -108,10 +108,10 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def getCompound(self) -> List["CompositeRuleBased"]:
         """
         AUTOSAR-compliant getter for compound.
-        
+
         Returns:
             The compound value
-        
+
         Note:
             Delegates to compound property (CODING_RULE_V2_00017)
         """
@@ -120,10 +120,10 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def getMaxSizeToFill(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSizeToFill.
-        
+
         Returns:
             The maxSizeToFill value
-        
+
         Note:
             Delegates to max_size_to_fill property (CODING_RULE_V2_00017)
         """
@@ -132,13 +132,13 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def setMaxSizeToFill(self, value: "PositiveInteger") -> "CompositeRuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for maxSizeToFill with method chaining.
-        
+
         Args:
             value: The maxSizeToFill to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_size_to_fill property setter (gets validation automatically)
         """
@@ -148,10 +148,10 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def getRule(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for rule.
-        
+
         Returns:
             The rule value
-        
+
         Note:
             Delegates to rule property (CODING_RULE_V2_00017)
         """
@@ -160,13 +160,13 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def setRule(self, value: "Identifier") -> "CompositeRuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for rule with method chaining.
-        
+
         Args:
             value: The rule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rule property setter (gets validation automatically)
         """
@@ -178,13 +178,13 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def with_max_size_to_fill(self, value: Optional["PositiveInteger"]) -> "CompositeRuleBasedValueSpecification":
         """
         Set maxSizeToFill and return self for chaining.
-        
+
         Args:
             value: The maxSizeToFill to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_size_to_fill("value")
         """
@@ -194,13 +194,13 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def with_rule(self, value: Optional["Identifier"]) -> "CompositeRuleBasedValueSpecification":
         """
         Set rule and return self for chaining.
-        
+
         Args:
             value: The rule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rule("value")
         """

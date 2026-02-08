@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FlexrayTpPduPool(Identifiable):
     """
     FlexrayTpPduPool is a set of N-PDUs which are defined for FrTp sending or
     receiving purpose.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpPduPool
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 596, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class FlexrayTpPduPool(Identifiable):
     def getNPdu(self) -> List["NPdu"]:
         """
         AUTOSAR-compliant getter for nPdu.
-        
+
         Returns:
             The nPdu value
-        
+
         Note:
             Delegates to n_pdu property (CODING_RULE_V2_00017)
         """

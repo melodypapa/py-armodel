@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AssignFrameId(LinConfigurationEntry):
     """
     Schedule entry for an Assign Frame Id master request.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::AssignFrameId
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 436, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class AssignFrameId(LinConfigurationEntry):
     def assigned_frame(self, value: RefType) -> None:
         """
         Set assignedFrame with validation.
-        
+
         Args:
             value: The assignedFrame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -45,10 +48,10 @@ class AssignFrameId(LinConfigurationEntry):
     def getAssignedFrame(self) -> RefType:
         """
         AUTOSAR-compliant getter for assignedFrame.
-        
+
         Returns:
             The assignedFrame value
-        
+
         Note:
             Delegates to assigned_frame property (CODING_RULE_V2_00017)
         """
@@ -57,13 +60,13 @@ class AssignFrameId(LinConfigurationEntry):
     def setAssignedFrame(self, value: RefType) -> "AssignFrameId":
         """
         AUTOSAR-compliant setter for assignedFrame with method chaining.
-        
+
         Args:
             value: The assignedFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_frame property setter (gets validation automatically)
         """
@@ -75,13 +78,13 @@ class AssignFrameId(LinConfigurationEntry):
     def with_assigned_frame(self, value: Optional[RefType]) -> "AssignFrameId":
         """
         Set assignedFrame and return self for chaining.
-        
+
         Args:
             value: The assignedFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_frame("value")
         """

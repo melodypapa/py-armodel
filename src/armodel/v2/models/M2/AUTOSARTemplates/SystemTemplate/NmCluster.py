@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class NmCluster(Identifiable, ABC):
     """
     Set of NM nodes coordinated with use of the NM algorithm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 672, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class NmCluster(Identifiable, ABC):
     def communication(self, value: Optional["CommunicationCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class NmCluster(Identifiable, ABC):
     def nm_channel(self, value: Optional["Boolean"]) -> None:
         """
         Set nmChannel with validation.
-        
+
         Args:
             value: The nmChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +92,10 @@ class NmCluster(Identifiable, ABC):
     def nm_node(self, value: Optional["Boolean"]) -> None:
         """
         Set nmNode with validation.
-        
+
         Args:
             value: The nmNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class NmCluster(Identifiable, ABC):
     def nm_node_id_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmNodeIdEnabled with validation.
-        
+
         Args:
             value: The nmNodeIdEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +148,10 @@ class NmCluster(Identifiable, ABC):
     def nm_pnc(self, value: Optional["Boolean"]) -> None:
         """
         Set nmPnc with validation.
-        
+
         Args:
             value: The nmPnc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +176,10 @@ class NmCluster(Identifiable, ABC):
     def nm_repeat_msg(self, value: Optional["Boolean"]) -> None:
         """
         Set nmRepeatMsg with validation.
-        
+
         Args:
             value: The nmRepeatMsg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +206,10 @@ class NmCluster(Identifiable, ABC):
     def nm(self, value: Optional["Boolean"]) -> None:
         """
         Set nm with validation.
-        
+
         Args:
             value: The nm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -236,10 +239,10 @@ class NmCluster(Identifiable, ABC):
     def pnc_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncCluster with validation.
-        
+
         Args:
             value: The pncCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -258,10 +261,10 @@ class NmCluster(Identifiable, ABC):
     def getCommunication(self) -> "CommunicationCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -270,13 +273,13 @@ class NmCluster(Identifiable, ABC):
     def setCommunication(self, value: "CommunicationCluster") -> "NmCluster":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -286,10 +289,10 @@ class NmCluster(Identifiable, ABC):
     def getNmChannel(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmChannel.
-        
+
         Returns:
             The nmChannel value
-        
+
         Note:
             Delegates to nm_channel property (CODING_RULE_V2_00017)
         """
@@ -298,13 +301,13 @@ class NmCluster(Identifiable, ABC):
     def setNmChannel(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmChannel with method chaining.
-        
+
         Args:
             value: The nmChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_channel property setter (gets validation automatically)
         """
@@ -314,10 +317,10 @@ class NmCluster(Identifiable, ABC):
     def getNmNode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmNode.
-        
+
         Returns:
             The nmNode value
-        
+
         Note:
             Delegates to nm_node property (CODING_RULE_V2_00017)
         """
@@ -326,13 +329,13 @@ class NmCluster(Identifiable, ABC):
     def setNmNode(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmNode with method chaining.
-        
+
         Args:
             value: The nmNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_node property setter (gets validation automatically)
         """
@@ -342,10 +345,10 @@ class NmCluster(Identifiable, ABC):
     def getNmNodeIdEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmNodeIdEnabled.
-        
+
         Returns:
             The nmNodeIdEnabled value
-        
+
         Note:
             Delegates to nm_node_id_enabled property (CODING_RULE_V2_00017)
         """
@@ -354,13 +357,13 @@ class NmCluster(Identifiable, ABC):
     def setNmNodeIdEnabled(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmNodeIdEnabled with method chaining.
-        
+
         Args:
             value: The nmNodeIdEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_node_id_enabled property setter (gets validation automatically)
         """
@@ -370,10 +373,10 @@ class NmCluster(Identifiable, ABC):
     def getNmPnc(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmPnc.
-        
+
         Returns:
             The nmPnc value
-        
+
         Note:
             Delegates to nm_pnc property (CODING_RULE_V2_00017)
         """
@@ -382,13 +385,13 @@ class NmCluster(Identifiable, ABC):
     def setNmPnc(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmPnc with method chaining.
-        
+
         Args:
             value: The nmPnc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_pnc property setter (gets validation automatically)
         """
@@ -398,10 +401,10 @@ class NmCluster(Identifiable, ABC):
     def getNmRepeatMsg(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmRepeatMsg.
-        
+
         Returns:
             The nmRepeatMsg value
-        
+
         Note:
             Delegates to nm_repeat_msg property (CODING_RULE_V2_00017)
         """
@@ -410,13 +413,13 @@ class NmCluster(Identifiable, ABC):
     def setNmRepeatMsg(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nmRepeatMsg with method chaining.
-        
+
         Args:
             value: The nmRepeatMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat_msg property setter (gets validation automatically)
         """
@@ -426,10 +429,10 @@ class NmCluster(Identifiable, ABC):
     def getNm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nm.
-        
+
         Returns:
             The nm value
-        
+
         Note:
             Delegates to nm property (CODING_RULE_V2_00017)
         """
@@ -438,13 +441,13 @@ class NmCluster(Identifiable, ABC):
     def setNm(self, value: "Boolean") -> "NmCluster":
         """
         AUTOSAR-compliant setter for nm with method chaining.
-        
+
         Args:
             value: The nm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm property setter (gets validation automatically)
         """
@@ -454,10 +457,10 @@ class NmCluster(Identifiable, ABC):
     def getPncCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncCluster.
-        
+
         Returns:
             The pncCluster value
-        
+
         Note:
             Delegates to pnc_cluster property (CODING_RULE_V2_00017)
         """
@@ -466,13 +469,13 @@ class NmCluster(Identifiable, ABC):
     def setPncCluster(self, value: "PositiveInteger") -> "NmCluster":
         """
         AUTOSAR-compliant setter for pncCluster with method chaining.
-        
+
         Args:
             value: The pncCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_cluster property setter (gets validation automatically)
         """
@@ -484,13 +487,13 @@ class NmCluster(Identifiable, ABC):
     def with_communication(self, value: Optional["CommunicationCluster"]) -> "NmCluster":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -500,13 +503,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_channel(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmChannel and return self for chaining.
-        
+
         Args:
             value: The nmChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_channel("value")
         """
@@ -516,13 +519,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_node(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmNode and return self for chaining.
-        
+
         Args:
             value: The nmNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_node("value")
         """
@@ -532,13 +535,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_node_id_enabled(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmNodeIdEnabled and return self for chaining.
-        
+
         Args:
             value: The nmNodeIdEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_node_id_enabled("value")
         """
@@ -548,13 +551,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_pnc(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmPnc and return self for chaining.
-        
+
         Args:
             value: The nmPnc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_pnc("value")
         """
@@ -564,13 +567,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm_repeat_msg(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nmRepeatMsg and return self for chaining.
-        
+
         Args:
             value: The nmRepeatMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat_msg("value")
         """
@@ -580,13 +583,13 @@ class NmCluster(Identifiable, ABC):
     def with_nm(self, value: Optional["Boolean"]) -> "NmCluster":
         """
         Set nm and return self for chaining.
-        
+
         Args:
             value: The nm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm("value")
         """
@@ -596,13 +599,13 @@ class NmCluster(Identifiable, ABC):
     def with_pnc_cluster(self, value: Optional["PositiveInteger"]) -> "NmCluster":
         """
         Set pncCluster and return self for chaining.
-        
+
         Args:
             value: The pncCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_cluster("value")
         """

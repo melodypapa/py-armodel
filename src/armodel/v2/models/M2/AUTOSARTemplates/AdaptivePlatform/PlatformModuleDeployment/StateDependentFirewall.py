@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class StateDependentFirewall(ARElement):
     """
     Firewall rules that are defined in a firewall state
-    
+
     Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::StateDependentFirewall
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 583, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class StateDependentFirewall(ARElement):
     def default_action(self, value: Optional["FirewallActionEnum"]) -> None:
         """
         Set defaultAction with validation.
-        
+
         Args:
             value: The defaultAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class StateDependentFirewall(ARElement):
     def getDefaultAction(self) -> "FirewallActionEnum":
         """
         AUTOSAR-compliant getter for defaultAction.
-        
+
         Returns:
             The defaultAction value
-        
+
         Note:
             Delegates to default_action property (CODING_RULE_V2_00017)
         """
@@ -77,13 +77,13 @@ class StateDependentFirewall(ARElement):
     def setDefaultAction(self, value: "FirewallActionEnum") -> "StateDependentFirewall":
         """
         AUTOSAR-compliant setter for defaultAction with method chaining.
-        
+
         Args:
             value: The defaultAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_action property setter (gets validation automatically)
         """
@@ -93,10 +93,10 @@ class StateDependentFirewall(ARElement):
     def getFirewallRule(self) -> List["FirewallRuleProps"]:
         """
         AUTOSAR-compliant getter for firewallRule.
-        
+
         Returns:
             The firewallRule value
-        
+
         Note:
             Delegates to firewall_rule property (CODING_RULE_V2_00017)
         """
@@ -105,10 +105,10 @@ class StateDependentFirewall(ARElement):
     def getFirewallState(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for firewallState.
-        
+
         Returns:
             The firewallState value
-        
+
         Note:
             Delegates to firewall_state property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class StateDependentFirewall(ARElement):
     def with_default_action(self, value: Optional["FirewallActionEnum"]) -> "StateDependentFirewall":
         """
         Set defaultAction and return self for chaining.
-        
+
         Args:
             value: The defaultAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_action("value")
         """

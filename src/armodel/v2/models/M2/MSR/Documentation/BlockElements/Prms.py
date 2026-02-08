@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Prms(Paginateable):
     """
     This metaclass represents the ability to specify a parameter table. It can
     be used e.g. to specify parameter tables in a data sheet.
-    
+
     Package: M2::MSR::Documentation::BlockElements::GerneralParameters::Prms
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 338, Foundation
       R23-11)
@@ -31,10 +31,10 @@ class Prms(Paginateable):
     def label(self, value: Optional["MultilanguageLong"]) -> None:
         """
         Set label with validation.
-        
+
         Args:
             value: The label to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class Prms(Paginateable):
     def prm(self, value: "GeneralParameter") -> None:
         """
         Set prm with validation.
-        
+
         Args:
             value: The prm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class Prms(Paginateable):
     def getLabel(self) -> "MultilanguageLong":
         """
         AUTOSAR-compliant getter for label.
-        
+
         Returns:
             The label value
-        
+
         Note:
             Delegates to label property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class Prms(Paginateable):
     def setLabel(self, value: "MultilanguageLong") -> "Prms":
         """
         AUTOSAR-compliant setter for label with method chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to label property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class Prms(Paginateable):
     def getPrm(self) -> "GeneralParameter":
         """
         AUTOSAR-compliant getter for prm.
-        
+
         Returns:
             The prm value
-        
+
         Note:
             Delegates to prm property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class Prms(Paginateable):
     def setPrm(self, value: "GeneralParameter") -> "Prms":
         """
         AUTOSAR-compliant setter for prm with method chaining.
-        
+
         Args:
             value: The prm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prm property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class Prms(Paginateable):
     def with_label(self, value: Optional["MultilanguageLong"]) -> "Prms":
         """
         Set label and return self for chaining.
-        
+
         Args:
             value: The label to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_label("value")
         """
@@ -150,13 +150,13 @@ class Prms(Paginateable):
     def with_prm(self, value: "GeneralParameter") -> "Prms":
         """
         Set prm and return self for chaining.
-        
+
         Args:
             value: The prm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prm("value")
         """

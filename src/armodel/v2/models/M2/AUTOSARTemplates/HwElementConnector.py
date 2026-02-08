@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class HwElementConnector(Describable):
     """
     This meta-class represents the ability to connect two hardware elements. The
     details of the connection can be refined by hwPinGroupConnection.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 21, Classic Platform
       R23-11)
@@ -49,10 +52,10 @@ class HwElementConnector(Describable):
     def getHwElement(self) -> List["HwElement"]:
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -61,10 +64,10 @@ class HwElementConnector(Describable):
     def getHwPin(self) -> List["HwPinConnector"]:
         """
         AUTOSAR-compliant getter for hwPin.
-        
+
         Returns:
             The hwPin value
-        
+
         Note:
             Delegates to hw_pin property (CODING_RULE_V2_00017)
         """
@@ -73,10 +76,10 @@ class HwElementConnector(Describable):
     def getHwPinGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticAuthenticationClass(DiagnosticServiceClass):
     """
     This meta-class contains configuration shared by all instances of the
     Authentication diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthenticationClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 99, Classic Platform
       R23-11)

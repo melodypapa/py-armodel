@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration
     of OBD Services in relation to a particular "ratio monitoring" which is
     supported by this component or module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdRatioServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 795, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def connection_type(self, value: Optional["ObdRatioConnection"]) -> None:
         """
         Set connectionType with validation.
-        
+
         Args:
             value: The connectionType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def rate_based_monitored_event(self, value: Optional["DiagnosticEventNeeds"]) -> None:
         """
         Set rateBasedMonitoredEvent with validation.
-        
+
         Args:
             value: The rateBasedMonitoredEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def used_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
         """
         Set usedFid with validation.
-        
+
         Args:
             value: The usedFid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +110,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getConnectionType(self) -> "ObdRatioConnection":
         """
         AUTOSAR-compliant getter for connectionType.
-        
+
         Returns:
             The connectionType value
-        
+
         Note:
             Delegates to connection_type property (CODING_RULE_V2_00017)
         """
@@ -122,13 +122,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def setConnectionType(self, value: "ObdRatioConnection") -> "ObdRatioServiceNeeds":
         """
         AUTOSAR-compliant setter for connectionType with method chaining.
-        
+
         Args:
             value: The connectionType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connection_type property setter (gets validation automatically)
         """
@@ -138,10 +138,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getRateBasedMonitoredEvent(self) -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant getter for rateBasedMonitoredEvent.
-        
+
         Returns:
             The rateBasedMonitoredEvent value
-        
+
         Note:
             Delegates to rate_based_monitored_event property (CODING_RULE_V2_00017)
         """
@@ -150,13 +150,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def setRateBasedMonitoredEvent(self, value: "DiagnosticEventNeeds") -> "ObdRatioServiceNeeds":
         """
         AUTOSAR-compliant setter for rateBasedMonitoredEvent with method chaining.
-        
+
         Args:
             value: The rateBasedMonitoredEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_based_monitored_event property setter (gets validation automatically)
         """
@@ -166,10 +166,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getUsedFid(self) -> "FunctionInhibitionNeeds":
         """
         AUTOSAR-compliant getter for usedFid.
-        
+
         Returns:
             The usedFid value
-        
+
         Note:
             Delegates to used_fid property (CODING_RULE_V2_00017)
         """
@@ -178,13 +178,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def setUsedFid(self, value: "FunctionInhibitionNeeds") -> "ObdRatioServiceNeeds":
         """
         AUTOSAR-compliant setter for usedFid with method chaining.
-        
+
         Args:
             value: The usedFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_fid property setter (gets validation automatically)
         """
@@ -196,13 +196,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def with_connection_type(self, value: Optional["ObdRatioConnection"]) -> "ObdRatioServiceNeeds":
         """
         Set connectionType and return self for chaining.
-        
+
         Args:
             value: The connectionType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connection_type("value")
         """
@@ -212,13 +212,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def with_rate_based_monitored_event(self, value: Optional["DiagnosticEventNeeds"]) -> "ObdRatioServiceNeeds":
         """
         Set rateBasedMonitoredEvent and return self for chaining.
-        
+
         Args:
             value: The rateBasedMonitoredEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_based_monitored_event("value")
         """
@@ -228,13 +228,13 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def with_used_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "ObdRatioServiceNeeds":
         """
         Set usedFid and return self for chaining.
-        
+
         Args:
             value: The usedFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_fid("value")
         """

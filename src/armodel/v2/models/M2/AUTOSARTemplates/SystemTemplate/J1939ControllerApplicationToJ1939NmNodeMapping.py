@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     """
@@ -10,9 +13,9 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     EcuInstance itself is basically replaced by a J1939NmNode. (cid:53) 206 of
     2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::J1939ControllerApplicationToJ1939NmNodeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 206, Classic Platform R23-11)
     """
@@ -33,10 +36,10 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def j1939_controller(self, value: Optional["J1939Controller"]) -> None:
         """
         Set j1939Controller with validation.
-        
+
         Args:
             value: The j1939Controller to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def j1939_nm_node(self, value: Optional["J1939NmNode"]) -> None:
         """
         Set j1939NmNode with validation.
-        
+
         Args:
             value: The j1939NmNode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def getJ1939Controller(self) -> "J1939Controller":
         """
         AUTOSAR-compliant getter for j1939Controller.
-        
+
         Returns:
             The j1939Controller value
-        
+
         Note:
             Delegates to j1939_controller property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def setJ1939Controller(self, value: "J1939Controller") -> "J1939ControllerApplicationToJ1939NmNodeMapping":
         """
         AUTOSAR-compliant setter for j1939Controller with method chaining.
-        
+
         Args:
             value: The j1939Controller to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to j1939_controller property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def getJ1939NmNode(self) -> "J1939NmNode":
         """
         AUTOSAR-compliant getter for j1939NmNode.
-        
+
         Returns:
             The j1939NmNode value
-        
+
         Note:
             Delegates to j1939_nm_node property (CODING_RULE_V2_00017)
         """
@@ -123,13 +126,13 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def setJ1939NmNode(self, value: "J1939NmNode") -> "J1939ControllerApplicationToJ1939NmNodeMapping":
         """
         AUTOSAR-compliant setter for j1939NmNode with method chaining.
-        
+
         Args:
             value: The j1939NmNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to j1939_nm_node property setter (gets validation automatically)
         """
@@ -141,13 +144,13 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def with_j1939_controller(self, value: Optional["J1939Controller"]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
         """
         Set j1939Controller and return self for chaining.
-        
+
         Args:
             value: The j1939Controller to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_j1939_controller("value")
         """
@@ -157,13 +160,13 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     def with_j1939_nm_node(self, value: Optional["J1939NmNode"]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
         """
         Set j1939NmNode and return self for chaining.
-        
+
         Args:
             value: The j1939NmNode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_j1939_nm_node("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class Ipv4DhcpServerConfiguration(Describable):
     """
     Defines the configuration of a IPv4 DHCP server that runs on the network
     endpoint.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4DhcpServerConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 131, Classic Platform R23-11)
     """
@@ -31,10 +31,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def address_range(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set addressRange with validation.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def default_gateway(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set defaultGateway with validation.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def default_lease(self, value: Optional["TimeValue"]) -> None:
         """
         Set defaultLease with validation.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def network_mask(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set networkMask with validation.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +146,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getAddressRange(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for addressRange.
-        
+
         Returns:
             The addressRange value
-        
+
         Note:
             Delegates to address_range property (CODING_RULE_V2_00017)
         """
@@ -158,13 +158,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setAddressRange(self, value: "Ip4AddressString") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for addressRange with method chaining.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address_range property setter (gets validation automatically)
         """
@@ -174,10 +174,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getDefaultGateway(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for defaultGateway.
-        
+
         Returns:
             The defaultGateway value
-        
+
         Note:
             Delegates to default_gateway property (CODING_RULE_V2_00017)
         """
@@ -186,13 +186,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setDefaultGateway(self, value: "Ip4AddressString") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for defaultGateway with method chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_gateway property setter (gets validation automatically)
         """
@@ -202,10 +202,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getDefaultLease(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for defaultLease.
-        
+
         Returns:
             The defaultLease value
-        
+
         Note:
             Delegates to default_lease property (CODING_RULE_V2_00017)
         """
@@ -214,13 +214,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setDefaultLease(self, value: "TimeValue") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for defaultLease with method chaining.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_lease property setter (gets validation automatically)
         """
@@ -230,10 +230,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getDnsServer(self) -> List["Ip4AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -242,10 +242,10 @@ class Ipv4DhcpServerConfiguration(Describable):
     def getNetworkMask(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for networkMask.
-        
+
         Returns:
             The networkMask value
-        
+
         Note:
             Delegates to network_mask property (CODING_RULE_V2_00017)
         """
@@ -254,13 +254,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def setNetworkMask(self, value: "Ip4AddressString") -> "Ipv4DhcpServerConfiguration":
         """
         AUTOSAR-compliant setter for networkMask with method chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_mask property setter (gets validation automatically)
         """
@@ -272,13 +272,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_address_range(self, value: Optional["Ip4AddressString"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set addressRange and return self for chaining.
-        
+
         Args:
             value: The addressRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address_range("value")
         """
@@ -288,13 +288,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_default_gateway(self, value: Optional["Ip4AddressString"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set defaultGateway and return self for chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_gateway("value")
         """
@@ -304,13 +304,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_default_lease(self, value: Optional["TimeValue"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set defaultLease and return self for chaining.
-        
+
         Args:
             value: The defaultLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_lease("value")
         """
@@ -320,13 +320,13 @@ class Ipv4DhcpServerConfiguration(Describable):
     def with_network_mask(self, value: Optional["Ip4AddressString"]) -> "Ipv4DhcpServerConfiguration":
         """
         Set networkMask and return self for chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_mask("value")
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BswExclusiveAreaPolicy(ARObject):
     """
     The ExclusiveArea for which the BSW Scheduler using this policy.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswExclusiveAreaPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 82, Classic
       Platform R23-11)
@@ -31,10 +34,10 @@ class BswExclusiveAreaPolicy(ARObject):
     def api_principle(self, value: Optional["ApiPrincipleEnum"]) -> None:
         """
         Set apiPrinciple with validation.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class BswExclusiveAreaPolicy(ARObject):
     def exclusive_area(self, value: Optional["ExclusiveArea"]) -> None:
         """
         Set exclusiveArea with validation.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class BswExclusiveAreaPolicy(ARObject):
     def getApiPrinciple(self) -> "ApiPrincipleEnum":
         """
         AUTOSAR-compliant getter for apiPrinciple.
-        
+
         Returns:
             The apiPrinciple value
-        
+
         Note:
             Delegates to api_principle property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class BswExclusiveAreaPolicy(ARObject):
     def setApiPrinciple(self, value: "ApiPrincipleEnum") -> "BswExclusiveAreaPolicy":
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to api_principle property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class BswExclusiveAreaPolicy(ARObject):
     def getExclusiveArea(self) -> "ExclusiveArea":
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class BswExclusiveAreaPolicy(ARObject):
     def setExclusiveArea(self, value: "ExclusiveArea") -> "BswExclusiveAreaPolicy":
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exclusive_area property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class BswExclusiveAreaPolicy(ARObject):
     def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> "BswExclusiveAreaPolicy":
         """
         Set apiPrinciple and return self for chaining.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_api_principle("value")
         """
@@ -155,13 +158,13 @@ class BswExclusiveAreaPolicy(ARObject):
     def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> "BswExclusiveAreaPolicy":
         """
         Set exclusiveArea and return self for chaining.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exclusive_area("value")
         """

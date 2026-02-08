@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MetaDataItem(ARObject):
     """
     This meta-class represents a single meta-data item.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::MetaDataItem
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 98, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class MetaDataItem(ARObject):
     def length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class MetaDataItem(ARObject):
     def meta_data_item(self, value: Optional["TextValueSpecification"]) -> None:
         """
         Set metaDataItem with validation.
-        
+
         Args:
             value: The metaDataItem to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class MetaDataItem(ARObject):
     def getLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class MetaDataItem(ARObject):
     def setLength(self, value: "PositiveInteger") -> "MetaDataItem":
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class MetaDataItem(ARObject):
     def getMetaDataItem(self) -> "TextValueSpecification":
         """
         AUTOSAR-compliant getter for metaDataItem.
-        
+
         Returns:
             The metaDataItem value
-        
+
         Note:
             Delegates to meta_data_item property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class MetaDataItem(ARObject):
     def setMetaDataItem(self, value: "TextValueSpecification") -> "MetaDataItem":
         """
         AUTOSAR-compliant setter for metaDataItem with method chaining.
-        
+
         Args:
             value: The metaDataItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to meta_data_item property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class MetaDataItem(ARObject):
     def with_length(self, value: Optional["PositiveInteger"]) -> "MetaDataItem":
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -153,13 +156,13 @@ class MetaDataItem(ARObject):
     def with_meta_data_item(self, value: Optional["TextValueSpecification"]) -> "MetaDataItem":
         """
         Set metaDataItem and return self for chaining.
-        
+
         Args:
             value: The metaDataItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_meta_data_item("value")
         """

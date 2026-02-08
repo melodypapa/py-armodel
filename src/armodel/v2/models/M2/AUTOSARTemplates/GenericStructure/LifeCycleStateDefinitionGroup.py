@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class LifeCycleStateDefinitionGroup(ARElement):
     """
     This meta class represents the ability to define the states and properties
     of one particular life cycle.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleStateDefinitionGroup
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 388, Foundation
       R23-11)
@@ -30,10 +30,10 @@ class LifeCycleStateDefinitionGroup(ARElement):
     def getLcState(self) -> List["LifeCycleState"]:
         """
         AUTOSAR-compliant getter for lcState.
-        
+
         Returns:
             The lcState value
-        
+
         Note:
             Delegates to lc_state property (CODING_RULE_V2_00017)
         """

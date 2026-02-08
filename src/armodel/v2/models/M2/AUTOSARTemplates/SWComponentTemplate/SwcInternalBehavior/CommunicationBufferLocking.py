@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CommunicationBufferLocking(SwcSupportedFeature):
     """
     The aggregation of this meta-class specifies that a RunnableEntity supports
     locked communication buffers supplied by the RTE. It is able to cope with
     the error RTE_E_COM_BUSY.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions::CommunicationBufferLocking
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 595, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class CommunicationBufferLocking(SwcSupportedFeature):
     def support_buffer(self, value: Optional["SupportBufferLocking"]) -> None:
         """
         Set supportBuffer with validation.
-        
+
         Args:
             value: The supportBuffer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class CommunicationBufferLocking(SwcSupportedFeature):
     def getSupportBuffer(self) -> "SupportBufferLocking":
         """
         AUTOSAR-compliant getter for supportBuffer.
-        
+
         Returns:
             The supportBuffer value
-        
+
         Note:
             Delegates to support_buffer property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class CommunicationBufferLocking(SwcSupportedFeature):
     def setSupportBuffer(self, value: "SupportBufferLocking") -> "CommunicationBufferLocking":
         """
         AUTOSAR-compliant setter for supportBuffer with method chaining.
-        
+
         Args:
             value: The supportBuffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_buffer property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class CommunicationBufferLocking(SwcSupportedFeature):
     def with_support_buffer(self, value: Optional["SupportBufferLocking"]) -> "CommunicationBufferLocking":
         """
         Set supportBuffer and return self for chaining.
-        
+
         Args:
             value: The supportBuffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_buffer("value")
         """

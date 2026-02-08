@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     """
@@ -9,9 +11,9 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     the option to predefine an allocation of Software Components to
     EcuPartitions in the System Design phase. The final and complete assignment
     is described in the OS Configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::ApplicationPartitionToEcuPartitionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 201, Classic Platform R23-11)
     """
@@ -38,10 +40,10 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     def ecu_partition(self, value: Optional["EcuPartition"]) -> None:
         """
         Set ecuPartition with validation.
-        
+
         Args:
             value: The ecuPartition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +62,10 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     def getApplication(self) -> List["ApplicationPartition"]:
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -72,10 +74,10 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     def getEcuPartition(self) -> "EcuPartition":
         """
         AUTOSAR-compliant getter for ecuPartition.
-        
+
         Returns:
             The ecuPartition value
-        
+
         Note:
             Delegates to ecu_partition property (CODING_RULE_V2_00017)
         """
@@ -84,13 +86,13 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     def setEcuPartition(self, value: "EcuPartition") -> "ApplicationPartitionToEcuPartitionMapping":
         """
         AUTOSAR-compliant setter for ecuPartition with method chaining.
-        
+
         Args:
             value: The ecuPartition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_partition property setter (gets validation automatically)
         """
@@ -102,13 +104,13 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     def with_ecu_partition(self, value: Optional["EcuPartition"]) -> "ApplicationPartitionToEcuPartitionMapping":
         """
         Set ecuPartition and return self for chaining.
-        
+
         Args:
             value: The ecuPartition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_partition("value")
         """

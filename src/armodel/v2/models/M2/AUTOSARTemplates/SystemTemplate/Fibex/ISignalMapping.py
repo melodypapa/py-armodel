@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ISignalMapping(ARObject):
     """
@@ -9,9 +14,9 @@ class ISignalMapping(ARObject):
     from one channel to the other in pairs and defines the mapping between them.
     Each pair consists in a source and a target referencing to a
     ISignalTriggering.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::ISignalMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 846, Classic Platform R23-11)
     """
@@ -31,10 +36,10 @@ class ISignalMapping(ARObject):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +64,10 @@ class ISignalMapping(ARObject):
     def source_signal(self, value: RefType) -> None:
         """
         Set sourceSignal with validation.
-        
+
         Args:
             value: The sourceSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +88,10 @@ class ISignalMapping(ARObject):
     def target_signal(self, value: RefType) -> None:
         """
         Set targetSignal with validation.
-        
+
         Args:
             value: The targetSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +106,10 @@ class ISignalMapping(ARObject):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -113,13 +118,13 @@ class ISignalMapping(ARObject):
     def setIntroduction(self, value: "DocumentationBlock") -> "ISignalMapping":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -129,10 +134,10 @@ class ISignalMapping(ARObject):
     def getSourceSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for sourceSignal.
-        
+
         Returns:
             The sourceSignal value
-        
+
         Note:
             Delegates to source_signal property (CODING_RULE_V2_00017)
         """
@@ -141,13 +146,13 @@ class ISignalMapping(ARObject):
     def setSourceSignal(self, value: RefType) -> "ISignalMapping":
         """
         AUTOSAR-compliant setter for sourceSignal with method chaining.
-        
+
         Args:
             value: The sourceSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_signal property setter (gets validation automatically)
         """
@@ -157,10 +162,10 @@ class ISignalMapping(ARObject):
     def getTargetSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetSignal.
-        
+
         Returns:
             The targetSignal value
-        
+
         Note:
             Delegates to target_signal property (CODING_RULE_V2_00017)
         """
@@ -169,13 +174,13 @@ class ISignalMapping(ARObject):
     def setTargetSignal(self, value: RefType) -> "ISignalMapping":
         """
         AUTOSAR-compliant setter for targetSignal with method chaining.
-        
+
         Args:
             value: The targetSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_signal property setter (gets validation automatically)
         """
@@ -187,13 +192,13 @@ class ISignalMapping(ARObject):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "ISignalMapping":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """
@@ -203,13 +208,13 @@ class ISignalMapping(ARObject):
     def with_source_signal(self, value: Optional[RefType]) -> "ISignalMapping":
         """
         Set sourceSignal and return self for chaining.
-        
+
         Args:
             value: The sourceSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_signal("value")
         """
@@ -219,13 +224,13 @@ class ISignalMapping(ARObject):
     def with_target_signal(self, value: Optional[RefType]) -> "ISignalMapping":
         """
         Set targetSignal and return self for chaining.
-        
+
         Args:
             value: The targetSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_signal("value")
         """

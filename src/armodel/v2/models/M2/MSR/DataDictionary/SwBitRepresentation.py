@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwBitRepresentation(ARObject):
     """
@@ -8,9 +11,9 @@ class SwBitRepresentation(ARObject):
     in a memory object (e.g. sw HostVariable, which stands parallel to
     swBitRepresentation) and the numberOfBits . In this way, interrelated memory
     areas can be described. Non-related memory areas are not supported.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwBitRepresentation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 333, Classic Platform
       R23-11)
@@ -33,10 +36,10 @@ class SwBitRepresentation(ARObject):
     def bit_position(self, value: Optional["Integer"]) -> None:
         """
         Set bitPosition with validation.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class SwBitRepresentation(ARObject):
     def number_of_bits(self, value: Optional["Integer"]) -> None:
         """
         Set numberOfBits with validation.
-        
+
         Args:
             value: The numberOfBits to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class SwBitRepresentation(ARObject):
     def getBitPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for bitPosition.
-        
+
         Returns:
             The bitPosition value
-        
+
         Note:
             Delegates to bit_position property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class SwBitRepresentation(ARObject):
     def setBitPosition(self, value: "Integer") -> "SwBitRepresentation":
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_position property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class SwBitRepresentation(ARObject):
     def getNumberOfBits(self) -> "Integer":
         """
         AUTOSAR-compliant getter for numberOfBits.
-        
+
         Returns:
             The numberOfBits value
-        
+
         Note:
             Delegates to number_of_bits property (CODING_RULE_V2_00017)
         """
@@ -123,13 +126,13 @@ class SwBitRepresentation(ARObject):
     def setNumberOfBits(self, value: "Integer") -> "SwBitRepresentation":
         """
         AUTOSAR-compliant setter for numberOfBits with method chaining.
-        
+
         Args:
             value: The numberOfBits to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number_of_bits property setter (gets validation automatically)
         """
@@ -141,13 +144,13 @@ class SwBitRepresentation(ARObject):
     def with_bit_position(self, value: Optional["Integer"]) -> "SwBitRepresentation":
         """
         Set bitPosition and return self for chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_position("value")
         """
@@ -157,13 +160,13 @@ class SwBitRepresentation(ARObject):
     def with_number_of_bits(self, value: Optional["Integer"]) -> "SwBitRepresentation":
         """
         Set numberOfBits and return self for chaining.
-        
+
         Args:
             value: The numberOfBits to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number_of_bits("value")
         """

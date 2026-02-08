@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SdgAggregationWithVariation(SdgElementWithGid):
     """
     Describes that the Sdg may contain another Sdg. The gid of the nested Sdg is
     defined by subSdg. Represents ’sdg’.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAggregationWithVariation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 101, Foundation
       R23-11)
@@ -28,10 +28,10 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def sub_sdg(self, value: Optional["SdgClass"]) -> None:
         """
         Set subSdg with validation.
-        
+
         Args:
             value: The subSdg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def getSubSdg(self) -> "SdgClass":
         """
         AUTOSAR-compliant getter for subSdg.
-        
+
         Returns:
             The subSdg value
-        
+
         Note:
             Delegates to sub_sdg property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def setSubSdg(self, value: "SdgClass") -> "SdgAggregationWithVariation":
         """
         AUTOSAR-compliant setter for subSdg with method chaining.
-        
+
         Args:
             value: The subSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_sdg property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class SdgAggregationWithVariation(SdgElementWithGid):
     def with_sub_sdg(self, value: Optional["SdgClass"]) -> "SdgAggregationWithVariation":
         """
         Set subSdg and return self for chaining.
-        
+
         Args:
             value: The subSdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_sdg("value")
         """

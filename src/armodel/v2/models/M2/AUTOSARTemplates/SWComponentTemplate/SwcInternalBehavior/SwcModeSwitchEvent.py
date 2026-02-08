@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SwcModeSwitchEvent(RTEEvent):
     """
     This event is raised when the specified mode change occurs.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::SwcModeSwitchEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 544, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class SwcModeSwitchEvent(RTEEvent):
     def activation(self, value: Optional["ModeActivationKind"]) -> None:
         """
         Set activation with validation.
-        
+
         Args:
             value: The activation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class SwcModeSwitchEvent(RTEEvent):
     def getActivation(self) -> "ModeActivationKind":
         """
         AUTOSAR-compliant getter for activation.
-        
+
         Returns:
             The activation value
-        
+
         Note:
             Delegates to activation property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class SwcModeSwitchEvent(RTEEvent):
     def setActivation(self, value: "ModeActivationKind") -> "SwcModeSwitchEvent":
         """
         AUTOSAR-compliant setter for activation with method chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to activation property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class SwcModeSwitchEvent(RTEEvent):
     def with_activation(self, value: Optional["ModeActivationKind"]) -> "SwcModeSwitchEvent":
         """
         Set activation and return self for chaining.
-        
+
         Args:
             value: The activation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_activation("value")
         """

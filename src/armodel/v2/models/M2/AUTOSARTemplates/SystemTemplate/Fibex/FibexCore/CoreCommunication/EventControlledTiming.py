@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EventControlledTiming(Describable):
     """
     Specification of a event driven sending behavior. The PDU is sent n
     (numberOfRepeat + 1) times separated by the repetitionPeriod. If
     numberOfRepeats = 0, then the Pdu is sent just once.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::EventControlledTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 397, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class EventControlledTiming(Describable):
     def number_of(self, value: Optional["Integer"]) -> None:
         """
         Set numberOf with validation.
-        
+
         Args:
             value: The numberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class EventControlledTiming(Describable):
     def repetition_period(self, value: Optional["TimeRangeType"]) -> None:
         """
         Set repetitionPeriod with validation.
-        
+
         Args:
             value: The repetitionPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class EventControlledTiming(Describable):
     def getNumberOf(self) -> "Integer":
         """
         AUTOSAR-compliant getter for numberOf.
-        
+
         Returns:
             The numberOf value
-        
+
         Note:
             Delegates to number_of property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class EventControlledTiming(Describable):
     def setNumberOf(self, value: "Integer") -> "EventControlledTiming":
         """
         AUTOSAR-compliant setter for numberOf with method chaining.
-        
+
         Args:
             value: The numberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number_of property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class EventControlledTiming(Describable):
     def getRepetitionPeriod(self) -> "TimeRangeType":
         """
         AUTOSAR-compliant getter for repetitionPeriod.
-        
+
         Returns:
             The repetitionPeriod value
-        
+
         Note:
             Delegates to repetition_period property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class EventControlledTiming(Describable):
     def setRepetitionPeriod(self, value: "TimeRangeType") -> "EventControlledTiming":
         """
         AUTOSAR-compliant setter for repetitionPeriod with method chaining.
-        
+
         Args:
             value: The repetitionPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to repetition_period property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class EventControlledTiming(Describable):
     def with_number_of(self, value: Optional["Integer"]) -> "EventControlledTiming":
         """
         Set numberOf and return self for chaining.
-        
+
         Args:
             value: The numberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number_of("value")
         """
@@ -155,13 +155,13 @@ class EventControlledTiming(Describable):
     def with_repetition_period(self, value: Optional["TimeRangeType"]) -> "EventControlledTiming":
         """
         Set repetitionPeriod and return self for chaining.
-        
+
         Args:
             value: The repetitionPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_repetition_period("value")
         """

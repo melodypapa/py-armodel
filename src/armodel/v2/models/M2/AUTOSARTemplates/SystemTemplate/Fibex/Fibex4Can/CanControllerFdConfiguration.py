@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanControllerFdConfiguration(ARObject):
     """
     Bit timing related configuration of a CAN controller for payload and CRC of
     a CAN FD frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerFdConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 66, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class CanControllerFdConfiguration(ARObject):
     def padding_value(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set paddingValue with validation.
-        
+
         Args:
             value: The paddingValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class CanControllerFdConfiguration(ARObject):
     def prop_seg(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set propSeg with validation.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class CanControllerFdConfiguration(ARObject):
     def ssp_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sspOffset with validation.
-        
+
         Args:
             value: The sspOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +121,10 @@ class CanControllerFdConfiguration(ARObject):
     def sync_jump_width(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set syncJumpWidth with validation.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class CanControllerFdConfiguration(ARObject):
     def time_seg1(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeSeg1 with validation.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +177,10 @@ class CanControllerFdConfiguration(ARObject):
     def time_seg2(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeSeg2 with validation.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +206,10 @@ class CanControllerFdConfiguration(ARObject):
     def tx_bit_rate_switch(self, value: Optional["Boolean"]) -> None:
         """
         Set txBitRateSwitch with validation.
-        
+
         Args:
             value: The txBitRateSwitch to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -225,10 +228,10 @@ class CanControllerFdConfiguration(ARObject):
     def getPaddingValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for paddingValue.
-        
+
         Returns:
             The paddingValue value
-        
+
         Note:
             Delegates to padding_value property (CODING_RULE_V2_00017)
         """
@@ -237,13 +240,13 @@ class CanControllerFdConfiguration(ARObject):
     def setPaddingValue(self, value: "PositiveInteger") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for paddingValue with method chaining.
-        
+
         Args:
             value: The paddingValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to padding_value property setter (gets validation automatically)
         """
@@ -253,10 +256,10 @@ class CanControllerFdConfiguration(ARObject):
     def getPropSeg(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for propSeg.
-        
+
         Returns:
             The propSeg value
-        
+
         Note:
             Delegates to prop_seg property (CODING_RULE_V2_00017)
         """
@@ -265,13 +268,13 @@ class CanControllerFdConfiguration(ARObject):
     def setPropSeg(self, value: "PositiveInteger") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for propSeg with method chaining.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prop_seg property setter (gets validation automatically)
         """
@@ -281,10 +284,10 @@ class CanControllerFdConfiguration(ARObject):
     def getSspOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sspOffset.
-        
+
         Returns:
             The sspOffset value
-        
+
         Note:
             Delegates to ssp_offset property (CODING_RULE_V2_00017)
         """
@@ -293,13 +296,13 @@ class CanControllerFdConfiguration(ARObject):
     def setSspOffset(self, value: "PositiveInteger") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for sspOffset with method chaining.
-        
+
         Args:
             value: The sspOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ssp_offset property setter (gets validation automatically)
         """
@@ -309,10 +312,10 @@ class CanControllerFdConfiguration(ARObject):
     def getSyncJumpWidth(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncJumpWidth.
-        
+
         Returns:
             The syncJumpWidth value
-        
+
         Note:
             Delegates to sync_jump_width property (CODING_RULE_V2_00017)
         """
@@ -321,13 +324,13 @@ class CanControllerFdConfiguration(ARObject):
     def setSyncJumpWidth(self, value: "PositiveInteger") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for syncJumpWidth with method chaining.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_jump_width property setter (gets validation automatically)
         """
@@ -337,10 +340,10 @@ class CanControllerFdConfiguration(ARObject):
     def getTimeSeg1(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeSeg1.
-        
+
         Returns:
             The timeSeg1 value
-        
+
         Note:
             Delegates to time_seg1 property (CODING_RULE_V2_00017)
         """
@@ -349,13 +352,13 @@ class CanControllerFdConfiguration(ARObject):
     def setTimeSeg1(self, value: "PositiveInteger") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for timeSeg1 with method chaining.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_seg1 property setter (gets validation automatically)
         """
@@ -365,10 +368,10 @@ class CanControllerFdConfiguration(ARObject):
     def getTimeSeg2(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeSeg2.
-        
+
         Returns:
             The timeSeg2 value
-        
+
         Note:
             Delegates to time_seg2 property (CODING_RULE_V2_00017)
         """
@@ -377,13 +380,13 @@ class CanControllerFdConfiguration(ARObject):
     def setTimeSeg2(self, value: "PositiveInteger") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for timeSeg2 with method chaining.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_seg2 property setter (gets validation automatically)
         """
@@ -393,10 +396,10 @@ class CanControllerFdConfiguration(ARObject):
     def getTxBitRateSwitch(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for txBitRateSwitch.
-        
+
         Returns:
             The txBitRateSwitch value
-        
+
         Note:
             Delegates to tx_bit_rate_switch property (CODING_RULE_V2_00017)
         """
@@ -405,13 +408,13 @@ class CanControllerFdConfiguration(ARObject):
     def setTxBitRateSwitch(self, value: "Boolean") -> "CanControllerFdConfiguration":
         """
         AUTOSAR-compliant setter for txBitRateSwitch with method chaining.
-        
+
         Args:
             value: The txBitRateSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tx_bit_rate_switch property setter (gets validation automatically)
         """
@@ -423,13 +426,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_padding_value(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfiguration":
         """
         Set paddingValue and return self for chaining.
-        
+
         Args:
             value: The paddingValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_padding_value("value")
         """
@@ -439,13 +442,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_prop_seg(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfiguration":
         """
         Set propSeg and return self for chaining.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prop_seg("value")
         """
@@ -455,13 +458,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_ssp_offset(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfiguration":
         """
         Set sspOffset and return self for chaining.
-        
+
         Args:
             value: The sspOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ssp_offset("value")
         """
@@ -471,13 +474,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_sync_jump_width(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfiguration":
         """
         Set syncJumpWidth and return self for chaining.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_jump_width("value")
         """
@@ -487,13 +490,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_time_seg1(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfiguration":
         """
         Set timeSeg1 and return self for chaining.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_seg1("value")
         """
@@ -503,13 +506,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_time_seg2(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfiguration":
         """
         Set timeSeg2 and return self for chaining.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_seg2("value")
         """
@@ -519,13 +522,13 @@ class CanControllerFdConfiguration(ARObject):
     def with_tx_bit_rate_switch(self, value: Optional["Boolean"]) -> "CanControllerFdConfiguration":
         """
         Set txBitRateSwitch and return self for chaining.
-        
+
         Args:
             value: The txBitRateSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tx_bit_rate_switch("value")
         """

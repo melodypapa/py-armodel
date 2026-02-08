@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class GlobalTimeDomain(FibexElement):
     """
     This represents the ability to define a global time domain.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeDomain
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 858, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 225, Classic Platform R23-11)
@@ -28,10 +31,10 @@ class GlobalTimeDomain(FibexElement):
     def debounce_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set debounceTime with validation.
-        
+
         Args:
             value: The debounceTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class GlobalTimeDomain(FibexElement):
     def domain_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set domainId with validation.
-        
+
         Args:
             value: The domainId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +97,10 @@ class GlobalTimeDomain(FibexElement):
     def global_time(self, value: Optional["GlobalTimeMaster"]) -> None:
         """
         Set globalTime with validation.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +134,10 @@ class GlobalTimeDomain(FibexElement):
     def network(self, value: Optional["NetworkSegment"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -161,10 +164,10 @@ class GlobalTimeDomain(FibexElement):
     def offset_time(self, value: Optional["GlobalTimeDomain"]) -> None:
         """
         Set offsetTime with validation.
-        
+
         Args:
             value: The offsetTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -190,10 +193,10 @@ class GlobalTimeDomain(FibexElement):
     def pdu_triggering(self, value: RefType) -> None:
         """
         Set pduTriggering with validation.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +227,10 @@ class GlobalTimeDomain(FibexElement):
     def sync_loss(self, value: Optional["TimeValue"]) -> None:
         """
         Set syncLoss with validation.
-        
+
         Args:
             value: The syncLoss to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -246,10 +249,10 @@ class GlobalTimeDomain(FibexElement):
     def getDebounceTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for debounceTime.
-        
+
         Returns:
             The debounceTime value
-        
+
         Note:
             Delegates to debounce_time property (CODING_RULE_V2_00017)
         """
@@ -258,13 +261,13 @@ class GlobalTimeDomain(FibexElement):
     def setDebounceTime(self, value: "TimeValue") -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for debounceTime with method chaining.
-        
+
         Args:
             value: The debounceTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to debounce_time property setter (gets validation automatically)
         """
@@ -274,10 +277,10 @@ class GlobalTimeDomain(FibexElement):
     def getDomainId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for domainId.
-        
+
         Returns:
             The domainId value
-        
+
         Note:
             Delegates to domain_id property (CODING_RULE_V2_00017)
         """
@@ -286,13 +289,13 @@ class GlobalTimeDomain(FibexElement):
     def setDomainId(self, value: "PositiveInteger") -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for domainId with method chaining.
-        
+
         Args:
             value: The domainId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to domain_id property setter (gets validation automatically)
         """
@@ -302,10 +305,10 @@ class GlobalTimeDomain(FibexElement):
     def getGateway(self) -> List["GlobalTimeGateway"]:
         """
         AUTOSAR-compliant getter for gateway.
-        
+
         Returns:
             The gateway value
-        
+
         Note:
             Delegates to gateway property (CODING_RULE_V2_00017)
         """
@@ -314,10 +317,10 @@ class GlobalTimeDomain(FibexElement):
     def getGlobalTime(self) -> "GlobalTimeMaster":
         """
         AUTOSAR-compliant getter for globalTime.
-        
+
         Returns:
             The globalTime value
-        
+
         Note:
             Delegates to global_time property (CODING_RULE_V2_00017)
         """
@@ -326,13 +329,13 @@ class GlobalTimeDomain(FibexElement):
     def setGlobalTime(self, value: "GlobalTimeMaster") -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for globalTime with method chaining.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_time property setter (gets validation automatically)
         """
@@ -342,10 +345,10 @@ class GlobalTimeDomain(FibexElement):
     def getGlobalTimeSub(self) -> List["GlobalTimeDomain"]:
         """
         AUTOSAR-compliant getter for globalTimeSub.
-        
+
         Returns:
             The globalTimeSub value
-        
+
         Note:
             Delegates to global_time_sub property (CODING_RULE_V2_00017)
         """
@@ -354,10 +357,10 @@ class GlobalTimeDomain(FibexElement):
     def getNetwork(self) -> "NetworkSegment":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -366,13 +369,13 @@ class GlobalTimeDomain(FibexElement):
     def setNetwork(self, value: "NetworkSegment") -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -382,10 +385,10 @@ class GlobalTimeDomain(FibexElement):
     def getOffsetTime(self) -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant getter for offsetTime.
-        
+
         Returns:
             The offsetTime value
-        
+
         Note:
             Delegates to offset_time property (CODING_RULE_V2_00017)
         """
@@ -394,13 +397,13 @@ class GlobalTimeDomain(FibexElement):
     def setOffsetTime(self, value: "GlobalTimeDomain") -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for offsetTime with method chaining.
-        
+
         Args:
             value: The offsetTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset_time property setter (gets validation automatically)
         """
@@ -410,10 +413,10 @@ class GlobalTimeDomain(FibexElement):
     def getPduTriggering(self) -> RefType:
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -422,13 +425,13 @@ class GlobalTimeDomain(FibexElement):
     def setPduTriggering(self, value: RefType) -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for pduTriggering with method chaining.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu_triggering property setter (gets validation automatically)
         """
@@ -438,10 +441,10 @@ class GlobalTimeDomain(FibexElement):
     def getSlave(self) -> List["GlobalTimeSlave"]:
         """
         AUTOSAR-compliant getter for slave.
-        
+
         Returns:
             The slave value
-        
+
         Note:
             Delegates to slave property (CODING_RULE_V2_00017)
         """
@@ -450,10 +453,10 @@ class GlobalTimeDomain(FibexElement):
     def getSyncLoss(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for syncLoss.
-        
+
         Returns:
             The syncLoss value
-        
+
         Note:
             Delegates to sync_loss property (CODING_RULE_V2_00017)
         """
@@ -462,13 +465,13 @@ class GlobalTimeDomain(FibexElement):
     def setSyncLoss(self, value: "TimeValue") -> "GlobalTimeDomain":
         """
         AUTOSAR-compliant setter for syncLoss with method chaining.
-        
+
         Args:
             value: The syncLoss to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_loss property setter (gets validation automatically)
         """
@@ -480,13 +483,13 @@ class GlobalTimeDomain(FibexElement):
     def with_debounce_time(self, value: Optional["TimeValue"]) -> "GlobalTimeDomain":
         """
         Set debounceTime and return self for chaining.
-        
+
         Args:
             value: The debounceTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_debounce_time("value")
         """
@@ -496,13 +499,13 @@ class GlobalTimeDomain(FibexElement):
     def with_domain_id(self, value: Optional["PositiveInteger"]) -> "GlobalTimeDomain":
         """
         Set domainId and return self for chaining.
-        
+
         Args:
             value: The domainId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_domain_id("value")
         """
@@ -512,13 +515,13 @@ class GlobalTimeDomain(FibexElement):
     def with_global_time(self, value: Optional["GlobalTimeMaster"]) -> "GlobalTimeDomain":
         """
         Set globalTime and return self for chaining.
-        
+
         Args:
             value: The globalTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_time("value")
         """
@@ -528,13 +531,13 @@ class GlobalTimeDomain(FibexElement):
     def with_network(self, value: Optional["NetworkSegment"]) -> "GlobalTimeDomain":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -544,13 +547,13 @@ class GlobalTimeDomain(FibexElement):
     def with_offset_time(self, value: Optional["GlobalTimeDomain"]) -> "GlobalTimeDomain":
         """
         Set offsetTime and return self for chaining.
-        
+
         Args:
             value: The offsetTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset_time("value")
         """
@@ -560,13 +563,13 @@ class GlobalTimeDomain(FibexElement):
     def with_pdu_triggering(self, value: Optional[RefType]) -> "GlobalTimeDomain":
         """
         Set pduTriggering and return self for chaining.
-        
+
         Args:
             value: The pduTriggering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu_triggering("value")
         """
@@ -576,13 +579,13 @@ class GlobalTimeDomain(FibexElement):
     def with_sync_loss(self, value: Optional["TimeValue"]) -> "GlobalTimeDomain":
         """
         Set syncLoss and return self for chaining.
-        
+
         Args:
             value: The syncLoss to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_loss("value")
         """

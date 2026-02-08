@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class FMFeatureMap(ARElement):
     """
@@ -7,9 +7,9 @@ class FMFeatureMap(ARElement):
     model. To do this, it defines value sets for system constants and postbuild
     variant criterions that shall be chosen whenever a certain combination of
     features (and system constants) is encountered.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMap
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 53, Foundation
       R23-11)
@@ -31,10 +31,10 @@ class FMFeatureMap(ARElement):
     def getMapping(self) -> List["FMFeatureMapElement"]:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """

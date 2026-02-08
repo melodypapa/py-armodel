@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CanCommunicationConnector(AbstractCanCommunicationConnector):
     """
     CAN bus specific communication connector attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 74, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def pnc_wakeup_can(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncWakeupCan with validation.
-        
+
         Args:
             value: The pncWakeupCan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def pnc_wakeup(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set pncWakeup with validation.
-        
+
         Args:
             value: The pncWakeup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def pnc_wakeup_dlc(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pncWakeupDlc with validation.
-        
+
         Args:
             value: The pncWakeupDlc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def getPncWakeupCan(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncWakeupCan.
-        
+
         Returns:
             The pncWakeupCan value
-        
+
         Note:
             Delegates to pnc_wakeup_can property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def setPncWakeupCan(self, value: "PositiveInteger") -> "CanCommunicationConnector":
         """
         AUTOSAR-compliant setter for pncWakeupCan with method chaining.
-        
+
         Args:
             value: The pncWakeupCan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_wakeup_can property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def getPncWakeup(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for pncWakeup.
-        
+
         Returns:
             The pncWakeup value
-        
+
         Note:
             Delegates to pnc_wakeup property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def setPncWakeup(self, value: "PositiveUnlimitedInteger") -> "CanCommunicationConnector":
         """
         AUTOSAR-compliant setter for pncWakeup with method chaining.
-        
+
         Args:
             value: The pncWakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_wakeup property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def getPncWakeupDlc(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pncWakeupDlc.
-        
+
         Returns:
             The pncWakeupDlc value
-        
+
         Note:
             Delegates to pnc_wakeup_dlc property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def setPncWakeupDlc(self, value: "PositiveInteger") -> "CanCommunicationConnector":
         """
         AUTOSAR-compliant setter for pncWakeupDlc with method chaining.
-        
+
         Args:
             value: The pncWakeupDlc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_wakeup_dlc property setter (gets validation automatically)
         """
@@ -193,13 +193,13 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def with_pnc_wakeup_can(self, value: Optional["PositiveInteger"]) -> "CanCommunicationConnector":
         """
         Set pncWakeupCan and return self for chaining.
-        
+
         Args:
             value: The pncWakeupCan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_wakeup_can("value")
         """
@@ -209,13 +209,13 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def with_pnc_wakeup(self, value: Optional["PositiveUnlimitedInteger"]) -> "CanCommunicationConnector":
         """
         Set pncWakeup and return self for chaining.
-        
+
         Args:
             value: The pncWakeup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_wakeup("value")
         """
@@ -225,13 +225,13 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def with_pnc_wakeup_dlc(self, value: Optional["PositiveInteger"]) -> "CanCommunicationConnector":
         """
         Set pncWakeupDlc and return self for chaining.
-        
+
         Args:
             value: The pncWakeupDlc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_wakeup_dlc("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SecurityEventStateFilter(AbstractSecurityEventFilter):
     """
@@ -8,9 +8,9 @@ class SecurityEventStateFilter(AbstractSecurityEventFilter):
     events are dropped if the referenced state is the active state in the
     relevant state machine (which depends on whether the IdsM instance runs on
     the Classic or the Adaptive Platform).
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventStateFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 22, Foundation R23-11)
     """
@@ -34,10 +34,10 @@ class SecurityEventStateFilter(AbstractSecurityEventFilter):
     def getBlockIfState(self) -> List["BlockState"]:
         """
         AUTOSAR-compliant getter for blockIfState.
-        
+
         Returns:
             The blockIfState value
-        
+
         Note:
             Delegates to block_if_state property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class StreamFilterRuleIpTp(ARObject):
     """
     Configuration of filter rules for IP and TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterRuleIpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 137, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class StreamFilterRuleIpTp(ARObject):
     def destination(self, value: Optional["StreamFilterIpv6"]) -> None:
         """
         Set destination with validation.
-        
+
         Args:
             value: The destination to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class StreamFilterRuleIpTp(ARObject):
     def source(self, value: Optional["StreamFilterIpv6"]) -> None:
         """
         Set source with validation.
-        
+
         Args:
             value: The source to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getDestination(self) -> "StreamFilterIpv6":
         """
         AUTOSAR-compliant getter for destination.
-        
+
         Returns:
             The destination value
-        
+
         Note:
             Delegates to destination property (CODING_RULE_V2_00017)
         """
@@ -103,13 +106,13 @@ class StreamFilterRuleIpTp(ARObject):
     def setDestination(self, value: "StreamFilterIpv6") -> "StreamFilterRuleIpTp":
         """
         AUTOSAR-compliant setter for destination with method chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination property setter (gets validation automatically)
         """
@@ -119,10 +122,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getDestinationPort(self) -> List["StreamFilterPortRange"]:
         """
         AUTOSAR-compliant getter for destinationPort.
-        
+
         Returns:
             The destinationPort value
-        
+
         Note:
             Delegates to destination_port property (CODING_RULE_V2_00017)
         """
@@ -131,10 +134,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getSource(self) -> "StreamFilterIpv6":
         """
         AUTOSAR-compliant getter for source.
-        
+
         Returns:
             The source value
-        
+
         Note:
             Delegates to source property (CODING_RULE_V2_00017)
         """
@@ -143,13 +146,13 @@ class StreamFilterRuleIpTp(ARObject):
     def setSource(self, value: "StreamFilterIpv6") -> "StreamFilterRuleIpTp":
         """
         AUTOSAR-compliant setter for source with method chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source property setter (gets validation automatically)
         """
@@ -159,10 +162,10 @@ class StreamFilterRuleIpTp(ARObject):
     def getSourcePort(self) -> List["StreamFilterPortRange"]:
         """
         AUTOSAR-compliant getter for sourcePort.
-        
+
         Returns:
             The sourcePort value
-        
+
         Note:
             Delegates to source_port property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class StreamFilterRuleIpTp(ARObject):
     def with_destination(self, value: Optional["StreamFilterIpv6"]) -> "StreamFilterRuleIpTp":
         """
         Set destination and return self for chaining.
-        
+
         Args:
             value: The destination to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination("value")
         """
@@ -189,13 +192,13 @@ class StreamFilterRuleIpTp(ARObject):
     def with_source(self, value: Optional["StreamFilterIpv6"]) -> "StreamFilterRuleIpTp":
         """
         Set source and return self for chaining.
-        
+
         Args:
             value: The source to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source("value")
         """

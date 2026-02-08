@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EcucDestinationUriDef(Identifiable):
     """
     Description of an EcucDestinationUriDef that is used as target of
     EcucUriReferenceDefs.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 82, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class EcucDestinationUriDef(Identifiable):
     def destination_uri(self, value: Optional["EcucDestinationUri"]) -> None:
         """
         Set destinationUri with validation.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class EcucDestinationUriDef(Identifiable):
     def getDestinationUri(self) -> "EcucDestinationUri":
         """
         AUTOSAR-compliant getter for destinationUri.
-        
+
         Returns:
             The destinationUri value
-        
+
         Note:
             Delegates to destination_uri property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class EcucDestinationUriDef(Identifiable):
     def setDestinationUri(self, value: "EcucDestinationUri") -> "EcucDestinationUriDef":
         """
         AUTOSAR-compliant setter for destinationUri with method chaining.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_uri property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class EcucDestinationUriDef(Identifiable):
     def with_destination_uri(self, value: Optional["EcucDestinationUri"]) -> "EcucDestinationUriDef":
         """
         Set destinationUri and return self for chaining.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_uri("value")
         """

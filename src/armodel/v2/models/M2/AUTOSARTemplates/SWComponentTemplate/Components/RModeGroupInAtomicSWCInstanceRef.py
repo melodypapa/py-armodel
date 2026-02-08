@@ -1,12 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::RModeGroupInAtomicSWCInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 948, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set contextRPortPrototype with validation.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def target_mode(self, value: RefType) -> None:
         """
         Set targetMode with validation.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def getContextRPortPrototype(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for contextRPortPrototype.
-        
+
         Returns:
             The contextRPortPrototype value
-        
+
         Note:
             Delegates to context_r_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -87,13 +90,13 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "RModeGroupInAtomicSWCInstanceRef":
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_r_port_prototype property setter (gets validation automatically)
         """
@@ -103,10 +106,10 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def getTargetMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetMode.
-        
+
         Returns:
             The targetMode value
-        
+
         Note:
             Delegates to target_mode property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def setTargetMode(self, value: RefType) -> "RModeGroupInAtomicSWCInstanceRef":
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_mode property setter (gets validation automatically)
         """
@@ -133,13 +136,13 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RModeGroupInAtomicSWCInstanceRef":
         """
         Set contextRPortPrototype and return self for chaining.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_r_port_prototype("value")
         """
@@ -149,13 +152,13 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def with_target_mode(self, value: Optional[RefType]) -> "RModeGroupInAtomicSWCInstanceRef":
         """
         Set targetMode and return self for chaining.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_mode("value")
         """

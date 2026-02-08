@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     """
     An abstract reference that can point to any referrable object in an AUTOSAR
     Model.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgAbstractForeignReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation
       R23-11)
@@ -30,10 +31,10 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def dest_meta_class(self, value: Optional["MetaClassName"]) -> None:
         """
         Set destMetaClass with validation.
-        
+
         Args:
             value: The destMetaClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def getDestMetaClass(self) -> "MetaClassName":
         """
         AUTOSAR-compliant getter for destMetaClass.
-        
+
         Returns:
             The destMetaClass value
-        
+
         Note:
             Delegates to dest_meta_class property (CODING_RULE_V2_00017)
         """
@@ -64,13 +65,13 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def setDestMetaClass(self, value: "MetaClassName") -> "SdgAbstractForeignReference":
         """
         AUTOSAR-compliant setter for destMetaClass with method chaining.
-        
+
         Args:
             value: The destMetaClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dest_meta_class property setter (gets validation automatically)
         """
@@ -82,13 +83,13 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
     def with_dest_meta_class(self, value: Optional["MetaClassName"]) -> "SdgAbstractForeignReference":
         """
         Set destMetaClass and return self for chaining.
-        
+
         Args:
             value: The destMetaClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dest_meta_class("value")
         """

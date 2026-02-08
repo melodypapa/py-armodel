@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticSession(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a diagnostic session.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticSession
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 73, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def jump_to_boot(self, value: Optional["DiagnosticJumpToBoot"]) -> None:
         """
         Set jumpToBoot with validation.
-        
+
         Args:
             value: The jumpToBoot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def p2_server_max(self, value: Optional["TimeValue"]) -> None:
         """
         Set p2ServerMax with validation.
-        
+
         Args:
             value: The p2ServerMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +121,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def p2_star_server(self, value: Optional["TimeValue"]) -> None:
         """
         Set p2StarServer with validation.
-        
+
         Args:
             value: The p2StarServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +143,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -155,13 +155,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticSession":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -171,10 +171,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def getJumpToBoot(self) -> "DiagnosticJumpToBoot":
         """
         AUTOSAR-compliant getter for jumpToBoot.
-        
+
         Returns:
             The jumpToBoot value
-        
+
         Note:
             Delegates to jump_to_boot property (CODING_RULE_V2_00017)
         """
@@ -183,13 +183,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def setJumpToBoot(self, value: "DiagnosticJumpToBoot") -> "DiagnosticSession":
         """
         AUTOSAR-compliant setter for jumpToBoot with method chaining.
-        
+
         Args:
             value: The jumpToBoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to jump_to_boot property setter (gets validation automatically)
         """
@@ -199,10 +199,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def getP2ServerMax(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for p2ServerMax.
-        
+
         Returns:
             The p2ServerMax value
-        
+
         Note:
             Delegates to p2_server_max property (CODING_RULE_V2_00017)
         """
@@ -211,13 +211,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def setP2ServerMax(self, value: "TimeValue") -> "DiagnosticSession":
         """
         AUTOSAR-compliant setter for p2ServerMax with method chaining.
-        
+
         Args:
             value: The p2ServerMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to p2_server_max property setter (gets validation automatically)
         """
@@ -227,10 +227,10 @@ class DiagnosticSession(DiagnosticCommonElement):
     def getP2StarServer(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for p2StarServer.
-        
+
         Returns:
             The p2StarServer value
-        
+
         Note:
             Delegates to p2_star_server property (CODING_RULE_V2_00017)
         """
@@ -239,13 +239,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def setP2StarServer(self, value: "TimeValue") -> "DiagnosticSession":
         """
         AUTOSAR-compliant setter for p2StarServer with method chaining.
-        
+
         Args:
             value: The p2StarServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to p2_star_server property setter (gets validation automatically)
         """
@@ -257,13 +257,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticSession":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -273,13 +273,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def with_jump_to_boot(self, value: Optional["DiagnosticJumpToBoot"]) -> "DiagnosticSession":
         """
         Set jumpToBoot and return self for chaining.
-        
+
         Args:
             value: The jumpToBoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_jump_to_boot("value")
         """
@@ -289,13 +289,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def with_p2_server_max(self, value: Optional["TimeValue"]) -> "DiagnosticSession":
         """
         Set p2ServerMax and return self for chaining.
-        
+
         Args:
             value: The p2ServerMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_p2_server_max("value")
         """
@@ -305,13 +305,13 @@ class DiagnosticSession(DiagnosticCommonElement):
     def with_p2_star_server(self, value: Optional["TimeValue"]) -> "DiagnosticSession":
         """
         Set p2StarServer and return self for chaining.
-        
+
         Args:
             value: The p2StarServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_p2_star_server("value")
         """

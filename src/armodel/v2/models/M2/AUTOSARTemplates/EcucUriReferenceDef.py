@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     """
@@ -7,9 +7,9 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     destinationUri. With such a reference it is possible to define a reference
     to a EcucContainerDef in a different module independent from the concrete
     definition of the target container.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucUriReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 81, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 190, Foundation R23-11)
@@ -31,10 +31,10 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     def destination_uri(self, value: Optional["EcucDestinationUriDef"]) -> None:
         """
         Set destinationUri with validation.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     def getDestinationUri(self) -> "EcucDestinationUriDef":
         """
         AUTOSAR-compliant getter for destinationUri.
-        
+
         Returns:
             The destinationUri value
-        
+
         Note:
             Delegates to destination_uri property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     def setDestinationUri(self, value: "EcucDestinationUriDef") -> "EcucUriReferenceDef":
         """
         AUTOSAR-compliant setter for destinationUri with method chaining.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_uri property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     def with_destination_uri(self, value: Optional["EcucDestinationUriDef"]) -> "EcucUriReferenceDef":
         """
         Set destinationUri and return self for chaining.
-        
+
         Args:
             value: The destinationUri to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_uri("value")
         """

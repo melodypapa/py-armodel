@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FMFeatureMapCondition(Identifiable):
     """
     Defines a condition which needs to be fulfilled for this mapping to become
     active. The condition is implemented as formula that is based on features
     and attributes and is defined by fmCond.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMapCondition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 55, Foundation
       R23-11)
@@ -31,10 +33,10 @@ class FMFeatureMapCondition(Identifiable):
     def fm_cond_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> None:
         """
         Set fmCondAndAttributes with validation.
-        
+
         Args:
             value: The fmCondAndAttributes to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +55,10 @@ class FMFeatureMapCondition(Identifiable):
     def getFmCondAndAttributes(self) -> "FMConditionByFeatures":
         """
         AUTOSAR-compliant getter for fmCondAndAttributes.
-        
+
         Returns:
             The fmCondAndAttributes value
-        
+
         Note:
             Delegates to fm_cond_and_attributes property (CODING_RULE_V2_00017)
         """
@@ -65,13 +67,13 @@ class FMFeatureMapCondition(Identifiable):
     def setFmCondAndAttributes(self, value: "FMConditionByFeatures") -> "FMFeatureMapCondition":
         """
         AUTOSAR-compliant setter for fmCondAndAttributes with method chaining.
-        
+
         Args:
             value: The fmCondAndAttributes to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fm_cond_and_attributes property setter (gets validation automatically)
         """
@@ -83,13 +85,13 @@ class FMFeatureMapCondition(Identifiable):
     def with_fm_cond_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureMapCondition":
         """
         Set fmCondAndAttributes and return self for chaining.
-        
+
         Args:
             value: The fmCondAndAttributes to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fm_cond_and_attributes("value")
         """

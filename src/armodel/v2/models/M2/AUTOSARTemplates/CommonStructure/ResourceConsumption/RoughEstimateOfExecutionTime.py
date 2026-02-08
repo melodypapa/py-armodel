@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class RoughEstimateOfExecutionTime(ExecutionTime):
     """
     Provides a description of a rough estimate on the ExecutionTime.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::RoughEstimateOfExecutionTime
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 167, Classic
       Platform R23-11)
@@ -27,10 +27,10 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def additional(self, value: Optional["String"]) -> None:
         """
         Set additional with validation.
-        
+
         Args:
             value: The additional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def estimated_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set estimatedExecutionTime with validation.
-        
+
         Args:
             value: The estimatedExecutionTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def getAdditional(self) -> "String":
         """
         AUTOSAR-compliant getter for additional.
-        
+
         Returns:
             The additional value
-        
+
         Note:
             Delegates to additional property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def setAdditional(self, value: "String") -> "RoughEstimateOfExecutionTime":
         """
         AUTOSAR-compliant setter for additional with method chaining.
-        
+
         Args:
             value: The additional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to additional property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def getEstimatedExecutionTime(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for estimatedExecutionTime.
-        
+
         Returns:
             The estimatedExecutionTime value
-        
+
         Note:
             Delegates to estimated_execution_time property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def setEstimatedExecutionTime(self, value: "MultidimensionalTime") -> "RoughEstimateOfExecutionTime":
         """
         AUTOSAR-compliant setter for estimatedExecutionTime with method chaining.
-        
+
         Args:
             value: The estimatedExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to estimated_execution_time property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def with_additional(self, value: Optional["String"]) -> "RoughEstimateOfExecutionTime":
         """
         Set additional and return self for chaining.
-        
+
         Args:
             value: The additional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_additional("value")
         """
@@ -151,13 +151,13 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
     def with_estimated_execution_time(self, value: Optional["MultidimensionalTime"]) -> "RoughEstimateOfExecutionTime":
         """
         Set estimatedExecutionTime and return self for chaining.
-        
+
         Args:
             value: The estimatedExecutionTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_estimated_execution_time("value")
         """

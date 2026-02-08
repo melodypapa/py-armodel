@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class UserDefinedCommunicationConnector(CommunicationConnector):
     """
     This element allows the modeling of arbitrary Communication Connectors.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)
     """

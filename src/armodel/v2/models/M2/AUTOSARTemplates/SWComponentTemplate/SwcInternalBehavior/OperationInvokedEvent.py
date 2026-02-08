@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class OperationInvokedEvent(RTEEvent):
     """
     This event is raised when the ClientServerOperation referenced in
     OperationInvokedEvent.operation shall be invoked.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::OperationInvokedEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class OperationInvokedEvent(RTEEvent):
     def operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operationInstanceRef with validation.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class OperationInvokedEvent(RTEEvent):
     def getOperationInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operationInstanceRef.
-        
+
         Returns:
             The operationInstanceRef value
-        
+
         Note:
             Delegates to operation_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class OperationInvokedEvent(RTEEvent):
     def setOperationInstanceRef(self, value: "ClientServerOperation") -> "OperationInvokedEvent":
         """
         AUTOSAR-compliant setter for operationInstanceRef with method chaining.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_instance_ref property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class OperationInvokedEvent(RTEEvent):
     def with_operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> "OperationInvokedEvent":
         """
         Set operationInstanceRef and return self for chaining.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_instance_ref("value")
         """

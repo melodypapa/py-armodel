@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class BswModuleClientServerEntry(Referrable):
     """
@@ -9,9 +12,9 @@ class BswModuleClientServerEntry(Referrable):
     Scheduler. In this regard it is more special than BswModuleEntry and can be
     seen as a wrapper around the Bsw ModuleEntry to which it refers (property
     encapsulatedEntry).
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswModuleClientServerEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 53, Classic
       Platform R23-11)
@@ -34,10 +37,10 @@ class BswModuleClientServerEntry(Referrable):
     def encapsulated(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set encapsulated with validation.
-        
+
         Args:
             value: The encapsulated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +69,10 @@ class BswModuleClientServerEntry(Referrable):
     def is_reentrant(self, value: Optional["Boolean"]) -> None:
         """
         Set isReentrant with validation.
-        
+
         Args:
             value: The isReentrant to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +101,10 @@ class BswModuleClientServerEntry(Referrable):
     def is_synchronous(self, value: Optional["Boolean"]) -> None:
         """
         Set isSynchronous with validation.
-        
+
         Args:
             value: The isSynchronous to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +123,10 @@ class BswModuleClientServerEntry(Referrable):
     def getEncapsulated(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for encapsulated.
-        
+
         Returns:
             The encapsulated value
-        
+
         Note:
             Delegates to encapsulated property (CODING_RULE_V2_00017)
         """
@@ -132,13 +135,13 @@ class BswModuleClientServerEntry(Referrable):
     def setEncapsulated(self, value: "BswModuleEntry") -> "BswModuleClientServerEntry":
         """
         AUTOSAR-compliant setter for encapsulated with method chaining.
-        
+
         Args:
             value: The encapsulated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to encapsulated property setter (gets validation automatically)
         """
@@ -148,10 +151,10 @@ class BswModuleClientServerEntry(Referrable):
     def getIsReentrant(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isReentrant.
-        
+
         Returns:
             The isReentrant value
-        
+
         Note:
             Delegates to is_reentrant property (CODING_RULE_V2_00017)
         """
@@ -160,13 +163,13 @@ class BswModuleClientServerEntry(Referrable):
     def setIsReentrant(self, value: "Boolean") -> "BswModuleClientServerEntry":
         """
         AUTOSAR-compliant setter for isReentrant with method chaining.
-        
+
         Args:
             value: The isReentrant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_reentrant property setter (gets validation automatically)
         """
@@ -176,10 +179,10 @@ class BswModuleClientServerEntry(Referrable):
     def getIsSynchronous(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isSynchronous.
-        
+
         Returns:
             The isSynchronous value
-        
+
         Note:
             Delegates to is_synchronous property (CODING_RULE_V2_00017)
         """
@@ -188,13 +191,13 @@ class BswModuleClientServerEntry(Referrable):
     def setIsSynchronous(self, value: "Boolean") -> "BswModuleClientServerEntry":
         """
         AUTOSAR-compliant setter for isSynchronous with method chaining.
-        
+
         Args:
             value: The isSynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_synchronous property setter (gets validation automatically)
         """
@@ -206,13 +209,13 @@ class BswModuleClientServerEntry(Referrable):
     def with_encapsulated(self, value: Optional["BswModuleEntry"]) -> "BswModuleClientServerEntry":
         """
         Set encapsulated and return self for chaining.
-        
+
         Args:
             value: The encapsulated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_encapsulated("value")
         """
@@ -222,13 +225,13 @@ class BswModuleClientServerEntry(Referrable):
     def with_is_reentrant(self, value: Optional["Boolean"]) -> "BswModuleClientServerEntry":
         """
         Set isReentrant and return self for chaining.
-        
+
         Args:
             value: The isReentrant to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_reentrant("value")
         """
@@ -238,13 +241,13 @@ class BswModuleClientServerEntry(Referrable):
     def with_is_synchronous(self, value: Optional["Boolean"]) -> "BswModuleClientServerEntry":
         """
         Set isSynchronous and return self for chaining.
-        
+
         Args:
             value: The isSynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_synchronous("value")
         """

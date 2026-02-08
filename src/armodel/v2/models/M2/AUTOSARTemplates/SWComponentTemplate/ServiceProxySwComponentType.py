@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ServiceProxySwComponentType(AtomicSwComponentType):
     """
@@ -21,9 +19,9 @@ class ServiceProxySwComponentType(AtomicSwComponentType):
     only R-Ports with sender-receiver interfaces and 1:n semantics. • There
     shall be no connectors between two prototypes of any
     ServiceProxySwComponentType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ServiceProxySwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 661, Classic Platform
       R23-11)

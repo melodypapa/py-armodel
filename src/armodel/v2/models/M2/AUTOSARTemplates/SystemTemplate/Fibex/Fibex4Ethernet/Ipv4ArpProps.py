@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv4ArpProps(ARObject):
     """
     Specifies the configuration options for the ARP (Address Resolution
     Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4ArpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 146, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpArpNum with validation.
-        
+
         Args:
             value: The tcpIpArpNum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp_packet(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpArpPacket with validation.
-        
+
         Args:
             value: The tcpIpArpPacket to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpArp with validation.
-        
+
         Args:
             value: The tcpIpArp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +127,10 @@ class Ipv4ArpProps(ARObject):
     def tcp_ip_arp_table(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpArpTable with validation.
-        
+
         Args:
             value: The tcpIpArpTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArpNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpArpNum.
-        
+
         Returns:
             The tcpIpArpNum value
-        
+
         Note:
             Delegates to tcp_ip_arp_num property (CODING_RULE_V2_00017)
         """
@@ -158,13 +161,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArpNum(self, value: "PositiveInteger") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArpNum with method chaining.
-        
+
         Args:
             value: The tcpIpArpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp_num property setter (gets validation automatically)
         """
@@ -174,10 +177,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArpPacket(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpArpPacket.
-        
+
         Returns:
             The tcpIpArpPacket value
-        
+
         Note:
             Delegates to tcp_ip_arp_packet property (CODING_RULE_V2_00017)
         """
@@ -186,13 +189,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArpPacket(self, value: "Boolean") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArpPacket with method chaining.
-        
+
         Args:
             value: The tcpIpArpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp_packet property setter (gets validation automatically)
         """
@@ -202,10 +205,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpArp.
-        
+
         Returns:
             The tcpIpArp value
-        
+
         Note:
             Delegates to tcp_ip_arp property (CODING_RULE_V2_00017)
         """
@@ -214,13 +217,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArp(self, value: "TimeValue") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArp with method chaining.
-        
+
         Args:
             value: The tcpIpArp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp property setter (gets validation automatically)
         """
@@ -230,10 +233,10 @@ class Ipv4ArpProps(ARObject):
     def getTcpIpArpTable(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpArpTable.
-        
+
         Returns:
             The tcpIpArpTable value
-        
+
         Note:
             Delegates to tcp_ip_arp_table property (CODING_RULE_V2_00017)
         """
@@ -242,13 +245,13 @@ class Ipv4ArpProps(ARObject):
     def setTcpIpArpTable(self, value: "TimeValue") -> "Ipv4ArpProps":
         """
         AUTOSAR-compliant setter for tcpIpArpTable with method chaining.
-        
+
         Args:
             value: The tcpIpArpTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_arp_table property setter (gets validation automatically)
         """
@@ -260,13 +263,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp_num(self, value: Optional["PositiveInteger"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArpNum and return self for chaining.
-        
+
         Args:
             value: The tcpIpArpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp_num("value")
         """
@@ -276,13 +279,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp_packet(self, value: Optional["Boolean"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArpPacket and return self for chaining.
-        
+
         Args:
             value: The tcpIpArpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp_packet("value")
         """
@@ -292,13 +295,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp(self, value: Optional["TimeValue"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArp and return self for chaining.
-        
+
         Args:
             value: The tcpIpArp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp("value")
         """
@@ -308,13 +311,13 @@ class Ipv4ArpProps(ARObject):
     def with_tcp_ip_arp_table(self, value: Optional["TimeValue"]) -> "Ipv4ArpProps":
         """
         Set tcpIpArpTable and return self for chaining.
-        
+
         Args:
             value: The tcpIpArpTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_arp_table("value")
         """

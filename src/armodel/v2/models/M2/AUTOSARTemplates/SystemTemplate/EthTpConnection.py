@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EthTpConnection(TpConnection):
     """
     A connection identifies which PduTriggerings shall be handled using the "TP"
     semantics.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::EthTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 618, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class EthTpConnection(TpConnection):
     def getTpSdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for tpSdu.
-        
+
         Returns:
             The tpSdu value
-        
+
         Note:
             Delegates to tp_sdu property (CODING_RULE_V2_00017)
         """

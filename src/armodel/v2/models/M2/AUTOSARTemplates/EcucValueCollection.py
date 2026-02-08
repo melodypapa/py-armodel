@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EcucValueCollection(ARElement):
     """
     This represents the anchor point of the ECU configuration description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucValueCollection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 108, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2022, Classic Platform R23-11)
@@ -38,10 +38,10 @@ class EcucValueCollection(ARElement):
     def ecu_extract(self, value: Optional["System"]) -> None:
         """
         Set ecuExtract with validation.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class EcucValueCollection(ARElement):
     def getEcucValue(self) -> List["EcucModule"]:
         """
         AUTOSAR-compliant getter for ecucValue.
-        
+
         Returns:
             The ecucValue value
-        
+
         Note:
             Delegates to ecuc_value property (CODING_RULE_V2_00017)
         """
@@ -72,10 +72,10 @@ class EcucValueCollection(ARElement):
     def getEcuExtract(self) -> "System":
         """
         AUTOSAR-compliant getter for ecuExtract.
-        
+
         Returns:
             The ecuExtract value
-        
+
         Note:
             Delegates to ecu_extract property (CODING_RULE_V2_00017)
         """
@@ -84,13 +84,13 @@ class EcucValueCollection(ARElement):
     def setEcuExtract(self, value: "System") -> "EcucValueCollection":
         """
         AUTOSAR-compliant setter for ecuExtract with method chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_extract property setter (gets validation automatically)
         """
@@ -102,13 +102,13 @@ class EcucValueCollection(ARElement):
     def with_ecu_extract(self, value: Optional["System"]) -> "EcucValueCollection":
         """
         Set ecuExtract and return self for chaining.
-        
+
         Args:
             value: The ecuExtract to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_extract("value")
         """

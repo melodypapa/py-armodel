@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class TDEventSLLET(TimingDescriptionEvent, ABC):
     """
     Used to describe SL-LET (System-Level) timing events.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventSLLET
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 251, Classic Platform R23-11)
     """

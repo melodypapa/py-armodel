@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Compu(ARObject):
     """
     This meta-class represents the ability to express one particular
     computation.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::Compu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 386, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class Compu(ARObject):
     def compu_content(self, value: Optional["CompuContent"]) -> None:
         """
         Set compuContent with validation.
-        
+
         Args:
             value: The compuContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class Compu(ARObject):
     def compu_default(self, value: Optional["CompuConst"]) -> None:
         """
         Set compuDefault with validation.
-        
+
         Args:
             value: The compuDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class Compu(ARObject):
     def getCompuContent(self) -> "CompuContent":
         """
         AUTOSAR-compliant getter for compuContent.
-        
+
         Returns:
             The compuContent value
-        
+
         Note:
             Delegates to compu_content property (CODING_RULE_V2_00017)
         """
@@ -94,13 +97,13 @@ class Compu(ARObject):
     def setCompuContent(self, value: "CompuContent") -> "Compu":
         """
         AUTOSAR-compliant setter for compuContent with method chaining.
-        
+
         Args:
             value: The compuContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_content property setter (gets validation automatically)
         """
@@ -110,10 +113,10 @@ class Compu(ARObject):
     def getCompuDefault(self) -> "CompuConst":
         """
         AUTOSAR-compliant getter for compuDefault.
-        
+
         Returns:
             The compuDefault value
-        
+
         Note:
             Delegates to compu_default property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class Compu(ARObject):
     def setCompuDefault(self, value: "CompuConst") -> "Compu":
         """
         AUTOSAR-compliant setter for compuDefault with method chaining.
-        
+
         Args:
             value: The compuDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_default property setter (gets validation automatically)
         """
@@ -140,13 +143,13 @@ class Compu(ARObject):
     def with_compu_content(self, value: Optional["CompuContent"]) -> "Compu":
         """
         Set compuContent and return self for chaining.
-        
+
         Args:
             value: The compuContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_content("value")
         """
@@ -156,13 +159,13 @@ class Compu(ARObject):
     def with_compu_default(self, value: Optional["CompuConst"]) -> "Compu":
         """
         Set compuDefault and return self for chaining.
-        
+
         Args:
             value: The compuDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_default("value")
         """

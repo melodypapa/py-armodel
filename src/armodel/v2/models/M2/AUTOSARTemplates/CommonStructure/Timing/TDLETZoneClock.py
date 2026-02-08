@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDLETZoneClock(TimingClock):
     """
     Describes a LET zone clock.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TDLETZoneClock
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 252, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class TDLETZoneClock(TimingClock):
     def accuracy_ext(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set accuracyExt with validation.
-        
+
         Args:
             value: The accuracyExt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class TDLETZoneClock(TimingClock):
     def accuracy_int(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set accuracyInt with validation.
-        
+
         Args:
             value: The accuracyInt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class TDLETZoneClock(TimingClock):
     def getAccuracyExt(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for accuracyExt.
-        
+
         Returns:
             The accuracyExt value
-        
+
         Note:
             Delegates to accuracy_ext property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class TDLETZoneClock(TimingClock):
     def setAccuracyExt(self, value: "MultidimensionalTime") -> "TDLETZoneClock":
         """
         AUTOSAR-compliant setter for accuracyExt with method chaining.
-        
+
         Args:
             value: The accuracyExt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accuracy_ext property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class TDLETZoneClock(TimingClock):
     def getAccuracyInt(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for accuracyInt.
-        
+
         Returns:
             The accuracyInt value
-        
+
         Note:
             Delegates to accuracy_int property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class TDLETZoneClock(TimingClock):
     def setAccuracyInt(self, value: "MultidimensionalTime") -> "TDLETZoneClock":
         """
         AUTOSAR-compliant setter for accuracyInt with method chaining.
-        
+
         Args:
             value: The accuracyInt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accuracy_int property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class TDLETZoneClock(TimingClock):
     def with_accuracy_ext(self, value: Optional["MultidimensionalTime"]) -> "TDLETZoneClock":
         """
         Set accuracyExt and return self for chaining.
-        
+
         Args:
             value: The accuracyExt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accuracy_ext("value")
         """
@@ -150,13 +150,13 @@ class TDLETZoneClock(TimingClock):
     def with_accuracy_int(self, value: Optional["MultidimensionalTime"]) -> "TDLETZoneClock":
         """
         Set accuracyInt and return self for chaining.
-        
+
         Args:
             value: The accuracyInt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accuracy_int("value")
         """

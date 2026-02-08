@@ -1,15 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MultilanguageLongName(ARObject):
     """
     This meta-class represents the ability to specify a long name which acts in
     the role of a headline. It is intended for human readers. Per language it
     should be around max 80 characters.
-    
+
     Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultilanguageLongName
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -32,10 +33,10 @@ class MultilanguageLongName(ARObject):
     def l4(self, value: "LLongName") -> None:
         """
         Set l4 with validation.
-        
+
         Args:
             value: The l4 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +51,10 @@ class MultilanguageLongName(ARObject):
     def getL4(self) -> "LLongName":
         """
         AUTOSAR-compliant getter for l4.
-        
+
         Returns:
             The l4 value
-        
+
         Note:
             Delegates to l4 property (CODING_RULE_V2_00017)
         """
@@ -62,13 +63,13 @@ class MultilanguageLongName(ARObject):
     def setL4(self, value: "LLongName") -> "MultilanguageLongName":
         """
         AUTOSAR-compliant setter for l4 with method chaining.
-        
+
         Args:
             value: The l4 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l4 property setter (gets validation automatically)
         """
@@ -80,13 +81,13 @@ class MultilanguageLongName(ARObject):
     def with_l4(self, value: "LLongName") -> "MultilanguageLongName":
         """
         Set l4 and return self for chaining.
-        
+
         Args:
             value: The l4 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l4("value")
         """

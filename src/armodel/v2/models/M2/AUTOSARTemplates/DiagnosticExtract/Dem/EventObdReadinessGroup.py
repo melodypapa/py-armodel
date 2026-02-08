@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EventObdReadinessGroup(ARObject):
     """
     This meta-class represents the ability to define the value of attribute
     eventObdReadinessGroup. It is only introduced to allow for a variant
     modeling of this attribute.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::EventObdReadinessGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 176, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class EventObdReadinessGroup(ARObject):
     def event_obd(self, value: Optional["NameToken"]) -> None:
         """
         Set eventObd with validation.
-        
+
         Args:
             value: The eventObd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class EventObdReadinessGroup(ARObject):
     def getEventObd(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for eventObd.
-        
+
         Returns:
             The eventObd value
-        
+
         Note:
             Delegates to event_obd property (CODING_RULE_V2_00017)
         """
@@ -66,13 +69,13 @@ class EventObdReadinessGroup(ARObject):
     def setEventObd(self, value: "NameToken") -> "EventObdReadinessGroup":
         """
         AUTOSAR-compliant setter for eventObd with method chaining.
-        
+
         Args:
             value: The eventObd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_obd property setter (gets validation automatically)
         """
@@ -84,13 +87,13 @@ class EventObdReadinessGroup(ARObject):
     def with_event_obd(self, value: Optional["NameToken"]) -> "EventObdReadinessGroup":
         """
         Set eventObd and return self for chaining.
-        
+
         Args:
             value: The eventObd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_obd("value")
         """

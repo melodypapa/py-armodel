@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     """
@@ -7,9 +7,9 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     and a SystemSignal. The existence of a mapping means that neither the SPN
     nor the SystemSignal need to be updated if the relation between the two
     changes.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticJ1939SpnMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 267, Classic Platform
       R23-11)
@@ -41,10 +41,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def spn(self, value: Optional["DiagnosticJ1939Spn"]) -> None:
         """
         Set spn with validation.
-        
+
         Args:
             value: The spn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def getSendingNode(self) -> List["DiagnosticJ1939Node"]:
         """
         AUTOSAR-compliant getter for sendingNode.
-        
+
         Returns:
             The sendingNode value
-        
+
         Note:
             Delegates to sending_node property (CODING_RULE_V2_00017)
         """
@@ -103,10 +103,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def getSpn(self) -> "DiagnosticJ1939Spn":
         """
         AUTOSAR-compliant getter for spn.
-        
+
         Returns:
             The spn value
-        
+
         Note:
             Delegates to spn property (CODING_RULE_V2_00017)
         """
@@ -115,13 +115,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def setSpn(self, value: "DiagnosticJ1939Spn") -> "DiagnosticJ1939SpnMapping":
         """
         AUTOSAR-compliant setter for spn with method chaining.
-        
+
         Args:
             value: The spn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to spn property setter (gets validation automatically)
         """
@@ -131,10 +131,10 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -143,13 +143,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def setSystemSignal(self, value: "SystemSignal") -> "DiagnosticJ1939SpnMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -161,13 +161,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def with_spn(self, value: Optional["DiagnosticJ1939Spn"]) -> "DiagnosticJ1939SpnMapping":
         """
         Set spn and return self for chaining.
-        
+
         Args:
             value: The spn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_spn("value")
         """
@@ -177,13 +177,13 @@ class DiagnosticJ1939SpnMapping(DiagnosticMapping):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "DiagnosticJ1939SpnMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     """
     This represents a user-defined memory for a diagnostic event.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticMemoryDestination::DiagnosticMemoryDestinationUserDefined
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 184, Classic Platform
       R23-11)
@@ -34,10 +34,10 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def memory_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set memoryId with validation.
-        
+
         Args:
             value: The memoryId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def getAuthRole(self) -> List["DiagnosticAuthRole"]:
         """
         AUTOSAR-compliant getter for authRole.
-        
+
         Returns:
             The authRole value
-        
+
         Note:
             Delegates to auth_role property (CODING_RULE_V2_00017)
         """
@@ -68,10 +68,10 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def getMemoryId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for memoryId.
-        
+
         Returns:
             The memoryId value
-        
+
         Note:
             Delegates to memory_id property (CODING_RULE_V2_00017)
         """
@@ -80,13 +80,13 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def setMemoryId(self, value: "PositiveInteger") -> "DiagnosticMemoryDestinationUserDefined":
         """
         AUTOSAR-compliant setter for memoryId with method chaining.
-        
+
         Args:
             value: The memoryId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_id property setter (gets validation automatically)
         """
@@ -98,13 +98,13 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
     def with_memory_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticMemoryDestinationUserDefined":
         """
         Set memoryId and return self for chaining.
-        
+
         Args:
             value: The memoryId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_id("value")
         """

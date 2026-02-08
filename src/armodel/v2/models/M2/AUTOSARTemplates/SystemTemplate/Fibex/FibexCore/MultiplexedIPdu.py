@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class MultiplexedIPdu(IPdu):
     """
@@ -30,9 +30,9 @@ class MultiplexedIPdu(IPdu):
     Extract/Ecu Extract. To support this use case the multiplicity is set to
     0..1. (cid:53) 409 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate
     System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::MultiplexedIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 408, Classic Platform R23-11)
     """
@@ -62,10 +62,10 @@ class MultiplexedIPdu(IPdu):
     def dynamic_part(self, value: Optional["DynamicPart"]) -> None:
         """
         Set dynamicPart with validation.
-        
+
         Args:
             value: The dynamicPart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class MultiplexedIPdu(IPdu):
     def selector_field(self, value: Optional["Integer"]) -> None:
         """
         Set selectorField with validation.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -127,10 +127,10 @@ class MultiplexedIPdu(IPdu):
     def unused_bit(self, value: Optional["Integer"]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -149,10 +149,10 @@ class MultiplexedIPdu(IPdu):
     def getDynamicPart(self) -> "DynamicPart":
         """
         AUTOSAR-compliant getter for dynamicPart.
-        
+
         Returns:
             The dynamicPart value
-        
+
         Note:
             Delegates to dynamic_part property (CODING_RULE_V2_00017)
         """
@@ -161,13 +161,13 @@ class MultiplexedIPdu(IPdu):
     def setDynamicPart(self, value: "DynamicPart") -> "MultiplexedIPdu":
         """
         AUTOSAR-compliant setter for dynamicPart with method chaining.
-        
+
         Args:
             value: The dynamicPart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_part property setter (gets validation automatically)
         """
@@ -177,10 +177,10 @@ class MultiplexedIPdu(IPdu):
     def getSelectorField(self) -> "Integer":
         """
         AUTOSAR-compliant getter for selectorField.
-        
+
         Returns:
             The selectorField value
-        
+
         Note:
             Delegates to selector_field property (CODING_RULE_V2_00017)
         """
@@ -189,13 +189,13 @@ class MultiplexedIPdu(IPdu):
     def setSelectorField(self, value: "Integer") -> "MultiplexedIPdu":
         """
         AUTOSAR-compliant setter for selectorField with method chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to selector_field property setter (gets validation automatically)
         """
@@ -205,10 +205,10 @@ class MultiplexedIPdu(IPdu):
     def getUnusedBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -217,13 +217,13 @@ class MultiplexedIPdu(IPdu):
     def setUnusedBit(self, value: "Integer") -> "MultiplexedIPdu":
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -235,13 +235,13 @@ class MultiplexedIPdu(IPdu):
     def with_dynamic_part(self, value: Optional["DynamicPart"]) -> "MultiplexedIPdu":
         """
         Set dynamicPart and return self for chaining.
-        
+
         Args:
             value: The dynamicPart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_part("value")
         """
@@ -251,13 +251,13 @@ class MultiplexedIPdu(IPdu):
     def with_selector_field(self, value: Optional["Integer"]) -> "MultiplexedIPdu":
         """
         Set selectorField and return self for chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_selector_field("value")
         """
@@ -267,13 +267,13 @@ class MultiplexedIPdu(IPdu):
     def with_unused_bit(self, value: Optional["Integer"]) -> "MultiplexedIPdu":
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """

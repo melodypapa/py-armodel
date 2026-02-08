@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class EcucParameterValue(EcucIndexableValue, ABC):
     """
     Common class to all types of configuration values.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucParameterValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 124, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 442, Foundation
@@ -42,10 +43,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def definition(self, value: Optional["EcucParameterDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +76,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def is_auto_value(self, value: Optional["Boolean"]) -> None:
         """
         Set isAutoValue with validation.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +98,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -109,10 +110,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def getDefinition(self) -> "EcucParameterDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -121,13 +122,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def setDefinition(self, value: "EcucParameterDef") -> "EcucParameterValue":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -137,10 +138,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def getIsAutoValue(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isAutoValue.
-        
+
         Returns:
             The isAutoValue value
-        
+
         Note:
             Delegates to is_auto_value property (CODING_RULE_V2_00017)
         """
@@ -149,13 +150,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def setIsAutoValue(self, value: "Boolean") -> "EcucParameterValue":
         """
         AUTOSAR-compliant setter for isAutoValue with method chaining.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_auto_value property setter (gets validation automatically)
         """
@@ -167,13 +168,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def with_definition(self, value: Optional["EcucParameterDef"]) -> "EcucParameterValue":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """
@@ -183,13 +184,13 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     def with_is_auto_value(self, value: Optional["Boolean"]) -> "EcucParameterValue":
         """
         Set isAutoValue and return self for chaining.
-        
+
         Args:
             value: The isAutoValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_auto_value("value")
         """

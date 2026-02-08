@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define the inhibition of a
     specific function identifier within the Fim configuration.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionIdentifierInhibit
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 215, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def function(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def inhibition_mask(self, value: Optional["DiagnosticInhibition"]) -> None:
         """
         Set inhibitionMask with validation.
-        
+
         Args:
             value: The inhibitionMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def getFunction(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -98,13 +98,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def setFunction(self, value: "DiagnosticFunction") -> "DiagnosticFunctionIdentifierInhibit":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -114,10 +114,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def getInhibitionMask(self) -> "DiagnosticInhibition":
         """
         AUTOSAR-compliant getter for inhibitionMask.
-        
+
         Returns:
             The inhibitionMask value
-        
+
         Note:
             Delegates to inhibition_mask property (CODING_RULE_V2_00017)
         """
@@ -126,13 +126,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def setInhibitionMask(self, value: "DiagnosticInhibition") -> "DiagnosticFunctionIdentifierInhibit":
         """
         AUTOSAR-compliant setter for inhibitionMask with method chaining.
-        
+
         Args:
             value: The inhibitionMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to inhibition_mask property setter (gets validation automatically)
         """
@@ -142,10 +142,10 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def getInhibitSource(self) -> List["DiagnosticFunction"]:
         """
         AUTOSAR-compliant getter for inhibitSource.
-        
+
         Returns:
             The inhibitSource value
-        
+
         Note:
             Delegates to inhibit_source property (CODING_RULE_V2_00017)
         """
@@ -156,13 +156,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def with_function(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticFunctionIdentifierInhibit":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """
@@ -172,13 +172,13 @@ class DiagnosticFunctionIdentifierInhibit(DiagnosticCommonElement):
     def with_inhibition_mask(self, value: Optional["DiagnosticInhibition"]) -> "DiagnosticFunctionIdentifierInhibit":
         """
         Set inhibitionMask and return self for chaining.
-        
+
         Args:
             value: The inhibitionMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_inhibition_mask("value")
         """

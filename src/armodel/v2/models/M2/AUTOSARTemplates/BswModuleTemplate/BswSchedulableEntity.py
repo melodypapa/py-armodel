@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class BswSchedulableEntity(BswModuleEntity):
     """
     BSW module entity, which is designed for control by the BSW Scheduler. It
     may for example implement a so-called "main" function.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswSchedulableEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 75, Classic
       Platform R23-11)

@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     """
@@ -7,9 +5,9 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     events with an IdsM instance and with the executional context of a
     functional cluster in which this IdsM instance can receive reports for these
     security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMappingFunctionalCluster
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 39, Foundation R23-11)
     """
@@ -31,10 +29,10 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def affected(self, value: "String") -> None:
         """
         Set affected with validation.
-        
+
         Args:
             value: The affected to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +47,10 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def getAffected(self) -> "String":
         """
         AUTOSAR-compliant getter for affected.
-        
+
         Returns:
             The affected value
-        
+
         Note:
             Delegates to affected property (CODING_RULE_V2_00017)
         """
@@ -61,13 +59,13 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def setAffected(self, value: "String") -> "SecurityEventContextMappingFunctionalCluster":
         """
         AUTOSAR-compliant setter for affected with method chaining.
-        
+
         Args:
             value: The affected to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to affected property setter (gets validation automatically)
         """
@@ -79,13 +77,13 @@ class SecurityEventContextMappingFunctionalCluster(SecurityEventContextMapping):
     def with_affected(self, value: "String") -> "SecurityEventContextMappingFunctionalCluster":
         """
         Set affected and return self for chaining.
-        
+
         Args:
             value: The affected to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_affected("value")
         """

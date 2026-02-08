@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     """
     This is used to specify a group (composite) consisting of Execution Order
     Constraint Executable Entity References (leaves) and/or further Execution
     Order Constraint Executable Entity Reference Groups (composite).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::EOCExecutableEntityRefGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 119, Classic Platform R23-11)
     """
@@ -31,10 +31,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def let_data(self, value: Optional["LetDataExchange"]) -> None:
         """
         Set letData with validation.
-        
+
         Args:
             value: The letData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +70,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def max_cycle(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxCycle with validation.
-        
+
         Args:
             value: The maxCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +99,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def max_cycles(self, value: Optional["Integer"]) -> None:
         """
         Set maxCycles with validation.
-        
+
         Args:
             value: The maxCycles to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +128,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def max_slots(self, value: Optional["Integer"]) -> None:
         """
         Set maxSlots with validation.
-        
+
         Args:
             value: The maxSlots to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -157,10 +157,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def max_slots_per(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSlotsPer with validation.
-        
+
         Args:
             value: The maxSlotsPer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +201,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def triggering_event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set triggeringEvent with validation.
-        
+
         Args:
             value: The triggeringEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +223,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getLetData(self) -> "LetDataExchange":
         """
         AUTOSAR-compliant getter for letData.
-        
+
         Returns:
             The letData value
-        
+
         Note:
             Delegates to let_data property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def setLetData(self, value: "LetDataExchange") -> "EOCExecutableEntityRefGroup":
         """
         AUTOSAR-compliant setter for letData with method chaining.
-        
+
         Args:
             value: The letData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to let_data property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getLetInterval(self) -> List["TimingDescriptionEvent"]:
         """
         AUTOSAR-compliant getter for letInterval.
-        
+
         Returns:
             The letInterval value
-        
+
         Note:
             Delegates to let_interval property (CODING_RULE_V2_00017)
         """
@@ -263,10 +263,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getMaxCycle(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxCycle.
-        
+
         Returns:
             The maxCycle value
-        
+
         Note:
             Delegates to max_cycle property (CODING_RULE_V2_00017)
         """
@@ -275,13 +275,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def setMaxCycle(self, value: "PositiveInteger") -> "EOCExecutableEntityRefGroup":
         """
         AUTOSAR-compliant setter for maxCycle with method chaining.
-        
+
         Args:
             value: The maxCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_cycle property setter (gets validation automatically)
         """
@@ -291,10 +291,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getMaxCycles(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxCycles.
-        
+
         Returns:
             The maxCycles value
-        
+
         Note:
             Delegates to max_cycles property (CODING_RULE_V2_00017)
         """
@@ -303,13 +303,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def setMaxCycles(self, value: "Integer") -> "EOCExecutableEntityRefGroup":
         """
         AUTOSAR-compliant setter for maxCycles with method chaining.
-        
+
         Args:
             value: The maxCycles to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_cycles property setter (gets validation automatically)
         """
@@ -319,10 +319,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getMaxSlots(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxSlots.
-        
+
         Returns:
             The maxSlots value
-        
+
         Note:
             Delegates to max_slots property (CODING_RULE_V2_00017)
         """
@@ -331,13 +331,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def setMaxSlots(self, value: "Integer") -> "EOCExecutableEntityRefGroup":
         """
         AUTOSAR-compliant setter for maxSlots with method chaining.
-        
+
         Args:
             value: The maxSlots to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_slots property setter (gets validation automatically)
         """
@@ -347,10 +347,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getMaxSlotsPer(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSlotsPer.
-        
+
         Returns:
             The maxSlotsPer value
-        
+
         Note:
             Delegates to max_slots_per property (CODING_RULE_V2_00017)
         """
@@ -359,13 +359,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def setMaxSlotsPer(self, value: "PositiveInteger") -> "EOCExecutableEntityRefGroup":
         """
         AUTOSAR-compliant setter for maxSlotsPer with method chaining.
-        
+
         Args:
             value: The maxSlotsPer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_slots_per property setter (gets validation automatically)
         """
@@ -375,10 +375,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getNestedElement(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for nestedElement.
-        
+
         Returns:
             The nestedElement value
-        
+
         Note:
             Delegates to nested_element property (CODING_RULE_V2_00017)
         """
@@ -387,10 +387,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getSuccessor(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for successor.
-        
+
         Returns:
             The successor value
-        
+
         Note:
             Delegates to successor property (CODING_RULE_V2_00017)
         """
@@ -399,10 +399,10 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def getTriggeringEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for triggeringEvent.
-        
+
         Returns:
             The triggeringEvent value
-        
+
         Note:
             Delegates to triggering_event property (CODING_RULE_V2_00017)
         """
@@ -411,13 +411,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def setTriggeringEvent(self, value: "TimingDescriptionEvent") -> "EOCExecutableEntityRefGroup":
         """
         AUTOSAR-compliant setter for triggeringEvent with method chaining.
-        
+
         Args:
             value: The triggeringEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to triggering_event property setter (gets validation automatically)
         """
@@ -429,13 +429,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def with_let_data(self, value: Optional["LetDataExchange"]) -> "EOCExecutableEntityRefGroup":
         """
         Set letData and return self for chaining.
-        
+
         Args:
             value: The letData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_let_data("value")
         """
@@ -445,13 +445,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def with_max_cycle(self, value: Optional["PositiveInteger"]) -> "EOCExecutableEntityRefGroup":
         """
         Set maxCycle and return self for chaining.
-        
+
         Args:
             value: The maxCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_cycle("value")
         """
@@ -461,13 +461,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def with_max_cycles(self, value: Optional["Integer"]) -> "EOCExecutableEntityRefGroup":
         """
         Set maxCycles and return self for chaining.
-        
+
         Args:
             value: The maxCycles to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_cycles("value")
         """
@@ -477,13 +477,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def with_max_slots(self, value: Optional["Integer"]) -> "EOCExecutableEntityRefGroup":
         """
         Set maxSlots and return self for chaining.
-        
+
         Args:
             value: The maxSlots to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_slots("value")
         """
@@ -493,13 +493,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def with_max_slots_per(self, value: Optional["PositiveInteger"]) -> "EOCExecutableEntityRefGroup":
         """
         Set maxSlotsPer and return self for chaining.
-        
+
         Args:
             value: The maxSlotsPer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_slots_per("value")
         """
@@ -509,13 +509,13 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
     def with_triggering_event(self, value: Optional["TimingDescriptionEvent"]) -> "EOCExecutableEntityRefGroup":
         """
         Set triggeringEvent and return self for chaining.
-        
+
         Args:
             value: The triggeringEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_triggering_event("value")
         """

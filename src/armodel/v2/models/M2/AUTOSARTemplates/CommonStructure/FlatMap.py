@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class FlatMap(ARElement):
     """
@@ -10,9 +10,9 @@ class FlatMap(ARElement):
     used in a preliminary context, e.g. in the scope of a software component
     before integration into a system. In this case it is not referred by a
     RootSwComposition Prototype.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatMap
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 317, Classic
       Platform R23-11)
@@ -45,10 +45,10 @@ class FlatMap(ARElement):
     def getInstance(self) -> List["FlatInstanceDescriptor"]:
         """
         AUTOSAR-compliant getter for instance.
-        
+
         Returns:
             The instance value
-        
+
         Note:
             Delegates to instance property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class GlobalTimeCorrectionProps(ARObject):
     """
     This meta-class defines the attributes for rate and offset correction.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::GlobalTimeCorrectionProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 862, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class GlobalTimeCorrectionProps(ARObject):
     def offset_correction(self, value: Optional["TimeValue"]) -> None:
         """
         Set offsetCorrection with validation.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class GlobalTimeCorrectionProps(ARObject):
     def rate_correction(self, value: Optional["TimeValue"]) -> None:
         """
         Set rateCorrection with validation.
-        
+
         Args:
             value: The rateCorrection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class GlobalTimeCorrectionProps(ARObject):
     def rate_corrections(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set rateCorrections with validation.
-        
+
         Args:
             value: The rateCorrections to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +112,10 @@ class GlobalTimeCorrectionProps(ARObject):
     def getOffsetCorrection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offsetCorrection.
-        
+
         Returns:
             The offsetCorrection value
-        
+
         Note:
             Delegates to offset_correction property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class GlobalTimeCorrectionProps(ARObject):
     def setOffsetCorrection(self, value: "TimeValue") -> "GlobalTimeCorrectionProps":
         """
         AUTOSAR-compliant setter for offsetCorrection with method chaining.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset_correction property setter (gets validation automatically)
         """
@@ -137,10 +140,10 @@ class GlobalTimeCorrectionProps(ARObject):
     def getRateCorrection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for rateCorrection.
-        
+
         Returns:
             The rateCorrection value
-        
+
         Note:
             Delegates to rate_correction property (CODING_RULE_V2_00017)
         """
@@ -149,13 +152,13 @@ class GlobalTimeCorrectionProps(ARObject):
     def setRateCorrection(self, value: "TimeValue") -> "GlobalTimeCorrectionProps":
         """
         AUTOSAR-compliant setter for rateCorrection with method chaining.
-        
+
         Args:
             value: The rateCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_correction property setter (gets validation automatically)
         """
@@ -165,10 +168,10 @@ class GlobalTimeCorrectionProps(ARObject):
     def getRateCorrections(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for rateCorrections.
-        
+
         Returns:
             The rateCorrections value
-        
+
         Note:
             Delegates to rate_corrections property (CODING_RULE_V2_00017)
         """
@@ -177,13 +180,13 @@ class GlobalTimeCorrectionProps(ARObject):
     def setRateCorrections(self, value: "PositiveInteger") -> "GlobalTimeCorrectionProps":
         """
         AUTOSAR-compliant setter for rateCorrections with method chaining.
-        
+
         Args:
             value: The rateCorrections to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rate_corrections property setter (gets validation automatically)
         """
@@ -195,13 +198,13 @@ class GlobalTimeCorrectionProps(ARObject):
     def with_offset_correction(self, value: Optional["TimeValue"]) -> "GlobalTimeCorrectionProps":
         """
         Set offsetCorrection and return self for chaining.
-        
+
         Args:
             value: The offsetCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset_correction("value")
         """
@@ -211,13 +214,13 @@ class GlobalTimeCorrectionProps(ARObject):
     def with_rate_correction(self, value: Optional["TimeValue"]) -> "GlobalTimeCorrectionProps":
         """
         Set rateCorrection and return self for chaining.
-        
+
         Args:
             value: The rateCorrection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_correction("value")
         """
@@ -227,13 +230,13 @@ class GlobalTimeCorrectionProps(ARObject):
     def with_rate_corrections(self, value: Optional["PositiveInteger"]) -> "GlobalTimeCorrectionProps":
         """
         Set rateCorrections and return self for chaining.
-        
+
         Args:
             value: The rateCorrections to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rate_corrections("value")
         """

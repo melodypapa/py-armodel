@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
     Defines a FIFO for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortFifo
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 124, Classic Platform R23-11)
     """
@@ -25,10 +25,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def assigned_traffic(self, value: "PositiveInteger") -> None:
         """
         Set assignedTraffic with validation.
-        
+
         Args:
             value: The assignedTraffic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def minimum_fifo(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minimumFifo with validation.
-        
+
         Args:
             value: The minimumFifo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def shaper(self, value: Optional["CouplingPortAbstract"]) -> None:
         """
         Set shaper with validation.
-        
+
         Args:
             value: The shaper to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +100,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def getAssignedTraffic(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for assignedTraffic.
-        
+
         Returns:
             The assignedTraffic value
-        
+
         Note:
             Delegates to assigned_traffic property (CODING_RULE_V2_00017)
         """
@@ -112,13 +112,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def setAssignedTraffic(self, value: "PositiveInteger") -> "CouplingPortFifo":
         """
         AUTOSAR-compliant setter for assignedTraffic with method chaining.
-        
+
         Args:
             value: The assignedTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assigned_traffic property setter (gets validation automatically)
         """
@@ -128,10 +128,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def getMinimumFifo(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minimumFifo.
-        
+
         Returns:
             The minimumFifo value
-        
+
         Note:
             Delegates to minimum_fifo property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def setMinimumFifo(self, value: "PositiveInteger") -> "CouplingPortFifo":
         """
         AUTOSAR-compliant setter for minimumFifo with method chaining.
-        
+
         Args:
             value: The minimumFifo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_fifo property setter (gets validation automatically)
         """
@@ -156,10 +156,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def getShaper(self) -> "CouplingPortAbstract":
         """
         AUTOSAR-compliant getter for shaper.
-        
+
         Returns:
             The shaper value
-        
+
         Note:
             Delegates to shaper property (CODING_RULE_V2_00017)
         """
@@ -168,13 +168,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def setShaper(self, value: "CouplingPortAbstract") -> "CouplingPortFifo":
         """
         AUTOSAR-compliant setter for shaper with method chaining.
-        
+
         Args:
             value: The shaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to shaper property setter (gets validation automatically)
         """
@@ -186,13 +186,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def with_assigned_traffic(self, value: "PositiveInteger") -> "CouplingPortFifo":
         """
         Set assignedTraffic and return self for chaining.
-        
+
         Args:
             value: The assignedTraffic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assigned_traffic("value")
         """
@@ -202,13 +202,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def with_minimum_fifo(self, value: Optional["PositiveInteger"]) -> "CouplingPortFifo":
         """
         Set minimumFifo and return self for chaining.
-        
+
         Args:
             value: The minimumFifo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_fifo("value")
         """
@@ -218,13 +218,13 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def with_shaper(self, value: Optional["CouplingPortAbstract"]) -> "CouplingPortFifo":
         """
         Set shaper and return self for chaining.
-        
+
         Args:
             value: The shaper to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_shaper("value")
         """

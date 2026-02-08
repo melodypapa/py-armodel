@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswTimingEvent(BswScheduleEvent):
     """
     A recurring BswEvent driven by a time period.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswTimingEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 88, Classic
       Platform R23-11)
@@ -28,10 +28,10 @@ class BswTimingEvent(BswScheduleEvent):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class BswTimingEvent(BswScheduleEvent):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class BswTimingEvent(BswScheduleEvent):
     def setPeriod(self, value: "TimeValue") -> "BswTimingEvent":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class BswTimingEvent(BswScheduleEvent):
     def with_period(self, value: Optional["TimeValue"]) -> "BswTimingEvent":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """

@@ -1,7 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AtpInstanceRef(ARObject, ABC):
     """
@@ -10,9 +16,9 @@ class AtpInstanceRef(ARObject, ABC):
     instances which act as features under that node. An instance ref specifies a
     navigation path from any M0 tree-instance of the base (which is a
     classifier) to a leaf (which is an instance of the target).
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 301, Classic Platform
       R23-11)
@@ -42,10 +48,10 @@ class AtpInstanceRef(ARObject, ABC):
     def atp_base(self, value: "AtpClassifier") -> None:
         """
         Set atpBase with validation.
-        
+
         Args:
             value: The atpBase to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +81,10 @@ class AtpInstanceRef(ARObject, ABC):
     def atp_target(self, value: "AtpFeature") -> None:
         """
         Set atpTarget with validation.
-        
+
         Args:
             value: The atpTarget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +99,10 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpBase(self) -> "AtpClassifier":
         """
         AUTOSAR-compliant getter for atpBase.
-        
+
         Returns:
             The atpBase value
-        
+
         Note:
             Delegates to atp_base property (CODING_RULE_V2_00017)
         """
@@ -105,13 +111,13 @@ class AtpInstanceRef(ARObject, ABC):
     def setAtpBase(self, value: "AtpClassifier") -> "AtpInstanceRef":
         """
         AUTOSAR-compliant setter for atpBase with method chaining.
-        
+
         Args:
             value: The atpBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_base property setter (gets validation automatically)
         """
@@ -121,10 +127,10 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpContext(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for atpContext.
-        
+
         Returns:
             The atpContext value
-        
+
         Note:
             Delegates to atp_context property (CODING_RULE_V2_00017)
         """
@@ -133,10 +139,10 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpTarget(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for atpTarget.
-        
+
         Returns:
             The atpTarget value
-        
+
         Note:
             Delegates to atp_target property (CODING_RULE_V2_00017)
         """
@@ -145,13 +151,13 @@ class AtpInstanceRef(ARObject, ABC):
     def setAtpTarget(self, value: "AtpFeature") -> "AtpInstanceRef":
         """
         AUTOSAR-compliant setter for atpTarget with method chaining.
-        
+
         Args:
             value: The atpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_target property setter (gets validation automatically)
         """
@@ -163,13 +169,13 @@ class AtpInstanceRef(ARObject, ABC):
     def with_atp_base(self, value: "AtpClassifier") -> "AtpInstanceRef":
         """
         Set atpBase and return self for chaining.
-        
+
         Args:
             value: The atpBase to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_base("value")
         """
@@ -179,13 +185,13 @@ class AtpInstanceRef(ARObject, ABC):
     def with_atp_target(self, value: "AtpFeature") -> "AtpInstanceRef":
         """
         Set atpTarget and return self for chaining.
-        
+
         Args:
             value: The atpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_target("value")
         """

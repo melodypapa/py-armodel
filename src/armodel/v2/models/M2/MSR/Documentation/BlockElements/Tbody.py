@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Tbody(ARObject):
     """
     This meta-class represents a part within a table group. Such a part can be
     the table head, the table body or the table foot.
-    
+
     Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Tbody
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 335, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class Tbody(ARObject):
     def valign(self, value: Optional["ValignEnum"]) -> None:
         """
         Set valign with validation.
-        
+
         Args:
             value: The valign to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class Tbody(ARObject):
     def getValign(self) -> "ValignEnum":
         """
         AUTOSAR-compliant getter for valign.
-        
+
         Returns:
             The valign value
-        
+
         Note:
             Delegates to valign property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class Tbody(ARObject):
     def setValign(self, value: "ValignEnum") -> "Tbody":
         """
         AUTOSAR-compliant setter for valign with method chaining.
-        
+
         Args:
             value: The valign to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to valign property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class Tbody(ARObject):
     def with_valign(self, value: Optional["ValignEnum"]) -> "Tbody":
         """
         Set valign and return self for chaining.
-        
+
         Args:
             value: The valign to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_valign("value")
         """

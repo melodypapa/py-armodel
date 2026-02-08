@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class LinTpNode(Identifiable):
     """
     TP Node (Sender or Receiver) provides the TP Address and the connection to
     the Topology description.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::LinTpNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 614, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class LinTpNode(Identifiable):
     def connector(self, value: Optional["Communication"]) -> None:
         """
         Set connector with validation.
-        
+
         Args:
             value: The connector to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +63,10 @@ class LinTpNode(Identifiable):
     def drop_not(self, value: Optional["Boolean"]) -> None:
         """
         Set dropNot with validation.
-        
+
         Args:
             value: The dropNot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +91,10 @@ class LinTpNode(Identifiable):
     def max_number_of(self, value: Optional["Integer"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +120,10 @@ class LinTpNode(Identifiable):
     def p2_max(self, value: Optional["TimeValue"]) -> None:
         """
         Set p2Max with validation.
-        
+
         Args:
             value: The p2Max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +148,10 @@ class LinTpNode(Identifiable):
     def p2_timing(self, value: Optional["TimeValue"]) -> None:
         """
         Set p2Timing with validation.
-        
+
         Args:
             value: The p2Timing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +177,10 @@ class LinTpNode(Identifiable):
     def tp_address(self, value: Optional["TpAddress"]) -> None:
         """
         Set tpAddress with validation.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -197,10 +199,10 @@ class LinTpNode(Identifiable):
     def getConnector(self) -> "Communication":
         """
         AUTOSAR-compliant getter for connector.
-        
+
         Returns:
             The connector value
-        
+
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -209,13 +211,13 @@ class LinTpNode(Identifiable):
     def setConnector(self, value: "Communication") -> "LinTpNode":
         """
         AUTOSAR-compliant setter for connector with method chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connector property setter (gets validation automatically)
         """
@@ -225,10 +227,10 @@ class LinTpNode(Identifiable):
     def getDropNot(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dropNot.
-        
+
         Returns:
             The dropNot value
-        
+
         Note:
             Delegates to drop_not property (CODING_RULE_V2_00017)
         """
@@ -237,13 +239,13 @@ class LinTpNode(Identifiable):
     def setDropNot(self, value: "Boolean") -> "LinTpNode":
         """
         AUTOSAR-compliant setter for dropNot with method chaining.
-        
+
         Args:
             value: The dropNot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to drop_not property setter (gets validation automatically)
         """
@@ -253,10 +255,10 @@ class LinTpNode(Identifiable):
     def getMaxNumberOf(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -265,13 +267,13 @@ class LinTpNode(Identifiable):
     def setMaxNumberOf(self, value: "Integer") -> "LinTpNode":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -281,10 +283,10 @@ class LinTpNode(Identifiable):
     def getP2Max(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for p2Max.
-        
+
         Returns:
             The p2Max value
-        
+
         Note:
             Delegates to p2_max property (CODING_RULE_V2_00017)
         """
@@ -293,13 +295,13 @@ class LinTpNode(Identifiable):
     def setP2Max(self, value: "TimeValue") -> "LinTpNode":
         """
         AUTOSAR-compliant setter for p2Max with method chaining.
-        
+
         Args:
             value: The p2Max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to p2_max property setter (gets validation automatically)
         """
@@ -309,10 +311,10 @@ class LinTpNode(Identifiable):
     def getP2Timing(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for p2Timing.
-        
+
         Returns:
             The p2Timing value
-        
+
         Note:
             Delegates to p2_timing property (CODING_RULE_V2_00017)
         """
@@ -321,13 +323,13 @@ class LinTpNode(Identifiable):
     def setP2Timing(self, value: "TimeValue") -> "LinTpNode":
         """
         AUTOSAR-compliant setter for p2Timing with method chaining.
-        
+
         Args:
             value: The p2Timing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to p2_timing property setter (gets validation automatically)
         """
@@ -337,10 +339,10 @@ class LinTpNode(Identifiable):
     def getTpAddress(self) -> "TpAddress":
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -349,13 +351,13 @@ class LinTpNode(Identifiable):
     def setTpAddress(self, value: "TpAddress") -> "LinTpNode":
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_address property setter (gets validation automatically)
         """
@@ -367,13 +369,13 @@ class LinTpNode(Identifiable):
     def with_connector(self, value: Optional["Communication"]) -> "LinTpNode":
         """
         Set connector and return self for chaining.
-        
+
         Args:
             value: The connector to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connector("value")
         """
@@ -383,13 +385,13 @@ class LinTpNode(Identifiable):
     def with_drop_not(self, value: Optional["Boolean"]) -> "LinTpNode":
         """
         Set dropNot and return self for chaining.
-        
+
         Args:
             value: The dropNot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_drop_not("value")
         """
@@ -399,13 +401,13 @@ class LinTpNode(Identifiable):
     def with_max_number_of(self, value: Optional["Integer"]) -> "LinTpNode":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -415,13 +417,13 @@ class LinTpNode(Identifiable):
     def with_p2_max(self, value: Optional["TimeValue"]) -> "LinTpNode":
         """
         Set p2Max and return self for chaining.
-        
+
         Args:
             value: The p2Max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_p2_max("value")
         """
@@ -431,13 +433,13 @@ class LinTpNode(Identifiable):
     def with_p2_timing(self, value: Optional["TimeValue"]) -> "LinTpNode":
         """
         Set p2Timing and return self for chaining.
-        
+
         Args:
             value: The p2Timing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_p2_timing("value")
         """
@@ -447,13 +449,13 @@ class LinTpNode(Identifiable):
     def with_tp_address(self, value: Optional["TpAddress"]) -> "LinTpNode":
         """
         Set tpAddress and return self for chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_address("value")
         """

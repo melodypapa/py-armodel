@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TopicContent(ARObject):
     """
     This meta-class represents the content of a topic. It is mainly a
     documentation block, but can also be a table.
-    
+
     Package: M2::MSR::Documentation::Chapters::TopicContent
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 478, Foundation
       R23-11)
@@ -29,10 +32,10 @@ class TopicContent(ARObject):
     def block_level(self, value: "DocumentationBlock") -> None:
         """
         Set blockLevel with validation.
-        
+
         Args:
             value: The blockLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class TopicContent(ARObject):
     def table(self, value: Optional["Table"]) -> None:
         """
         Set table with validation.
-        
+
         Args:
             value: The table to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class TopicContent(ARObject):
     def traceable_table(self, value: "TraceableTable") -> None:
         """
         Set traceableTable with validation.
-        
+
         Args:
             value: The traceableTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +103,10 @@ class TopicContent(ARObject):
     def getBlockLevel(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for blockLevel.
-        
+
         Returns:
             The blockLevel value
-        
+
         Note:
             Delegates to block_level property (CODING_RULE_V2_00017)
         """
@@ -112,13 +115,13 @@ class TopicContent(ARObject):
     def setBlockLevel(self, value: "DocumentationBlock") -> "TopicContent":
         """
         AUTOSAR-compliant setter for blockLevel with method chaining.
-        
+
         Args:
             value: The blockLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to block_level property setter (gets validation automatically)
         """
@@ -128,10 +131,10 @@ class TopicContent(ARObject):
     def getTable(self) -> "Table":
         """
         AUTOSAR-compliant getter for table.
-        
+
         Returns:
             The table value
-        
+
         Note:
             Delegates to table property (CODING_RULE_V2_00017)
         """
@@ -140,13 +143,13 @@ class TopicContent(ARObject):
     def setTable(self, value: "Table") -> "TopicContent":
         """
         AUTOSAR-compliant setter for table with method chaining.
-        
+
         Args:
             value: The table to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to table property setter (gets validation automatically)
         """
@@ -156,10 +159,10 @@ class TopicContent(ARObject):
     def getTraceableTable(self) -> "TraceableTable":
         """
         AUTOSAR-compliant getter for traceableTable.
-        
+
         Returns:
             The traceableTable value
-        
+
         Note:
             Delegates to traceable_table property (CODING_RULE_V2_00017)
         """
@@ -168,13 +171,13 @@ class TopicContent(ARObject):
     def setTraceableTable(self, value: "TraceableTable") -> "TopicContent":
         """
         AUTOSAR-compliant setter for traceableTable with method chaining.
-        
+
         Args:
             value: The traceableTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traceable_table property setter (gets validation automatically)
         """
@@ -186,13 +189,13 @@ class TopicContent(ARObject):
     def with_block_level(self, value: "DocumentationBlock") -> "TopicContent":
         """
         Set blockLevel and return self for chaining.
-        
+
         Args:
             value: The blockLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_block_level("value")
         """
@@ -202,13 +205,13 @@ class TopicContent(ARObject):
     def with_table(self, value: Optional["Table"]) -> "TopicContent":
         """
         Set table and return self for chaining.
-        
+
         Args:
             value: The table to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_table("value")
         """
@@ -218,13 +221,13 @@ class TopicContent(ARObject):
     def with_traceable_table(self, value: "TraceableTable") -> "TopicContent":
         """
         Set traceableTable and return self for chaining.
-        
+
         Args:
             value: The traceableTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traceable_table("value")
         """

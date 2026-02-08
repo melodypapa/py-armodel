@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SecuredIPdu(IPdu):
     """
@@ -11,9 +14,9 @@ class SecuredIPdu(IPdu):
     for a payload that is transported in a separate message. The separate
     Authentic IPdu is described by the Pdu that is referenced with the payload
     reference from this SecuredIPdu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecuredIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 367, Classic Platform R23-11)
     """
@@ -33,10 +36,10 @@ class SecuredIPdu(IPdu):
     def authentication(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class SecuredIPdu(IPdu):
     def dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamic with validation.
-        
+
         Args:
             value: The dynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +96,10 @@ class SecuredIPdu(IPdu):
     def freshness_props(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set freshnessProps with validation.
-        
+
         Args:
             value: The freshnessProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +124,10 @@ class SecuredIPdu(IPdu):
     def payload(self, value: RefType) -> None:
         """
         Set payload with validation.
-        
+
         Args:
             value: The payload to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +148,10 @@ class SecuredIPdu(IPdu):
     def secure(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set secure with validation.
-        
+
         Args:
             value: The secure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -179,10 +182,10 @@ class SecuredIPdu(IPdu):
     def use_as(self, value: Optional["Boolean"]) -> None:
         """
         Set useAs with validation.
-        
+
         Args:
             value: The useAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -211,10 +214,10 @@ class SecuredIPdu(IPdu):
     def use_secured_pdu(self, value: Optional["SecuredPduHeader"]) -> None:
         """
         Set useSecuredPdu with validation.
-        
+
         Args:
             value: The useSecuredPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -233,10 +236,10 @@ class SecuredIPdu(IPdu):
     def getAuthentication(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -245,13 +248,13 @@ class SecuredIPdu(IPdu):
     def setAuthentication(self, value: "SecureCommunication") -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -261,10 +264,10 @@ class SecuredIPdu(IPdu):
     def getDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamic.
-        
+
         Returns:
             The dynamic value
-        
+
         Note:
             Delegates to dynamic property (CODING_RULE_V2_00017)
         """
@@ -273,13 +276,13 @@ class SecuredIPdu(IPdu):
     def setDynamic(self, value: "Boolean") -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for dynamic with method chaining.
-        
+
         Args:
             value: The dynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic property setter (gets validation automatically)
         """
@@ -289,10 +292,10 @@ class SecuredIPdu(IPdu):
     def getFreshnessProps(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for freshnessProps.
-        
+
         Returns:
             The freshnessProps value
-        
+
         Note:
             Delegates to freshness_props property (CODING_RULE_V2_00017)
         """
@@ -301,13 +304,13 @@ class SecuredIPdu(IPdu):
     def setFreshnessProps(self, value: "SecureCommunication") -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for freshnessProps with method chaining.
-        
+
         Args:
             value: The freshnessProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness_props property setter (gets validation automatically)
         """
@@ -317,10 +320,10 @@ class SecuredIPdu(IPdu):
     def getPayload(self) -> RefType:
         """
         AUTOSAR-compliant getter for payload.
-        
+
         Returns:
             The payload value
-        
+
         Note:
             Delegates to payload property (CODING_RULE_V2_00017)
         """
@@ -329,13 +332,13 @@ class SecuredIPdu(IPdu):
     def setPayload(self, value: RefType) -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for payload with method chaining.
-        
+
         Args:
             value: The payload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to payload property setter (gets validation automatically)
         """
@@ -345,10 +348,10 @@ class SecuredIPdu(IPdu):
     def getSecure(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for secure.
-        
+
         Returns:
             The secure value
-        
+
         Note:
             Delegates to secure property (CODING_RULE_V2_00017)
         """
@@ -357,13 +360,13 @@ class SecuredIPdu(IPdu):
     def setSecure(self, value: "SecureCommunication") -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for secure with method chaining.
-        
+
         Args:
             value: The secure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secure property setter (gets validation automatically)
         """
@@ -373,10 +376,10 @@ class SecuredIPdu(IPdu):
     def getUseAs(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useAs.
-        
+
         Returns:
             The useAs value
-        
+
         Note:
             Delegates to use_as property (CODING_RULE_V2_00017)
         """
@@ -385,13 +388,13 @@ class SecuredIPdu(IPdu):
     def setUseAs(self, value: "Boolean") -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for useAs with method chaining.
-        
+
         Args:
             value: The useAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_as property setter (gets validation automatically)
         """
@@ -401,10 +404,10 @@ class SecuredIPdu(IPdu):
     def getUseSecuredPdu(self) -> "SecuredPduHeader":
         """
         AUTOSAR-compliant getter for useSecuredPdu.
-        
+
         Returns:
             The useSecuredPdu value
-        
+
         Note:
             Delegates to use_secured_pdu property (CODING_RULE_V2_00017)
         """
@@ -413,13 +416,13 @@ class SecuredIPdu(IPdu):
     def setUseSecuredPdu(self, value: "SecuredPduHeader") -> "SecuredIPdu":
         """
         AUTOSAR-compliant setter for useSecuredPdu with method chaining.
-        
+
         Args:
             value: The useSecuredPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_secured_pdu property setter (gets validation automatically)
         """
@@ -431,13 +434,13 @@ class SecuredIPdu(IPdu):
     def with_authentication(self, value: Optional["SecureCommunication"]) -> "SecuredIPdu":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -447,13 +450,13 @@ class SecuredIPdu(IPdu):
     def with_dynamic(self, value: Optional["Boolean"]) -> "SecuredIPdu":
         """
         Set dynamic and return self for chaining.
-        
+
         Args:
             value: The dynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic("value")
         """
@@ -463,13 +466,13 @@ class SecuredIPdu(IPdu):
     def with_freshness_props(self, value: Optional["SecureCommunication"]) -> "SecuredIPdu":
         """
         Set freshnessProps and return self for chaining.
-        
+
         Args:
             value: The freshnessProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness_props("value")
         """
@@ -479,13 +482,13 @@ class SecuredIPdu(IPdu):
     def with_payload(self, value: Optional[RefType]) -> "SecuredIPdu":
         """
         Set payload and return self for chaining.
-        
+
         Args:
             value: The payload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_payload("value")
         """
@@ -495,13 +498,13 @@ class SecuredIPdu(IPdu):
     def with_secure(self, value: Optional["SecureCommunication"]) -> "SecuredIPdu":
         """
         Set secure and return self for chaining.
-        
+
         Args:
             value: The secure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secure("value")
         """
@@ -511,13 +514,13 @@ class SecuredIPdu(IPdu):
     def with_use_as(self, value: Optional["Boolean"]) -> "SecuredIPdu":
         """
         Set useAs and return self for chaining.
-        
+
         Args:
             value: The useAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_as("value")
         """
@@ -527,13 +530,13 @@ class SecuredIPdu(IPdu):
     def with_use_secured_pdu(self, value: Optional["SecuredPduHeader"]) -> "SecuredIPdu":
         """
         Set useSecuredPdu and return self for chaining.
-        
+
         Args:
             value: The useSecuredPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_secured_pdu("value")
         """

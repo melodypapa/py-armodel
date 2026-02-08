@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class LabeledItem(Paginateable):
     """
     this represents an item of a labeled list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::LabeledItem
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 296, Foundation
       R23-11)
@@ -29,10 +29,10 @@ class LabeledItem(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class LabeledItem(Paginateable):
     def item_contents(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set itemContents with validation.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class LabeledItem(Paginateable):
     def item_label(self, value: "MultiLanguageOverview") -> None:
         """
         Set itemLabel with validation.
-        
+
         Args:
             value: The itemLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class LabeledItem(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class LabeledItem(Paginateable):
     def setHelpEntry(self, value: "String") -> "LabeledItem":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class LabeledItem(Paginateable):
     def getItemContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for itemContents.
-        
+
         Returns:
             The itemContents value
-        
+
         Note:
             Delegates to item_contents property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class LabeledItem(Paginateable):
     def setItemContents(self, value: "DocumentationBlock") -> "LabeledItem":
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_contents property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class LabeledItem(Paginateable):
     def getItemLabel(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for itemLabel.
-        
+
         Returns:
             The itemLabel value
-        
+
         Note:
             Delegates to item_label property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class LabeledItem(Paginateable):
     def setItemLabel(self, value: "MultiLanguageOverview") -> "LabeledItem":
         """
         AUTOSAR-compliant setter for itemLabel with method chaining.
-        
+
         Args:
             value: The itemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_label property setter (gets validation automatically)
         """
@@ -193,13 +193,13 @@ class LabeledItem(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "LabeledItem":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """
@@ -209,13 +209,13 @@ class LabeledItem(Paginateable):
     def with_item_contents(self, value: Optional["DocumentationBlock"]) -> "LabeledItem":
         """
         Set itemContents and return self for chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_contents("value")
         """
@@ -225,13 +225,13 @@ class LabeledItem(Paginateable):
     def with_item_label(self, value: "MultiLanguageOverview") -> "LabeledItem":
         """
         Set itemLabel and return self for chaining.
-        
+
         Args:
             value: The itemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_label("value")
         """

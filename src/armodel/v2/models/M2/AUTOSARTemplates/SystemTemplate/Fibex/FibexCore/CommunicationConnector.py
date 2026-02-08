@@ -1,7 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CommunicationConnector(Identifiable, ABC):
     """
@@ -11,9 +14,9 @@ class CommunicationConnector(Identifiable, ABC):
     CommunicationConnector has a reference to exactly one
     communicationController. Note: Several CommunicationConnectors can be
     assigned to one PhysicalChannel in the scope of one ECU Instance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 54, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 57, Foundation R23-11)
@@ -41,10 +44,10 @@ class CommunicationConnector(Identifiable, ABC):
     def comm_controller(self, value: Optional["Communication"]) -> None:
         """
         Set commController with validation.
-        
+
         Args:
             value: The commController to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +73,10 @@ class CommunicationConnector(Identifiable, ABC):
     def create_ecu(self, value: Optional["Boolean"]) -> None:
         """
         Set createEcu with validation.
-        
+
         Args:
             value: The createEcu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +102,10 @@ class CommunicationConnector(Identifiable, ABC):
     def dynamic_pnc_to(self, value: Optional["Boolean"]) -> None:
         """
         Set dynamicPncTo with validation.
-        
+
         Args:
             value: The dynamicPncTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class CommunicationConnector(Identifiable, ABC):
     def pnc_gateway(self, value: Optional["PncGatewayTypeEnum"]) -> None:
         """
         Set pncGateway with validation.
-        
+
         Args:
             value: The pncGateway to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +172,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getCommController(self) -> "Communication":
         """
         AUTOSAR-compliant getter for commController.
-        
+
         Returns:
             The commController value
-        
+
         Note:
             Delegates to comm_controller property (CODING_RULE_V2_00017)
         """
@@ -181,13 +184,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setCommController(self, value: "Communication") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for commController with method chaining.
-        
+
         Args:
             value: The commController to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to comm_controller property setter (gets validation automatically)
         """
@@ -197,10 +200,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getCreateEcu(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for createEcu.
-        
+
         Returns:
             The createEcu value
-        
+
         Note:
             Delegates to create_ecu property (CODING_RULE_V2_00017)
         """
@@ -209,13 +212,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setCreateEcu(self, value: "Boolean") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for createEcu with method chaining.
-        
+
         Args:
             value: The createEcu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to create_ecu property setter (gets validation automatically)
         """
@@ -225,10 +228,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getDynamicPncTo(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for dynamicPncTo.
-        
+
         Returns:
             The dynamicPncTo value
-        
+
         Note:
             Delegates to dynamic_pnc_to property (CODING_RULE_V2_00017)
         """
@@ -237,13 +240,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setDynamicPncTo(self, value: "Boolean") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for dynamicPncTo with method chaining.
-        
+
         Args:
             value: The dynamicPncTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_pnc_to property setter (gets validation automatically)
         """
@@ -253,10 +256,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getEcuCommPort(self) -> List["CommConnectorPort"]:
         """
         AUTOSAR-compliant getter for ecuCommPort.
-        
+
         Returns:
             The ecuCommPort value
-        
+
         Note:
             Delegates to ecu_comm_port property (CODING_RULE_V2_00017)
         """
@@ -265,10 +268,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getPncFilterArray(self) -> List["PositiveInteger"]:
         """
         AUTOSAR-compliant getter for pncFilterArray.
-        
+
         Returns:
             The pncFilterArray value
-        
+
         Note:
             Delegates to pnc_filter_array property (CODING_RULE_V2_00017)
         """
@@ -277,10 +280,10 @@ class CommunicationConnector(Identifiable, ABC):
     def getPncGateway(self) -> "PncGatewayTypeEnum":
         """
         AUTOSAR-compliant getter for pncGateway.
-        
+
         Returns:
             The pncGateway value
-        
+
         Note:
             Delegates to pnc_gateway property (CODING_RULE_V2_00017)
         """
@@ -289,13 +292,13 @@ class CommunicationConnector(Identifiable, ABC):
     def setPncGateway(self, value: "PncGatewayTypeEnum") -> "CommunicationConnector":
         """
         AUTOSAR-compliant setter for pncGateway with method chaining.
-        
+
         Args:
             value: The pncGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pnc_gateway property setter (gets validation automatically)
         """
@@ -307,13 +310,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_comm_controller(self, value: Optional["Communication"]) -> "CommunicationConnector":
         """
         Set commController and return self for chaining.
-        
+
         Args:
             value: The commController to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_comm_controller("value")
         """
@@ -323,13 +326,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_create_ecu(self, value: Optional["Boolean"]) -> "CommunicationConnector":
         """
         Set createEcu and return self for chaining.
-        
+
         Args:
             value: The createEcu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_create_ecu("value")
         """
@@ -339,13 +342,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_dynamic_pnc_to(self, value: Optional["Boolean"]) -> "CommunicationConnector":
         """
         Set dynamicPncTo and return self for chaining.
-        
+
         Args:
             value: The dynamicPncTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_pnc_to("value")
         """
@@ -355,13 +358,13 @@ class CommunicationConnector(Identifiable, ABC):
     def with_pnc_gateway(self, value: Optional["PncGatewayTypeEnum"]) -> "CommunicationConnector":
         """
         Set pncGateway and return self for chaining.
-        
+
         Args:
             value: The pncGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pnc_gateway("value")
         """

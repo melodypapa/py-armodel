@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TextTableValuePair(ARObject):
     """
     Defines a pair of text values which are translated into each other.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TextTableValuePair
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 146, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class TextTableValuePair(ARObject):
     def first_value(self, value: Optional["Numerical"]) -> None:
         """
         Set firstValue with validation.
-        
+
         Args:
             value: The firstValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class TextTableValuePair(ARObject):
     def second_value(self, value: Optional["Numerical"]) -> None:
         """
         Set secondValue with validation.
-        
+
         Args:
             value: The secondValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class TextTableValuePair(ARObject):
     def getFirstValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for firstValue.
-        
+
         Returns:
             The firstValue value
-        
+
         Note:
             Delegates to first_value property (CODING_RULE_V2_00017)
         """
@@ -94,13 +97,13 @@ class TextTableValuePair(ARObject):
     def setFirstValue(self, value: "Numerical") -> "TextTableValuePair":
         """
         AUTOSAR-compliant setter for firstValue with method chaining.
-        
+
         Args:
             value: The firstValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_value property setter (gets validation automatically)
         """
@@ -110,10 +113,10 @@ class TextTableValuePair(ARObject):
     def getSecondValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for secondValue.
-        
+
         Returns:
             The secondValue value
-        
+
         Note:
             Delegates to second_value property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class TextTableValuePair(ARObject):
     def setSecondValue(self, value: "Numerical") -> "TextTableValuePair":
         """
         AUTOSAR-compliant setter for secondValue with method chaining.
-        
+
         Args:
             value: The secondValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_value property setter (gets validation automatically)
         """
@@ -140,13 +143,13 @@ class TextTableValuePair(ARObject):
     def with_first_value(self, value: Optional["Numerical"]) -> "TextTableValuePair":
         """
         Set firstValue and return self for chaining.
-        
+
         Args:
             value: The firstValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_value("value")
         """
@@ -156,13 +159,13 @@ class TextTableValuePair(ARObject):
     def with_second_value(self, value: Optional["Numerical"]) -> "TextTableValuePair":
         """
         Set secondValue and return self for chaining.
-        
+
         Args:
             value: The secondValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_value("value")
         """

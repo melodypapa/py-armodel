@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderReceiverInterface(DataInterface):
     """
     A sender/receiver interface declares a number of data elements to be sent
     and received.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SenderReceiverInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 335, Classic
       Platform R23-11)
@@ -52,10 +55,10 @@ class SenderReceiverInterface(DataInterface):
     def getDataElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -64,10 +67,10 @@ class SenderReceiverInterface(DataInterface):
     def getInvalidationPolicy(self) -> List["InvalidationPolicy"]:
         """
         AUTOSAR-compliant getter for invalidationPolicy.
-        
+
         Returns:
             The invalidationPolicy value
-        
+
         Note:
             Delegates to invalidation_policy property (CODING_RULE_V2_00017)
         """
@@ -76,10 +79,10 @@ class SenderReceiverInterface(DataInterface):
     def getMetaDataItem(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for metaDataItem.
-        
+
         Returns:
             The metaDataItem value
-        
+
         Note:
             Delegates to meta_data_item property (CODING_RULE_V2_00017)
         """

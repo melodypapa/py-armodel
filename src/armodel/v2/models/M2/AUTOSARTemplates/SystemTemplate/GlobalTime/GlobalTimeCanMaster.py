@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class GlobalTimeCanMaster(GlobalTimeMaster):
     """
     This represents the specialization of the GlobalTimeMaster for the CAN
     communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::CAN::GlobalTimeCanMaster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 864, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> None:
         """
         Set crcSecured with validation.
-        
+
         Args:
             value: The crcSecured to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def sync(self, value: Optional["TimeValue"]) -> None:
         """
         Set sync with validation.
-        
+
         Args:
             value: The sync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def getCrcSecured(self) -> "GlobalTimeCrcSupport":
         """
         AUTOSAR-compliant getter for crcSecured.
-        
+
         Returns:
             The crcSecured value
-        
+
         Note:
             Delegates to crc_secured property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> "GlobalTimeCanMaster":
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
-        
+
         Args:
             value: The crcSecured to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crc_secured property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def getSync(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sync.
-        
+
         Returns:
             The sync value
-        
+
         Note:
             Delegates to sync property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def setSync(self, value: "TimeValue") -> "GlobalTimeCanMaster":
         """
         AUTOSAR-compliant setter for sync with method chaining.
-        
+
         Args:
             value: The sync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> "GlobalTimeCanMaster":
         """
         Set crcSecured and return self for chaining.
-        
+
         Args:
             value: The crcSecured to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crc_secured("value")
         """
@@ -153,13 +153,13 @@ class GlobalTimeCanMaster(GlobalTimeMaster):
     def with_sync(self, value: Optional["TimeValue"]) -> "GlobalTimeCanMaster":
         """
         Set sync and return self for chaining.
-        
+
         Args:
             value: The sync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync("value")
         """

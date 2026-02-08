@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Dhcpv6Props(ARObject):
     """
     This meta-class specifies the configuration options for DHCPv6.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Dhcpv6Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 149, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class Dhcpv6Props(ARObject):
     def tcp_ip_dhcp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpDhcp with validation.
-        
+
         Args:
             value: The tcpIpDhcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class Dhcpv6Props(ARObject):
     def tcp_ip_dhcp_v6_inf(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpDhcpV6Inf with validation.
-        
+
         Args:
             value: The tcpIpDhcpV6Inf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class Dhcpv6Props(ARObject):
     def tcp_ip_dhcp_v6_sol(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpDhcpV6Sol with validation.
-        
+
         Args:
             value: The tcpIpDhcpV6Sol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class Dhcpv6Props(ARObject):
     def getTcpIpDhcp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpDhcp.
-        
+
         Returns:
             The tcpIpDhcp value
-        
+
         Note:
             Delegates to tcp_ip_dhcp property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class Dhcpv6Props(ARObject):
     def setTcpIpDhcp(self, value: "TimeValue") -> "Dhcpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpDhcp with method chaining.
-        
+
         Args:
             value: The tcpIpDhcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_dhcp property setter (gets validation automatically)
         """
@@ -133,10 +136,10 @@ class Dhcpv6Props(ARObject):
     def getTcpIpDhcpV6Inf(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpDhcpV6Inf.
-        
+
         Returns:
             The tcpIpDhcpV6Inf value
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_inf property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class Dhcpv6Props(ARObject):
     def setTcpIpDhcpV6Inf(self, value: "TimeValue") -> "Dhcpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpDhcpV6Inf with method chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Inf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_inf property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class Dhcpv6Props(ARObject):
     def getTcpIpDhcpV6Sol(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpDhcpV6Sol.
-        
+
         Returns:
             The tcpIpDhcpV6Sol value
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_sol property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class Dhcpv6Props(ARObject):
     def setTcpIpDhcpV6Sol(self, value: "TimeValue") -> "Dhcpv6Props":
         """
         AUTOSAR-compliant setter for tcpIpDhcpV6Sol with method chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Sol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_dhcp_v6_sol property setter (gets validation automatically)
         """
@@ -191,13 +194,13 @@ class Dhcpv6Props(ARObject):
     def with_tcp_ip_dhcp(self, value: Optional["TimeValue"]) -> "Dhcpv6Props":
         """
         Set tcpIpDhcp and return self for chaining.
-        
+
         Args:
             value: The tcpIpDhcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_dhcp("value")
         """
@@ -207,13 +210,13 @@ class Dhcpv6Props(ARObject):
     def with_tcp_ip_dhcp_v6_inf(self, value: Optional["TimeValue"]) -> "Dhcpv6Props":
         """
         Set tcpIpDhcpV6Inf and return self for chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Inf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_dhcp_v6_inf("value")
         """
@@ -223,13 +226,13 @@ class Dhcpv6Props(ARObject):
     def with_tcp_ip_dhcp_v6_sol(self, value: Optional["TimeValue"]) -> "Dhcpv6Props":
         """
         Set tcpIpDhcpV6Sol and return self for chaining.
-        
+
         Args:
             value: The tcpIpDhcpV6Sol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_dhcp_v6_sol("value")
         """

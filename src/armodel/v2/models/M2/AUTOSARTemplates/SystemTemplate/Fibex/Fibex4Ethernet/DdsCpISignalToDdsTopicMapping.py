@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsCpISignalToDdsTopicMapping(ARObject):
     """
     Mapping of an ISignal to a DdsTopic.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpISignalToDdsTopicMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 293, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def dds_topic(self, value: Optional["DdsCpTopic"]) -> None:
         """
         Set ddsTopic with validation.
-        
+
         Args:
             value: The ddsTopic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def i_signal(self, value: Optional["ISignal"]) -> None:
         """
         Set iSignal with validation.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def getDdsTopic(self) -> "DdsCpTopic":
         """
         AUTOSAR-compliant getter for ddsTopic.
-        
+
         Returns:
             The ddsTopic value
-        
+
         Note:
             Delegates to dds_topic property (CODING_RULE_V2_00017)
         """
@@ -89,13 +92,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def setDdsTopic(self, value: "DdsCpTopic") -> "DdsCpISignalToDdsTopicMapping":
         """
         AUTOSAR-compliant setter for ddsTopic with method chaining.
-        
+
         Args:
             value: The ddsTopic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_topic property setter (gets validation automatically)
         """
@@ -105,10 +108,10 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def getISignal(self) -> "ISignal":
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def setISignal(self, value: "ISignal") -> "DdsCpISignalToDdsTopicMapping":
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -135,13 +138,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def with_dds_topic(self, value: Optional["DdsCpTopic"]) -> "DdsCpISignalToDdsTopicMapping":
         """
         Set ddsTopic and return self for chaining.
-        
+
         Args:
             value: The ddsTopic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_topic("value")
         """
@@ -151,13 +154,13 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
     def with_i_signal(self, value: Optional["ISignal"]) -> "DdsCpISignalToDdsTopicMapping":
         """
         Set iSignal and return self for chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal("value")
         """

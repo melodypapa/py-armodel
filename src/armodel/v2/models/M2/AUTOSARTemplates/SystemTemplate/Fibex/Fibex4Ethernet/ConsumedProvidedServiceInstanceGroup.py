@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ConsumedProvidedServiceInstanceGroup(FibexElement):
     """
     The AUTOSAR ServiceDiscovery is able to start and to stop ClientServices and
     Server Services,respectively, at runtime. A SdServiceGroup contains several
     ClientServices and Server Services, respectively.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ConsumedProvidedServiceInstanceGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 523, Classic Platform R23-11)
     """
@@ -39,10 +39,10 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
     def getConsumed(self) -> List["ConsumedService"]:
         """
         AUTOSAR-compliant getter for consumed.
-        
+
         Returns:
             The consumed value
-        
+
         Note:
             Delegates to consumed property (CODING_RULE_V2_00017)
         """
@@ -51,10 +51,10 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
     def getProvidedService(self) -> List["ProvidedService"]:
         """
         AUTOSAR-compliant getter for providedService.
-        
+
         Returns:
             The providedService value
-        
+
         Note:
             Delegates to provided_service property (CODING_RULE_V2_00017)
         """

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsTransportPriority(ARObject):
     """
     Describes the DDS TRANSPORT_PRIORITY QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsTransportPriority
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 535, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class DdsTransportPriority(ARObject):
     def transport_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set transportPriority with validation.
-        
+
         Args:
             value: The transportPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class DdsTransportPriority(ARObject):
     def getTransportPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for transportPriority.
-        
+
         Returns:
             The transportPriority value
-        
+
         Note:
             Delegates to transport_priority property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class DdsTransportPriority(ARObject):
     def setTransportPriority(self, value: "PositiveInteger") -> "DdsTransportPriority":
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
-        
+
         Args:
             value: The transportPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transport_priority property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class DdsTransportPriority(ARObject):
     def with_transport_priority(self, value: Optional["PositiveInteger"]) -> "DdsTransportPriority":
         """
         Set transportPriority and return self for chaining.
-        
+
         Args:
             value: The transportPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transport_priority("value")
         """

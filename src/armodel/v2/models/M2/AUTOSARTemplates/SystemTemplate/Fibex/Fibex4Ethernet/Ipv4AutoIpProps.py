@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv4AutoIpProps(ARObject):
     """
     Specifies the configuration options for Auto-IP (automatic private IP
     addressing).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4AutoIpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 147, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class Ipv4AutoIpProps(ARObject):
     def tcp_ip_auto_ip_init(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpAutoIpInit with validation.
-        
+
         Args:
             value: The tcpIpAutoIpInit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class Ipv4AutoIpProps(ARObject):
     def getTcpIpAutoIpInit(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpAutoIpInit.
-        
+
         Returns:
             The tcpIpAutoIpInit value
-        
+
         Note:
             Delegates to tcp_ip_auto_ip_init property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class Ipv4AutoIpProps(ARObject):
     def setTcpIpAutoIpInit(self, value: "TimeValue") -> "Ipv4AutoIpProps":
         """
         AUTOSAR-compliant setter for tcpIpAutoIpInit with method chaining.
-        
+
         Args:
             value: The tcpIpAutoIpInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_auto_ip_init property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class Ipv4AutoIpProps(ARObject):
     def with_tcp_ip_auto_ip_init(self, value: Optional["TimeValue"]) -> "Ipv4AutoIpProps":
         """
         Set tcpIpAutoIpInit and return self for chaining.
-        
+
         Args:
             value: The tcpIpAutoIpInit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_auto_ip_init("value")
         """

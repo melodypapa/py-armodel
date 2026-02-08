@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     """
@@ -7,9 +7,9 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     via the BSW Scheduler which is thrown after completion of the asynchronous
     Client-Server call. Its eventSource specifies the call point to be used for
     retrieving the result.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswAsynchronousServerCallReturnsEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 98, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     def event_source(self, value: Optional["BswAsynchronous"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     def getEventSource(self) -> "BswAsynchronous":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     def setEventSource(self, value: "BswAsynchronous") -> "BswAsynchronousServerCallReturnsEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
     def with_event_source(self, value: Optional["BswAsynchronous"]) -> "BswAsynchronousServerCallReturnsEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """

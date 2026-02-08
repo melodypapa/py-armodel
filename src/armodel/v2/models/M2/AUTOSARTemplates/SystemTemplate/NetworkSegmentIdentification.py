@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class NetworkSegmentIdentification(ARObject):
     """
     This meta-class represents the ability to identify the PhysicalChannel on a
     system scope in a numerical way. One possible application of this approach
     is the Time Validation.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::NetworkSegmentIdentification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 859, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class NetworkSegmentIdentification(ARObject):
     def network(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class NetworkSegmentIdentification(ARObject):
     def getNetwork(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class NetworkSegmentIdentification(ARObject):
     def setNetwork(self, value: "PositiveInteger") -> "NetworkSegmentIdentification":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class NetworkSegmentIdentification(ARObject):
     def with_network(self, value: Optional["PositiveInteger"]) -> "NetworkSegmentIdentification":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     """
     The diagnostic trouble code group defines the DTCs belonging together and
     thereby forming a group.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 177, Classic Platform
       R23-11)
@@ -37,10 +37,10 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     def group_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set groupNumber with validation.
-        
+
         Args:
             value: The groupNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     def getDtc(self) -> List["DiagnosticTroubleCode"]:
         """
         AUTOSAR-compliant getter for dtc.
-        
+
         Returns:
             The dtc value
-        
+
         Note:
             Delegates to dtc property (CODING_RULE_V2_00017)
         """
@@ -71,10 +71,10 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     def getGroupNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for groupNumber.
-        
+
         Returns:
             The groupNumber value
-        
+
         Note:
             Delegates to group_number property (CODING_RULE_V2_00017)
         """
@@ -83,13 +83,13 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     def setGroupNumber(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeGroup":
         """
         AUTOSAR-compliant setter for groupNumber with method chaining.
-        
+
         Args:
             value: The groupNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to group_number property setter (gets validation automatically)
         """
@@ -101,13 +101,13 @@ class DiagnosticTroubleCodeGroup(DiagnosticCommonElement):
     def with_group_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeGroup":
         """
         Set groupNumber and return self for chaining.
-        
+
         Args:
             value: The groupNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_group_number("value")
         """

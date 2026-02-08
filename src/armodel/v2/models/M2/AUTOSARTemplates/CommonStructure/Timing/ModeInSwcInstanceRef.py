@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeInSwcInstanceRef(ARObject):
     """
     Instance reference to be capable of referencing a ModeDeclaration at a
     specific Mode Switch Port of a SW-C.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInSwcInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 38, Classic Platform R23-11)
     """
@@ -29,10 +34,10 @@ class ModeInSwcInstanceRef(ARObject):
     def base(self, value: Optional["SwComponentType"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +71,10 @@ class ModeInSwcInstanceRef(ARObject):
     def context_mode(self, value: RefType) -> None:
         """
         Set contextMode with validation.
-        
+
         Args:
             value: The contextMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +97,10 @@ class ModeInSwcInstanceRef(ARObject):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +121,10 @@ class ModeInSwcInstanceRef(ARObject):
     def target_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set targetMode with validation.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -138,10 +143,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getBase(self) -> "SwComponentType":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -150,13 +155,13 @@ class ModeInSwcInstanceRef(ARObject):
     def setBase(self, value: "SwComponentType") -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -166,10 +171,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getContext(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -178,10 +183,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getContextMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextMode.
-        
+
         Returns:
             The contextMode value
-        
+
         Note:
             Delegates to context_mode property (CODING_RULE_V2_00017)
         """
@@ -190,13 +195,13 @@ class ModeInSwcInstanceRef(ARObject):
     def setContextMode(self, value: RefType) -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextMode with method chaining.
-        
+
         Args:
             value: The contextMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_mode property setter (gets validation automatically)
         """
@@ -206,10 +211,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -218,13 +223,13 @@ class ModeInSwcInstanceRef(ARObject):
     def setContextPort(self, value: RefType) -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -234,10 +239,10 @@ class ModeInSwcInstanceRef(ARObject):
     def getTargetMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for targetMode.
-        
+
         Returns:
             The targetMode value
-        
+
         Note:
             Delegates to target_mode property (CODING_RULE_V2_00017)
         """
@@ -246,13 +251,13 @@ class ModeInSwcInstanceRef(ARObject):
     def setTargetMode(self, value: "ModeDeclaration") -> "ModeInSwcInstanceRef":
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_mode property setter (gets validation automatically)
         """
@@ -264,13 +269,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_base(self, value: Optional["SwComponentType"]) -> "ModeInSwcInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -280,13 +285,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_context_mode(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
         """
         Set contextMode and return self for chaining.
-        
+
         Args:
             value: The contextMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_mode("value")
         """
@@ -296,13 +301,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_context_port(self, value: Optional[RefType]) -> "ModeInSwcInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -312,13 +317,13 @@ class ModeInSwcInstanceRef(ARObject):
     def with_target_mode(self, value: Optional["ModeDeclaration"]) -> "ModeInSwcInstanceRef":
         """
         Set targetMode and return self for chaining.
-        
+
         Args:
             value: The targetMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_mode("value")
         """

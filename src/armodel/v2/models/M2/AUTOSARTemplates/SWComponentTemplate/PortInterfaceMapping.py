@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class PortInterfaceMapping(Identifiable, ABC):
     """
     Specifies one PortInterfaceMapping to support the connection of Ports typed
     by two different Port Interfaces with PortInterface elements having unequal
     names and/or unequal semantic (resolution or range).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::PortInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 119, Classic Platform
       R23-11)

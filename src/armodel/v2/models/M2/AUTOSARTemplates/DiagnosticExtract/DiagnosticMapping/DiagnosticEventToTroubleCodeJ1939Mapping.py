@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     """
     By means of this meta-class it is possible to associate a DiagnosticEvent to
     a DiagnosticTroubleCode J1939.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticJ1939Mapping::DiagnosticEventToTroubleCodeJ1939Mapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 269, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCode with validation.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def getTroubleCode(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCode.
-        
+
         Returns:
             The troubleCode value
-        
+
         Note:
             Delegates to trouble_code property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def setTroubleCode(self, value: "DiagnosticTroubleCode") -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         AUTOSAR-compliant setter for troubleCode with method chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticEventToTroubleCodeJ1939Mapping(DiagnosticMapping):
     def with_trouble_code(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticEventToTroubleCodeJ1939Mapping":
         """
         Set troubleCode and return self for chaining.
-        
+
         Args:
             value: The troubleCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code("value")
         """

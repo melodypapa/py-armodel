@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     """
     An expression that has the syntax of the AUTOSAR formula language but uses
     only references to features or feature attributes (not system constants) as
     operands.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFormulaByFeaturesAndAttributes
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 61, Foundation
       R23-11)
@@ -33,10 +37,10 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def attribute(self, value: Optional["FMAttributeDef"]) -> None:
         """
         Set attribute with validation.
-        
+
         Args:
             value: The attribute to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +65,10 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def feature(self, value: Optional["FMFeature"]) -> None:
         """
         Set feature with validation.
-        
+
         Args:
             value: The feature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +87,10 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def getAttribute(self) -> "FMAttributeDef":
         """
         AUTOSAR-compliant getter for attribute.
-        
+
         Returns:
             The attribute value
-        
+
         Note:
             Delegates to attribute property (CODING_RULE_V2_00017)
         """
@@ -95,13 +99,13 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def setAttribute(self, value: "FMAttributeDef") -> "FMFormulaByFeaturesAndAttributes":
         """
         AUTOSAR-compliant setter for attribute with method chaining.
-        
+
         Args:
             value: The attribute to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to attribute property setter (gets validation automatically)
         """
@@ -111,10 +115,10 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def getFeature(self) -> "FMFeature":
         """
         AUTOSAR-compliant getter for feature.
-        
+
         Returns:
             The feature value
-        
+
         Note:
             Delegates to feature property (CODING_RULE_V2_00017)
         """
@@ -123,13 +127,13 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def setFeature(self, value: "FMFeature") -> "FMFormulaByFeaturesAndAttributes":
         """
         AUTOSAR-compliant setter for feature with method chaining.
-        
+
         Args:
             value: The feature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to feature property setter (gets validation automatically)
         """
@@ -141,13 +145,13 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def with_attribute(self, value: Optional["FMAttributeDef"]) -> "FMFormulaByFeaturesAndAttributes":
         """
         Set attribute and return self for chaining.
-        
+
         Args:
             value: The attribute to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_attribute("value")
         """
@@ -157,13 +161,13 @@ class FMFormulaByFeaturesAndAttributes(ARObject, ABC):
     def with_feature(self, value: Optional["FMFeature"]) -> "FMFormulaByFeaturesAndAttributes":
         """
         Set feature and return self for chaining.
-        
+
         Args:
             value: The feature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_feature("value")
         """

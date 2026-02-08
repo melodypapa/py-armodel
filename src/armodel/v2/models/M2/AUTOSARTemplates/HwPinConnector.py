@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class HwPinConnector(Describable):
     """
     This meta-class represents the ability to connect two pins.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 22, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class HwPinConnector(Describable):
     def getHwPin(self) -> List["HwPin"]:
         """
         AUTOSAR-compliant getter for hwPin.
-        
+
         Returns:
             The hwPin value
-        
+
         Note:
             Delegates to hw_pin property (CODING_RULE_V2_00017)
         """

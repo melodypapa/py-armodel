@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class UdpNmCluster(NmCluster):
     """
     Udp specific NmCluster attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::UdpNmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 687, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class UdpNmCluster(NmCluster):
     def nm_cbv_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmCbvPosition with validation.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class UdpNmCluster(NmCluster):
     def nm_immediate(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set nmImmediate with validation.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class UdpNmCluster(NmCluster):
     def nm_message(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMessage with validation.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class UdpNmCluster(NmCluster):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +147,10 @@ class UdpNmCluster(NmCluster):
     def nm_network(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmNetwork with validation.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +176,10 @@ class UdpNmCluster(NmCluster):
     def nm_nid_position(self, value: Optional["Integer"]) -> None:
         """
         Set nmNidPosition with validation.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +206,10 @@ class UdpNmCluster(NmCluster):
     def nm_remote(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -235,10 +235,10 @@ class UdpNmCluster(NmCluster):
     def nm_repeat(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmRepeat with validation.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -265,10 +265,10 @@ class UdpNmCluster(NmCluster):
     def nm_wait_bus(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmWaitBus with validation.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -294,10 +294,10 @@ class UdpNmCluster(NmCluster):
     def vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlan with validation.
-        
+
         Args:
             value: The vlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -316,10 +316,10 @@ class UdpNmCluster(NmCluster):
     def getNmCbvPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmCbvPosition.
-        
+
         Returns:
             The nmCbvPosition value
-        
+
         Note:
             Delegates to nm_cbv_position property (CODING_RULE_V2_00017)
         """
@@ -328,13 +328,13 @@ class UdpNmCluster(NmCluster):
     def setNmCbvPosition(self, value: "Integer") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmCbvPosition with method chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_cbv_position property setter (gets validation automatically)
         """
@@ -344,10 +344,10 @@ class UdpNmCluster(NmCluster):
     def getNmImmediate(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for nmImmediate.
-        
+
         Returns:
             The nmImmediate value
-        
+
         Note:
             Delegates to nm_immediate property (CODING_RULE_V2_00017)
         """
@@ -356,13 +356,13 @@ class UdpNmCluster(NmCluster):
     def setNmImmediate(self, value: "PositiveInteger") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmImmediate with method chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_immediate property setter (gets validation automatically)
         """
@@ -372,10 +372,10 @@ class UdpNmCluster(NmCluster):
     def getNmMessage(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMessage.
-        
+
         Returns:
             The nmMessage value
-        
+
         Note:
             Delegates to nm_message property (CODING_RULE_V2_00017)
         """
@@ -384,13 +384,13 @@ class UdpNmCluster(NmCluster):
     def setNmMessage(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmMessage with method chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_message property setter (gets validation automatically)
         """
@@ -400,10 +400,10 @@ class UdpNmCluster(NmCluster):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -412,13 +412,13 @@ class UdpNmCluster(NmCluster):
     def setNmMsgCycle(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -428,10 +428,10 @@ class UdpNmCluster(NmCluster):
     def getNmNetwork(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmNetwork.
-        
+
         Returns:
             The nmNetwork value
-        
+
         Note:
             Delegates to nm_network property (CODING_RULE_V2_00017)
         """
@@ -440,13 +440,13 @@ class UdpNmCluster(NmCluster):
     def setNmNetwork(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmNetwork with method chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_network property setter (gets validation automatically)
         """
@@ -456,10 +456,10 @@ class UdpNmCluster(NmCluster):
     def getNmNidPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for nmNidPosition.
-        
+
         Returns:
             The nmNidPosition value
-        
+
         Note:
             Delegates to nm_nid_position property (CODING_RULE_V2_00017)
         """
@@ -468,13 +468,13 @@ class UdpNmCluster(NmCluster):
     def setNmNidPosition(self, value: "Integer") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmNidPosition with method chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_nid_position property setter (gets validation automatically)
         """
@@ -484,10 +484,10 @@ class UdpNmCluster(NmCluster):
     def getNmRemote(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -496,13 +496,13 @@ class UdpNmCluster(NmCluster):
     def setNmRemote(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -512,10 +512,10 @@ class UdpNmCluster(NmCluster):
     def getNmRepeat(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmRepeat.
-        
+
         Returns:
             The nmRepeat value
-        
+
         Note:
             Delegates to nm_repeat property (CODING_RULE_V2_00017)
         """
@@ -524,13 +524,13 @@ class UdpNmCluster(NmCluster):
     def setNmRepeat(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmRepeat with method chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_repeat property setter (gets validation automatically)
         """
@@ -540,10 +540,10 @@ class UdpNmCluster(NmCluster):
     def getNmWaitBus(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmWaitBus.
-        
+
         Returns:
             The nmWaitBus value
-        
+
         Note:
             Delegates to nm_wait_bus property (CODING_RULE_V2_00017)
         """
@@ -552,13 +552,13 @@ class UdpNmCluster(NmCluster):
     def setNmWaitBus(self, value: "TimeValue") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for nmWaitBus with method chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_wait_bus property setter (gets validation automatically)
         """
@@ -568,10 +568,10 @@ class UdpNmCluster(NmCluster):
     def getVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -580,13 +580,13 @@ class UdpNmCluster(NmCluster):
     def setVlan(self, value: "EthernetPhysical") -> "UdpNmCluster":
         """
         AUTOSAR-compliant setter for vlan with method chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan property setter (gets validation automatically)
         """
@@ -598,13 +598,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_cbv_position(self, value: Optional["Integer"]) -> "UdpNmCluster":
         """
         Set nmCbvPosition and return self for chaining.
-        
+
         Args:
             value: The nmCbvPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_cbv_position("value")
         """
@@ -614,13 +614,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_immediate(self, value: Optional["PositiveInteger"]) -> "UdpNmCluster":
         """
         Set nmImmediate and return self for chaining.
-        
+
         Args:
             value: The nmImmediate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_immediate("value")
         """
@@ -630,13 +630,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_message(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmMessage and return self for chaining.
-        
+
         Args:
             value: The nmMessage to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_message("value")
         """
@@ -646,13 +646,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -662,13 +662,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_network(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmNetwork and return self for chaining.
-        
+
         Args:
             value: The nmNetwork to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_network("value")
         """
@@ -678,13 +678,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_nid_position(self, value: Optional["Integer"]) -> "UdpNmCluster":
         """
         Set nmNidPosition and return self for chaining.
-        
+
         Args:
             value: The nmNidPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_nid_position("value")
         """
@@ -694,13 +694,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_remote(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -710,13 +710,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_repeat(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmRepeat and return self for chaining.
-        
+
         Args:
             value: The nmRepeat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_repeat("value")
         """
@@ -726,13 +726,13 @@ class UdpNmCluster(NmCluster):
     def with_nm_wait_bus(self, value: Optional["TimeValue"]) -> "UdpNmCluster":
         """
         Set nmWaitBus and return self for chaining.
-        
+
         Args:
             value: The nmWaitBus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_wait_bus("value")
         """
@@ -742,13 +742,13 @@ class UdpNmCluster(NmCluster):
     def with_vlan(self, value: Optional["EthernetPhysical"]) -> "UdpNmCluster":
         """
         Set vlan and return self for chaining.
-        
+
         Args:
             value: The vlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan("value")
         """

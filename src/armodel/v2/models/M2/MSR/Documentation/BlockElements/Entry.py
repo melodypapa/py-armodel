@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Entry(ARObject):
     """
     This represents one particular table cell.
-    
+
     Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Entry
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 336, Foundation
       R23-11)
@@ -28,10 +31,10 @@ class Entry(ARObject):
     def align(self, value: Optional["AlignEnum"]) -> None:
         """
         Set align with validation.
-        
+
         Args:
             value: The align to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class Entry(ARObject):
     def bgcolor(self, value: "String") -> None:
         """
         Set bgcolor with validation.
-        
+
         Args:
             value: The bgcolor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class Entry(ARObject):
     def colname(self, value: Optional["String"]) -> None:
         """
         Set colname with validation.
-        
+
         Args:
             value: The colname to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +113,10 @@ class Entry(ARObject):
     def colsep(self, value: Optional["TableSeparatorString"]) -> None:
         """
         Set colsep with validation.
-        
+
         Args:
             value: The colsep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -138,10 +141,10 @@ class Entry(ARObject):
     def entry_contents(self, value: "DocumentationBlock") -> None:
         """
         Set entryContents with validation.
-        
+
         Args:
             value: The entryContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +166,10 @@ class Entry(ARObject):
     def morerows(self, value: Optional["String"]) -> None:
         """
         Set morerows with validation.
-        
+
         Args:
             value: The morerows to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +194,10 @@ class Entry(ARObject):
     def nameend(self, value: Optional["String"]) -> None:
         """
         Set nameend with validation.
-        
+
         Args:
             value: The nameend to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -219,10 +222,10 @@ class Entry(ARObject):
     def namest(self, value: Optional["String"]) -> None:
         """
         Set namest with validation.
-        
+
         Args:
             value: The namest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -249,10 +252,10 @@ class Entry(ARObject):
     def rotate(self, value: Optional["String"]) -> None:
         """
         Set rotate with validation.
-        
+
         Args:
             value: The rotate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -277,10 +280,10 @@ class Entry(ARObject):
     def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
         """
         Set rowsep with validation.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -305,10 +308,10 @@ class Entry(ARObject):
     def spanname(self, value: Optional["String"]) -> None:
         """
         Set spanname with validation.
-        
+
         Args:
             value: The spanname to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -334,10 +337,10 @@ class Entry(ARObject):
     def valign(self, value: Optional["ValignEnum"]) -> None:
         """
         Set valign with validation.
-        
+
         Args:
             value: The valign to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -356,10 +359,10 @@ class Entry(ARObject):
     def getAlign(self) -> "AlignEnum":
         """
         AUTOSAR-compliant getter for align.
-        
+
         Returns:
             The align value
-        
+
         Note:
             Delegates to align property (CODING_RULE_V2_00017)
         """
@@ -368,13 +371,13 @@ class Entry(ARObject):
     def setAlign(self, value: "AlignEnum") -> "Entry":
         """
         AUTOSAR-compliant setter for align with method chaining.
-        
+
         Args:
             value: The align to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to align property setter (gets validation automatically)
         """
@@ -384,10 +387,10 @@ class Entry(ARObject):
     def getBgcolor(self) -> "String":
         """
         AUTOSAR-compliant getter for bgcolor.
-        
+
         Returns:
             The bgcolor value
-        
+
         Note:
             Delegates to bgcolor property (CODING_RULE_V2_00017)
         """
@@ -396,13 +399,13 @@ class Entry(ARObject):
     def setBgcolor(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for bgcolor with method chaining.
-        
+
         Args:
             value: The bgcolor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bgcolor property setter (gets validation automatically)
         """
@@ -412,10 +415,10 @@ class Entry(ARObject):
     def getColname(self) -> "String":
         """
         AUTOSAR-compliant getter for colname.
-        
+
         Returns:
             The colname value
-        
+
         Note:
             Delegates to colname property (CODING_RULE_V2_00017)
         """
@@ -424,13 +427,13 @@ class Entry(ARObject):
     def setColname(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for colname with method chaining.
-        
+
         Args:
             value: The colname to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colname property setter (gets validation automatically)
         """
@@ -440,10 +443,10 @@ class Entry(ARObject):
     def getColsep(self) -> "TableSeparatorString":
         """
         AUTOSAR-compliant getter for colsep.
-        
+
         Returns:
             The colsep value
-        
+
         Note:
             Delegates to colsep property (CODING_RULE_V2_00017)
         """
@@ -452,13 +455,13 @@ class Entry(ARObject):
     def setColsep(self, value: "TableSeparatorString") -> "Entry":
         """
         AUTOSAR-compliant setter for colsep with method chaining.
-        
+
         Args:
             value: The colsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colsep property setter (gets validation automatically)
         """
@@ -468,10 +471,10 @@ class Entry(ARObject):
     def getEntryContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for entryContents.
-        
+
         Returns:
             The entryContents value
-        
+
         Note:
             Delegates to entry_contents property (CODING_RULE_V2_00017)
         """
@@ -480,13 +483,13 @@ class Entry(ARObject):
     def setEntryContents(self, value: "DocumentationBlock") -> "Entry":
         """
         AUTOSAR-compliant setter for entryContents with method chaining.
-        
+
         Args:
             value: The entryContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to entry_contents property setter (gets validation automatically)
         """
@@ -496,10 +499,10 @@ class Entry(ARObject):
     def getMorerows(self) -> "String":
         """
         AUTOSAR-compliant getter for morerows.
-        
+
         Returns:
             The morerows value
-        
+
         Note:
             Delegates to morerows property (CODING_RULE_V2_00017)
         """
@@ -508,13 +511,13 @@ class Entry(ARObject):
     def setMorerows(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for morerows with method chaining.
-        
+
         Args:
             value: The morerows to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to morerows property setter (gets validation automatically)
         """
@@ -524,10 +527,10 @@ class Entry(ARObject):
     def getNameend(self) -> "String":
         """
         AUTOSAR-compliant getter for nameend.
-        
+
         Returns:
             The nameend value
-        
+
         Note:
             Delegates to nameend property (CODING_RULE_V2_00017)
         """
@@ -536,13 +539,13 @@ class Entry(ARObject):
     def setNameend(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for nameend with method chaining.
-        
+
         Args:
             value: The nameend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nameend property setter (gets validation automatically)
         """
@@ -552,10 +555,10 @@ class Entry(ARObject):
     def getNamest(self) -> "String":
         """
         AUTOSAR-compliant getter for namest.
-        
+
         Returns:
             The namest value
-        
+
         Note:
             Delegates to namest property (CODING_RULE_V2_00017)
         """
@@ -564,13 +567,13 @@ class Entry(ARObject):
     def setNamest(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for namest with method chaining.
-        
+
         Args:
             value: The namest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to namest property setter (gets validation automatically)
         """
@@ -580,10 +583,10 @@ class Entry(ARObject):
     def getRotate(self) -> "String":
         """
         AUTOSAR-compliant getter for rotate.
-        
+
         Returns:
             The rotate value
-        
+
         Note:
             Delegates to rotate property (CODING_RULE_V2_00017)
         """
@@ -592,13 +595,13 @@ class Entry(ARObject):
     def setRotate(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for rotate with method chaining.
-        
+
         Args:
             value: The rotate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rotate property setter (gets validation automatically)
         """
@@ -608,10 +611,10 @@ class Entry(ARObject):
     def getRowsep(self) -> "TableSeparatorString":
         """
         AUTOSAR-compliant getter for rowsep.
-        
+
         Returns:
             The rowsep value
-        
+
         Note:
             Delegates to rowsep property (CODING_RULE_V2_00017)
         """
@@ -620,13 +623,13 @@ class Entry(ARObject):
     def setRowsep(self, value: "TableSeparatorString") -> "Entry":
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rowsep property setter (gets validation automatically)
         """
@@ -636,10 +639,10 @@ class Entry(ARObject):
     def getSpanname(self) -> "String":
         """
         AUTOSAR-compliant getter for spanname.
-        
+
         Returns:
             The spanname value
-        
+
         Note:
             Delegates to spanname property (CODING_RULE_V2_00017)
         """
@@ -648,13 +651,13 @@ class Entry(ARObject):
     def setSpanname(self, value: "String") -> "Entry":
         """
         AUTOSAR-compliant setter for spanname with method chaining.
-        
+
         Args:
             value: The spanname to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to spanname property setter (gets validation automatically)
         """
@@ -664,10 +667,10 @@ class Entry(ARObject):
     def getValign(self) -> "ValignEnum":
         """
         AUTOSAR-compliant getter for valign.
-        
+
         Returns:
             The valign value
-        
+
         Note:
             Delegates to valign property (CODING_RULE_V2_00017)
         """
@@ -676,13 +679,13 @@ class Entry(ARObject):
     def setValign(self, value: "ValignEnum") -> "Entry":
         """
         AUTOSAR-compliant setter for valign with method chaining.
-        
+
         Args:
             value: The valign to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to valign property setter (gets validation automatically)
         """
@@ -694,13 +697,13 @@ class Entry(ARObject):
     def with_align(self, value: Optional["AlignEnum"]) -> "Entry":
         """
         Set align and return self for chaining.
-        
+
         Args:
             value: The align to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_align("value")
         """
@@ -710,13 +713,13 @@ class Entry(ARObject):
     def with_bgcolor(self, value: "String") -> "Entry":
         """
         Set bgcolor and return self for chaining.
-        
+
         Args:
             value: The bgcolor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bgcolor("value")
         """
@@ -726,13 +729,13 @@ class Entry(ARObject):
     def with_colname(self, value: Optional["String"]) -> "Entry":
         """
         Set colname and return self for chaining.
-        
+
         Args:
             value: The colname to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colname("value")
         """
@@ -742,13 +745,13 @@ class Entry(ARObject):
     def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Entry":
         """
         Set colsep and return self for chaining.
-        
+
         Args:
             value: The colsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colsep("value")
         """
@@ -758,13 +761,13 @@ class Entry(ARObject):
     def with_entry_contents(self, value: "DocumentationBlock") -> "Entry":
         """
         Set entryContents and return self for chaining.
-        
+
         Args:
             value: The entryContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_entry_contents("value")
         """
@@ -774,13 +777,13 @@ class Entry(ARObject):
     def with_morerows(self, value: Optional["String"]) -> "Entry":
         """
         Set morerows and return self for chaining.
-        
+
         Args:
             value: The morerows to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_morerows("value")
         """
@@ -790,13 +793,13 @@ class Entry(ARObject):
     def with_nameend(self, value: Optional["String"]) -> "Entry":
         """
         Set nameend and return self for chaining.
-        
+
         Args:
             value: The nameend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nameend("value")
         """
@@ -806,13 +809,13 @@ class Entry(ARObject):
     def with_namest(self, value: Optional["String"]) -> "Entry":
         """
         Set namest and return self for chaining.
-        
+
         Args:
             value: The namest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_namest("value")
         """
@@ -822,13 +825,13 @@ class Entry(ARObject):
     def with_rotate(self, value: Optional["String"]) -> "Entry":
         """
         Set rotate and return self for chaining.
-        
+
         Args:
             value: The rotate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rotate("value")
         """
@@ -838,13 +841,13 @@ class Entry(ARObject):
     def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Entry":
         """
         Set rowsep and return self for chaining.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rowsep("value")
         """
@@ -854,13 +857,13 @@ class Entry(ARObject):
     def with_spanname(self, value: Optional["String"]) -> "Entry":
         """
         Set spanname and return self for chaining.
-        
+
         Args:
             value: The spanname to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_spanname("value")
         """
@@ -870,13 +873,13 @@ class Entry(ARObject):
     def with_valign(self, value: Optional["ValignEnum"]) -> "Entry":
         """
         Set valign and return self for chaining.
-        
+
         Args:
             value: The valign to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_valign("value")
         """

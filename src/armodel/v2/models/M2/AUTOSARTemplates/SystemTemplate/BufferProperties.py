@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BufferProperties(ARObject):
     """
     Configuration of the buffer properties the transformer needs to work.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::BufferProperties
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 199, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class BufferProperties(ARObject):
     def header_length(self, value: Optional["Integer"]) -> None:
         """
         Set headerLength with validation.
-        
+
         Args:
             value: The headerLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class BufferProperties(ARObject):
     def in_place(self, value: Optional["Boolean"]) -> None:
         """
         Set inPlace with validation.
-        
+
         Args:
             value: The inPlace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class BufferProperties(ARObject):
     def getHeaderLength(self) -> "Integer":
         """
         AUTOSAR-compliant getter for headerLength.
-        
+
         Returns:
             The headerLength value
-        
+
         Note:
             Delegates to header_length property (CODING_RULE_V2_00017)
         """
@@ -92,13 +95,13 @@ class BufferProperties(ARObject):
     def setHeaderLength(self, value: "Integer") -> "BufferProperties":
         """
         AUTOSAR-compliant setter for headerLength with method chaining.
-        
+
         Args:
             value: The headerLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_length property setter (gets validation automatically)
         """
@@ -108,10 +111,10 @@ class BufferProperties(ARObject):
     def getInPlace(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for inPlace.
-        
+
         Returns:
             The inPlace value
-        
+
         Note:
             Delegates to in_place property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class BufferProperties(ARObject):
     def setInPlace(self, value: "Boolean") -> "BufferProperties":
         """
         AUTOSAR-compliant setter for inPlace with method chaining.
-        
+
         Args:
             value: The inPlace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to in_place property setter (gets validation automatically)
         """
@@ -138,13 +141,13 @@ class BufferProperties(ARObject):
     def with_header_length(self, value: Optional["Integer"]) -> "BufferProperties":
         """
         Set headerLength and return self for chaining.
-        
+
         Args:
             value: The headerLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_length("value")
         """
@@ -154,13 +157,13 @@ class BufferProperties(ARObject):
     def with_in_place(self, value: Optional["Boolean"]) -> "BufferProperties":
         """
         Set inPlace and return self for chaining.
-        
+
         Args:
             value: The inPlace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_in_place("value")
         """

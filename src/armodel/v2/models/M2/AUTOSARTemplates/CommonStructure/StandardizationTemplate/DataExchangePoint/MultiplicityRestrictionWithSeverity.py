@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class MultiplicityRestrictionWithSeverity(RestrictionWithSeverity):
     """
     Restriction that specifies the valid number of occurrences of an element in
     the current context.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::MultiplicityRestrictionWithSeverity
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 87, Foundation R23-11)
     """

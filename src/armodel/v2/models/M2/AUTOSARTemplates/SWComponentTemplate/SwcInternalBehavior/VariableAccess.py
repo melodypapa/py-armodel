@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class VariableAccess(AbstractAccessPoint):
     """
     The presence of a VariableAccess implies that a RunnableEntity needs access
     to a VariableData Prototype. The kind of access is specified by the role in
     which the class is used.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::VariableAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 351, Classic
       Platform R23-11)
@@ -34,10 +37,10 @@ class VariableAccess(AbstractAccessPoint):
     def accessed_variable(self, value: RefType) -> None:
         """
         Set accessedVariable with validation.
-        
+
         Args:
             value: The accessedVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class VariableAccess(AbstractAccessPoint):
     def scope(self, value: Optional["VariableAccessScope"]) -> None:
         """
         Set scope with validation.
-        
+
         Args:
             value: The scope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class VariableAccess(AbstractAccessPoint):
     def getAccessedVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedVariable.
-        
+
         Returns:
             The accessedVariable value
-        
+
         Note:
             Delegates to accessed_variable property (CODING_RULE_V2_00017)
         """
@@ -94,13 +97,13 @@ class VariableAccess(AbstractAccessPoint):
     def setAccessedVariable(self, value: RefType) -> "VariableAccess":
         """
         AUTOSAR-compliant setter for accessedVariable with method chaining.
-        
+
         Args:
             value: The accessedVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accessed_variable property setter (gets validation automatically)
         """
@@ -110,10 +113,10 @@ class VariableAccess(AbstractAccessPoint):
     def getScope(self) -> "VariableAccessScope":
         """
         AUTOSAR-compliant getter for scope.
-        
+
         Returns:
             The scope value
-        
+
         Note:
             Delegates to scope property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class VariableAccess(AbstractAccessPoint):
     def setScope(self, value: "VariableAccessScope") -> "VariableAccess":
         """
         AUTOSAR-compliant setter for scope with method chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scope property setter (gets validation automatically)
         """
@@ -140,13 +143,13 @@ class VariableAccess(AbstractAccessPoint):
     def with_accessed_variable(self, value: Optional[RefType]) -> "VariableAccess":
         """
         Set accessedVariable and return self for chaining.
-        
+
         Args:
             value: The accessedVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accessed_variable("value")
         """
@@ -156,13 +159,13 @@ class VariableAccess(AbstractAccessPoint):
     def with_scope(self, value: Optional["VariableAccessScope"]) -> "VariableAccess":
         """
         Set scope and return self for chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scope("value")
         """

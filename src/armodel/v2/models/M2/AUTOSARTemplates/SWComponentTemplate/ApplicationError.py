@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ApplicationError(Identifiable):
     """
     This is a user-defined error that is associated with an element of an
     AUTOSAR interface. It is specific for the particular functionality or
     service provided by the AUTOSAR software component.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ApplicationError
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 108, Classic Platform
       R23-11)
@@ -33,10 +35,10 @@ class ApplicationError(Identifiable):
     def error_code(self, value: Optional["Integer"]) -> None:
         """
         Set errorCode with validation.
-        
+
         Args:
             value: The errorCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +57,10 @@ class ApplicationError(Identifiable):
     def getErrorCode(self) -> "Integer":
         """
         AUTOSAR-compliant getter for errorCode.
-        
+
         Returns:
             The errorCode value
-        
+
         Note:
             Delegates to error_code property (CODING_RULE_V2_00017)
         """
@@ -67,13 +69,13 @@ class ApplicationError(Identifiable):
     def setErrorCode(self, value: "Integer") -> "ApplicationError":
         """
         AUTOSAR-compliant setter for errorCode with method chaining.
-        
+
         Args:
             value: The errorCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to error_code property setter (gets validation automatically)
         """
@@ -85,13 +87,13 @@ class ApplicationError(Identifiable):
     def with_error_code(self, value: Optional["Integer"]) -> "ApplicationError":
         """
         Set errorCode and return self for chaining.
-        
+
         Args:
             value: The errorCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_error_code("value")
         """

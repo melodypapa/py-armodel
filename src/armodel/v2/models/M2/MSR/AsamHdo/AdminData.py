@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AdminData(ARObject):
     """
@@ -16,9 +19,9 @@ class AdminData(ARObject):
     utilized to keep e.g. tool specific data. Stereotypes: atpSplitable (cid:53)
     288 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of
     ECU Configuration AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::MSR::AsamHdo::AdminData::AdminData
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 288, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 969, Classic Platform
@@ -55,10 +58,10 @@ class AdminData(ARObject):
     def used_languages(self, value: Optional["MultiLanguagePlainText"]) -> None:
         """
         Set usedLanguages with validation.
-        
+
         Args:
             value: The usedLanguages to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +80,10 @@ class AdminData(ARObject):
     def getDocRevision(self) -> List["DocRevision"]:
         """
         AUTOSAR-compliant getter for docRevision.
-        
+
         Returns:
             The docRevision value
-        
+
         Note:
             Delegates to doc_revision property (CODING_RULE_V2_00017)
         """
@@ -89,10 +92,10 @@ class AdminData(ARObject):
     def getUsedLanguages(self) -> "MultiLanguagePlainText":
         """
         AUTOSAR-compliant getter for usedLanguages.
-        
+
         Returns:
             The usedLanguages value
-        
+
         Note:
             Delegates to used_languages property (CODING_RULE_V2_00017)
         """
@@ -101,13 +104,13 @@ class AdminData(ARObject):
     def setUsedLanguages(self, value: "MultiLanguagePlainText") -> "AdminData":
         """
         AUTOSAR-compliant setter for usedLanguages with method chaining.
-        
+
         Args:
             value: The usedLanguages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_languages property setter (gets validation automatically)
         """
@@ -119,13 +122,13 @@ class AdminData(ARObject):
     def with_used_languages(self, value: Optional["MultiLanguagePlainText"]) -> "AdminData":
         """
         Set usedLanguages and return self for chaining.
-        
+
         Args:
             value: The usedLanguages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_languages("value")
         """

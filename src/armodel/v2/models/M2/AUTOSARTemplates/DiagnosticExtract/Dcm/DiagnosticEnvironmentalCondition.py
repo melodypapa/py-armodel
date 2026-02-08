@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     """
@@ -7,9 +7,9 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     condition which is evaluated during runtime of the ECU by looking at
     "environmental" states (e.g. one such condition is that the vehicle is not
     driving, i.e. vehicle speed == 0).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvironmentalCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 79, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def formula(self, value: Optional["DiagnosticEnvCondition"]) -> None:
         """
         Set formula with validation.
-        
+
         Args:
             value: The formula to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def getFormula(self) -> "DiagnosticEnvCondition":
         """
         AUTOSAR-compliant getter for formula.
-        
+
         Returns:
             The formula value
-        
+
         Note:
             Delegates to formula property (CODING_RULE_V2_00017)
         """
@@ -72,13 +72,13 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def setFormula(self, value: "DiagnosticEnvCondition") -> "DiagnosticEnvironmentalCondition":
         """
         AUTOSAR-compliant setter for formula with method chaining.
-        
+
         Args:
             value: The formula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to formula property setter (gets validation automatically)
         """
@@ -88,10 +88,10 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def getModeElement(self) -> List["DiagnosticEnvMode"]:
         """
         AUTOSAR-compliant getter for modeElement.
-        
+
         Returns:
             The modeElement value
-        
+
         Note:
             Delegates to mode_element property (CODING_RULE_V2_00017)
         """
@@ -102,13 +102,13 @@ class DiagnosticEnvironmentalCondition(DiagnosticCommonElement):
     def with_formula(self, value: Optional["DiagnosticEnvCondition"]) -> "DiagnosticEnvironmentalCondition":
         """
         Set formula and return self for chaining.
-        
+
         Args:
             value: The formula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_formula("value")
         """

@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SdgForeignReference(SdgAbstractForeignReference):
     """
     A reference without variation support that can point to any referrable
     object in an AUTOSAR Model. This class accepts the special data "Sdx"
     reference.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::SpecialDataDef::SdgForeignReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 102, Foundation
       R23-11)

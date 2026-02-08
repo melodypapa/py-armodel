@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ApplicationDeferredDataType(ApplicationDataType):
     """
     A placeholder data type in which the precise application data type is
     deferred to a later stage.
-    
+
     Package: M2::AUTOSARTemplates::AbstractPlatform::ApplicationDeferredDataType
-    
+
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 37, Foundation
       R23-11)

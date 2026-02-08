@@ -5,9 +5,9 @@ class DefItem(Paginateable):
     """
     This represents an entry in a definition list. The defined item is specified
     using shortName and longName.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::DefItem
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 298, Foundation
       R23-11)
@@ -28,10 +28,10 @@ class DefItem(Paginateable):
     def def(self, value: "DocumentationBlock") -> None:
         """
         Set def with validation.
-        
+
         Args:
             value: The def to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class DefItem(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class DefItem(Paginateable):
     def getDef(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for def.
-        
+
         Returns:
             The def value
-        
+
         Note:
             Delegates to def property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class DefItem(Paginateable):
     def setDef(self, value: "DocumentationBlock") -> "DefItem":
         """
         AUTOSAR-compliant setter for def with method chaining.
-        
+
         Args:
             value: The def to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to def property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class DefItem(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class DefItem(Paginateable):
     def setHelpEntry(self, value: "String") -> "DefItem":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class DefItem(Paginateable):
     def with_def(self, value: "DocumentationBlock") -> "DefItem":
         """
         Set def and return self for chaining.
-        
+
         Args:
             value: The def to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_def("value")
         """
@@ -150,13 +150,13 @@ class DefItem(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "DefItem":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class FreeFormatEntry(ScheduleTableEntry, ABC):
     """
     FreeFormat transmits a fixed master request frame with the eight data bytes
     provided. This may for instance be used to issue user specific fixed frames.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::FreeFormatEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 433, Classic Platform R23-11)
     """

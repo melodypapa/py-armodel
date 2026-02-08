@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    PortInterface,
+)
+
 
 class ClientServerInterface(PortInterface):
     """
     A client/server interface declares a number of operations that can be
     invoked on a server by a client.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 308, Classic
       Platform R23-11)
@@ -45,10 +48,10 @@ class ClientServerInterface(PortInterface):
     def getOperation(self) -> List["ClientServerOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -57,10 +60,10 @@ class ClientServerInterface(PortInterface):
     def getPossibleError(self) -> List["ApplicationError"]:
         """
         AUTOSAR-compliant getter for possibleError.
-        
+
         Returns:
             The possibleError value
-        
+
         Note:
             Delegates to possible_error property (CODING_RULE_V2_00017)
         """

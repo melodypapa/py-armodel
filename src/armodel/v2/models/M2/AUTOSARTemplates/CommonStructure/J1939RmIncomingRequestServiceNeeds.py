@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     """
@@ -7,9 +5,9 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     configuration of the J1939Rm, in particular for the case where an
     ApplicationSwComponentType needs to accept a request from another J1939
     node.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::J1939RmIncomingRequestServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 829, Classic Platform
       R23-11)

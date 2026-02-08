@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticTransferExitClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Transfer
     Exit" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticTransferExitClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 143, Classic Platform
       R23-11)

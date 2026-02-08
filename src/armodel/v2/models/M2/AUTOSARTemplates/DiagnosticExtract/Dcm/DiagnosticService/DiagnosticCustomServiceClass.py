@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     """
@@ -7,9 +7,9 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     assign an ID to it. Further configuration is not foreseen from the point of
     view of the diagnostic extract and consequently needs to be done on the
     level of ECUC.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommonService::DiagnosticCustomServiceClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 71, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def custom_service(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set customService with validation.
-        
+
         Args:
             value: The customService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def getCustomService(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for customService.
-        
+
         Returns:
             The customService value
-        
+
         Note:
             Delegates to custom_service property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def setCustomService(self, value: "PositiveInteger") -> "DiagnosticCustomServiceClass":
         """
         AUTOSAR-compliant setter for customService with method chaining.
-        
+
         Args:
             value: The customService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to custom_service property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     def with_custom_service(self, value: Optional["PositiveInteger"]) -> "DiagnosticCustomServiceClass":
         """
         Set customService and return self for chaining.
-        
+
         Args:
             value: The customService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_custom_service("value")
         """

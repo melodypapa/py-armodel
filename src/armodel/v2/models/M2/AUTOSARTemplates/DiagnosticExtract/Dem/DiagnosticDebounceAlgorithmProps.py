@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagnosticDebounceAlgorithmProps(Identifiable):
     """
     Defines properties for the debounce algorithm class.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticDebouncingAlgorithm::DiagnosticDebounceAlgorithmProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 195, Classic Platform
       R23-11)
@@ -33,10 +35,10 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def debounce(self, value: Optional["Boolean"]) -> None:
         """
         Set debounce with validation.
-        
+
         Args:
             value: The debounce to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +57,10 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def getDebounce(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for debounce.
-        
+
         Returns:
             The debounce value
-        
+
         Note:
             Delegates to debounce property (CODING_RULE_V2_00017)
         """
@@ -67,13 +69,13 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def setDebounce(self, value: "Boolean") -> "DiagnosticDebounceAlgorithmProps":
         """
         AUTOSAR-compliant setter for debounce with method chaining.
-        
+
         Args:
             value: The debounce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to debounce property setter (gets validation automatically)
         """
@@ -85,13 +87,13 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
     def with_debounce(self, value: Optional["Boolean"]) -> "DiagnosticDebounceAlgorithmProps":
         """
         Set debounce and return self for chaining.
-        
+
         Args:
             value: The debounce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_debounce("value")
         """

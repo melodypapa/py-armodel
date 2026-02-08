@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticInfoType(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model an OBD info type.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticInfoType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 160, Classic Platform
       R23-11)
@@ -34,10 +34,10 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def getDataElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -68,10 +68,10 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -80,13 +80,13 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticInfoType":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -98,13 +98,13 @@ class DiagnosticInfoType(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticInfoType":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """

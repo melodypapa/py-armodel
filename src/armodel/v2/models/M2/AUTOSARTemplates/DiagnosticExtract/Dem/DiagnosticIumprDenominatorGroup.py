@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticIumprDenominatorGroup(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model a IUMPR denominator groups.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent::DiagnosticIumprDenominatorGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 211, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticIumprDenominatorGroup(DiagnosticCommonElement):
     def getIumpr(self) -> List["DiagnosticIumpr"]:
         """
         AUTOSAR-compliant getter for iumpr.
-        
+
         Returns:
             The iumpr value
-        
+
         Note:
             Delegates to iumpr property (CODING_RULE_V2_00017)
         """

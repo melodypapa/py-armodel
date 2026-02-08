@@ -1,8 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PhysicalChannel(Identifiable, ABC):
     """
@@ -13,9 +18,9 @@ class PhysicalChannel(Identifiable, ABC):
     PhysicalChannels that may be used in parallel for redundant communication.
     An ECU is part of a cluster if it contains at least one controller that is
     connected to at least one channel of the cluster.#
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::PhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 325, Classic Platform
       R23-11)
@@ -82,10 +87,10 @@ class PhysicalChannel(Identifiable, ABC):
     def getComm(self) -> List["Communication"]:
         """
         AUTOSAR-compliant getter for comm.
-        
+
         Returns:
             The comm value
-        
+
         Note:
             Delegates to comm property (CODING_RULE_V2_00017)
         """
@@ -94,10 +99,10 @@ class PhysicalChannel(Identifiable, ABC):
     def getFrameTriggering(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for frameTriggering.
-        
+
         Returns:
             The frameTriggering value
-        
+
         Note:
             Delegates to frame_triggering property (CODING_RULE_V2_00017)
         """
@@ -106,10 +111,10 @@ class PhysicalChannel(Identifiable, ABC):
     def getISignal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -118,10 +123,10 @@ class PhysicalChannel(Identifiable, ABC):
     def getManaged(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for managed.
-        
+
         Returns:
             The managed value
-        
+
         Note:
             Delegates to managed property (CODING_RULE_V2_00017)
         """
@@ -130,10 +135,10 @@ class PhysicalChannel(Identifiable, ABC):
     def getPduTriggering(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """

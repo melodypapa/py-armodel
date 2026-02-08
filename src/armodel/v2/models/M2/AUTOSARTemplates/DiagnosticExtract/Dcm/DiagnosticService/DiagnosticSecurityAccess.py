@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     """
     This represents an instance of the "Security Access" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SecurityAccess::DiagnosticSecurityAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 96, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def request_seed_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set requestSeedId with validation.
-        
+
         Args:
             value: The requestSeedId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def security_access(self, value: Optional["DiagnosticSecurity"]) -> None:
         """
         Set securityAccess with validation.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def security_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set securityDelay with validation.
-        
+
         Args:
             value: The securityDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def security_level(self, value: Optional["DiagnosticSecurityLevel"]) -> None:
         """
         Set securityLevel with validation.
-        
+
         Args:
             value: The securityLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +137,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def getRequestSeedId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for requestSeedId.
-        
+
         Returns:
             The requestSeedId value
-        
+
         Note:
             Delegates to request_seed_id property (CODING_RULE_V2_00017)
         """
@@ -149,13 +149,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def setRequestSeedId(self, value: "PositiveInteger") -> "DiagnosticSecurityAccess":
         """
         AUTOSAR-compliant setter for requestSeedId with method chaining.
-        
+
         Args:
             value: The requestSeedId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_seed_id property setter (gets validation automatically)
         """
@@ -165,10 +165,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def getSecurityAccess(self) -> "DiagnosticSecurity":
         """
         AUTOSAR-compliant getter for securityAccess.
-        
+
         Returns:
             The securityAccess value
-        
+
         Note:
             Delegates to security_access property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def setSecurityAccess(self, value: "DiagnosticSecurity") -> "DiagnosticSecurityAccess":
         """
         AUTOSAR-compliant setter for securityAccess with method chaining.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_access property setter (gets validation automatically)
         """
@@ -193,10 +193,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def getSecurityDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for securityDelay.
-        
+
         Returns:
             The securityDelay value
-        
+
         Note:
             Delegates to security_delay property (CODING_RULE_V2_00017)
         """
@@ -205,13 +205,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def setSecurityDelay(self, value: "TimeValue") -> "DiagnosticSecurityAccess":
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
-        
+
         Args:
             value: The securityDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_delay property setter (gets validation automatically)
         """
@@ -221,10 +221,10 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def getSecurityLevel(self) -> "DiagnosticSecurityLevel":
         """
         AUTOSAR-compliant getter for securityLevel.
-        
+
         Returns:
             The securityLevel value
-        
+
         Note:
             Delegates to security_level property (CODING_RULE_V2_00017)
         """
@@ -233,13 +233,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def setSecurityLevel(self, value: "DiagnosticSecurityLevel") -> "DiagnosticSecurityAccess":
         """
         AUTOSAR-compliant setter for securityLevel with method chaining.
-        
+
         Args:
             value: The securityLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_level property setter (gets validation automatically)
         """
@@ -251,13 +251,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def with_request_seed_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticSecurityAccess":
         """
         Set requestSeedId and return self for chaining.
-        
+
         Args:
             value: The requestSeedId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_seed_id("value")
         """
@@ -267,13 +267,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def with_security_access(self, value: Optional["DiagnosticSecurity"]) -> "DiagnosticSecurityAccess":
         """
         Set securityAccess and return self for chaining.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_access("value")
         """
@@ -283,13 +283,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def with_security_delay(self, value: Optional["TimeValue"]) -> "DiagnosticSecurityAccess":
         """
         Set securityDelay and return self for chaining.
-        
+
         Args:
             value: The securityDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_delay("value")
         """
@@ -299,13 +299,13 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     def with_security_level(self, value: Optional["DiagnosticSecurityLevel"]) -> "DiagnosticSecurityAccess":
         """
         Set securityLevel and return self for chaining.
-        
+
         Args:
             value: The securityLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_level("value")
         """

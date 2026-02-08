@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Colspec(ARObject):
     """
     This meta-class represents the ability to specify the properties of a column
     in a table.
-    
+
     Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Colspec
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 433, Foundation
       R23-11)
@@ -31,10 +34,10 @@ class Colspec(ARObject):
     def align(self, value: Optional["AlignEnum"]) -> None:
         """
         Set align with validation.
-        
+
         Args:
             value: The align to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class Colspec(ARObject):
     def colname(self, value: Optional["String"]) -> None:
         """
         Set colname with validation.
-        
+
         Args:
             value: The colname to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class Colspec(ARObject):
     def colnum(self, value: Optional["String"]) -> None:
         """
         Set colnum with validation.
-        
+
         Args:
             value: The colnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class Colspec(ARObject):
     def colsep(self, value: Optional["TableSeparatorString"]) -> None:
         """
         Set colsep with validation.
-        
+
         Args:
             value: The colsep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -150,10 +153,10 @@ class Colspec(ARObject):
     def colwidth(self, value: Optional["String"]) -> None:
         """
         Set colwidth with validation.
-        
+
         Args:
             value: The colwidth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -179,10 +182,10 @@ class Colspec(ARObject):
     def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
         """
         Set rowsep with validation.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +204,10 @@ class Colspec(ARObject):
     def getAlign(self) -> "AlignEnum":
         """
         AUTOSAR-compliant getter for align.
-        
+
         Returns:
             The align value
-        
+
         Note:
             Delegates to align property (CODING_RULE_V2_00017)
         """
@@ -213,13 +216,13 @@ class Colspec(ARObject):
     def setAlign(self, value: "AlignEnum") -> "Colspec":
         """
         AUTOSAR-compliant setter for align with method chaining.
-        
+
         Args:
             value: The align to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to align property setter (gets validation automatically)
         """
@@ -229,10 +232,10 @@ class Colspec(ARObject):
     def getColname(self) -> "String":
         """
         AUTOSAR-compliant getter for colname.
-        
+
         Returns:
             The colname value
-        
+
         Note:
             Delegates to colname property (CODING_RULE_V2_00017)
         """
@@ -241,13 +244,13 @@ class Colspec(ARObject):
     def setColname(self, value: "String") -> "Colspec":
         """
         AUTOSAR-compliant setter for colname with method chaining.
-        
+
         Args:
             value: The colname to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colname property setter (gets validation automatically)
         """
@@ -257,10 +260,10 @@ class Colspec(ARObject):
     def getColnum(self) -> "String":
         """
         AUTOSAR-compliant getter for colnum.
-        
+
         Returns:
             The colnum value
-        
+
         Note:
             Delegates to colnum property (CODING_RULE_V2_00017)
         """
@@ -269,13 +272,13 @@ class Colspec(ARObject):
     def setColnum(self, value: "String") -> "Colspec":
         """
         AUTOSAR-compliant setter for colnum with method chaining.
-        
+
         Args:
             value: The colnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colnum property setter (gets validation automatically)
         """
@@ -285,10 +288,10 @@ class Colspec(ARObject):
     def getColsep(self) -> "TableSeparatorString":
         """
         AUTOSAR-compliant getter for colsep.
-        
+
         Returns:
             The colsep value
-        
+
         Note:
             Delegates to colsep property (CODING_RULE_V2_00017)
         """
@@ -297,13 +300,13 @@ class Colspec(ARObject):
     def setColsep(self, value: "TableSeparatorString") -> "Colspec":
         """
         AUTOSAR-compliant setter for colsep with method chaining.
-        
+
         Args:
             value: The colsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colsep property setter (gets validation automatically)
         """
@@ -313,10 +316,10 @@ class Colspec(ARObject):
     def getColwidth(self) -> "String":
         """
         AUTOSAR-compliant getter for colwidth.
-        
+
         Returns:
             The colwidth value
-        
+
         Note:
             Delegates to colwidth property (CODING_RULE_V2_00017)
         """
@@ -325,13 +328,13 @@ class Colspec(ARObject):
     def setColwidth(self, value: "String") -> "Colspec":
         """
         AUTOSAR-compliant setter for colwidth with method chaining.
-        
+
         Args:
             value: The colwidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colwidth property setter (gets validation automatically)
         """
@@ -341,10 +344,10 @@ class Colspec(ARObject):
     def getRowsep(self) -> "TableSeparatorString":
         """
         AUTOSAR-compliant getter for rowsep.
-        
+
         Returns:
             The rowsep value
-        
+
         Note:
             Delegates to rowsep property (CODING_RULE_V2_00017)
         """
@@ -353,13 +356,13 @@ class Colspec(ARObject):
     def setRowsep(self, value: "TableSeparatorString") -> "Colspec":
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rowsep property setter (gets validation automatically)
         """
@@ -371,13 +374,13 @@ class Colspec(ARObject):
     def with_align(self, value: Optional["AlignEnum"]) -> "Colspec":
         """
         Set align and return self for chaining.
-        
+
         Args:
             value: The align to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_align("value")
         """
@@ -387,13 +390,13 @@ class Colspec(ARObject):
     def with_colname(self, value: Optional["String"]) -> "Colspec":
         """
         Set colname and return self for chaining.
-        
+
         Args:
             value: The colname to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colname("value")
         """
@@ -403,13 +406,13 @@ class Colspec(ARObject):
     def with_colnum(self, value: Optional["String"]) -> "Colspec":
         """
         Set colnum and return self for chaining.
-        
+
         Args:
             value: The colnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colnum("value")
         """
@@ -419,13 +422,13 @@ class Colspec(ARObject):
     def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Colspec":
         """
         Set colsep and return self for chaining.
-        
+
         Args:
             value: The colsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colsep("value")
         """
@@ -435,13 +438,13 @@ class Colspec(ARObject):
     def with_colwidth(self, value: Optional["String"]) -> "Colspec":
         """
         Set colwidth and return self for chaining.
-        
+
         Args:
             value: The colwidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colwidth("value")
         """
@@ -451,13 +454,13 @@ class Colspec(ARObject):
     def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Colspec":
         """
         Set rowsep and return self for chaining.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rowsep("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DelegatedPortAnnotation(GeneralAnnotation):
     """
     Annotation to a "delegated port" to specify the Signal Fan In or Signal Fan
     Out inside the CompositionSw ComponentType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::DelegatedPortAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 162, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DelegatedPortAnnotation(GeneralAnnotation):
     def signal_fan(self, value: Optional["SignalFanEnum"]) -> None:
         """
         Set signalFan with validation.
-        
+
         Args:
             value: The signalFan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DelegatedPortAnnotation(GeneralAnnotation):
     def getSignalFan(self) -> "SignalFanEnum":
         """
         AUTOSAR-compliant getter for signalFan.
-        
+
         Returns:
             The signalFan value
-        
+
         Note:
             Delegates to signal_fan property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DelegatedPortAnnotation(GeneralAnnotation):
     def setSignalFan(self, value: "SignalFanEnum") -> "DelegatedPortAnnotation":
         """
         AUTOSAR-compliant setter for signalFan with method chaining.
-        
+
         Args:
             value: The signalFan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signal_fan property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DelegatedPortAnnotation(GeneralAnnotation):
     def with_signal_fan(self, value: Optional["SignalFanEnum"]) -> "DelegatedPortAnnotation":
         """
         Set signalFan and return self for chaining.
-        
+
         Args:
             value: The signalFan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signal_fan("value")
         """

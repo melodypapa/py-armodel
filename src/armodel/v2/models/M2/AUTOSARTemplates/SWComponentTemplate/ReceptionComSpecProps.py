@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ReceptionComSpecProps(ARObject):
     """
     This meta-class defines a set of reception attributes which the application
     software is assumed to implement.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ReceptionComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 174, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class ReceptionComSpecProps(ARObject):
     def data_update(self, value: Optional["TimeValue"]) -> None:
         """
         Set dataUpdate with validation.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +66,10 @@ class ReceptionComSpecProps(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class ReceptionComSpecProps(ARObject):
     def getDataUpdate(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for dataUpdate.
-        
+
         Returns:
             The dataUpdate value
-        
+
         Note:
             Delegates to data_update property (CODING_RULE_V2_00017)
         """
@@ -97,13 +100,13 @@ class ReceptionComSpecProps(ARObject):
     def setDataUpdate(self, value: "TimeValue") -> "ReceptionComSpecProps":
         """
         AUTOSAR-compliant setter for dataUpdate with method chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_update property setter (gets validation automatically)
         """
@@ -113,10 +116,10 @@ class ReceptionComSpecProps(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -125,13 +128,13 @@ class ReceptionComSpecProps(ARObject):
     def setTimeout(self, value: "TimeValue") -> "ReceptionComSpecProps":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -143,13 +146,13 @@ class ReceptionComSpecProps(ARObject):
     def with_data_update(self, value: Optional["TimeValue"]) -> "ReceptionComSpecProps":
         """
         Set dataUpdate and return self for chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_update("value")
         """
@@ -159,13 +162,13 @@ class ReceptionComSpecProps(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ReceptionComSpecProps":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class NonqueuedSenderComSpec(SenderComSpec):
     """
     Communication attributes for non-queued sender/receiver communication
     (sender side)
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NonqueuedSenderComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def data_filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set dataFilter with validation.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def getDataFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for dataFilter.
-        
+
         Returns:
             The dataFilter value
-        
+
         Note:
             Delegates to data_filter property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def setDataFilter(self, value: "DataFilter") -> "NonqueuedSenderComSpec":
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_filter property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "NonqueuedSenderComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def with_data_filter(self, value: Optional["DataFilter"]) -> "NonqueuedSenderComSpec":
         """
         Set dataFilter and return self for chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_filter("value")
         """
@@ -154,13 +154,13 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "NonqueuedSenderComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """

@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class RTEEvent(AbstractEvent, ABC):
     """
     Abstract base class for all RTE-related events
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::RTEEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 327, Classic
       Platform R23-11)
@@ -40,10 +41,10 @@ class RTEEvent(AbstractEvent, ABC):
     def start_on_event(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set startOnEvent with validation.
-        
+
         Args:
             value: The startOnEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +63,10 @@ class RTEEvent(AbstractEvent, ABC):
     def getDisabledModeInstanceRef(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for disabledModeInstanceRef.
-        
+
         Returns:
             The disabledModeInstanceRef value
-        
+
         Note:
             Delegates to disabled_mode_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -74,10 +75,10 @@ class RTEEvent(AbstractEvent, ABC):
     def getStartOnEvent(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for startOnEvent.
-        
+
         Returns:
             The startOnEvent value
-        
+
         Note:
             Delegates to start_on_event property (CODING_RULE_V2_00017)
         """
@@ -86,13 +87,13 @@ class RTEEvent(AbstractEvent, ABC):
     def setStartOnEvent(self, value: "RunnableEntity") -> "RTEEvent":
         """
         AUTOSAR-compliant setter for startOnEvent with method chaining.
-        
+
         Args:
             value: The startOnEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_on_event property setter (gets validation automatically)
         """
@@ -104,13 +105,13 @@ class RTEEvent(AbstractEvent, ABC):
     def with_start_on_event(self, value: Optional["RunnableEntity"]) -> "RTEEvent":
         """
         Set startOnEvent and return self for chaining.
-        
+
         Args:
             value: The startOnEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_on_event("value")
         """

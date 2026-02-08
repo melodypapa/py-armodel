@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DocumentElementScope(SpecElementReference):
     """
@@ -12,9 +12,9 @@ class DocumentElementScope(SpecElementReference):
     specification documents are referenced via their ID (requirement,
     specification items) or name (deliverable, artifact, task definition or
     activity)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchange::DocumentElementScope
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 97, Foundation R23-11)
     """
@@ -34,10 +34,10 @@ class DocumentElementScope(SpecElementReference):
     def custom(self, value: Optional["Traceable"]) -> None:
         """
         Set custom with validation.
-        
+
         Args:
             value: The custom to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +64,10 @@ class DocumentElementScope(SpecElementReference):
     def getCustom(self) -> "Traceable":
         """
         AUTOSAR-compliant getter for custom.
-        
+
         Returns:
             The custom value
-        
+
         Note:
             Delegates to custom property (CODING_RULE_V2_00017)
         """
@@ -76,13 +76,13 @@ class DocumentElementScope(SpecElementReference):
     def setCustom(self, value: "Traceable") -> "DocumentElementScope":
         """
         AUTOSAR-compliant setter for custom with method chaining.
-        
+
         Args:
             value: The custom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to custom property setter (gets validation automatically)
         """
@@ -92,10 +92,10 @@ class DocumentElementScope(SpecElementReference):
     def getTailoring(self) -> List["DataFormatElement"]:
         """
         AUTOSAR-compliant getter for tailoring.
-        
+
         Returns:
             The tailoring value
-        
+
         Note:
             Delegates to tailoring property (CODING_RULE_V2_00017)
         """
@@ -106,13 +106,13 @@ class DocumentElementScope(SpecElementReference):
     def with_custom(self, value: Optional["Traceable"]) -> "DocumentElementScope":
         """
         Set custom and return self for chaining.
-        
+
         Args:
             value: The custom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_custom("value")
         """

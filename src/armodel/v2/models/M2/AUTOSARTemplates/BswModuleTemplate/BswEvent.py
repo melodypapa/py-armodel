@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class BswEvent(AbstractEvent, ABC):
     """
@@ -7,9 +8,9 @@ class BswEvent(AbstractEvent, ABC):
     BswModuleEntity of this BSW module or cluster. The event is local to the BSW
     module or cluster. The short name of the meta-class instance is intended as
     an input to configure the required API of the BSW Scheduler.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 87, Classic
       Platform R23-11)
@@ -48,10 +49,10 @@ class BswEvent(AbstractEvent, ABC):
     def starts_on_event(self, value: Optional["BswModuleEntity"]) -> None:
         """
         Set startsOnEvent with validation.
-        
+
         Args:
             value: The startsOnEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -70,10 +71,10 @@ class BswEvent(AbstractEvent, ABC):
     def getContext(self) -> List["BswDistinguished"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -82,10 +83,10 @@ class BswEvent(AbstractEvent, ABC):
     def getDisabledInModeDescriptionInstanceRef(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for disabledInModeDescriptionInstanceRef.
-        
+
         Returns:
             The disabledInModeDescriptionInstanceRef value
-        
+
         Note:
             Delegates to disabled_in_mode_description_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -94,10 +95,10 @@ class BswEvent(AbstractEvent, ABC):
     def getStartsOnEvent(self) -> "BswModuleEntity":
         """
         AUTOSAR-compliant getter for startsOnEvent.
-        
+
         Returns:
             The startsOnEvent value
-        
+
         Note:
             Delegates to starts_on_event property (CODING_RULE_V2_00017)
         """
@@ -106,13 +107,13 @@ class BswEvent(AbstractEvent, ABC):
     def setStartsOnEvent(self, value: "BswModuleEntity") -> "BswEvent":
         """
         AUTOSAR-compliant setter for startsOnEvent with method chaining.
-        
+
         Args:
             value: The startsOnEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to starts_on_event property setter (gets validation automatically)
         """
@@ -124,13 +125,13 @@ class BswEvent(AbstractEvent, ABC):
     def with_starts_on_event(self, value: Optional["BswModuleEntity"]) -> "BswEvent":
         """
         Set startsOnEvent and return self for chaining.
-        
+
         Args:
             value: The startsOnEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_starts_on_event("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TDHeaderIdRange(ARObject):
     """
     Specifies a range of PDU header identifiers. This range is specified by a
     minimum and maximum header identifier; and the maximum header identifier
     shall be greater than or equal the minimum header identifier.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDHeaderIdRange
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 70, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class TDHeaderIdRange(ARObject):
     def max_header_id(self, value: Optional["Integer"]) -> None:
         """
         Set maxHeaderId with validation.
-        
+
         Args:
             value: The maxHeaderId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class TDHeaderIdRange(ARObject):
     def min_header_id(self, value: Optional["Integer"]) -> None:
         """
         Set minHeaderId with validation.
-        
+
         Args:
             value: The minHeaderId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class TDHeaderIdRange(ARObject):
     def getMaxHeaderId(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxHeaderId.
-        
+
         Returns:
             The maxHeaderId value
-        
+
         Note:
             Delegates to max_header_id property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class TDHeaderIdRange(ARObject):
     def setMaxHeaderId(self, value: "Integer") -> "TDHeaderIdRange":
         """
         AUTOSAR-compliant setter for maxHeaderId with method chaining.
-        
+
         Args:
             value: The maxHeaderId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_header_id property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class TDHeaderIdRange(ARObject):
     def getMinHeaderId(self) -> "Integer":
         """
         AUTOSAR-compliant getter for minHeaderId.
-        
+
         Returns:
             The minHeaderId value
-        
+
         Note:
             Delegates to min_header_id property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class TDHeaderIdRange(ARObject):
     def setMinHeaderId(self, value: "Integer") -> "TDHeaderIdRange":
         """
         AUTOSAR-compliant setter for minHeaderId with method chaining.
-        
+
         Args:
             value: The minHeaderId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_header_id property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class TDHeaderIdRange(ARObject):
     def with_max_header_id(self, value: Optional["Integer"]) -> "TDHeaderIdRange":
         """
         Set maxHeaderId and return self for chaining.
-        
+
         Args:
             value: The maxHeaderId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_header_id("value")
         """
@@ -155,13 +158,13 @@ class TDHeaderIdRange(ARObject):
     def with_min_header_id(self, value: Optional["Integer"]) -> "TDHeaderIdRange":
         """
         Set minHeaderId and return self for chaining.
-        
+
         Args:
             value: The minHeaderId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_header_id("value")
         """

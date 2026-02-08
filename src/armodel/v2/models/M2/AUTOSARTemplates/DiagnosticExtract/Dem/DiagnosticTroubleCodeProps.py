@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     """
     This element defines common Dtc properties that can be reused by different
     non OBD-relevant DTCs.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 185, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def aging(self, value: Optional["DiagnosticAging"]) -> None:
         """
         Set aging with validation.
-        
+
         Args:
             value: The aging to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def diagnostic(self, value: Optional["DiagnosticMemory"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +106,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def immediate_nv(self, value: Optional["Boolean"]) -> None:
         """
         Set immediateNv with validation.
-        
+
         Args:
             value: The immediateNv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +136,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def legislated(self, value: Optional["DiagnosticDataIdentifier"]) -> None:
         """
         Set legislated with validation.
-        
+
         Args:
             value: The legislated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def max_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumber with validation.
-        
+
         Args:
             value: The maxNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -195,10 +195,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +224,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def significance(self, value: Optional["DiagnosticSignificance"]) -> None:
         """
         Set significance with validation.
-        
+
         Args:
             value: The significance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -253,10 +253,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def snapshot(self, value: Optional["DiagnosticDataIdentifier"]) -> None:
         """
         Set snapshot with validation.
-        
+
         Args:
             value: The snapshot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -275,10 +275,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getAging(self) -> "DiagnosticAging":
         """
         AUTOSAR-compliant getter for aging.
-        
+
         Returns:
             The aging value
-        
+
         Note:
             Delegates to aging property (CODING_RULE_V2_00017)
         """
@@ -287,13 +287,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setAging(self, value: "DiagnosticAging") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for aging with method chaining.
-        
+
         Args:
             value: The aging to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to aging property setter (gets validation automatically)
         """
@@ -303,10 +303,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getDiagnostic(self) -> "DiagnosticMemory":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -315,13 +315,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setDiagnostic(self, value: "DiagnosticMemory") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -331,10 +331,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getExtendedData(self) -> List["DiagnosticExtended"]:
         """
         AUTOSAR-compliant getter for extendedData.
-        
+
         Returns:
             The extendedData value
-        
+
         Note:
             Delegates to extended_data property (CODING_RULE_V2_00017)
         """
@@ -343,10 +343,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getFreezeFrame(self) -> List["DiagnosticFreezeFrame"]:
         """
         AUTOSAR-compliant getter for freezeFrame.
-        
+
         Returns:
             The freezeFrame value
-        
+
         Note:
             Delegates to freeze_frame property (CODING_RULE_V2_00017)
         """
@@ -355,10 +355,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getImmediateNv(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for immediateNv.
-        
+
         Returns:
             The immediateNv value
-        
+
         Note:
             Delegates to immediate_nv property (CODING_RULE_V2_00017)
         """
@@ -367,13 +367,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setImmediateNv(self, value: "Boolean") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for immediateNv with method chaining.
-        
+
         Args:
             value: The immediateNv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to immediate_nv property setter (gets validation automatically)
         """
@@ -383,10 +383,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getLegislated(self) -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant getter for legislated.
-        
+
         Returns:
             The legislated value
-        
+
         Note:
             Delegates to legislated property (CODING_RULE_V2_00017)
         """
@@ -395,13 +395,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setLegislated(self, value: "DiagnosticDataIdentifier") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for legislated with method chaining.
-        
+
         Args:
             value: The legislated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to legislated property setter (gets validation automatically)
         """
@@ -411,10 +411,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getMaxNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumber.
-        
+
         Returns:
             The maxNumber value
-        
+
         Note:
             Delegates to max_number property (CODING_RULE_V2_00017)
         """
@@ -423,13 +423,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setMaxNumber(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for maxNumber with method chaining.
-        
+
         Args:
             value: The maxNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number property setter (gets validation automatically)
         """
@@ -439,10 +439,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -451,13 +451,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setPriority(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -467,10 +467,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getSignificance(self) -> "DiagnosticSignificance":
         """
         AUTOSAR-compliant getter for significance.
-        
+
         Returns:
             The significance value
-        
+
         Note:
             Delegates to significance property (CODING_RULE_V2_00017)
         """
@@ -479,13 +479,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setSignificance(self, value: "DiagnosticSignificance") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for significance with method chaining.
-        
+
         Args:
             value: The significance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to significance property setter (gets validation automatically)
         """
@@ -495,10 +495,10 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def getSnapshot(self) -> "DiagnosticDataIdentifier":
         """
         AUTOSAR-compliant getter for snapshot.
-        
+
         Returns:
             The snapshot value
-        
+
         Note:
             Delegates to snapshot property (CODING_RULE_V2_00017)
         """
@@ -507,13 +507,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def setSnapshot(self, value: "DiagnosticDataIdentifier") -> "DiagnosticTroubleCodeProps":
         """
         AUTOSAR-compliant setter for snapshot with method chaining.
-        
+
         Args:
             value: The snapshot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to snapshot property setter (gets validation automatically)
         """
@@ -525,13 +525,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_aging(self, value: Optional["DiagnosticAging"]) -> "DiagnosticTroubleCodeProps":
         """
         Set aging and return self for chaining.
-        
+
         Args:
             value: The aging to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_aging("value")
         """
@@ -541,13 +541,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_diagnostic(self, value: Optional["DiagnosticMemory"]) -> "DiagnosticTroubleCodeProps":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -557,13 +557,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_immediate_nv(self, value: Optional["Boolean"]) -> "DiagnosticTroubleCodeProps":
         """
         Set immediateNv and return self for chaining.
-        
+
         Args:
             value: The immediateNv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_immediate_nv("value")
         """
@@ -573,13 +573,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_legislated(self, value: Optional["DiagnosticDataIdentifier"]) -> "DiagnosticTroubleCodeProps":
         """
         Set legislated and return self for chaining.
-        
+
         Args:
             value: The legislated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_legislated("value")
         """
@@ -589,13 +589,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_max_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeProps":
         """
         Set maxNumber and return self for chaining.
-        
+
         Args:
             value: The maxNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number("value")
         """
@@ -605,13 +605,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeProps":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -621,13 +621,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_significance(self, value: Optional["DiagnosticSignificance"]) -> "DiagnosticTroubleCodeProps":
         """
         Set significance and return self for chaining.
-        
+
         Args:
             value: The significance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_significance("value")
         """
@@ -637,13 +637,13 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
     def with_snapshot(self, value: Optional["DiagnosticDataIdentifier"]) -> "DiagnosticTroubleCodeProps":
         """
         Set snapshot and return self for chaining.
-        
+
         Args:
             value: The snapshot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_snapshot("value")
         """

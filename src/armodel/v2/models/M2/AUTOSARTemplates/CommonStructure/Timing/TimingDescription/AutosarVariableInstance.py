@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AutosarVariableInstance(Identifiable):
     """
@@ -11,9 +15,9 @@ class AutosarVariableInstance(Identifiable):
     expression formula. The variable instance can target to one of the following
     variables: • a variable provided via a PortPrototype as whole • an element
     inside of a composite variable provided via a PortPrototype
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::AutosarVariableInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 85, Classic Platform R23-11)
     """
@@ -33,10 +37,10 @@ class AutosarVariableInstance(Identifiable):
     def variable_instance_instance_ref(self, value: RefType) -> None:
         """
         Set variableInstanceInstanceRef with validation.
-        
+
         Args:
             value: The variableInstanceInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +55,10 @@ class AutosarVariableInstance(Identifiable):
     def getVariableInstanceInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for variableInstanceInstanceRef.
-        
+
         Returns:
             The variableInstanceInstanceRef value
-        
+
         Note:
             Delegates to variable_instance_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -63,13 +67,13 @@ class AutosarVariableInstance(Identifiable):
     def setVariableInstanceInstanceRef(self, value: RefType) -> "AutosarVariableInstance":
         """
         AUTOSAR-compliant setter for variableInstanceInstanceRef with method chaining.
-        
+
         Args:
             value: The variableInstanceInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable_instance_instance_ref property setter (gets validation automatically)
         """
@@ -81,13 +85,13 @@ class AutosarVariableInstance(Identifiable):
     def with_variable_instance_instance_ref(self, value: Optional[RefType]) -> "AutosarVariableInstance":
         """
         Set variableInstanceInstanceRef and return self for chaining.
-        
+
         Args:
             value: The variableInstanceInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable_instance_instance_ref("value")
         """

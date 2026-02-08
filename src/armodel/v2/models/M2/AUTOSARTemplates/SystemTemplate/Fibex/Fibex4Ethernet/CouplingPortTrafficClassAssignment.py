@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class CouplingPortTrafficClassAssignment(Referrable):
     """
     Defines the assignment of Traffic Class to a frame.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortTrafficClassAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 128, Classic Platform R23-11)
     """
@@ -26,10 +29,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def priority(self, value: "PositiveInteger") -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +53,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def traffic_class(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set trafficClass with validation.
-        
+
         Args:
             value: The trafficClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +75,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -84,13 +87,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def setPriority(self, value: "PositiveInteger") -> "CouplingPortTrafficClassAssignment":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -100,10 +103,10 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def getTrafficClass(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for trafficClass.
-        
+
         Returns:
             The trafficClass value
-        
+
         Note:
             Delegates to traffic_class property (CODING_RULE_V2_00017)
         """
@@ -112,13 +115,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def setTrafficClass(self, value: "PositiveInteger") -> "CouplingPortTrafficClassAssignment":
         """
         AUTOSAR-compliant setter for trafficClass with method chaining.
-        
+
         Args:
             value: The trafficClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to traffic_class property setter (gets validation automatically)
         """
@@ -130,13 +133,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def with_priority(self, value: "PositiveInteger") -> "CouplingPortTrafficClassAssignment":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -146,13 +149,13 @@ class CouplingPortTrafficClassAssignment(Referrable):
     def with_traffic_class(self, value: Optional["PositiveInteger"]) -> "CouplingPortTrafficClassAssignment":
         """
         Set trafficClass and return self for chaining.
-        
+
         Args:
             value: The trafficClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_traffic_class("value")
         """

@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List
+
 
 class AbstractRequiredPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a required PortPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AbstractRequiredPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 67, Classic Platform
       R23-11)
@@ -33,10 +34,10 @@ class AbstractRequiredPortPrototype(PortPrototype, ABC):
     def getRequiredCom(self) -> List["RPortComSpec"]:
         """
         AUTOSAR-compliant getter for requiredCom.
-        
+
         Returns:
             The requiredCom value
-        
+
         Note:
             Delegates to required_com property (CODING_RULE_V2_00017)
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     """
@@ -9,9 +9,9 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     the completion of the required ClientServerOperation or a timeout. The
     occurrence of this event can either unblock a WaitPoint or can lead to the
     invocation of a RunnableEntity.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::AsynchronousServerCallResultPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 304, Classic
       Platform R23-11)
@@ -35,10 +35,10 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def asynchronous(self, value: Optional["AsynchronousServer"]) -> None:
         """
         Set asynchronous with validation.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def getAsynchronous(self) -> "AsynchronousServer":
         """
         AUTOSAR-compliant getter for asynchronous.
-        
+
         Returns:
             The asynchronous value
-        
+
         Note:
             Delegates to asynchronous property (CODING_RULE_V2_00017)
         """
@@ -69,13 +69,13 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def setAsynchronous(self, value: "AsynchronousServer") -> "AsynchronousServerCallResultPoint":
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to asynchronous property setter (gets validation automatically)
         """
@@ -87,13 +87,13 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def with_asynchronous(self, value: Optional["AsynchronousServer"]) -> "AsynchronousServerCallResultPoint":
         """
         Set asynchronous and return self for chaining.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_asynchronous("value")
         """

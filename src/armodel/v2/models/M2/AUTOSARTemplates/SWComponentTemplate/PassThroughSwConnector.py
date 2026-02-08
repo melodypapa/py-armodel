@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class PassThroughSwConnector(SwConnector):
     """
     This kind of SwConnector can be used inside a CompositionSwComponentType to
     connect two delegation PortPrototypes.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::PassThroughSwConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 83, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class PassThroughSwConnector(SwConnector):
     def provided_outer(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set providedOuter with validation.
-        
+
         Args:
             value: The providedOuter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class PassThroughSwConnector(SwConnector):
     def required_outer(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set requiredOuter with validation.
-        
+
         Args:
             value: The requiredOuter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class PassThroughSwConnector(SwConnector):
     def getProvidedOuter(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for providedOuter.
-        
+
         Returns:
             The providedOuter value
-        
+
         Note:
             Delegates to provided_outer property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class PassThroughSwConnector(SwConnector):
     def setProvidedOuter(self, value: "AbstractProvidedPort") -> "PassThroughSwConnector":
         """
         AUTOSAR-compliant setter for providedOuter with method chaining.
-        
+
         Args:
             value: The providedOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided_outer property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class PassThroughSwConnector(SwConnector):
     def getRequiredOuter(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for requiredOuter.
-        
+
         Returns:
             The requiredOuter value
-        
+
         Note:
             Delegates to required_outer property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class PassThroughSwConnector(SwConnector):
     def setRequiredOuter(self, value: "AbstractRequiredPort") -> "PassThroughSwConnector":
         """
         AUTOSAR-compliant setter for requiredOuter with method chaining.
-        
+
         Args:
             value: The requiredOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required_outer property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class PassThroughSwConnector(SwConnector):
     def with_provided_outer(self, value: Optional["AbstractProvidedPort"]) -> "PassThroughSwConnector":
         """
         Set providedOuter and return self for chaining.
-        
+
         Args:
             value: The providedOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided_outer("value")
         """
@@ -155,13 +155,13 @@ class PassThroughSwConnector(SwConnector):
     def with_required_outer(self, value: Optional["AbstractRequiredPort"]) -> "PassThroughSwConnector":
         """
         Set requiredOuter and return self for chaining.
-        
+
         Args:
             value: The requiredOuter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required_outer("value")
         """

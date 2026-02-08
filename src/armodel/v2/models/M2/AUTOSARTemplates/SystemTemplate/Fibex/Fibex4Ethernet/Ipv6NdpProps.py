@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv6NdpProps(ARObject):
     """
     This meta-class specifies the configuration options for the Neighbor
     Discovery Protocol for IPv6.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6NdpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 150, Classic Platform R23-11)
     """
@@ -32,10 +35,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_default(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpNdpDefault with validation.
-        
+
         Args:
             value: The tcpIpNdpDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_default_router_list_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpDefaultRouterListSize with validation.
-        
+
         Args:
             value: The tcpIpNdpDefaultRouterListSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdp with validation.
-        
+
         Args:
             value: The tcpIpNdp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +121,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_delay_first_probe_time_value(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpNdpDelayFirstProbeTimeValue with validation.
-        
+
         Args:
             value: The tcpIpNdpDelayFirstProbeTimeValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_max_random_factor(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpMaxRandomFactor with validation.
-        
+
         Args:
             value: The tcpIpNdpMaxRandomFactor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +178,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_max_rtr(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpMaxRtr with validation.
-        
+
         Args:
             value: The tcpIpNdpMaxRtr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +206,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_min_random_factor(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpMinRandomFactor with validation.
-        
+
         Args:
             value: The tcpIpNdpMinRandomFactor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +235,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpNum with validation.
-        
+
         Args:
             value: The tcpIpNdpNum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -261,10 +264,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_packet(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdpPacket with validation.
-        
+
         Args:
             value: The tcpIpNdpPacket to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -289,10 +292,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_prefix(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpNdpPrefix with validation.
-        
+
         Args:
             value: The tcpIpNdpPrefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -319,10 +322,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_rnd_rtr(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdpRndRtr with validation.
-        
+
         Args:
             value: The tcpIpNdpRndRtr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -347,10 +350,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_rtr(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpNdpRtr with validation.
-        
+
         Args:
             value: The tcpIpNdpRtr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -375,10 +378,10 @@ class Ipv6NdpProps(ARObject):
     def tcp_ip_ndp_slaac(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpNdpSlaac with validation.
-        
+
         Args:
             value: The tcpIpNdpSlaac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -397,10 +400,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpDefault(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpNdpDefault.
-        
+
         Returns:
             The tcpIpNdpDefault value
-        
+
         Note:
             Delegates to tcp_ip_ndp_default property (CODING_RULE_V2_00017)
         """
@@ -409,13 +412,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpDefault(self, value: "TimeValue") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpDefault with method chaining.
-        
+
         Args:
             value: The tcpIpNdpDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_default property setter (gets validation automatically)
         """
@@ -425,10 +428,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpDefaultRouterListSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpDefaultRouterListSize.
-        
+
         Returns:
             The tcpIpNdpDefaultRouterListSize value
-        
+
         Note:
             Delegates to tcp_ip_ndp_default_router_list_size property (CODING_RULE_V2_00017)
         """
@@ -437,13 +440,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpDefaultRouterListSize(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpDefaultRouterListSize with method chaining.
-        
+
         Args:
             value: The tcpIpNdpDefaultRouterListSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_default_router_list_size property setter (gets validation automatically)
         """
@@ -453,10 +456,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdp.
-        
+
         Returns:
             The tcpIpNdp value
-        
+
         Note:
             Delegates to tcp_ip_ndp property (CODING_RULE_V2_00017)
         """
@@ -465,13 +468,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdp(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdp with method chaining.
-        
+
         Args:
             value: The tcpIpNdp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp property setter (gets validation automatically)
         """
@@ -481,10 +484,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpDelayFirstProbeTimeValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpNdpDelayFirstProbeTimeValue.
-        
+
         Returns:
             The tcpIpNdpDelayFirstProbeTimeValue value
-        
+
         Note:
             Delegates to tcp_ip_ndp_delay_first_probe_time_value property (CODING_RULE_V2_00017)
         """
@@ -493,13 +496,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpDelayFirstProbeTimeValue(self, value: "TimeValue") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpDelayFirstProbeTimeValue with method chaining.
-        
+
         Args:
             value: The tcpIpNdpDelayFirstProbeTimeValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_delay_first_probe_time_value property setter (gets validation automatically)
         """
@@ -509,10 +512,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpMaxRandomFactor(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpMaxRandomFactor.
-        
+
         Returns:
             The tcpIpNdpMaxRandomFactor value
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_random_factor property (CODING_RULE_V2_00017)
         """
@@ -521,13 +524,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpMaxRandomFactor(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpMaxRandomFactor with method chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_random_factor property setter (gets validation automatically)
         """
@@ -537,10 +540,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpMaxRtr(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpMaxRtr.
-        
+
         Returns:
             The tcpIpNdpMaxRtr value
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_rtr property (CODING_RULE_V2_00017)
         """
@@ -549,13 +552,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpMaxRtr(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpMaxRtr with method chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_max_rtr property setter (gets validation automatically)
         """
@@ -565,10 +568,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpMinRandomFactor(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpMinRandomFactor.
-        
+
         Returns:
             The tcpIpNdpMinRandomFactor value
-        
+
         Note:
             Delegates to tcp_ip_ndp_min_random_factor property (CODING_RULE_V2_00017)
         """
@@ -577,13 +580,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpMinRandomFactor(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpMinRandomFactor with method chaining.
-        
+
         Args:
             value: The tcpIpNdpMinRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_min_random_factor property setter (gets validation automatically)
         """
@@ -593,10 +596,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpNum.
-        
+
         Returns:
             The tcpIpNdpNum value
-        
+
         Note:
             Delegates to tcp_ip_ndp_num property (CODING_RULE_V2_00017)
         """
@@ -605,13 +608,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpNum(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpNum with method chaining.
-        
+
         Args:
             value: The tcpIpNdpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_num property setter (gets validation automatically)
         """
@@ -621,10 +624,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpPacket(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdpPacket.
-        
+
         Returns:
             The tcpIpNdpPacket value
-        
+
         Note:
             Delegates to tcp_ip_ndp_packet property (CODING_RULE_V2_00017)
         """
@@ -633,13 +636,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpPacket(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpPacket with method chaining.
-        
+
         Args:
             value: The tcpIpNdpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_packet property setter (gets validation automatically)
         """
@@ -649,10 +652,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpPrefix(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpNdpPrefix.
-        
+
         Returns:
             The tcpIpNdpPrefix value
-        
+
         Note:
             Delegates to tcp_ip_ndp_prefix property (CODING_RULE_V2_00017)
         """
@@ -661,13 +664,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpPrefix(self, value: "PositiveInteger") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpPrefix with method chaining.
-        
+
         Args:
             value: The tcpIpNdpPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_prefix property setter (gets validation automatically)
         """
@@ -677,10 +680,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpRndRtr(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdpRndRtr.
-        
+
         Returns:
             The tcpIpNdpRndRtr value
-        
+
         Note:
             Delegates to tcp_ip_ndp_rnd_rtr property (CODING_RULE_V2_00017)
         """
@@ -689,13 +692,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpRndRtr(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpRndRtr with method chaining.
-        
+
         Args:
             value: The tcpIpNdpRndRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_rnd_rtr property setter (gets validation automatically)
         """
@@ -705,10 +708,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpRtr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpNdpRtr.
-        
+
         Returns:
             The tcpIpNdpRtr value
-        
+
         Note:
             Delegates to tcp_ip_ndp_rtr property (CODING_RULE_V2_00017)
         """
@@ -717,13 +720,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpRtr(self, value: "TimeValue") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpRtr with method chaining.
-        
+
         Args:
             value: The tcpIpNdpRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_rtr property setter (gets validation automatically)
         """
@@ -733,10 +736,10 @@ class Ipv6NdpProps(ARObject):
     def getTcpIpNdpSlaac(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpNdpSlaac.
-        
+
         Returns:
             The tcpIpNdpSlaac value
-        
+
         Note:
             Delegates to tcp_ip_ndp_slaac property (CODING_RULE_V2_00017)
         """
@@ -745,13 +748,13 @@ class Ipv6NdpProps(ARObject):
     def setTcpIpNdpSlaac(self, value: "Boolean") -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant setter for tcpIpNdpSlaac with method chaining.
-        
+
         Args:
             value: The tcpIpNdpSlaac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ndp_slaac property setter (gets validation automatically)
         """
@@ -763,13 +766,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_default(self, value: Optional["TimeValue"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpDefault and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_default("value")
         """
@@ -779,13 +782,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_default_router_list_size(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpDefaultRouterListSize and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpDefaultRouterListSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_default_router_list_size("value")
         """
@@ -795,13 +798,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdp and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp("value")
         """
@@ -811,13 +814,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_delay_first_probe_time_value(self, value: Optional["TimeValue"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpDelayFirstProbeTimeValue and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpDelayFirstProbeTimeValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_delay_first_probe_time_value("value")
         """
@@ -827,13 +830,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_max_random_factor(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpMaxRandomFactor and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_max_random_factor("value")
         """
@@ -843,13 +846,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_max_rtr(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpMaxRtr and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpMaxRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_max_rtr("value")
         """
@@ -859,13 +862,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_min_random_factor(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpMinRandomFactor and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpMinRandomFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_min_random_factor("value")
         """
@@ -875,13 +878,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_num(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpNum and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_num("value")
         """
@@ -891,13 +894,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_packet(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpPacket and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpPacket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_packet("value")
         """
@@ -907,13 +910,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_prefix(self, value: Optional["PositiveInteger"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpPrefix and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpPrefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_prefix("value")
         """
@@ -923,13 +926,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_rnd_rtr(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpRndRtr and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpRndRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_rnd_rtr("value")
         """
@@ -939,13 +942,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_rtr(self, value: Optional["TimeValue"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpRtr and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpRtr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_rtr("value")
         """
@@ -955,13 +958,13 @@ class Ipv6NdpProps(ARObject):
     def with_tcp_ip_ndp_slaac(self, value: Optional["Boolean"]) -> "Ipv6NdpProps":
         """
         Set tcpIpNdpSlaac and return self for chaining.
-        
+
         Args:
             value: The tcpIpNdpSlaac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ndp_slaac("value")
         """

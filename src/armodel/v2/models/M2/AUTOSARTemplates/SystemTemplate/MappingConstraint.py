@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MappingConstraint(ARObject, ABC):
     """
     Different constraints that may be used to limit the mapping of SW components
     to applicable ECUs, Partitions or Cores depending on the mappingScope
     attribute.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::MappingConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 202, Classic Platform R23-11)
     """
@@ -31,10 +35,10 @@ class MappingConstraint(ARObject, ABC):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +57,10 @@ class MappingConstraint(ARObject, ABC):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -65,13 +69,13 @@ class MappingConstraint(ARObject, ABC):
     def setIntroduction(self, value: "DocumentationBlock") -> "MappingConstraint":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -83,13 +87,13 @@ class MappingConstraint(ARObject, ABC):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "MappingConstraint":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """

@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     """
@@ -7,9 +8,9 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     attribute might become obsolete. (cid:53) 236 of 381 Document ID 89:
     AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module
     Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticCapabilityElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic
       Platform R23-11)
@@ -42,10 +43,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def diag(self, value: Optional["DiagRequirementId"]) -> None:
         """
         Set diag with validation.
-        
+
         Args:
             value: The diag to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +74,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def security_access(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set securityAccess with validation.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +96,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getAudience(self) -> List["DiagnosticAudience"]:
         """
         AUTOSAR-compliant getter for audience.
-        
+
         Returns:
             The audience value
-        
+
         Note:
             Delegates to audience property (CODING_RULE_V2_00017)
         """
@@ -107,10 +108,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getDiag(self) -> "DiagRequirementId":
         """
         AUTOSAR-compliant getter for diag.
-        
+
         Returns:
             The diag value
-        
+
         Note:
             Delegates to diag property (CODING_RULE_V2_00017)
         """
@@ -119,13 +120,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def setDiag(self, value: "DiagRequirementId") -> "DiagnosticCapabilityElement":
         """
         AUTOSAR-compliant setter for diag with method chaining.
-        
+
         Args:
             value: The diag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag property setter (gets validation automatically)
         """
@@ -135,10 +136,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getSecurityAccess(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for securityAccess.
-        
+
         Returns:
             The securityAccess value
-        
+
         Note:
             Delegates to security_access property (CODING_RULE_V2_00017)
         """
@@ -147,13 +148,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def setSecurityAccess(self, value: "PositiveInteger") -> "DiagnosticCapabilityElement":
         """
         AUTOSAR-compliant setter for securityAccess with method chaining.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_access property setter (gets validation automatically)
         """
@@ -165,13 +166,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def with_diag(self, value: Optional["DiagRequirementId"]) -> "DiagnosticCapabilityElement":
         """
         Set diag and return self for chaining.
-        
+
         Args:
             value: The diag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag("value")
         """
@@ -181,13 +182,13 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def with_security_access(self, value: Optional["PositiveInteger"]) -> "DiagnosticCapabilityElement":
         """
         Set securityAccess and return self for chaining.
-        
+
         Args:
             value: The securityAccess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_access("value")
         """

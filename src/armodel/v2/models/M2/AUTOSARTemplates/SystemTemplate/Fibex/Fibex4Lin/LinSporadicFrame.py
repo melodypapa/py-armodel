@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class LinSporadicFrame(LinFrame):
     """
     A sporadic frame is a group of unconditional frames that share the same
     frame slot. The sporadic frame shall not contain any Pdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinSporadicFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 429, Classic Platform R23-11)
     """
@@ -34,10 +34,10 @@ class LinSporadicFrame(LinFrame):
     def getSubstituted(self) -> List["LinUnconditionalFrame"]:
         """
         AUTOSAR-compliant getter for substituted.
-        
+
         Returns:
             The substituted value
-        
+
         Note:
             Delegates to substituted property (CODING_RULE_V2_00017)
         """

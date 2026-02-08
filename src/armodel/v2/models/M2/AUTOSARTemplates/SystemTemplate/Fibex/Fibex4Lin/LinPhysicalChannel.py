@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class LinPhysicalChannel(PhysicalChannel):
     """
     LIN specific attributes to the physicalChannel
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 99, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class LinPhysicalChannel(PhysicalChannel):
     def bus_idle_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set busIdleTimeout with validation.
-        
+
         Args:
             value: The busIdleTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class LinPhysicalChannel(PhysicalChannel):
     def getBusIdleTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for busIdleTimeout.
-        
+
         Returns:
             The busIdleTimeout value
-        
+
         Note:
             Delegates to bus_idle_timeout property (CODING_RULE_V2_00017)
         """
@@ -71,13 +71,13 @@ class LinPhysicalChannel(PhysicalChannel):
     def setBusIdleTimeout(self, value: "TimeValue") -> "LinPhysicalChannel":
         """
         AUTOSAR-compliant setter for busIdleTimeout with method chaining.
-        
+
         Args:
             value: The busIdleTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bus_idle_timeout property setter (gets validation automatically)
         """
@@ -87,10 +87,10 @@ class LinPhysicalChannel(PhysicalChannel):
     def getScheduleTable(self) -> List["LinScheduleTable"]:
         """
         AUTOSAR-compliant getter for scheduleTable.
-        
+
         Returns:
             The scheduleTable value
-        
+
         Note:
             Delegates to schedule_table property (CODING_RULE_V2_00017)
         """
@@ -101,13 +101,13 @@ class LinPhysicalChannel(PhysicalChannel):
     def with_bus_idle_timeout(self, value: Optional["TimeValue"]) -> "LinPhysicalChannel":
         """
         Set busIdleTimeout and return self for chaining.
-        
+
         Args:
             value: The busIdleTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bus_idle_timeout("value")
         """

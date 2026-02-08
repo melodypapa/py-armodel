@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     """
     DoIpRoutingActivationConfirmationNeeds indicates that the software-component
     that owns this Service Needs will have a confirmation required for a DoIP
     routing activation service (0x0005) according to ISO 13400-2:2012.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DoIpRoutingActivationConfirmationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 807, Classic Platform
       R23-11)
@@ -34,10 +34,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def routing(self, value: Optional["NameToken"]) -> None:
         """
         Set routing with validation.
-        
+
         Args:
             value: The routing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -100,13 +100,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def setDataLength(self, value: "PositiveInteger") -> "DoIpRoutingActivationConfirmationNeeds":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -116,10 +116,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def getRouting(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for routing.
-        
+
         Returns:
             The routing value
-        
+
         Note:
             Delegates to routing property (CODING_RULE_V2_00017)
         """
@@ -128,13 +128,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def setRouting(self, value: "NameToken") -> "DoIpRoutingActivationConfirmationNeeds":
         """
         AUTOSAR-compliant setter for routing with method chaining.
-        
+
         Args:
             value: The routing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routing property setter (gets validation automatically)
         """
@@ -146,13 +146,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "DoIpRoutingActivationConfirmationNeeds":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -162,13 +162,13 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
     def with_routing(self, value: Optional["NameToken"]) -> "DoIpRoutingActivationConfirmationNeeds":
         """
         Set routing and return self for chaining.
-        
+
         Args:
             value: The routing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routing("value")
         """

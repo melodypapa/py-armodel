@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ValueSpecification(ARObject, ABC):
     """
     Base class for expressions leading to a value which can be used to
     initialize a data object.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 333, Classic Platform
       R23-11)
@@ -35,10 +39,10 @@ class ValueSpecification(ARObject, ABC):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +61,10 @@ class ValueSpecification(ARObject, ABC):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -69,13 +73,13 @@ class ValueSpecification(ARObject, ABC):
     def setShortLabel(self, value: "Identifier") -> "ValueSpecification":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -87,13 +91,13 @@ class ValueSpecification(ARObject, ABC):
     def with_short_label(self, value: Optional["Identifier"]) -> "ValueSpecification":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

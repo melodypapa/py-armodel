@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     """
     This meta-class is used to map an OsTaskProxy that was created in the
     context of a SwComponent to an OsTaskProxy that was created in the context
     of an Ecu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::AppOsTaskProxyToEcuTaskProxyMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 209, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def app_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set appTaskProxy with validation.
-        
+
         Args:
             value: The appTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def ecu_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set ecuTaskProxy with validation.
-        
+
         Args:
             value: The ecuTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +91,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def offset(self, value: Optional["Integer"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +113,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def getAppTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for appTaskProxy.
-        
+
         Returns:
             The appTaskProxy value
-        
+
         Note:
             Delegates to app_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -123,13 +125,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def setAppTaskProxy(self, value: "OsTaskProxy") -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         AUTOSAR-compliant setter for appTaskProxy with method chaining.
-        
+
         Args:
             value: The appTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to app_task_proxy property setter (gets validation automatically)
         """
@@ -139,10 +141,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def getEcuTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for ecuTaskProxy.
-        
+
         Returns:
             The ecuTaskProxy value
-        
+
         Note:
             Delegates to ecu_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -151,13 +153,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def setEcuTaskProxy(self, value: "OsTaskProxy") -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         AUTOSAR-compliant setter for ecuTaskProxy with method chaining.
-        
+
         Args:
             value: The ecuTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_task_proxy property setter (gets validation automatically)
         """
@@ -167,10 +169,10 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def getOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -179,13 +181,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def setOffset(self, value: "Integer") -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -197,13 +199,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def with_app_task_proxy(self, value: Optional["OsTaskProxy"]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         Set appTaskProxy and return self for chaining.
-        
+
         Args:
             value: The appTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_app_task_proxy("value")
         """
@@ -213,13 +215,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def with_ecu_task_proxy(self, value: Optional["OsTaskProxy"]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         Set ecuTaskProxy and return self for chaining.
-        
+
         Args:
             value: The ecuTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_task_proxy("value")
         """
@@ -229,13 +231,13 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     def with_offset(self, value: Optional["Integer"]) -> "AppOsTaskProxyToEcuTaskProxyMapping":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """

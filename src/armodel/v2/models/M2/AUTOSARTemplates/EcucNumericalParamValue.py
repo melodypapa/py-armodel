@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucNumericalParamValue(EcucParameterValue):
     """
     Holding the value which is subject to variant handling.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucNumericalParamValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 128, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 442, Foundation
@@ -29,10 +29,10 @@ class EcucNumericalParamValue(EcucParameterValue):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class EcucNumericalParamValue(EcucParameterValue):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class EcucNumericalParamValue(EcucParameterValue):
     def setValue(self, value: "Numerical") -> "EcucNumericalParamValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class EcucNumericalParamValue(EcucParameterValue):
     def with_value(self, value: Optional["Numerical"]) -> "EcucNumericalParamValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

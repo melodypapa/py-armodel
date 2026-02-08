@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CycleRepetition(CommunicationCycle):
     """
     The communication cycle where the frame is send is described by the
     attributes baseCycle and cycle Repetition. (cid:53) 424 of 2090 Document ID
     63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CycleRepetition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 424, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class CycleRepetition(CommunicationCycle):
     def base_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set BaseCycle with validation.
-        
+
         Args:
             value: The BaseCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class CycleRepetition(CommunicationCycle):
     def cycle_repetition(self, value: Optional["CycleRepetitionType"]) -> None:
         """
         Set CycleRepetition with validation.
-        
+
         Args:
             value: The CycleRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class CycleRepetition(CommunicationCycle):
     def getBaseCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for BaseCycle.
-        
+
         Returns:
             The BaseCycle value
-        
+
         Note:
             Delegates to base_cycle property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class CycleRepetition(CommunicationCycle):
     def setBaseCycle(self, value: "Integer") -> "CycleRepetition":
         """
         AUTOSAR-compliant setter for BaseCycle with method chaining.
-        
+
         Args:
             value: The BaseCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_cycle property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class CycleRepetition(CommunicationCycle):
     def getCycleRepetition(self) -> "CycleRepetitionType":
         """
         AUTOSAR-compliant getter for CycleRepetition.
-        
+
         Returns:
             The CycleRepetition value
-        
+
         Note:
             Delegates to cycle_repetition property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class CycleRepetition(CommunicationCycle):
     def setCycleRepetition(self, value: "CycleRepetitionType") -> "CycleRepetition":
         """
         AUTOSAR-compliant setter for CycleRepetition with method chaining.
-        
+
         Args:
             value: The CycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_repetition property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class CycleRepetition(CommunicationCycle):
     def with_base_cycle(self, value: Optional["Integer"]) -> "CycleRepetition":
         """
         Set BaseCycle and return self for chaining.
-        
+
         Args:
             value: The BaseCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_cycle("value")
         """
@@ -155,13 +155,13 @@ class CycleRepetition(CommunicationCycle):
     def with_cycle_repetition(self, value: Optional["CycleRepetitionType"]) -> "CycleRepetition":
         """
         Set CycleRepetition and return self for chaining.
-        
+
         Args:
             value: The CycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_repetition("value")
         """

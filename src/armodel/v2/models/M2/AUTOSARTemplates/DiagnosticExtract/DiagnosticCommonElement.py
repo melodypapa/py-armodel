@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DiagnosticCommonElement(ARElement, ABC):
     """
     This meta-class represents a common base class for all diagnostic elements.
     It does not contribute any specific functionality other than the ability to
     become the target of a reference.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticCommonElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 32, Classic Platform
       R23-11)

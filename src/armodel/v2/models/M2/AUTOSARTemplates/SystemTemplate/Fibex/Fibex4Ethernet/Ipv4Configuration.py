@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class Ipv4Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 4 (IPv4) configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4Configuration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 465, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def assignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set assignment with validation.
-        
+
         Args:
             value: The assignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def default_gateway(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set defaultGateway with validation.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +93,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> None:
         """
         Set ipAddressKeep with validation.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +121,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def ipv4_address(self, value: Optional["Ipv4AddressSource"]) -> None:
         """
         Set ipv4Address with validation.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +153,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def network_mask(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set networkMask with validation.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -184,10 +184,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ttl with validation.
-        
+
         Args:
             value: The ttl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -206,10 +206,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getAssignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for assignment.
-        
+
         Returns:
             The assignment value
-        
+
         Note:
             Delegates to assignment property (CODING_RULE_V2_00017)
         """
@@ -218,13 +218,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setAssignment(self, value: "PositiveInteger") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for assignment with method chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to assignment property setter (gets validation automatically)
         """
@@ -234,10 +234,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getDefaultGateway(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for defaultGateway.
-        
+
         Returns:
             The defaultGateway value
-        
+
         Note:
             Delegates to default_gateway property (CODING_RULE_V2_00017)
         """
@@ -246,13 +246,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setDefaultGateway(self, value: "Ip4AddressString") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for defaultGateway with method chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_gateway property setter (gets validation automatically)
         """
@@ -262,10 +262,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getDnsServer(self) -> List["Ip4AddressString"]:
         """
         AUTOSAR-compliant getter for dnsServer.
-        
+
         Returns:
             The dnsServer value
-        
+
         Note:
             Delegates to dns_server property (CODING_RULE_V2_00017)
         """
@@ -274,10 +274,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getIpAddressKeep(self) -> "IpAddressKeepEnum":
         """
         AUTOSAR-compliant getter for ipAddressKeep.
-        
+
         Returns:
             The ipAddressKeep value
-        
+
         Note:
             Delegates to ip_address_keep property (CODING_RULE_V2_00017)
         """
@@ -286,13 +286,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setIpAddressKeep(self, value: "IpAddressKeepEnum") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for ipAddressKeep with method chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_address_keep property setter (gets validation automatically)
         """
@@ -302,10 +302,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getIpv4Address(self) -> "Ipv4AddressSource":
         """
         AUTOSAR-compliant getter for ipv4Address.
-        
+
         Returns:
             The ipv4Address value
-        
+
         Note:
             Delegates to ipv4_address property (CODING_RULE_V2_00017)
         """
@@ -314,13 +314,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setIpv4Address(self, value: "Ipv4AddressSource") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for ipv4Address with method chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_address property setter (gets validation automatically)
         """
@@ -330,10 +330,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getNetworkMask(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for networkMask.
-        
+
         Returns:
             The networkMask value
-        
+
         Note:
             Delegates to network_mask property (CODING_RULE_V2_00017)
         """
@@ -342,13 +342,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setNetworkMask(self, value: "Ip4AddressString") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for networkMask with method chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_mask property setter (gets validation automatically)
         """
@@ -358,10 +358,10 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def getTtl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ttl.
-        
+
         Returns:
             The ttl value
-        
+
         Note:
             Delegates to ttl property (CODING_RULE_V2_00017)
         """
@@ -370,13 +370,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setTtl(self, value: "PositiveInteger") -> "Ipv4Configuration":
         """
         AUTOSAR-compliant setter for ttl with method chaining.
-        
+
         Args:
             value: The ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ttl property setter (gets validation automatically)
         """
@@ -388,13 +388,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_assignment(self, value: Optional["PositiveInteger"]) -> "Ipv4Configuration":
         """
         Set assignment and return self for chaining.
-        
+
         Args:
             value: The assignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_assignment("value")
         """
@@ -404,13 +404,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_default_gateway(self, value: Optional["Ip4AddressString"]) -> "Ipv4Configuration":
         """
         Set defaultGateway and return self for chaining.
-        
+
         Args:
             value: The defaultGateway to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_gateway("value")
         """
@@ -420,13 +420,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_ip_address_keep(self, value: Optional["IpAddressKeepEnum"]) -> "Ipv4Configuration":
         """
         Set ipAddressKeep and return self for chaining.
-        
+
         Args:
             value: The ipAddressKeep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_address_keep("value")
         """
@@ -436,13 +436,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_ipv4_address(self, value: Optional["Ipv4AddressSource"]) -> "Ipv4Configuration":
         """
         Set ipv4Address and return self for chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_address("value")
         """
@@ -452,13 +452,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_network_mask(self, value: Optional["Ip4AddressString"]) -> "Ipv4Configuration":
         """
         Set networkMask and return self for chaining.
-        
+
         Args:
             value: The networkMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_mask("value")
         """
@@ -468,13 +468,13 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def with_ttl(self, value: Optional["PositiveInteger"]) -> "Ipv4Configuration":
         """
         Set ttl and return self for chaining.
-        
+
         Args:
             value: The ttl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ttl("value")
         """

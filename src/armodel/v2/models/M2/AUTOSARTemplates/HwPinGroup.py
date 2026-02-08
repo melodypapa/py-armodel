@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class HwPinGroup(Identifiable):
     """
@@ -10,9 +14,9 @@ class HwPinGroup(Identifiable):
     used to connect hardware elements. This group acts as a bundle of pins.
     Thereby they allow to describe high level connections. Pin groups can even
     be nested.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwPinGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 19, Classic Platform
       R23-11)
@@ -34,10 +38,10 @@ class HwPinGroup(Identifiable):
     def hw_pin_group(self, value: RefType) -> None:
         """
         Set hwPinGroup with validation.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +56,10 @@ class HwPinGroup(Identifiable):
     def getHwPinGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -64,13 +68,13 @@ class HwPinGroup(Identifiable):
     def setHwPinGroup(self, value: RefType) -> "HwPinGroup":
         """
         AUTOSAR-compliant setter for hwPinGroup with method chaining.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_pin_group property setter (gets validation automatically)
         """
@@ -82,13 +86,13 @@ class HwPinGroup(Identifiable):
     def with_hw_pin_group(self, value: Optional[RefType]) -> "HwPinGroup":
         """
         Set hwPinGroup and return self for chaining.
-        
+
         Args:
             value: The hwPinGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_pin_group("value")
         """

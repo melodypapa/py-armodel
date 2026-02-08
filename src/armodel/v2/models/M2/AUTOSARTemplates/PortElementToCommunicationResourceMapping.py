@@ -1,17 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortElementToCommunicationResourceMapping(Identifiable):
     """
     This meta class maps a communication resource to CP Software Clusters. In
     this case the kind of Port Prototype specified whether the Software Cluster
     has to provide or to require the resource.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::PortElementToCommunicationResourceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 905, Classic Platform R23-11)
     """
@@ -31,10 +35,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set clientServerInstanceRef with validation.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +63,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def communication(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +91,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def mode(self, value: RefType) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +116,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def parameter_data(self, value: Optional["ParameterData"]) -> None:
         """
         Set parameterData with validation.
-        
+
         Args:
             value: The parameterData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +144,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def trigger_ref(self, value: RefType) -> None:
         """
         Set triggerRef with validation.
-        
+
         Args:
             value: The triggerRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +168,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def variable_data_system_instance_ref(self, value: RefType) -> None:
         """
         Set variableDataSystemInstanceRef with validation.
-        
+
         Args:
             value: The variableDataSystemInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +186,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getClientServerInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for clientServerInstanceRef.
-        
+
         Returns:
             The clientServerInstanceRef value
-        
+
         Note:
             Delegates to client_server_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -194,13 +198,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setClientServerInstanceRef(self, value: "ClientServerOperation") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for clientServerInstanceRef with method chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server_instance_ref property setter (gets validation automatically)
         """
@@ -210,10 +214,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getCommunication(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -222,13 +226,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setCommunication(self, value: "CpSoftwareCluster") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -238,10 +242,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -250,13 +254,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setMode(self, value: RefType) -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -266,10 +270,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getParameterData(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for parameterData.
-        
+
         Returns:
             The parameterData value
-        
+
         Note:
             Delegates to parameter_data property (CODING_RULE_V2_00017)
         """
@@ -278,13 +282,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setParameterData(self, value: "ParameterData") -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for parameterData with method chaining.
-        
+
         Args:
             value: The parameterData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter_data property setter (gets validation automatically)
         """
@@ -294,10 +298,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getTriggerRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for triggerRef.
-        
+
         Returns:
             The triggerRef value
-        
+
         Note:
             Delegates to trigger_ref property (CODING_RULE_V2_00017)
         """
@@ -306,13 +310,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setTriggerRef(self, value: RefType) -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for triggerRef with method chaining.
-        
+
         Args:
             value: The triggerRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_ref property setter (gets validation automatically)
         """
@@ -322,10 +326,10 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def getVariableDataSystemInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for variableDataSystemInstanceRef.
-        
+
         Returns:
             The variableDataSystemInstanceRef value
-        
+
         Note:
             Delegates to variable_data_system_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -334,13 +338,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def setVariableDataSystemInstanceRef(self, value: RefType) -> "PortElementToCommunicationResourceMapping":
         """
         AUTOSAR-compliant setter for variableDataSystemInstanceRef with method chaining.
-        
+
         Args:
             value: The variableDataSystemInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variable_data_system_instance_ref property setter (gets validation automatically)
         """
@@ -352,13 +356,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_client_server_instance_ref(self, value: Optional["ClientServerOperation"]) -> "PortElementToCommunicationResourceMapping":
         """
         Set clientServerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The clientServerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server_instance_ref("value")
         """
@@ -368,13 +372,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_communication(self, value: Optional["CpSoftwareCluster"]) -> "PortElementToCommunicationResourceMapping":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -384,13 +388,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_mode(self, value: Optional[RefType]) -> "PortElementToCommunicationResourceMapping":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -400,13 +404,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_parameter_data(self, value: Optional["ParameterData"]) -> "PortElementToCommunicationResourceMapping":
         """
         Set parameterData and return self for chaining.
-        
+
         Args:
             value: The parameterData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter_data("value")
         """
@@ -416,13 +420,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_trigger_ref(self, value: Optional[RefType]) -> "PortElementToCommunicationResourceMapping":
         """
         Set triggerRef and return self for chaining.
-        
+
         Args:
             value: The triggerRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_ref("value")
         """
@@ -432,13 +436,13 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     def with_variable_data_system_instance_ref(self, value: Optional[RefType]) -> "PortElementToCommunicationResourceMapping":
         """
         Set variableDataSystemInstanceRef and return self for chaining.
-        
+
         Args:
             value: The variableDataSystemInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variable_data_system_instance_ref("value")
         """

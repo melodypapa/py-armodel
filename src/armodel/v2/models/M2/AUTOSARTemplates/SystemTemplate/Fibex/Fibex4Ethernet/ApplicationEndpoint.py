@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ApplicationEndpoint(Identifiable):
     """
     An application endpoint is the endpoint on an Ecu in terms of application
     addressing (e.g. socket). The application endpoint represents e.g. the
     listen socket in client-server-based communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::ApplicationEndpoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 457, Classic Platform R23-11)
     """
@@ -41,10 +43,10 @@ class ApplicationEndpoint(Identifiable):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +71,10 @@ class ApplicationEndpoint(Identifiable):
     def network_endpoint(self, value: Optional["NetworkEndpoint"]) -> None:
         """
         Set networkEndpoint with validation.
-        
+
         Args:
             value: The networkEndpoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +99,10 @@ class ApplicationEndpoint(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -135,10 +137,10 @@ class ApplicationEndpoint(Identifiable):
     def tls_crypto(self, value: Optional["TlsCryptoService"]) -> None:
         """
         Set tlsCrypto with validation.
-        
+
         Args:
             value: The tlsCrypto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +165,10 @@ class ApplicationEndpoint(Identifiable):
     def tp_configuration_configuration(self, value: Optional["TransportProtocol"]) -> None:
         """
         Set tpConfigurationConfiguration with validation.
-        
+
         Args:
             value: The tpConfigurationConfiguration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -185,10 +187,10 @@ class ApplicationEndpoint(Identifiable):
     def getConsumed(self) -> List["ConsumedService"]:
         """
         AUTOSAR-compliant getter for consumed.
-        
+
         Returns:
             The consumed value
-        
+
         Note:
             Delegates to consumed property (CODING_RULE_V2_00017)
         """
@@ -197,10 +199,10 @@ class ApplicationEndpoint(Identifiable):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -209,13 +211,13 @@ class ApplicationEndpoint(Identifiable):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -225,10 +227,10 @@ class ApplicationEndpoint(Identifiable):
     def getNetworkEndpoint(self) -> "NetworkEndpoint":
         """
         AUTOSAR-compliant getter for networkEndpoint.
-        
+
         Returns:
             The networkEndpoint value
-        
+
         Note:
             Delegates to network_endpoint property (CODING_RULE_V2_00017)
         """
@@ -237,13 +239,13 @@ class ApplicationEndpoint(Identifiable):
     def setNetworkEndpoint(self, value: "NetworkEndpoint") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for networkEndpoint with method chaining.
-        
+
         Args:
             value: The networkEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_endpoint property setter (gets validation automatically)
         """
@@ -253,10 +255,10 @@ class ApplicationEndpoint(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -265,13 +267,13 @@ class ApplicationEndpoint(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -281,10 +283,10 @@ class ApplicationEndpoint(Identifiable):
     def getProvidedService(self) -> List["ProvidedService"]:
         """
         AUTOSAR-compliant getter for providedService.
-        
+
         Returns:
             The providedService value
-        
+
         Note:
             Delegates to provided_service property (CODING_RULE_V2_00017)
         """
@@ -293,10 +295,10 @@ class ApplicationEndpoint(Identifiable):
     def getTlsCrypto(self) -> "TlsCryptoService":
         """
         AUTOSAR-compliant getter for tlsCrypto.
-        
+
         Returns:
             The tlsCrypto value
-        
+
         Note:
             Delegates to tls_crypto property (CODING_RULE_V2_00017)
         """
@@ -305,13 +307,13 @@ class ApplicationEndpoint(Identifiable):
     def setTlsCrypto(self, value: "TlsCryptoService") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for tlsCrypto with method chaining.
-        
+
         Args:
             value: The tlsCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tls_crypto property setter (gets validation automatically)
         """
@@ -321,10 +323,10 @@ class ApplicationEndpoint(Identifiable):
     def getTpConfigurationConfiguration(self) -> "TransportProtocol":
         """
         AUTOSAR-compliant getter for tpConfigurationConfiguration.
-        
+
         Returns:
             The tpConfigurationConfiguration value
-        
+
         Note:
             Delegates to tp_configuration_configuration property (CODING_RULE_V2_00017)
         """
@@ -333,13 +335,13 @@ class ApplicationEndpoint(Identifiable):
     def setTpConfigurationConfiguration(self, value: "TransportProtocol") -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant setter for tpConfigurationConfiguration with method chaining.
-        
+
         Args:
             value: The tpConfigurationConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_configuration_configuration property setter (gets validation automatically)
         """
@@ -351,13 +353,13 @@ class ApplicationEndpoint(Identifiable):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "ApplicationEndpoint":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -367,13 +369,13 @@ class ApplicationEndpoint(Identifiable):
     def with_network_endpoint(self, value: Optional["NetworkEndpoint"]) -> "ApplicationEndpoint":
         """
         Set networkEndpoint and return self for chaining.
-        
+
         Args:
             value: The networkEndpoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_endpoint("value")
         """
@@ -383,13 +385,13 @@ class ApplicationEndpoint(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ApplicationEndpoint":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -399,13 +401,13 @@ class ApplicationEndpoint(Identifiable):
     def with_tls_crypto(self, value: Optional["TlsCryptoService"]) -> "ApplicationEndpoint":
         """
         Set tlsCrypto and return self for chaining.
-        
+
         Args:
             value: The tlsCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tls_crypto("value")
         """
@@ -415,13 +417,13 @@ class ApplicationEndpoint(Identifiable):
     def with_tp_configuration_configuration(self, value: Optional["TransportProtocol"]) -> "ApplicationEndpoint":
         """
         Set tpConfigurationConfiguration and return self for chaining.
-        
+
         Args:
             value: The tpConfigurationConfiguration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_configuration_configuration("value")
         """

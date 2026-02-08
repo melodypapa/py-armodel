@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     """
@@ -7,9 +7,9 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     to the binary manifest of a given CP software cluster. The manifest is
     subject to integrator work and therefore not a part of the definition of the
     CP software cluster itself.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::CpSoftwareClusterBinaryManifestDescriptor
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 913, Classic Platform R23-11)
     """
@@ -33,10 +33,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def software_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set softwareCluster with validation.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -128,13 +128,13 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterBinaryManifestDescriptor":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -144,10 +144,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def getMetaDataField(self) -> List["BinaryManifestMeta"]:
         """
         AUTOSAR-compliant getter for metaDataField.
-        
+
         Returns:
             The metaDataField value
-        
+
         Note:
             Delegates to meta_data_field property (CODING_RULE_V2_00017)
         """
@@ -156,10 +156,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def getProvide(self) -> List["BinaryManifestProvide"]:
         """
         AUTOSAR-compliant getter for provide.
-        
+
         Returns:
             The provide value
-        
+
         Note:
             Delegates to provide property (CODING_RULE_V2_00017)
         """
@@ -168,10 +168,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def getRequire(self) -> List["BinaryManifestRequire"]:
         """
         AUTOSAR-compliant getter for require.
-        
+
         Returns:
             The require value
-        
+
         Note:
             Delegates to require property (CODING_RULE_V2_00017)
         """
@@ -180,10 +180,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def getResource(self) -> List["BinaryManifest"]:
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -192,10 +192,10 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def getSoftwareCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def setSoftwareCluster(self, value: "PositiveInteger") -> "CpSoftwareClusterBinaryManifestDescriptor":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -222,13 +222,13 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterBinaryManifestDescriptor":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -238,13 +238,13 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     def with_software_cluster(self, value: Optional["PositiveInteger"]) -> "CpSoftwareClusterBinaryManifestDescriptor":
         """
         Set softwareCluster and return self for chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_cluster("value")
         """

@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class LinErrorResponse(ARObject):
     """
@@ -12,9 +17,9 @@ class LinErrorResponse(ARObject):
     contains an error in the frame response. The response_error signal shall be
     cleared when the unconditional frame containing the response_error signal is
     successfully transmitted.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinErrorResponse
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 97, Classic Platform R23-11)
     """
@@ -34,10 +39,10 @@ class LinErrorResponse(ARObject):
     def response_error(self, value: RefType) -> None:
         """
         Set responseError with validation.
-        
+
         Args:
             value: The responseError to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +57,10 @@ class LinErrorResponse(ARObject):
     def getResponseError(self) -> RefType:
         """
         AUTOSAR-compliant getter for responseError.
-        
+
         Returns:
             The responseError value
-        
+
         Note:
             Delegates to response_error property (CODING_RULE_V2_00017)
         """
@@ -64,13 +69,13 @@ class LinErrorResponse(ARObject):
     def setResponseError(self, value: RefType) -> "LinErrorResponse":
         """
         AUTOSAR-compliant setter for responseError with method chaining.
-        
+
         Args:
             value: The responseError to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response_error property setter (gets validation automatically)
         """
@@ -82,13 +87,13 @@ class LinErrorResponse(ARObject):
     def with_response_error(self, value: Optional[RefType]) -> "LinErrorResponse":
         """
         Set responseError and return self for chaining.
-        
+
         Args:
             value: The responseError to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response_error("value")
         """

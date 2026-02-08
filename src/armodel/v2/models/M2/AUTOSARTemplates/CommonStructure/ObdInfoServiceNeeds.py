@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration
     of OBD Services in relation to a given InfoType (OBD Service 09) which is
     supported by this component or module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdInfoServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 324, Classic
       Platform R23-11)

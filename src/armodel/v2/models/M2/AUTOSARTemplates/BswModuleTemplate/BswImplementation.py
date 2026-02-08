@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class BswImplementation(Implementation):
     """
     Contains the implementation specific information in addition to the generic
     specification (BswModule Description and BswBehavior). It is possible to
     have several different BswImplementations referring to the same BswBehavior.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation::BswImplementation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 120, Classic
       Platform R23-11)
@@ -36,10 +36,10 @@ class BswImplementation(Implementation):
     def ar_release(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set arRelease with validation.
-        
+
         Args:
             value: The arRelease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +67,10 @@ class BswImplementation(Implementation):
     def behavior(self, value: Optional["BswInternalBehavior"]) -> None:
         """
         Set behavior with validation.
-        
+
         Args:
             value: The behavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +125,10 @@ class BswImplementation(Implementation):
     def vendor_api_infix(self, value: Optional["Identifier"]) -> None:
         """
         Set vendorApiInfix with validation.
-        
+
         Args:
             value: The vendorApiInfix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -156,10 +156,10 @@ class BswImplementation(Implementation):
     def getArRelease(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for arRelease.
-        
+
         Returns:
             The arRelease value
-        
+
         Note:
             Delegates to ar_release property (CODING_RULE_V2_00017)
         """
@@ -168,13 +168,13 @@ class BswImplementation(Implementation):
     def setArRelease(self, value: "RevisionLabelString") -> "BswImplementation":
         """
         AUTOSAR-compliant setter for arRelease with method chaining.
-        
+
         Args:
             value: The arRelease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ar_release property setter (gets validation automatically)
         """
@@ -184,10 +184,10 @@ class BswImplementation(Implementation):
     def getBehavior(self) -> "BswInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
-        
+
         Returns:
             The behavior value
-        
+
         Note:
             Delegates to behavior property (CODING_RULE_V2_00017)
         """
@@ -196,13 +196,13 @@ class BswImplementation(Implementation):
     def setBehavior(self, value: "BswInternalBehavior") -> "BswImplementation":
         """
         AUTOSAR-compliant setter for behavior with method chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to behavior property setter (gets validation automatically)
         """
@@ -212,10 +212,10 @@ class BswImplementation(Implementation):
     def getPreconfigured(self) -> List["EcucModule"]:
         """
         AUTOSAR-compliant getter for preconfigured.
-        
+
         Returns:
             The preconfigured value
-        
+
         Note:
             Delegates to preconfigured property (CODING_RULE_V2_00017)
         """
@@ -224,10 +224,10 @@ class BswImplementation(Implementation):
     def getRecommended(self) -> List["EcucModule"]:
         """
         AUTOSAR-compliant getter for recommended.
-        
+
         Returns:
             The recommended value
-        
+
         Note:
             Delegates to recommended property (CODING_RULE_V2_00017)
         """
@@ -236,10 +236,10 @@ class BswImplementation(Implementation):
     def getVendorApiInfix(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for vendorApiInfix.
-        
+
         Returns:
             The vendorApiInfix value
-        
+
         Note:
             Delegates to vendor_api_infix property (CODING_RULE_V2_00017)
         """
@@ -248,13 +248,13 @@ class BswImplementation(Implementation):
     def setVendorApiInfix(self, value: "Identifier") -> "BswImplementation":
         """
         AUTOSAR-compliant setter for vendorApiInfix with method chaining.
-        
+
         Args:
             value: The vendorApiInfix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vendor_api_infix property setter (gets validation automatically)
         """
@@ -264,10 +264,10 @@ class BswImplementation(Implementation):
     def getVendorSpecific(self) -> List["EcucModuleDef"]:
         """
         AUTOSAR-compliant getter for vendorSpecific.
-        
+
         Returns:
             The vendorSpecific value
-        
+
         Note:
             Delegates to vendor_specific property (CODING_RULE_V2_00017)
         """
@@ -278,13 +278,13 @@ class BswImplementation(Implementation):
     def with_ar_release(self, value: Optional["RevisionLabelString"]) -> "BswImplementation":
         """
         Set arRelease and return self for chaining.
-        
+
         Args:
             value: The arRelease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ar_release("value")
         """
@@ -294,13 +294,13 @@ class BswImplementation(Implementation):
     def with_behavior(self, value: Optional["BswInternalBehavior"]) -> "BswImplementation":
         """
         Set behavior and return self for chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_behavior("value")
         """
@@ -310,13 +310,13 @@ class BswImplementation(Implementation):
     def with_vendor_api_infix(self, value: Optional["Identifier"]) -> "BswImplementation":
         """
         Set vendorApiInfix and return self for chaining.
-        
+
         Args:
             value: The vendorApiInfix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vendor_api_infix("value")
         """

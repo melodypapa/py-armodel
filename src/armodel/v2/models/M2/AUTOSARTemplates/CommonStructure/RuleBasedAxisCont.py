@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RuleBasedAxisCont(ARObject):
     """
@@ -10,9 +15,9 @@ class RuleBasedAxisCont(ARObject):
     directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS
     are for display only. For editing and processing, only the values in the
     related GroupAxis are binding.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::RuleBasedAxisCont
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 464, Classic Platform
       R23-11)
@@ -34,10 +39,10 @@ class RuleBasedAxisCont(ARObject):
     def category(self, value: Optional["CalprmAxisCategory"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +68,10 @@ class RuleBasedAxisCont(ARObject):
     def rule_based(self, value: Optional["RuleBasedValue"]) -> None:
         """
         Set ruleBased with validation.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +98,10 @@ class RuleBasedAxisCont(ARObject):
     def sw_arraysize(self, value: RefType) -> None:
         """
         Set swArraysize with validation.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +124,10 @@ class RuleBasedAxisCont(ARObject):
     def sw_axis_index(self, value: Optional["AxisIndexType"]) -> None:
         """
         Set swAxisIndex with validation.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +152,10 @@ class RuleBasedAxisCont(ARObject):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +174,10 @@ class RuleBasedAxisCont(ARObject):
     def getCategory(self) -> "CalprmAxisCategory":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -181,13 +186,13 @@ class RuleBasedAxisCont(ARObject):
     def setCategory(self, value: "CalprmAxisCategory") -> "RuleBasedAxisCont":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -197,10 +202,10 @@ class RuleBasedAxisCont(ARObject):
     def getRuleBased(self) -> "RuleBasedValue":
         """
         AUTOSAR-compliant getter for ruleBased.
-        
+
         Returns:
             The ruleBased value
-        
+
         Note:
             Delegates to rule_based property (CODING_RULE_V2_00017)
         """
@@ -209,13 +214,13 @@ class RuleBasedAxisCont(ARObject):
     def setRuleBased(self, value: "RuleBasedValue") -> "RuleBasedAxisCont":
         """
         AUTOSAR-compliant setter for ruleBased with method chaining.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rule_based property setter (gets validation automatically)
         """
@@ -225,10 +230,10 @@ class RuleBasedAxisCont(ARObject):
     def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
-        
+
         Returns:
             The swArraysize value
-        
+
         Note:
             Delegates to sw_arraysize property (CODING_RULE_V2_00017)
         """
@@ -237,13 +242,13 @@ class RuleBasedAxisCont(ARObject):
     def setSwArraysize(self, value: RefType) -> "RuleBasedAxisCont":
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_arraysize property setter (gets validation automatically)
         """
@@ -253,10 +258,10 @@ class RuleBasedAxisCont(ARObject):
     def getSwAxisIndex(self) -> "AxisIndexType":
         """
         AUTOSAR-compliant getter for swAxisIndex.
-        
+
         Returns:
             The swAxisIndex value
-        
+
         Note:
             Delegates to sw_axis_index property (CODING_RULE_V2_00017)
         """
@@ -265,13 +270,13 @@ class RuleBasedAxisCont(ARObject):
     def setSwAxisIndex(self, value: "AxisIndexType") -> "RuleBasedAxisCont":
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_axis_index property setter (gets validation automatically)
         """
@@ -281,10 +286,10 @@ class RuleBasedAxisCont(ARObject):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -293,13 +298,13 @@ class RuleBasedAxisCont(ARObject):
     def setUnit(self, value: "Unit") -> "RuleBasedAxisCont":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -311,13 +316,13 @@ class RuleBasedAxisCont(ARObject):
     def with_category(self, value: Optional["CalprmAxisCategory"]) -> "RuleBasedAxisCont":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -327,13 +332,13 @@ class RuleBasedAxisCont(ARObject):
     def with_rule_based(self, value: Optional["RuleBasedValue"]) -> "RuleBasedAxisCont":
         """
         Set ruleBased and return self for chaining.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rule_based("value")
         """
@@ -343,13 +348,13 @@ class RuleBasedAxisCont(ARObject):
     def with_sw_arraysize(self, value: Optional[RefType]) -> "RuleBasedAxisCont":
         """
         Set swArraysize and return self for chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_arraysize("value")
         """
@@ -359,13 +364,13 @@ class RuleBasedAxisCont(ARObject):
     def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> "RuleBasedAxisCont":
         """
         Set swAxisIndex and return self for chaining.
-        
+
         Args:
             value: The swAxisIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_axis_index("value")
         """
@@ -375,13 +380,13 @@ class RuleBasedAxisCont(ARObject):
     def with_unit(self, value: Optional["Unit"]) -> "RuleBasedAxisCont":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """

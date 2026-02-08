@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticOperationCycle(DiagnosticCommonElement):
     """
     Definition of an operation cycle that is the base of the event qualifying
     and for Dem scheduling.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticOperationCycle::DiagnosticOperationCycle
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 201, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticOperationCycle(DiagnosticCommonElement):
     def type_cycle_type_enum(self, value: Optional["DiagnosticOperation"]) -> None:
         """
         Set typeCycleTypeEnum with validation.
-        
+
         Args:
             value: The typeCycleTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class DiagnosticOperationCycle(DiagnosticCommonElement):
     def getTypeCycleTypeEnum(self) -> "DiagnosticOperation":
         """
         AUTOSAR-compliant getter for typeCycleTypeEnum.
-        
+
         Returns:
             The typeCycleTypeEnum value
-        
+
         Note:
             Delegates to type_cycle_type_enum property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class DiagnosticOperationCycle(DiagnosticCommonElement):
     def setTypeCycleTypeEnum(self, value: "DiagnosticOperation") -> "DiagnosticOperationCycle":
         """
         AUTOSAR-compliant setter for typeCycleTypeEnum with method chaining.
-        
+
         Args:
             value: The typeCycleTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_cycle_type_enum property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class DiagnosticOperationCycle(DiagnosticCommonElement):
     def with_type_cycle_type_enum(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticOperationCycle":
         """
         Set typeCycleTypeEnum and return self for chaining.
-        
+
         Args:
             value: The typeCycleTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_cycle_type_enum("value")
         """

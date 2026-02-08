@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventBswInternalBehavior(TimingDescriptionEvent):
     """
     This is used to describe timing events related to the BswInternalBehavior of
     a BSW module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBswInternalBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 73, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def bsw_module_entity(self, value: Optional["BswModuleEntity"]) -> None:
         """
         Set bswModuleEntity with validation.
-        
+
         Args:
             value: The bswModuleEntity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def td_event_bsw_behavior_type(self, value: Optional["TDEventBswInternal"]) -> None:
         """
         Set tdEventBswBehaviorType with validation.
-        
+
         Args:
             value: The tdEventBswBehaviorType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def getBswModuleEntity(self) -> "BswModuleEntity":
         """
         AUTOSAR-compliant getter for bswModuleEntity.
-        
+
         Returns:
             The bswModuleEntity value
-        
+
         Note:
             Delegates to bsw_module_entity property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def setBswModuleEntity(self, value: "BswModuleEntity") -> "TDEventBswInternalBehavior":
         """
         AUTOSAR-compliant setter for bswModuleEntity with method chaining.
-        
+
         Args:
             value: The bswModuleEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module_entity property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def getTdEventBswBehaviorType(self) -> "TDEventBswInternal":
         """
         AUTOSAR-compliant getter for tdEventBswBehaviorType.
-        
+
         Returns:
             The tdEventBswBehaviorType value
-        
+
         Note:
             Delegates to td_event_bsw_behavior_type property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def setTdEventBswBehaviorType(self, value: "TDEventBswInternal") -> "TDEventBswInternalBehavior":
         """
         AUTOSAR-compliant setter for tdEventBswBehaviorType with method chaining.
-        
+
         Args:
             value: The tdEventBswBehaviorType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_bsw_behavior_type property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def with_bsw_module_entity(self, value: Optional["BswModuleEntity"]) -> "TDEventBswInternalBehavior":
         """
         Set bswModuleEntity and return self for chaining.
-        
+
         Args:
             value: The bswModuleEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module_entity("value")
         """
@@ -151,13 +151,13 @@ class TDEventBswInternalBehavior(TimingDescriptionEvent):
     def with_td_event_bsw_behavior_type(self, value: Optional["TDEventBswInternal"]) -> "TDEventBswInternalBehavior":
         """
         Set tdEventBswBehaviorType and return self for chaining.
-        
+
         Args:
             value: The tdEventBswBehaviorType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_bsw_behavior_type("value")
         """

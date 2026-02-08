@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SecureCommunicationProps(ARObject):
     """
     This meta-class contains configuration settings that are specific for an
     individual SecuredIPdu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 369, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class SecureCommunicationProps(ARObject):
     def auth_data(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set authData with validation.
-        
+
         Args:
             value: The authData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class SecureCommunicationProps(ARObject):
     def authentication(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class SecureCommunicationProps(ARObject):
     def data_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataId with validation.
-        
+
         Args:
             value: The dataId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class SecureCommunicationProps(ARObject):
     def freshness_value(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set freshnessValue with validation.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class SecureCommunicationProps(ARObject):
     def message_link(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageLink with validation.
-        
+
         Args:
             value: The messageLink to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -178,10 +181,10 @@ class SecureCommunicationProps(ARObject):
     def secondary(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set secondary with validation.
-        
+
         Args:
             value: The secondary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -207,10 +210,10 @@ class SecureCommunicationProps(ARObject):
     def secured_area(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set securedArea with validation.
-        
+
         Args:
             value: The securedArea to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -229,10 +232,10 @@ class SecureCommunicationProps(ARObject):
     def getAuthData(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for authData.
-        
+
         Returns:
             The authData value
-        
+
         Note:
             Delegates to auth_data property (CODING_RULE_V2_00017)
         """
@@ -241,13 +244,13 @@ class SecureCommunicationProps(ARObject):
     def setAuthData(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for authData with method chaining.
-        
+
         Args:
             value: The authData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auth_data property setter (gets validation automatically)
         """
@@ -257,10 +260,10 @@ class SecureCommunicationProps(ARObject):
     def getAuthentication(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -269,13 +272,13 @@ class SecureCommunicationProps(ARObject):
     def setAuthentication(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -285,10 +288,10 @@ class SecureCommunicationProps(ARObject):
     def getDataId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataId.
-        
+
         Returns:
             The dataId value
-        
+
         Note:
             Delegates to data_id property (CODING_RULE_V2_00017)
         """
@@ -297,13 +300,13 @@ class SecureCommunicationProps(ARObject):
     def setDataId(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for dataId with method chaining.
-        
+
         Args:
             value: The dataId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_id property setter (gets validation automatically)
         """
@@ -313,10 +316,10 @@ class SecureCommunicationProps(ARObject):
     def getFreshnessValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for freshnessValue.
-        
+
         Returns:
             The freshnessValue value
-        
+
         Note:
             Delegates to freshness_value property (CODING_RULE_V2_00017)
         """
@@ -325,13 +328,13 @@ class SecureCommunicationProps(ARObject):
     def setFreshnessValue(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for freshnessValue with method chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness_value property setter (gets validation automatically)
         """
@@ -341,10 +344,10 @@ class SecureCommunicationProps(ARObject):
     def getMessageLink(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageLink.
-        
+
         Returns:
             The messageLink value
-        
+
         Note:
             Delegates to message_link property (CODING_RULE_V2_00017)
         """
@@ -353,13 +356,13 @@ class SecureCommunicationProps(ARObject):
     def setMessageLink(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for messageLink with method chaining.
-        
+
         Args:
             value: The messageLink to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_link property setter (gets validation automatically)
         """
@@ -369,10 +372,10 @@ class SecureCommunicationProps(ARObject):
     def getSecondary(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for secondary.
-        
+
         Returns:
             The secondary value
-        
+
         Note:
             Delegates to secondary property (CODING_RULE_V2_00017)
         """
@@ -381,13 +384,13 @@ class SecureCommunicationProps(ARObject):
     def setSecondary(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for secondary with method chaining.
-        
+
         Args:
             value: The secondary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secondary property setter (gets validation automatically)
         """
@@ -397,10 +400,10 @@ class SecureCommunicationProps(ARObject):
     def getSecuredArea(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for securedArea.
-        
+
         Returns:
             The securedArea value
-        
+
         Note:
             Delegates to secured_area property (CODING_RULE_V2_00017)
         """
@@ -409,13 +412,13 @@ class SecureCommunicationProps(ARObject):
     def setSecuredArea(self, value: "PositiveInteger") -> "SecureCommunicationProps":
         """
         AUTOSAR-compliant setter for securedArea with method chaining.
-        
+
         Args:
             value: The securedArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secured_area property setter (gets validation automatically)
         """
@@ -427,13 +430,13 @@ class SecureCommunicationProps(ARObject):
     def with_auth_data(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set authData and return self for chaining.
-        
+
         Args:
             value: The authData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auth_data("value")
         """
@@ -443,13 +446,13 @@ class SecureCommunicationProps(ARObject):
     def with_authentication(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -459,13 +462,13 @@ class SecureCommunicationProps(ARObject):
     def with_data_id(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set dataId and return self for chaining.
-        
+
         Args:
             value: The dataId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_id("value")
         """
@@ -475,13 +478,13 @@ class SecureCommunicationProps(ARObject):
     def with_freshness_value(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set freshnessValue and return self for chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness_value("value")
         """
@@ -491,13 +494,13 @@ class SecureCommunicationProps(ARObject):
     def with_message_link(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set messageLink and return self for chaining.
-        
+
         Args:
             value: The messageLink to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_link("value")
         """
@@ -507,13 +510,13 @@ class SecureCommunicationProps(ARObject):
     def with_secondary(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set secondary and return self for chaining.
-        
+
         Args:
             value: The secondary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secondary("value")
         """
@@ -523,13 +526,13 @@ class SecureCommunicationProps(ARObject):
     def with_secured_area(self, value: Optional["PositiveInteger"]) -> "SecureCommunicationProps":
         """
         Set securedArea and return self for chaining.
-        
+
         Args:
             value: The securedArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secured_area("value")
         """

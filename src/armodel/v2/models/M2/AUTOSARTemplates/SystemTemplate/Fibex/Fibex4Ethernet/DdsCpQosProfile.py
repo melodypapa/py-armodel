@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DdsCpQosProfile(Identifiable):
     """
     Definition of a DDS QOS Profile.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpQosProfile
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 528, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class DdsCpQosProfile(Identifiable):
     def deadline(self, value: Optional["DdsDeadline"]) -> None:
         """
         Set deadline with validation.
-        
+
         Args:
             value: The deadline to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class DdsCpQosProfile(Identifiable):
     def destination_order(self, value: Optional["DdsDestinationOrder"]) -> None:
         """
         Set destinationOrder with validation.
-        
+
         Args:
             value: The destinationOrder to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +88,10 @@ class DdsCpQosProfile(Identifiable):
     def durability(self, value: Optional["DdsDurabilityService"]) -> None:
         """
         Set durability with validation.
-        
+
         Args:
             value: The durability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +116,10 @@ class DdsCpQosProfile(Identifiable):
     def history(self, value: Optional["DdsHistory"]) -> None:
         """
         Set history with validation.
-        
+
         Args:
             value: The history to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +144,10 @@ class DdsCpQosProfile(Identifiable):
     def latency_budget(self, value: Optional["DdsLatencyBudget"]) -> None:
         """
         Set latencyBudget with validation.
-        
+
         Args:
             value: The latencyBudget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -170,10 +172,10 @@ class DdsCpQosProfile(Identifiable):
     def lifespan(self, value: Optional["DdsLifespan"]) -> None:
         """
         Set lifespan with validation.
-        
+
         Args:
             value: The lifespan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -198,10 +200,10 @@ class DdsCpQosProfile(Identifiable):
     def liveliness(self, value: Optional["DdsLiveliness"]) -> None:
         """
         Set liveliness with validation.
-        
+
         Args:
             value: The liveliness to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +230,10 @@ class DdsCpQosProfile(Identifiable):
     def ownership(self, value: Optional["DdsOwnershipStrength"]) -> None:
         """
         Set ownership with validation.
-        
+
         Args:
             value: The ownership to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -256,10 +258,10 @@ class DdsCpQosProfile(Identifiable):
     def reliability(self, value: Optional["DdsReliability"]) -> None:
         """
         Set reliability with validation.
-        
+
         Args:
             value: The reliability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -284,10 +286,10 @@ class DdsCpQosProfile(Identifiable):
     def resource_limits(self, value: Optional["DdsResourceLimits"]) -> None:
         """
         Set resourceLimits with validation.
-        
+
         Args:
             value: The resourceLimits to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -312,10 +314,10 @@ class DdsCpQosProfile(Identifiable):
     def topic_data(self, value: Optional["DdsTopicData"]) -> None:
         """
         Set topicData with validation.
-        
+
         Args:
             value: The topicData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -340,10 +342,10 @@ class DdsCpQosProfile(Identifiable):
     def transport_priority(self, value: Optional["DdsTransportPriority"]) -> None:
         """
         Set transportPriority with validation.
-        
+
         Args:
             value: The transportPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -362,10 +364,10 @@ class DdsCpQosProfile(Identifiable):
     def getDeadline(self) -> "DdsDeadline":
         """
         AUTOSAR-compliant getter for deadline.
-        
+
         Returns:
             The deadline value
-        
+
         Note:
             Delegates to deadline property (CODING_RULE_V2_00017)
         """
@@ -374,13 +376,13 @@ class DdsCpQosProfile(Identifiable):
     def setDeadline(self, value: "DdsDeadline") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for deadline with method chaining.
-        
+
         Args:
             value: The deadline to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to deadline property setter (gets validation automatically)
         """
@@ -390,10 +392,10 @@ class DdsCpQosProfile(Identifiable):
     def getDestinationOrder(self) -> "DdsDestinationOrder":
         """
         AUTOSAR-compliant getter for destinationOrder.
-        
+
         Returns:
             The destinationOrder value
-        
+
         Note:
             Delegates to destination_order property (CODING_RULE_V2_00017)
         """
@@ -402,13 +404,13 @@ class DdsCpQosProfile(Identifiable):
     def setDestinationOrder(self, value: "DdsDestinationOrder") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for destinationOrder with method chaining.
-        
+
         Args:
             value: The destinationOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_order property setter (gets validation automatically)
         """
@@ -418,10 +420,10 @@ class DdsCpQosProfile(Identifiable):
     def getDurability(self) -> "DdsDurabilityService":
         """
         AUTOSAR-compliant getter for durability.
-        
+
         Returns:
             The durability value
-        
+
         Note:
             Delegates to durability property (CODING_RULE_V2_00017)
         """
@@ -430,13 +432,13 @@ class DdsCpQosProfile(Identifiable):
     def setDurability(self, value: "DdsDurabilityService") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for durability with method chaining.
-        
+
         Args:
             value: The durability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to durability property setter (gets validation automatically)
         """
@@ -446,10 +448,10 @@ class DdsCpQosProfile(Identifiable):
     def getHistory(self) -> "DdsHistory":
         """
         AUTOSAR-compliant getter for history.
-        
+
         Returns:
             The history value
-        
+
         Note:
             Delegates to history property (CODING_RULE_V2_00017)
         """
@@ -458,13 +460,13 @@ class DdsCpQosProfile(Identifiable):
     def setHistory(self, value: "DdsHistory") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for history with method chaining.
-        
+
         Args:
             value: The history to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to history property setter (gets validation automatically)
         """
@@ -474,10 +476,10 @@ class DdsCpQosProfile(Identifiable):
     def getLatencyBudget(self) -> "DdsLatencyBudget":
         """
         AUTOSAR-compliant getter for latencyBudget.
-        
+
         Returns:
             The latencyBudget value
-        
+
         Note:
             Delegates to latency_budget property (CODING_RULE_V2_00017)
         """
@@ -486,13 +488,13 @@ class DdsCpQosProfile(Identifiable):
     def setLatencyBudget(self, value: "DdsLatencyBudget") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for latencyBudget with method chaining.
-        
+
         Args:
             value: The latencyBudget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to latency_budget property setter (gets validation automatically)
         """
@@ -502,10 +504,10 @@ class DdsCpQosProfile(Identifiable):
     def getLifespan(self) -> "DdsLifespan":
         """
         AUTOSAR-compliant getter for lifespan.
-        
+
         Returns:
             The lifespan value
-        
+
         Note:
             Delegates to lifespan property (CODING_RULE_V2_00017)
         """
@@ -514,13 +516,13 @@ class DdsCpQosProfile(Identifiable):
     def setLifespan(self, value: "DdsLifespan") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for lifespan with method chaining.
-        
+
         Args:
             value: The lifespan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lifespan property setter (gets validation automatically)
         """
@@ -530,10 +532,10 @@ class DdsCpQosProfile(Identifiable):
     def getLiveliness(self) -> "DdsLiveliness":
         """
         AUTOSAR-compliant getter for liveliness.
-        
+
         Returns:
             The liveliness value
-        
+
         Note:
             Delegates to liveliness property (CODING_RULE_V2_00017)
         """
@@ -542,13 +544,13 @@ class DdsCpQosProfile(Identifiable):
     def setLiveliness(self, value: "DdsLiveliness") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for liveliness with method chaining.
-        
+
         Args:
             value: The liveliness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to liveliness property setter (gets validation automatically)
         """
@@ -558,10 +560,10 @@ class DdsCpQosProfile(Identifiable):
     def getOwnership(self) -> "DdsOwnershipStrength":
         """
         AUTOSAR-compliant getter for ownership.
-        
+
         Returns:
             The ownership value
-        
+
         Note:
             Delegates to ownership property (CODING_RULE_V2_00017)
         """
@@ -570,13 +572,13 @@ class DdsCpQosProfile(Identifiable):
     def setOwnership(self, value: "DdsOwnershipStrength") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for ownership with method chaining.
-        
+
         Args:
             value: The ownership to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ownership property setter (gets validation automatically)
         """
@@ -586,10 +588,10 @@ class DdsCpQosProfile(Identifiable):
     def getReliability(self) -> "DdsReliability":
         """
         AUTOSAR-compliant getter for reliability.
-        
+
         Returns:
             The reliability value
-        
+
         Note:
             Delegates to reliability property (CODING_RULE_V2_00017)
         """
@@ -598,13 +600,13 @@ class DdsCpQosProfile(Identifiable):
     def setReliability(self, value: "DdsReliability") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for reliability with method chaining.
-        
+
         Args:
             value: The reliability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reliability property setter (gets validation automatically)
         """
@@ -614,10 +616,10 @@ class DdsCpQosProfile(Identifiable):
     def getResourceLimits(self) -> "DdsResourceLimits":
         """
         AUTOSAR-compliant getter for resourceLimits.
-        
+
         Returns:
             The resourceLimits value
-        
+
         Note:
             Delegates to resource_limits property (CODING_RULE_V2_00017)
         """
@@ -626,13 +628,13 @@ class DdsCpQosProfile(Identifiable):
     def setResourceLimits(self, value: "DdsResourceLimits") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for resourceLimits with method chaining.
-        
+
         Args:
             value: The resourceLimits to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource_limits property setter (gets validation automatically)
         """
@@ -642,10 +644,10 @@ class DdsCpQosProfile(Identifiable):
     def getTopicData(self) -> "DdsTopicData":
         """
         AUTOSAR-compliant getter for topicData.
-        
+
         Returns:
             The topicData value
-        
+
         Note:
             Delegates to topic_data property (CODING_RULE_V2_00017)
         """
@@ -654,13 +656,13 @@ class DdsCpQosProfile(Identifiable):
     def setTopicData(self, value: "DdsTopicData") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for topicData with method chaining.
-        
+
         Args:
             value: The topicData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic_data property setter (gets validation automatically)
         """
@@ -670,10 +672,10 @@ class DdsCpQosProfile(Identifiable):
     def getTransportPriority(self) -> "DdsTransportPriority":
         """
         AUTOSAR-compliant getter for transportPriority.
-        
+
         Returns:
             The transportPriority value
-        
+
         Note:
             Delegates to transport_priority property (CODING_RULE_V2_00017)
         """
@@ -682,13 +684,13 @@ class DdsCpQosProfile(Identifiable):
     def setTransportPriority(self, value: "DdsTransportPriority") -> "DdsCpQosProfile":
         """
         AUTOSAR-compliant setter for transportPriority with method chaining.
-        
+
         Args:
             value: The transportPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transport_priority property setter (gets validation automatically)
         """
@@ -700,13 +702,13 @@ class DdsCpQosProfile(Identifiable):
     def with_deadline(self, value: Optional["DdsDeadline"]) -> "DdsCpQosProfile":
         """
         Set deadline and return self for chaining.
-        
+
         Args:
             value: The deadline to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_deadline("value")
         """
@@ -716,13 +718,13 @@ class DdsCpQosProfile(Identifiable):
     def with_destination_order(self, value: Optional["DdsDestinationOrder"]) -> "DdsCpQosProfile":
         """
         Set destinationOrder and return self for chaining.
-        
+
         Args:
             value: The destinationOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_order("value")
         """
@@ -732,13 +734,13 @@ class DdsCpQosProfile(Identifiable):
     def with_durability(self, value: Optional["DdsDurabilityService"]) -> "DdsCpQosProfile":
         """
         Set durability and return self for chaining.
-        
+
         Args:
             value: The durability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_durability("value")
         """
@@ -748,13 +750,13 @@ class DdsCpQosProfile(Identifiable):
     def with_history(self, value: Optional["DdsHistory"]) -> "DdsCpQosProfile":
         """
         Set history and return self for chaining.
-        
+
         Args:
             value: The history to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_history("value")
         """
@@ -764,13 +766,13 @@ class DdsCpQosProfile(Identifiable):
     def with_latency_budget(self, value: Optional["DdsLatencyBudget"]) -> "DdsCpQosProfile":
         """
         Set latencyBudget and return self for chaining.
-        
+
         Args:
             value: The latencyBudget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_latency_budget("value")
         """
@@ -780,13 +782,13 @@ class DdsCpQosProfile(Identifiable):
     def with_lifespan(self, value: Optional["DdsLifespan"]) -> "DdsCpQosProfile":
         """
         Set lifespan and return self for chaining.
-        
+
         Args:
             value: The lifespan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lifespan("value")
         """
@@ -796,13 +798,13 @@ class DdsCpQosProfile(Identifiable):
     def with_liveliness(self, value: Optional["DdsLiveliness"]) -> "DdsCpQosProfile":
         """
         Set liveliness and return self for chaining.
-        
+
         Args:
             value: The liveliness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_liveliness("value")
         """
@@ -812,13 +814,13 @@ class DdsCpQosProfile(Identifiable):
     def with_ownership(self, value: Optional["DdsOwnershipStrength"]) -> "DdsCpQosProfile":
         """
         Set ownership and return self for chaining.
-        
+
         Args:
             value: The ownership to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ownership("value")
         """
@@ -828,13 +830,13 @@ class DdsCpQosProfile(Identifiable):
     def with_reliability(self, value: Optional["DdsReliability"]) -> "DdsCpQosProfile":
         """
         Set reliability and return self for chaining.
-        
+
         Args:
             value: The reliability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reliability("value")
         """
@@ -844,13 +846,13 @@ class DdsCpQosProfile(Identifiable):
     def with_resource_limits(self, value: Optional["DdsResourceLimits"]) -> "DdsCpQosProfile":
         """
         Set resourceLimits and return self for chaining.
-        
+
         Args:
             value: The resourceLimits to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource_limits("value")
         """
@@ -860,13 +862,13 @@ class DdsCpQosProfile(Identifiable):
     def with_topic_data(self, value: Optional["DdsTopicData"]) -> "DdsCpQosProfile":
         """
         Set topicData and return self for chaining.
-        
+
         Args:
             value: The topicData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic_data("value")
         """
@@ -876,13 +878,13 @@ class DdsCpQosProfile(Identifiable):
     def with_transport_priority(self, value: Optional["DdsTransportPriority"]) -> "DdsCpQosProfile":
         """
         Set transportPriority and return self for chaining.
-        
+
         Args:
             value: The transportPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transport_priority("value")
         """

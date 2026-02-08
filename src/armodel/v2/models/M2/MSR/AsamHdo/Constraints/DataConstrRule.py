@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DataConstrRule(ARObject):
     """
     This meta-class represents the ability to express one specific data
     constraint rule.
-    
+
     Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::DataConstrRule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 405, Classic Platform
       R23-11)
@@ -36,10 +39,10 @@ class DataConstrRule(ARObject):
     def constr_level(self, value: Optional["Integer"]) -> None:
         """
         Set constrLevel with validation.
-        
+
         Args:
             value: The constrLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class DataConstrRule(ARObject):
     def internal_constrs(self, value: Optional["InternalConstrs"]) -> None:
         """
         Set internalConstrs with validation.
-        
+
         Args:
             value: The internalConstrs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +97,10 @@ class DataConstrRule(ARObject):
     def phys_constrs(self, value: Optional["PhysConstrs"]) -> None:
         """
         Set physConstrs with validation.
-        
+
         Args:
             value: The physConstrs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class DataConstrRule(ARObject):
     def getConstrLevel(self) -> "Integer":
         """
         AUTOSAR-compliant getter for constrLevel.
-        
+
         Returns:
             The constrLevel value
-        
+
         Note:
             Delegates to constr_level property (CODING_RULE_V2_00017)
         """
@@ -128,13 +131,13 @@ class DataConstrRule(ARObject):
     def setConstrLevel(self, value: "Integer") -> "DataConstrRule":
         """
         AUTOSAR-compliant setter for constrLevel with method chaining.
-        
+
         Args:
             value: The constrLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to constr_level property setter (gets validation automatically)
         """
@@ -144,10 +147,10 @@ class DataConstrRule(ARObject):
     def getInternalConstrs(self) -> "InternalConstrs":
         """
         AUTOSAR-compliant getter for internalConstrs.
-        
+
         Returns:
             The internalConstrs value
-        
+
         Note:
             Delegates to internal_constrs property (CODING_RULE_V2_00017)
         """
@@ -156,13 +159,13 @@ class DataConstrRule(ARObject):
     def setInternalConstrs(self, value: "InternalConstrs") -> "DataConstrRule":
         """
         AUTOSAR-compliant setter for internalConstrs with method chaining.
-        
+
         Args:
             value: The internalConstrs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to internal_constrs property setter (gets validation automatically)
         """
@@ -172,10 +175,10 @@ class DataConstrRule(ARObject):
     def getPhysConstrs(self) -> "PhysConstrs":
         """
         AUTOSAR-compliant getter for physConstrs.
-        
+
         Returns:
             The physConstrs value
-        
+
         Note:
             Delegates to phys_constrs property (CODING_RULE_V2_00017)
         """
@@ -184,13 +187,13 @@ class DataConstrRule(ARObject):
     def setPhysConstrs(self, value: "PhysConstrs") -> "DataConstrRule":
         """
         AUTOSAR-compliant setter for physConstrs with method chaining.
-        
+
         Args:
             value: The physConstrs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to phys_constrs property setter (gets validation automatically)
         """
@@ -202,13 +205,13 @@ class DataConstrRule(ARObject):
     def with_constr_level(self, value: Optional["Integer"]) -> "DataConstrRule":
         """
         Set constrLevel and return self for chaining.
-        
+
         Args:
             value: The constrLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_constr_level("value")
         """
@@ -218,13 +221,13 @@ class DataConstrRule(ARObject):
     def with_internal_constrs(self, value: Optional["InternalConstrs"]) -> "DataConstrRule":
         """
         Set internalConstrs and return self for chaining.
-        
+
         Args:
             value: The internalConstrs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_internal_constrs("value")
         """
@@ -234,13 +237,13 @@ class DataConstrRule(ARObject):
     def with_phys_constrs(self, value: Optional["PhysConstrs"]) -> "DataConstrRule":
         """
         Set physConstrs and return self for chaining.
-        
+
         Args:
             value: The physConstrs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_phys_constrs("value")
         """

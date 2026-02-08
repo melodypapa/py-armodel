@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class VariationRestrictionWithSeverity(RestrictionWithSeverity):
     """
     Defines constraints on the usage of variation and on the valid binding
     times.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::VariationRestrictionWithSeverity
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 88, Foundation R23-11)
     """

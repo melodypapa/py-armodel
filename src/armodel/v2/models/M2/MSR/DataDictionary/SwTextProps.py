@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwTextProps(ARObject):
     """
     This meta-class expresses particular properties applicable to strings in
     variables or calibration parameters.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwTextProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 343, Classic
       Platform R23-11)
@@ -37,10 +40,10 @@ class SwTextProps(ARObject):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +70,10 @@ class SwTextProps(ARObject):
     def base_type(self, value: Optional["SwBaseType"]) -> None:
         """
         Set baseType with validation.
-        
+
         Args:
             value: The baseType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +102,10 @@ class SwTextProps(ARObject):
     def sw_fill_character(self, value: Optional["Integer"]) -> None:
         """
         Set swFillCharacter with validation.
-        
+
         Args:
             value: The swFillCharacter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +131,10 @@ class SwTextProps(ARObject):
     def sw_max_text_size(self, value: Optional["Integer"]) -> None:
         """
         Set swMaxTextSize with validation.
-        
+
         Args:
             value: The swMaxTextSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -150,10 +153,10 @@ class SwTextProps(ARObject):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -162,13 +165,13 @@ class SwTextProps(ARObject):
     def setArraySize(self, value: "ArraySizeSemantics") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -178,10 +181,10 @@ class SwTextProps(ARObject):
     def getBaseType(self) -> "SwBaseType":
         """
         AUTOSAR-compliant getter for baseType.
-        
+
         Returns:
             The baseType value
-        
+
         Note:
             Delegates to base_type property (CODING_RULE_V2_00017)
         """
@@ -190,13 +193,13 @@ class SwTextProps(ARObject):
     def setBaseType(self, value: "SwBaseType") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for baseType with method chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_type property setter (gets validation automatically)
         """
@@ -206,10 +209,10 @@ class SwTextProps(ARObject):
     def getSwFillCharacter(self) -> "Integer":
         """
         AUTOSAR-compliant getter for swFillCharacter.
-        
+
         Returns:
             The swFillCharacter value
-        
+
         Note:
             Delegates to sw_fill_character property (CODING_RULE_V2_00017)
         """
@@ -218,13 +221,13 @@ class SwTextProps(ARObject):
     def setSwFillCharacter(self, value: "Integer") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for swFillCharacter with method chaining.
-        
+
         Args:
             value: The swFillCharacter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_fill_character property setter (gets validation automatically)
         """
@@ -234,10 +237,10 @@ class SwTextProps(ARObject):
     def getSwMaxTextSize(self) -> "Integer":
         """
         AUTOSAR-compliant getter for swMaxTextSize.
-        
+
         Returns:
             The swMaxTextSize value
-        
+
         Note:
             Delegates to sw_max_text_size property (CODING_RULE_V2_00017)
         """
@@ -246,13 +249,13 @@ class SwTextProps(ARObject):
     def setSwMaxTextSize(self, value: "Integer") -> "SwTextProps":
         """
         AUTOSAR-compliant setter for swMaxTextSize with method chaining.
-        
+
         Args:
             value: The swMaxTextSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_max_text_size property setter (gets validation automatically)
         """
@@ -264,13 +267,13 @@ class SwTextProps(ARObject):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "SwTextProps":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -280,13 +283,13 @@ class SwTextProps(ARObject):
     def with_base_type(self, value: Optional["SwBaseType"]) -> "SwTextProps":
         """
         Set baseType and return self for chaining.
-        
+
         Args:
             value: The baseType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_type("value")
         """
@@ -296,13 +299,13 @@ class SwTextProps(ARObject):
     def with_sw_fill_character(self, value: Optional["Integer"]) -> "SwTextProps":
         """
         Set swFillCharacter and return self for chaining.
-        
+
         Args:
             value: The swFillCharacter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_fill_character("value")
         """
@@ -312,13 +315,13 @@ class SwTextProps(ARObject):
     def with_sw_max_text_size(self, value: Optional["Integer"]) -> "SwTextProps":
         """
         Set swMaxTextSize and return self for chaining.
-        
+
         Args:
             value: The swMaxTextSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_max_text_size("value")
         """

@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SwBaseType(BaseType):
     """
     This meta-class represents a base type used within ECU software.
-    
+
     Package: M2::MSR::AsamHdo::BaseTypes::SwBaseType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 337, Classic
       Platform R23-11)

@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EcucFunctionNameDef(ARObject):
     """
     Configuration parameter type for Function Names like those used to specify
     callback functions.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucFunctionNameDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 65, Classic Platform R23-11)
     """

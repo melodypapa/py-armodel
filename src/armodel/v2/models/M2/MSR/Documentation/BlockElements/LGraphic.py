@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class LGraphic(LanguageSpecific):
     """
     This meta-class represents the figure in one particular language.
-    
+
     Package: M2::MSR::Documentation::BlockElements::Figure::LGraphic
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 307, Foundation
       R23-11)
@@ -28,10 +28,10 @@ class LGraphic(LanguageSpecific):
     def graphic(self, value: "Graphic") -> None:
         """
         Set graphic with validation.
-        
+
         Args:
             value: The graphic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class LGraphic(LanguageSpecific):
     def map(self, value: Optional["Map"]) -> None:
         """
         Set map with validation.
-        
+
         Args:
             value: The map to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +75,10 @@ class LGraphic(LanguageSpecific):
     def getGraphic(self) -> "Graphic":
         """
         AUTOSAR-compliant getter for graphic.
-        
+
         Returns:
             The graphic value
-        
+
         Note:
             Delegates to graphic property (CODING_RULE_V2_00017)
         """
@@ -87,13 +87,13 @@ class LGraphic(LanguageSpecific):
     def setGraphic(self, value: "Graphic") -> "LGraphic":
         """
         AUTOSAR-compliant setter for graphic with method chaining.
-        
+
         Args:
             value: The graphic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to graphic property setter (gets validation automatically)
         """
@@ -103,10 +103,10 @@ class LGraphic(LanguageSpecific):
     def getMap(self) -> "Map":
         """
         AUTOSAR-compliant getter for map.
-        
+
         Returns:
             The map value
-        
+
         Note:
             Delegates to map property (CODING_RULE_V2_00017)
         """
@@ -115,13 +115,13 @@ class LGraphic(LanguageSpecific):
     def setMap(self, value: "Map") -> "LGraphic":
         """
         AUTOSAR-compliant setter for map with method chaining.
-        
+
         Args:
             value: The map to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to map property setter (gets validation automatically)
         """
@@ -133,13 +133,13 @@ class LGraphic(LanguageSpecific):
     def with_graphic(self, value: "Graphic") -> "LGraphic":
         """
         Set graphic and return self for chaining.
-        
+
         Args:
             value: The graphic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_graphic("value")
         """
@@ -149,13 +149,13 @@ class LGraphic(LanguageSpecific):
     def with_map(self, value: Optional["Map"]) -> "LGraphic":
         """
         Set map and return self for chaining.
-        
+
         Args:
             value: The map to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_map("value")
         """

@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class HwType(HwDescriptionEntity):
     """
@@ -7,9 +5,9 @@ class HwType(HwDescriptionEntity):
     The particular types of hardware are distinguished by the category. This
     category determines the applicable attributes. The possible categories and
     attributes are defined in HwCategory.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 17, Classic Platform
       R23-11)

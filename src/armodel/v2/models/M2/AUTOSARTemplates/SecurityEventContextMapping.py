@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class SecurityEventContextMapping(IdsMapping, ABC):
     """
     This meta-class represents the ability to create an association between a
     collection of security events, an IdsM instance which handles the security
     events and the filter chains applicable to the security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 32, Foundation R23-11)
     """
@@ -31,10 +32,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def filter_chain(self, value: Optional["SecurityEventFilter"]) -> None:
         """
         Set filterChain with validation.
-        
+
         Args:
             value: The filterChain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +62,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def idsm_instance(self, value: Optional["IdsmInstance"]) -> None:
         """
         Set idsmInstance with validation.
-        
+
         Args:
             value: The idsmInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +94,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def getFilterChain(self) -> "SecurityEventFilter":
         """
         AUTOSAR-compliant getter for filterChain.
-        
+
         Returns:
             The filterChain value
-        
+
         Note:
             Delegates to filter_chain property (CODING_RULE_V2_00017)
         """
@@ -105,13 +106,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def setFilterChain(self, value: "SecurityEventFilter") -> "SecurityEventContextMapping":
         """
         AUTOSAR-compliant setter for filterChain with method chaining.
-        
+
         Args:
             value: The filterChain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_chain property setter (gets validation automatically)
         """
@@ -121,10 +122,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def getIdsmInstance(self) -> "IdsmInstance":
         """
         AUTOSAR-compliant getter for idsmInstance.
-        
+
         Returns:
             The idsmInstance value
-        
+
         Note:
             Delegates to idsm_instance property (CODING_RULE_V2_00017)
         """
@@ -133,13 +134,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def setIdsmInstance(self, value: "IdsmInstance") -> "SecurityEventContextMapping":
         """
         AUTOSAR-compliant setter for idsmInstance with method chaining.
-        
+
         Args:
             value: The idsmInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idsm_instance property setter (gets validation automatically)
         """
@@ -149,10 +150,10 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def getMappedSecurity(self) -> List["SecurityEventContext"]:
         """
         AUTOSAR-compliant getter for mappedSecurity.
-        
+
         Returns:
             The mappedSecurity value
-        
+
         Note:
             Delegates to mapped_security property (CODING_RULE_V2_00017)
         """
@@ -163,13 +164,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def with_filter_chain(self, value: Optional["SecurityEventFilter"]) -> "SecurityEventContextMapping":
         """
         Set filterChain and return self for chaining.
-        
+
         Args:
             value: The filterChain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_chain("value")
         """
@@ -179,13 +180,13 @@ class SecurityEventContextMapping(IdsMapping, ABC):
     def with_idsm_instance(self, value: Optional["IdsmInstance"]) -> "SecurityEventContextMapping":
         """
         Set idsmInstance and return self for chaining.
-        
+
         Args:
             value: The idsmInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idsm_instance("value")
         """

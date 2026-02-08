@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DataTransformation(Identifiable):
     """
     A DataTransformation represents a transformer chain. It is an ordered list
     of transformers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataTransformation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 149, Classic Platform
       R23-11)
@@ -31,10 +33,10 @@ class DataTransformation(Identifiable):
     def data(self, value: Optional["DataTransformationKind"]) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +64,10 @@ class DataTransformation(Identifiable):
     def execute_despite(self, value: Optional["Boolean"]) -> None:
         """
         Set executeDespite with validation.
-        
+
         Args:
             value: The executeDespite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +95,10 @@ class DataTransformation(Identifiable):
     def getData(self) -> "DataTransformationKind":
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -105,13 +107,13 @@ class DataTransformation(Identifiable):
     def setData(self, value: "DataTransformationKind") -> "DataTransformation":
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -121,10 +123,10 @@ class DataTransformation(Identifiable):
     def getExecuteDespite(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for executeDespite.
-        
+
         Returns:
             The executeDespite value
-        
+
         Note:
             Delegates to execute_despite property (CODING_RULE_V2_00017)
         """
@@ -133,13 +135,13 @@ class DataTransformation(Identifiable):
     def setExecuteDespite(self, value: "Boolean") -> "DataTransformation":
         """
         AUTOSAR-compliant setter for executeDespite with method chaining.
-        
+
         Args:
             value: The executeDespite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to execute_despite property setter (gets validation automatically)
         """
@@ -149,10 +151,10 @@ class DataTransformation(Identifiable):
     def getTransformer(self) -> List["Transformation"]:
         """
         AUTOSAR-compliant getter for transformer.
-        
+
         Returns:
             The transformer value
-        
+
         Note:
             Delegates to transformer property (CODING_RULE_V2_00017)
         """
@@ -163,13 +165,13 @@ class DataTransformation(Identifiable):
     def with_data(self, value: Optional["DataTransformationKind"]) -> "DataTransformation":
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """
@@ -179,13 +181,13 @@ class DataTransformation(Identifiable):
     def with_execute_despite(self, value: Optional["Boolean"]) -> "DataTransformation":
         """
         Set executeDespite and return self for chaining.
-        
+
         Args:
             value: The executeDespite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_execute_despite("value")
         """

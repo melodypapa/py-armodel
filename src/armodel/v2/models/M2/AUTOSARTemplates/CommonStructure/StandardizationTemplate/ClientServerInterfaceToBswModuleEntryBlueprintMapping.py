@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     """
@@ -10,9 +10,9 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     number of arguments and the data types of arguments of the operation +
     additional PortDefined Arguments matches the signature of the
     BswModuleEntry.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw::ClientServerInterfaceToBswModuleEntryBlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 174, Foundation R23-11)
     """
@@ -33,10 +33,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def client_server(self, value: "ClientServerInterface") -> None:
         """
         Set clientServer with validation.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def operation(self, value: "ClientServerOperation") -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def getClientServer(self) -> "ClientServerInterface":
         """
         AUTOSAR-compliant getter for clientServer.
-        
+
         Returns:
             The clientServer value
-        
+
         Note:
             Delegates to client_server property (CODING_RULE_V2_00017)
         """
@@ -95,13 +95,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def setClientServer(self, value: "ClientServerInterface") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to client_server property setter (gets validation automatically)
         """
@@ -111,10 +111,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def setOperation(self, value: "ClientServerOperation") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -139,10 +139,10 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def getPortDefined(self) -> List["PortDefinedArgument"]:
         """
         AUTOSAR-compliant getter for portDefined.
-        
+
         Returns:
             The portDefined value
-        
+
         Note:
             Delegates to port_defined property (CODING_RULE_V2_00017)
         """
@@ -153,13 +153,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def with_client_server(self, value: "ClientServerInterface") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         Set clientServer and return self for chaining.
-        
+
         Args:
             value: The clientServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_client_server("value")
         """
@@ -169,13 +169,13 @@ class ClientServerInterfaceToBswModuleEntryBlueprintMapping(ARElement):
     def with_operation(self, value: "ClientServerOperation") -> "ClientServerInterfaceToBswModuleEntryBlueprintMapping":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """

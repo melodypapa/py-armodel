@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SecurityEventContextData(ARObject):
     """
@@ -8,9 +9,9 @@ class SecurityEventContextData(ARObject):
     to the aggregating Security EventDefinition. If this meta-class does not
     exist for a SecurityEventDefinition, then no context data shall be provided
     for this SecurityEventDefinition.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventContextData
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 66, Foundation R23-11)
     """

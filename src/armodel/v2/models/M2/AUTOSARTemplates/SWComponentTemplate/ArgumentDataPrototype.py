@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ArgumentDataPrototype(AutosarDataPrototype):
     """
     An argument of an operation, much like a data element, but also carries
     direction information and is owned by a particular ClientServerOperation.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ArgumentDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 303, Classic
       Platform R23-11)
@@ -36,10 +36,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def direction(self, value: Optional["ArgumentDirection"]) -> None:
         """
         Set direction with validation.
-        
+
         Args:
             value: The direction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +67,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def server_argument(self, value: Optional["ServerArgumentImpl"]) -> None:
         """
         Set serverArgument with validation.
-        
+
         Args:
             value: The serverArgument to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def getDirection(self) -> "ArgumentDirection":
         """
         AUTOSAR-compliant getter for direction.
-        
+
         Returns:
             The direction value
-        
+
         Note:
             Delegates to direction property (CODING_RULE_V2_00017)
         """
@@ -101,13 +101,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def setDirection(self, value: "ArgumentDirection") -> "ArgumentDataPrototype":
         """
         AUTOSAR-compliant setter for direction with method chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direction property setter (gets validation automatically)
         """
@@ -117,10 +117,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def getServerArgument(self) -> "ServerArgumentImpl":
         """
         AUTOSAR-compliant getter for serverArgument.
-        
+
         Returns:
             The serverArgument value
-        
+
         Note:
             Delegates to server_argument property (CODING_RULE_V2_00017)
         """
@@ -129,13 +129,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def setServerArgument(self, value: "ServerArgumentImpl") -> "ArgumentDataPrototype":
         """
         AUTOSAR-compliant setter for serverArgument with method chaining.
-        
+
         Args:
             value: The serverArgument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to server_argument property setter (gets validation automatically)
         """
@@ -147,13 +147,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def with_direction(self, value: Optional["ArgumentDirection"]) -> "ArgumentDataPrototype":
         """
         Set direction and return self for chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direction("value")
         """
@@ -163,13 +163,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def with_server_argument(self, value: Optional["ServerArgumentImpl"]) -> "ArgumentDataPrototype":
         """
         Set serverArgument and return self for chaining.
-        
+
         Args:
             value: The serverArgument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_server_argument("value")
         """

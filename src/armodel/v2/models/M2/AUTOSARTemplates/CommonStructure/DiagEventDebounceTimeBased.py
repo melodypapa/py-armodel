@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     """
@@ -7,9 +7,9 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     pre-debounce algorithm shall be used by the Dem for this diagnostic monitor.
     This is related to set the EcuC choice container DemDebounceAlgorithmClass
     to DemDebounceTime Base.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceTimeBased
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 260, Classic
       Platform R23-11)
@@ -35,10 +35,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def time_based_fdc(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBasedFdc with validation.
-        
+
         Args:
             value: The timeBasedFdc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def time_failed(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeFailed with validation.
-        
+
         Args:
             value: The timeFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def time_passed(self, value: Optional["TimeValue"]) -> None:
         """
         Set timePassed with validation.
-        
+
         Args:
             value: The timePassed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +113,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def getTimeBasedFdc(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBasedFdc.
-        
+
         Returns:
             The timeBasedFdc value
-        
+
         Note:
             Delegates to time_based_fdc property (CODING_RULE_V2_00017)
         """
@@ -125,13 +125,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def setTimeBasedFdc(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
         """
         AUTOSAR-compliant setter for timeBasedFdc with method chaining.
-        
+
         Args:
             value: The timeBasedFdc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_based_fdc property setter (gets validation automatically)
         """
@@ -141,10 +141,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def getTimeFailed(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeFailed.
-        
+
         Returns:
             The timeFailed value
-        
+
         Note:
             Delegates to time_failed property (CODING_RULE_V2_00017)
         """
@@ -153,13 +153,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def setTimeFailed(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
         """
         AUTOSAR-compliant setter for timeFailed with method chaining.
-        
+
         Args:
             value: The timeFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_failed property setter (gets validation automatically)
         """
@@ -169,10 +169,10 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def getTimePassed(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timePassed.
-        
+
         Returns:
             The timePassed value
-        
+
         Note:
             Delegates to time_passed property (CODING_RULE_V2_00017)
         """
@@ -181,13 +181,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def setTimePassed(self, value: "TimeValue") -> "DiagEventDebounceTimeBased":
         """
         AUTOSAR-compliant setter for timePassed with method chaining.
-        
+
         Args:
             value: The timePassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_passed property setter (gets validation automatically)
         """
@@ -199,13 +199,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def with_time_based_fdc(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
         """
         Set timeBasedFdc and return self for chaining.
-        
+
         Args:
             value: The timeBasedFdc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_based_fdc("value")
         """
@@ -215,13 +215,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def with_time_failed(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
         """
         Set timeFailed and return self for chaining.
-        
+
         Args:
             value: The timeFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_failed("value")
         """
@@ -231,13 +231,13 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def with_time_passed(self, value: Optional["TimeValue"]) -> "DiagEventDebounceTimeBased":
         """
         Set timePassed and return self for chaining.
-        
+
         Args:
             value: The timePassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_passed("value")
         """

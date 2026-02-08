@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     """
     This meta-class represents rule based values for DataPrototypes typed by
     ApplicationDataTypes (ApplicationArrayDataType or a compound
     ApplicationPrimitiveDataType which also boils down to an array-nature).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ApplicationRuleBasedValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 302, Classic
       Platform R23-11)
@@ -31,10 +31,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def category(self, value: Optional["Identifier"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +69,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def sw_value_cont(self, value: Optional["RuleBasedValueCont"]) -> None:
         """
         Set swValueCont with validation.
-        
+
         Args:
             value: The swValueCont to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def getCategory(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -103,13 +103,13 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def setCategory(self, value: "Identifier") -> "ApplicationRuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -119,10 +119,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def getSwAxisCont(self) -> List["RuleBasedAxisCont"]:
         """
         AUTOSAR-compliant getter for swAxisCont.
-        
+
         Returns:
             The swAxisCont value
-        
+
         Note:
             Delegates to sw_axis_cont property (CODING_RULE_V2_00017)
         """
@@ -131,10 +131,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def getSwValueCont(self) -> "RuleBasedValueCont":
         """
         AUTOSAR-compliant getter for swValueCont.
-        
+
         Returns:
             The swValueCont value
-        
+
         Note:
             Delegates to sw_value_cont property (CODING_RULE_V2_00017)
         """
@@ -143,13 +143,13 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def setSwValueCont(self, value: "RuleBasedValueCont") -> "ApplicationRuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for swValueCont with method chaining.
-        
+
         Args:
             value: The swValueCont to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_value_cont property setter (gets validation automatically)
         """
@@ -161,13 +161,13 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def with_category(self, value: Optional["Identifier"]) -> "ApplicationRuleBasedValueSpecification":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -177,13 +177,13 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def with_sw_value_cont(self, value: Optional["RuleBasedValueCont"]) -> "ApplicationRuleBasedValueSpecification":
         """
         Set swValueCont and return self for chaining.
-        
+
         Args:
             value: The swValueCont to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_value_cont("value")
         """

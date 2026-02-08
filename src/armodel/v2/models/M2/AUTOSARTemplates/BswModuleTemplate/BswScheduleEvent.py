@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class BswScheduleEvent(BswEvent, ABC):
     """
     BswEvent that is able to start a BswSchedulabeEntity.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswScheduleEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 88, Classic
       Platform R23-11)

@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ModeDeclarationMapping(Identifiable):
     """
     This meta-class implements a concrete mapping of two ModeDeclarations.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeDeclarationMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 132, Classic Platform
       R23-11)
@@ -39,10 +41,10 @@ class ModeDeclarationMapping(Identifiable):
     def second_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set secondMode with validation.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +63,10 @@ class ModeDeclarationMapping(Identifiable):
     def getFirstMode(self) -> List["ModeDeclaration"]:
         """
         AUTOSAR-compliant getter for firstMode.
-        
+
         Returns:
             The firstMode value
-        
+
         Note:
             Delegates to first_mode property (CODING_RULE_V2_00017)
         """
@@ -73,10 +75,10 @@ class ModeDeclarationMapping(Identifiable):
     def getSecondMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for secondMode.
-        
+
         Returns:
             The secondMode value
-        
+
         Note:
             Delegates to second_mode property (CODING_RULE_V2_00017)
         """
@@ -85,13 +87,13 @@ class ModeDeclarationMapping(Identifiable):
     def setSecondMode(self, value: "ModeDeclaration") -> "ModeDeclarationMapping":
         """
         AUTOSAR-compliant setter for secondMode with method chaining.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_mode property setter (gets validation automatically)
         """
@@ -103,13 +105,13 @@ class ModeDeclarationMapping(Identifiable):
     def with_second_mode(self, value: Optional["ModeDeclaration"]) -> "ModeDeclarationMapping":
         """
         Set secondMode and return self for chaining.
-        
+
         Args:
             value: The secondMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_mode("value")
         """

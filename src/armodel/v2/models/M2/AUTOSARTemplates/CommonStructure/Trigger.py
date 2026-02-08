@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class Trigger(Identifiable):
     """
     A trigger which is provided (i.e. released) or required (i.e. used to
     activate something) in the given context.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration::Trigger
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 45, Classic
       Platform R23-11)
@@ -34,10 +36,10 @@ class Trigger(Identifiable):
     def sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> None:
         """
         Set swImplPolicy with validation.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class Trigger(Identifiable):
     def trigger_period(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set triggerPeriod with validation.
-        
+
         Args:
             value: The triggerPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +87,10 @@ class Trigger(Identifiable):
     def getSwImplPolicy(self) -> "SwImplPolicyEnum":
         """
         AUTOSAR-compliant getter for swImplPolicy.
-        
+
         Returns:
             The swImplPolicy value
-        
+
         Note:
             Delegates to sw_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -97,13 +99,13 @@ class Trigger(Identifiable):
     def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> "Trigger":
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_impl_policy property setter (gets validation automatically)
         """
@@ -113,10 +115,10 @@ class Trigger(Identifiable):
     def getTriggerPeriod(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for triggerPeriod.
-        
+
         Returns:
             The triggerPeriod value
-        
+
         Note:
             Delegates to trigger_period property (CODING_RULE_V2_00017)
         """
@@ -125,13 +127,13 @@ class Trigger(Identifiable):
     def setTriggerPeriod(self, value: "MultidimensionalTime") -> "Trigger":
         """
         AUTOSAR-compliant setter for triggerPeriod with method chaining.
-        
+
         Args:
             value: The triggerPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_period property setter (gets validation automatically)
         """
@@ -143,13 +145,13 @@ class Trigger(Identifiable):
     def with_sw_impl_policy(self, value: Optional["SwImplPolicyEnum"]) -> "Trigger":
         """
         Set swImplPolicy and return self for chaining.
-        
+
         Args:
             value: The swImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_impl_policy("value")
         """
@@ -159,13 +161,13 @@ class Trigger(Identifiable):
     def with_trigger_period(self, value: Optional["MultidimensionalTime"]) -> "Trigger":
         """
         Set triggerPeriod and return self for chaining.
-        
+
         Args:
             value: The triggerPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_period("value")
         """

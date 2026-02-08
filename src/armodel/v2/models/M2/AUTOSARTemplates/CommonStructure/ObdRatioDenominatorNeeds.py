@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     """
     This meta-class shall be used to indicate that a software-component wants to
     access the in-use-monitoring performance ration denominator.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdRatioDenominatorNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 802, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def denominator(self, value: Optional["DiagnosticDenominator"]) -> None:
         """
         Set denominator with validation.
-        
+
         Args:
             value: The denominator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def getDenominator(self) -> "DiagnosticDenominator":
         """
         AUTOSAR-compliant getter for denominator.
-        
+
         Returns:
             The denominator value
-        
+
         Note:
             Delegates to denominator property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def setDenominator(self, value: "DiagnosticDenominator") -> "ObdRatioDenominatorNeeds":
         """
         AUTOSAR-compliant setter for denominator with method chaining.
-        
+
         Args:
             value: The denominator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to denominator property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     def with_denominator(self, value: Optional["DiagnosticDenominator"]) -> "ObdRatioDenominatorNeeds":
         """
         Set denominator and return self for chaining.
-        
+
         Args:
             value: The denominator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_denominator("value")
         """

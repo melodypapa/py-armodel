@@ -1,12 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::PTriggerInAtomicSwcTypeInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 946, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set contextPPortPrototype with validation.
-        
+
         Args:
             value: The contextPPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def target_trigger(self, value: RefType) -> None:
         """
         Set targetTrigger with validation.
-        
+
         Args:
             value: The targetTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def getContextPPortPrototype(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for contextPPortPrototype.
-        
+
         Returns:
             The contextPPortPrototype value
-        
+
         Note:
             Delegates to context_p_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -87,13 +90,13 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def setContextPPortPrototype(self, value: "AbstractProvidedPort") -> "PTriggerInAtomicSwcTypeInstanceRef":
         """
         AUTOSAR-compliant setter for contextPPortPrototype with method chaining.
-        
+
         Args:
             value: The contextPPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_p_port_prototype property setter (gets validation automatically)
         """
@@ -103,10 +106,10 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def getTargetTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetTrigger.
-        
+
         Returns:
             The targetTrigger value
-        
+
         Note:
             Delegates to target_trigger property (CODING_RULE_V2_00017)
         """
@@ -115,13 +118,13 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def setTargetTrigger(self, value: RefType) -> "PTriggerInAtomicSwcTypeInstanceRef":
         """
         AUTOSAR-compliant setter for targetTrigger with method chaining.
-        
+
         Args:
             value: The targetTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_trigger property setter (gets validation automatically)
         """
@@ -133,13 +136,13 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def with_context_p_port_prototype(self, value: Optional["AbstractProvidedPort"]) -> "PTriggerInAtomicSwcTypeInstanceRef":
         """
         Set contextPPortPrototype and return self for chaining.
-        
+
         Args:
             value: The contextPPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_p_port_prototype("value")
         """
@@ -149,13 +152,13 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
     def with_target_trigger(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
         """
         Set targetTrigger and return self for chaining.
-        
+
         Args:
             value: The targetTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_trigger("value")
         """

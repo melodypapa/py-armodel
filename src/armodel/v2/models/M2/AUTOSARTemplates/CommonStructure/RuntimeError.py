@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class RuntimeError(TracedFailure):
     """
     The reported failure is classified as runtime error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::RuntimeError
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     """
     Collection of specific details for the CouplingElement of couplingType
     switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingElementSwitchDetails
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 133, Classic Platform R23-11)
     """
@@ -64,10 +64,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getFlowMetering(self) -> List["SwitchFlowMetering"]:
         """
         AUTOSAR-compliant getter for flowMetering.
-        
+
         Returns:
             The flowMetering value
-        
+
         Note:
             Delegates to flow_metering property (CODING_RULE_V2_00017)
         """
@@ -76,10 +76,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getStreamFilter(self) -> List["SwitchStreamFilterEntry"]:
         """
         AUTOSAR-compliant getter for streamFilter.
-        
+
         Returns:
             The streamFilter value
-        
+
         Note:
             Delegates to stream_filter property (CODING_RULE_V2_00017)
         """
@@ -88,10 +88,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getStreamGate(self) -> List["SwitchStreamGateEntry"]:
         """
         AUTOSAR-compliant getter for streamGate.
-        
+
         Returns:
             The streamGate value
-        
+
         Note:
             Delegates to stream_gate property (CODING_RULE_V2_00017)
         """
@@ -100,10 +100,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getSwitchStream(self) -> List["SwitchStream"]:
         """
         AUTOSAR-compliant getter for switchStream.
-        
+
         Returns:
             The switchStream value
-        
+
         Note:
             Delegates to switch_stream property (CODING_RULE_V2_00017)
         """
@@ -112,10 +112,10 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     def getTrafficShaper(self) -> List["SwitchAsynchronous"]:
         """
         AUTOSAR-compliant getter for trafficShaper.
-        
+
         Returns:
             The trafficShaper value
-        
+
         Note:
             Delegates to traffic_shaper property (CODING_RULE_V2_00017)
         """

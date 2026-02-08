@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LanguageSpecific(ARObject, ABC):
     """
     This meta-class represents the ability to denote a particular language for
     which an object is applicable.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LanguageSpecific
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 350, Foundation
       R23-11)
@@ -33,10 +36,10 @@ class LanguageSpecific(ARObject, ABC):
     def l(self, value: "LEnum") -> None:
         """
         Set l with validation.
-        
+
         Args:
             value: The l to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class LanguageSpecific(ARObject, ABC):
     def getL(self) -> "LEnum":
         """
         AUTOSAR-compliant getter for l.
-        
+
         Returns:
             The l value
-        
+
         Note:
             Delegates to l property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class LanguageSpecific(ARObject, ABC):
     def setL(self, value: "LEnum") -> "LanguageSpecific":
         """
         AUTOSAR-compliant setter for l with method chaining.
-        
+
         Args:
             value: The l to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class LanguageSpecific(ARObject, ABC):
     def with_l(self, value: "LEnum") -> "LanguageSpecific":
         """
         Set l and return self for chaining.
-        
+
         Args:
             value: The l to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l("value")
         """

@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticEventManagerNeeds(DiagnosticCapabilityElement):
     """
     Specifies the general needs on the configuration of the Diagnostic Event
     Manager (Dem) which are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventManagerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 753, Classic Platform
       R23-11)

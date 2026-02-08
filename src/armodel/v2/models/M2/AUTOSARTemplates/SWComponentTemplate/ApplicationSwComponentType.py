@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ApplicationSwComponentType(AtomicSwComponentType):
     """
     The ApplicationSwComponentType is used to represent the application
     software.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ApplicationSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 231, Classic Platform
       R23-11)

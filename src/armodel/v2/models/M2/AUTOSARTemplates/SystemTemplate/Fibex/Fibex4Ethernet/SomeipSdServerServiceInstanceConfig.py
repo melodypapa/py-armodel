@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SomeipSdServerServiceInstanceConfig(ARElement):
     """
     Server specific settings that are relevant for the configuration of SOME/IP
     Service-Discovery.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdServerServiceInstanceConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 513, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def initial_offer_behavior(self, value: Optional["InitialSdDelayConfig"]) -> None:
         """
         Set initialOfferBehavior with validation.
-        
+
         Args:
             value: The initialOfferBehavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def offer_cyclic_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set offerCyclicDelay with validation.
-        
+
         Args:
             value: The offerCyclicDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def request(self, value: Optional["RequestResponseDelay"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +147,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def service_offer(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceOffer with validation.
-        
+
         Args:
             value: The serviceOffer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +169,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getInitialOfferBehavior(self) -> "InitialSdDelayConfig":
         """
         AUTOSAR-compliant getter for initialOfferBehavior.
-        
+
         Returns:
             The initialOfferBehavior value
-        
+
         Note:
             Delegates to initial_offer_behavior property (CODING_RULE_V2_00017)
         """
@@ -181,13 +181,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setInitialOfferBehavior(self, value: "InitialSdDelayConfig") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for initialOfferBehavior with method chaining.
-        
+
         Args:
             value: The initialOfferBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_offer_behavior property setter (gets validation automatically)
         """
@@ -197,10 +197,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getOfferCyclicDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offerCyclicDelay.
-        
+
         Returns:
             The offerCyclicDelay value
-        
+
         Note:
             Delegates to offer_cyclic_delay property (CODING_RULE_V2_00017)
         """
@@ -209,13 +209,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setOfferCyclicDelay(self, value: "TimeValue") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for offerCyclicDelay with method chaining.
-        
+
         Args:
             value: The offerCyclicDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offer_cyclic_delay property setter (gets validation automatically)
         """
@@ -225,10 +225,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -237,13 +237,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setPriority(self, value: "PositiveInteger") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -253,10 +253,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getRequest(self) -> "RequestResponseDelay":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -265,13 +265,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setRequest(self, value: "RequestResponseDelay") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -281,10 +281,10 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def getServiceOffer(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceOffer.
-        
+
         Returns:
             The serviceOffer value
-        
+
         Note:
             Delegates to service_offer property (CODING_RULE_V2_00017)
         """
@@ -293,13 +293,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def setServiceOffer(self, value: "PositiveInteger") -> "SomeipSdServerServiceInstanceConfig":
         """
         AUTOSAR-compliant setter for serviceOffer with method chaining.
-        
+
         Args:
             value: The serviceOffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_offer property setter (gets validation automatically)
         """
@@ -311,13 +311,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_initial_offer_behavior(self, value: Optional["InitialSdDelayConfig"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set initialOfferBehavior and return self for chaining.
-        
+
         Args:
             value: The initialOfferBehavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_offer_behavior("value")
         """
@@ -327,13 +327,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_offer_cyclic_delay(self, value: Optional["TimeValue"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set offerCyclicDelay and return self for chaining.
-        
+
         Args:
             value: The offerCyclicDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offer_cyclic_delay("value")
         """
@@ -343,13 +343,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -359,13 +359,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_request(self, value: Optional["RequestResponseDelay"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """
@@ -375,13 +375,13 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
     def with_service_offer(self, value: Optional["PositiveInteger"]) -> "SomeipSdServerServiceInstanceConfig":
         """
         Set serviceOffer and return self for chaining.
-        
+
         Args:
             value: The serviceOffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_offer("value")
         """

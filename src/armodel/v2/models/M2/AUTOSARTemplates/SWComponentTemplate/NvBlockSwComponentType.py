@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class NvBlockSwComponentType(AtomicSwComponentType):
     """
     The NvBlockSwComponentType defines non volatile data which data can be
     shared between Sw ComponentPrototypes. The non volatile data of the
     NvBlockSwComponentType are accessible via provided and required ports.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::NvBlockSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 663, Classic Platform
       R23-11)
@@ -39,10 +39,10 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     def getBulkNvData(self) -> List["BulkNvDataDescriptor"]:
         """
         AUTOSAR-compliant getter for bulkNvData.
-        
+
         Returns:
             The bulkNvData value
-        
+
         Note:
             Delegates to bulk_nv_data property (CODING_RULE_V2_00017)
         """
@@ -51,10 +51,10 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     def getNvBlock(self) -> List["NvBlockDescriptor"]:
         """
         AUTOSAR-compliant getter for nvBlock.
-        
+
         Returns:
             The nvBlock value
-        
+
         Note:
             Delegates to nv_block property (CODING_RULE_V2_00017)
         """

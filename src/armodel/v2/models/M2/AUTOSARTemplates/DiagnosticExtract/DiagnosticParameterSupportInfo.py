@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticParameterSupportInfo(ARObject):
     """
     This represents a way to define which bit of the supportInfo is representing
     this part of the PID
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterSupportInfo
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 149, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class DiagnosticParameterSupportInfo(ARObject):
     def support_info_bit(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set supportInfoBit with validation.
-        
+
         Args:
             value: The supportInfoBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +56,10 @@ class DiagnosticParameterSupportInfo(ARObject):
     def getSupportInfoBit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for supportInfoBit.
-        
+
         Returns:
             The supportInfoBit value
-        
+
         Note:
             Delegates to support_info_bit property (CODING_RULE_V2_00017)
         """
@@ -65,13 +68,13 @@ class DiagnosticParameterSupportInfo(ARObject):
     def setSupportInfoBit(self, value: "PositiveInteger") -> "DiagnosticParameterSupportInfo":
         """
         AUTOSAR-compliant setter for supportInfoBit with method chaining.
-        
+
         Args:
             value: The supportInfoBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info_bit property setter (gets validation automatically)
         """
@@ -83,13 +86,13 @@ class DiagnosticParameterSupportInfo(ARObject):
     def with_support_info_bit(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterSupportInfo":
         """
         Set supportInfoBit and return self for chaining.
-        
+
         Args:
             value: The supportInfoBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info_bit("value")
         """

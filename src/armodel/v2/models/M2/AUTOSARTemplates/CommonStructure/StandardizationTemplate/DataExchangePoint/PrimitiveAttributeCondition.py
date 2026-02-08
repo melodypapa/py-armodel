@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class PrimitiveAttributeCondition(AttributeCondition):
     """
     The PrimitiveAttributeCondition evaluates to true, if the referenced
     primitive attribute is accepted by all rules of this condition.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::PrimitiveAttributeCondition
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 104, Foundation R23-11)
     """
@@ -28,10 +26,10 @@ class PrimitiveAttributeCondition(AttributeCondition):
     def attribute(self, value: "PrimitiveAttribute") -> None:
         """
         Set attribute with validation.
-        
+
         Args:
             value: The attribute to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -46,10 +44,10 @@ class PrimitiveAttributeCondition(AttributeCondition):
     def getAttribute(self) -> "PrimitiveAttribute":
         """
         AUTOSAR-compliant getter for attribute.
-        
+
         Returns:
             The attribute value
-        
+
         Note:
             Delegates to attribute property (CODING_RULE_V2_00017)
         """
@@ -58,13 +56,13 @@ class PrimitiveAttributeCondition(AttributeCondition):
     def setAttribute(self, value: "PrimitiveAttribute") -> "PrimitiveAttributeCondition":
         """
         AUTOSAR-compliant setter for attribute with method chaining.
-        
+
         Args:
             value: The attribute to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to attribute property setter (gets validation automatically)
         """
@@ -76,13 +74,13 @@ class PrimitiveAttributeCondition(AttributeCondition):
     def with_attribute(self, value: "PrimitiveAttribute") -> "PrimitiveAttributeCondition":
         """
         Set attribute and return self for chaining.
-        
+
         Args:
             value: The attribute to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_attribute("value")
         """

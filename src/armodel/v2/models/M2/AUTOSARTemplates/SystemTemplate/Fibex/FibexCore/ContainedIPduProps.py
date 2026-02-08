@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ContainedIPduProps(ARObject):
     """
     Defines the aspects of an IPdu which can be collected inside a
     ContainerIPdu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ContainedIPduProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 355, Classic Platform R23-11)
     """
@@ -30,10 +35,10 @@ class ContainedIPduProps(ARObject):
     def collection(self, value: Optional["ContainedIPdu"]) -> None:
         """
         Set collection with validation.
-        
+
         Args:
             value: The collection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +63,10 @@ class ContainedIPduProps(ARObject):
     def contained_pdu(self, value: RefType) -> None:
         """
         Set containedPdu with validation.
-        
+
         Args:
             value: The containedPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class ContainedIPduProps(ARObject):
     def header_id_long(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set headerIdLong with validation.
-        
+
         Args:
             value: The headerIdLong to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +118,10 @@ class ContainedIPduProps(ARObject):
     def header_id_short(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set headerIdShort with validation.
-        
+
         Args:
             value: The headerIdShort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +147,10 @@ class ContainedIPduProps(ARObject):
     def offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -171,10 +176,10 @@ class ContainedIPduProps(ARObject):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +206,10 @@ class ContainedIPduProps(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +235,10 @@ class ContainedIPduProps(ARObject):
     def trigger(self, value: RefType) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -256,10 +261,10 @@ class ContainedIPduProps(ARObject):
     def update(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set update with validation.
-        
+
         Args:
             value: The update to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -278,10 +283,10 @@ class ContainedIPduProps(ARObject):
     def getCollection(self) -> "ContainedIPdu":
         """
         AUTOSAR-compliant getter for collection.
-        
+
         Returns:
             The collection value
-        
+
         Note:
             Delegates to collection property (CODING_RULE_V2_00017)
         """
@@ -290,13 +295,13 @@ class ContainedIPduProps(ARObject):
     def setCollection(self, value: "ContainedIPdu") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for collection with method chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection property setter (gets validation automatically)
         """
@@ -306,10 +311,10 @@ class ContainedIPduProps(ARObject):
     def getContainedPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for containedPdu.
-        
+
         Returns:
             The containedPdu value
-        
+
         Note:
             Delegates to contained_pdu property (CODING_RULE_V2_00017)
         """
@@ -318,13 +323,13 @@ class ContainedIPduProps(ARObject):
     def setContainedPdu(self, value: RefType) -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for containedPdu with method chaining.
-        
+
         Args:
             value: The containedPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to contained_pdu property setter (gets validation automatically)
         """
@@ -334,10 +339,10 @@ class ContainedIPduProps(ARObject):
     def getHeaderIdLong(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for headerIdLong.
-        
+
         Returns:
             The headerIdLong value
-        
+
         Note:
             Delegates to header_id_long property (CODING_RULE_V2_00017)
         """
@@ -346,13 +351,13 @@ class ContainedIPduProps(ARObject):
     def setHeaderIdLong(self, value: "PositiveInteger") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for headerIdLong with method chaining.
-        
+
         Args:
             value: The headerIdLong to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_id_long property setter (gets validation automatically)
         """
@@ -362,10 +367,10 @@ class ContainedIPduProps(ARObject):
     def getHeaderIdShort(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for headerIdShort.
-        
+
         Returns:
             The headerIdShort value
-        
+
         Note:
             Delegates to header_id_short property (CODING_RULE_V2_00017)
         """
@@ -374,13 +379,13 @@ class ContainedIPduProps(ARObject):
     def setHeaderIdShort(self, value: "PositiveInteger") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for headerIdShort with method chaining.
-        
+
         Args:
             value: The headerIdShort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_id_short property setter (gets validation automatically)
         """
@@ -390,10 +395,10 @@ class ContainedIPduProps(ARObject):
     def getOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -402,13 +407,13 @@ class ContainedIPduProps(ARObject):
     def setOffset(self, value: "PositiveInteger") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -418,10 +423,10 @@ class ContainedIPduProps(ARObject):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -430,13 +435,13 @@ class ContainedIPduProps(ARObject):
     def setPriority(self, value: "PositiveInteger") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -446,10 +451,10 @@ class ContainedIPduProps(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -458,13 +463,13 @@ class ContainedIPduProps(ARObject):
     def setTimeout(self, value: "TimeValue") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -474,10 +479,10 @@ class ContainedIPduProps(ARObject):
     def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -486,13 +491,13 @@ class ContainedIPduProps(ARObject):
     def setTrigger(self, value: RefType) -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -502,10 +507,10 @@ class ContainedIPduProps(ARObject):
     def getUpdate(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for update.
-        
+
         Returns:
             The update value
-        
+
         Note:
             Delegates to update property (CODING_RULE_V2_00017)
         """
@@ -514,13 +519,13 @@ class ContainedIPduProps(ARObject):
     def setUpdate(self, value: "PositiveInteger") -> "ContainedIPduProps":
         """
         AUTOSAR-compliant setter for update with method chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update property setter (gets validation automatically)
         """
@@ -532,13 +537,13 @@ class ContainedIPduProps(ARObject):
     def with_collection(self, value: Optional["ContainedIPdu"]) -> "ContainedIPduProps":
         """
         Set collection and return self for chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection("value")
         """
@@ -548,13 +553,13 @@ class ContainedIPduProps(ARObject):
     def with_contained_pdu(self, value: Optional[RefType]) -> "ContainedIPduProps":
         """
         Set containedPdu and return self for chaining.
-        
+
         Args:
             value: The containedPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_contained_pdu("value")
         """
@@ -564,13 +569,13 @@ class ContainedIPduProps(ARObject):
     def with_header_id_long(self, value: Optional["PositiveInteger"]) -> "ContainedIPduProps":
         """
         Set headerIdLong and return self for chaining.
-        
+
         Args:
             value: The headerIdLong to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_id_long("value")
         """
@@ -580,13 +585,13 @@ class ContainedIPduProps(ARObject):
     def with_header_id_short(self, value: Optional["PositiveInteger"]) -> "ContainedIPduProps":
         """
         Set headerIdShort and return self for chaining.
-        
+
         Args:
             value: The headerIdShort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_id_short("value")
         """
@@ -596,13 +601,13 @@ class ContainedIPduProps(ARObject):
     def with_offset(self, value: Optional["PositiveInteger"]) -> "ContainedIPduProps":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -612,13 +617,13 @@ class ContainedIPduProps(ARObject):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ContainedIPduProps":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -628,13 +633,13 @@ class ContainedIPduProps(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ContainedIPduProps":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -644,13 +649,13 @@ class ContainedIPduProps(ARObject):
     def with_trigger(self, value: Optional[RefType]) -> "ContainedIPduProps":
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """
@@ -660,13 +665,13 @@ class ContainedIPduProps(ARObject):
     def with_update(self, value: Optional["PositiveInteger"]) -> "ContainedIPduProps":
         """
         Set update and return self for chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update("value")
         """

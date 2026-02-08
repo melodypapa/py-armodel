@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class UserDefinedIPdu(IPdu):
     """
@@ -7,9 +7,9 @@ class UserDefinedIPdu(IPdu):
     Drivers. If a new BSW module is added above the PduR (e.g. a Diagnostic
     Service ) then this IPdu element shall be used to describe the
     communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::UserDefinedIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 346, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class UserDefinedIPdu(IPdu):
     def cdd_type(self, value: Optional["String"]) -> None:
         """
         Set cddType with validation.
-        
+
         Args:
             value: The cddType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class UserDefinedIPdu(IPdu):
     def getCddType(self) -> "String":
         """
         AUTOSAR-compliant getter for cddType.
-        
+
         Returns:
             The cddType value
-        
+
         Note:
             Delegates to cdd_type property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class UserDefinedIPdu(IPdu):
     def setCddType(self, value: "String") -> "UserDefinedIPdu":
         """
         AUTOSAR-compliant setter for cddType with method chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cdd_type property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class UserDefinedIPdu(IPdu):
     def with_cdd_type(self, value: Optional["String"]) -> "UserDefinedIPdu":
         """
         Set cddType and return self for chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cdd_type("value")
         """

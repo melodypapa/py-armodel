@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SomeipSdServerEventGroupTimingConfig(ARElement):
     """
     EventGroup specific timing configuration settings.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::SomeipSdServerEventGroupTimingConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 517, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def request(self, value: Optional["RequestResponseDelay"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def getRequest(self) -> "RequestResponseDelay":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def setRequest(self, value: "RequestResponseDelay") -> "SomeipSdServerEventGroupTimingConfig":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class SomeipSdServerEventGroupTimingConfig(ARElement):
     def with_request(self, value: Optional["RequestResponseDelay"]) -> "SomeipSdServerEventGroupTimingConfig":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """

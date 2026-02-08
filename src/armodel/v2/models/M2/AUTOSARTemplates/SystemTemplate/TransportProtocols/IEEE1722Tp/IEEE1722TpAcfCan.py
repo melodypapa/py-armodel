@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     """
     ACF IEEE1722Tp bus used for CAN transport.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfCan
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 661, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     def message_type_message_type_enum(self, value: Optional["IEEE1722TpAcfCan"]) -> None:
         """
         Set messageTypeMessageTypeEnum with validation.
-        
+
         Args:
             value: The messageTypeMessageTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     def getMessageTypeMessageTypeEnum(self) -> "IEEE1722TpAcfCan":
         """
         AUTOSAR-compliant getter for messageTypeMessageTypeEnum.
-        
+
         Returns:
             The messageTypeMessageTypeEnum value
-        
+
         Note:
             Delegates to message_type_message_type_enum property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     def setMessageTypeMessageTypeEnum(self, value: "IEEE1722TpAcfCan") -> "IEEE1722TpAcfCan":
         """
         AUTOSAR-compliant setter for messageTypeMessageTypeEnum with method chaining.
-        
+
         Args:
             value: The messageTypeMessageTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_type_message_type_enum property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class IEEE1722TpAcfCan(IEEE1722TpAcfBus):
     def with_message_type_message_type_enum(self, value: Optional["IEEE1722TpAcfCan"]) -> "IEEE1722TpAcfCan":
         """
         Set messageTypeMessageTypeEnum and return self for chaining.
-        
+
         Args:
             value: The messageTypeMessageTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_type_message_type_enum("value")
         """

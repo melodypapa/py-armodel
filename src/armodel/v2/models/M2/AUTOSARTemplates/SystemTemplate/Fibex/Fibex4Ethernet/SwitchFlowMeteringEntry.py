@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwitchFlowMeteringEntry(Identifiable):
     """
     Defines a Flow Metering Entry for a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchFlowMeteringEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 143, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def color_mode(self, value: Optional["FlowMeteringColor"]) -> None:
         """
         Set colorMode with validation.
-        
+
         Args:
             value: The colorMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def committed_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committedBurst with validation.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +87,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def committed(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set committed with validation.
-        
+
         Args:
             value: The committed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +116,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def coupling_flag(self, value: Optional["Boolean"]) -> None:
         """
         Set couplingFlag with validation.
-        
+
         Args:
             value: The couplingFlag to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +144,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def excess_burst(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set excessBurst with validation.
-        
+
         Args:
             value: The excessBurst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -171,10 +173,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def excess(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set excess with validation.
-        
+
         Args:
             value: The excess to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -193,10 +195,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getColorMode(self) -> "FlowMeteringColor":
         """
         AUTOSAR-compliant getter for colorMode.
-        
+
         Returns:
             The colorMode value
-        
+
         Note:
             Delegates to color_mode property (CODING_RULE_V2_00017)
         """
@@ -205,13 +207,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setColorMode(self, value: "FlowMeteringColor") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for colorMode with method chaining.
-        
+
         Args:
             value: The colorMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to color_mode property setter (gets validation automatically)
         """
@@ -221,10 +223,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getCommittedBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committedBurst.
-        
+
         Returns:
             The committedBurst value
-        
+
         Note:
             Delegates to committed_burst property (CODING_RULE_V2_00017)
         """
@@ -233,13 +235,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setCommittedBurst(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for committedBurst with method chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed_burst property setter (gets validation automatically)
         """
@@ -249,10 +251,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getCommitted(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for committed.
-        
+
         Returns:
             The committed value
-        
+
         Note:
             Delegates to committed property (CODING_RULE_V2_00017)
         """
@@ -261,13 +263,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setCommitted(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for committed with method chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to committed property setter (gets validation automatically)
         """
@@ -277,10 +279,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getCouplingFlag(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for couplingFlag.
-        
+
         Returns:
             The couplingFlag value
-        
+
         Note:
             Delegates to coupling_flag property (CODING_RULE_V2_00017)
         """
@@ -289,13 +291,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setCouplingFlag(self, value: "Boolean") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for couplingFlag with method chaining.
-        
+
         Args:
             value: The couplingFlag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_flag property setter (gets validation automatically)
         """
@@ -305,10 +307,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getExcessBurst(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for excessBurst.
-        
+
         Returns:
             The excessBurst value
-        
+
         Note:
             Delegates to excess_burst property (CODING_RULE_V2_00017)
         """
@@ -317,13 +319,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setExcessBurst(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for excessBurst with method chaining.
-        
+
         Args:
             value: The excessBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to excess_burst property setter (gets validation automatically)
         """
@@ -333,10 +335,10 @@ class SwitchFlowMeteringEntry(Identifiable):
     def getExcess(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for excess.
-        
+
         Returns:
             The excess value
-        
+
         Note:
             Delegates to excess property (CODING_RULE_V2_00017)
         """
@@ -345,13 +347,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def setExcess(self, value: "PositiveInteger") -> "SwitchFlowMeteringEntry":
         """
         AUTOSAR-compliant setter for excess with method chaining.
-        
+
         Args:
             value: The excess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to excess property setter (gets validation automatically)
         """
@@ -363,13 +365,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_color_mode(self, value: Optional["FlowMeteringColor"]) -> "SwitchFlowMeteringEntry":
         """
         Set colorMode and return self for chaining.
-        
+
         Args:
             value: The colorMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_color_mode("value")
         """
@@ -379,13 +381,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_committed_burst(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set committedBurst and return self for chaining.
-        
+
         Args:
             value: The committedBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed_burst("value")
         """
@@ -395,13 +397,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_committed(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set committed and return self for chaining.
-        
+
         Args:
             value: The committed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_committed("value")
         """
@@ -411,13 +413,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_coupling_flag(self, value: Optional["Boolean"]) -> "SwitchFlowMeteringEntry":
         """
         Set couplingFlag and return self for chaining.
-        
+
         Args:
             value: The couplingFlag to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_flag("value")
         """
@@ -427,13 +429,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_excess_burst(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set excessBurst and return self for chaining.
-        
+
         Args:
             value: The excessBurst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_excess_burst("value")
         """
@@ -443,13 +445,13 @@ class SwitchFlowMeteringEntry(Identifiable):
     def with_excess(self, value: Optional["PositiveInteger"]) -> "SwitchFlowMeteringEntry":
         """
         Set excess and return self for chaining.
-        
+
         Args:
             value: The excess to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_excess("value")
         """

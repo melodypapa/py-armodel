@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class McGroup(ARElement):
     """
@@ -8,9 +11,9 @@ class McGroup(ARElement):
     calibration. It is used to provide selection lists (groups) of calibration
     parameters, measurement variables, and functions in a hierarchical manner
     (subGroups).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::McGroups::McGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 190, Classic
       Platform R23-11)
@@ -41,10 +44,10 @@ class McGroup(ARElement):
     def ref_calprm_set(self, value: RefType) -> None:
         """
         Set refCalprmSet with validation.
-        
+
         Args:
             value: The refCalprmSet to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class McGroup(ARElement):
     def ref(self, value: RefType) -> None:
         """
         Set ref with validation.
-        
+
         Args:
             value: The ref to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class McGroup(ARElement):
     def getMcFunction(self) -> List["McFunction"]:
         """
         AUTOSAR-compliant getter for mcFunction.
-        
+
         Returns:
             The mcFunction value
-        
+
         Note:
             Delegates to mc_function property (CODING_RULE_V2_00017)
         """
@@ -102,10 +105,10 @@ class McGroup(ARElement):
     def getRefCalprmSet(self) -> RefType:
         """
         AUTOSAR-compliant getter for refCalprmSet.
-        
+
         Returns:
             The refCalprmSet value
-        
+
         Note:
             Delegates to ref_calprm_set property (CODING_RULE_V2_00017)
         """
@@ -114,13 +117,13 @@ class McGroup(ARElement):
     def setRefCalprmSet(self, value: RefType) -> "McGroup":
         """
         AUTOSAR-compliant setter for refCalprmSet with method chaining.
-        
+
         Args:
             value: The refCalprmSet to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ref_calprm_set property setter (gets validation automatically)
         """
@@ -130,10 +133,10 @@ class McGroup(ARElement):
     def getRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for ref.
-        
+
         Returns:
             The ref value
-        
+
         Note:
             Delegates to ref property (CODING_RULE_V2_00017)
         """
@@ -142,13 +145,13 @@ class McGroup(ARElement):
     def setRef(self, value: RefType) -> "McGroup":
         """
         AUTOSAR-compliant setter for ref with method chaining.
-        
+
         Args:
             value: The ref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ref property setter (gets validation automatically)
         """
@@ -158,10 +161,10 @@ class McGroup(ARElement):
     def getSubGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for subGroup.
-        
+
         Returns:
             The subGroup value
-        
+
         Note:
             Delegates to sub_group property (CODING_RULE_V2_00017)
         """
@@ -172,13 +175,13 @@ class McGroup(ARElement):
     def with_ref_calprm_set(self, value: Optional[RefType]) -> "McGroup":
         """
         Set refCalprmSet and return self for chaining.
-        
+
         Args:
             value: The refCalprmSet to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ref_calprm_set("value")
         """
@@ -188,13 +191,13 @@ class McGroup(ARElement):
     def with_ref(self, value: Optional[RefType]) -> "McGroup":
         """
         Set ref and return self for chaining.
-        
+
         Args:
             value: The ref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ref("value")
         """

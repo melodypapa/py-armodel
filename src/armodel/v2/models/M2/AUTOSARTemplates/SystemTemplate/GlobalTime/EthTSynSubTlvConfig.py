@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EthTSynSubTlvConfig(ARObject):
     """
     Defines the subTLV fields which shall be included in the time sync message.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::GlobalTime::ETH::EthTSynSubTlvConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 867, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class EthTSynSubTlvConfig(ARObject):
     def ofs_sub_tlv(self, value: Optional["Boolean"]) -> None:
         """
         Set ofsSubTlv with validation.
-        
+
         Args:
             value: The ofsSubTlv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class EthTSynSubTlvConfig(ARObject):
     def status_sub_tlv(self, value: Optional["Boolean"]) -> None:
         """
         Set statusSubTlv with validation.
-        
+
         Args:
             value: The statusSubTlv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class EthTSynSubTlvConfig(ARObject):
     def time_sub_tlv(self, value: Optional["Boolean"]) -> None:
         """
         Set timeSubTlv with validation.
-        
+
         Args:
             value: The timeSubTlv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +114,10 @@ class EthTSynSubTlvConfig(ARObject):
     def user_data_sub_tlv(self, value: Optional["Boolean"]) -> None:
         """
         Set userDataSubTlv with validation.
-        
+
         Args:
             value: The userDataSubTlv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +136,10 @@ class EthTSynSubTlvConfig(ARObject):
     def getOfsSubTlv(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for ofsSubTlv.
-        
+
         Returns:
             The ofsSubTlv value
-        
+
         Note:
             Delegates to ofs_sub_tlv property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class EthTSynSubTlvConfig(ARObject):
     def setOfsSubTlv(self, value: "Boolean") -> "EthTSynSubTlvConfig":
         """
         AUTOSAR-compliant setter for ofsSubTlv with method chaining.
-        
+
         Args:
             value: The ofsSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ofs_sub_tlv property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class EthTSynSubTlvConfig(ARObject):
     def getStatusSubTlv(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for statusSubTlv.
-        
+
         Returns:
             The statusSubTlv value
-        
+
         Note:
             Delegates to status_sub_tlv property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class EthTSynSubTlvConfig(ARObject):
     def setStatusSubTlv(self, value: "Boolean") -> "EthTSynSubTlvConfig":
         """
         AUTOSAR-compliant setter for statusSubTlv with method chaining.
-        
+
         Args:
             value: The statusSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to status_sub_tlv property setter (gets validation automatically)
         """
@@ -189,10 +192,10 @@ class EthTSynSubTlvConfig(ARObject):
     def getTimeSubTlv(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for timeSubTlv.
-        
+
         Returns:
             The timeSubTlv value
-        
+
         Note:
             Delegates to time_sub_tlv property (CODING_RULE_V2_00017)
         """
@@ -201,13 +204,13 @@ class EthTSynSubTlvConfig(ARObject):
     def setTimeSubTlv(self, value: "Boolean") -> "EthTSynSubTlvConfig":
         """
         AUTOSAR-compliant setter for timeSubTlv with method chaining.
-        
+
         Args:
             value: The timeSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sub_tlv property setter (gets validation automatically)
         """
@@ -217,10 +220,10 @@ class EthTSynSubTlvConfig(ARObject):
     def getUserDataSubTlv(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for userDataSubTlv.
-        
+
         Returns:
             The userDataSubTlv value
-        
+
         Note:
             Delegates to user_data_sub_tlv property (CODING_RULE_V2_00017)
         """
@@ -229,13 +232,13 @@ class EthTSynSubTlvConfig(ARObject):
     def setUserDataSubTlv(self, value: "Boolean") -> "EthTSynSubTlvConfig":
         """
         AUTOSAR-compliant setter for userDataSubTlv with method chaining.
-        
+
         Args:
             value: The userDataSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to user_data_sub_tlv property setter (gets validation automatically)
         """
@@ -247,13 +250,13 @@ class EthTSynSubTlvConfig(ARObject):
     def with_ofs_sub_tlv(self, value: Optional["Boolean"]) -> "EthTSynSubTlvConfig":
         """
         Set ofsSubTlv and return self for chaining.
-        
+
         Args:
             value: The ofsSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ofs_sub_tlv("value")
         """
@@ -263,13 +266,13 @@ class EthTSynSubTlvConfig(ARObject):
     def with_status_sub_tlv(self, value: Optional["Boolean"]) -> "EthTSynSubTlvConfig":
         """
         Set statusSubTlv and return self for chaining.
-        
+
         Args:
             value: The statusSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_status_sub_tlv("value")
         """
@@ -279,13 +282,13 @@ class EthTSynSubTlvConfig(ARObject):
     def with_time_sub_tlv(self, value: Optional["Boolean"]) -> "EthTSynSubTlvConfig":
         """
         Set timeSubTlv and return self for chaining.
-        
+
         Args:
             value: The timeSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sub_tlv("value")
         """
@@ -295,13 +298,13 @@ class EthTSynSubTlvConfig(ARObject):
     def with_user_data_sub_tlv(self, value: Optional["Boolean"]) -> "EthTSynSubTlvConfig":
         """
         Set userDataSubTlv and return self for chaining.
-        
+
         Args:
             value: The userDataSubTlv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_user_data_sub_tlv("value")
         """

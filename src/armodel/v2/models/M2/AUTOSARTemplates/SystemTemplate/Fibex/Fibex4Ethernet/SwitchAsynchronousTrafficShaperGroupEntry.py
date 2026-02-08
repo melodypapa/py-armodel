@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     """
     Defines an Asynchronous Traffic Shapter (ATS) Group for a switch.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchAsynchronousTrafficShaperGroupEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 142, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def maximum(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def getMaximum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def setMaximum(self, value: "PositiveInteger") -> "SwitchAsynchronousTrafficShaperGroupEntry":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
     def with_maximum(self, value: Optional["PositiveInteger"]) -> "SwitchAsynchronousTrafficShaperGroupEntry":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """

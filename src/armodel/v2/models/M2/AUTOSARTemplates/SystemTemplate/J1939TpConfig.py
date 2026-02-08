@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class J1939TpConfig(TpConfig):
     """
     This element defines exactly one J1939 TP Configuration. One J1939TpConfig
     element shall be created for each J1939 Network in the System.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::J1939TpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 623, Classic Platform R23-11)
     """
@@ -48,10 +48,10 @@ class J1939TpConfig(TpConfig):
     def getTpAddress(self) -> List["TpAddress"]:
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -60,10 +60,10 @@ class J1939TpConfig(TpConfig):
     def getTpConnection(self) -> List["J1939TpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """
@@ -72,10 +72,10 @@ class J1939TpConfig(TpConfig):
     def getTpNode(self) -> List["J1939TpNode"]:
         """
         AUTOSAR-compliant getter for tpNode.
-        
+
         Returns:
             The tpNode value
-        
+
         Note:
             Delegates to tp_node property (CODING_RULE_V2_00017)
         """

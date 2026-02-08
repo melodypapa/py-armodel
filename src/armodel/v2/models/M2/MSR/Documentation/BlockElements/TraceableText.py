@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class TraceableText(Paginateable):
     """
@@ -7,9 +5,9 @@ class TraceableText(Paginateable):
     as requirements etc. The following approach applies: • shortName represents
     the tag for tracing • longName represents the head line • category
     represents the kind of the tagged text (see [constr_2540])
-    
+
     Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::TraceableText
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 178, Classic Platform
       R23-11)
@@ -33,10 +31,10 @@ class TraceableText(Paginateable):
     def text(self, value: "DocumentationBlock") -> None:
         """
         Set text with validation.
-        
+
         Args:
             value: The text to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +49,10 @@ class TraceableText(Paginateable):
     def getText(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for text.
-        
+
         Returns:
             The text value
-        
+
         Note:
             Delegates to text property (CODING_RULE_V2_00017)
         """
@@ -63,13 +61,13 @@ class TraceableText(Paginateable):
     def setText(self, value: "DocumentationBlock") -> "TraceableText":
         """
         AUTOSAR-compliant setter for text with method chaining.
-        
+
         Args:
             value: The text to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text property setter (gets validation automatically)
         """
@@ -81,13 +79,13 @@ class TraceableText(Paginateable):
     def with_text(self, value: "DocumentationBlock") -> "TraceableText":
         """
         Set text and return self for chaining.
-        
+
         Args:
             value: The text to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text("value")
         """

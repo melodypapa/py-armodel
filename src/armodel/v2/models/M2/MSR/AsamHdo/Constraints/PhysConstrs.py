@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PhysConstrs(ARObject):
     """
     This meta-class represents the ability to express physical constraints.
     Therefore it has (in opposite to InternalConstrs) a reference to a Unit.
-    
+
     Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::PhysConstrs
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 406, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class PhysConstrs(ARObject):
     def lower_limit(self, value: Optional["Limit"]) -> None:
         """
         Set lowerLimit with validation.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class PhysConstrs(ARObject):
     def max_diff(self, value: Optional["Numerical"]) -> None:
         """
         Set maxDiff with validation.
-        
+
         Args:
             value: The maxDiff to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class PhysConstrs(ARObject):
     def max_gradient(self, value: Optional["Numerical"]) -> None:
         """
         Set maxGradient with validation.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class PhysConstrs(ARObject):
     def monotony(self, value: Optional["MonotonyEnum"]) -> None:
         """
         Set monotony with validation.
-        
+
         Args:
             value: The monotony to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +155,10 @@ class PhysConstrs(ARObject):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -180,10 +183,10 @@ class PhysConstrs(ARObject):
     def upper_limit(self, value: Optional["Limit"]) -> None:
         """
         Set upperLimit with validation.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +205,10 @@ class PhysConstrs(ARObject):
     def getLowerLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for lowerLimit.
-        
+
         Returns:
             The lowerLimit value
-        
+
         Note:
             Delegates to lower_limit property (CODING_RULE_V2_00017)
         """
@@ -214,13 +217,13 @@ class PhysConstrs(ARObject):
     def setLowerLimit(self, value: "Limit") -> "PhysConstrs":
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_limit property setter (gets validation automatically)
         """
@@ -230,10 +233,10 @@ class PhysConstrs(ARObject):
     def getMaxDiff(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for maxDiff.
-        
+
         Returns:
             The maxDiff value
-        
+
         Note:
             Delegates to max_diff property (CODING_RULE_V2_00017)
         """
@@ -242,13 +245,13 @@ class PhysConstrs(ARObject):
     def setMaxDiff(self, value: "Numerical") -> "PhysConstrs":
         """
         AUTOSAR-compliant setter for maxDiff with method chaining.
-        
+
         Args:
             value: The maxDiff to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_diff property setter (gets validation automatically)
         """
@@ -258,10 +261,10 @@ class PhysConstrs(ARObject):
     def getMaxGradient(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for maxGradient.
-        
+
         Returns:
             The maxGradient value
-        
+
         Note:
             Delegates to max_gradient property (CODING_RULE_V2_00017)
         """
@@ -270,13 +273,13 @@ class PhysConstrs(ARObject):
     def setMaxGradient(self, value: "Numerical") -> "PhysConstrs":
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_gradient property setter (gets validation automatically)
         """
@@ -286,10 +289,10 @@ class PhysConstrs(ARObject):
     def getMonotony(self) -> "MonotonyEnum":
         """
         AUTOSAR-compliant getter for monotony.
-        
+
         Returns:
             The monotony value
-        
+
         Note:
             Delegates to monotony property (CODING_RULE_V2_00017)
         """
@@ -298,13 +301,13 @@ class PhysConstrs(ARObject):
     def setMonotony(self, value: "MonotonyEnum") -> "PhysConstrs":
         """
         AUTOSAR-compliant setter for monotony with method chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to monotony property setter (gets validation automatically)
         """
@@ -314,10 +317,10 @@ class PhysConstrs(ARObject):
     def getScaleConstr(self) -> List["ScaleConstr"]:
         """
         AUTOSAR-compliant getter for scaleConstr.
-        
+
         Returns:
             The scaleConstr value
-        
+
         Note:
             Delegates to scale_constr property (CODING_RULE_V2_00017)
         """
@@ -326,10 +329,10 @@ class PhysConstrs(ARObject):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -338,13 +341,13 @@ class PhysConstrs(ARObject):
     def setUnit(self, value: "Unit") -> "PhysConstrs":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -354,10 +357,10 @@ class PhysConstrs(ARObject):
     def getUpperLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for upperLimit.
-        
+
         Returns:
             The upperLimit value
-        
+
         Note:
             Delegates to upper_limit property (CODING_RULE_V2_00017)
         """
@@ -366,13 +369,13 @@ class PhysConstrs(ARObject):
     def setUpperLimit(self, value: "Limit") -> "PhysConstrs":
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_limit property setter (gets validation automatically)
         """
@@ -384,13 +387,13 @@ class PhysConstrs(ARObject):
     def with_lower_limit(self, value: Optional["Limit"]) -> "PhysConstrs":
         """
         Set lowerLimit and return self for chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_limit("value")
         """
@@ -400,13 +403,13 @@ class PhysConstrs(ARObject):
     def with_max_diff(self, value: Optional["Numerical"]) -> "PhysConstrs":
         """
         Set maxDiff and return self for chaining.
-        
+
         Args:
             value: The maxDiff to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_diff("value")
         """
@@ -416,13 +419,13 @@ class PhysConstrs(ARObject):
     def with_max_gradient(self, value: Optional["Numerical"]) -> "PhysConstrs":
         """
         Set maxGradient and return self for chaining.
-        
+
         Args:
             value: The maxGradient to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_gradient("value")
         """
@@ -432,13 +435,13 @@ class PhysConstrs(ARObject):
     def with_monotony(self, value: Optional["MonotonyEnum"]) -> "PhysConstrs":
         """
         Set monotony and return self for chaining.
-        
+
         Args:
             value: The monotony to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_monotony("value")
         """
@@ -448,13 +451,13 @@ class PhysConstrs(ARObject):
     def with_unit(self, value: Optional["Unit"]) -> "PhysConstrs":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """
@@ -464,13 +467,13 @@ class PhysConstrs(ARObject):
     def with_upper_limit(self, value: Optional["Limit"]) -> "PhysConstrs":
         """
         Set upperLimit and return self for chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_limit("value")
         """

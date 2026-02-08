@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ISignalIPduGroup(FibexElement):
     """
     The AUTOSAR COM Layer is able to start and to stop sending and receiving
     configurable groups of I-Pdus during runtime. An ISignalIPduGroup contains
     either ISignalIPdus or ISignalIPduGroups.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalIPduGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 316, Classic Platform
       R23-11)
@@ -37,10 +40,10 @@ class ISignalIPduGroup(FibexElement):
     def communication(self, value: Optional["String"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class ISignalIPduGroup(FibexElement):
     def getCommunication(self) -> "String":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -96,13 +99,13 @@ class ISignalIPduGroup(FibexElement):
     def setCommunication(self, value: "String") -> "ISignalIPduGroup":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -112,10 +115,10 @@ class ISignalIPduGroup(FibexElement):
     def getContained(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for contained.
-        
+
         Returns:
             The contained value
-        
+
         Note:
             Delegates to contained property (CODING_RULE_V2_00017)
         """
@@ -124,10 +127,10 @@ class ISignalIPduGroup(FibexElement):
     def getISignalIPdu(self) -> List["ISignalIPdu"]:
         """
         AUTOSAR-compliant getter for iSignalIPdu.
-        
+
         Returns:
             The iSignalIPdu value
-        
+
         Note:
             Delegates to i_signal_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -136,10 +139,10 @@ class ISignalIPduGroup(FibexElement):
     def getNmPdu(self) -> List["NmPdu"]:
         """
         AUTOSAR-compliant getter for nmPdu.
-        
+
         Returns:
             The nmPdu value
-        
+
         Note:
             Delegates to nm_pdu property (CODING_RULE_V2_00017)
         """
@@ -150,13 +153,13 @@ class ISignalIPduGroup(FibexElement):
     def with_communication(self, value: Optional["String"]) -> "ISignalIPduGroup":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """

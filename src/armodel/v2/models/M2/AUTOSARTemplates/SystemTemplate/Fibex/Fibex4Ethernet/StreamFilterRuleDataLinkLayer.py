@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class StreamFilterRuleDataLinkLayer(ARObject):
     """
     Configuration of filter rules on the DataLink layer
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterRuleDataLinkLayer
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 137, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def destination_mac(self, value: Optional["StreamFilterMAC"]) -> None:
         """
         Set destinationMac with validation.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def ether_type(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set etherType with validation.
-        
+
         Args:
             value: The etherType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def source_mac(self, value: Optional["StreamFilterMAC"]) -> None:
         """
         Set sourceMac with validation.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +114,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def vlan_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanId with validation.
-        
+
         Args:
             value: The vlanId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +142,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def vlan_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanPriority with validation.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -161,10 +164,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getDestinationMac(self) -> "StreamFilterMAC":
         """
         AUTOSAR-compliant getter for destinationMac.
-        
+
         Returns:
             The destinationMac value
-        
+
         Note:
             Delegates to destination_mac property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setDestinationMac(self, value: "StreamFilterMAC") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_mac property setter (gets validation automatically)
         """
@@ -189,10 +192,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getEtherType(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for etherType.
-        
+
         Returns:
             The etherType value
-        
+
         Note:
             Delegates to ether_type property (CODING_RULE_V2_00017)
         """
@@ -201,13 +204,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setEtherType(self, value: "PositiveInteger") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for etherType with method chaining.
-        
+
         Args:
             value: The etherType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ether_type property setter (gets validation automatically)
         """
@@ -217,10 +220,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getSourceMac(self) -> "StreamFilterMAC":
         """
         AUTOSAR-compliant getter for sourceMac.
-        
+
         Returns:
             The sourceMac value
-        
+
         Note:
             Delegates to source_mac property (CODING_RULE_V2_00017)
         """
@@ -229,13 +232,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setSourceMac(self, value: "StreamFilterMAC") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for sourceMac with method chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_mac property setter (gets validation automatically)
         """
@@ -245,10 +248,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getVlanId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanId.
-        
+
         Returns:
             The vlanId value
-        
+
         Note:
             Delegates to vlan_id property (CODING_RULE_V2_00017)
         """
@@ -257,13 +260,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setVlanId(self, value: "PositiveInteger") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for vlanId with method chaining.
-        
+
         Args:
             value: The vlanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_id property setter (gets validation automatically)
         """
@@ -273,10 +276,10 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def getVlanPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanPriority.
-        
+
         Returns:
             The vlanPriority value
-        
+
         Note:
             Delegates to vlan_priority property (CODING_RULE_V2_00017)
         """
@@ -285,13 +288,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def setVlanPriority(self, value: "PositiveInteger") -> "StreamFilterRuleDataLinkLayer":
         """
         AUTOSAR-compliant setter for vlanPriority with method chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_priority property setter (gets validation automatically)
         """
@@ -303,13 +306,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_destination_mac(self, value: Optional["StreamFilterMAC"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set destinationMac and return self for chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_mac("value")
         """
@@ -319,13 +322,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_ether_type(self, value: Optional["PositiveInteger"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set etherType and return self for chaining.
-        
+
         Args:
             value: The etherType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ether_type("value")
         """
@@ -335,13 +338,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_source_mac(self, value: Optional["StreamFilterMAC"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set sourceMac and return self for chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_mac("value")
         """
@@ -351,13 +354,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_vlan_id(self, value: Optional["PositiveInteger"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set vlanId and return self for chaining.
-        
+
         Args:
             value: The vlanId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_id("value")
         """
@@ -367,13 +370,13 @@ class StreamFilterRuleDataLinkLayer(ARObject):
     def with_vlan_priority(self, value: Optional["PositiveInteger"]) -> "StreamFilterRuleDataLinkLayer":
         """
         Set vlanPriority and return self for chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_priority("value")
         """

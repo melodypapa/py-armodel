@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CommunicationCluster(ARObject, ABC):
     """
@@ -11,9 +15,9 @@ class CommunicationCluster(ARObject, ABC):
     protocol, which may be event-triggered, time-triggered or a combination of
     both. A CommunicationCluster aggregates one or more physical channels. Tags:
     vh.latestBindingTime=postBuild
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CommunicationCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 107, Classic Platform
       R23-11)
@@ -37,10 +41,10 @@ class CommunicationCluster(ARObject, ABC):
     def baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set baudrate with validation.
-        
+
         Args:
             value: The baudrate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +80,10 @@ class CommunicationCluster(ARObject, ABC):
     def protocol_name(self, value: Optional["String"]) -> None:
         """
         Set protocolName with validation.
-        
+
         Args:
             value: The protocolName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +108,10 @@ class CommunicationCluster(ARObject, ABC):
     def protocol_version(self, value: Optional["String"]) -> None:
         """
         Set protocolVersion with validation.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +130,10 @@ class CommunicationCluster(ARObject, ABC):
     def getBaudrate(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for baudrate.
-        
+
         Returns:
             The baudrate value
-        
+
         Note:
             Delegates to baudrate property (CODING_RULE_V2_00017)
         """
@@ -138,13 +142,13 @@ class CommunicationCluster(ARObject, ABC):
     def setBaudrate(self, value: "PositiveUnlimitedInteger") -> "CommunicationCluster":
         """
         AUTOSAR-compliant setter for baudrate with method chaining.
-        
+
         Args:
             value: The baudrate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to baudrate property setter (gets validation automatically)
         """
@@ -154,10 +158,10 @@ class CommunicationCluster(ARObject, ABC):
     def getPhysical(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -166,10 +170,10 @@ class CommunicationCluster(ARObject, ABC):
     def getProtocolName(self) -> "String":
         """
         AUTOSAR-compliant getter for protocolName.
-        
+
         Returns:
             The protocolName value
-        
+
         Note:
             Delegates to protocol_name property (CODING_RULE_V2_00017)
         """
@@ -178,13 +182,13 @@ class CommunicationCluster(ARObject, ABC):
     def setProtocolName(self, value: "String") -> "CommunicationCluster":
         """
         AUTOSAR-compliant setter for protocolName with method chaining.
-        
+
         Args:
             value: The protocolName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol_name property setter (gets validation automatically)
         """
@@ -194,10 +198,10 @@ class CommunicationCluster(ARObject, ABC):
     def getProtocolVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for protocolVersion.
-        
+
         Returns:
             The protocolVersion value
-        
+
         Note:
             Delegates to protocol_version property (CODING_RULE_V2_00017)
         """
@@ -206,13 +210,13 @@ class CommunicationCluster(ARObject, ABC):
     def setProtocolVersion(self, value: "String") -> "CommunicationCluster":
         """
         AUTOSAR-compliant setter for protocolVersion with method chaining.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol_version property setter (gets validation automatically)
         """
@@ -224,13 +228,13 @@ class CommunicationCluster(ARObject, ABC):
     def with_baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> "CommunicationCluster":
         """
         Set baudrate and return self for chaining.
-        
+
         Args:
             value: The baudrate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_baudrate("value")
         """
@@ -240,13 +244,13 @@ class CommunicationCluster(ARObject, ABC):
     def with_protocol_name(self, value: Optional["String"]) -> "CommunicationCluster":
         """
         Set protocolName and return self for chaining.
-        
+
         Args:
             value: The protocolName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol_name("value")
         """
@@ -256,13 +260,13 @@ class CommunicationCluster(ARObject, ABC):
     def with_protocol_version(self, value: Optional["String"]) -> "CommunicationCluster":
         """
         Set protocolVersion and return self for chaining.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol_version("value")
         """

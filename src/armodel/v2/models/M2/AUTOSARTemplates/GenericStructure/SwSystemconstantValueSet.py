@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SwSystemconstantValueSet(ARElement):
     """
     This meta-class represents the ability to specify a set of system constant
     values.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstantValueSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 313, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1007, Classic
@@ -36,10 +36,10 @@ class SwSystemconstantValueSet(ARElement):
     def getSw(self) -> List["SwSystemconstValue"]:
         """
         AUTOSAR-compliant getter for sw.
-        
+
         Returns:
             The sw value
-        
+
         Note:
             Delegates to sw property (CODING_RULE_V2_00017)
         """

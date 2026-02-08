@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BusMirrorChannelMapping(FibexElement, ABC):
     """
     This element defines a bus mirroring in which the traffic from one
     communication bus (sourceChannel) is forwarded to another one
     (targetChannel).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannelMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 697, Classic Platform R23-11)
     """
@@ -32,10 +36,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def mirroring(self, value: Optional["MirroringProtocolEnum"]) -> None:
         """
         Set mirroring with validation.
-        
+
         Args:
             value: The mirroring to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def source_channel(self, value: Optional["BusMirrorChannel"]) -> None:
         """
         Set sourceChannel with validation.
-        
+
         Args:
             value: The sourceChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +92,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def target_channel(self, value: Optional["BusMirrorChannel"]) -> None:
         """
         Set targetChannel with validation.
-        
+
         Args:
             value: The targetChannel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +125,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def getMirroring(self) -> "MirroringProtocolEnum":
         """
         AUTOSAR-compliant getter for mirroring.
-        
+
         Returns:
             The mirroring value
-        
+
         Note:
             Delegates to mirroring property (CODING_RULE_V2_00017)
         """
@@ -133,13 +137,13 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def setMirroring(self, value: "MirroringProtocolEnum") -> "BusMirrorChannelMapping":
         """
         AUTOSAR-compliant setter for mirroring with method chaining.
-        
+
         Args:
             value: The mirroring to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mirroring property setter (gets validation automatically)
         """
@@ -149,10 +153,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def getSourceChannel(self) -> "BusMirrorChannel":
         """
         AUTOSAR-compliant getter for sourceChannel.
-        
+
         Returns:
             The sourceChannel value
-        
+
         Note:
             Delegates to source_channel property (CODING_RULE_V2_00017)
         """
@@ -161,13 +165,13 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def setSourceChannel(self, value: "BusMirrorChannel") -> "BusMirrorChannelMapping":
         """
         AUTOSAR-compliant setter for sourceChannel with method chaining.
-        
+
         Args:
             value: The sourceChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_channel property setter (gets validation automatically)
         """
@@ -177,10 +181,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def getTargetChannel(self) -> "BusMirrorChannel":
         """
         AUTOSAR-compliant getter for targetChannel.
-        
+
         Returns:
             The targetChannel value
-        
+
         Note:
             Delegates to target_channel property (CODING_RULE_V2_00017)
         """
@@ -189,13 +193,13 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def setTargetChannel(self, value: "BusMirrorChannel") -> "BusMirrorChannelMapping":
         """
         AUTOSAR-compliant setter for targetChannel with method chaining.
-        
+
         Args:
             value: The targetChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_channel property setter (gets validation automatically)
         """
@@ -205,10 +209,10 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def getTargetPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for targetPdu.
-        
+
         Returns:
             The targetPdu value
-        
+
         Note:
             Delegates to target_pdu property (CODING_RULE_V2_00017)
         """
@@ -219,13 +223,13 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def with_mirroring(self, value: Optional["MirroringProtocolEnum"]) -> "BusMirrorChannelMapping":
         """
         Set mirroring and return self for chaining.
-        
+
         Args:
             value: The mirroring to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mirroring("value")
         """
@@ -235,13 +239,13 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def with_source_channel(self, value: Optional["BusMirrorChannel"]) -> "BusMirrorChannelMapping":
         """
         Set sourceChannel and return self for chaining.
-        
+
         Args:
             value: The sourceChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_channel("value")
         """
@@ -251,13 +255,13 @@ class BusMirrorChannelMapping(FibexElement, ABC):
     def with_target_channel(self, value: Optional["BusMirrorChannel"]) -> "BusMirrorChannelMapping":
         """
         Set targetChannel and return self for chaining.
-        
+
         Args:
             value: The targetChannel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_channel("value")
         """

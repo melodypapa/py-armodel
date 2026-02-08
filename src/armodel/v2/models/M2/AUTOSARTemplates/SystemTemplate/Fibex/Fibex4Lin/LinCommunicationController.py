@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LinCommunicationController(ARObject, ABC):
     """
     LIN bus specific communication controller attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinCommunicationController
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 93, Classic Platform R23-11)
     """
@@ -29,10 +33,10 @@ class LinCommunicationController(ARObject, ABC):
     def protocol_version(self, value: Optional["String"]) -> None:
         """
         Set protocolVersion with validation.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +55,10 @@ class LinCommunicationController(ARObject, ABC):
     def getProtocolVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for protocolVersion.
-        
+
         Returns:
             The protocolVersion value
-        
+
         Note:
             Delegates to protocol_version property (CODING_RULE_V2_00017)
         """
@@ -63,13 +67,13 @@ class LinCommunicationController(ARObject, ABC):
     def setProtocolVersion(self, value: "String") -> "LinCommunicationController":
         """
         AUTOSAR-compliant setter for protocolVersion with method chaining.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol_version property setter (gets validation automatically)
         """
@@ -81,13 +85,13 @@ class LinCommunicationController(ARObject, ABC):
     def with_protocol_version(self, value: Optional["String"]) -> "LinCommunicationController":
         """
         Set protocolVersion and return self for chaining.
-        
+
         Args:
             value: The protocolVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol_version("value")
         """

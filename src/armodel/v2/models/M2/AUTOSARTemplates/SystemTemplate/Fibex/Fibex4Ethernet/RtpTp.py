@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class RtpTp(TransportProtocolConfiguration):
     """
     RTP over UDP or over TCP as transport protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::RtpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 460, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class RtpTp(TransportProtocolConfiguration):
     def ssrc(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ssrc with validation.
-        
+
         Args:
             value: The ssrc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class RtpTp(TransportProtocolConfiguration):
     def tcp_udp_config(self, value: Optional["TcpUdpConfig"]) -> None:
         """
         Set tcpUdpConfig with validation.
-        
+
         Args:
             value: The tcpUdpConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class RtpTp(TransportProtocolConfiguration):
     def getSsrc(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ssrc.
-        
+
         Returns:
             The ssrc value
-        
+
         Note:
             Delegates to ssrc property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class RtpTp(TransportProtocolConfiguration):
     def setSsrc(self, value: "PositiveInteger") -> "RtpTp":
         """
         AUTOSAR-compliant setter for ssrc with method chaining.
-        
+
         Args:
             value: The ssrc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ssrc property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class RtpTp(TransportProtocolConfiguration):
     def getTcpUdpConfig(self) -> "TcpUdpConfig":
         """
         AUTOSAR-compliant getter for tcpUdpConfig.
-        
+
         Returns:
             The tcpUdpConfig value
-        
+
         Note:
             Delegates to tcp_udp_config property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class RtpTp(TransportProtocolConfiguration):
     def setTcpUdpConfig(self, value: "TcpUdpConfig") -> "RtpTp":
         """
         AUTOSAR-compliant setter for tcpUdpConfig with method chaining.
-        
+
         Args:
             value: The tcpUdpConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_udp_config property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class RtpTp(TransportProtocolConfiguration):
     def with_ssrc(self, value: Optional["PositiveInteger"]) -> "RtpTp":
         """
         Set ssrc and return self for chaining.
-        
+
         Args:
             value: The ssrc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ssrc("value")
         """
@@ -151,13 +151,13 @@ class RtpTp(TransportProtocolConfiguration):
     def with_tcp_udp_config(self, value: Optional["TcpUdpConfig"]) -> "RtpTp":
         """
         Set tcpUdpConfig and return self for chaining.
-        
+
         Args:
             value: The tcpUdpConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_udp_config("value")
         """

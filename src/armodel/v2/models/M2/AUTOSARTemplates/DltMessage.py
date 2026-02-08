@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DltMessage(Identifiable):
     """
     This element defines a DltMessage.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltMessage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2018, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 12, Foundation R23-11)
@@ -36,10 +38,10 @@ class DltMessage(Identifiable):
     def message_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageId with validation.
-        
+
         Args:
             value: The messageId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +67,10 @@ class DltMessage(Identifiable):
     def message_line(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set messageLine with validation.
-        
+
         Args:
             value: The messageLine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +95,10 @@ class DltMessage(Identifiable):
     def message_source(self, value: Optional["String"]) -> None:
         """
         Set messageSource with validation.
-        
+
         Args:
             value: The messageSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +123,10 @@ class DltMessage(Identifiable):
     def message_type_info(self, value: Optional["String"]) -> None:
         """
         Set messageTypeInfo with validation.
-        
+
         Args:
             value: The messageTypeInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -150,10 +152,10 @@ class DltMessage(Identifiable):
     def privacy_level(self, value: Optional["PrivacyLevel"]) -> None:
         """
         Set privacyLevel with validation.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +174,10 @@ class DltMessage(Identifiable):
     def getDltArgument(self) -> List["DltArgument"]:
         """
         AUTOSAR-compliant getter for dltArgument.
-        
+
         Returns:
             The dltArgument value
-        
+
         Note:
             Delegates to dlt_argument property (CODING_RULE_V2_00017)
         """
@@ -184,10 +186,10 @@ class DltMessage(Identifiable):
     def getMessageId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageId.
-        
+
         Returns:
             The messageId value
-        
+
         Note:
             Delegates to message_id property (CODING_RULE_V2_00017)
         """
@@ -196,13 +198,13 @@ class DltMessage(Identifiable):
     def setMessageId(self, value: "PositiveInteger") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageId with method chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_id property setter (gets validation automatically)
         """
@@ -212,10 +214,10 @@ class DltMessage(Identifiable):
     def getMessageLine(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for messageLine.
-        
+
         Returns:
             The messageLine value
-        
+
         Note:
             Delegates to message_line property (CODING_RULE_V2_00017)
         """
@@ -224,13 +226,13 @@ class DltMessage(Identifiable):
     def setMessageLine(self, value: "PositiveInteger") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageLine with method chaining.
-        
+
         Args:
             value: The messageLine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_line property setter (gets validation automatically)
         """
@@ -240,10 +242,10 @@ class DltMessage(Identifiable):
     def getMessageSource(self) -> "String":
         """
         AUTOSAR-compliant getter for messageSource.
-        
+
         Returns:
             The messageSource value
-        
+
         Note:
             Delegates to message_source property (CODING_RULE_V2_00017)
         """
@@ -252,13 +254,13 @@ class DltMessage(Identifiable):
     def setMessageSource(self, value: "String") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageSource with method chaining.
-        
+
         Args:
             value: The messageSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_source property setter (gets validation automatically)
         """
@@ -268,10 +270,10 @@ class DltMessage(Identifiable):
     def getMessageTypeInfo(self) -> "String":
         """
         AUTOSAR-compliant getter for messageTypeInfo.
-        
+
         Returns:
             The messageTypeInfo value
-        
+
         Note:
             Delegates to message_type_info property (CODING_RULE_V2_00017)
         """
@@ -280,13 +282,13 @@ class DltMessage(Identifiable):
     def setMessageTypeInfo(self, value: "String") -> "DltMessage":
         """
         AUTOSAR-compliant setter for messageTypeInfo with method chaining.
-        
+
         Args:
             value: The messageTypeInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_type_info property setter (gets validation automatically)
         """
@@ -296,10 +298,10 @@ class DltMessage(Identifiable):
     def getPrivacyLevel(self) -> "PrivacyLevel":
         """
         AUTOSAR-compliant getter for privacyLevel.
-        
+
         Returns:
             The privacyLevel value
-        
+
         Note:
             Delegates to privacy_level property (CODING_RULE_V2_00017)
         """
@@ -308,13 +310,13 @@ class DltMessage(Identifiable):
     def setPrivacyLevel(self, value: "PrivacyLevel") -> "DltMessage":
         """
         AUTOSAR-compliant setter for privacyLevel with method chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to privacy_level property setter (gets validation automatically)
         """
@@ -326,13 +328,13 @@ class DltMessage(Identifiable):
     def with_message_id(self, value: Optional["PositiveInteger"]) -> "DltMessage":
         """
         Set messageId and return self for chaining.
-        
+
         Args:
             value: The messageId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_id("value")
         """
@@ -342,13 +344,13 @@ class DltMessage(Identifiable):
     def with_message_line(self, value: Optional["PositiveInteger"]) -> "DltMessage":
         """
         Set messageLine and return self for chaining.
-        
+
         Args:
             value: The messageLine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_line("value")
         """
@@ -358,13 +360,13 @@ class DltMessage(Identifiable):
     def with_message_source(self, value: Optional["String"]) -> "DltMessage":
         """
         Set messageSource and return self for chaining.
-        
+
         Args:
             value: The messageSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_source("value")
         """
@@ -374,13 +376,13 @@ class DltMessage(Identifiable):
     def with_message_type_info(self, value: Optional["String"]) -> "DltMessage":
         """
         Set messageTypeInfo and return self for chaining.
-        
+
         Args:
             value: The messageTypeInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_type_info("value")
         """
@@ -390,13 +392,13 @@ class DltMessage(Identifiable):
     def with_privacy_level(self, value: Optional["PrivacyLevel"]) -> "DltMessage":
         """
         Set privacyLevel and return self for chaining.
-        
+
         Args:
             value: The privacyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_privacy_level("value")
         """

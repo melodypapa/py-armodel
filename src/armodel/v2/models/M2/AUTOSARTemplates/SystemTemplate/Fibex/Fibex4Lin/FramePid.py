@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FramePid(ARObject):
     """
     Frame_PIDs that are included in the request. The "pid" attribute describes
     the value and the "index" attribute the position of the frame_PID in the
     request.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::FramePid
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 437, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class FramePid(ARObject):
     def index(self, value: Optional["Integer"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class FramePid(ARObject):
     def pid(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pid with validation.
-        
+
         Args:
             value: The pid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class FramePid(ARObject):
     def getIndex(self) -> "Integer":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -92,13 +95,13 @@ class FramePid(ARObject):
     def setIndex(self, value: "Integer") -> "FramePid":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -108,10 +111,10 @@ class FramePid(ARObject):
     def getPid(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pid.
-        
+
         Returns:
             The pid value
-        
+
         Note:
             Delegates to pid property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class FramePid(ARObject):
     def setPid(self, value: "PositiveInteger") -> "FramePid":
         """
         AUTOSAR-compliant setter for pid with method chaining.
-        
+
         Args:
             value: The pid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pid property setter (gets validation automatically)
         """
@@ -138,13 +141,13 @@ class FramePid(ARObject):
     def with_index(self, value: Optional["Integer"]) -> "FramePid":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """
@@ -154,13 +157,13 @@ class FramePid(ARObject):
     def with_pid(self, value: Optional["PositiveInteger"]) -> "FramePid":
         """
         Set pid and return self for chaining.
-        
+
         Args:
             value: The pid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pid("value")
         """

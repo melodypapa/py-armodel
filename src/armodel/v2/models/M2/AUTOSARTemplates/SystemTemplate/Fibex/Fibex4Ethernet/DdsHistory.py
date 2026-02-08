@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsHistory(ARObject):
     """
     Describes the DDS HISTORY QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsHistory
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 537, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class DdsHistory(ARObject):
     def history_kind(self, value: Optional["DdsHistoryKindEnum"]) -> None:
         """
         Set historyKind with validation.
-        
+
         Args:
             value: The historyKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class DdsHistory(ARObject):
     def history_order(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set historyOrder with validation.
-        
+
         Args:
             value: The historyOrder to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class DdsHistory(ARObject):
     def getHistoryKind(self) -> "DdsHistoryKindEnum":
         """
         AUTOSAR-compliant getter for historyKind.
-        
+
         Returns:
             The historyKind value
-        
+
         Note:
             Delegates to history_kind property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class DdsHistory(ARObject):
     def setHistoryKind(self, value: "DdsHistoryKindEnum") -> "DdsHistory":
         """
         AUTOSAR-compliant setter for historyKind with method chaining.
-        
+
         Args:
             value: The historyKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to history_kind property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class DdsHistory(ARObject):
     def getHistoryOrder(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for historyOrder.
-        
+
         Returns:
             The historyOrder value
-        
+
         Note:
             Delegates to history_order property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class DdsHistory(ARObject):
     def setHistoryOrder(self, value: "PositiveInteger") -> "DdsHistory":
         """
         AUTOSAR-compliant setter for historyOrder with method chaining.
-        
+
         Args:
             value: The historyOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to history_order property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class DdsHistory(ARObject):
     def with_history_kind(self, value: Optional["DdsHistoryKindEnum"]) -> "DdsHistory":
         """
         Set historyKind and return self for chaining.
-        
+
         Args:
             value: The historyKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_history_kind("value")
         """
@@ -153,13 +156,13 @@ class DdsHistory(ARObject):
     def with_history_order(self, value: Optional["PositiveInteger"]) -> "DdsHistory":
         """
         Set historyOrder and return self for chaining.
-        
+
         Args:
             value: The historyOrder to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_history_order("value")
         """

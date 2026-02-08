@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticSessionControlClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Session
     Control" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::SessionControl::DiagnosticSessionControlClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 93, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
     def s3_server(self, value: Optional["TimeValue"]) -> None:
         """
         Set s3Server with validation.
-        
+
         Args:
             value: The s3Server to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
     def getS3Server(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for s3Server.
-        
+
         Returns:
             The s3Server value
-        
+
         Note:
             Delegates to s3_server property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
     def setS3Server(self, value: "TimeValue") -> "DiagnosticSessionControlClass":
         """
         AUTOSAR-compliant setter for s3Server with method chaining.
-        
+
         Args:
             value: The s3Server to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to s3_server property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class DiagnosticSessionControlClass(DiagnosticServiceClass):
     def with_s3_server(self, value: Optional["TimeValue"]) -> "DiagnosticSessionControlClass":
         """
         Set s3Server and return self for chaining.
-        
+
         Args:
             value: The s3Server to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_s3_server("value")
         """

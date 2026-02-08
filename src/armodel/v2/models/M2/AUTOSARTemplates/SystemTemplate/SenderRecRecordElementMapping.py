@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderRecRecordElementMapping(ARObject):
     """
@@ -16,9 +21,9 @@ class SenderRecRecordElementMapping(ARObject):
     SystemSignal (multiplicity 0). In this case the RecordElementMapping element
     will aggregate the complexTypeMapping element. In that way also the
     composite datatypes can be mapped to SystemSignals.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecRecordElementMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 236, Classic Platform R23-11)
     """
@@ -39,10 +44,10 @@ class SenderRecRecordElementMapping(ARObject):
     def application(self, value: Optional["ApplicationRecord"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +72,10 @@ class SenderRecRecordElementMapping(ARObject):
     def complex_type(self, value: Optional["SenderRecComposite"]) -> None:
         """
         Set complexType with validation.
-        
+
         Args:
             value: The complexType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +101,10 @@ class SenderRecRecordElementMapping(ARObject):
     def implementation(self, value: Optional["ImplementationData"]) -> None:
         """
         Set implementation with validation.
-        
+
         Args:
             value: The implementation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +131,10 @@ class SenderRecRecordElementMapping(ARObject):
     def sender_to_signal(self, value: RefType) -> None:
         """
         Set senderToSignal with validation.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +156,10 @@ class SenderRecRecordElementMapping(ARObject):
     def signal_to(self, value: RefType) -> None:
         """
         Set signalTo with validation.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -175,10 +180,10 @@ class SenderRecRecordElementMapping(ARObject):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -197,10 +202,10 @@ class SenderRecRecordElementMapping(ARObject):
     def getApplication(self) -> "ApplicationRecord":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -209,13 +214,13 @@ class SenderRecRecordElementMapping(ARObject):
     def setApplication(self, value: "ApplicationRecord") -> "SenderRecRecordElementMapping":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -225,10 +230,10 @@ class SenderRecRecordElementMapping(ARObject):
     def getComplexType(self) -> "SenderRecComposite":
         """
         AUTOSAR-compliant getter for complexType.
-        
+
         Returns:
             The complexType value
-        
+
         Note:
             Delegates to complex_type property (CODING_RULE_V2_00017)
         """
@@ -237,13 +242,13 @@ class SenderRecRecordElementMapping(ARObject):
     def setComplexType(self, value: "SenderRecComposite") -> "SenderRecRecordElementMapping":
         """
         AUTOSAR-compliant setter for complexType with method chaining.
-        
+
         Args:
             value: The complexType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to complex_type property setter (gets validation automatically)
         """
@@ -253,10 +258,10 @@ class SenderRecRecordElementMapping(ARObject):
     def getImplementation(self) -> "ImplementationData":
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """
@@ -265,13 +270,13 @@ class SenderRecRecordElementMapping(ARObject):
     def setImplementation(self, value: "ImplementationData") -> "SenderRecRecordElementMapping":
         """
         AUTOSAR-compliant setter for implementation with method chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implementation property setter (gets validation automatically)
         """
@@ -281,10 +286,10 @@ class SenderRecRecordElementMapping(ARObject):
     def getSenderToSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for senderToSignal.
-        
+
         Returns:
             The senderToSignal value
-        
+
         Note:
             Delegates to sender_to_signal property (CODING_RULE_V2_00017)
         """
@@ -293,13 +298,13 @@ class SenderRecRecordElementMapping(ARObject):
     def setSenderToSignal(self, value: RefType) -> "SenderRecRecordElementMapping":
         """
         AUTOSAR-compliant setter for senderToSignal with method chaining.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sender_to_signal property setter (gets validation automatically)
         """
@@ -309,10 +314,10 @@ class SenderRecRecordElementMapping(ARObject):
     def getSignalTo(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalTo.
-        
+
         Returns:
             The signalTo value
-        
+
         Note:
             Delegates to signal_to property (CODING_RULE_V2_00017)
         """
@@ -321,13 +326,13 @@ class SenderRecRecordElementMapping(ARObject):
     def setSignalTo(self, value: RefType) -> "SenderRecRecordElementMapping":
         """
         AUTOSAR-compliant setter for signalTo with method chaining.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signal_to property setter (gets validation automatically)
         """
@@ -337,10 +342,10 @@ class SenderRecRecordElementMapping(ARObject):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -349,13 +354,13 @@ class SenderRecRecordElementMapping(ARObject):
     def setSystemSignal(self, value: "SystemSignal") -> "SenderRecRecordElementMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -367,13 +372,13 @@ class SenderRecRecordElementMapping(ARObject):
     def with_application(self, value: Optional["ApplicationRecord"]) -> "SenderRecRecordElementMapping":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -383,13 +388,13 @@ class SenderRecRecordElementMapping(ARObject):
     def with_complex_type(self, value: Optional["SenderRecComposite"]) -> "SenderRecRecordElementMapping":
         """
         Set complexType and return self for chaining.
-        
+
         Args:
             value: The complexType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_complex_type("value")
         """
@@ -399,13 +404,13 @@ class SenderRecRecordElementMapping(ARObject):
     def with_implementation(self, value: Optional["ImplementationData"]) -> "SenderRecRecordElementMapping":
         """
         Set implementation and return self for chaining.
-        
+
         Args:
             value: The implementation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implementation("value")
         """
@@ -415,13 +420,13 @@ class SenderRecRecordElementMapping(ARObject):
     def with_sender_to_signal(self, value: Optional[RefType]) -> "SenderRecRecordElementMapping":
         """
         Set senderToSignal and return self for chaining.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sender_to_signal("value")
         """
@@ -431,13 +436,13 @@ class SenderRecRecordElementMapping(ARObject):
     def with_signal_to(self, value: Optional[RefType]) -> "SenderRecRecordElementMapping":
         """
         Set signalTo and return self for chaining.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signal_to("value")
         """
@@ -447,13 +452,13 @@ class SenderRecRecordElementMapping(ARObject):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "SenderRecRecordElementMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """

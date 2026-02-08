@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticAbstractParameter(ARObject, ABC):
     """
     This meta-class represents an abstract base class for modeling a diagnostic
     parameter.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticAbstractParameter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 37, Classic Platform
       R23-11)
@@ -33,10 +37,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def bit_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitOffset with validation.
-        
+
         Args:
             value: The bitOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +65,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def data_element(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +96,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def parameter_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set parameterSize with validation.
-        
+
         Args:
             value: The parameterSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +118,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def getBitOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitOffset.
-        
+
         Returns:
             The bitOffset value
-        
+
         Note:
             Delegates to bit_offset property (CODING_RULE_V2_00017)
         """
@@ -126,13 +130,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def setBitOffset(self, value: "PositiveInteger") -> "DiagnosticAbstractParameter":
         """
         AUTOSAR-compliant setter for bitOffset with method chaining.
-        
+
         Args:
             value: The bitOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_offset property setter (gets validation automatically)
         """
@@ -142,10 +146,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def getDataElement(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -154,13 +158,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticAbstractParameter":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -170,10 +174,10 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def getParameterSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for parameterSize.
-        
+
         Returns:
             The parameterSize value
-        
+
         Note:
             Delegates to parameter_size property (CODING_RULE_V2_00017)
         """
@@ -182,13 +186,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def setParameterSize(self, value: "PositiveInteger") -> "DiagnosticAbstractParameter":
         """
         AUTOSAR-compliant setter for parameterSize with method chaining.
-        
+
         Args:
             value: The parameterSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter_size property setter (gets validation automatically)
         """
@@ -200,13 +204,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def with_bit_offset(self, value: Optional["PositiveInteger"]) -> "DiagnosticAbstractParameter":
         """
         Set bitOffset and return self for chaining.
-        
+
         Args:
             value: The bitOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_offset("value")
         """
@@ -216,13 +220,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticAbstractParameter":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -232,13 +236,13 @@ class DiagnosticAbstractParameter(ARObject, ABC):
     def with_parameter_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticAbstractParameter":
         """
         Set parameterSize and return self for chaining.
-        
+
         Args:
             value: The parameterSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter_size("value")
         """

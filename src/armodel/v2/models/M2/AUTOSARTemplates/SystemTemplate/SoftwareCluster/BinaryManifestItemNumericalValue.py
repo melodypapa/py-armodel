@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     """
     This meta-class has the ability to provide a numerical value for a binary
     manifest item.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestItemNumericalValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 922, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     def setValue(self, value: "Numerical") -> "BinaryManifestItemNumericalValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     def with_value(self, value: Optional["Numerical"]) -> "BinaryManifestItemNumericalValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

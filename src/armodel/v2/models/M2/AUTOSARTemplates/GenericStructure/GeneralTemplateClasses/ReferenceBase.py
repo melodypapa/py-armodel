@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ReferenceBase(ARObject):
     """
     This meta-class establishes a basis for relative references. Reference bases
     are identified by the short Label which shall be unique in the current
     package.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ReferenceBase
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 72, Foundation R23-11)
     """
@@ -48,10 +53,10 @@ class ReferenceBase(ARObject):
     def is_default(self, value: "Boolean") -> None:
         """
         Set isDefault with validation.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +78,10 @@ class ReferenceBase(ARObject):
     def package(self, value: Optional["ARPackage"]) -> None:
         """
         Set package with validation.
-        
+
         Args:
             value: The package to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +107,10 @@ class ReferenceBase(ARObject):
     def short_label(self, value: "Identifier") -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +125,10 @@ class ReferenceBase(ARObject):
     def getGlobalElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for globalElement.
-        
+
         Returns:
             The globalElement value
-        
+
         Note:
             Delegates to global_element property (CODING_RULE_V2_00017)
         """
@@ -132,10 +137,10 @@ class ReferenceBase(ARObject):
     def getGlobalIn(self) -> List["ARPackage"]:
         """
         AUTOSAR-compliant getter for globalIn.
-        
+
         Returns:
             The globalIn value
-        
+
         Note:
             Delegates to global_in property (CODING_RULE_V2_00017)
         """
@@ -144,10 +149,10 @@ class ReferenceBase(ARObject):
     def getIsDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isDefault.
-        
+
         Returns:
             The isDefault value
-        
+
         Note:
             Delegates to is_default property (CODING_RULE_V2_00017)
         """
@@ -156,13 +161,13 @@ class ReferenceBase(ARObject):
     def setIsDefault(self, value: "Boolean") -> "ReferenceBase":
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_default property setter (gets validation automatically)
         """
@@ -172,10 +177,10 @@ class ReferenceBase(ARObject):
     def getPackage(self) -> "ARPackage":
         """
         AUTOSAR-compliant getter for package.
-        
+
         Returns:
             The package value
-        
+
         Note:
             Delegates to package property (CODING_RULE_V2_00017)
         """
@@ -184,13 +189,13 @@ class ReferenceBase(ARObject):
     def setPackage(self, value: "ARPackage") -> "ReferenceBase":
         """
         AUTOSAR-compliant setter for package with method chaining.
-        
+
         Args:
             value: The package to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to package property setter (gets validation automatically)
         """
@@ -200,10 +205,10 @@ class ReferenceBase(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -212,13 +217,13 @@ class ReferenceBase(ARObject):
     def setShortLabel(self, value: "Identifier") -> "ReferenceBase":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -230,13 +235,13 @@ class ReferenceBase(ARObject):
     def with_is_default(self, value: "Boolean") -> "ReferenceBase":
         """
         Set isDefault and return self for chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_default("value")
         """
@@ -246,13 +251,13 @@ class ReferenceBase(ARObject):
     def with_package(self, value: Optional["ARPackage"]) -> "ReferenceBase":
         """
         Set package and return self for chaining.
-        
+
         Args:
             value: The package to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_package("value")
         """
@@ -262,13 +267,13 @@ class ReferenceBase(ARObject):
     def with_short_label(self, value: "Identifier") -> "ReferenceBase":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

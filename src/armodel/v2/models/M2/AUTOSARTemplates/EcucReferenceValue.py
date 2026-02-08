@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EcucReferenceValue(EcucAbstractReferenceValue):
     """
     Used to represent a configuration value that has a parameter definition of
     type EcucAbstractReference Def (used for all of its specializations
     excluding EcucInstanceReferenceDef).
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucReferenceValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 132, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 443, Foundation
@@ -31,10 +34,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def value(self, value: RefType) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def getValue(self) -> RefType:
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def setValue(self, value: RefType) -> "EcucReferenceValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def with_value(self, value: Optional[RefType]) -> "EcucReferenceValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

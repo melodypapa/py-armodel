@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticComControl(DiagnosticServiceInstance):
     """
     This represents an instance of the "Communication Control" diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::CommunicationControl::DiagnosticComControl
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 108, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def com_control(self, value: Optional["DiagnosticComControl"]) -> None:
         """
         Set comControl with validation.
-        
+
         Args:
             value: The comControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def custom_sub(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set customSub with validation.
-        
+
         Args:
             value: The customSub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def getComControl(self) -> "DiagnosticComControl":
         """
         AUTOSAR-compliant getter for comControl.
-        
+
         Returns:
             The comControl value
-        
+
         Note:
             Delegates to com_control property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def setComControl(self, value: "DiagnosticComControl") -> "DiagnosticComControl":
         """
         AUTOSAR-compliant setter for comControl with method chaining.
-        
+
         Args:
             value: The comControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to com_control property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def getCustomSub(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for customSub.
-        
+
         Returns:
             The customSub value
-        
+
         Note:
             Delegates to custom_sub property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def setCustomSub(self, value: "PositiveInteger") -> "DiagnosticComControl":
         """
         AUTOSAR-compliant setter for customSub with method chaining.
-        
+
         Args:
             value: The customSub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to custom_sub property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def with_com_control(self, value: Optional["DiagnosticComControl"]) -> "DiagnosticComControl":
         """
         Set comControl and return self for chaining.
-        
+
         Args:
             value: The comControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_com_control("value")
         """
@@ -154,13 +154,13 @@ class DiagnosticComControl(DiagnosticServiceInstance):
     def with_custom_sub(self, value: Optional["PositiveInteger"]) -> "DiagnosticComControl":
         """
         Set customSub and return self for chaining.
-        
+
         Args:
             value: The customSub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_custom_sub("value")
         """

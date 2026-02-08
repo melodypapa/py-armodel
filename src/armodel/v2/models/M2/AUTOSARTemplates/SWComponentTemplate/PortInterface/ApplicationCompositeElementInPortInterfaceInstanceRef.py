@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs::ApplicationCompositeElementInPortInterfaceInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 952, Classic Platform
       R23-11)
@@ -29,10 +34,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def base(self, value: Optional["DataInterface"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +72,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def root_data(self, value: RefType) -> None:
         """
         Set rootData with validation.
-        
+
         Args:
             value: The rootData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +96,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def target_data(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +118,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def getBase(self) -> "DataInterface":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -125,13 +130,13 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def setBase(self, value: "DataInterface") -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -141,10 +146,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def getContextData(self) -> List["ApplicationComposite"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -153,10 +158,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def getRootData(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootData.
-        
+
         Returns:
             The rootData value
-        
+
         Note:
             Delegates to root_data property (CODING_RULE_V2_00017)
         """
@@ -165,13 +170,13 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def setRootData(self, value: RefType) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for rootData with method chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_data property setter (gets validation automatically)
         """
@@ -181,10 +186,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def getTargetData(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -193,13 +198,13 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def setTargetData(self, value: "ApplicationComposite") -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -211,13 +216,13 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def with_base(self, value: Optional["DataInterface"]) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -227,13 +232,13 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def with_root_data(self, value: Optional[RefType]) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
         """
         Set rootData and return self for chaining.
-        
+
         Args:
             value: The rootData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_data("value")
         """
@@ -243,13 +248,13 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
     def with_target_data(self, value: Optional["ApplicationComposite"]) -> "ApplicationCompositeElementInPortInterfaceInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

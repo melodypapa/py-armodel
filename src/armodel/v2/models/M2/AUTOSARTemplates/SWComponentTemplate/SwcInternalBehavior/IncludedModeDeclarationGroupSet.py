@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IncludedModeDeclarationGroupSet(ARObject):
     """
     An IncludedModeDeclarationGroupSet declares that a set of
     ModeDeclarationGroups used by the software component for its implementation
     and consequently these ModeDeclarationGroups become part of the contract.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup::IncludedModeDeclarationGroupSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 601, Classic Platform
       R23-11)
@@ -39,10 +44,10 @@ class IncludedModeDeclarationGroupSet(ARObject):
     def prefix(self, value: Optional["Identifier"]) -> None:
         """
         Set prefix with validation.
-        
+
         Args:
             value: The prefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +66,10 @@ class IncludedModeDeclarationGroupSet(ARObject):
     def getMode(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -73,10 +78,10 @@ class IncludedModeDeclarationGroupSet(ARObject):
     def getPrefix(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for prefix.
-        
+
         Returns:
             The prefix value
-        
+
         Note:
             Delegates to prefix property (CODING_RULE_V2_00017)
         """
@@ -85,13 +90,13 @@ class IncludedModeDeclarationGroupSet(ARObject):
     def setPrefix(self, value: "Identifier") -> "IncludedModeDeclarationGroupSet":
         """
         AUTOSAR-compliant setter for prefix with method chaining.
-        
+
         Args:
             value: The prefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prefix property setter (gets validation automatically)
         """
@@ -103,13 +108,13 @@ class IncludedModeDeclarationGroupSet(ARObject):
     def with_prefix(self, value: Optional["Identifier"]) -> "IncludedModeDeclarationGroupSet":
         """
         Set prefix and return self for chaining.
-        
+
         Args:
             value: The prefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prefix("value")
         """

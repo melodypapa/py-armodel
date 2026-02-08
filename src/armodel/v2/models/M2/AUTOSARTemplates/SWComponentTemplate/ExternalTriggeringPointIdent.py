@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ExternalTriggeringPointIdent(IdentCaption):
     """
     This meta-class has been created to introduce the ability to become
     referenced into the meta-class ExternalTriggeringPoint without breaking
     backwards compatibility.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::ExternalTriggeringPointIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform
       R23-11)

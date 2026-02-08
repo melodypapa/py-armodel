@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DoIpTpConnection(TpConnection):
     """
     A connection identifies the sender and the receiver of this particular
     communication. The DoIp module routes a tpSdu through this connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::DoIpTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 555, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DoIpTpConnection(TpConnection):
     def do_ip_source(self, value: Optional["DoIpLogicAddress"]) -> None:
         """
         Set doIpSource with validation.
-        
+
         Args:
             value: The doIpSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class DoIpTpConnection(TpConnection):
     def do_ip_target(self, value: Optional["DoIpLogicAddress"]) -> None:
         """
         Set doIpTarget with validation.
-        
+
         Args:
             value: The doIpTarget to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class DoIpTpConnection(TpConnection):
     def tp_sdu(self, value: RefType) -> None:
         """
         Set tpSdu with validation.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +105,10 @@ class DoIpTpConnection(TpConnection):
     def getDoIpSource(self) -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant getter for doIpSource.
-        
+
         Returns:
             The doIpSource value
-        
+
         Note:
             Delegates to do_ip_source property (CODING_RULE_V2_00017)
         """
@@ -114,13 +117,13 @@ class DoIpTpConnection(TpConnection):
     def setDoIpSource(self, value: "DoIpLogicAddress") -> "DoIpTpConnection":
         """
         AUTOSAR-compliant setter for doIpSource with method chaining.
-        
+
         Args:
             value: The doIpSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_source property setter (gets validation automatically)
         """
@@ -130,10 +133,10 @@ class DoIpTpConnection(TpConnection):
     def getDoIpTarget(self) -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant getter for doIpTarget.
-        
+
         Returns:
             The doIpTarget value
-        
+
         Note:
             Delegates to do_ip_target property (CODING_RULE_V2_00017)
         """
@@ -142,13 +145,13 @@ class DoIpTpConnection(TpConnection):
     def setDoIpTarget(self, value: "DoIpLogicAddress") -> "DoIpTpConnection":
         """
         AUTOSAR-compliant setter for doIpTarget with method chaining.
-        
+
         Args:
             value: The doIpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to do_ip_target property setter (gets validation automatically)
         """
@@ -158,10 +161,10 @@ class DoIpTpConnection(TpConnection):
     def getTpSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for tpSdu.
-        
+
         Returns:
             The tpSdu value
-        
+
         Note:
             Delegates to tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -170,13 +173,13 @@ class DoIpTpConnection(TpConnection):
     def setTpSdu(self, value: RefType) -> "DoIpTpConnection":
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_sdu property setter (gets validation automatically)
         """
@@ -188,13 +191,13 @@ class DoIpTpConnection(TpConnection):
     def with_do_ip_source(self, value: Optional["DoIpLogicAddress"]) -> "DoIpTpConnection":
         """
         Set doIpSource and return self for chaining.
-        
+
         Args:
             value: The doIpSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_source("value")
         """
@@ -204,13 +207,13 @@ class DoIpTpConnection(TpConnection):
     def with_do_ip_target(self, value: Optional["DoIpLogicAddress"]) -> "DoIpTpConnection":
         """
         Set doIpTarget and return self for chaining.
-        
+
         Args:
             value: The doIpTarget to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_do_ip_target("value")
         """
@@ -220,13 +223,13 @@ class DoIpTpConnection(TpConnection):
     def with_tp_sdu(self, value: Optional[RefType]) -> "DoIpTpConnection":
         """
         Set tpSdu and return self for chaining.
-        
+
         Args:
             value: The tpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_sdu("value")
         """

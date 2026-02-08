@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Sdf(ARObject):
     """
     This class represents a numerical value in a special data group which may be
     subject to variability.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::Sdf
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 92, Foundation R23-11)
     """
@@ -30,10 +33,10 @@ class Sdf(ARObject):
     def gid(self, value: "NameToken") -> None:
         """
         Set gid with validation.
-        
+
         Args:
             value: The gid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class Sdf(ARObject):
     def value(self, value: Optional["Numerical"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +79,10 @@ class Sdf(ARObject):
     def getGid(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for gid.
-        
+
         Returns:
             The gid value
-        
+
         Note:
             Delegates to gid property (CODING_RULE_V2_00017)
         """
@@ -88,13 +91,13 @@ class Sdf(ARObject):
     def setGid(self, value: "NameToken") -> "Sdf":
         """
         AUTOSAR-compliant setter for gid with method chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to gid property setter (gets validation automatically)
         """
@@ -104,10 +107,10 @@ class Sdf(ARObject):
     def getValue(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -116,13 +119,13 @@ class Sdf(ARObject):
     def setValue(self, value: "Numerical") -> "Sdf":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -134,13 +137,13 @@ class Sdf(ARObject):
     def with_gid(self, value: "NameToken") -> "Sdf":
         """
         Set gid and return self for chaining.
-        
+
         Args:
             value: The gid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_gid("value")
         """
@@ -150,13 +153,13 @@ class Sdf(ARObject):
     def with_value(self, value: Optional["Numerical"]) -> "Sdf":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

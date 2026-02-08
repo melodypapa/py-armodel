@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanControllerFdConfigurationRequirements(ARObject):
     """
     This element allows the specification of ranges for the CanFD bit timing
     configuration parameters. These ranges are taken as requirements and shall
     be respected by the ECU developer.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerFdConfigurationRequirements
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 66, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def max_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> None:
         """
         Set maxNumberOfTimeQuantaPerBit with validation.
-        
+
         Args:
             value: The maxNumberOfTimeQuantaPerBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def max_sample(self, value: Optional["Float"]) -> None:
         """
         Set maxSample with validation.
-        
+
         Args:
             value: The maxSample to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +92,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def max_sync_jump(self, value: Optional["Float"]) -> None:
         """
         Set maxSyncJump with validation.
-        
+
         Args:
             value: The maxSyncJump to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +122,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def max_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxTrcvDelay with validation.
-        
+
         Args:
             value: The maxTrcvDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def min_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> None:
         """
         Set minNumberOfTimeQuantaPerBit with validation.
-        
+
         Args:
             value: The minNumberOfTimeQuantaPerBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +179,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def min_sample_point(self, value: Optional["Float"]) -> None:
         """
         Set minSamplePoint with validation.
-        
+
         Args:
             value: The minSamplePoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -207,10 +210,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def min_sync_jump(self, value: Optional["Float"]) -> None:
         """
         Set minSyncJump with validation.
-        
+
         Args:
             value: The minSyncJump to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -236,10 +239,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def min_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minTrcvDelay with validation.
-        
+
         Args:
             value: The minTrcvDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -266,10 +269,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def padding_value(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set paddingValue with validation.
-        
+
         Args:
             value: The paddingValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +298,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def tx_bit_rate_switch(self, value: Optional["Boolean"]) -> None:
         """
         Set txBitRateSwitch with validation.
-        
+
         Args:
             value: The txBitRateSwitch to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -317,10 +320,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMaxNumberOfTimeQuantaPerBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxNumberOfTimeQuantaPerBit.
-        
+
         Returns:
             The maxNumberOfTimeQuantaPerBit value
-        
+
         Note:
             Delegates to max_number_of_time_quanta_per_bit property (CODING_RULE_V2_00017)
         """
@@ -329,13 +332,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMaxNumberOfTimeQuantaPerBit(self, value: "Integer") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxNumberOfTimeQuantaPerBit with method chaining.
-        
+
         Args:
             value: The maxNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of_time_quanta_per_bit property setter (gets validation automatically)
         """
@@ -345,10 +348,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMaxSample(self) -> "Float":
         """
         AUTOSAR-compliant getter for maxSample.
-        
+
         Returns:
             The maxSample value
-        
+
         Note:
             Delegates to max_sample property (CODING_RULE_V2_00017)
         """
@@ -357,13 +360,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMaxSample(self, value: "Float") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxSample with method chaining.
-        
+
         Args:
             value: The maxSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_sample property setter (gets validation automatically)
         """
@@ -373,10 +376,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMaxSyncJump(self) -> "Float":
         """
         AUTOSAR-compliant getter for maxSyncJump.
-        
+
         Returns:
             The maxSyncJump value
-        
+
         Note:
             Delegates to max_sync_jump property (CODING_RULE_V2_00017)
         """
@@ -385,13 +388,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMaxSyncJump(self, value: "Float") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxSyncJump with method chaining.
-        
+
         Args:
             value: The maxSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_sync_jump property setter (gets validation automatically)
         """
@@ -401,10 +404,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMaxTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxTrcvDelay.
-        
+
         Returns:
             The maxTrcvDelay value
-        
+
         Note:
             Delegates to max_trcv_delay property (CODING_RULE_V2_00017)
         """
@@ -413,13 +416,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMaxTrcvDelay(self, value: "TimeValue") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxTrcvDelay with method chaining.
-        
+
         Args:
             value: The maxTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_trcv_delay property setter (gets validation automatically)
         """
@@ -429,10 +432,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMinNumberOfTimeQuantaPerBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for minNumberOfTimeQuantaPerBit.
-        
+
         Returns:
             The minNumberOfTimeQuantaPerBit value
-        
+
         Note:
             Delegates to min_number_of_time_quanta_per_bit property (CODING_RULE_V2_00017)
         """
@@ -441,13 +444,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMinNumberOfTimeQuantaPerBit(self, value: "Integer") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minNumberOfTimeQuantaPerBit with method chaining.
-        
+
         Args:
             value: The minNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_number_of_time_quanta_per_bit property setter (gets validation automatically)
         """
@@ -457,10 +460,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMinSamplePoint(self) -> "Float":
         """
         AUTOSAR-compliant getter for minSamplePoint.
-        
+
         Returns:
             The minSamplePoint value
-        
+
         Note:
             Delegates to min_sample_point property (CODING_RULE_V2_00017)
         """
@@ -469,13 +472,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMinSamplePoint(self, value: "Float") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minSamplePoint with method chaining.
-        
+
         Args:
             value: The minSamplePoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_sample_point property setter (gets validation automatically)
         """
@@ -485,10 +488,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMinSyncJump(self) -> "Float":
         """
         AUTOSAR-compliant getter for minSyncJump.
-        
+
         Returns:
             The minSyncJump value
-        
+
         Note:
             Delegates to min_sync_jump property (CODING_RULE_V2_00017)
         """
@@ -497,13 +500,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMinSyncJump(self, value: "Float") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minSyncJump with method chaining.
-        
+
         Args:
             value: The minSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_sync_jump property setter (gets validation automatically)
         """
@@ -513,10 +516,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getMinTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minTrcvDelay.
-        
+
         Returns:
             The minTrcvDelay value
-        
+
         Note:
             Delegates to min_trcv_delay property (CODING_RULE_V2_00017)
         """
@@ -525,13 +528,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setMinTrcvDelay(self, value: "TimeValue") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minTrcvDelay with method chaining.
-        
+
         Args:
             value: The minTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_trcv_delay property setter (gets validation automatically)
         """
@@ -541,10 +544,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getPaddingValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for paddingValue.
-        
+
         Returns:
             The paddingValue value
-        
+
         Note:
             Delegates to padding_value property (CODING_RULE_V2_00017)
         """
@@ -553,13 +556,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setPaddingValue(self, value: "PositiveInteger") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for paddingValue with method chaining.
-        
+
         Args:
             value: The paddingValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to padding_value property setter (gets validation automatically)
         """
@@ -569,10 +572,10 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def getTxBitRateSwitch(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for txBitRateSwitch.
-        
+
         Returns:
             The txBitRateSwitch value
-        
+
         Note:
             Delegates to tx_bit_rate_switch property (CODING_RULE_V2_00017)
         """
@@ -581,13 +584,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def setTxBitRateSwitch(self, value: "Boolean") -> "CanControllerFdConfigurationRequirements":
         """
         AUTOSAR-compliant setter for txBitRateSwitch with method chaining.
-        
+
         Args:
             value: The txBitRateSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tx_bit_rate_switch property setter (gets validation automatically)
         """
@@ -599,13 +602,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_max_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set maxNumberOfTimeQuantaPerBit and return self for chaining.
-        
+
         Args:
             value: The maxNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of_time_quanta_per_bit("value")
         """
@@ -615,13 +618,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_max_sample(self, value: Optional["Float"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set maxSample and return self for chaining.
-        
+
         Args:
             value: The maxSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_sample("value")
         """
@@ -631,13 +634,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_max_sync_jump(self, value: Optional["Float"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set maxSyncJump and return self for chaining.
-        
+
         Args:
             value: The maxSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_sync_jump("value")
         """
@@ -647,13 +650,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_max_trcv_delay(self, value: Optional["TimeValue"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set maxTrcvDelay and return self for chaining.
-        
+
         Args:
             value: The maxTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_trcv_delay("value")
         """
@@ -663,13 +666,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_min_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set minNumberOfTimeQuantaPerBit and return self for chaining.
-        
+
         Args:
             value: The minNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_number_of_time_quanta_per_bit("value")
         """
@@ -679,13 +682,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_min_sample_point(self, value: Optional["Float"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set minSamplePoint and return self for chaining.
-        
+
         Args:
             value: The minSamplePoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_sample_point("value")
         """
@@ -695,13 +698,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_min_sync_jump(self, value: Optional["Float"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set minSyncJump and return self for chaining.
-        
+
         Args:
             value: The minSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_sync_jump("value")
         """
@@ -711,13 +714,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_min_trcv_delay(self, value: Optional["TimeValue"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set minTrcvDelay and return self for chaining.
-        
+
         Args:
             value: The minTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_trcv_delay("value")
         """
@@ -727,13 +730,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_padding_value(self, value: Optional["PositiveInteger"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set paddingValue and return self for chaining.
-        
+
         Args:
             value: The paddingValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_padding_value("value")
         """
@@ -743,13 +746,13 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def with_tx_bit_rate_switch(self, value: Optional["Boolean"]) -> "CanControllerFdConfigurationRequirements":
         """
         Set txBitRateSwitch and return self for chaining.
-        
+
         Args:
             value: The txBitRateSwitch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tx_bit_rate_switch("value")
         """

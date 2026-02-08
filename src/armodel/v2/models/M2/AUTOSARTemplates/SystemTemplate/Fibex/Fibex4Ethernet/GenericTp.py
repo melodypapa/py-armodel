@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class GenericTp(TransportProtocolConfiguration):
     """
     Content Model for a generic transport protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::GenericTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class GenericTp(TransportProtocolConfiguration):
     def tp_address(self, value: Optional["String"]) -> None:
         """
         Set tpAddress with validation.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class GenericTp(TransportProtocolConfiguration):
     def tp_technology(self, value: Optional["String"]) -> None:
         """
         Set tpTechnology with validation.
-        
+
         Args:
             value: The tpTechnology to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class GenericTp(TransportProtocolConfiguration):
     def getTpAddress(self) -> "String":
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class GenericTp(TransportProtocolConfiguration):
     def setTpAddress(self, value: "String") -> "GenericTp":
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_address property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class GenericTp(TransportProtocolConfiguration):
     def getTpTechnology(self) -> "String":
         """
         AUTOSAR-compliant getter for tpTechnology.
-        
+
         Returns:
             The tpTechnology value
-        
+
         Note:
             Delegates to tp_technology property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class GenericTp(TransportProtocolConfiguration):
     def setTpTechnology(self, value: "String") -> "GenericTp":
         """
         AUTOSAR-compliant setter for tpTechnology with method chaining.
-        
+
         Args:
             value: The tpTechnology to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_technology property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class GenericTp(TransportProtocolConfiguration):
     def with_tp_address(self, value: Optional["String"]) -> "GenericTp":
         """
         Set tpAddress and return self for chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_address("value")
         """
@@ -150,13 +150,13 @@ class GenericTp(TransportProtocolConfiguration):
     def with_tp_technology(self, value: Optional["String"]) -> "GenericTp":
         """
         Set tpTechnology and return self for chaining.
-        
+
         Args:
             value: The tpTechnology to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_technology("value")
         """

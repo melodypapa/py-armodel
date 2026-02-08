@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class IdsmSignatureSupportAp(ARObject):
     """
     This meta-class defines, for the Adaptive Platform, the cryptographic
     algorithm and key to be used by the IdsM instance for providing signature
     information in QSEv messages.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmSignatureSupportAp
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 64, Foundation R23-11)
     """
@@ -31,10 +34,10 @@ class IdsmSignatureSupportAp(ARObject):
     def crypto_primitive(self, value: "String") -> None:
         """
         Set cryptoPrimitive with validation.
-        
+
         Args:
             value: The cryptoPrimitive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class IdsmSignatureSupportAp(ARObject):
     def key_slot(self, value: Optional["CryptoKeySlot"]) -> None:
         """
         Set keySlot with validation.
-        
+
         Args:
             value: The keySlot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class IdsmSignatureSupportAp(ARObject):
     def getCryptoPrimitive(self) -> "String":
         """
         AUTOSAR-compliant getter for cryptoPrimitive.
-        
+
         Returns:
             The cryptoPrimitive value
-        
+
         Note:
             Delegates to crypto_primitive property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class IdsmSignatureSupportAp(ARObject):
     def setCryptoPrimitive(self, value: "String") -> "IdsmSignatureSupportAp":
         """
         AUTOSAR-compliant setter for cryptoPrimitive with method chaining.
-        
+
         Args:
             value: The cryptoPrimitive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_primitive property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class IdsmSignatureSupportAp(ARObject):
     def getKeySlot(self) -> "CryptoKeySlot":
         """
         AUTOSAR-compliant getter for keySlot.
-        
+
         Returns:
             The keySlot value
-        
+
         Note:
             Delegates to key_slot property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class IdsmSignatureSupportAp(ARObject):
     def setKeySlot(self, value: "CryptoKeySlot") -> "IdsmSignatureSupportAp":
         """
         AUTOSAR-compliant setter for keySlot with method chaining.
-        
+
         Args:
             value: The keySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_slot property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class IdsmSignatureSupportAp(ARObject):
     def with_crypto_primitive(self, value: "String") -> "IdsmSignatureSupportAp":
         """
         Set cryptoPrimitive and return self for chaining.
-        
+
         Args:
             value: The cryptoPrimitive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_primitive("value")
         """
@@ -152,13 +155,13 @@ class IdsmSignatureSupportAp(ARObject):
     def with_key_slot(self, value: Optional["CryptoKeySlot"]) -> "IdsmSignatureSupportAp":
         """
         Set keySlot and return self for chaining.
-        
+
         Args:
             value: The keySlot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_slot("value")
         """

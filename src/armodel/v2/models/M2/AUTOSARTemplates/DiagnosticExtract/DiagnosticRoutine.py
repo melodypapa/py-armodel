@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRoutine(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define a diagnostic routine.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRoutine
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 124, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def request_result(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestResult with validation.
-        
+
         Args:
             value: The requestResult to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def routine_info(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set routineInfo with validation.
-        
+
         Args:
             value: The routineInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def start(self, value: Optional["DiagnosticStartRoutine"]) -> None:
         """
         Set start with validation.
-        
+
         Args:
             value: The start to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def stop(self, value: Optional["DiagnosticStopRoutine"]) -> None:
         """
         Set stop with validation.
-        
+
         Args:
             value: The stop to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +164,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -192,10 +192,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getRequestResult(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestResult.
-        
+
         Returns:
             The requestResult value
-        
+
         Note:
             Delegates to request_result property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setRequestResult(self, value: "DiagnosticRequest") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for requestResult with method chaining.
-        
+
         Args:
             value: The requestResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request_result property setter (gets validation automatically)
         """
@@ -220,10 +220,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getRoutineInfo(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for routineInfo.
-        
+
         Returns:
             The routineInfo value
-        
+
         Note:
             Delegates to routine_info property (CODING_RULE_V2_00017)
         """
@@ -232,13 +232,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setRoutineInfo(self, value: "PositiveInteger") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for routineInfo with method chaining.
-        
+
         Args:
             value: The routineInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to routine_info property setter (gets validation automatically)
         """
@@ -248,10 +248,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getStart(self) -> "DiagnosticStartRoutine":
         """
         AUTOSAR-compliant getter for start.
-        
+
         Returns:
             The start value
-        
+
         Note:
             Delegates to start property (CODING_RULE_V2_00017)
         """
@@ -260,13 +260,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setStart(self, value: "DiagnosticStartRoutine") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for start with method chaining.
-        
+
         Args:
             value: The start to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start property setter (gets validation automatically)
         """
@@ -276,10 +276,10 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def getStop(self) -> "DiagnosticStopRoutine":
         """
         AUTOSAR-compliant getter for stop.
-        
+
         Returns:
             The stop value
-        
+
         Note:
             Delegates to stop property (CODING_RULE_V2_00017)
         """
@@ -288,13 +288,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def setStop(self, value: "DiagnosticStopRoutine") -> "DiagnosticRoutine":
         """
         AUTOSAR-compliant setter for stop with method chaining.
-        
+
         Args:
             value: The stop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stop property setter (gets validation automatically)
         """
@@ -306,13 +306,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticRoutine":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -322,13 +322,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_request_result(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRoutine":
         """
         Set requestResult and return self for chaining.
-        
+
         Args:
             value: The requestResult to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request_result("value")
         """
@@ -338,13 +338,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_routine_info(self, value: Optional["PositiveInteger"]) -> "DiagnosticRoutine":
         """
         Set routineInfo and return self for chaining.
-        
+
         Args:
             value: The routineInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_routine_info("value")
         """
@@ -354,13 +354,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_start(self, value: Optional["DiagnosticStartRoutine"]) -> "DiagnosticRoutine":
         """
         Set start and return self for chaining.
-        
+
         Args:
             value: The start to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start("value")
         """
@@ -370,13 +370,13 @@ class DiagnosticRoutine(DiagnosticCommonElement):
     def with_stop(self, value: Optional["DiagnosticStopRoutine"]) -> "DiagnosticRoutine":
         """
         Set stop and return self for chaining.
-        
+
         Args:
             value: The stop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stop("value")
         """

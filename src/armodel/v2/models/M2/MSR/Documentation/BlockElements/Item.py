@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class Item(Paginateable):
     """
     This meta-class represents one particular item in a list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::Item
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 295, Foundation
       R23-11)
@@ -29,10 +27,10 @@ class Item(Paginateable):
     def item_contents(self, value: "DocumentationBlock") -> None:
         """
         Set itemContents with validation.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +45,10 @@ class Item(Paginateable):
     def getItemContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for itemContents.
-        
+
         Returns:
             The itemContents value
-        
+
         Note:
             Delegates to item_contents property (CODING_RULE_V2_00017)
         """
@@ -59,13 +57,13 @@ class Item(Paginateable):
     def setItemContents(self, value: "DocumentationBlock") -> "Item":
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_contents property setter (gets validation automatically)
         """
@@ -77,13 +75,13 @@ class Item(Paginateable):
     def with_item_contents(self, value: "DocumentationBlock") -> "Item":
         """
         Set itemContents and return self for chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_contents("value")
         """

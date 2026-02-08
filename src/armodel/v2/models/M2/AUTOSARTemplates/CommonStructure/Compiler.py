@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class Compiler(Identifiable):
     """
     Specifies the compiler attributes. In case of source code this specifies
     requirements how the compiler shall be invoked. In case of object code this
     documents the used compiler settings.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Compiler
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 133, Classic
       Platform R23-11)
@@ -35,10 +37,10 @@ class Compiler(Identifiable):
     def name(self, value: Optional["String"]) -> None:
         """
         Set name with validation.
-        
+
         Args:
             value: The name to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class Compiler(Identifiable):
     def options(self, value: Optional["String"]) -> None:
         """
         Set options with validation.
-        
+
         Args:
             value: The options to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class Compiler(Identifiable):
     def vendor(self, value: Optional["String"]) -> None:
         """
         Set vendor with validation.
-        
+
         Args:
             value: The vendor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +121,10 @@ class Compiler(Identifiable):
     def version(self, value: Optional["String"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +143,10 @@ class Compiler(Identifiable):
     def getName(self) -> "String":
         """
         AUTOSAR-compliant getter for name.
-        
+
         Returns:
             The name value
-        
+
         Note:
             Delegates to name property (CODING_RULE_V2_00017)
         """
@@ -153,13 +155,13 @@ class Compiler(Identifiable):
     def setName(self, value: "String") -> "Compiler":
         """
         AUTOSAR-compliant setter for name with method chaining.
-        
+
         Args:
             value: The name to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to name property setter (gets validation automatically)
         """
@@ -169,10 +171,10 @@ class Compiler(Identifiable):
     def getOptions(self) -> "String":
         """
         AUTOSAR-compliant getter for options.
-        
+
         Returns:
             The options value
-        
+
         Note:
             Delegates to options property (CODING_RULE_V2_00017)
         """
@@ -181,13 +183,13 @@ class Compiler(Identifiable):
     def setOptions(self, value: "String") -> "Compiler":
         """
         AUTOSAR-compliant setter for options with method chaining.
-        
+
         Args:
             value: The options to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to options property setter (gets validation automatically)
         """
@@ -197,10 +199,10 @@ class Compiler(Identifiable):
     def getVendor(self) -> "String":
         """
         AUTOSAR-compliant getter for vendor.
-        
+
         Returns:
             The vendor value
-        
+
         Note:
             Delegates to vendor property (CODING_RULE_V2_00017)
         """
@@ -209,13 +211,13 @@ class Compiler(Identifiable):
     def setVendor(self, value: "String") -> "Compiler":
         """
         AUTOSAR-compliant setter for vendor with method chaining.
-        
+
         Args:
             value: The vendor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vendor property setter (gets validation automatically)
         """
@@ -225,10 +227,10 @@ class Compiler(Identifiable):
     def getVersion(self) -> "String":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -237,13 +239,13 @@ class Compiler(Identifiable):
     def setVersion(self, value: "String") -> "Compiler":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -255,13 +257,13 @@ class Compiler(Identifiable):
     def with_name(self, value: Optional["String"]) -> "Compiler":
         """
         Set name and return self for chaining.
-        
+
         Args:
             value: The name to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_name("value")
         """
@@ -271,13 +273,13 @@ class Compiler(Identifiable):
     def with_options(self, value: Optional["String"]) -> "Compiler":
         """
         Set options and return self for chaining.
-        
+
         Args:
             value: The options to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_options("value")
         """
@@ -287,13 +289,13 @@ class Compiler(Identifiable):
     def with_vendor(self, value: Optional["String"]) -> "Compiler":
         """
         Set vendor and return self for chaining.
-        
+
         Args:
             value: The vendor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vendor("value")
         """
@@ -303,13 +305,13 @@ class Compiler(Identifiable):
     def with_version(self, value: Optional["String"]) -> "Compiler":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """

@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     """
     This class represents a data prototype which is aggregated within a
     composite application data type (record or array). It is introduced to
     provide a better distinction between target and context in instance Refs.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationCompositeElementDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 306, Classic Platform
       R23-11)
@@ -31,10 +32,10 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def type(self, value: Optional["ApplicationDataType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +54,10 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def getType(self) -> "ApplicationDataType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -65,13 +66,13 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def setType(self, value: "ApplicationDataType") -> "ApplicationCompositeElementDataPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -83,13 +84,13 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def with_type(self, value: Optional["ApplicationDataType"]) -> "ApplicationCompositeElementDataPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

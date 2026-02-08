@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     """
     This meta-class represents the ability to model a diagnostic parameter
     identifier (PID) for the purpose of executing on-board diagnostics (OBD).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameterIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 149, Classic Platform
       R23-11)
@@ -36,10 +36,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def pid_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pidSize with validation.
-        
+
         Args:
             value: The pidSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> None:
         """
         Set supportInfoByte with validation.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getDataElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -128,10 +128,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticParameterIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -156,10 +156,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getPidSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pidSize.
-        
+
         Returns:
             The pidSize value
-        
+
         Note:
             Delegates to pid_size property (CODING_RULE_V2_00017)
         """
@@ -168,13 +168,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def setPidSize(self, value: "PositiveInteger") -> "DiagnosticParameterIdentifier":
         """
         AUTOSAR-compliant setter for pidSize with method chaining.
-        
+
         Args:
             value: The pidSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pid_size property setter (gets validation automatically)
         """
@@ -184,10 +184,10 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def getSupportInfoByte(self) -> "DiagnosticSupportInfo":
         """
         AUTOSAR-compliant getter for supportInfoByte.
-        
+
         Returns:
             The supportInfoByte value
-        
+
         Note:
             Delegates to support_info_byte property (CODING_RULE_V2_00017)
         """
@@ -196,13 +196,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def setSupportInfoByte(self, value: "DiagnosticSupportInfo") -> "DiagnosticParameterIdentifier":
         """
         AUTOSAR-compliant setter for supportInfoByte with method chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info_byte property setter (gets validation automatically)
         """
@@ -214,13 +214,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -230,13 +230,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def with_pid_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticParameterIdentifier":
         """
         Set pidSize and return self for chaining.
-        
+
         Args:
             value: The pidSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pid_size("value")
         """
@@ -246,13 +246,13 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
     def with_support_info_byte(self, value: Optional["DiagnosticSupportInfo"]) -> "DiagnosticParameterIdentifier":
         """
         Set supportInfoByte and return self for chaining.
-        
+
         Args:
             value: The supportInfoByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info_byte("value")
         """

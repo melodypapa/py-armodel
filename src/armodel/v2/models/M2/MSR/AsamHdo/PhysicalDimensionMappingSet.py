@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class PhysicalDimensionMappingSet(ARElement):
     """
     This class represents a container for a list of mappings between
     PhysicalDimensions.
-    
+
     Package: M2::MSR::AsamHdo::Units::PhysicalDimensionMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 399, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class PhysicalDimensionMappingSet(ARElement):
     def getPhysical(self) -> List["PhysicalDimension"]:
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """

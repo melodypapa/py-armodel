@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     """
     This meta-class provides the ability to define a meta-data field for the
     binary manifest descriptor.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestMetaDataField
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 923, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def value(self, value: Optional["VerbatimString"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def setSize(self, value: "PositiveInteger") -> "BinaryManifestMetaDataField":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def getValue(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def setValue(self, value: "VerbatimString") -> "BinaryManifestMetaDataField":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def with_size(self, value: Optional["PositiveInteger"]) -> "BinaryManifestMetaDataField":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """
@@ -151,13 +151,13 @@ class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
     def with_value(self, value: Optional["VerbatimString"]) -> "BinaryManifestMetaDataField":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

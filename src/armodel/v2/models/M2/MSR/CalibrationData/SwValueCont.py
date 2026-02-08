@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwValueCont(ARObject):
     """
     This metaclass represents the content of one particular SwInstance.
-    
+
     Package: M2::MSR::CalibrationData::CalibrationValue::SwValueCont
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 449, Classic Platform
       R23-11)
@@ -33,10 +38,10 @@ class SwValueCont(ARObject):
     def sw_arraysize(self, value: RefType) -> None:
         """
         Set swArraysize with validation.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +62,10 @@ class SwValueCont(ARObject):
     def sw_values_phys(self, value: Optional["SwValues"]) -> None:
         """
         Set swValuesPhys with validation.
-        
+
         Args:
             value: The swValuesPhys to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +90,10 @@ class SwValueCont(ARObject):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +119,10 @@ class SwValueCont(ARObject):
     def unit_display(self, value: Optional["SingleLanguageUnit"]) -> None:
         """
         Set unitDisplay with validation.
-        
+
         Args:
             value: The unitDisplay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +141,10 @@ class SwValueCont(ARObject):
     def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
-        
+
         Returns:
             The swArraysize value
-        
+
         Note:
             Delegates to sw_arraysize property (CODING_RULE_V2_00017)
         """
@@ -148,13 +153,13 @@ class SwValueCont(ARObject):
     def setSwArraysize(self, value: RefType) -> "SwValueCont":
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_arraysize property setter (gets validation automatically)
         """
@@ -164,10 +169,10 @@ class SwValueCont(ARObject):
     def getSwValuesPhys(self) -> "SwValues":
         """
         AUTOSAR-compliant getter for swValuesPhys.
-        
+
         Returns:
             The swValuesPhys value
-        
+
         Note:
             Delegates to sw_values_phys property (CODING_RULE_V2_00017)
         """
@@ -176,13 +181,13 @@ class SwValueCont(ARObject):
     def setSwValuesPhys(self, value: "SwValues") -> "SwValueCont":
         """
         AUTOSAR-compliant setter for swValuesPhys with method chaining.
-        
+
         Args:
             value: The swValuesPhys to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_values_phys property setter (gets validation automatically)
         """
@@ -192,10 +197,10 @@ class SwValueCont(ARObject):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -204,13 +209,13 @@ class SwValueCont(ARObject):
     def setUnit(self, value: "Unit") -> "SwValueCont":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -220,10 +225,10 @@ class SwValueCont(ARObject):
     def getUnitDisplay(self) -> "SingleLanguageUnit":
         """
         AUTOSAR-compliant getter for unitDisplay.
-        
+
         Returns:
             The unitDisplay value
-        
+
         Note:
             Delegates to unit_display property (CODING_RULE_V2_00017)
         """
@@ -232,13 +237,13 @@ class SwValueCont(ARObject):
     def setUnitDisplay(self, value: "SingleLanguageUnit") -> "SwValueCont":
         """
         AUTOSAR-compliant setter for unitDisplay with method chaining.
-        
+
         Args:
             value: The unitDisplay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit_display property setter (gets validation automatically)
         """
@@ -250,13 +255,13 @@ class SwValueCont(ARObject):
     def with_sw_arraysize(self, value: Optional[RefType]) -> "SwValueCont":
         """
         Set swArraysize and return self for chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_arraysize("value")
         """
@@ -266,13 +271,13 @@ class SwValueCont(ARObject):
     def with_sw_values_phys(self, value: Optional["SwValues"]) -> "SwValueCont":
         """
         Set swValuesPhys and return self for chaining.
-        
+
         Args:
             value: The swValuesPhys to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_values_phys("value")
         """
@@ -282,13 +287,13 @@ class SwValueCont(ARObject):
     def with_unit(self, value: Optional["Unit"]) -> "SwValueCont":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """
@@ -298,13 +303,13 @@ class SwValueCont(ARObject):
     def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> "SwValueCont":
         """
         Set unitDisplay and return self for chaining.
-        
+
         Args:
             value: The unitDisplay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit_display("value")
         """

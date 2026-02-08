@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FlexrayTpConnectionControl(Identifiable):
     """
     Configuration parameters to control a FlexRay TP connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpConnectionControl
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 593, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def ack_type(self, value: Optional["TpAckType"]) -> None:
         """
         Set ackType with validation.
-        
+
         Args:
             value: The ackType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +59,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def max_fc_wait(self, value: Optional["Integer"]) -> None:
         """
         Set maxFcWait with validation.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +88,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def max_number_of(self, value: Optional["Integer"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +117,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def max_retries(self, value: Optional["Integer"]) -> None:
         """
         Set maxRetries with validation.
-        
+
         Args:
             value: The maxRetries to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +146,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def separation_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set separationCycle with validation.
-        
+
         Args:
             value: The separationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +174,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def time_br(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBr with validation.
-        
+
         Args:
             value: The timeBr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +205,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def time_buffer(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBuffer with validation.
-        
+
         Args:
             value: The timeBuffer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -231,10 +233,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def time_cs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeCs with validation.
-        
+
         Args:
             value: The timeCs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -262,10 +264,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def timeout_ar(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAr with validation.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +297,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def timeout_as(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutAs with validation.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -324,10 +326,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def timeout_bs(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutBs with validation.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -354,10 +356,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def timeout_cr(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeoutCr with validation.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -376,10 +378,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getAckType(self) -> "TpAckType":
         """
         AUTOSAR-compliant getter for ackType.
-        
+
         Returns:
             The ackType value
-        
+
         Note:
             Delegates to ack_type property (CODING_RULE_V2_00017)
         """
@@ -388,13 +390,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setAckType(self, value: "TpAckType") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for ackType with method chaining.
-        
+
         Args:
             value: The ackType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ack_type property setter (gets validation automatically)
         """
@@ -404,10 +406,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getMaxFcWait(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxFcWait.
-        
+
         Returns:
             The maxFcWait value
-        
+
         Note:
             Delegates to max_fc_wait property (CODING_RULE_V2_00017)
         """
@@ -416,13 +418,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setMaxFcWait(self, value: "Integer") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for maxFcWait with method chaining.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_fc_wait property setter (gets validation automatically)
         """
@@ -432,10 +434,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getMaxNumberOf(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -444,13 +446,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setMaxNumberOf(self, value: "Integer") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -460,10 +462,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getMaxRetries(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxRetries.
-        
+
         Returns:
             The maxRetries value
-        
+
         Note:
             Delegates to max_retries property (CODING_RULE_V2_00017)
         """
@@ -472,13 +474,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setMaxRetries(self, value: "Integer") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for maxRetries with method chaining.
-        
+
         Args:
             value: The maxRetries to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_retries property setter (gets validation automatically)
         """
@@ -488,10 +490,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getSeparationCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for separationCycle.
-        
+
         Returns:
             The separationCycle value
-        
+
         Note:
             Delegates to separation_cycle property (CODING_RULE_V2_00017)
         """
@@ -500,13 +502,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setSeparationCycle(self, value: "Integer") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for separationCycle with method chaining.
-        
+
         Args:
             value: The separationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to separation_cycle property setter (gets validation automatically)
         """
@@ -516,10 +518,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeBr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBr.
-        
+
         Returns:
             The timeBr value
-        
+
         Note:
             Delegates to time_br property (CODING_RULE_V2_00017)
         """
@@ -528,13 +530,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeBr(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeBr with method chaining.
-        
+
         Args:
             value: The timeBr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_br property setter (gets validation automatically)
         """
@@ -544,10 +546,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeBuffer(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBuffer.
-        
+
         Returns:
             The timeBuffer value
-        
+
         Note:
             Delegates to time_buffer property (CODING_RULE_V2_00017)
         """
@@ -556,13 +558,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeBuffer(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeBuffer with method chaining.
-        
+
         Args:
             value: The timeBuffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_buffer property setter (gets validation automatically)
         """
@@ -572,10 +574,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeCs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeCs.
-        
+
         Returns:
             The timeCs value
-        
+
         Note:
             Delegates to time_cs property (CODING_RULE_V2_00017)
         """
@@ -584,13 +586,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeCs(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeCs with method chaining.
-        
+
         Args:
             value: The timeCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_cs property setter (gets validation automatically)
         """
@@ -600,10 +602,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeoutAr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAr.
-        
+
         Returns:
             The timeoutAr value
-        
+
         Note:
             Delegates to timeout_ar property (CODING_RULE_V2_00017)
         """
@@ -612,13 +614,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeoutAr(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeoutAr with method chaining.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_ar property setter (gets validation automatically)
         """
@@ -628,10 +630,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeoutAs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutAs.
-        
+
         Returns:
             The timeoutAs value
-        
+
         Note:
             Delegates to timeout_as property (CODING_RULE_V2_00017)
         """
@@ -640,13 +642,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeoutAs(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeoutAs with method chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_as property setter (gets validation automatically)
         """
@@ -656,10 +658,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeoutBs(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutBs.
-        
+
         Returns:
             The timeoutBs value
-        
+
         Note:
             Delegates to timeout_bs property (CODING_RULE_V2_00017)
         """
@@ -668,13 +670,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeoutBs(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeoutBs with method chaining.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_bs property setter (gets validation automatically)
         """
@@ -684,10 +686,10 @@ class FlexrayTpConnectionControl(Identifiable):
     def getTimeoutCr(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeoutCr.
-        
+
         Returns:
             The timeoutCr value
-        
+
         Note:
             Delegates to timeout_cr property (CODING_RULE_V2_00017)
         """
@@ -696,13 +698,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def setTimeoutCr(self, value: "TimeValue") -> "FlexrayTpConnectionControl":
         """
         AUTOSAR-compliant setter for timeoutCr with method chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout_cr property setter (gets validation automatically)
         """
@@ -714,13 +716,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_ack_type(self, value: Optional["TpAckType"]) -> "FlexrayTpConnectionControl":
         """
         Set ackType and return self for chaining.
-        
+
         Args:
             value: The ackType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ack_type("value")
         """
@@ -730,13 +732,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_max_fc_wait(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
         """
         Set maxFcWait and return self for chaining.
-        
+
         Args:
             value: The maxFcWait to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_fc_wait("value")
         """
@@ -746,13 +748,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_max_number_of(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -762,13 +764,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_max_retries(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
         """
         Set maxRetries and return self for chaining.
-        
+
         Args:
             value: The maxRetries to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_retries("value")
         """
@@ -778,13 +780,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_separation_cycle(self, value: Optional["Integer"]) -> "FlexrayTpConnectionControl":
         """
         Set separationCycle and return self for chaining.
-        
+
         Args:
             value: The separationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_separation_cycle("value")
         """
@@ -794,13 +796,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_time_br(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeBr and return self for chaining.
-        
+
         Args:
             value: The timeBr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_br("value")
         """
@@ -810,13 +812,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_time_buffer(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeBuffer and return self for chaining.
-        
+
         Args:
             value: The timeBuffer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_buffer("value")
         """
@@ -826,13 +828,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_time_cs(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeCs and return self for chaining.
-        
+
         Args:
             value: The timeCs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_cs("value")
         """
@@ -842,13 +844,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_timeout_ar(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeoutAr and return self for chaining.
-        
+
         Args:
             value: The timeoutAr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_ar("value")
         """
@@ -858,13 +860,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_timeout_as(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeoutAs and return self for chaining.
-        
+
         Args:
             value: The timeoutAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_as("value")
         """
@@ -874,13 +876,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_timeout_bs(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeoutBs and return self for chaining.
-        
+
         Args:
             value: The timeoutBs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_bs("value")
         """
@@ -890,13 +892,13 @@ class FlexrayTpConnectionControl(Identifiable):
     def with_timeout_cr(self, value: Optional["TimeValue"]) -> "FlexrayTpConnectionControl":
         """
         Set timeoutCr and return self for chaining.
-        
+
         Args:
             value: The timeoutCr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout_cr("value")
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ComponentInCompositionInstanceRef(ARObject):
     """
     The ComponentInCompositionInstanceRef points to a concrete
     SwComponentPrototype within a CompositionSwComponentType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs::ComponentInCompositionInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 950, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class ComponentInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +72,10 @@ class ComponentInCompositionInstanceRef(ARObject):
     def target(self, value: Optional["SwComponent"]) -> None:
         """
         Set target with validation.
-        
+
         Args:
             value: The target to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class ComponentInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -103,13 +106,13 @@ class ComponentInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "ComponentInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -119,10 +122,10 @@ class ComponentInCompositionInstanceRef(ARObject):
     def getContext(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -131,10 +134,10 @@ class ComponentInCompositionInstanceRef(ARObject):
     def getTarget(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for target.
-        
+
         Returns:
             The target value
-        
+
         Note:
             Delegates to target property (CODING_RULE_V2_00017)
         """
@@ -143,13 +146,13 @@ class ComponentInCompositionInstanceRef(ARObject):
     def setTarget(self, value: "SwComponent") -> "ComponentInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for target with method chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target property setter (gets validation automatically)
         """
@@ -161,13 +164,13 @@ class ComponentInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "ComponentInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -177,13 +180,13 @@ class ComponentInCompositionInstanceRef(ARObject):
     def with_target(self, value: Optional["SwComponent"]) -> "ComponentInCompositionInstanceRef":
         """
         Set target and return self for chaining.
-        
+
         Args:
             value: The target to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     """
     Abstract class that is used to collect the common TtCAN and CAN
     PhysicalChannel attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::AbstractCanPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 73, Classic Platform R23-11)
     """

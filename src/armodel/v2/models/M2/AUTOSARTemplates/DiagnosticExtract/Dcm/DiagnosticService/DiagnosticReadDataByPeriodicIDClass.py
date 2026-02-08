@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Read
     Data by periodic Identifier" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID::DiagnosticReadDataByPeriodicIDClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 130, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def max_periodic_did(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxPeriodicDid with validation.
-        
+
         Args:
             value: The maxPeriodicDid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def scheduler_max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set schedulerMax with validation.
-        
+
         Args:
             value: The schedulerMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def getMaxPeriodicDid(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxPeriodicDid.
-        
+
         Returns:
             The maxPeriodicDid value
-        
+
         Note:
             Delegates to max_periodic_did property (CODING_RULE_V2_00017)
         """
@@ -100,13 +100,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def setMaxPeriodicDid(self, value: "PositiveInteger") -> "DiagnosticReadDataByPeriodicIDClass":
         """
         AUTOSAR-compliant setter for maxPeriodicDid with method chaining.
-        
+
         Args:
             value: The maxPeriodicDid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_periodic_did property setter (gets validation automatically)
         """
@@ -116,10 +116,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def getPeriodicRate(self) -> List["DiagnosticPeriodicRate"]:
         """
         AUTOSAR-compliant getter for periodicRate.
-        
+
         Returns:
             The periodicRate value
-        
+
         Note:
             Delegates to periodic_rate property (CODING_RULE_V2_00017)
         """
@@ -128,10 +128,10 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def getSchedulerMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for schedulerMax.
-        
+
         Returns:
             The schedulerMax value
-        
+
         Note:
             Delegates to scheduler_max property (CODING_RULE_V2_00017)
         """
@@ -140,13 +140,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def setSchedulerMax(self, value: "PositiveInteger") -> "DiagnosticReadDataByPeriodicIDClass":
         """
         AUTOSAR-compliant setter for schedulerMax with method chaining.
-        
+
         Args:
             value: The schedulerMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scheduler_max property setter (gets validation automatically)
         """
@@ -158,13 +158,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def with_max_periodic_did(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByPeriodicIDClass":
         """
         Set maxPeriodicDid and return self for chaining.
-        
+
         Args:
             value: The maxPeriodicDid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_periodic_did("value")
         """
@@ -174,13 +174,13 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     def with_scheduler_max(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByPeriodicIDClass":
         """
         Set schedulerMax and return self for chaining.
-        
+
         Args:
             value: The schedulerMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scheduler_max("value")
         """

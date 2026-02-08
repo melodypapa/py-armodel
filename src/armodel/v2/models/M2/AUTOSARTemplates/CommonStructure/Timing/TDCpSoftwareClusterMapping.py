@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TDCpSoftwareClusterMapping(Identifiable):
     """
     This is used to specify a mapping between a software cluster that provides
     temporal and dynamic resources and the software clusters that need these
     resources.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster::TDCpSoftwareClusterMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 157, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def provider(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set provider with validation.
-        
+
         Args:
             value: The provider to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +67,10 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def timing(self, value: Optional["TimingDescription"]) -> None:
         """
         Set timing with validation.
-        
+
         Args:
             value: The timing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +89,10 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def getProvider(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for provider.
-        
+
         Returns:
             The provider value
-        
+
         Note:
             Delegates to provider property (CODING_RULE_V2_00017)
         """
@@ -99,13 +101,13 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def setProvider(self, value: "CpSoftwareCluster") -> "TDCpSoftwareClusterMapping":
         """
         AUTOSAR-compliant setter for provider with method chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provider property setter (gets validation automatically)
         """
@@ -115,10 +117,10 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def getRequestor(self) -> List["CpSoftwareCluster"]:
         """
         AUTOSAR-compliant getter for requestor.
-        
+
         Returns:
             The requestor value
-        
+
         Note:
             Delegates to requestor property (CODING_RULE_V2_00017)
         """
@@ -127,10 +129,10 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def getTiming(self) -> "TimingDescription":
         """
         AUTOSAR-compliant getter for timing.
-        
+
         Returns:
             The timing value
-        
+
         Note:
             Delegates to timing property (CODING_RULE_V2_00017)
         """
@@ -139,13 +141,13 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def setTiming(self, value: "TimingDescription") -> "TDCpSoftwareClusterMapping":
         """
         AUTOSAR-compliant setter for timing with method chaining.
-        
+
         Args:
             value: The timing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing property setter (gets validation automatically)
         """
@@ -157,13 +159,13 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def with_provider(self, value: Optional["CpSoftwareCluster"]) -> "TDCpSoftwareClusterMapping":
         """
         Set provider and return self for chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provider("value")
         """
@@ -173,13 +175,13 @@ class TDCpSoftwareClusterMapping(Identifiable):
     def with_timing(self, value: Optional["TimingDescription"]) -> "TDCpSoftwareClusterMapping":
         """
         Set timing and return self for chaining.
-        
+
         Args:
             value: The timing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing("value")
         """

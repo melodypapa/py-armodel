@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class BlueprintPolicyNotModifiable(BlueprintPolicy):
     """
     The class represents that the related attribute is not modifiable during the
     blueprinting.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicyNotModifiable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 164, Foundation R23-11)
     """

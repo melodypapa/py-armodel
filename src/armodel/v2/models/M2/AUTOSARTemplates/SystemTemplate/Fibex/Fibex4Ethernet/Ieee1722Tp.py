@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Ieee1722Tp(TransportProtocolConfiguration):
     """
     Content Model for IEEE 1722 configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ieee1722Tp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 460, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def relative(self, value: Optional["TimeValue"]) -> None:
         """
         Set relative with validation.
-        
+
         Args:
             value: The relative to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def stream_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set streamIdentifier with validation.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def sub_type(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set subType with validation.
-        
+
         Args:
             value: The subType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +134,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getRelative(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for relative.
-        
+
         Returns:
             The relative value
-        
+
         Note:
             Delegates to relative property (CODING_RULE_V2_00017)
         """
@@ -146,13 +146,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setRelative(self, value: "TimeValue") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for relative with method chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to relative property setter (gets validation automatically)
         """
@@ -162,10 +162,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getStreamIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for streamIdentifier.
-        
+
         Returns:
             The streamIdentifier value
-        
+
         Note:
             Delegates to stream_identifier property (CODING_RULE_V2_00017)
         """
@@ -174,13 +174,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setStreamIdentifier(self, value: "PositiveInteger") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for streamIdentifier with method chaining.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_identifier property setter (gets validation automatically)
         """
@@ -190,10 +190,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getSubType(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for subType.
-        
+
         Returns:
             The subType value
-        
+
         Note:
             Delegates to sub_type property (CODING_RULE_V2_00017)
         """
@@ -202,13 +202,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setSubType(self, value: "PositiveInteger") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for subType with method chaining.
-        
+
         Args:
             value: The subType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub_type property setter (gets validation automatically)
         """
@@ -218,10 +218,10 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def getVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -230,13 +230,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def setVersion(self, value: "PositiveInteger") -> "Ieee1722Tp":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -248,13 +248,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_relative(self, value: Optional["TimeValue"]) -> "Ieee1722Tp":
         """
         Set relative and return self for chaining.
-        
+
         Args:
             value: The relative to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_relative("value")
         """
@@ -264,13 +264,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_stream_identifier(self, value: Optional["PositiveInteger"]) -> "Ieee1722Tp":
         """
         Set streamIdentifier and return self for chaining.
-        
+
         Args:
             value: The streamIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_identifier("value")
         """
@@ -280,13 +280,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_sub_type(self, value: Optional["PositiveInteger"]) -> "Ieee1722Tp":
         """
         Set subType and return self for chaining.
-        
+
         Args:
             value: The subType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub_type("value")
         """
@@ -296,13 +296,13 @@ class Ieee1722Tp(TransportProtocolConfiguration):
     def with_version(self, value: Optional["PositiveInteger"]) -> "Ieee1722Tp":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """

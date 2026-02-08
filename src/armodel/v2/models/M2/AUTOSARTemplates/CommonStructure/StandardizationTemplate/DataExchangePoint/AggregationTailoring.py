@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class AggregationTailoring(AttributeTailoring):
     """
     Tailoring of aggregations in the AUTOSAR meta-model
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::AggregationTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 113, Foundation R23-11)
     """
@@ -27,10 +27,10 @@ class AggregationTailoring(AttributeTailoring):
     def getTypeTailoring(self) -> List["ClassTailoring"]:
         """
         AUTOSAR-compliant getter for typeTailoring.
-        
+
         Returns:
             The typeTailoring value
-        
+
         Note:
             Delegates to type_tailoring property (CODING_RULE_V2_00017)
         """

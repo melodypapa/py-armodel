@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ValueList(ARObject):
     """
     This is a generic list of numerical values.
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::ValueList
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 350, Classic
       Platform R23-11)
@@ -33,10 +36,10 @@ class ValueList(ARObject):
     def v(self, value: Optional["Numerical"]) -> None:
         """
         Set v with validation.
-        
+
         Args:
             value: The v to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class ValueList(ARObject):
     def getV(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for v.
-        
+
         Returns:
             The v value
-        
+
         Note:
             Delegates to v property (CODING_RULE_V2_00017)
         """
@@ -67,13 +70,13 @@ class ValueList(ARObject):
     def setV(self, value: "Numerical") -> "ValueList":
         """
         AUTOSAR-compliant setter for v with method chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to v property setter (gets validation automatically)
         """
@@ -85,13 +88,13 @@ class ValueList(ARObject):
     def with_v(self, value: Optional["Numerical"]) -> "ValueList":
         """
         Set v and return self for chaining.
-        
+
         Args:
             value: The v to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_v("value")
         """

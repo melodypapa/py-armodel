@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class CouplingPort(Identifiable):
     """
@@ -10,9 +14,9 @@ class CouplingPort(Identifiable):
     two CouplingElements with each other via a CouplingPortConnection.
     Optionally, the CouplingPort may also have a reference to a
     macMulticastGroup and a defaultVLAN.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 109, Classic Platform R23-11)
     """
@@ -32,10 +36,10 @@ class CouplingPort(Identifiable):
     def connection(self, value: Optional["EthernetConnection"]) -> None:
         """
         Set connection with validation.
-        
+
         Args:
             value: The connection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class CouplingPort(Identifiable):
     def coupling_port(self, value: Optional["CouplingPortRoleEnum"]) -> None:
         """
         Set couplingPort with validation.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +99,10 @@ class CouplingPort(Identifiable):
     def default_vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set defaultVlan with validation.
-        
+
         Args:
             value: The defaultVlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +127,10 @@ class CouplingPort(Identifiable):
     def mac_layer_type_enum(self, value: Optional["EthernetMacLayerType"]) -> None:
         """
         Set macLayerTypeEnum with validation.
-        
+
         Args:
             value: The macLayerTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +171,10 @@ class CouplingPort(Identifiable):
     def physical_layer(self, value: Optional["EthernetPhysicalLayer"]) -> None:
         """
         Set physicalLayer with validation.
-        
+
         Args:
             value: The physicalLayer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -196,10 +200,10 @@ class CouplingPort(Identifiable):
     def plca_props(self, value: Optional["PlcaProps"]) -> None:
         """
         Set plcaProps with validation.
-        
+
         Args:
             value: The plcaProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -231,10 +235,10 @@ class CouplingPort(Identifiable):
     def receive_activity(self, value: Optional["EthernetSwitchVlan"]) -> None:
         """
         Set receiveActivity with validation.
-        
+
         Args:
             value: The receiveActivity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -271,10 +275,10 @@ class CouplingPort(Identifiable):
     def vlan_modifier(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlanModifier with validation.
-        
+
         Args:
             value: The vlanModifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -299,10 +303,10 @@ class CouplingPort(Identifiable):
     def wakeup_sleep(self, value: Optional["EthernetWakeupSleep"]) -> None:
         """
         Set wakeupSleep with validation.
-        
+
         Args:
             value: The wakeupSleep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -321,10 +325,10 @@ class CouplingPort(Identifiable):
     def getConnection(self) -> "EthernetConnection":
         """
         AUTOSAR-compliant getter for connection.
-        
+
         Returns:
             The connection value
-        
+
         Note:
             Delegates to connection property (CODING_RULE_V2_00017)
         """
@@ -333,13 +337,13 @@ class CouplingPort(Identifiable):
     def setConnection(self, value: "EthernetConnection") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for connection with method chaining.
-        
+
         Args:
             value: The connection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connection property setter (gets validation automatically)
         """
@@ -349,10 +353,10 @@ class CouplingPort(Identifiable):
     def getCouplingPort(self) -> "CouplingPortRoleEnum":
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -361,13 +365,13 @@ class CouplingPort(Identifiable):
     def setCouplingPort(self, value: "CouplingPortRoleEnum") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for couplingPort with method chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_port property setter (gets validation automatically)
         """
@@ -377,10 +381,10 @@ class CouplingPort(Identifiable):
     def getDefaultVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for defaultVlan.
-        
+
         Returns:
             The defaultVlan value
-        
+
         Note:
             Delegates to default_vlan property (CODING_RULE_V2_00017)
         """
@@ -389,13 +393,13 @@ class CouplingPort(Identifiable):
     def setDefaultVlan(self, value: "EthernetPhysical") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for defaultVlan with method chaining.
-        
+
         Args:
             value: The defaultVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_vlan property setter (gets validation automatically)
         """
@@ -405,10 +409,10 @@ class CouplingPort(Identifiable):
     def getMacLayerTypeEnum(self) -> "EthernetMacLayerType":
         """
         AUTOSAR-compliant getter for macLayerTypeEnum.
-        
+
         Returns:
             The macLayerTypeEnum value
-        
+
         Note:
             Delegates to mac_layer_type_enum property (CODING_RULE_V2_00017)
         """
@@ -417,13 +421,13 @@ class CouplingPort(Identifiable):
     def setMacLayerTypeEnum(self, value: "EthernetMacLayerType") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for macLayerTypeEnum with method chaining.
-        
+
         Args:
             value: The macLayerTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_layer_type_enum property setter (gets validation automatically)
         """
@@ -433,10 +437,10 @@ class CouplingPort(Identifiable):
     def getMacMulticast(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for macMulticast.
-        
+
         Returns:
             The macMulticast value
-        
+
         Note:
             Delegates to mac_multicast property (CODING_RULE_V2_00017)
         """
@@ -445,10 +449,10 @@ class CouplingPort(Identifiable):
     def getMacSecProps(self) -> List["MacSecProps"]:
         """
         AUTOSAR-compliant getter for macSecProps.
-        
+
         Returns:
             The macSecProps value
-        
+
         Note:
             Delegates to mac_sec_props property (CODING_RULE_V2_00017)
         """
@@ -457,10 +461,10 @@ class CouplingPort(Identifiable):
     def getPhysicalLayer(self) -> "EthernetPhysicalLayer":
         """
         AUTOSAR-compliant getter for physicalLayer.
-        
+
         Returns:
             The physicalLayer value
-        
+
         Note:
             Delegates to physical_layer property (CODING_RULE_V2_00017)
         """
@@ -469,13 +473,13 @@ class CouplingPort(Identifiable):
     def setPhysicalLayer(self, value: "EthernetPhysicalLayer") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for physicalLayer with method chaining.
-        
+
         Args:
             value: The physicalLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical_layer property setter (gets validation automatically)
         """
@@ -485,10 +489,10 @@ class CouplingPort(Identifiable):
     def getPlcaProps(self) -> "PlcaProps":
         """
         AUTOSAR-compliant getter for plcaProps.
-        
+
         Returns:
             The plcaProps value
-        
+
         Note:
             Delegates to plca_props property (CODING_RULE_V2_00017)
         """
@@ -497,13 +501,13 @@ class CouplingPort(Identifiable):
     def setPlcaProps(self, value: "PlcaProps") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for plcaProps with method chaining.
-        
+
         Args:
             value: The plcaProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to plca_props property setter (gets validation automatically)
         """
@@ -513,10 +517,10 @@ class CouplingPort(Identifiable):
     def getPncMapping(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pncMapping.
-        
+
         Returns:
             The pncMapping value
-        
+
         Note:
             Delegates to pnc_mapping property (CODING_RULE_V2_00017)
         """
@@ -525,10 +529,10 @@ class CouplingPort(Identifiable):
     def getReceiveActivity(self) -> "EthernetSwitchVlan":
         """
         AUTOSAR-compliant getter for receiveActivity.
-        
+
         Returns:
             The receiveActivity value
-        
+
         Note:
             Delegates to receive_activity property (CODING_RULE_V2_00017)
         """
@@ -537,13 +541,13 @@ class CouplingPort(Identifiable):
     def setReceiveActivity(self, value: "EthernetSwitchVlan") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for receiveActivity with method chaining.
-        
+
         Args:
             value: The receiveActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to receive_activity property setter (gets validation automatically)
         """
@@ -553,10 +557,10 @@ class CouplingPort(Identifiable):
     def getVlan(self) -> List["VlanMembership"]:
         """
         AUTOSAR-compliant getter for vlan.
-        
+
         Returns:
             The vlan value
-        
+
         Note:
             Delegates to vlan property (CODING_RULE_V2_00017)
         """
@@ -565,10 +569,10 @@ class CouplingPort(Identifiable):
     def getVlanModifier(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlanModifier.
-        
+
         Returns:
             The vlanModifier value
-        
+
         Note:
             Delegates to vlan_modifier property (CODING_RULE_V2_00017)
         """
@@ -577,13 +581,13 @@ class CouplingPort(Identifiable):
     def setVlanModifier(self, value: "EthernetPhysical") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for vlanModifier with method chaining.
-        
+
         Args:
             value: The vlanModifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_modifier property setter (gets validation automatically)
         """
@@ -593,10 +597,10 @@ class CouplingPort(Identifiable):
     def getWakeupSleep(self) -> "EthernetWakeupSleep":
         """
         AUTOSAR-compliant getter for wakeupSleep.
-        
+
         Returns:
             The wakeupSleep value
-        
+
         Note:
             Delegates to wakeup_sleep property (CODING_RULE_V2_00017)
         """
@@ -605,13 +609,13 @@ class CouplingPort(Identifiable):
     def setWakeupSleep(self, value: "EthernetWakeupSleep") -> "CouplingPort":
         """
         AUTOSAR-compliant setter for wakeupSleep with method chaining.
-        
+
         Args:
             value: The wakeupSleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to wakeup_sleep property setter (gets validation automatically)
         """
@@ -623,13 +627,13 @@ class CouplingPort(Identifiable):
     def with_connection(self, value: Optional["EthernetConnection"]) -> "CouplingPort":
         """
         Set connection and return self for chaining.
-        
+
         Args:
             value: The connection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connection("value")
         """
@@ -639,13 +643,13 @@ class CouplingPort(Identifiable):
     def with_coupling_port(self, value: Optional["CouplingPortRoleEnum"]) -> "CouplingPort":
         """
         Set couplingPort and return self for chaining.
-        
+
         Args:
             value: The couplingPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_port("value")
         """
@@ -655,13 +659,13 @@ class CouplingPort(Identifiable):
     def with_default_vlan(self, value: Optional["EthernetPhysical"]) -> "CouplingPort":
         """
         Set defaultVlan and return self for chaining.
-        
+
         Args:
             value: The defaultVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_vlan("value")
         """
@@ -671,13 +675,13 @@ class CouplingPort(Identifiable):
     def with_mac_layer_type_enum(self, value: Optional["EthernetMacLayerType"]) -> "CouplingPort":
         """
         Set macLayerTypeEnum and return self for chaining.
-        
+
         Args:
             value: The macLayerTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_layer_type_enum("value")
         """
@@ -687,13 +691,13 @@ class CouplingPort(Identifiable):
     def with_physical_layer(self, value: Optional["EthernetPhysicalLayer"]) -> "CouplingPort":
         """
         Set physicalLayer and return self for chaining.
-        
+
         Args:
             value: The physicalLayer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical_layer("value")
         """
@@ -703,13 +707,13 @@ class CouplingPort(Identifiable):
     def with_plca_props(self, value: Optional["PlcaProps"]) -> "CouplingPort":
         """
         Set plcaProps and return self for chaining.
-        
+
         Args:
             value: The plcaProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_plca_props("value")
         """
@@ -719,13 +723,13 @@ class CouplingPort(Identifiable):
     def with_receive_activity(self, value: Optional["EthernetSwitchVlan"]) -> "CouplingPort":
         """
         Set receiveActivity and return self for chaining.
-        
+
         Args:
             value: The receiveActivity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_receive_activity("value")
         """
@@ -735,13 +739,13 @@ class CouplingPort(Identifiable):
     def with_vlan_modifier(self, value: Optional["EthernetPhysical"]) -> "CouplingPort":
         """
         Set vlanModifier and return self for chaining.
-        
+
         Args:
             value: The vlanModifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_modifier("value")
         """
@@ -751,13 +755,13 @@ class CouplingPort(Identifiable):
     def with_wakeup_sleep(self, value: Optional["EthernetWakeupSleep"]) -> "CouplingPort":
         """
         Set wakeupSleep and return self for chaining.
-        
+
         Args:
             value: The wakeupSleep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_wakeup_sleep("value")
         """

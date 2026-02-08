@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IEEE1722TpConnection(ARElement, ABC):
     """
     Definition of the IEEE1722Tp protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 637, Classic Platform R23-11)
     """
@@ -30,10 +34,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def destination_mac(self, value: Optional["MacAddressString"]) -> None:
         """
         Set destinationMac with validation.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def mac_address(self, value: Optional["MacAddressString"]) -> None:
         """
         Set macAddress with validation.
-        
+
         Args:
             value: The macAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +92,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def pdu(self, value: RefType) -> None:
         """
         Set pdu with validation.
-        
+
         Args:
             value: The pdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +116,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def unique_stream_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set uniqueStreamId with validation.
-        
+
         Args:
             value: The uniqueStreamId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +144,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set version with validation.
-        
+
         Args:
             value: The version to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -168,10 +172,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def vlan_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanPriority with validation.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -190,10 +194,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def getDestinationMac(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for destinationMac.
-        
+
         Returns:
             The destinationMac value
-        
+
         Note:
             Delegates to destination_mac property (CODING_RULE_V2_00017)
         """
@@ -202,13 +206,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def setDestinationMac(self, value: "MacAddressString") -> "IEEE1722TpConnection":
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_mac property setter (gets validation automatically)
         """
@@ -218,10 +222,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def getMacAddress(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for macAddress.
-        
+
         Returns:
             The macAddress value
-        
+
         Note:
             Delegates to mac_address property (CODING_RULE_V2_00017)
         """
@@ -230,13 +234,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def setMacAddress(self, value: "MacAddressString") -> "IEEE1722TpConnection":
         """
         AUTOSAR-compliant setter for macAddress with method chaining.
-        
+
         Args:
             value: The macAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_address property setter (gets validation automatically)
         """
@@ -246,10 +250,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def getPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for pdu.
-        
+
         Returns:
             The pdu value
-        
+
         Note:
             Delegates to pdu property (CODING_RULE_V2_00017)
         """
@@ -258,13 +262,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def setPdu(self, value: RefType) -> "IEEE1722TpConnection":
         """
         AUTOSAR-compliant setter for pdu with method chaining.
-        
+
         Args:
             value: The pdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu property setter (gets validation automatically)
         """
@@ -274,10 +278,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def getUniqueStreamId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for uniqueStreamId.
-        
+
         Returns:
             The uniqueStreamId value
-        
+
         Note:
             Delegates to unique_stream_id property (CODING_RULE_V2_00017)
         """
@@ -286,13 +290,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def setUniqueStreamId(self, value: "PositiveInteger") -> "IEEE1722TpConnection":
         """
         AUTOSAR-compliant setter for uniqueStreamId with method chaining.
-        
+
         Args:
             value: The uniqueStreamId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unique_stream_id property setter (gets validation automatically)
         """
@@ -302,10 +306,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def getVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for version.
-        
+
         Returns:
             The version value
-        
+
         Note:
             Delegates to version property (CODING_RULE_V2_00017)
         """
@@ -314,13 +318,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def setVersion(self, value: "PositiveInteger") -> "IEEE1722TpConnection":
         """
         AUTOSAR-compliant setter for version with method chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to version property setter (gets validation automatically)
         """
@@ -330,10 +334,10 @@ class IEEE1722TpConnection(ARElement, ABC):
     def getVlanPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanPriority.
-        
+
         Returns:
             The vlanPriority value
-        
+
         Note:
             Delegates to vlan_priority property (CODING_RULE_V2_00017)
         """
@@ -342,13 +346,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def setVlanPriority(self, value: "PositiveInteger") -> "IEEE1722TpConnection":
         """
         AUTOSAR-compliant setter for vlanPriority with method chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_priority property setter (gets validation automatically)
         """
@@ -360,13 +364,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def with_destination_mac(self, value: Optional["MacAddressString"]) -> "IEEE1722TpConnection":
         """
         Set destinationMac and return self for chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_mac("value")
         """
@@ -376,13 +380,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def with_mac_address(self, value: Optional["MacAddressString"]) -> "IEEE1722TpConnection":
         """
         Set macAddress and return self for chaining.
-        
+
         Args:
             value: The macAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_address("value")
         """
@@ -392,13 +396,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def with_pdu(self, value: Optional[RefType]) -> "IEEE1722TpConnection":
         """
         Set pdu and return self for chaining.
-        
+
         Args:
             value: The pdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu("value")
         """
@@ -408,13 +412,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def with_unique_stream_id(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpConnection":
         """
         Set uniqueStreamId and return self for chaining.
-        
+
         Args:
             value: The uniqueStreamId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unique_stream_id("value")
         """
@@ -424,13 +428,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def with_version(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpConnection":
         """
         Set version and return self for chaining.
-        
+
         Args:
             value: The version to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_version("value")
         """
@@ -440,13 +444,13 @@ class IEEE1722TpConnection(ARElement, ABC):
     def with_vlan_priority(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpConnection":
         """
         Set vlanPriority and return self for chaining.
-        
+
         Args:
             value: The vlanPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_priority("value")
         """

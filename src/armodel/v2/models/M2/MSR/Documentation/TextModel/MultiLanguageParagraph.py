@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class MultiLanguageParagraph(Paginateable):
     """
     This is the content model of a multilingual paragraph in a documentation.
-    
+
     Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguageParagraph
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 290, Foundation
       R23-11)
@@ -29,10 +29,10 @@ class MultiLanguageParagraph(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class MultiLanguageParagraph(Paginateable):
     def l1(self, value: "LParagraph") -> None:
         """
         Set l1 with validation.
-        
+
         Args:
             value: The l1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class MultiLanguageParagraph(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -86,13 +86,13 @@ class MultiLanguageParagraph(Paginateable):
     def setHelpEntry(self, value: "String") -> "MultiLanguageParagraph":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -102,10 +102,10 @@ class MultiLanguageParagraph(Paginateable):
     def getL1(self) -> "LParagraph":
         """
         AUTOSAR-compliant getter for l1.
-        
+
         Returns:
             The l1 value
-        
+
         Note:
             Delegates to l1 property (CODING_RULE_V2_00017)
         """
@@ -114,13 +114,13 @@ class MultiLanguageParagraph(Paginateable):
     def setL1(self, value: "LParagraph") -> "MultiLanguageParagraph":
         """
         AUTOSAR-compliant setter for l1 with method chaining.
-        
+
         Args:
             value: The l1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l1 property setter (gets validation automatically)
         """
@@ -132,13 +132,13 @@ class MultiLanguageParagraph(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "MultiLanguageParagraph":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """
@@ -148,13 +148,13 @@ class MultiLanguageParagraph(Paginateable):
     def with_l1(self, value: "LParagraph") -> "MultiLanguageParagraph":
         """
         Set l1 and return self for chaining.
-        
+
         Args:
             value: The l1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l1("value")
         """

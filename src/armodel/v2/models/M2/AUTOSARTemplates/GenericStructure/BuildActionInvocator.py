@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BuildActionInvocator(ARObject):
     """
@@ -9,9 +12,9 @@ class BuildActionInvocator(ARObject):
     properties of an invocator can be complex and not standardized. sdg Sdg *
     aggr This represents a general data structure intended to denote parameters
     for the BuildAction. Table 10.6: BuildActionInvocator
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionInvocator
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 372, Foundation
       R23-11)
@@ -32,10 +35,10 @@ class BuildActionInvocator(ARObject):
     def command(self, value: Optional["VerbatimString"]) -> None:
         """
         Set command with validation.
-        
+
         Args:
             value: The command to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class BuildActionInvocator(ARObject):
     def getCommand(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for command.
-        
+
         Returns:
             The command value
-        
+
         Note:
             Delegates to command property (CODING_RULE_V2_00017)
         """
@@ -66,13 +69,13 @@ class BuildActionInvocator(ARObject):
     def setCommand(self, value: "VerbatimString") -> "BuildActionInvocator":
         """
         AUTOSAR-compliant setter for command with method chaining.
-        
+
         Args:
             value: The command to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to command property setter (gets validation automatically)
         """
@@ -84,13 +87,13 @@ class BuildActionInvocator(ARObject):
     def with_command(self, value: Optional["VerbatimString"]) -> "BuildActionInvocator":
         """
         Set command and return self for chaining.
-        
+
         Args:
             value: The command to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_command("value")
         """

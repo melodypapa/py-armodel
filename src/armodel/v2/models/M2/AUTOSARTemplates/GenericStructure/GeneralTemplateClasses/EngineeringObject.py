@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EngineeringObject(ARObject, ABC):
     """
@@ -9,9 +13,9 @@ class EngineeringObject(ARObject, ABC):
     such that the artifact can be found by querying an ASAM catalog file. The
     engineering object is uniquely identified by
     domain+category+shortLabel+revisionLabel.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject::EngineeringObject
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 132, Classic
       Platform R23-11)
@@ -40,10 +44,10 @@ class EngineeringObject(ARObject, ABC):
     def category(self, value: "NameToken") -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +72,10 @@ class EngineeringObject(ARObject, ABC):
     def domain(self, value: Optional["NameToken"]) -> None:
         """
         Set domain with validation.
-        
+
         Args:
             value: The domain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +109,10 @@ class EngineeringObject(ARObject, ABC):
     def short_label(self, value: "NameToken") -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +127,10 @@ class EngineeringObject(ARObject, ABC):
     def getCategory(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -135,13 +139,13 @@ class EngineeringObject(ARObject, ABC):
     def setCategory(self, value: "NameToken") -> "EngineeringObject":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -151,10 +155,10 @@ class EngineeringObject(ARObject, ABC):
     def getDomain(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for domain.
-        
+
         Returns:
             The domain value
-        
+
         Note:
             Delegates to domain property (CODING_RULE_V2_00017)
         """
@@ -163,13 +167,13 @@ class EngineeringObject(ARObject, ABC):
     def setDomain(self, value: "NameToken") -> "EngineeringObject":
         """
         AUTOSAR-compliant setter for domain with method chaining.
-        
+
         Args:
             value: The domain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to domain property setter (gets validation automatically)
         """
@@ -179,10 +183,10 @@ class EngineeringObject(ARObject, ABC):
     def getRevisionLabel(self) -> List["RevisionLabelString"]:
         """
         AUTOSAR-compliant getter for revisionLabel.
-        
+
         Returns:
             The revisionLabel value
-        
+
         Note:
             Delegates to revision_label property (CODING_RULE_V2_00017)
         """
@@ -191,10 +195,10 @@ class EngineeringObject(ARObject, ABC):
     def getShortLabel(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -203,13 +207,13 @@ class EngineeringObject(ARObject, ABC):
     def setShortLabel(self, value: "NameToken") -> "EngineeringObject":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -221,13 +225,13 @@ class EngineeringObject(ARObject, ABC):
     def with_category(self, value: "NameToken") -> "EngineeringObject":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -237,13 +241,13 @@ class EngineeringObject(ARObject, ABC):
     def with_domain(self, value: Optional["NameToken"]) -> "EngineeringObject":
         """
         Set domain and return self for chaining.
-        
+
         Args:
             value: The domain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_domain("value")
         """
@@ -253,13 +257,13 @@ class EngineeringObject(ARObject, ABC):
     def with_short_label(self, value: "NameToken") -> "EngineeringObject":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

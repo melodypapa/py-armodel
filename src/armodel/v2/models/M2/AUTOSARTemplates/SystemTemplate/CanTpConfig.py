@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CanTpConfig(TpConfig):
     """
     This element defines exactly one CAN TP Configuration. One CanTpConfig
     element shall be created for each CAN Network in the System.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 606, Classic Platform R23-11)
     """
@@ -64,10 +64,10 @@ class CanTpConfig(TpConfig):
     def getTpAddress(self) -> List["CanTpAddress"]:
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -76,10 +76,10 @@ class CanTpConfig(TpConfig):
     def getTpChannel(self) -> List["CanTpChannel"]:
         """
         AUTOSAR-compliant getter for tpChannel.
-        
+
         Returns:
             The tpChannel value
-        
+
         Note:
             Delegates to tp_channel property (CODING_RULE_V2_00017)
         """
@@ -88,10 +88,10 @@ class CanTpConfig(TpConfig):
     def getTpConnection(self) -> List["CanTpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """
@@ -100,10 +100,10 @@ class CanTpConfig(TpConfig):
     def getTpEcu(self) -> List["CanTpEcu"]:
         """
         AUTOSAR-compliant getter for tpEcu.
-        
+
         Returns:
             The tpEcu value
-        
+
         Note:
             Delegates to tp_ecu property (CODING_RULE_V2_00017)
         """
@@ -112,10 +112,10 @@ class CanTpConfig(TpConfig):
     def getTpNode(self) -> List["CanTpNode"]:
         """
         AUTOSAR-compliant getter for tpNode.
-        
+
         Returns:
             The tpNode value
-        
+
         Note:
             Delegates to tp_node property (CODING_RULE_V2_00017)
         """

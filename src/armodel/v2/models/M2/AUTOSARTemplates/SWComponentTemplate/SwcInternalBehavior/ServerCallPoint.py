@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class ServerCallPoint(AbstractAccessPoint, ABC):
     """
     If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a
     particular ClientServerOperation of a specific RPortPrototype of the
     corresponding AtomicSwComponentType
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall::ServerCallPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 335, Classic
       Platform R23-11)
@@ -34,10 +35,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operationInstanceRef with validation.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +64,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +86,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def getOperationInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operationInstanceRef.
-        
+
         Returns:
             The operationInstanceRef value
-        
+
         Note:
             Delegates to operation_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -97,13 +98,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def setOperationInstanceRef(self, value: "ClientServerOperation") -> "ServerCallPoint":
         """
         AUTOSAR-compliant setter for operationInstanceRef with method chaining.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_instance_ref property setter (gets validation automatically)
         """
@@ -113,10 +114,10 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -125,13 +126,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def setTimeout(self, value: "TimeValue") -> "ServerCallPoint":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -143,13 +144,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def with_operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> "ServerCallPoint":
         """
         Set operationInstanceRef and return self for chaining.
-        
+
         Args:
             value: The operationInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_instance_ref("value")
         """
@@ -159,13 +160,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     def with_timeout(self, value: Optional["TimeValue"]) -> "ServerCallPoint":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """

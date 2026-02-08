@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TcpProps(ARObject):
     """
     This meta-class specifies the configuration options for TCP (Transmission
     Control Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TcpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 154, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class TcpProps(ARObject):
     def tcp_congestion(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpCongestion with validation.
-        
+
         Args:
             value: The tcpCongestion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class TcpProps(ARObject):
     def tcp_delayed_ack(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpDelayedAck with validation.
-        
+
         Args:
             value: The tcpDelayedAck to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class TcpProps(ARObject):
     def tcp_fast(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpFast with validation.
-        
+
         Args:
             value: The tcpFast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class TcpProps(ARObject):
     def tcp_fin(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpFin with validation.
-        
+
         Args:
             value: The tcpFin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +149,10 @@ class TcpProps(ARObject):
     def tcp_keep_alive(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpKeepAlive with validation.
-        
+
         Args:
             value: The tcpKeepAlive to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +179,10 @@ class TcpProps(ARObject):
     def tcp_max_rtx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpMaxRtx with validation.
-        
+
         Args:
             value: The tcpMaxRtx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +208,10 @@ class TcpProps(ARObject):
     def tcp_msl(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpMsl with validation.
-        
+
         Args:
             value: The tcpMsl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -240,10 +243,10 @@ class TcpProps(ARObject):
     def tcp_nagle(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpNagle with validation.
-        
+
         Args:
             value: The tcpNagle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -268,10 +271,10 @@ class TcpProps(ARObject):
     def tcp_receive_window_max(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpReceiveWindowMax with validation.
-        
+
         Args:
             value: The tcpReceiveWindowMax to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -297,10 +300,10 @@ class TcpProps(ARObject):
     def tcp(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcp with validation.
-        
+
         Args:
             value: The tcp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -326,10 +329,10 @@ class TcpProps(ARObject):
     def tcp_slow_start(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpSlowStart with validation.
-        
+
         Args:
             value: The tcpSlowStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -354,10 +357,10 @@ class TcpProps(ARObject):
     def tcp_syn_max_rtx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpSynMaxRtx with validation.
-        
+
         Args:
             value: The tcpSynMaxRtx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -385,10 +388,10 @@ class TcpProps(ARObject):
     def tcp_syn_received(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpSynReceived with validation.
-        
+
         Args:
             value: The tcpSynReceived to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -413,10 +416,10 @@ class TcpProps(ARObject):
     def tcp_ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpTtl with validation.
-        
+
         Args:
             value: The tcpTtl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -435,10 +438,10 @@ class TcpProps(ARObject):
     def getTcpCongestion(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpCongestion.
-        
+
         Returns:
             The tcpCongestion value
-        
+
         Note:
             Delegates to tcp_congestion property (CODING_RULE_V2_00017)
         """
@@ -447,13 +450,13 @@ class TcpProps(ARObject):
     def setTcpCongestion(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpCongestion with method chaining.
-        
+
         Args:
             value: The tcpCongestion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_congestion property setter (gets validation automatically)
         """
@@ -463,10 +466,10 @@ class TcpProps(ARObject):
     def getTcpDelayedAck(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpDelayedAck.
-        
+
         Returns:
             The tcpDelayedAck value
-        
+
         Note:
             Delegates to tcp_delayed_ack property (CODING_RULE_V2_00017)
         """
@@ -475,13 +478,13 @@ class TcpProps(ARObject):
     def setTcpDelayedAck(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpDelayedAck with method chaining.
-        
+
         Args:
             value: The tcpDelayedAck to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_delayed_ack property setter (gets validation automatically)
         """
@@ -491,10 +494,10 @@ class TcpProps(ARObject):
     def getTcpFast(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpFast.
-        
+
         Returns:
             The tcpFast value
-        
+
         Note:
             Delegates to tcp_fast property (CODING_RULE_V2_00017)
         """
@@ -503,13 +506,13 @@ class TcpProps(ARObject):
     def setTcpFast(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpFast with method chaining.
-        
+
         Args:
             value: The tcpFast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_fast property setter (gets validation automatically)
         """
@@ -519,10 +522,10 @@ class TcpProps(ARObject):
     def getTcpFin(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpFin.
-        
+
         Returns:
             The tcpFin value
-        
+
         Note:
             Delegates to tcp_fin property (CODING_RULE_V2_00017)
         """
@@ -531,13 +534,13 @@ class TcpProps(ARObject):
     def setTcpFin(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpFin with method chaining.
-        
+
         Args:
             value: The tcpFin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_fin property setter (gets validation automatically)
         """
@@ -547,10 +550,10 @@ class TcpProps(ARObject):
     def getTcpKeepAlive(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpKeepAlive.
-        
+
         Returns:
             The tcpKeepAlive value
-        
+
         Note:
             Delegates to tcp_keep_alive property (CODING_RULE_V2_00017)
         """
@@ -559,13 +562,13 @@ class TcpProps(ARObject):
     def setTcpKeepAlive(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpKeepAlive with method chaining.
-        
+
         Args:
             value: The tcpKeepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_keep_alive property setter (gets validation automatically)
         """
@@ -575,10 +578,10 @@ class TcpProps(ARObject):
     def getTcpMaxRtx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpMaxRtx.
-        
+
         Returns:
             The tcpMaxRtx value
-        
+
         Note:
             Delegates to tcp_max_rtx property (CODING_RULE_V2_00017)
         """
@@ -587,13 +590,13 @@ class TcpProps(ARObject):
     def setTcpMaxRtx(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpMaxRtx with method chaining.
-        
+
         Args:
             value: The tcpMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_max_rtx property setter (gets validation automatically)
         """
@@ -603,10 +606,10 @@ class TcpProps(ARObject):
     def getTcpMsl(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpMsl.
-        
+
         Returns:
             The tcpMsl value
-        
+
         Note:
             Delegates to tcp_msl property (CODING_RULE_V2_00017)
         """
@@ -615,13 +618,13 @@ class TcpProps(ARObject):
     def setTcpMsl(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpMsl with method chaining.
-        
+
         Args:
             value: The tcpMsl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_msl property setter (gets validation automatically)
         """
@@ -631,10 +634,10 @@ class TcpProps(ARObject):
     def getTcpNagle(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpNagle.
-        
+
         Returns:
             The tcpNagle value
-        
+
         Note:
             Delegates to tcp_nagle property (CODING_RULE_V2_00017)
         """
@@ -643,13 +646,13 @@ class TcpProps(ARObject):
     def setTcpNagle(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpNagle with method chaining.
-        
+
         Args:
             value: The tcpNagle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_nagle property setter (gets validation automatically)
         """
@@ -659,10 +662,10 @@ class TcpProps(ARObject):
     def getTcpReceiveWindowMax(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpReceiveWindowMax.
-        
+
         Returns:
             The tcpReceiveWindowMax value
-        
+
         Note:
             Delegates to tcp_receive_window_max property (CODING_RULE_V2_00017)
         """
@@ -671,13 +674,13 @@ class TcpProps(ARObject):
     def setTcpReceiveWindowMax(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpReceiveWindowMax with method chaining.
-        
+
         Args:
             value: The tcpReceiveWindowMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_receive_window_max property setter (gets validation automatically)
         """
@@ -687,10 +690,10 @@ class TcpProps(ARObject):
     def getTcp(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcp.
-        
+
         Returns:
             The tcp value
-        
+
         Note:
             Delegates to tcp property (CODING_RULE_V2_00017)
         """
@@ -699,13 +702,13 @@ class TcpProps(ARObject):
     def setTcp(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcp with method chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp property setter (gets validation automatically)
         """
@@ -715,10 +718,10 @@ class TcpProps(ARObject):
     def getTcpSlowStart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpSlowStart.
-        
+
         Returns:
             The tcpSlowStart value
-        
+
         Note:
             Delegates to tcp_slow_start property (CODING_RULE_V2_00017)
         """
@@ -727,13 +730,13 @@ class TcpProps(ARObject):
     def setTcpSlowStart(self, value: "Boolean") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpSlowStart with method chaining.
-        
+
         Args:
             value: The tcpSlowStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_slow_start property setter (gets validation automatically)
         """
@@ -743,10 +746,10 @@ class TcpProps(ARObject):
     def getTcpSynMaxRtx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpSynMaxRtx.
-        
+
         Returns:
             The tcpSynMaxRtx value
-        
+
         Note:
             Delegates to tcp_syn_max_rtx property (CODING_RULE_V2_00017)
         """
@@ -755,13 +758,13 @@ class TcpProps(ARObject):
     def setTcpSynMaxRtx(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpSynMaxRtx with method chaining.
-        
+
         Args:
             value: The tcpSynMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_syn_max_rtx property setter (gets validation automatically)
         """
@@ -771,10 +774,10 @@ class TcpProps(ARObject):
     def getTcpSynReceived(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpSynReceived.
-        
+
         Returns:
             The tcpSynReceived value
-        
+
         Note:
             Delegates to tcp_syn_received property (CODING_RULE_V2_00017)
         """
@@ -783,13 +786,13 @@ class TcpProps(ARObject):
     def setTcpSynReceived(self, value: "TimeValue") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpSynReceived with method chaining.
-        
+
         Args:
             value: The tcpSynReceived to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_syn_received property setter (gets validation automatically)
         """
@@ -799,10 +802,10 @@ class TcpProps(ARObject):
     def getTcpTtl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpTtl.
-        
+
         Returns:
             The tcpTtl value
-        
+
         Note:
             Delegates to tcp_ttl property (CODING_RULE_V2_00017)
         """
@@ -811,13 +814,13 @@ class TcpProps(ARObject):
     def setTcpTtl(self, value: "PositiveInteger") -> "TcpProps":
         """
         AUTOSAR-compliant setter for tcpTtl with method chaining.
-        
+
         Args:
             value: The tcpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ttl property setter (gets validation automatically)
         """
@@ -829,13 +832,13 @@ class TcpProps(ARObject):
     def with_tcp_congestion(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpCongestion and return self for chaining.
-        
+
         Args:
             value: The tcpCongestion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_congestion("value")
         """
@@ -845,13 +848,13 @@ class TcpProps(ARObject):
     def with_tcp_delayed_ack(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpDelayedAck and return self for chaining.
-        
+
         Args:
             value: The tcpDelayedAck to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_delayed_ack("value")
         """
@@ -861,13 +864,13 @@ class TcpProps(ARObject):
     def with_tcp_fast(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpFast and return self for chaining.
-        
+
         Args:
             value: The tcpFast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_fast("value")
         """
@@ -877,13 +880,13 @@ class TcpProps(ARObject):
     def with_tcp_fin(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpFin and return self for chaining.
-        
+
         Args:
             value: The tcpFin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_fin("value")
         """
@@ -893,13 +896,13 @@ class TcpProps(ARObject):
     def with_tcp_keep_alive(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpKeepAlive and return self for chaining.
-        
+
         Args:
             value: The tcpKeepAlive to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_keep_alive("value")
         """
@@ -909,13 +912,13 @@ class TcpProps(ARObject):
     def with_tcp_max_rtx(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpMaxRtx and return self for chaining.
-        
+
         Args:
             value: The tcpMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_max_rtx("value")
         """
@@ -925,13 +928,13 @@ class TcpProps(ARObject):
     def with_tcp_msl(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpMsl and return self for chaining.
-        
+
         Args:
             value: The tcpMsl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_msl("value")
         """
@@ -941,13 +944,13 @@ class TcpProps(ARObject):
     def with_tcp_nagle(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpNagle and return self for chaining.
-        
+
         Args:
             value: The tcpNagle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_nagle("value")
         """
@@ -957,13 +960,13 @@ class TcpProps(ARObject):
     def with_tcp_receive_window_max(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpReceiveWindowMax and return self for chaining.
-        
+
         Args:
             value: The tcpReceiveWindowMax to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_receive_window_max("value")
         """
@@ -973,13 +976,13 @@ class TcpProps(ARObject):
     def with_tcp(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcp and return self for chaining.
-        
+
         Args:
             value: The tcp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp("value")
         """
@@ -989,13 +992,13 @@ class TcpProps(ARObject):
     def with_tcp_slow_start(self, value: Optional["Boolean"]) -> "TcpProps":
         """
         Set tcpSlowStart and return self for chaining.
-        
+
         Args:
             value: The tcpSlowStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_slow_start("value")
         """
@@ -1005,13 +1008,13 @@ class TcpProps(ARObject):
     def with_tcp_syn_max_rtx(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpSynMaxRtx and return self for chaining.
-        
+
         Args:
             value: The tcpSynMaxRtx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_syn_max_rtx("value")
         """
@@ -1021,13 +1024,13 @@ class TcpProps(ARObject):
     def with_tcp_syn_received(self, value: Optional["TimeValue"]) -> "TcpProps":
         """
         Set tcpSynReceived and return self for chaining.
-        
+
         Args:
             value: The tcpSynReceived to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_syn_received("value")
         """
@@ -1037,13 +1040,13 @@ class TcpProps(ARObject):
     def with_tcp_ttl(self, value: Optional["PositiveInteger"]) -> "TcpProps":
         """
         Set tcpTtl and return self for chaining.
-        
+
         Args:
             value: The tcpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ttl("value")
         """

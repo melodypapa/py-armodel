@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MacSecCryptoAlgoConfig(ARObject):
     """
     This meta-class defines the cryptography configuration for MACsec.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecCryptoAlgoConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def capability(self, value: Optional["MacSecCapabilityEnum"]) -> None:
         """
         Set capability with validation.
-        
+
         Args:
             value: The capability to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def cipher_suite(self, value: "MacSecCipherSuite") -> None:
         """
         Set cipherSuite with validation.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def confidentiality(self, value: Optional["MacSecConfidentiality"]) -> None:
         """
         Set confidentiality with validation.
-        
+
         Args:
             value: The confidentiality to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +114,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def replay_protection(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set replayProtection with validation.
-        
+
         Args:
             value: The replayProtection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +136,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getCapability(self) -> "MacSecCapabilityEnum":
         """
         AUTOSAR-compliant getter for capability.
-        
+
         Returns:
             The capability value
-        
+
         Note:
             Delegates to capability property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setCapability(self, value: "MacSecCapabilityEnum") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for capability with method chaining.
-        
+
         Args:
             value: The capability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to capability property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getCipherSuite(self) -> "MacSecCipherSuite":
         """
         AUTOSAR-compliant getter for cipherSuite.
-        
+
         Returns:
             The cipherSuite value
-        
+
         Note:
             Delegates to cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setCipherSuite(self, value: "MacSecCipherSuite") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for cipherSuite with method chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cipher_suite property setter (gets validation automatically)
         """
@@ -189,10 +192,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getConfidentiality(self) -> "MacSecConfidentiality":
         """
         AUTOSAR-compliant getter for confidentiality.
-        
+
         Returns:
             The confidentiality value
-        
+
         Note:
             Delegates to confidentiality property (CODING_RULE_V2_00017)
         """
@@ -201,13 +204,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setConfidentiality(self, value: "MacSecConfidentiality") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for confidentiality with method chaining.
-        
+
         Args:
             value: The confidentiality to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to confidentiality property setter (gets validation automatically)
         """
@@ -217,10 +220,10 @@ class MacSecCryptoAlgoConfig(ARObject):
     def getReplayProtection(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for replayProtection.
-        
+
         Returns:
             The replayProtection value
-        
+
         Note:
             Delegates to replay_protection property (CODING_RULE_V2_00017)
         """
@@ -229,13 +232,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def setReplayProtection(self, value: "PositiveInteger") -> "MacSecCryptoAlgoConfig":
         """
         AUTOSAR-compliant setter for replayProtection with method chaining.
-        
+
         Args:
             value: The replayProtection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to replay_protection property setter (gets validation automatically)
         """
@@ -247,13 +250,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_capability(self, value: Optional["MacSecCapabilityEnum"]) -> "MacSecCryptoAlgoConfig":
         """
         Set capability and return self for chaining.
-        
+
         Args:
             value: The capability to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_capability("value")
         """
@@ -263,13 +266,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_cipher_suite(self, value: "MacSecCipherSuite") -> "MacSecCryptoAlgoConfig":
         """
         Set cipherSuite and return self for chaining.
-        
+
         Args:
             value: The cipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cipher_suite("value")
         """
@@ -279,13 +282,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_confidentiality(self, value: Optional["MacSecConfidentiality"]) -> "MacSecCryptoAlgoConfig":
         """
         Set confidentiality and return self for chaining.
-        
+
         Args:
             value: The confidentiality to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_confidentiality("value")
         """
@@ -295,13 +298,13 @@ class MacSecCryptoAlgoConfig(ARObject):
     def with_replay_protection(self, value: Optional["PositiveInteger"]) -> "MacSecCryptoAlgoConfig":
         """
         Set replayProtection and return self for chaining.
-        
+
         Args:
             value: The replayProtection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_replay_protection("value")
         """

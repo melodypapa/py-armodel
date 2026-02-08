@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LifeCyclePeriod(ARObject):
     """
     This meta class represents the ability to specify a point of time within a
     specified period, e.g. the starting or end point, in which a specific life
     cycle state is valid/applies to.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCyclePeriod
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 392, Foundation
       R23-11)
@@ -31,10 +34,10 @@ class LifeCyclePeriod(ARObject):
     def ar_release(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set arRelease with validation.
-        
+
         Args:
             value: The arRelease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class LifeCyclePeriod(ARObject):
     def date(self, value: Optional["DateTime"]) -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +90,10 @@ class LifeCyclePeriod(ARObject):
     def product_release(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set productRelease with validation.
-        
+
         Args:
             value: The productRelease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +112,10 @@ class LifeCyclePeriod(ARObject):
     def getArRelease(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for arRelease.
-        
+
         Returns:
             The arRelease value
-        
+
         Note:
             Delegates to ar_release property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class LifeCyclePeriod(ARObject):
     def setArRelease(self, value: "RevisionLabelString") -> "LifeCyclePeriod":
         """
         AUTOSAR-compliant setter for arRelease with method chaining.
-        
+
         Args:
             value: The arRelease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ar_release property setter (gets validation automatically)
         """
@@ -137,10 +140,10 @@ class LifeCyclePeriod(ARObject):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -149,13 +152,13 @@ class LifeCyclePeriod(ARObject):
     def setDate(self, value: "DateTime") -> "LifeCyclePeriod":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -165,10 +168,10 @@ class LifeCyclePeriod(ARObject):
     def getProductRelease(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for productRelease.
-        
+
         Returns:
             The productRelease value
-        
+
         Note:
             Delegates to product_release property (CODING_RULE_V2_00017)
         """
@@ -177,13 +180,13 @@ class LifeCyclePeriod(ARObject):
     def setProductRelease(self, value: "RevisionLabelString") -> "LifeCyclePeriod":
         """
         AUTOSAR-compliant setter for productRelease with method chaining.
-        
+
         Args:
             value: The productRelease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to product_release property setter (gets validation automatically)
         """
@@ -195,13 +198,13 @@ class LifeCyclePeriod(ARObject):
     def with_ar_release(self, value: Optional["RevisionLabelString"]) -> "LifeCyclePeriod":
         """
         Set arRelease and return self for chaining.
-        
+
         Args:
             value: The arRelease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ar_release("value")
         """
@@ -211,13 +214,13 @@ class LifeCyclePeriod(ARObject):
     def with_date(self, value: Optional["DateTime"]) -> "LifeCyclePeriod":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -227,13 +230,13 @@ class LifeCyclePeriod(ARObject):
     def with_product_release(self, value: Optional["RevisionLabelString"]) -> "LifeCyclePeriod":
         """
         Set productRelease and return self for chaining.
-        
+
         Args:
             value: The productRelease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_product_release("value")
         """

@@ -5,9 +5,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 class J1939Cluster(ARObject):
     """
     J1939 specific cluster attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::J1939Cluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 321, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class J1939Cluster(ARObject):
     def network_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set networkId with validation.
-        
+
         Args:
             value: The networkId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class J1939Cluster(ARObject):
     def re-(self, value: Optional["Boolean"]) -> None:
         """
         Set re- with validation.
-        
+
         Args:
             value: The re- to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class J1939Cluster(ARObject):
     def uses_address(self, value: Optional["Boolean"]) -> None:
         """
         Set usesAddress with validation.
-        
+
         Args:
             value: The usesAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +111,10 @@ class J1939Cluster(ARObject):
     def getNetworkId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for networkId.
-        
+
         Returns:
             The networkId value
-        
+
         Note:
             Delegates to network_id property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class J1939Cluster(ARObject):
     def setNetworkId(self, value: "PositiveInteger") -> "J1939Cluster":
         """
         AUTOSAR-compliant setter for networkId with method chaining.
-        
+
         Args:
             value: The networkId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network_id property setter (gets validation automatically)
         """
@@ -139,10 +139,10 @@ class J1939Cluster(ARObject):
     def getRe-(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for re-.
-        
+
         Returns:
             The re- value
-        
+
         Note:
             Delegates to re- property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class J1939Cluster(ARObject):
     def setRe-(self, value: "Boolean") -> "J1939Cluster":
         """
         AUTOSAR-compliant setter for re- with method chaining.
-        
+
         Args:
             value: The re- to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to re- property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class J1939Cluster(ARObject):
     def getUsesAddress(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesAddress.
-        
+
         Returns:
             The usesAddress value
-        
+
         Note:
             Delegates to uses_address property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class J1939Cluster(ARObject):
     def setUsesAddress(self, value: "Boolean") -> "J1939Cluster":
         """
         AUTOSAR-compliant setter for usesAddress with method chaining.
-        
+
         Args:
             value: The usesAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_address property setter (gets validation automatically)
         """
@@ -197,13 +197,13 @@ class J1939Cluster(ARObject):
     def with_network_id(self, value: Optional["PositiveInteger"]) -> "J1939Cluster":
         """
         Set networkId and return self for chaining.
-        
+
         Args:
             value: The networkId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network_id("value")
         """
@@ -213,13 +213,13 @@ class J1939Cluster(ARObject):
     def with_re-(self, value: Optional["Boolean"]) -> "J1939Cluster":
         """
         Set re- and return self for chaining.
-        
+
         Args:
             value: The re- to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_re-("value")
         """
@@ -229,13 +229,13 @@ class J1939Cluster(ARObject):
     def with_uses_address(self, value: Optional["Boolean"]) -> "J1939Cluster":
         """
         Set usesAddress and return self for chaining.
-        
+
         Args:
             value: The usesAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_address("value")
         """

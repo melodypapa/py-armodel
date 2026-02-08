@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EcucContainerValue(Identifiable):
     """
     Represents a Container definition in the ECU Configuration Description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucContainerValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 119, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2021, Classic Platform R23-11)
@@ -33,10 +37,10 @@ class EcucContainerValue(Identifiable):
     def definition(self, value: Optional["EcucContainerDef"]) -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +82,10 @@ class EcucContainerValue(Identifiable):
     def getDefinition(self) -> "EcucContainerDef":
         """
         AUTOSAR-compliant getter for definition.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -90,13 +94,13 @@ class EcucContainerValue(Identifiable):
     def setDefinition(self, value: "EcucContainerDef") -> "EcucContainerValue":
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -106,10 +110,10 @@ class EcucContainerValue(Identifiable):
     def getParameterValue(self) -> List["EcucParameterValue"]:
         """
         AUTOSAR-compliant getter for parameterValue.
-        
+
         Returns:
             The parameterValue value
-        
+
         Note:
             Delegates to parameter_value property (CODING_RULE_V2_00017)
         """
@@ -118,10 +122,10 @@ class EcucContainerValue(Identifiable):
     def getReferenceValue(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for referenceValue.
-        
+
         Returns:
             The referenceValue value
-        
+
         Note:
             Delegates to reference_value property (CODING_RULE_V2_00017)
         """
@@ -130,10 +134,10 @@ class EcucContainerValue(Identifiable):
     def getSubContainer(self) -> List["EcucContainerValue"]:
         """
         AUTOSAR-compliant getter for subContainer.
-        
+
         Returns:
             The subContainer value
-        
+
         Note:
             Delegates to sub_container property (CODING_RULE_V2_00017)
         """
@@ -144,13 +148,13 @@ class EcucContainerValue(Identifiable):
     def with_definition(self, value: Optional["EcucContainerDef"]) -> "EcucContainerValue":
         """
         Set definition and return self for chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_definition("value")
         """

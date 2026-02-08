@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortPrototype import PortPrototype
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortPrototype import (
+    PortPrototype,
+)
+
 
 class AbstractProvidedPortPrototype(PortPrototype, ABC):
     """
     This abstract class provides the ability to become a provided PortPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::AbstractProvidedPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 67, Classic Platform
       R23-11)
@@ -32,10 +36,10 @@ class AbstractProvidedPortPrototype(PortPrototype, ABC):
     def getProvidedCom(self) -> List["PPortComSpec"]:
         """
         AUTOSAR-compliant getter for providedCom.
-        
+
         Returns:
             The providedCom value
-        
+
         Note:
             Delegates to provided_com property (CODING_RULE_V2_00017)
         """

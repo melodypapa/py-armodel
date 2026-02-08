@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     """
     Definition of one CAN part (frame or frame range) transported over the
     IEEE1722Tp channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfCanPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 661, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def can_addressing(self, value: Optional["CanAddressingMode"]) -> None:
         """
         Set canAddressing with validation.
-        
+
         Args:
             value: The canAddressing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def can_bit_rate(self, value: Optional["Boolean"]) -> None:
         """
         Set canBitRate with validation.
-        
+
         Args:
             value: The canBitRate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> None:
         """
         Set canFrameTx with validation.
-        
+
         Args:
             value: The canFrameTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def can_identifier(self, value: Optional["RxIdentifierRange"]) -> None:
         """
         Set canIdentifier with validation.
-        
+
         Args:
             value: The canIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +143,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def sdu(self, value: RefType) -> None:
         """
         Set sdu with validation.
-        
+
         Args:
             value: The sdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -158,10 +161,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def getCanAddressing(self) -> "CanAddressingMode":
         """
         AUTOSAR-compliant getter for canAddressing.
-        
+
         Returns:
             The canAddressing value
-        
+
         Note:
             Delegates to can_addressing property (CODING_RULE_V2_00017)
         """
@@ -170,13 +173,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def setCanAddressing(self, value: "CanAddressingMode") -> "IEEE1722TpAcfCanPart":
         """
         AUTOSAR-compliant setter for canAddressing with method chaining.
-        
+
         Args:
             value: The canAddressing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_addressing property setter (gets validation automatically)
         """
@@ -186,10 +189,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def getCanBitRate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for canBitRate.
-        
+
         Returns:
             The canBitRate value
-        
+
         Note:
             Delegates to can_bit_rate property (CODING_RULE_V2_00017)
         """
@@ -198,13 +201,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def setCanBitRate(self, value: "Boolean") -> "IEEE1722TpAcfCanPart":
         """
         AUTOSAR-compliant setter for canBitRate with method chaining.
-        
+
         Args:
             value: The canBitRate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_bit_rate property setter (gets validation automatically)
         """
@@ -214,10 +217,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def getCanFrameTx(self) -> "CanFrameTxBehavior":
         """
         AUTOSAR-compliant getter for canFrameTx.
-        
+
         Returns:
             The canFrameTx value
-        
+
         Note:
             Delegates to can_frame_tx property (CODING_RULE_V2_00017)
         """
@@ -226,13 +229,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def setCanFrameTx(self, value: "CanFrameTxBehavior") -> "IEEE1722TpAcfCanPart":
         """
         AUTOSAR-compliant setter for canFrameTx with method chaining.
-        
+
         Args:
             value: The canFrameTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_frame_tx property setter (gets validation automatically)
         """
@@ -242,10 +245,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def getCanIdentifier(self) -> "RxIdentifierRange":
         """
         AUTOSAR-compliant getter for canIdentifier.
-        
+
         Returns:
             The canIdentifier value
-        
+
         Note:
             Delegates to can_identifier property (CODING_RULE_V2_00017)
         """
@@ -254,13 +257,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def setCanIdentifier(self, value: "RxIdentifierRange") -> "IEEE1722TpAcfCanPart":
         """
         AUTOSAR-compliant setter for canIdentifier with method chaining.
-        
+
         Args:
             value: The canIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to can_identifier property setter (gets validation automatically)
         """
@@ -270,10 +273,10 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def getSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdu.
-        
+
         Returns:
             The sdu value
-        
+
         Note:
             Delegates to sdu property (CODING_RULE_V2_00017)
         """
@@ -282,13 +285,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def setSdu(self, value: RefType) -> "IEEE1722TpAcfCanPart":
         """
         AUTOSAR-compliant setter for sdu with method chaining.
-        
+
         Args:
             value: The sdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdu property setter (gets validation automatically)
         """
@@ -300,13 +303,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def with_can_addressing(self, value: Optional["CanAddressingMode"]) -> "IEEE1722TpAcfCanPart":
         """
         Set canAddressing and return self for chaining.
-        
+
         Args:
             value: The canAddressing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_addressing("value")
         """
@@ -316,13 +319,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def with_can_bit_rate(self, value: Optional["Boolean"]) -> "IEEE1722TpAcfCanPart":
         """
         Set canBitRate and return self for chaining.
-        
+
         Args:
             value: The canBitRate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_bit_rate("value")
         """
@@ -332,13 +335,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def with_can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> "IEEE1722TpAcfCanPart":
         """
         Set canFrameTx and return self for chaining.
-        
+
         Args:
             value: The canFrameTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_frame_tx("value")
         """
@@ -348,13 +351,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def with_can_identifier(self, value: Optional["RxIdentifierRange"]) -> "IEEE1722TpAcfCanPart":
         """
         Set canIdentifier and return self for chaining.
-        
+
         Args:
             value: The canIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_can_identifier("value")
         """
@@ -364,13 +367,13 @@ class IEEE1722TpAcfCanPart(IEEE1722TpAcfBusPart):
     def with_sdu(self, value: Optional[RefType]) -> "IEEE1722TpAcfCanPart":
         """
         Set sdu and return self for chaining.
-        
+
         Args:
             value: The sdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdu("value")
         """

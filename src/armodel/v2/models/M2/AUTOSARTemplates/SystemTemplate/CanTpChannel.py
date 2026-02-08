@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CanTpChannel(Identifiable):
     """
     Configuration parameters of the CanTp channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::CanTpChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 608, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class CanTpChannel(Identifiable):
     def channel_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set channelId with validation.
-        
+
         Args:
             value: The channelId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class CanTpChannel(Identifiable):
     def getChannelId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for channelId.
-        
+
         Returns:
             The channelId value
-        
+
         Note:
             Delegates to channel_id property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class CanTpChannel(Identifiable):
     def setChannelId(self, value: "PositiveInteger") -> "CanTpChannel":
         """
         AUTOSAR-compliant setter for channelId with method chaining.
-        
+
         Args:
             value: The channelId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to channel_id property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class CanTpChannel(Identifiable):
     def with_channel_id(self, value: Optional["PositiveInteger"]) -> "CanTpChannel":
         """
         Set channelId and return self for chaining.
-        
+
         Args:
             value: The channelId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_channel_id("value")
         """

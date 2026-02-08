@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     """
@@ -7,9 +7,9 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     diagnostic service. (cid:53) 129 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID::DiagnosticReadDataByPeriodicID
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 129, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def read_data_class(self, value: Optional["DiagnosticReadDataBy"]) -> None:
         """
         Set readDataClass with validation.
-        
+
         Args:
             value: The readDataClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def getReadDataClass(self) -> "DiagnosticReadDataBy":
         """
         AUTOSAR-compliant getter for readDataClass.
-        
+
         Returns:
             The readDataClass value
-        
+
         Note:
             Delegates to read_data_class property (CODING_RULE_V2_00017)
         """
@@ -67,13 +67,13 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def setReadDataClass(self, value: "DiagnosticReadDataBy") -> "DiagnosticReadDataByPeriodicID":
         """
         AUTOSAR-compliant setter for readDataClass with method chaining.
-        
+
         Args:
             value: The readDataClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_data_class property setter (gets validation automatically)
         """
@@ -85,13 +85,13 @@ class DiagnosticReadDataByPeriodicID(DiagnosticServiceInstance):
     def with_read_data_class(self, value: Optional["DiagnosticReadDataBy"]) -> "DiagnosticReadDataByPeriodicID":
         """
         Set readDataClass and return self for chaining.
-        
+
         Args:
             value: The readDataClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_data_class("value")
         """

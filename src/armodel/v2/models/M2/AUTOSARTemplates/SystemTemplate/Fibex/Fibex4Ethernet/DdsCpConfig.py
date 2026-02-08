@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DdsCpConfig(ARElement):
     """
     Collection of DDS definitions. (cid:53) 525 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 525, Classic Platform R23-11)
     """
@@ -35,10 +35,10 @@ class DdsCpConfig(ARElement):
     def getDdsDomain(self) -> List["DdsCpDomain"]:
         """
         AUTOSAR-compliant getter for ddsDomain.
-        
+
         Returns:
             The ddsDomain value
-        
+
         Note:
             Delegates to dds_domain property (CODING_RULE_V2_00017)
         """
@@ -47,10 +47,10 @@ class DdsCpConfig(ARElement):
     def getDdsQosProfile(self) -> List["DdsCpQosProfile"]:
         """
         AUTOSAR-compliant getter for ddsQosProfile.
-        
+
         Returns:
             The ddsQosProfile value
-        
+
         Note:
             Delegates to dds_qos_profile property (CODING_RULE_V2_00017)
         """

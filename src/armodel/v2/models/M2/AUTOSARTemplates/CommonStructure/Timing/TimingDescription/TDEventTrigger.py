@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventTrigger(TDEventVfbPort):
     """
     This is used to describe timing events related to triggers at VFB level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventTrigger
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 58, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class TDEventTrigger(TDEventVfbPort):
     def td_event_trigger(self, value: RefType) -> None:
         """
         Set tdEventTrigger with validation.
-        
+
         Args:
             value: The tdEventTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class TDEventTrigger(TDEventVfbPort):
     def trigger(self, value: RefType) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +72,10 @@ class TDEventTrigger(TDEventVfbPort):
     def getTdEventTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for tdEventTrigger.
-        
+
         Returns:
             The tdEventTrigger value
-        
+
         Note:
             Delegates to td_event_trigger property (CODING_RULE_V2_00017)
         """
@@ -81,13 +84,13 @@ class TDEventTrigger(TDEventVfbPort):
     def setTdEventTrigger(self, value: RefType) -> "TDEventTrigger":
         """
         AUTOSAR-compliant setter for tdEventTrigger with method chaining.
-        
+
         Args:
             value: The tdEventTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_trigger property setter (gets validation automatically)
         """
@@ -97,10 +100,10 @@ class TDEventTrigger(TDEventVfbPort):
     def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -109,13 +112,13 @@ class TDEventTrigger(TDEventVfbPort):
     def setTrigger(self, value: RefType) -> "TDEventTrigger":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -127,13 +130,13 @@ class TDEventTrigger(TDEventVfbPort):
     def with_td_event_trigger(self, value: Optional[RefType]) -> "TDEventTrigger":
         """
         Set tdEventTrigger and return self for chaining.
-        
+
         Args:
             value: The tdEventTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_trigger("value")
         """
@@ -143,13 +146,13 @@ class TDEventTrigger(TDEventVfbPort):
     def with_trigger(self, value: Optional[RefType]) -> "TDEventTrigger":
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """

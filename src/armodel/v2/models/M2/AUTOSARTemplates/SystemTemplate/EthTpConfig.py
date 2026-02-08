@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EthTpConfig(TpConfig):
     """
     This element defines which PduTriggerings shall be handled using "TP"
     semantics.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::EthTpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 617, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class EthTpConfig(TpConfig):
     def getTpConnection(self) -> List["EthTpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """

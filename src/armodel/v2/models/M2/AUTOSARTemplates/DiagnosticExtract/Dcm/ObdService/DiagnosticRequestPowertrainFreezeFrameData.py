@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     """
     This meta-class represents the ability to model an instance of the OBD mode
     0x02 service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze::DiagnosticRequestPowertrainFreezeFrameData
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 152, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def freeze_frame_freeze_frame(self, value: Optional["DiagnosticPowertrain"]) -> None:
         """
         Set freezeFrameFreezeFrame with validation.
-        
+
         Args:
             value: The freezeFrameFreezeFrame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def request(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set request with validation.
-        
+
         Args:
             value: The request to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def getFreezeFrameFreezeFrame(self) -> "DiagnosticPowertrain":
         """
         AUTOSAR-compliant getter for freezeFrameFreezeFrame.
-        
+
         Returns:
             The freezeFrameFreezeFrame value
-        
+
         Note:
             Delegates to freeze_frame_freeze_frame property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def setFreezeFrameFreezeFrame(self, value: "DiagnosticPowertrain") -> "DiagnosticRequestPowertrainFreezeFrameData":
         """
         AUTOSAR-compliant setter for freezeFrameFreezeFrame with method chaining.
-        
+
         Args:
             value: The freezeFrameFreezeFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freeze_frame_freeze_frame property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def getRequest(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for request.
-        
+
         Returns:
             The request value
-        
+
         Note:
             Delegates to request property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def setRequest(self, value: "DiagnosticRequest") -> "DiagnosticRequestPowertrainFreezeFrameData":
         """
         AUTOSAR-compliant setter for request with method chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to request property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def with_freeze_frame_freeze_frame(self, value: Optional["DiagnosticPowertrain"]) -> "DiagnosticRequestPowertrainFreezeFrameData":
         """
         Set freezeFrameFreezeFrame and return self for chaining.
-        
+
         Args:
             value: The freezeFrameFreezeFrame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freeze_frame_freeze_frame("value")
         """
@@ -155,13 +155,13 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
     def with_request(self, value: Optional["DiagnosticRequest"]) -> "DiagnosticRequestPowertrainFreezeFrameData":
         """
         Set request and return self for chaining.
-        
+
         Args:
             value: The request to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_request("value")
         """

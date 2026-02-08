@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     """
@@ -8,9 +8,9 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     identifying the diagnostic event from the viewpoint of the component or
     module which owns this element. In case the diagnostic event specifies a
     production error, the shortName shall be the name of the production error.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 258, Classic
       Platform R23-11)
@@ -44,10 +44,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def diag_event(self, value: Optional["DiagEventDebounce"]) -> None:
         """
         Set diagEvent with validation.
-        
+
         Args:
             value: The diagEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def inhibiting_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
         """
         Set inhibitingFid with validation.
-        
+
         Args:
             value: The inhibitingFid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def prestored(self, value: Optional["Boolean"]) -> None:
         """
         Set prestored with validation.
-        
+
         Args:
             value: The prestored to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +145,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def uses_monitor(self, value: Optional["Boolean"]) -> None:
         """
         Set usesMonitor with validation.
-        
+
         Args:
             value: The usesMonitor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +167,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDeferringFid(self) -> List["FunctionInhibitionNeeds"]:
         """
         AUTOSAR-compliant getter for deferringFid.
-        
+
         Returns:
             The deferringFid value
-        
+
         Note:
             Delegates to deferring_fid property (CODING_RULE_V2_00017)
         """
@@ -179,10 +179,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDiagEvent(self) -> "DiagEventDebounce":
         """
         AUTOSAR-compliant getter for diagEvent.
-        
+
         Returns:
             The diagEvent value
-        
+
         Note:
             Delegates to diag_event property (CODING_RULE_V2_00017)
         """
@@ -191,13 +191,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setDiagEvent(self, value: "DiagEventDebounce") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for diagEvent with method chaining.
-        
+
         Args:
             value: The diagEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_event property setter (gets validation automatically)
         """
@@ -207,10 +207,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getInhibitingFid(self) -> "FunctionInhibitionNeeds":
         """
         AUTOSAR-compliant getter for inhibitingFid.
-        
+
         Returns:
             The inhibitingFid value
-        
+
         Note:
             Delegates to inhibiting_fid property (CODING_RULE_V2_00017)
         """
@@ -219,13 +219,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setInhibitingFid(self, value: "FunctionInhibitionNeeds") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for inhibitingFid with method chaining.
-        
+
         Args:
             value: The inhibitingFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to inhibiting_fid property setter (gets validation automatically)
         """
@@ -235,10 +235,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getInhibiting(self) -> List["FunctionInhibitionNeeds"]:
         """
         AUTOSAR-compliant getter for inhibiting.
-        
+
         Returns:
             The inhibiting value
-        
+
         Note:
             Delegates to inhibiting property (CODING_RULE_V2_00017)
         """
@@ -247,10 +247,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getPrestored(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for prestored.
-        
+
         Returns:
             The prestored value
-        
+
         Note:
             Delegates to prestored property (CODING_RULE_V2_00017)
         """
@@ -259,13 +259,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setPrestored(self, value: "Boolean") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for prestored with method chaining.
-        
+
         Args:
             value: The prestored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prestored property setter (gets validation automatically)
         """
@@ -275,10 +275,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getUsesMonitor(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesMonitor.
-        
+
         Returns:
             The usesMonitor value
-        
+
         Note:
             Delegates to uses_monitor property (CODING_RULE_V2_00017)
         """
@@ -287,13 +287,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def setUsesMonitor(self, value: "Boolean") -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant setter for usesMonitor with method chaining.
-        
+
         Args:
             value: The usesMonitor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_monitor property setter (gets validation automatically)
         """
@@ -305,13 +305,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_diag_event(self, value: Optional["DiagEventDebounce"]) -> "DiagnosticEventNeeds":
         """
         Set diagEvent and return self for chaining.
-        
+
         Args:
             value: The diagEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_event("value")
         """
@@ -321,13 +321,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_inhibiting_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "DiagnosticEventNeeds":
         """
         Set inhibitingFid and return self for chaining.
-        
+
         Args:
             value: The inhibitingFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_inhibiting_fid("value")
         """
@@ -337,13 +337,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_prestored(self, value: Optional["Boolean"]) -> "DiagnosticEventNeeds":
         """
         Set prestored and return self for chaining.
-        
+
         Args:
             value: The prestored to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prestored("value")
         """
@@ -353,13 +353,13 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def with_uses_monitor(self, value: Optional["Boolean"]) -> "DiagnosticEventNeeds":
         """
         Set usesMonitor and return self for chaining.
-        
+
         Args:
             value: The usesMonitor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_monitor("value")
         """

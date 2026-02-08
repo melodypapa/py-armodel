@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RptHook(ARObject):
     """
     This meta-class provide the ability to describe a rapid prototyping hook.
     This can either be described by an other AUTOSAR system with the category
     RPT_SYSTEM or as a non AUTOSAR software.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptHook
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 848, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class RptHook(ARObject):
     def code_label(self, value: Optional["CIdentifier"]) -> None:
         """
         Set codeLabel with validation.
-        
+
         Args:
             value: The codeLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class RptHook(ARObject):
     def mcd_identifier(self, value: Optional["NameToken"]) -> None:
         """
         Set mcdIdentifier with validation.
-        
+
         Args:
             value: The mcdIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class RptHook(ARObject):
     def rpt_ar_hook(self, value: Optional["AtpFeature"]) -> None:
         """
         Set rptArHook with validation.
-        
+
         Args:
             value: The rptArHook to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +121,10 @@ class RptHook(ARObject):
     def getCodeLabel(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for codeLabel.
-        
+
         Returns:
             The codeLabel value
-        
+
         Note:
             Delegates to code_label property (CODING_RULE_V2_00017)
         """
@@ -130,13 +133,13 @@ class RptHook(ARObject):
     def setCodeLabel(self, value: "CIdentifier") -> "RptHook":
         """
         AUTOSAR-compliant setter for codeLabel with method chaining.
-        
+
         Args:
             value: The codeLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to code_label property setter (gets validation automatically)
         """
@@ -146,10 +149,10 @@ class RptHook(ARObject):
     def getMcdIdentifier(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for mcdIdentifier.
-        
+
         Returns:
             The mcdIdentifier value
-        
+
         Note:
             Delegates to mcd_identifier property (CODING_RULE_V2_00017)
         """
@@ -158,13 +161,13 @@ class RptHook(ARObject):
     def setMcdIdentifier(self, value: "NameToken") -> "RptHook":
         """
         AUTOSAR-compliant setter for mcdIdentifier with method chaining.
-        
+
         Args:
             value: The mcdIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mcd_identifier property setter (gets validation automatically)
         """
@@ -174,10 +177,10 @@ class RptHook(ARObject):
     def getRptArHook(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for rptArHook.
-        
+
         Returns:
             The rptArHook value
-        
+
         Note:
             Delegates to rpt_ar_hook property (CODING_RULE_V2_00017)
         """
@@ -186,13 +189,13 @@ class RptHook(ARObject):
     def setRptArHook(self, value: "AtpFeature") -> "RptHook":
         """
         AUTOSAR-compliant setter for rptArHook with method chaining.
-        
+
         Args:
             value: The rptArHook to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_ar_hook property setter (gets validation automatically)
         """
@@ -202,10 +205,10 @@ class RptHook(ARObject):
     def getSdg(self) -> List["Sdg"]:
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -216,13 +219,13 @@ class RptHook(ARObject):
     def with_code_label(self, value: Optional["CIdentifier"]) -> "RptHook":
         """
         Set codeLabel and return self for chaining.
-        
+
         Args:
             value: The codeLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_code_label("value")
         """
@@ -232,13 +235,13 @@ class RptHook(ARObject):
     def with_mcd_identifier(self, value: Optional["NameToken"]) -> "RptHook":
         """
         Set mcdIdentifier and return self for chaining.
-        
+
         Args:
             value: The mcdIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mcd_identifier("value")
         """
@@ -248,13 +251,13 @@ class RptHook(ARObject):
     def with_rpt_ar_hook(self, value: Optional["AtpFeature"]) -> "RptHook":
         """
         Set rptArHook and return self for chaining.
-        
+
         Args:
             value: The rptArHook to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_ar_hook("value")
         """

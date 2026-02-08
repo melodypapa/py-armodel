@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticControlNeeds(DiagnosticCapabilityElement):
     """
     This meta-class indicates a service use-case for reporting the controlled
     status by diagnostic services.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticControlNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 812, Classic Platform
       R23-11)

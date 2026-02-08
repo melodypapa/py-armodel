@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwitchStreamIdentification(Identifiable):
     """
     SwitchStreamIdentification
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamIdentification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 135, Classic Platform R23-11)
     """
@@ -38,10 +40,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_block(self, value: Optional["Boolean"]) -> None:
         """
         Set filterActionBlock with validation.
-        
+
         Args:
             value: The filterActionBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +69,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_dest(self, value: Optional["SwitchStreamFilter"]) -> None:
         """
         Set filterActionDest with validation.
-        
+
         Args:
             value: The filterActionDest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +99,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_drop(self, value: Optional["Boolean"]) -> None:
         """
         Set filterActionDrop with validation.
-        
+
         Args:
             value: The filterActionDrop to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +127,10 @@ class SwitchStreamIdentification(Identifiable):
     def filter_action_vlan(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set filterActionVlan with validation.
-        
+
         Args:
             value: The filterActionVlan to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -161,10 +163,10 @@ class SwitchStreamIdentification(Identifiable):
     def stream_filter(self, value: Optional["SwitchStreamFilterRule"]) -> None:
         """
         Set streamFilter with validation.
-        
+
         Args:
             value: The streamFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -183,10 +185,10 @@ class SwitchStreamIdentification(Identifiable):
     def getEgressPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for egressPort.
-        
+
         Returns:
             The egressPort value
-        
+
         Note:
             Delegates to egress_port property (CODING_RULE_V2_00017)
         """
@@ -195,10 +197,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionBlock(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for filterActionBlock.
-        
+
         Returns:
             The filterActionBlock value
-        
+
         Note:
             Delegates to filter_action_block property (CODING_RULE_V2_00017)
         """
@@ -207,13 +209,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionBlock(self, value: "Boolean") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionBlock with method chaining.
-        
+
         Args:
             value: The filterActionBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_block property setter (gets validation automatically)
         """
@@ -223,10 +225,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionDest(self) -> "SwitchStreamFilter":
         """
         AUTOSAR-compliant getter for filterActionDest.
-        
+
         Returns:
             The filterActionDest value
-        
+
         Note:
             Delegates to filter_action_dest property (CODING_RULE_V2_00017)
         """
@@ -235,13 +237,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionDest(self, value: "SwitchStreamFilter") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionDest with method chaining.
-        
+
         Args:
             value: The filterActionDest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_dest property setter (gets validation automatically)
         """
@@ -251,10 +253,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionDrop(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for filterActionDrop.
-        
+
         Returns:
             The filterActionDrop value
-        
+
         Note:
             Delegates to filter_action_drop property (CODING_RULE_V2_00017)
         """
@@ -263,13 +265,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionDrop(self, value: "Boolean") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionDrop with method chaining.
-        
+
         Args:
             value: The filterActionDrop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_drop property setter (gets validation automatically)
         """
@@ -279,10 +281,10 @@ class SwitchStreamIdentification(Identifiable):
     def getFilterActionVlan(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for filterActionVlan.
-        
+
         Returns:
             The filterActionVlan value
-        
+
         Note:
             Delegates to filter_action_vlan property (CODING_RULE_V2_00017)
         """
@@ -291,13 +293,13 @@ class SwitchStreamIdentification(Identifiable):
     def setFilterActionVlan(self, value: "PositiveInteger") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for filterActionVlan with method chaining.
-        
+
         Args:
             value: The filterActionVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_action_vlan property setter (gets validation automatically)
         """
@@ -307,10 +309,10 @@ class SwitchStreamIdentification(Identifiable):
     def getIngressPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for ingressPort.
-        
+
         Returns:
             The ingressPort value
-        
+
         Note:
             Delegates to ingress_port property (CODING_RULE_V2_00017)
         """
@@ -319,10 +321,10 @@ class SwitchStreamIdentification(Identifiable):
     def getStreamFilter(self) -> "SwitchStreamFilterRule":
         """
         AUTOSAR-compliant getter for streamFilter.
-        
+
         Returns:
             The streamFilter value
-        
+
         Note:
             Delegates to stream_filter property (CODING_RULE_V2_00017)
         """
@@ -331,13 +333,13 @@ class SwitchStreamIdentification(Identifiable):
     def setStreamFilter(self, value: "SwitchStreamFilterRule") -> "SwitchStreamIdentification":
         """
         AUTOSAR-compliant setter for streamFilter with method chaining.
-        
+
         Args:
             value: The streamFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_filter property setter (gets validation automatically)
         """
@@ -349,13 +351,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_block(self, value: Optional["Boolean"]) -> "SwitchStreamIdentification":
         """
         Set filterActionBlock and return self for chaining.
-        
+
         Args:
             value: The filterActionBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_block("value")
         """
@@ -365,13 +367,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_dest(self, value: Optional["SwitchStreamFilter"]) -> "SwitchStreamIdentification":
         """
         Set filterActionDest and return self for chaining.
-        
+
         Args:
             value: The filterActionDest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_dest("value")
         """
@@ -381,13 +383,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_drop(self, value: Optional["Boolean"]) -> "SwitchStreamIdentification":
         """
         Set filterActionDrop and return self for chaining.
-        
+
         Args:
             value: The filterActionDrop to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_drop("value")
         """
@@ -397,13 +399,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_filter_action_vlan(self, value: Optional["PositiveInteger"]) -> "SwitchStreamIdentification":
         """
         Set filterActionVlan and return self for chaining.
-        
+
         Args:
             value: The filterActionVlan to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_action_vlan("value")
         """
@@ -413,13 +415,13 @@ class SwitchStreamIdentification(Identifiable):
     def with_stream_filter(self, value: Optional["SwitchStreamFilterRule"]) -> "SwitchStreamIdentification":
         """
         Set streamFilter and return self for chaining.
-        
+
         Args:
             value: The streamFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_filter("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucFloatParamDef(EcucParameterDef):
     """
     Configuration parameter type for Float.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucFloatParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 61, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 186, Foundation R23-11)
@@ -27,10 +27,10 @@ class EcucFloatParamDef(EcucParameterDef):
     def default_value(self, value: Optional["Float"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class EcucFloatParamDef(EcucParameterDef):
     def max(self, value: Optional["Limit"]) -> None:
         """
         Set max with validation.
-        
+
         Args:
             value: The max to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class EcucFloatParamDef(EcucParameterDef):
     def min(self, value: Optional["Limit"]) -> None:
         """
         Set min with validation.
-        
+
         Args:
             value: The min to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +106,10 @@ class EcucFloatParamDef(EcucParameterDef):
     def getDefaultValue(self) -> "Float":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class EcucFloatParamDef(EcucParameterDef):
     def setDefaultValue(self, value: "Float") -> "EcucFloatParamDef":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -134,10 +134,10 @@ class EcucFloatParamDef(EcucParameterDef):
     def getMax(self) -> "Limit":
         """
         AUTOSAR-compliant getter for max.
-        
+
         Returns:
             The max value
-        
+
         Note:
             Delegates to max property (CODING_RULE_V2_00017)
         """
@@ -146,13 +146,13 @@ class EcucFloatParamDef(EcucParameterDef):
     def setMax(self, value: "Limit") -> "EcucFloatParamDef":
         """
         AUTOSAR-compliant setter for max with method chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max property setter (gets validation automatically)
         """
@@ -162,10 +162,10 @@ class EcucFloatParamDef(EcucParameterDef):
     def getMin(self) -> "Limit":
         """
         AUTOSAR-compliant getter for min.
-        
+
         Returns:
             The min value
-        
+
         Note:
             Delegates to min property (CODING_RULE_V2_00017)
         """
@@ -174,13 +174,13 @@ class EcucFloatParamDef(EcucParameterDef):
     def setMin(self, value: "Limit") -> "EcucFloatParamDef":
         """
         AUTOSAR-compliant setter for min with method chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min property setter (gets validation automatically)
         """
@@ -192,13 +192,13 @@ class EcucFloatParamDef(EcucParameterDef):
     def with_default_value(self, value: Optional["Float"]) -> "EcucFloatParamDef":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """
@@ -208,13 +208,13 @@ class EcucFloatParamDef(EcucParameterDef):
     def with_max(self, value: Optional["Limit"]) -> "EcucFloatParamDef":
         """
         Set max and return self for chaining.
-        
+
         Args:
             value: The max to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max("value")
         """
@@ -224,13 +224,13 @@ class EcucFloatParamDef(EcucParameterDef):
     def with_min(self, value: Optional["Limit"]) -> "EcucFloatParamDef":
         """
         Set min and return self for chaining.
-        
+
         Args:
             value: The min to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min("value")
         """

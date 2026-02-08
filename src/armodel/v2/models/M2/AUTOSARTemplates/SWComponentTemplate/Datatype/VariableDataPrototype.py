@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class VariableDataPrototype(AutosarDataPrototype):
     """
@@ -7,9 +7,9 @@ class VariableDataPrototype(AutosarDataPrototype):
     that is typically mutable by the application software layer.
     VariableDataPrototype is used in various contexts and the specific context
     gives the otherwise generic VariableDataPrototype a dedicated semantics.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::VariableDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 107, Classic
       Platform R23-11)
@@ -37,10 +37,10 @@ class VariableDataPrototype(AutosarDataPrototype):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class VariableDataPrototype(AutosarDataPrototype):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -71,13 +71,13 @@ class VariableDataPrototype(AutosarDataPrototype):
     def setInitValue(self, value: "ValueSpecification") -> "VariableDataPrototype":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -89,13 +89,13 @@ class VariableDataPrototype(AutosarDataPrototype):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "VariableDataPrototype":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """

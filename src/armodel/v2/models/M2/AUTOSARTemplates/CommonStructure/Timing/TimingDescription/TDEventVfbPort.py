@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventVfbPort(TDEventVfb, ABC):
     """
     This is the abstract parent class to describe specific timing event types at
     Virtual Functional Bus (VFB) level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVfbPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 52, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 221, Foundation R23-11)
@@ -32,10 +36,10 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def is_external(self, value: Optional["Boolean"]) -> None:
         """
         Set isExternal with validation.
-        
+
         Args:
             value: The isExternal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def port(self, value: RefType) -> None:
         """
         Set port with validation.
-        
+
         Args:
             value: The port to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +89,10 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def port_prototype(self, value: RefType) -> None:
         """
         Set portPrototype with validation.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +107,10 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def getIsExternal(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isExternal.
-        
+
         Returns:
             The isExternal value
-        
+
         Note:
             Delegates to is_external property (CODING_RULE_V2_00017)
         """
@@ -115,13 +119,13 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def setIsExternal(self, value: "Boolean") -> "TDEventVfbPort":
         """
         AUTOSAR-compliant setter for isExternal with method chaining.
-        
+
         Args:
             value: The isExternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_external property setter (gets validation automatically)
         """
@@ -131,10 +135,10 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def getPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for port.
-        
+
         Returns:
             The port value
-        
+
         Note:
             Delegates to port property (CODING_RULE_V2_00017)
         """
@@ -143,13 +147,13 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def setPort(self, value: RefType) -> "TDEventVfbPort":
         """
         AUTOSAR-compliant setter for port with method chaining.
-        
+
         Args:
             value: The port to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port property setter (gets validation automatically)
         """
@@ -159,10 +163,10 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
-        
+
         Returns:
             The portPrototype value
-        
+
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
@@ -171,13 +175,13 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def setPortPrototype(self, value: RefType) -> "TDEventVfbPort":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -189,13 +193,13 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def with_is_external(self, value: Optional["Boolean"]) -> "TDEventVfbPort":
         """
         Set isExternal and return self for chaining.
-        
+
         Args:
             value: The isExternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_external("value")
         """
@@ -205,13 +209,13 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def with_port(self, value: Optional[RefType]) -> "TDEventVfbPort":
         """
         Set port and return self for chaining.
-        
+
         Args:
             value: The port to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port("value")
         """
@@ -221,13 +225,13 @@ class TDEventVfbPort(TDEventVfb, ABC):
     def with_port_prototype(self, value: Optional[RefType]) -> "TDEventVfbPort":
         """
         Set portPrototype and return self for chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_prototype("value")
         """

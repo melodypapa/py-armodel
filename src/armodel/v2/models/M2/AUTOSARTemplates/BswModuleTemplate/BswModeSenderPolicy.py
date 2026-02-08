@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswModeSenderPolicy(ARObject):
     """
     Specifies the details for the sending of a mode switch for the referred mode
     group.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswModeSenderPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 102, Classic
       Platform R23-11)
@@ -30,10 +35,10 @@ class BswModeSenderPolicy(ARObject):
     def ack_request_request(self, value: Optional["BswModeSwitchAck"]) -> None:
         """
         Set ackRequestRequest with validation.
-        
+
         Args:
             value: The ackRequestRequest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +66,10 @@ class BswModeSenderPolicy(ARObject):
     def enhanced_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set enhancedMode with validation.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +96,10 @@ class BswModeSenderPolicy(ARObject):
     def provided_mode(self, value: RefType) -> None:
         """
         Set providedMode with validation.
-        
+
         Args:
             value: The providedMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +124,10 @@ class BswModeSenderPolicy(ARObject):
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +146,10 @@ class BswModeSenderPolicy(ARObject):
     def getAckRequestRequest(self) -> "BswModeSwitchAck":
         """
         AUTOSAR-compliant getter for ackRequestRequest.
-        
+
         Returns:
             The ackRequestRequest value
-        
+
         Note:
             Delegates to ack_request_request property (CODING_RULE_V2_00017)
         """
@@ -153,13 +158,13 @@ class BswModeSenderPolicy(ARObject):
     def setAckRequestRequest(self, value: "BswModeSwitchAck") -> "BswModeSenderPolicy":
         """
         AUTOSAR-compliant setter for ackRequestRequest with method chaining.
-        
+
         Args:
             value: The ackRequestRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ack_request_request property setter (gets validation automatically)
         """
@@ -169,10 +174,10 @@ class BswModeSenderPolicy(ARObject):
     def getEnhancedMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enhancedMode.
-        
+
         Returns:
             The enhancedMode value
-        
+
         Note:
             Delegates to enhanced_mode property (CODING_RULE_V2_00017)
         """
@@ -181,13 +186,13 @@ class BswModeSenderPolicy(ARObject):
     def setEnhancedMode(self, value: "Boolean") -> "BswModeSenderPolicy":
         """
         AUTOSAR-compliant setter for enhancedMode with method chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enhanced_mode property setter (gets validation automatically)
         """
@@ -197,10 +202,10 @@ class BswModeSenderPolicy(ARObject):
     def getProvidedMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for providedMode.
-        
+
         Returns:
             The providedMode value
-        
+
         Note:
             Delegates to provided_mode property (CODING_RULE_V2_00017)
         """
@@ -209,13 +214,13 @@ class BswModeSenderPolicy(ARObject):
     def setProvidedMode(self, value: RefType) -> "BswModeSenderPolicy":
         """
         AUTOSAR-compliant setter for providedMode with method chaining.
-        
+
         Args:
             value: The providedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided_mode property setter (gets validation automatically)
         """
@@ -225,10 +230,10 @@ class BswModeSenderPolicy(ARObject):
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -237,13 +242,13 @@ class BswModeSenderPolicy(ARObject):
     def setQueueLength(self, value: "PositiveInteger") -> "BswModeSenderPolicy":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -255,13 +260,13 @@ class BswModeSenderPolicy(ARObject):
     def with_ack_request_request(self, value: Optional["BswModeSwitchAck"]) -> "BswModeSenderPolicy":
         """
         Set ackRequestRequest and return self for chaining.
-        
+
         Args:
             value: The ackRequestRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ack_request_request("value")
         """
@@ -271,13 +276,13 @@ class BswModeSenderPolicy(ARObject):
     def with_enhanced_mode(self, value: Optional["Boolean"]) -> "BswModeSenderPolicy":
         """
         Set enhancedMode and return self for chaining.
-        
+
         Args:
             value: The enhancedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enhanced_mode("value")
         """
@@ -287,13 +292,13 @@ class BswModeSenderPolicy(ARObject):
     def with_provided_mode(self, value: Optional[RefType]) -> "BswModeSenderPolicy":
         """
         Set providedMode and return self for chaining.
-        
+
         Args:
             value: The providedMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided_mode("value")
         """
@@ -303,13 +308,13 @@ class BswModeSenderPolicy(ARObject):
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "BswModeSenderPolicy":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """

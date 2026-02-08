@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SOMEIPTransformationProps(TransformationProps):
     """
     The class SOMEIPTransformationProps specifies SOME/IP specific configuration
     properties.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::SOMEIPTransformationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 783, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def alignment(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set alignment with validation.
-        
+
         Args:
             value: The alignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def size_of_array(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfArray with validation.
-        
+
         Args:
             value: The sizeOfArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def size_of_string(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfString with validation.
-        
+
         Args:
             value: The sizeOfString to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def size_of_struct(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfStruct with validation.
-        
+
         Args:
             value: The sizeOfStruct to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +145,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def size_of_union(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfUnion with validation.
-        
+
         Args:
             value: The sizeOfUnion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -167,10 +167,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def getAlignment(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for alignment.
-        
+
         Returns:
             The alignment value
-        
+
         Note:
             Delegates to alignment property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def setAlignment(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
         """
         AUTOSAR-compliant setter for alignment with method chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alignment property setter (gets validation automatically)
         """
@@ -195,10 +195,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def getSizeOfArray(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfArray.
-        
+
         Returns:
             The sizeOfArray value
-        
+
         Note:
             Delegates to size_of_array property (CODING_RULE_V2_00017)
         """
@@ -207,13 +207,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def setSizeOfArray(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
         """
         AUTOSAR-compliant setter for sizeOfArray with method chaining.
-        
+
         Args:
             value: The sizeOfArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_array property setter (gets validation automatically)
         """
@@ -223,10 +223,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def getSizeOfString(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfString.
-        
+
         Returns:
             The sizeOfString value
-        
+
         Note:
             Delegates to size_of_string property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def setSizeOfString(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
         """
         AUTOSAR-compliant setter for sizeOfString with method chaining.
-        
+
         Args:
             value: The sizeOfString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_string property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def getSizeOfStruct(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfStruct.
-        
+
         Returns:
             The sizeOfStruct value
-        
+
         Note:
             Delegates to size_of_struct property (CODING_RULE_V2_00017)
         """
@@ -263,13 +263,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def setSizeOfStruct(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
         """
         AUTOSAR-compliant setter for sizeOfStruct with method chaining.
-        
+
         Args:
             value: The sizeOfStruct to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_struct property setter (gets validation automatically)
         """
@@ -279,10 +279,10 @@ class SOMEIPTransformationProps(TransformationProps):
     def getSizeOfUnion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfUnion.
-        
+
         Returns:
             The sizeOfUnion value
-        
+
         Note:
             Delegates to size_of_union property (CODING_RULE_V2_00017)
         """
@@ -291,13 +291,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def setSizeOfUnion(self, value: "PositiveInteger") -> "SOMEIPTransformationProps":
         """
         AUTOSAR-compliant setter for sizeOfUnion with method chaining.
-        
+
         Args:
             value: The sizeOfUnion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_union property setter (gets validation automatically)
         """
@@ -309,13 +309,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def with_alignment(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
         """
         Set alignment and return self for chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alignment("value")
         """
@@ -325,13 +325,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def with_size_of_array(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
         """
         Set sizeOfArray and return self for chaining.
-        
+
         Args:
             value: The sizeOfArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_array("value")
         """
@@ -341,13 +341,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def with_size_of_string(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
         """
         Set sizeOfString and return self for chaining.
-        
+
         Args:
             value: The sizeOfString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_string("value")
         """
@@ -357,13 +357,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
         """
         Set sizeOfStruct and return self for chaining.
-        
+
         Args:
             value: The sizeOfStruct to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_struct("value")
         """
@@ -373,13 +373,13 @@ class SOMEIPTransformationProps(TransformationProps):
     def with_size_of_union(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationProps":
         """
         Set sizeOfUnion and return self for chaining.
-        
+
         Args:
             value: The sizeOfUnion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_union("value")
         """

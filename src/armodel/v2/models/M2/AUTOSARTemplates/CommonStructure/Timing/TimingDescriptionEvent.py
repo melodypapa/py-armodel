@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class TimingDescriptionEvent(TimingDescription, ABC):
     """
@@ -10,9 +11,9 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     different types of events are defined. In order to avoid confusion with
     existing event descriptions in the AUTOSAR templates the timing specific
     event types use the prefix TD.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 253, Classic Platform R23-11)
     """
@@ -34,10 +35,10 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def clock_reference(self, value: Optional["TimingClock"]) -> None:
         """
         Set clockReference with validation.
-        
+
         Args:
             value: The clockReference to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +63,10 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def occurrence(self, value: Optional["TDEventOccurrence"]) -> None:
         """
         Set occurrence with validation.
-        
+
         Args:
             value: The occurrence to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +85,10 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def getClockReference(self) -> "TimingClock":
         """
         AUTOSAR-compliant getter for clockReference.
-        
+
         Returns:
             The clockReference value
-        
+
         Note:
             Delegates to clock_reference property (CODING_RULE_V2_00017)
         """
@@ -96,13 +97,13 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def setClockReference(self, value: "TimingClock") -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant setter for clockReference with method chaining.
-        
+
         Args:
             value: The clockReference to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to clock_reference property setter (gets validation automatically)
         """
@@ -112,10 +113,10 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def getOccurrence(self) -> "TDEventOccurrence":
         """
         AUTOSAR-compliant getter for occurrence.
-        
+
         Returns:
             The occurrence value
-        
+
         Note:
             Delegates to occurrence property (CODING_RULE_V2_00017)
         """
@@ -124,13 +125,13 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def setOccurrence(self, value: "TDEventOccurrence") -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant setter for occurrence with method chaining.
-        
+
         Args:
             value: The occurrence to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to occurrence property setter (gets validation automatically)
         """
@@ -142,13 +143,13 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def with_clock_reference(self, value: Optional["TimingClock"]) -> "TimingDescriptionEvent":
         """
         Set clockReference and return self for chaining.
-        
+
         Args:
             value: The clockReference to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_clock_reference("value")
         """
@@ -158,13 +159,13 @@ class TimingDescriptionEvent(TimingDescription, ABC):
     def with_occurrence(self, value: Optional["TDEventOccurrence"]) -> "TimingDescriptionEvent":
         """
         Set occurrence and return self for chaining.
-        
+
         Args:
             value: The occurrence to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_occurrence("value")
         """

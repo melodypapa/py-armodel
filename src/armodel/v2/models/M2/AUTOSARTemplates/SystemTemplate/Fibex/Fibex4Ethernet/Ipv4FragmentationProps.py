@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv4FragmentationProps(ARObject):
     """
     Specifies the configuration options for IPv4 packet
     fragmentation/reassembly.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv4FragmentationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 147, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class Ipv4FragmentationProps(ARObject):
     def tcp_ip_ip(self, value: Optional["Boolean"]) -> None:
         """
         Set tcpIpIp with validation.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class Ipv4FragmentationProps(ARObject):
     def tcp_ip_ip_num(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set tcpIpIpNum with validation.
-        
+
         Args:
             value: The tcpIpIpNum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class Ipv4FragmentationProps(ARObject):
     def tcp_ip_ip_reass(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpIpIpReass with validation.
-        
+
         Args:
             value: The tcpIpIpReass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +111,10 @@ class Ipv4FragmentationProps(ARObject):
     def getTcpIpIp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for tcpIpIp.
-        
+
         Returns:
             The tcpIpIp value
-        
+
         Note:
             Delegates to tcp_ip_ip property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class Ipv4FragmentationProps(ARObject):
     def setTcpIpIp(self, value: "Boolean") -> "Ipv4FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIp with method chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip property setter (gets validation automatically)
         """
@@ -136,10 +139,10 @@ class Ipv4FragmentationProps(ARObject):
     def getTcpIpIpNum(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for tcpIpIpNum.
-        
+
         Returns:
             The tcpIpIpNum value
-        
+
         Note:
             Delegates to tcp_ip_ip_num property (CODING_RULE_V2_00017)
         """
@@ -148,13 +151,13 @@ class Ipv4FragmentationProps(ARObject):
     def setTcpIpIpNum(self, value: "PositiveInteger") -> "Ipv4FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpNum with method chaining.
-        
+
         Args:
             value: The tcpIpIpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_num property setter (gets validation automatically)
         """
@@ -164,10 +167,10 @@ class Ipv4FragmentationProps(ARObject):
     def getTcpIpIpReass(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpIpIpReass.
-        
+
         Returns:
             The tcpIpIpReass value
-        
+
         Note:
             Delegates to tcp_ip_ip_reass property (CODING_RULE_V2_00017)
         """
@@ -176,13 +179,13 @@ class Ipv4FragmentationProps(ARObject):
     def setTcpIpIpReass(self, value: "TimeValue") -> "Ipv4FragmentationProps":
         """
         AUTOSAR-compliant setter for tcpIpIpReass with method chaining.
-        
+
         Args:
             value: The tcpIpIpReass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_ip_ip_reass property setter (gets validation automatically)
         """
@@ -194,13 +197,13 @@ class Ipv4FragmentationProps(ARObject):
     def with_tcp_ip_ip(self, value: Optional["Boolean"]) -> "Ipv4FragmentationProps":
         """
         Set tcpIpIp and return self for chaining.
-        
+
         Args:
             value: The tcpIpIp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip("value")
         """
@@ -210,13 +213,13 @@ class Ipv4FragmentationProps(ARObject):
     def with_tcp_ip_ip_num(self, value: Optional["PositiveInteger"]) -> "Ipv4FragmentationProps":
         """
         Set tcpIpIpNum and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpNum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_num("value")
         """
@@ -226,13 +229,13 @@ class Ipv4FragmentationProps(ARObject):
     def with_tcp_ip_ip_reass(self, value: Optional["TimeValue"]) -> "Ipv4FragmentationProps":
         """
         Set tcpIpIpReass and return self for chaining.
-        
+
         Args:
             value: The tcpIpIpReass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_ip_ip_reass("value")
         """

@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwcToApplicationPartitionMapping(Identifiable):
     """
     Allows to map a given SwComponentPrototype to a formally defined partition
     at a point in time when the corresponding EcuInstance is not yet known or
     defined.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::SwcToApplicationPartitionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 200, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def application(self, value: Optional["ApplicationPartition"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def sw_component(self, value: Optional["SwComponent"]) -> None:
         """
         Set swComponent with validation.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +87,10 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def getApplication(self) -> "ApplicationPartition":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -97,13 +99,13 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def setApplication(self, value: "ApplicationPartition") -> "SwcToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -113,10 +115,10 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def getSwComponent(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for swComponent.
-        
+
         Returns:
             The swComponent value
-        
+
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -125,13 +127,13 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def setSwComponent(self, value: "SwComponent") -> "SwcToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for swComponent with method chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_component property setter (gets validation automatically)
         """
@@ -143,13 +145,13 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def with_application(self, value: Optional["ApplicationPartition"]) -> "SwcToApplicationPartitionMapping":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -159,13 +161,13 @@ class SwcToApplicationPartitionMapping(Identifiable):
     def with_sw_component(self, value: Optional["SwComponent"]) -> "SwcToApplicationPartitionMapping":
         """
         Set swComponent and return self for chaining.
-        
+
         Args:
             value: The swComponent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_component("value")
         """

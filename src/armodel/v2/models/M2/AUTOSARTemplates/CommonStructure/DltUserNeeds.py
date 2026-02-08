@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DltUserNeeds(ServiceNeeds):
     """
@@ -10,9 +8,9 @@ class DltUserNeeds(ServiceNeeds):
     to group the request and response PortPrototypes of the same SessionId. The
     actual SessionId value is stored in the PortDefinedArgumentValue of the
     respective PortPrototype specification.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DltUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 236, Classic
       Platform R23-11)

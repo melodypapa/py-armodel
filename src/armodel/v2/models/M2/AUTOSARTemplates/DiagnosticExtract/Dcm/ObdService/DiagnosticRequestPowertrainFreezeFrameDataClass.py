@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticRequestPowertrainFreezeFrameDataClass(DiagnosticServiceClass):
     """
     This meta-class represents the ability to define common properties for all
     instances of the "Request Powertrain Freeze Frame Data" OBD diagnostic
     service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze::DiagnosticRequestPowertrainFreezeFrameDataClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 152, Classic Platform
       R23-11)

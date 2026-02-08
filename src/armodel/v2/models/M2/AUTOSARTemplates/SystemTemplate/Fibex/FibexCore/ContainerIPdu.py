@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ContainerIPdu(IPdu):
     """
     Allows to collect several IPdus in one ContainerIPdu based on the
     headerType.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ContainerIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 353, Classic Platform R23-11)
     """
@@ -45,10 +48,10 @@ class ContainerIPdu(IPdu):
     def container(self, value: Optional["TimeValue"]) -> None:
         """
         Set container with validation.
-        
+
         Args:
             value: The container to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +77,10 @@ class ContainerIPdu(IPdu):
     def container_trigger(self, value: RefType) -> None:
         """
         Set containerTrigger with validation.
-        
+
         Args:
             value: The containerTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +101,10 @@ class ContainerIPdu(IPdu):
     def header_type(self, value: Optional["ContainerIPduHeader"]) -> None:
         """
         Set headerType with validation.
-        
+
         Args:
             value: The headerType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +129,10 @@ class ContainerIPdu(IPdu):
     def minimum_rx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minimumRx with validation.
-        
+
         Args:
             value: The minimumRx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +157,10 @@ class ContainerIPdu(IPdu):
     def minimum_tx(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minimumTx with validation.
-        
+
         Args:
             value: The minimumTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -183,10 +186,10 @@ class ContainerIPdu(IPdu):
     def rx_accept(self, value: Optional["RxAcceptContainedI"]) -> None:
         """
         Set rxAccept with validation.
-        
+
         Args:
             value: The rxAccept to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -213,10 +216,10 @@ class ContainerIPdu(IPdu):
     def threshold_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set thresholdSize with validation.
-        
+
         Args:
             value: The thresholdSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -241,10 +244,10 @@ class ContainerIPdu(IPdu):
     def unused_bit(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -263,10 +266,10 @@ class ContainerIPdu(IPdu):
     def getContainedIPdu(self) -> List["ContainedIPduProps"]:
         """
         AUTOSAR-compliant getter for containedIPdu.
-        
+
         Returns:
             The containedIPdu value
-        
+
         Note:
             Delegates to contained_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -275,10 +278,10 @@ class ContainerIPdu(IPdu):
     def getContainedPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for containedPdu.
-        
+
         Returns:
             The containedPdu value
-        
+
         Note:
             Delegates to contained_pdu property (CODING_RULE_V2_00017)
         """
@@ -287,10 +290,10 @@ class ContainerIPdu(IPdu):
     def getContainer(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for container.
-        
+
         Returns:
             The container value
-        
+
         Note:
             Delegates to container property (CODING_RULE_V2_00017)
         """
@@ -299,13 +302,13 @@ class ContainerIPdu(IPdu):
     def setContainer(self, value: "TimeValue") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for container with method chaining.
-        
+
         Args:
             value: The container to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to container property setter (gets validation automatically)
         """
@@ -315,10 +318,10 @@ class ContainerIPdu(IPdu):
     def getContainerTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for containerTrigger.
-        
+
         Returns:
             The containerTrigger value
-        
+
         Note:
             Delegates to container_trigger property (CODING_RULE_V2_00017)
         """
@@ -327,13 +330,13 @@ class ContainerIPdu(IPdu):
     def setContainerTrigger(self, value: RefType) -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for containerTrigger with method chaining.
-        
+
         Args:
             value: The containerTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to container_trigger property setter (gets validation automatically)
         """
@@ -343,10 +346,10 @@ class ContainerIPdu(IPdu):
     def getHeaderType(self) -> "ContainerIPduHeader":
         """
         AUTOSAR-compliant getter for headerType.
-        
+
         Returns:
             The headerType value
-        
+
         Note:
             Delegates to header_type property (CODING_RULE_V2_00017)
         """
@@ -355,13 +358,13 @@ class ContainerIPdu(IPdu):
     def setHeaderType(self, value: "ContainerIPduHeader") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for headerType with method chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_type property setter (gets validation automatically)
         """
@@ -371,10 +374,10 @@ class ContainerIPdu(IPdu):
     def getMinimumRx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minimumRx.
-        
+
         Returns:
             The minimumRx value
-        
+
         Note:
             Delegates to minimum_rx property (CODING_RULE_V2_00017)
         """
@@ -383,13 +386,13 @@ class ContainerIPdu(IPdu):
     def setMinimumRx(self, value: "PositiveInteger") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for minimumRx with method chaining.
-        
+
         Args:
             value: The minimumRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_rx property setter (gets validation automatically)
         """
@@ -399,10 +402,10 @@ class ContainerIPdu(IPdu):
     def getMinimumTx(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minimumTx.
-        
+
         Returns:
             The minimumTx value
-        
+
         Note:
             Delegates to minimum_tx property (CODING_RULE_V2_00017)
         """
@@ -411,13 +414,13 @@ class ContainerIPdu(IPdu):
     def setMinimumTx(self, value: "PositiveInteger") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for minimumTx with method chaining.
-        
+
         Args:
             value: The minimumTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_tx property setter (gets validation automatically)
         """
@@ -427,10 +430,10 @@ class ContainerIPdu(IPdu):
     def getRxAccept(self) -> "RxAcceptContainedI":
         """
         AUTOSAR-compliant getter for rxAccept.
-        
+
         Returns:
             The rxAccept value
-        
+
         Note:
             Delegates to rx_accept property (CODING_RULE_V2_00017)
         """
@@ -439,13 +442,13 @@ class ContainerIPdu(IPdu):
     def setRxAccept(self, value: "RxAcceptContainedI") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for rxAccept with method chaining.
-        
+
         Args:
             value: The rxAccept to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rx_accept property setter (gets validation automatically)
         """
@@ -455,10 +458,10 @@ class ContainerIPdu(IPdu):
     def getThresholdSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for thresholdSize.
-        
+
         Returns:
             The thresholdSize value
-        
+
         Note:
             Delegates to threshold_size property (CODING_RULE_V2_00017)
         """
@@ -467,13 +470,13 @@ class ContainerIPdu(IPdu):
     def setThresholdSize(self, value: "PositiveInteger") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for thresholdSize with method chaining.
-        
+
         Args:
             value: The thresholdSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold_size property setter (gets validation automatically)
         """
@@ -483,10 +486,10 @@ class ContainerIPdu(IPdu):
     def getUnusedBit(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -495,13 +498,13 @@ class ContainerIPdu(IPdu):
     def setUnusedBit(self, value: "PositiveInteger") -> "ContainerIPdu":
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -513,13 +516,13 @@ class ContainerIPdu(IPdu):
     def with_container(self, value: Optional["TimeValue"]) -> "ContainerIPdu":
         """
         Set container and return self for chaining.
-        
+
         Args:
             value: The container to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_container("value")
         """
@@ -529,13 +532,13 @@ class ContainerIPdu(IPdu):
     def with_container_trigger(self, value: Optional[RefType]) -> "ContainerIPdu":
         """
         Set containerTrigger and return self for chaining.
-        
+
         Args:
             value: The containerTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_container_trigger("value")
         """
@@ -545,13 +548,13 @@ class ContainerIPdu(IPdu):
     def with_header_type(self, value: Optional["ContainerIPduHeader"]) -> "ContainerIPdu":
         """
         Set headerType and return self for chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_type("value")
         """
@@ -561,13 +564,13 @@ class ContainerIPdu(IPdu):
     def with_minimum_rx(self, value: Optional["PositiveInteger"]) -> "ContainerIPdu":
         """
         Set minimumRx and return self for chaining.
-        
+
         Args:
             value: The minimumRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_rx("value")
         """
@@ -577,13 +580,13 @@ class ContainerIPdu(IPdu):
     def with_minimum_tx(self, value: Optional["PositiveInteger"]) -> "ContainerIPdu":
         """
         Set minimumTx and return self for chaining.
-        
+
         Args:
             value: The minimumTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_tx("value")
         """
@@ -593,13 +596,13 @@ class ContainerIPdu(IPdu):
     def with_rx_accept(self, value: Optional["RxAcceptContainedI"]) -> "ContainerIPdu":
         """
         Set rxAccept and return self for chaining.
-        
+
         Args:
             value: The rxAccept to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rx_accept("value")
         """
@@ -609,13 +612,13 @@ class ContainerIPdu(IPdu):
     def with_threshold_size(self, value: Optional["PositiveInteger"]) -> "ContainerIPdu":
         """
         Set thresholdSize and return self for chaining.
-        
+
         Args:
             value: The thresholdSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold_size("value")
         """
@@ -625,13 +628,13 @@ class ContainerIPdu(IPdu):
     def with_unused_bit(self, value: Optional["PositiveInteger"]) -> "ContainerIPdu":
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """

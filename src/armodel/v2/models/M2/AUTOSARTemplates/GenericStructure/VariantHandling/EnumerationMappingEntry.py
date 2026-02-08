@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EnumerationMappingEntry(ARObject):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::EnumerationMappingEntry
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 443, Foundation
       R23-11)
@@ -30,10 +31,10 @@ class EnumerationMappingEntry(ARObject):
     def enumerator(self, value: "NameToken") -> None:
         """
         Set enumerator with validation.
-        
+
         Args:
             value: The enumerator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +61,10 @@ class EnumerationMappingEntry(ARObject):
     def numerical_value(self, value: "PositiveInteger") -> None:
         """
         Set numericalValue with validation.
-        
+
         Args:
             value: The numericalValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +79,10 @@ class EnumerationMappingEntry(ARObject):
     def getEnumerator(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for enumerator.
-        
+
         Returns:
             The enumerator value
-        
+
         Note:
             Delegates to enumerator property (CODING_RULE_V2_00017)
         """
@@ -90,13 +91,13 @@ class EnumerationMappingEntry(ARObject):
     def setEnumerator(self, value: "NameToken") -> "EnumerationMappingEntry":
         """
         AUTOSAR-compliant setter for enumerator with method chaining.
-        
+
         Args:
             value: The enumerator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enumerator property setter (gets validation automatically)
         """
@@ -106,10 +107,10 @@ class EnumerationMappingEntry(ARObject):
     def getNumericalValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for numericalValue.
-        
+
         Returns:
             The numericalValue value
-        
+
         Note:
             Delegates to numerical_value property (CODING_RULE_V2_00017)
         """
@@ -118,13 +119,13 @@ class EnumerationMappingEntry(ARObject):
     def setNumericalValue(self, value: "PositiveInteger") -> "EnumerationMappingEntry":
         """
         AUTOSAR-compliant setter for numericalValue with method chaining.
-        
+
         Args:
             value: The numericalValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to numerical_value property setter (gets validation automatically)
         """
@@ -136,13 +137,13 @@ class EnumerationMappingEntry(ARObject):
     def with_enumerator(self, value: "NameToken") -> "EnumerationMappingEntry":
         """
         Set enumerator and return self for chaining.
-        
+
         Args:
             value: The enumerator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enumerator("value")
         """
@@ -152,13 +153,13 @@ class EnumerationMappingEntry(ARObject):
     def with_numerical_value(self, value: "PositiveInteger") -> "EnumerationMappingEntry":
         """
         Set numericalValue and return self for chaining.
-        
+
         Args:
             value: The numericalValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_numerical_value("value")
         """

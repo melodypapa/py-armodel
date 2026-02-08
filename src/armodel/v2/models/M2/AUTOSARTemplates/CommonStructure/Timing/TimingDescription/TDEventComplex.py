@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class TDEventComplex(TimingDescriptionEvent):
     """
@@ -7,9 +5,9 @@ class TDEventComplex(TimingDescriptionEvent):
     timing event either is described informally, e.g. using the documentation
     block, or is described formally by the associated
     TDEventOccurrenceExpression.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventComplex
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 78, Classic Platform R23-11)
     """

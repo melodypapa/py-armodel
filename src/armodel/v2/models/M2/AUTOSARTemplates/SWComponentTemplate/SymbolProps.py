@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class SymbolProps(ImplementationProps):
     """
@@ -7,9 +5,9 @@ class SymbolProps(ImplementationProps):
     symbolic name that is conform to C language requirements to another
     meta-class, e.g. AtomicSwComponentType, that is a potential subject to a
     name clash on the level of RTE source code.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SymbolProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 288, Classic Platform
       R23-11)

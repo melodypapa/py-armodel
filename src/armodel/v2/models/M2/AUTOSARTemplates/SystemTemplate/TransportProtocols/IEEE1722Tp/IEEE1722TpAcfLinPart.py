@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     """
     Definition of one LIN part transported over the IEEE1722Tp channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf::IEEE1722TpAcfLinPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 667, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def lin_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set linIdentifier with validation.
-        
+
         Args:
             value: The linIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def sdu(self, value: RefType) -> None:
         """
         Set sdu with validation.
-        
+
         Args:
             value: The sdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +76,10 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def getLinIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for linIdentifier.
-        
+
         Returns:
             The linIdentifier value
-        
+
         Note:
             Delegates to lin_identifier property (CODING_RULE_V2_00017)
         """
@@ -85,13 +88,13 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def setLinIdentifier(self, value: "PositiveInteger") -> "IEEE1722TpAcfLinPart":
         """
         AUTOSAR-compliant setter for linIdentifier with method chaining.
-        
+
         Args:
             value: The linIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lin_identifier property setter (gets validation automatically)
         """
@@ -101,10 +104,10 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def getSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdu.
-        
+
         Returns:
             The sdu value
-        
+
         Note:
             Delegates to sdu property (CODING_RULE_V2_00017)
         """
@@ -113,13 +116,13 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def setSdu(self, value: RefType) -> "IEEE1722TpAcfLinPart":
         """
         AUTOSAR-compliant setter for sdu with method chaining.
-        
+
         Args:
             value: The sdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdu property setter (gets validation automatically)
         """
@@ -131,13 +134,13 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def with_lin_identifier(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpAcfLinPart":
         """
         Set linIdentifier and return self for chaining.
-        
+
         Args:
             value: The linIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lin_identifier("value")
         """
@@ -147,13 +150,13 @@ class IEEE1722TpAcfLinPart(IEEE1722TpAcfBusPart):
     def with_sdu(self, value: Optional[RefType]) -> "IEEE1722TpAcfLinPart":
         """
         Set sdu and return self for chaining.
-        
+
         Args:
             value: The sdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdu("value")
         """

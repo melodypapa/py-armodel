@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ConstantSpecification(ARElement):
     """
     Specification of a constant that can be part of a package, i.e. it can be
     defined stand-alone.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ConstantSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class ConstantSpecification(ARElement):
     def value_spec(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set valueSpec with validation.
-        
+
         Args:
             value: The valueSpec to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class ConstantSpecification(ARElement):
     def getValueSpec(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for valueSpec.
-        
+
         Returns:
             The valueSpec value
-        
+
         Note:
             Delegates to value_spec property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class ConstantSpecification(ARElement):
     def setValueSpec(self, value: "ValueSpecification") -> "ConstantSpecification":
         """
         AUTOSAR-compliant setter for valueSpec with method chaining.
-        
+
         Args:
             value: The valueSpec to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value_spec property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class ConstantSpecification(ARElement):
     def with_value_spec(self, value: Optional["ValueSpecification"]) -> "ConstantSpecification":
         """
         Set valueSpec and return self for chaining.
-        
+
         Args:
             value: The valueSpec to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value_spec("value")
         """

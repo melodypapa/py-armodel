@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DefaultValueElement(ARObject):
     """
     The default value consists of a number of elements. Each element is one byte
     long and the number of elements is specified by SduLength.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Multiplatform::DefaultValueElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 841, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DefaultValueElement(ARObject):
     def element_byte_value(self, value: Optional["Integer"]) -> None:
         """
         Set elementByteValue with validation.
-        
+
         Args:
             value: The elementByteValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class DefaultValueElement(ARObject):
     def element_position(self, value: Optional["Integer"]) -> None:
         """
         Set elementPosition with validation.
-        
+
         Args:
             value: The elementPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class DefaultValueElement(ARObject):
     def getElementByteValue(self) -> "Integer":
         """
         AUTOSAR-compliant getter for elementByteValue.
-        
+
         Returns:
             The elementByteValue value
-        
+
         Note:
             Delegates to element_byte_value property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class DefaultValueElement(ARObject):
     def setElementByteValue(self, value: "Integer") -> "DefaultValueElement":
         """
         AUTOSAR-compliant setter for elementByteValue with method chaining.
-        
+
         Args:
             value: The elementByteValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element_byte_value property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class DefaultValueElement(ARObject):
     def getElementPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for elementPosition.
-        
+
         Returns:
             The elementPosition value
-        
+
         Note:
             Delegates to element_position property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class DefaultValueElement(ARObject):
     def setElementPosition(self, value: "Integer") -> "DefaultValueElement":
         """
         AUTOSAR-compliant setter for elementPosition with method chaining.
-        
+
         Args:
             value: The elementPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element_position property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class DefaultValueElement(ARObject):
     def with_element_byte_value(self, value: Optional["Integer"]) -> "DefaultValueElement":
         """
         Set elementByteValue and return self for chaining.
-        
+
         Args:
             value: The elementByteValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element_byte_value("value")
         """
@@ -152,13 +155,13 @@ class DefaultValueElement(ARObject):
     def with_element_position(self, value: Optional["Integer"]) -> "DefaultValueElement":
         """
         Set elementPosition and return self for chaining.
-        
+
         Args:
             value: The elementPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element_position("value")
         """

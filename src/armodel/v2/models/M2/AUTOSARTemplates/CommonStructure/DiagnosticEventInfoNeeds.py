@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the needs of a software-component interested to
     get information regarding specific DTCs.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticEventInfoNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 312, Classic
       Platform R23-11)
@@ -34,10 +34,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def obd_dtc_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set obdDtcNumber with validation.
-        
+
         Args:
             value: The obdDtcNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def uds_dtc_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set udsDtcNumber with validation.
-        
+
         Args:
             value: The udsDtcNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getObdDtcNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for obdDtcNumber.
-        
+
         Returns:
             The obdDtcNumber value
-        
+
         Note:
             Delegates to obd_dtc_number property (CODING_RULE_V2_00017)
         """
@@ -100,13 +100,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def setObdDtcNumber(self, value: "PositiveInteger") -> "DiagnosticEventInfoNeeds":
         """
         AUTOSAR-compliant setter for obdDtcNumber with method chaining.
-        
+
         Args:
             value: The obdDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to obd_dtc_number property setter (gets validation automatically)
         """
@@ -116,10 +116,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getUdsDtcNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for udsDtcNumber.
-        
+
         Returns:
             The udsDtcNumber value
-        
+
         Note:
             Delegates to uds_dtc_number property (CODING_RULE_V2_00017)
         """
@@ -128,13 +128,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def setUdsDtcNumber(self, value: "PositiveInteger") -> "DiagnosticEventInfoNeeds":
         """
         AUTOSAR-compliant setter for udsDtcNumber with method chaining.
-        
+
         Args:
             value: The udsDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uds_dtc_number property setter (gets validation automatically)
         """
@@ -146,13 +146,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def with_obd_dtc_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticEventInfoNeeds":
         """
         Set obdDtcNumber and return self for chaining.
-        
+
         Args:
             value: The obdDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_obd_dtc_number("value")
         """
@@ -162,13 +162,13 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def with_uds_dtc_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticEventInfoNeeds":
         """
         Set udsDtcNumber and return self for chaining.
-        
+
         Args:
             value: The udsDtcNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uds_dtc_number("value")
         """

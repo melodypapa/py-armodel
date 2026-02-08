@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class NmPdu(Pdu):
     """
     Network Management Pdu
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::NmPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 342, Classic Platform R23-11)
@@ -40,10 +43,10 @@ class NmPdu(Pdu):
     def nm_data(self, value: Optional["Boolean"]) -> None:
         """
         Set nmData with validation.
-        
+
         Args:
             value: The nmData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +71,10 @@ class NmPdu(Pdu):
     def nm_vote_information(self, value: Optional["Boolean"]) -> None:
         """
         Set nmVoteInformation with validation.
-        
+
         Args:
             value: The nmVoteInformation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +100,10 @@ class NmPdu(Pdu):
     def unused_bit(self, value: Optional["Integer"]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +122,10 @@ class NmPdu(Pdu):
     def getISignalToIPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignalToIPdu.
-        
+
         Returns:
             The iSignalToIPdu value
-        
+
         Note:
             Delegates to i_signal_to_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -131,10 +134,10 @@ class NmPdu(Pdu):
     def getNmData(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmData.
-        
+
         Returns:
             The nmData value
-        
+
         Note:
             Delegates to nm_data property (CODING_RULE_V2_00017)
         """
@@ -143,13 +146,13 @@ class NmPdu(Pdu):
     def setNmData(self, value: "Boolean") -> "NmPdu":
         """
         AUTOSAR-compliant setter for nmData with method chaining.
-        
+
         Args:
             value: The nmData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_data property setter (gets validation automatically)
         """
@@ -159,10 +162,10 @@ class NmPdu(Pdu):
     def getNmVoteInformation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmVoteInformation.
-        
+
         Returns:
             The nmVoteInformation value
-        
+
         Note:
             Delegates to nm_vote_information property (CODING_RULE_V2_00017)
         """
@@ -171,13 +174,13 @@ class NmPdu(Pdu):
     def setNmVoteInformation(self, value: "Boolean") -> "NmPdu":
         """
         AUTOSAR-compliant setter for nmVoteInformation with method chaining.
-        
+
         Args:
             value: The nmVoteInformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_vote_information property setter (gets validation automatically)
         """
@@ -187,10 +190,10 @@ class NmPdu(Pdu):
     def getUnusedBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -199,13 +202,13 @@ class NmPdu(Pdu):
     def setUnusedBit(self, value: "Integer") -> "NmPdu":
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -217,13 +220,13 @@ class NmPdu(Pdu):
     def with_nm_data(self, value: Optional["Boolean"]) -> "NmPdu":
         """
         Set nmData and return self for chaining.
-        
+
         Args:
             value: The nmData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_data("value")
         """
@@ -233,13 +236,13 @@ class NmPdu(Pdu):
     def with_nm_vote_information(self, value: Optional["Boolean"]) -> "NmPdu":
         """
         Set nmVoteInformation and return self for chaining.
-        
+
         Args:
             value: The nmVoteInformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_vote_information("value")
         """
@@ -249,13 +252,13 @@ class NmPdu(Pdu):
     def with_unused_bit(self, value: Optional["Integer"]) -> "NmPdu":
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """

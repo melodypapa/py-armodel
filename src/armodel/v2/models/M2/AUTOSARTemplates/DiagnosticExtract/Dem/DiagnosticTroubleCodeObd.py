@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     """
     This element is used to define OBD-relevant DTCs.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode::DiagnosticTroubleCodeObd
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 174, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def consider_pto(self, value: Optional["Boolean"]) -> None:
         """
         Set considerPto with validation.
-        
+
         Args:
             value: The considerPto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set dtcPropsProps with validation.
-        
+
         Args:
             value: The dtcPropsProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def event_readiness(self, value: Optional["EventObdReadiness"]) -> None:
         """
         Set eventReadiness with validation.
-        
+
         Args:
             value: The eventReadiness to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def obd_dtc_value(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set obdDTCValue with validation.
-        
+
         Args:
             value: The obdDTCValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +139,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def getConsiderPto(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for considerPto.
-        
+
         Returns:
             The considerPto value
-        
+
         Note:
             Delegates to consider_pto property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def setConsiderPto(self, value: "Boolean") -> "DiagnosticTroubleCodeObd":
         """
         AUTOSAR-compliant setter for considerPto with method chaining.
-        
+
         Args:
             value: The considerPto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to consider_pto property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def getDtcPropsProps(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for dtcPropsProps.
-        
+
         Returns:
             The dtcPropsProps value
-        
+
         Note:
             Delegates to dtc_props_props property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def setDtcPropsProps(self, value: "DiagnosticTroubleCode") -> "DiagnosticTroubleCodeObd":
         """
         AUTOSAR-compliant setter for dtcPropsProps with method chaining.
-        
+
         Args:
             value: The dtcPropsProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dtc_props_props property setter (gets validation automatically)
         """
@@ -195,10 +195,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def getEventReadiness(self) -> "EventObdReadiness":
         """
         AUTOSAR-compliant getter for eventReadiness.
-        
+
         Returns:
             The eventReadiness value
-        
+
         Note:
             Delegates to event_readiness property (CODING_RULE_V2_00017)
         """
@@ -207,13 +207,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def setEventReadiness(self, value: "EventObdReadiness") -> "DiagnosticTroubleCodeObd":
         """
         AUTOSAR-compliant setter for eventReadiness with method chaining.
-        
+
         Args:
             value: The eventReadiness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_readiness property setter (gets validation automatically)
         """
@@ -223,10 +223,10 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def getObdDTCValue(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for obdDTCValue.
-        
+
         Returns:
             The obdDTCValue value
-        
+
         Note:
             Delegates to obd_dtc_value property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def setObdDTCValue(self, value: "PositiveInteger") -> "DiagnosticTroubleCodeObd":
         """
         AUTOSAR-compliant setter for obdDTCValue with method chaining.
-        
+
         Args:
             value: The obdDTCValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to obd_dtc_value property setter (gets validation automatically)
         """
@@ -253,13 +253,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def with_consider_pto(self, value: Optional["Boolean"]) -> "DiagnosticTroubleCodeObd":
         """
         Set considerPto and return self for chaining.
-        
+
         Args:
             value: The considerPto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_consider_pto("value")
         """
@@ -269,13 +269,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def with_dtc_props_props(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticTroubleCodeObd":
         """
         Set dtcPropsProps and return self for chaining.
-        
+
         Args:
             value: The dtcPropsProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dtc_props_props("value")
         """
@@ -285,13 +285,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def with_event_readiness(self, value: Optional["EventObdReadiness"]) -> "DiagnosticTroubleCodeObd":
         """
         Set eventReadiness and return self for chaining.
-        
+
         Args:
             value: The eventReadiness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_readiness("value")
         """
@@ -301,13 +301,13 @@ class DiagnosticTroubleCodeObd(DiagnosticTroubleCode):
     def with_obd_dtc_value(self, value: Optional["PositiveInteger"]) -> "DiagnosticTroubleCodeObd":
         """
         Set obdDTCValue and return self for chaining.
-        
+
         Args:
             value: The obdDTCValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_obd_dtc_value("value")
         """

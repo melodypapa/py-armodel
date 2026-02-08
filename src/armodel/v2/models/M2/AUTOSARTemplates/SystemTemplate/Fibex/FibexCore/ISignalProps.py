@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ISignalProps(ARObject):
     """
     Additional ISignal properties that may be stored in different files.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 323, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class ISignalProps(ARObject):
     def handle_out_of(self, value: Optional["HandleOutOfRange"]) -> None:
         """
         Set handleOutOf with validation.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class ISignalProps(ARObject):
     def getHandleOutOf(self) -> "HandleOutOfRange":
         """
         AUTOSAR-compliant getter for handleOutOf.
-        
+
         Returns:
             The handleOutOf value
-        
+
         Note:
             Delegates to handle_out_of property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class ISignalProps(ARObject):
     def setHandleOutOf(self, value: "HandleOutOfRange") -> "ISignalProps":
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_out_of property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class ISignalProps(ARObject):
     def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> "ISignalProps":
         """
         Set handleOutOf and return self for chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_out_of("value")
         """

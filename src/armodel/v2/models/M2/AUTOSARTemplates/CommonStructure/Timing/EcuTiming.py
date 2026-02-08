@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EcuTiming(TimingExtension):
     """
@@ -8,9 +11,9 @@ class EcuTiming(TimingExtension):
     the scope of one ECU configuration. TimingDescriptions aggregated by
     EcuTiming are allowed to use all events derived from the class Timing
     DescriptionEvent.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::EcuTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 30, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class EcuTiming(TimingExtension):
     def ecu(self, value: RefType) -> None:
         """
         Set ecu with validation.
-        
+
         Args:
             value: The ecu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class EcuTiming(TimingExtension):
     def getEcu(self) -> RefType:
         """
         AUTOSAR-compliant getter for ecu.
-        
+
         Returns:
             The ecu value
-        
+
         Note:
             Delegates to ecu property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class EcuTiming(TimingExtension):
     def setEcu(self, value: RefType) -> "EcuTiming":
         """
         AUTOSAR-compliant setter for ecu with method chaining.
-        
+
         Args:
             value: The ecu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class EcuTiming(TimingExtension):
     def with_ecu(self, value: Optional[RefType]) -> "EcuTiming":
         """
         Set ecu and return self for chaining.
-        
+
         Args:
             value: The ecu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu("value")
         """

@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     """
     This meta-class represents the ability to configure a certificate evaluation
     in the context of a diagnostic authentication.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::Authentication::DiagnosticAuthTransmitCertificateEvaluation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 101, Classic Platform
       R23-11)
@@ -30,10 +32,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def evaluation_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set evaluationId with validation.
-        
+
         Args:
             value: The evaluationId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +61,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def function(self, value: Optional["String"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +83,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def getEvaluationId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for evaluationId.
-        
+
         Returns:
             The evaluationId value
-        
+
         Note:
             Delegates to evaluation_id property (CODING_RULE_V2_00017)
         """
@@ -93,13 +95,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def setEvaluationId(self, value: "PositiveInteger") -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         AUTOSAR-compliant setter for evaluationId with method chaining.
-        
+
         Args:
             value: The evaluationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to evaluation_id property setter (gets validation automatically)
         """
@@ -109,10 +111,10 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def getFunction(self) -> "String":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -121,13 +123,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def setFunction(self, value: "String") -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -139,13 +141,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def with_evaluation_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         Set evaluationId and return self for chaining.
-        
+
         Args:
             value: The evaluationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_evaluation_id("value")
         """
@@ -155,13 +157,13 @@ class DiagnosticAuthTransmitCertificateEvaluation(Identifiable):
     def with_function(self, value: Optional["String"]) -> "DiagnosticAuthTransmitCertificateEvaluation":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """

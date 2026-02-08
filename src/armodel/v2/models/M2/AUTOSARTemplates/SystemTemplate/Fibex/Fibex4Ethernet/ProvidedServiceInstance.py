@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ProvidedServiceInstance(AbstractServiceInstance):
     """
     Service instances that are provided by the ECU that is connected via the
     ApplicationEndpoint to a CommunicationConnector.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ProvidedServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1000, Classic
       Platform R23-11)
@@ -40,10 +40,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def auto_available(self, value: Optional["Boolean"]) -> None:
         """
         Set autoAvailable with validation.
-        
+
         Args:
             value: The autoAvailable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set instance with validation.
-        
+
         Args:
             value: The instance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def load_balancing(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set loadBalancing with validation.
-        
+
         Args:
             value: The loadBalancing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -136,10 +136,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def local_unicast(self, value: "ApplicationEndpoint") -> None:
         """
         Set localUnicast with validation.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +160,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def minor_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -188,10 +188,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -236,10 +236,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def sd_server_config(self, value: Optional["SdServerConfig"]) -> None:
         """
         Set sdServerConfig with validation.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -266,10 +266,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def sd_server_timer(self, value: Optional["SomeipSdServer"]) -> None:
         """
         Set sdServerTimer with validation.
-        
+
         Args:
             value: The sdServerTimer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -295,10 +295,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def service_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set serviceIdentifier with validation.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -317,10 +317,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getAllowedService(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for allowedService.
-        
+
         Returns:
             The allowedService value
-        
+
         Note:
             Delegates to allowed_service property (CODING_RULE_V2_00017)
         """
@@ -329,10 +329,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getAutoAvailable(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for autoAvailable.
-        
+
         Returns:
             The autoAvailable value
-        
+
         Note:
             Delegates to auto_available property (CODING_RULE_V2_00017)
         """
@@ -341,13 +341,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setAutoAvailable(self, value: "Boolean") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for autoAvailable with method chaining.
-        
+
         Args:
             value: The autoAvailable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_available property setter (gets validation automatically)
         """
@@ -357,10 +357,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getEventHandler(self) -> List["EventHandler"]:
         """
         AUTOSAR-compliant getter for eventHandler.
-        
+
         Returns:
             The eventHandler value
-        
+
         Note:
             Delegates to event_handler property (CODING_RULE_V2_00017)
         """
@@ -369,10 +369,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for instance.
-        
+
         Returns:
             The instance value
-        
+
         Note:
             Delegates to instance property (CODING_RULE_V2_00017)
         """
@@ -381,13 +381,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setInstance(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for instance with method chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to instance property setter (gets validation automatically)
         """
@@ -397,10 +397,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getLoadBalancing(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for loadBalancing.
-        
+
         Returns:
             The loadBalancing value
-        
+
         Note:
             Delegates to load_balancing property (CODING_RULE_V2_00017)
         """
@@ -409,13 +409,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setLoadBalancing(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for loadBalancing with method chaining.
-        
+
         Args:
             value: The loadBalancing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to load_balancing property setter (gets validation automatically)
         """
@@ -425,10 +425,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
-        
+
         Returns:
             The localUnicast value
-        
+
         Note:
             Delegates to local_unicast property (CODING_RULE_V2_00017)
         """
@@ -437,13 +437,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setLocalUnicast(self, value: "ApplicationEndpoint") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_unicast property setter (gets validation automatically)
         """
@@ -453,10 +453,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getMinorVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -465,13 +465,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setMinorVersion(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -481,10 +481,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -493,13 +493,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setPriority(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -509,10 +509,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getRemoteMulticast(self) -> List["ApplicationEndpoint"]:
         """
         AUTOSAR-compliant getter for remoteMulticast.
-        
+
         Returns:
             The remoteMulticast value
-        
+
         Note:
             Delegates to remote_multicast property (CODING_RULE_V2_00017)
         """
@@ -521,10 +521,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getRemoteUnicast(self) -> List["ApplicationEndpoint"]:
         """
         AUTOSAR-compliant getter for remoteUnicast.
-        
+
         Returns:
             The remoteUnicast value
-        
+
         Note:
             Delegates to remote_unicast property (CODING_RULE_V2_00017)
         """
@@ -533,10 +533,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getSdServerConfig(self) -> "SdServerConfig":
         """
         AUTOSAR-compliant getter for sdServerConfig.
-        
+
         Returns:
             The sdServerConfig value
-        
+
         Note:
             Delegates to sd_server_config property (CODING_RULE_V2_00017)
         """
@@ -545,13 +545,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setSdServerConfig(self, value: "SdServerConfig") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for sdServerConfig with method chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_config property setter (gets validation automatically)
         """
@@ -561,10 +561,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getSdServerTimer(self) -> "SomeipSdServer":
         """
         AUTOSAR-compliant getter for sdServerTimer.
-        
+
         Returns:
             The sdServerTimer value
-        
+
         Note:
             Delegates to sd_server_timer property (CODING_RULE_V2_00017)
         """
@@ -573,13 +573,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setSdServerTimer(self, value: "SomeipSdServer") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for sdServerTimer with method chaining.
-        
+
         Args:
             value: The sdServerTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd_server_timer property setter (gets validation automatically)
         """
@@ -589,10 +589,10 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getServiceIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for serviceIdentifier.
-        
+
         Returns:
             The serviceIdentifier value
-        
+
         Note:
             Delegates to service_identifier property (CODING_RULE_V2_00017)
         """
@@ -601,13 +601,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def setServiceIdentifier(self, value: "PositiveInteger") -> "ProvidedServiceInstance":
         """
         AUTOSAR-compliant setter for serviceIdentifier with method chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_identifier property setter (gets validation automatically)
         """
@@ -619,13 +619,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_auto_available(self, value: Optional["Boolean"]) -> "ProvidedServiceInstance":
         """
         Set autoAvailable and return self for chaining.
-        
+
         Args:
             value: The autoAvailable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_available("value")
         """
@@ -635,13 +635,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_instance(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set instance and return self for chaining.
-        
+
         Args:
             value: The instance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_instance("value")
         """
@@ -651,13 +651,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_load_balancing(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set loadBalancing and return self for chaining.
-        
+
         Args:
             value: The loadBalancing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_load_balancing("value")
         """
@@ -667,13 +667,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_local_unicast(self, value: "ApplicationEndpoint") -> "ProvidedServiceInstance":
         """
         Set localUnicast and return self for chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_unicast("value")
         """
@@ -683,13 +683,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_minor_version(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """
@@ -699,13 +699,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -715,13 +715,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_sd_server_config(self, value: Optional["SdServerConfig"]) -> "ProvidedServiceInstance":
         """
         Set sdServerConfig and return self for chaining.
-        
+
         Args:
             value: The sdServerConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_config("value")
         """
@@ -731,13 +731,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_sd_server_timer(self, value: Optional["SomeipSdServer"]) -> "ProvidedServiceInstance":
         """
         Set sdServerTimer and return self for chaining.
-        
+
         Args:
             value: The sdServerTimer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd_server_timer("value")
         """
@@ -747,13 +747,13 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def with_service_identifier(self, value: Optional["PositiveInteger"]) -> "ProvidedServiceInstance":
         """
         Set serviceIdentifier and return self for chaining.
-        
+
         Args:
             value: The serviceIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_identifier("value")
         """

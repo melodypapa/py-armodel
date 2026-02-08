@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ExternalTriggeringPoint(ARObject):
     """
     If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to raise
     an ExternalTriggerOccurred Event.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger::ExternalTriggeringPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 315, Classic
       Platform R23-11)
@@ -36,10 +41,10 @@ class ExternalTriggeringPoint(ARObject):
     def ident(self, value: RefType) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +65,10 @@ class ExternalTriggeringPoint(ARObject):
     def trigger_type_instance_ref(self, value: RefType) -> None:
         """
         Set triggerTypeInstanceRef with validation.
-        
+
         Args:
             value: The triggerTypeInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +83,10 @@ class ExternalTriggeringPoint(ARObject):
     def getIdent(self) -> RefType:
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -90,13 +95,13 @@ class ExternalTriggeringPoint(ARObject):
     def setIdent(self, value: RefType) -> "ExternalTriggeringPoint":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -106,10 +111,10 @@ class ExternalTriggeringPoint(ARObject):
     def getTriggerTypeInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for triggerTypeInstanceRef.
-        
+
         Returns:
             The triggerTypeInstanceRef value
-        
+
         Note:
             Delegates to trigger_type_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -118,13 +123,13 @@ class ExternalTriggeringPoint(ARObject):
     def setTriggerTypeInstanceRef(self, value: RefType) -> "ExternalTriggeringPoint":
         """
         AUTOSAR-compliant setter for triggerTypeInstanceRef with method chaining.
-        
+
         Args:
             value: The triggerTypeInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_type_instance_ref property setter (gets validation automatically)
         """
@@ -136,13 +141,13 @@ class ExternalTriggeringPoint(ARObject):
     def with_ident(self, value: Optional[RefType]) -> "ExternalTriggeringPoint":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -152,13 +157,13 @@ class ExternalTriggeringPoint(ARObject):
     def with_trigger_type_instance_ref(self, value: Optional[RefType]) -> "ExternalTriggeringPoint":
         """
         Set triggerTypeInstanceRef and return self for chaining.
-        
+
         Args:
             value: The triggerTypeInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_type_instance_ref("value")
         """

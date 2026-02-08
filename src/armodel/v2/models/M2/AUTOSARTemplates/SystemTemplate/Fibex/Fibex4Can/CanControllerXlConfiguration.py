@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanControllerXlConfiguration(ARObject):
     """
     This meta-class represents the CAN XL-specific controller attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerXlConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 70, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class CanControllerXlConfiguration(ARObject):
     def error_signaling(self, value: Optional["Boolean"]) -> None:
         """
         Set errorSignaling with validation.
-        
+
         Args:
             value: The errorSignaling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class CanControllerXlConfiguration(ARObject):
     def prop_seg(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set propSeg with validation.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class CanControllerXlConfiguration(ARObject):
     def pwm_l(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pwmL with validation.
-        
+
         Args:
             value: The pwmL to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class CanControllerXlConfiguration(ARObject):
     def pwm_o(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pwmO with validation.
-        
+
         Args:
             value: The pwmO to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +145,10 @@ class CanControllerXlConfiguration(ARObject):
     def pwm_s(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set pwmS with validation.
-        
+
         Args:
             value: The pwmS to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +177,10 @@ class CanControllerXlConfiguration(ARObject):
     def ssp_offset(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sspOffset with validation.
-        
+
         Args:
             value: The sspOffset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +205,10 @@ class CanControllerXlConfiguration(ARObject):
     def sync_jump_width(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set syncJumpWidth with validation.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +233,10 @@ class CanControllerXlConfiguration(ARObject):
     def time_seg1(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeSeg1 with validation.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -258,10 +261,10 @@ class CanControllerXlConfiguration(ARObject):
     def time_seg2(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timeSeg2 with validation.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -288,10 +291,10 @@ class CanControllerXlConfiguration(ARObject):
     def trcv_pwm_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set trcvPwmMode with validation.
-        
+
         Args:
             value: The trcvPwmMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -310,10 +313,10 @@ class CanControllerXlConfiguration(ARObject):
     def getErrorSignaling(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for errorSignaling.
-        
+
         Returns:
             The errorSignaling value
-        
+
         Note:
             Delegates to error_signaling property (CODING_RULE_V2_00017)
         """
@@ -322,13 +325,13 @@ class CanControllerXlConfiguration(ARObject):
     def setErrorSignaling(self, value: "Boolean") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for errorSignaling with method chaining.
-        
+
         Args:
             value: The errorSignaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to error_signaling property setter (gets validation automatically)
         """
@@ -338,10 +341,10 @@ class CanControllerXlConfiguration(ARObject):
     def getPropSeg(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for propSeg.
-        
+
         Returns:
             The propSeg value
-        
+
         Note:
             Delegates to prop_seg property (CODING_RULE_V2_00017)
         """
@@ -350,13 +353,13 @@ class CanControllerXlConfiguration(ARObject):
     def setPropSeg(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for propSeg with method chaining.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prop_seg property setter (gets validation automatically)
         """
@@ -366,10 +369,10 @@ class CanControllerXlConfiguration(ARObject):
     def getPwmL(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pwmL.
-        
+
         Returns:
             The pwmL value
-        
+
         Note:
             Delegates to pwm_l property (CODING_RULE_V2_00017)
         """
@@ -378,13 +381,13 @@ class CanControllerXlConfiguration(ARObject):
     def setPwmL(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for pwmL with method chaining.
-        
+
         Args:
             value: The pwmL to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pwm_l property setter (gets validation automatically)
         """
@@ -394,10 +397,10 @@ class CanControllerXlConfiguration(ARObject):
     def getPwmO(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pwmO.
-        
+
         Returns:
             The pwmO value
-        
+
         Note:
             Delegates to pwm_o property (CODING_RULE_V2_00017)
         """
@@ -406,13 +409,13 @@ class CanControllerXlConfiguration(ARObject):
     def setPwmO(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for pwmO with method chaining.
-        
+
         Args:
             value: The pwmO to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pwm_o property setter (gets validation automatically)
         """
@@ -422,10 +425,10 @@ class CanControllerXlConfiguration(ARObject):
     def getPwmS(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for pwmS.
-        
+
         Returns:
             The pwmS value
-        
+
         Note:
             Delegates to pwm_s property (CODING_RULE_V2_00017)
         """
@@ -434,13 +437,13 @@ class CanControllerXlConfiguration(ARObject):
     def setPwmS(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for pwmS with method chaining.
-        
+
         Args:
             value: The pwmS to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pwm_s property setter (gets validation automatically)
         """
@@ -450,10 +453,10 @@ class CanControllerXlConfiguration(ARObject):
     def getSspOffset(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sspOffset.
-        
+
         Returns:
             The sspOffset value
-        
+
         Note:
             Delegates to ssp_offset property (CODING_RULE_V2_00017)
         """
@@ -462,13 +465,13 @@ class CanControllerXlConfiguration(ARObject):
     def setSspOffset(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for sspOffset with method chaining.
-        
+
         Args:
             value: The sspOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ssp_offset property setter (gets validation automatically)
         """
@@ -478,10 +481,10 @@ class CanControllerXlConfiguration(ARObject):
     def getSyncJumpWidth(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for syncJumpWidth.
-        
+
         Returns:
             The syncJumpWidth value
-        
+
         Note:
             Delegates to sync_jump_width property (CODING_RULE_V2_00017)
         """
@@ -490,13 +493,13 @@ class CanControllerXlConfiguration(ARObject):
     def setSyncJumpWidth(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for syncJumpWidth with method chaining.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sync_jump_width property setter (gets validation automatically)
         """
@@ -506,10 +509,10 @@ class CanControllerXlConfiguration(ARObject):
     def getTimeSeg1(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeSeg1.
-        
+
         Returns:
             The timeSeg1 value
-        
+
         Note:
             Delegates to time_seg1 property (CODING_RULE_V2_00017)
         """
@@ -518,13 +521,13 @@ class CanControllerXlConfiguration(ARObject):
     def setTimeSeg1(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for timeSeg1 with method chaining.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_seg1 property setter (gets validation automatically)
         """
@@ -534,10 +537,10 @@ class CanControllerXlConfiguration(ARObject):
     def getTimeSeg2(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timeSeg2.
-        
+
         Returns:
             The timeSeg2 value
-        
+
         Note:
             Delegates to time_seg2 property (CODING_RULE_V2_00017)
         """
@@ -546,13 +549,13 @@ class CanControllerXlConfiguration(ARObject):
     def setTimeSeg2(self, value: "PositiveInteger") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for timeSeg2 with method chaining.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_seg2 property setter (gets validation automatically)
         """
@@ -562,10 +565,10 @@ class CanControllerXlConfiguration(ARObject):
     def getTrcvPwmMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for trcvPwmMode.
-        
+
         Returns:
             The trcvPwmMode value
-        
+
         Note:
             Delegates to trcv_pwm_mode property (CODING_RULE_V2_00017)
         """
@@ -574,13 +577,13 @@ class CanControllerXlConfiguration(ARObject):
     def setTrcvPwmMode(self, value: "Boolean") -> "CanControllerXlConfiguration":
         """
         AUTOSAR-compliant setter for trcvPwmMode with method chaining.
-        
+
         Args:
             value: The trcvPwmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trcv_pwm_mode property setter (gets validation automatically)
         """
@@ -592,13 +595,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_error_signaling(self, value: Optional["Boolean"]) -> "CanControllerXlConfiguration":
         """
         Set errorSignaling and return self for chaining.
-        
+
         Args:
             value: The errorSignaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_error_signaling("value")
         """
@@ -608,13 +611,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_prop_seg(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set propSeg and return self for chaining.
-        
+
         Args:
             value: The propSeg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prop_seg("value")
         """
@@ -624,13 +627,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_pwm_l(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set pwmL and return self for chaining.
-        
+
         Args:
             value: The pwmL to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pwm_l("value")
         """
@@ -640,13 +643,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_pwm_o(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set pwmO and return self for chaining.
-        
+
         Args:
             value: The pwmO to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pwm_o("value")
         """
@@ -656,13 +659,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_pwm_s(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set pwmS and return self for chaining.
-        
+
         Args:
             value: The pwmS to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pwm_s("value")
         """
@@ -672,13 +675,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_ssp_offset(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set sspOffset and return self for chaining.
-        
+
         Args:
             value: The sspOffset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ssp_offset("value")
         """
@@ -688,13 +691,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_sync_jump_width(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set syncJumpWidth and return self for chaining.
-        
+
         Args:
             value: The syncJumpWidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sync_jump_width("value")
         """
@@ -704,13 +707,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_time_seg1(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set timeSeg1 and return self for chaining.
-        
+
         Args:
             value: The timeSeg1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_seg1("value")
         """
@@ -720,13 +723,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_time_seg2(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfiguration":
         """
         Set timeSeg2 and return self for chaining.
-        
+
         Args:
             value: The timeSeg2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_seg2("value")
         """
@@ -736,13 +739,13 @@ class CanControllerXlConfiguration(ARObject):
     def with_trcv_pwm_mode(self, value: Optional["Boolean"]) -> "CanControllerXlConfiguration":
         """
         Set trcvPwmMode and return self for chaining.
-        
+
         Args:
             value: The trcvPwmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trcv_pwm_mode("value")
         """

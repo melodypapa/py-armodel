@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     """
@@ -8,9 +8,9 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     is used to find out which ports of a software-component deal with the
     administration of secure communication in order to group the request and
     response ports.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::SecureOnBoardCommunicationNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 824, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def verification(self, value: Optional["VerificationStatus"]) -> None:
         """
         Set verification with validation.
-        
+
         Args:
             value: The verification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def getVerification(self) -> "VerificationStatus":
         """
         AUTOSAR-compliant getter for verification.
-        
+
         Returns:
             The verification value
-        
+
         Note:
             Delegates to verification property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def setVerification(self, value: "VerificationStatus") -> "SecureOnBoardCommunicationNeeds":
         """
         AUTOSAR-compliant setter for verification with method chaining.
-        
+
         Args:
             value: The verification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to verification property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def with_verification(self, value: Optional["VerificationStatus"]) -> "SecureOnBoardCommunicationNeeds":
         """
         Set verification and return self for chaining.
-        
+
         Args:
             value: The verification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_verification("value")
         """

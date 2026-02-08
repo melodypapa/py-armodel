@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     """
     InstanceReference representation in the ECU Configuration.
-    
+
     Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate::EcucInstanceReferenceValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 134, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def value(self, value: Optional["AtpFeature"]) -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def getValue(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def setValue(self, value: "AtpFeature") -> "EcucInstanceReferenceValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def with_value(self, value: Optional["AtpFeature"]) -> "EcucInstanceReferenceValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """

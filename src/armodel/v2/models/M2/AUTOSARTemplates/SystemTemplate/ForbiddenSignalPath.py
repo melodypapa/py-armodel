@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ForbiddenSignalPath(SignalPathConstraint):
     """
@@ -7,9 +7,9 @@ class ForbiddenSignalPath(SignalPathConstraint):
     shall not take in the topology. Such a signal path can be a constraint for
     the communication matrix, because such a path has an effect on the frame
     generation and the frame path.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::ForbiddenSignalPath
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 255, Classic Platform R23-11)
     """
@@ -45,10 +45,10 @@ class ForbiddenSignalPath(SignalPathConstraint):
     def getOperation(self) -> List["SwcToSwcOperation"]:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -57,10 +57,10 @@ class ForbiddenSignalPath(SignalPathConstraint):
     def getPhysical(self) -> List["PhysicalChannel"]:
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -69,10 +69,10 @@ class ForbiddenSignalPath(SignalPathConstraint):
     def getSignal(self) -> List["SwcToSwcSignal"]:
         """
         AUTOSAR-compliant getter for signal.
-        
+
         Returns:
             The signal value
-        
+
         Note:
             Delegates to signal property (CODING_RULE_V2_00017)
         """

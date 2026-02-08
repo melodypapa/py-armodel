@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventBswModule(TDEventBsw):
     """
     This is used to describe timing events related to the interaction between
     BSW modules.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventBswModule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 75, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventBswModule(TDEventBsw):
     def bsw_module_entry(self, value: Optional["BswModuleEntry"]) -> None:
         """
         Set bswModuleEntry with validation.
-        
+
         Args:
             value: The bswModuleEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class TDEventBswModule(TDEventBsw):
     def td_event_bsw(self, value: Optional["TDEventBswModule"]) -> None:
         """
         Set tdEventBsw with validation.
-        
+
         Args:
             value: The tdEventBsw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class TDEventBswModule(TDEventBsw):
     def getBswModuleEntry(self) -> "BswModuleEntry":
         """
         AUTOSAR-compliant getter for bswModuleEntry.
-        
+
         Returns:
             The bswModuleEntry value
-        
+
         Note:
             Delegates to bsw_module_entry property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class TDEventBswModule(TDEventBsw):
     def setBswModuleEntry(self, value: "BswModuleEntry") -> "TDEventBswModule":
         """
         AUTOSAR-compliant setter for bswModuleEntry with method chaining.
-        
+
         Args:
             value: The bswModuleEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_module_entry property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class TDEventBswModule(TDEventBsw):
     def getTdEventBsw(self) -> "TDEventBswModule":
         """
         AUTOSAR-compliant getter for tdEventBsw.
-        
+
         Returns:
             The tdEventBsw value
-        
+
         Note:
             Delegates to td_event_bsw property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class TDEventBswModule(TDEventBsw):
     def setTdEventBsw(self, value: "TDEventBswModule") -> "TDEventBswModule":
         """
         AUTOSAR-compliant setter for tdEventBsw with method chaining.
-        
+
         Args:
             value: The tdEventBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_bsw property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class TDEventBswModule(TDEventBsw):
     def with_bsw_module_entry(self, value: Optional["BswModuleEntry"]) -> "TDEventBswModule":
         """
         Set bswModuleEntry and return self for chaining.
-        
+
         Args:
             value: The bswModuleEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_module_entry("value")
         """
@@ -151,13 +151,13 @@ class TDEventBswModule(TDEventBsw):
     def with_td_event_bsw(self, value: Optional["TDEventBswModule"]) -> "TDEventBswModule":
         """
         Set tdEventBsw and return self for chaining.
-        
+
         Args:
             value: The tdEventBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_bsw("value")
         """

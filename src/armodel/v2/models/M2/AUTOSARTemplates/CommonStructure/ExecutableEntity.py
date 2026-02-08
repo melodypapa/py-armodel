@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ExecutableEntity(Identifiable, ABC):
     """
     Abstraction of executable code.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::ExecutableEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 70, Classic
       Platform R23-11)
@@ -64,10 +67,10 @@ class ExecutableEntity(Identifiable, ABC):
     def minimum_start(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumStart with validation.
-        
+
         Args:
             value: The minimumStart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class ExecutableEntity(Identifiable, ABC):
     def reentrancy_level(self, value: Optional["ReentrancyLevelEnum"]) -> None:
         """
         Set reentrancyLevel with validation.
-        
+
         Args:
             value: The reentrancyLevel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +137,10 @@ class ExecutableEntity(Identifiable, ABC):
     def sw_addr_method(self, value: Optional["SwAddrMethod"]) -> None:
         """
         Set swAddrMethod with validation.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -156,10 +159,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getActivation(self) -> List["ExecutableEntity"]:
         """
         AUTOSAR-compliant getter for activation.
-        
+
         Returns:
             The activation value
-        
+
         Note:
             Delegates to activation property (CODING_RULE_V2_00017)
         """
@@ -168,10 +171,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getCanEnter(self) -> List["ExclusiveArea"]:
         """
         AUTOSAR-compliant getter for canEnter.
-        
+
         Returns:
             The canEnter value
-        
+
         Note:
             Delegates to can_enter property (CODING_RULE_V2_00017)
         """
@@ -180,10 +183,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getExclusiveArea(self) -> List["ExclusiveAreaNesting"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -192,10 +195,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getMinimumStart(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumStart.
-        
+
         Returns:
             The minimumStart value
-        
+
         Note:
             Delegates to minimum_start property (CODING_RULE_V2_00017)
         """
@@ -204,13 +207,13 @@ class ExecutableEntity(Identifiable, ABC):
     def setMinimumStart(self, value: "TimeValue") -> "ExecutableEntity":
         """
         AUTOSAR-compliant setter for minimumStart with method chaining.
-        
+
         Args:
             value: The minimumStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_start property setter (gets validation automatically)
         """
@@ -220,10 +223,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getReentrancyLevel(self) -> "ReentrancyLevelEnum":
         """
         AUTOSAR-compliant getter for reentrancyLevel.
-        
+
         Returns:
             The reentrancyLevel value
-        
+
         Note:
             Delegates to reentrancy_level property (CODING_RULE_V2_00017)
         """
@@ -232,13 +235,13 @@ class ExecutableEntity(Identifiable, ABC):
     def setReentrancyLevel(self, value: "ReentrancyLevelEnum") -> "ExecutableEntity":
         """
         AUTOSAR-compliant setter for reentrancyLevel with method chaining.
-        
+
         Args:
             value: The reentrancyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reentrancy_level property setter (gets validation automatically)
         """
@@ -248,10 +251,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getRunsInside(self) -> List["ExclusiveArea"]:
         """
         AUTOSAR-compliant getter for runsInside.
-        
+
         Returns:
             The runsInside value
-        
+
         Note:
             Delegates to runs_inside property (CODING_RULE_V2_00017)
         """
@@ -260,10 +263,10 @@ class ExecutableEntity(Identifiable, ABC):
     def getSwAddrMethod(self) -> "SwAddrMethod":
         """
         AUTOSAR-compliant getter for swAddrMethod.
-        
+
         Returns:
             The swAddrMethod value
-        
+
         Note:
             Delegates to sw_addr_method property (CODING_RULE_V2_00017)
         """
@@ -272,13 +275,13 @@ class ExecutableEntity(Identifiable, ABC):
     def setSwAddrMethod(self, value: "SwAddrMethod") -> "ExecutableEntity":
         """
         AUTOSAR-compliant setter for swAddrMethod with method chaining.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_addr_method property setter (gets validation automatically)
         """
@@ -290,13 +293,13 @@ class ExecutableEntity(Identifiable, ABC):
     def with_minimum_start(self, value: Optional["TimeValue"]) -> "ExecutableEntity":
         """
         Set minimumStart and return self for chaining.
-        
+
         Args:
             value: The minimumStart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_start("value")
         """
@@ -306,13 +309,13 @@ class ExecutableEntity(Identifiable, ABC):
     def with_reentrancy_level(self, value: Optional["ReentrancyLevelEnum"]) -> "ExecutableEntity":
         """
         Set reentrancyLevel and return self for chaining.
-        
+
         Args:
             value: The reentrancyLevel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reentrancy_level("value")
         """
@@ -322,13 +325,13 @@ class ExecutableEntity(Identifiable, ABC):
     def with_sw_addr_method(self, value: Optional["SwAddrMethod"]) -> "ExecutableEntity":
         """
         Set swAddrMethod and return self for chaining.
-        
+
         Args:
             value: The swAddrMethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_addr_method("value")
         """

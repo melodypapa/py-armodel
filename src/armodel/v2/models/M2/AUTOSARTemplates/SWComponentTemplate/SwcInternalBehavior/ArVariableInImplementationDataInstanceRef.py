@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ArVariableInImplementationDataInstanceRef(ARObject):
     """
@@ -9,9 +14,9 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     based on the abstract classes because the ImplementationDataType isn’t
     either, especially because ImplementationDataType Element isn’t derived from
     AtpPrototype.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::ArVariableInImplementationDataInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 322, Classic Platform
       R23-11)
@@ -40,10 +45,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def port_prototype(self, value: RefType) -> None:
         """
         Set portPrototype with validation.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +70,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def root_variable(self, value: RefType) -> None:
         """
         Set rootVariable with validation.
-        
+
         Args:
             value: The rootVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +94,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def target_data(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +116,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def getContextData(self) -> List["AbstractImplementation"]:
         """
         AUTOSAR-compliant getter for contextData.
-        
+
         Returns:
             The contextData value
-        
+
         Note:
             Delegates to context_data property (CODING_RULE_V2_00017)
         """
@@ -123,10 +128,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
-        
+
         Returns:
             The portPrototype value
-        
+
         Note:
             Delegates to port_prototype property (CODING_RULE_V2_00017)
         """
@@ -135,13 +140,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def setPortPrototype(self, value: RefType) -> "ArVariableInImplementationDataInstanceRef":
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to port_prototype property setter (gets validation automatically)
         """
@@ -151,10 +156,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def getRootVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootVariable.
-        
+
         Returns:
             The rootVariable value
-        
+
         Note:
             Delegates to root_variable property (CODING_RULE_V2_00017)
         """
@@ -163,13 +168,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def setRootVariable(self, value: RefType) -> "ArVariableInImplementationDataInstanceRef":
         """
         AUTOSAR-compliant setter for rootVariable with method chaining.
-        
+
         Args:
             value: The rootVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to root_variable property setter (gets validation automatically)
         """
@@ -179,10 +184,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def getTargetData(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -191,13 +196,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def setTargetData(self, value: "AbstractImplementation") -> "ArVariableInImplementationDataInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -209,13 +214,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def with_port_prototype(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
         """
         Set portPrototype and return self for chaining.
-        
+
         Args:
             value: The portPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_port_prototype("value")
         """
@@ -225,13 +230,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def with_root_variable(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
         """
         Set rootVariable and return self for chaining.
-        
+
         Args:
             value: The rootVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_root_variable("value")
         """
@@ -241,13 +246,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def with_target_data(self, value: Optional["AbstractImplementation"]) -> "ArVariableInImplementationDataInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

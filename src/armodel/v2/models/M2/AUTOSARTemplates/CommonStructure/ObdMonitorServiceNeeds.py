@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration
     of OBD Services in relation to a particular on-board monitoring test
     supported by this component or module. (OBD Service 06).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdMonitorServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def application_data(self, value: Optional["ApplicationDataType"]) -> None:
         """
         Set applicationData with validation.
-        
+
         Args:
             value: The applicationData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def event_needs(self, value: Optional["DiagnosticEventNeeds"]) -> None:
         """
         Set eventNeeds with validation.
-        
+
         Args:
             value: The eventNeeds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def unit_and_scaling_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set unitAndScalingId with validation.
-        
+
         Args:
             value: The unitAndScalingId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def update_kind(self, value: Optional["DiagnosticMonitor"]) -> None:
         """
         Set updateKind with validation.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -138,10 +138,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getApplicationData(self) -> "ApplicationDataType":
         """
         AUTOSAR-compliant getter for applicationData.
-        
+
         Returns:
             The applicationData value
-        
+
         Note:
             Delegates to application_data property (CODING_RULE_V2_00017)
         """
@@ -150,13 +150,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setApplicationData(self, value: "ApplicationDataType") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for applicationData with method chaining.
-        
+
         Args:
             value: The applicationData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_data property setter (gets validation automatically)
         """
@@ -166,10 +166,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getEventNeeds(self) -> "DiagnosticEventNeeds":
         """
         AUTOSAR-compliant getter for eventNeeds.
-        
+
         Returns:
             The eventNeeds value
-        
+
         Note:
             Delegates to event_needs property (CODING_RULE_V2_00017)
         """
@@ -178,13 +178,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setEventNeeds(self, value: "DiagnosticEventNeeds") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for eventNeeds with method chaining.
-        
+
         Args:
             value: The eventNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_needs property setter (gets validation automatically)
         """
@@ -194,10 +194,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getUnitAndScalingId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for unitAndScalingId.
-        
+
         Returns:
             The unitAndScalingId value
-        
+
         Note:
             Delegates to unit_and_scaling_id property (CODING_RULE_V2_00017)
         """
@@ -206,13 +206,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setUnitAndScalingId(self, value: "PositiveInteger") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for unitAndScalingId with method chaining.
-        
+
         Args:
             value: The unitAndScalingId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit_and_scaling_id property setter (gets validation automatically)
         """
@@ -222,10 +222,10 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def getUpdateKind(self) -> "DiagnosticMonitor":
         """
         AUTOSAR-compliant getter for updateKind.
-        
+
         Returns:
             The updateKind value
-        
+
         Note:
             Delegates to update_kind property (CODING_RULE_V2_00017)
         """
@@ -234,13 +234,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def setUpdateKind(self, value: "DiagnosticMonitor") -> "ObdMonitorServiceNeeds":
         """
         AUTOSAR-compliant setter for updateKind with method chaining.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update_kind property setter (gets validation automatically)
         """
@@ -252,13 +252,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_application_data(self, value: Optional["ApplicationDataType"]) -> "ObdMonitorServiceNeeds":
         """
         Set applicationData and return self for chaining.
-        
+
         Args:
             value: The applicationData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_data("value")
         """
@@ -268,13 +268,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_event_needs(self, value: Optional["DiagnosticEventNeeds"]) -> "ObdMonitorServiceNeeds":
         """
         Set eventNeeds and return self for chaining.
-        
+
         Args:
             value: The eventNeeds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_needs("value")
         """
@@ -284,13 +284,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_unit_and_scaling_id(self, value: Optional["PositiveInteger"]) -> "ObdMonitorServiceNeeds":
         """
         Set unitAndScalingId and return self for chaining.
-        
+
         Args:
             value: The unitAndScalingId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit_and_scaling_id("value")
         """
@@ -300,13 +300,13 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     def with_update_kind(self, value: Optional["DiagnosticMonitor"]) -> "ObdMonitorServiceNeeds":
         """
         Set updateKind and return self for chaining.
-        
+
         Args:
             value: The updateKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update_kind("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ParameterProvideComSpec(PPortComSpec):
     """
     "Communication" specification that applies to parameters on the provided
     side of a connection.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::ParameterProvideComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 192, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def parameter(self, value: Optional["ParameterData"]) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "ParameterProvideComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class ParameterProvideComSpec(PPortComSpec):
     def getParameter(self) -> "ParameterData":
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def setParameter(self, value: "ParameterData") -> "ParameterProvideComSpec":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "ParameterProvideComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -152,13 +152,13 @@ class ParameterProvideComSpec(PPortComSpec):
     def with_parameter(self, value: Optional["ParameterData"]) -> "ParameterProvideComSpec":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """

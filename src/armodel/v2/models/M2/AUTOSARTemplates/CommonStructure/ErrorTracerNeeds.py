@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ErrorTracerNeeds(ServiceNeeds):
     """
     Specifies the need to report failures to the error tracer.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ErrorTracerNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 263, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class ErrorTracerNeeds(ServiceNeeds):
     def getTracedFailure(self) -> List["TracedFailure"]:
         """
         AUTOSAR-compliant getter for tracedFailure.
-        
+
         Returns:
             The tracedFailure value
-        
+
         Note:
             Delegates to traced_failure property (CODING_RULE_V2_00017)
         """

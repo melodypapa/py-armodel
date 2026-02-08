@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BlockState(Identifiable):
     """
@@ -10,9 +10,9 @@ class BlockState(Identifiable):
     any reported security event that is mapped to a filter chain containing a
     SecurityEventStateFilter that references the block state which is currently
     active in the IdsM.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::BlockState
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 52, Foundation R23-11)
     """

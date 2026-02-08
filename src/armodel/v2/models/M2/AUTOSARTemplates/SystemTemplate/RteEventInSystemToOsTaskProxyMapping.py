@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     """
@@ -10,9 +12,9 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     a pairing constraint that describes which Rte Events shall be mapped
     together into an OsTask. Optionally the position of the RteEvents in the
     OsTask can be defined.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInSystemToOsTaskProxyMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 213, Classic Platform R23-11)
     """
@@ -35,10 +37,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def offset(self, value: Optional["Integer"]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +66,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def os_task_proxy(self, value: Optional["OsTaskProxy"]) -> None:
         """
         Set osTaskProxy with validation.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +94,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> None:
         """
         Set rteEventInstanceRef with validation.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +116,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def getOffset(self) -> "Integer":
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -126,13 +128,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def setOffset(self, value: "Integer") -> "RteEventInSystemToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -142,10 +144,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def getOsTaskProxy(self) -> "OsTaskProxy":
         """
         AUTOSAR-compliant getter for osTaskProxy.
-        
+
         Returns:
             The osTaskProxy value
-        
+
         Note:
             Delegates to os_task_proxy property (CODING_RULE_V2_00017)
         """
@@ -154,13 +156,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def setOsTaskProxy(self, value: "OsTaskProxy") -> "RteEventInSystemToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for osTaskProxy with method chaining.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to os_task_proxy property setter (gets validation automatically)
         """
@@ -170,10 +172,10 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def getRteEventInstanceRef(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
-        
+
         Returns:
             The rteEventInstanceRef value
-        
+
         Note:
             Delegates to rte_event_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -182,13 +184,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def setRteEventInstanceRef(self, value: "RTEEvent") -> "RteEventInSystemToOsTaskProxyMapping":
         """
         AUTOSAR-compliant setter for rteEventInstanceRef with method chaining.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rte_event_instance_ref property setter (gets validation automatically)
         """
@@ -200,13 +202,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def with_offset(self, value: Optional["Integer"]) -> "RteEventInSystemToOsTaskProxyMapping":
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -216,13 +218,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def with_os_task_proxy(self, value: Optional["OsTaskProxy"]) -> "RteEventInSystemToOsTaskProxyMapping":
         """
         Set osTaskProxy and return self for chaining.
-        
+
         Args:
             value: The osTaskProxy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_os_task_proxy("value")
         """
@@ -232,13 +234,13 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
     def with_rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> "RteEventInSystemToOsTaskProxyMapping":
         """
         Set rteEventInstanceRef and return self for chaining.
-        
+
         Args:
             value: The rteEventInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rte_event_instance_ref("value")
         """

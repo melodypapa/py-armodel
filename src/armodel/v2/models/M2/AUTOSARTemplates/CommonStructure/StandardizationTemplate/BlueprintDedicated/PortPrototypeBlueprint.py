@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortPrototypeBlueprint(ARElement):
     """
@@ -11,9 +14,9 @@ class PortPrototypeBlueprint(ARElement):
     application interfaces without the need to also standardize
     software-components with PortPrototypes typed by the standardized Port
     Interfaces.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port::PortPrototypeBlueprint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 237, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 459, Foundation
@@ -45,10 +48,10 @@ class PortPrototypeBlueprint(ARElement):
     def interface(self, value: "PortInterface") -> None:
         """
         Set interface with validation.
-        
+
         Args:
             value: The interface to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class PortPrototypeBlueprint(ARElement):
     def getInitValue(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -90,10 +93,10 @@ class PortPrototypeBlueprint(ARElement):
     def getInterface(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for interface.
-        
+
         Returns:
             The interface value
-        
+
         Note:
             Delegates to interface property (CODING_RULE_V2_00017)
         """
@@ -102,13 +105,13 @@ class PortPrototypeBlueprint(ARElement):
     def setInterface(self, value: "PortInterface") -> "PortPrototypeBlueprint":
         """
         AUTOSAR-compliant setter for interface with method chaining.
-        
+
         Args:
             value: The interface to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interface property setter (gets validation automatically)
         """
@@ -118,10 +121,10 @@ class PortPrototypeBlueprint(ARElement):
     def getProvidedCom(self) -> List["PPortComSpec"]:
         """
         AUTOSAR-compliant getter for providedCom.
-        
+
         Returns:
             The providedCom value
-        
+
         Note:
             Delegates to provided_com property (CODING_RULE_V2_00017)
         """
@@ -130,10 +133,10 @@ class PortPrototypeBlueprint(ARElement):
     def getRequiredCom(self) -> List["RPortComSpec"]:
         """
         AUTOSAR-compliant getter for requiredCom.
-        
+
         Returns:
             The requiredCom value
-        
+
         Note:
             Delegates to required_com property (CODING_RULE_V2_00017)
         """
@@ -144,13 +147,13 @@ class PortPrototypeBlueprint(ARElement):
     def with_interface(self, value: "PortInterface") -> "PortPrototypeBlueprint":
         """
         Set interface and return self for chaining.
-        
+
         Args:
             value: The interface to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interface("value")
         """

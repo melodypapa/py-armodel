@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DiagnosticPowertrainFreezeFrame(DiagnosticCommonElement):
     """
     This meta-class represents a powertrain-related freeze-frame. In theory,
     this meta-class would need an additional id attribute. However, legal
     regulations requires only a single value for this attribute anyway.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_RequestPowertrainFreeze::DiagnosticPowertrainFreezeFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 153, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticPowertrainFreezeFrame(DiagnosticCommonElement):
     def getPid(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for pid.
-        
+
         Returns:
             The pid value
-        
+
         Note:
             Delegates to pid property (CODING_RULE_V2_00017)
         """

@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventIPdu(TDEventCom):
     """
     This is used to describe timing events related to the exchange of I-PDUs
     between the bus specific (Flex Ray / CAN / LIN) Interface BSW module and
     COM.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 66, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class TDEventIPdu(TDEventCom):
     def i_pdu(self, value: Optional["IPdu"]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class TDEventIPdu(TDEventCom):
     def physical(self, value: Optional["PhysicalChannel"]) -> None:
         """
         Set physical with validation.
-        
+
         Args:
             value: The physical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class TDEventIPdu(TDEventCom):
     def td_event_type(self, value: Optional["TDEventIPduTypeEnum"]) -> None:
         """
         Set tdEventType with validation.
-        
+
         Args:
             value: The tdEventType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +106,10 @@ class TDEventIPdu(TDEventCom):
     def getIPdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class TDEventIPdu(TDEventCom):
     def setIPdu(self, value: "IPdu") -> "TDEventIPdu":
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -134,10 +134,10 @@ class TDEventIPdu(TDEventCom):
     def getPhysical(self) -> "PhysicalChannel":
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -146,13 +146,13 @@ class TDEventIPdu(TDEventCom):
     def setPhysical(self, value: "PhysicalChannel") -> "TDEventIPdu":
         """
         AUTOSAR-compliant setter for physical with method chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical property setter (gets validation automatically)
         """
@@ -162,10 +162,10 @@ class TDEventIPdu(TDEventCom):
     def getTdEventType(self) -> "TDEventIPduTypeEnum":
         """
         AUTOSAR-compliant getter for tdEventType.
-        
+
         Returns:
             The tdEventType value
-        
+
         Note:
             Delegates to td_event_type property (CODING_RULE_V2_00017)
         """
@@ -174,13 +174,13 @@ class TDEventIPdu(TDEventCom):
     def setTdEventType(self, value: "TDEventIPduTypeEnum") -> "TDEventIPdu":
         """
         AUTOSAR-compliant setter for tdEventType with method chaining.
-        
+
         Args:
             value: The tdEventType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_type property setter (gets validation automatically)
         """
@@ -192,13 +192,13 @@ class TDEventIPdu(TDEventCom):
     def with_i_pdu(self, value: Optional["IPdu"]) -> "TDEventIPdu":
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """
@@ -208,13 +208,13 @@ class TDEventIPdu(TDEventCom):
     def with_physical(self, value: Optional["PhysicalChannel"]) -> "TDEventIPdu":
         """
         Set physical and return self for chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical("value")
         """
@@ -224,13 +224,13 @@ class TDEventIPdu(TDEventCom):
     def with_td_event_type(self, value: Optional["TDEventIPduTypeEnum"]) -> "TDEventIPdu":
         """
         Set tdEventType and return self for chaining.
-        
+
         Args:
             value: The tdEventType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_type("value")
         """

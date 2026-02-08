@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DltApplication(Identifiable):
     """
     This meta-class represents the application from which the log and trace
     message originates.
-    
+
     Package: M2::AUTOSARTemplates::LogAndTraceExtract::DltApplication
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2017, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 8, Foundation R23-11)
@@ -31,10 +33,10 @@ class DltApplication(Identifiable):
     def application(self, value: Optional["String"]) -> None:
         """
         Set application with validation.
-        
+
         Args:
             value: The application to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +61,10 @@ class DltApplication(Identifiable):
     def application_id(self, value: Optional["String"]) -> None:
         """
         Set applicationId with validation.
-        
+
         Args:
             value: The applicationId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +91,10 @@ class DltApplication(Identifiable):
     def getApplication(self) -> "String":
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -101,13 +103,13 @@ class DltApplication(Identifiable):
     def setApplication(self, value: "String") -> "DltApplication":
         """
         AUTOSAR-compliant setter for application with method chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application property setter (gets validation automatically)
         """
@@ -117,10 +119,10 @@ class DltApplication(Identifiable):
     def getApplicationId(self) -> "String":
         """
         AUTOSAR-compliant getter for applicationId.
-        
+
         Returns:
             The applicationId value
-        
+
         Note:
             Delegates to application_id property (CODING_RULE_V2_00017)
         """
@@ -129,13 +131,13 @@ class DltApplication(Identifiable):
     def setApplicationId(self, value: "String") -> "DltApplication":
         """
         AUTOSAR-compliant setter for applicationId with method chaining.
-        
+
         Args:
             value: The applicationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to application_id property setter (gets validation automatically)
         """
@@ -145,10 +147,10 @@ class DltApplication(Identifiable):
     def getContext(self) -> List["DltContext"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -159,13 +161,13 @@ class DltApplication(Identifiable):
     def with_application(self, value: Optional["String"]) -> "DltApplication":
         """
         Set application and return self for chaining.
-        
+
         Args:
             value: The application to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application("value")
         """
@@ -175,13 +177,13 @@ class DltApplication(Identifiable):
     def with_application_id(self, value: Optional["String"]) -> "DltApplication":
         """
         Set applicationId and return self for chaining.
-        
+
         Args:
             value: The applicationId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_application_id("value")
         """

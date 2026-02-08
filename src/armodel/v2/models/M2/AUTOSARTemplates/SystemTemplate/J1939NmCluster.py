@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class J1939NmCluster(NmCluster):
     """
     J1939 specific NmCluster attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::J1939NmCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 691, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class J1939NmCluster(NmCluster):
     def address_claim(self, value: Optional["Boolean"]) -> None:
         """
         Set addressClaim with validation.
-        
+
         Args:
             value: The addressClaim to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class J1939NmCluster(NmCluster):
     def uses_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set usesDynamic with validation.
-        
+
         Args:
             value: The usesDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class J1939NmCluster(NmCluster):
     def getAddressClaim(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for addressClaim.
-        
+
         Returns:
             The addressClaim value
-        
+
         Note:
             Delegates to address_claim property (CODING_RULE_V2_00017)
         """
@@ -94,13 +94,13 @@ class J1939NmCluster(NmCluster):
     def setAddressClaim(self, value: "Boolean") -> "J1939NmCluster":
         """
         AUTOSAR-compliant setter for addressClaim with method chaining.
-        
+
         Args:
             value: The addressClaim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address_claim property setter (gets validation automatically)
         """
@@ -110,10 +110,10 @@ class J1939NmCluster(NmCluster):
     def getUsesDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for usesDynamic.
-        
+
         Returns:
             The usesDynamic value
-        
+
         Note:
             Delegates to uses_dynamic property (CODING_RULE_V2_00017)
         """
@@ -122,13 +122,13 @@ class J1939NmCluster(NmCluster):
     def setUsesDynamic(self, value: "Boolean") -> "J1939NmCluster":
         """
         AUTOSAR-compliant setter for usesDynamic with method chaining.
-        
+
         Args:
             value: The usesDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uses_dynamic property setter (gets validation automatically)
         """
@@ -140,13 +140,13 @@ class J1939NmCluster(NmCluster):
     def with_address_claim(self, value: Optional["Boolean"]) -> "J1939NmCluster":
         """
         Set addressClaim and return self for chaining.
-        
+
         Args:
             value: The addressClaim to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address_claim("value")
         """
@@ -156,13 +156,13 @@ class J1939NmCluster(NmCluster):
     def with_uses_dynamic(self, value: Optional["Boolean"]) -> "J1939NmCluster":
         """
         Set usesDynamic and return self for chaining.
-        
+
         Args:
             value: The usesDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uses_dynamic("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     """
@@ -8,9 +8,9 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     DiagnosticFunctionIdentifier. This allows for indicating that the
     CpSoftwareClusterResource is used to convey the execution permission
     associated with the mapped function identifier.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::CpSoftwareCluster::CpSwClusterResourceToDiagFunctionIdMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 275, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def function(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set function with validation.
-        
+
         Args:
             value: The function to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +83,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
-        
+
         Returns:
             The cpSoftware value
-        
+
         Note:
             Delegates to cp_software property (CODING_RULE_V2_00017)
         """
@@ -95,13 +95,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def setCpSoftware(self, value: "CpSoftwareCluster") -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cp_software property setter (gets validation automatically)
         """
@@ -111,10 +111,10 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def getFunction(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for function.
-        
+
         Returns:
             The function value
-        
+
         Note:
             Delegates to function property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def setFunction(self, value: "DiagnosticFunction") -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         AUTOSAR-compliant setter for function with method chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to function property setter (gets validation automatically)
         """
@@ -141,13 +141,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         Set cpSoftware and return self for chaining.
-        
+
         Args:
             value: The cpSoftware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cp_software("value")
         """
@@ -157,13 +157,13 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
     def with_function(self, value: Optional["DiagnosticFunction"]) -> "CpSwClusterResourceToDiagFunctionIdMapping":
         """
         Set function and return self for chaining.
-        
+
         Args:
             value: The function to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_function("value")
         """

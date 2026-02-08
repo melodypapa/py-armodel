@@ -1,16 +1,22 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TransformationISignalProps(ARObject, ABC):
     """
     TransformationISignalProps holds all the attributes for the different
     TransformationTechnologies that are ISignal specific. Tags:
     vh.latestBindingTime=postBuild
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TransformationISignalProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 772, Classic Platform R23-11)
     """
@@ -34,10 +40,10 @@ class TransformationISignalProps(ARObject, ABC):
     def cs_error_reaction(self, value: Optional["CSTransformerError"]) -> None:
         """
         Set csErrorReaction with validation.
-        
+
         Args:
             value: The csErrorReaction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +78,10 @@ class TransformationISignalProps(ARObject, ABC):
     def transformer(self, value: Optional["Transformation"]) -> None:
         """
         Set transformer with validation.
-        
+
         Args:
             value: The transformer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +100,10 @@ class TransformationISignalProps(ARObject, ABC):
     def getCsErrorReaction(self) -> "CSTransformerError":
         """
         AUTOSAR-compliant getter for csErrorReaction.
-        
+
         Returns:
             The csErrorReaction value
-        
+
         Note:
             Delegates to cs_error_reaction property (CODING_RULE_V2_00017)
         """
@@ -106,13 +112,13 @@ class TransformationISignalProps(ARObject, ABC):
     def setCsErrorReaction(self, value: "CSTransformerError") -> "TransformationISignalProps":
         """
         AUTOSAR-compliant setter for csErrorReaction with method chaining.
-        
+
         Args:
             value: The csErrorReaction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cs_error_reaction property setter (gets validation automatically)
         """
@@ -122,10 +128,10 @@ class TransformationISignalProps(ARObject, ABC):
     def getDataPrototype(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataPrototype.
-        
+
         Returns:
             The dataPrototype value
-        
+
         Note:
             Delegates to data_prototype property (CODING_RULE_V2_00017)
         """
@@ -134,10 +140,10 @@ class TransformationISignalProps(ARObject, ABC):
     def getTransformer(self) -> "Transformation":
         """
         AUTOSAR-compliant getter for transformer.
-        
+
         Returns:
             The transformer value
-        
+
         Note:
             Delegates to transformer property (CODING_RULE_V2_00017)
         """
@@ -146,13 +152,13 @@ class TransformationISignalProps(ARObject, ABC):
     def setTransformer(self, value: "Transformation") -> "TransformationISignalProps":
         """
         AUTOSAR-compliant setter for transformer with method chaining.
-        
+
         Args:
             value: The transformer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transformer property setter (gets validation automatically)
         """
@@ -164,13 +170,13 @@ class TransformationISignalProps(ARObject, ABC):
     def with_cs_error_reaction(self, value: Optional["CSTransformerError"]) -> "TransformationISignalProps":
         """
         Set csErrorReaction and return self for chaining.
-        
+
         Args:
             value: The csErrorReaction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cs_error_reaction("value")
         """
@@ -180,13 +186,13 @@ class TransformationISignalProps(ARObject, ABC):
     def with_transformer(self, value: Optional["Transformation"]) -> "TransformationISignalProps":
         """
         Set transformer and return self for chaining.
-        
+
         Args:
             value: The transformer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transformer("value")
         """

@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwGenericAxisParamType(Identifiable):
     """
@@ -10,9 +12,9 @@ class SwGenericAxisParamType(Identifiable):
     (desc), as a formal description is not of any use, due to the large variety
     of possibilities. • If this parameter contains structures, these can be
     simulated through the recursive use of SwGeneric AxisParamTypes.
-    
+
     Package: M2::MSR::DataDictionary::Axis::SwGenericAxisParamType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 356, Classic Platform
       R23-11)
@@ -33,10 +35,10 @@ class SwGenericAxisParamType(Identifiable):
     def data_constr(self, value: Optional["DataConstr"]) -> None:
         """
         Set dataConstr with validation.
-        
+
         Args:
             value: The dataConstr to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +57,10 @@ class SwGenericAxisParamType(Identifiable):
     def getDataConstr(self) -> "DataConstr":
         """
         AUTOSAR-compliant getter for dataConstr.
-        
+
         Returns:
             The dataConstr value
-        
+
         Note:
             Delegates to data_constr property (CODING_RULE_V2_00017)
         """
@@ -67,13 +69,13 @@ class SwGenericAxisParamType(Identifiable):
     def setDataConstr(self, value: "DataConstr") -> "SwGenericAxisParamType":
         """
         AUTOSAR-compliant setter for dataConstr with method chaining.
-        
+
         Args:
             value: The dataConstr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_constr property setter (gets validation automatically)
         """
@@ -85,13 +87,13 @@ class SwGenericAxisParamType(Identifiable):
     def with_data_constr(self, value: Optional["DataConstr"]) -> "SwGenericAxisParamType":
         """
         Set dataConstr and return self for chaining.
-        
+
         Args:
             value: The dataConstr to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_constr("value")
         """

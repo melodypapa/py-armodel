@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FMFeature(ARElement):
     """
     A FMFeature describes an essential characteristic of a product. Each
     FMFeature is contained in exactly one FMFeatureModel.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeature
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 24, Foundation
       R23-11)
@@ -46,10 +46,10 @@ class FMFeature(ARElement):
     def maximum(self, value: Optional["BindingTimeEnum"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class FMFeature(ARElement):
     def minimum(self, value: Optional["BindingTimeEnum"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class FMFeature(ARElement):
     def getAttributeDef(self) -> List["FMAttributeDef"]:
         """
         AUTOSAR-compliant getter for attributeDef.
-        
+
         Returns:
             The attributeDef value
-        
+
         Note:
             Delegates to attribute_def property (CODING_RULE_V2_00017)
         """
@@ -127,10 +127,10 @@ class FMFeature(ARElement):
     def getDecompositionDecomposition(self) -> List["FMFeature"]:
         """
         AUTOSAR-compliant getter for decompositionDecomposition.
-        
+
         Returns:
             The decompositionDecomposition value
-        
+
         Note:
             Delegates to decomposition_decomposition property (CODING_RULE_V2_00017)
         """
@@ -139,10 +139,10 @@ class FMFeature(ARElement):
     def getMaximum(self) -> "BindingTimeEnum":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class FMFeature(ARElement):
     def setMaximum(self, value: "BindingTimeEnum") -> "FMFeature":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class FMFeature(ARElement):
     def getMinimum(self) -> "BindingTimeEnum":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class FMFeature(ARElement):
     def setMinimum(self, value: "BindingTimeEnum") -> "FMFeature":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -195,10 +195,10 @@ class FMFeature(ARElement):
     def getRelation(self) -> List["FMFeatureRelation"]:
         """
         AUTOSAR-compliant getter for relation.
-        
+
         Returns:
             The relation value
-        
+
         Note:
             Delegates to relation property (CODING_RULE_V2_00017)
         """
@@ -207,10 +207,10 @@ class FMFeature(ARElement):
     def getRestriction(self) -> List["FMFeatureRestriction"]:
         """
         AUTOSAR-compliant getter for restriction.
-        
+
         Returns:
             The restriction value
-        
+
         Note:
             Delegates to restriction property (CODING_RULE_V2_00017)
         """
@@ -221,13 +221,13 @@ class FMFeature(ARElement):
     def with_maximum(self, value: Optional["BindingTimeEnum"]) -> "FMFeature":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -237,13 +237,13 @@ class FMFeature(ARElement):
     def with_minimum(self, value: Optional["BindingTimeEnum"]) -> "FMFeature":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """

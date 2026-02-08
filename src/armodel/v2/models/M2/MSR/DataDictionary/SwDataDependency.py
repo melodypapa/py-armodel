@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwDataDependency(ARObject):
     """
@@ -10,9 +13,9 @@ class SwDataDependency(ARObject):
     Virtual data - that means the data object is not directly in the ecu and
     this property describes how the "virtual variable" can be computed from the
     real ones (by the MCD system).
-    
+
     Package: M2::MSR::DataDictionary::DataDefProperties::SwDataDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 373, Classic Platform
       R23-11)
@@ -34,10 +37,10 @@ class SwDataDependency(ARObject):
     def sw_data(self, value: Optional["CompuGenericMath"]) -> None:
         """
         Set swData with validation.
-        
+
         Args:
             value: The swData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class SwDataDependency(ARObject):
     def getSwData(self) -> "CompuGenericMath":
         """
         AUTOSAR-compliant getter for swData.
-        
+
         Returns:
             The swData value
-        
+
         Note:
             Delegates to sw_data property (CODING_RULE_V2_00017)
         """
@@ -68,13 +71,13 @@ class SwDataDependency(ARObject):
     def setSwData(self, value: "CompuGenericMath") -> "SwDataDependency":
         """
         AUTOSAR-compliant setter for swData with method chaining.
-        
+
         Args:
             value: The swData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data property setter (gets validation automatically)
         """
@@ -86,13 +89,13 @@ class SwDataDependency(ARObject):
     def with_sw_data(self, value: Optional["CompuGenericMath"]) -> "SwDataDependency":
         """
         Set swData and return self for chaining.
-        
+
         Args:
             value: The swData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data("value")
         """

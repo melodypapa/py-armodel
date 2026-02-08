@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ReferenceValueSpecification(ValueSpecification):
     """
     Specifies a reference to a data prototype to be used as an initial value for
     a pointer in the software.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::ReferenceValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 436, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class ReferenceValueSpecification(ValueSpecification):
     def reference_value(self, value: RefType) -> None:
         """
         Set referenceValue with validation.
-        
+
         Args:
             value: The referenceValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +50,10 @@ class ReferenceValueSpecification(ValueSpecification):
     def getReferenceValue(self) -> RefType:
         """
         AUTOSAR-compliant getter for referenceValue.
-        
+
         Returns:
             The referenceValue value
-        
+
         Note:
             Delegates to reference_value property (CODING_RULE_V2_00017)
         """
@@ -59,13 +62,13 @@ class ReferenceValueSpecification(ValueSpecification):
     def setReferenceValue(self, value: RefType) -> "ReferenceValueSpecification":
         """
         AUTOSAR-compliant setter for referenceValue with method chaining.
-        
+
         Args:
             value: The referenceValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reference_value property setter (gets validation automatically)
         """
@@ -77,13 +80,13 @@ class ReferenceValueSpecification(ValueSpecification):
     def with_reference_value(self, value: Optional[RefType]) -> "ReferenceValueSpecification":
         """
         Set referenceValue and return self for chaining.
-        
+
         Args:
             value: The referenceValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reference_value("value")
         """

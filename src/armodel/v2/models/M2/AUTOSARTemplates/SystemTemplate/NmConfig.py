@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class NmConfig(FibexElement):
     """
     Contains the all configuration elements for AUTOSAR Nm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 672, Classic Platform R23-11)
     """
@@ -35,10 +35,10 @@ class NmConfig(FibexElement):
     def getNmCluster(self) -> List["NmClusterCoupling"]:
         """
         AUTOSAR-compliant getter for nmCluster.
-        
+
         Returns:
             The nmCluster value
-        
+
         Note:
             Delegates to nm_cluster property (CODING_RULE_V2_00017)
         """
@@ -47,10 +47,10 @@ class NmConfig(FibexElement):
     def getNmIfEcu(self) -> List["NmEcu"]:
         """
         AUTOSAR-compliant getter for nmIfEcu.
-        
+
         Returns:
             The nmIfEcu value
-        
+
         Note:
             Delegates to nm_if_ecu property (CODING_RULE_V2_00017)
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EthIpProps(ARElement):
     """
     This meta-class is used to configure the EcuInstance specific IP attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthIpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 146, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class EthIpProps(ARElement):
     def ipv4_props(self, value: Optional["Ipv4Props"]) -> None:
         """
         Set ipv4Props with validation.
-        
+
         Args:
             value: The ipv4Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class EthIpProps(ARElement):
     def ipv6_props(self, value: Optional["Ipv6Props"]) -> None:
         """
         Set ipv6Props with validation.
-        
+
         Args:
             value: The ipv6Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -76,10 +76,10 @@ class EthIpProps(ARElement):
     def getIpv4Props(self) -> "Ipv4Props":
         """
         AUTOSAR-compliant getter for ipv4Props.
-        
+
         Returns:
             The ipv4Props value
-        
+
         Note:
             Delegates to ipv4_props property (CODING_RULE_V2_00017)
         """
@@ -88,13 +88,13 @@ class EthIpProps(ARElement):
     def setIpv4Props(self, value: "Ipv4Props") -> "EthIpProps":
         """
         AUTOSAR-compliant setter for ipv4Props with method chaining.
-        
+
         Args:
             value: The ipv4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_props property setter (gets validation automatically)
         """
@@ -104,10 +104,10 @@ class EthIpProps(ARElement):
     def getIpv6Props(self) -> "Ipv6Props":
         """
         AUTOSAR-compliant getter for ipv6Props.
-        
+
         Returns:
             The ipv6Props value
-        
+
         Note:
             Delegates to ipv6_props property (CODING_RULE_V2_00017)
         """
@@ -116,13 +116,13 @@ class EthIpProps(ARElement):
     def setIpv6Props(self, value: "Ipv6Props") -> "EthIpProps":
         """
         AUTOSAR-compliant setter for ipv6Props with method chaining.
-        
+
         Args:
             value: The ipv6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv6_props property setter (gets validation automatically)
         """
@@ -134,13 +134,13 @@ class EthIpProps(ARElement):
     def with_ipv4_props(self, value: Optional["Ipv4Props"]) -> "EthIpProps":
         """
         Set ipv4Props and return self for chaining.
-        
+
         Args:
             value: The ipv4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_props("value")
         """
@@ -150,13 +150,13 @@ class EthIpProps(ARElement):
     def with_ipv6_props(self, value: Optional["Ipv6Props"]) -> "EthIpProps":
         """
         Set ipv6Props and return self for chaining.
-        
+
         Args:
             value: The ipv6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv6_props("value")
         """

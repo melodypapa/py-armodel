@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class BswVariableAccess(Referrable):
     """
     The presence of a BswVariableAccess implies that a BswModuleEntity needs
     access to a VariableData Prototype via the BSW Scheduler. The kind of access
     is specified by the role in which the class is used.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswVariableAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 81, Classic
       Platform R23-11)
@@ -31,10 +36,10 @@ class BswVariableAccess(Referrable):
     def accessed_variable(self, value: RefType) -> None:
         """
         Set accessedVariable with validation.
-        
+
         Args:
             value: The accessedVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +62,10 @@ class BswVariableAccess(Referrable):
     def getAccessedVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedVariable.
-        
+
         Returns:
             The accessedVariable value
-        
+
         Note:
             Delegates to accessed_variable property (CODING_RULE_V2_00017)
         """
@@ -69,13 +74,13 @@ class BswVariableAccess(Referrable):
     def setAccessedVariable(self, value: RefType) -> "BswVariableAccess":
         """
         AUTOSAR-compliant setter for accessedVariable with method chaining.
-        
+
         Args:
             value: The accessedVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accessed_variable property setter (gets validation automatically)
         """
@@ -85,10 +90,10 @@ class BswVariableAccess(Referrable):
     def getContext(self) -> List["BswDistinguished"]:
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -99,13 +104,13 @@ class BswVariableAccess(Referrable):
     def with_accessed_variable(self, value: Optional[RefType]) -> "BswVariableAccess":
         """
         Set accessedVariable and return self for chaining.
-        
+
         Args:
             value: The accessedVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accessed_variable("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class BlueprintPolicy(ARObject, ABC):
     """
@@ -8,9 +11,9 @@ class BlueprintPolicy(ARObject, ABC):
     elements will be modifiable or not modifiable. (cid:53) 163 of 238 Document
     ID 535: AUTOSAR_FO_TPS_StandardizationTemplate Standardization Template
     AUTOSAR FO R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::BlueprintPolicy
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 163, Foundation R23-11)
     """
@@ -33,10 +36,10 @@ class BlueprintPolicy(ARObject, ABC):
     def attribute_name(self, value: "String") -> None:
         """
         Set attributeName with validation.
-        
+
         Args:
             value: The attributeName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class BlueprintPolicy(ARObject, ABC):
     def getAttributeName(self) -> "String":
         """
         AUTOSAR-compliant getter for attributeName.
-        
+
         Returns:
             The attributeName value
-        
+
         Note:
             Delegates to attribute_name property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class BlueprintPolicy(ARObject, ABC):
     def setAttributeName(self, value: "String") -> "BlueprintPolicy":
         """
         AUTOSAR-compliant setter for attributeName with method chaining.
-        
+
         Args:
             value: The attributeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to attribute_name property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class BlueprintPolicy(ARObject, ABC):
     def with_attribute_name(self, value: "String") -> "BlueprintPolicy":
         """
         Set attributeName and return self for chaining.
-        
+
         Args:
             value: The attributeName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_attribute_name("value")
         """

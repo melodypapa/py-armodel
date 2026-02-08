@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwGenericAxisParam(ARObject):
     """
@@ -9,9 +12,9 @@ class SwGenericAxisParam(ARObject):
     on a corresponding axis type. The value of the parameter is given here in
     case that it is not changeable during calibration. Example is shift / offset
     in a fixed axis.
-    
+
     Package: M2::MSR::DataDictionary::Axis::SwGenericAxisParam
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 356, Classic Platform
       R23-11)
@@ -35,10 +38,10 @@ class SwGenericAxisParam(ARObject):
     def sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> None:
         """
         Set swGenericAxis with validation.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class SwGenericAxisParam(ARObject):
     def getSwGenericAxis(self) -> "SwGenericAxisParam":
         """
         AUTOSAR-compliant getter for swGenericAxis.
-        
+
         Returns:
             The swGenericAxis value
-        
+
         Note:
             Delegates to sw_generic_axis property (CODING_RULE_V2_00017)
         """
@@ -69,13 +72,13 @@ class SwGenericAxisParam(ARObject):
     def setSwGenericAxis(self, value: "SwGenericAxisParam") -> "SwGenericAxisParam":
         """
         AUTOSAR-compliant setter for swGenericAxis with method chaining.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_generic_axis property setter (gets validation automatically)
         """
@@ -87,13 +90,13 @@ class SwGenericAxisParam(ARObject):
     def with_sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> "SwGenericAxisParam":
         """
         Set swGenericAxis and return self for chaining.
-        
+
         Args:
             value: The swGenericAxis to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_generic_axis("value")
         """

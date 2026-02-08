@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AclPermission(ARElement):
     """
     This meta class represents the ability to represent permissions granted on
     objects in an AUTOSAR model.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclPermission
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 382, Foundation
       R23-11)
@@ -62,10 +65,10 @@ class AclPermission(ARElement):
     def acl_scope(self, value: "AclScopeEnum") -> None:
         """
         Set aclScope with validation.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class AclPermission(ARElement):
     def getAclContext(self) -> List["NameToken"]:
         """
         AUTOSAR-compliant getter for aclContext.
-        
+
         Returns:
             The aclContext value
-        
+
         Note:
             Delegates to acl_context property (CODING_RULE_V2_00017)
         """
@@ -92,10 +95,10 @@ class AclPermission(ARElement):
     def getAclObject(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for aclObject.
-        
+
         Returns:
             The aclObject value
-        
+
         Note:
             Delegates to acl_object property (CODING_RULE_V2_00017)
         """
@@ -104,10 +107,10 @@ class AclPermission(ARElement):
     def getAclOperation(self) -> List["AclOperation"]:
         """
         AUTOSAR-compliant getter for aclOperation.
-        
+
         Returns:
             The aclOperation value
-        
+
         Note:
             Delegates to acl_operation property (CODING_RULE_V2_00017)
         """
@@ -116,10 +119,10 @@ class AclPermission(ARElement):
     def getAclRole(self) -> List["AclRole"]:
         """
         AUTOSAR-compliant getter for aclRole.
-        
+
         Returns:
             The aclRole value
-        
+
         Note:
             Delegates to acl_role property (CODING_RULE_V2_00017)
         """
@@ -128,10 +131,10 @@ class AclPermission(ARElement):
     def getAclScope(self) -> "AclScopeEnum":
         """
         AUTOSAR-compliant getter for aclScope.
-        
+
         Returns:
             The aclScope value
-        
+
         Note:
             Delegates to acl_scope property (CODING_RULE_V2_00017)
         """
@@ -140,13 +143,13 @@ class AclPermission(ARElement):
     def setAclScope(self, value: "AclScopeEnum") -> "AclPermission":
         """
         AUTOSAR-compliant setter for aclScope with method chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to acl_scope property setter (gets validation automatically)
         """
@@ -158,13 +161,13 @@ class AclPermission(ARElement):
     def with_acl_scope(self, value: "AclScopeEnum") -> "AclPermission":
         """
         Set aclScope and return self for chaining.
-        
+
         Args:
             value: The aclScope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_acl_scope("value")
         """

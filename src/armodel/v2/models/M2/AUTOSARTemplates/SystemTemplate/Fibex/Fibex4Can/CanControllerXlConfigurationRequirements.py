@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CanControllerXlConfigurationRequirements(ARObject):
     """
     This element allows the specification of ranges for the CAN XL configuration
     parameters. These ranges are taken as requirements and have to be respected
     by the ECU developer.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology::CanControllerXlConfigurationRequirements
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 71, Classic Platform R23-11)
     """
@@ -32,10 +35,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def error_signaling(self, value: Optional["Boolean"]) -> None:
         """
         Set errorSignaling with validation.
-        
+
         Args:
             value: The errorSignaling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> None:
         """
         Set maxNumberOfTimeQuantaPerBit with validation.
-        
+
         Args:
             value: The maxNumberOfTimeQuantaPerBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_pwm_l(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxPwmL with validation.
-        
+
         Args:
             value: The maxPwmL to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_pwm_o(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxPwmO with validation.
-        
+
         Args:
             value: The maxPwmO to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +147,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_pwm_s(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxPwmS with validation.
-        
+
         Args:
             value: The maxPwmS to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -174,10 +177,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_sample(self, value: Optional["Float"]) -> None:
         """
         Set maxSample with validation.
-        
+
         Args:
             value: The maxSample to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +208,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_sync_jump(self, value: Optional["Float"]) -> None:
         """
         Set maxSyncJump with validation.
-        
+
         Args:
             value: The maxSyncJump to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +237,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def max_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxTrcvDelay with validation.
-        
+
         Args:
             value: The maxTrcvDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -262,10 +265,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> None:
         """
         Set minNumberOfTimeQuantaPerBit with validation.
-        
+
         Args:
             value: The minNumberOfTimeQuantaPerBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -290,10 +293,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_pwm_l(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minPwmL with validation.
-        
+
         Args:
             value: The minPwmL to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -318,10 +321,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_pwm_o(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minPwmO with validation.
-        
+
         Args:
             value: The minPwmO to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -346,10 +349,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_pwm_s(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minPwmS with validation.
-        
+
         Args:
             value: The minPwmS to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -375,10 +378,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_sample_point(self, value: Optional["Float"]) -> None:
         """
         Set minSamplePoint with validation.
-        
+
         Args:
             value: The minSamplePoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -406,10 +409,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_sync_jump(self, value: Optional["Float"]) -> None:
         """
         Set minSyncJump with validation.
-        
+
         Args:
             value: The minSyncJump to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -435,10 +438,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def min_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minTrcvDelay with validation.
-        
+
         Args:
             value: The minTrcvDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -465,10 +468,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def trcv_pwm_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set trcvPwmMode with validation.
-        
+
         Args:
             value: The trcvPwmMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -487,10 +490,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getErrorSignaling(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for errorSignaling.
-        
+
         Returns:
             The errorSignaling value
-        
+
         Note:
             Delegates to error_signaling property (CODING_RULE_V2_00017)
         """
@@ -499,13 +502,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setErrorSignaling(self, value: "Boolean") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for errorSignaling with method chaining.
-        
+
         Args:
             value: The errorSignaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to error_signaling property setter (gets validation automatically)
         """
@@ -515,10 +518,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxNumberOfTimeQuantaPerBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for maxNumberOfTimeQuantaPerBit.
-        
+
         Returns:
             The maxNumberOfTimeQuantaPerBit value
-        
+
         Note:
             Delegates to max_number_of_time_quanta_per_bit property (CODING_RULE_V2_00017)
         """
@@ -527,13 +530,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxNumberOfTimeQuantaPerBit(self, value: "Integer") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxNumberOfTimeQuantaPerBit with method chaining.
-        
+
         Args:
             value: The maxNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of_time_quanta_per_bit property setter (gets validation automatically)
         """
@@ -543,10 +546,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxPwmL(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxPwmL.
-        
+
         Returns:
             The maxPwmL value
-        
+
         Note:
             Delegates to max_pwm_l property (CODING_RULE_V2_00017)
         """
@@ -555,13 +558,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxPwmL(self, value: "PositiveInteger") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxPwmL with method chaining.
-        
+
         Args:
             value: The maxPwmL to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_pwm_l property setter (gets validation automatically)
         """
@@ -571,10 +574,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxPwmO(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxPwmO.
-        
+
         Returns:
             The maxPwmO value
-        
+
         Note:
             Delegates to max_pwm_o property (CODING_RULE_V2_00017)
         """
@@ -583,13 +586,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxPwmO(self, value: "PositiveInteger") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxPwmO with method chaining.
-        
+
         Args:
             value: The maxPwmO to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_pwm_o property setter (gets validation automatically)
         """
@@ -599,10 +602,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxPwmS(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxPwmS.
-        
+
         Returns:
             The maxPwmS value
-        
+
         Note:
             Delegates to max_pwm_s property (CODING_RULE_V2_00017)
         """
@@ -611,13 +614,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxPwmS(self, value: "PositiveInteger") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxPwmS with method chaining.
-        
+
         Args:
             value: The maxPwmS to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_pwm_s property setter (gets validation automatically)
         """
@@ -627,10 +630,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxSample(self) -> "Float":
         """
         AUTOSAR-compliant getter for maxSample.
-        
+
         Returns:
             The maxSample value
-        
+
         Note:
             Delegates to max_sample property (CODING_RULE_V2_00017)
         """
@@ -639,13 +642,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxSample(self, value: "Float") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxSample with method chaining.
-        
+
         Args:
             value: The maxSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_sample property setter (gets validation automatically)
         """
@@ -655,10 +658,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxSyncJump(self) -> "Float":
         """
         AUTOSAR-compliant getter for maxSyncJump.
-        
+
         Returns:
             The maxSyncJump value
-        
+
         Note:
             Delegates to max_sync_jump property (CODING_RULE_V2_00017)
         """
@@ -667,13 +670,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxSyncJump(self, value: "Float") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxSyncJump with method chaining.
-        
+
         Args:
             value: The maxSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_sync_jump property setter (gets validation automatically)
         """
@@ -683,10 +686,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMaxTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxTrcvDelay.
-        
+
         Returns:
             The maxTrcvDelay value
-        
+
         Note:
             Delegates to max_trcv_delay property (CODING_RULE_V2_00017)
         """
@@ -695,13 +698,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMaxTrcvDelay(self, value: "TimeValue") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for maxTrcvDelay with method chaining.
-        
+
         Args:
             value: The maxTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_trcv_delay property setter (gets validation automatically)
         """
@@ -711,10 +714,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinNumberOfTimeQuantaPerBit(self) -> "Integer":
         """
         AUTOSAR-compliant getter for minNumberOfTimeQuantaPerBit.
-        
+
         Returns:
             The minNumberOfTimeQuantaPerBit value
-        
+
         Note:
             Delegates to min_number_of_time_quanta_per_bit property (CODING_RULE_V2_00017)
         """
@@ -723,13 +726,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinNumberOfTimeQuantaPerBit(self, value: "Integer") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minNumberOfTimeQuantaPerBit with method chaining.
-        
+
         Args:
             value: The minNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_number_of_time_quanta_per_bit property setter (gets validation automatically)
         """
@@ -739,10 +742,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinPwmL(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minPwmL.
-        
+
         Returns:
             The minPwmL value
-        
+
         Note:
             Delegates to min_pwm_l property (CODING_RULE_V2_00017)
         """
@@ -751,13 +754,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinPwmL(self, value: "PositiveInteger") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minPwmL with method chaining.
-        
+
         Args:
             value: The minPwmL to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_pwm_l property setter (gets validation automatically)
         """
@@ -767,10 +770,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinPwmO(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minPwmO.
-        
+
         Returns:
             The minPwmO value
-        
+
         Note:
             Delegates to min_pwm_o property (CODING_RULE_V2_00017)
         """
@@ -779,13 +782,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinPwmO(self, value: "PositiveInteger") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minPwmO with method chaining.
-        
+
         Args:
             value: The minPwmO to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_pwm_o property setter (gets validation automatically)
         """
@@ -795,10 +798,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinPwmS(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minPwmS.
-        
+
         Returns:
             The minPwmS value
-        
+
         Note:
             Delegates to min_pwm_s property (CODING_RULE_V2_00017)
         """
@@ -807,13 +810,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinPwmS(self, value: "PositiveInteger") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minPwmS with method chaining.
-        
+
         Args:
             value: The minPwmS to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_pwm_s property setter (gets validation automatically)
         """
@@ -823,10 +826,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinSamplePoint(self) -> "Float":
         """
         AUTOSAR-compliant getter for minSamplePoint.
-        
+
         Returns:
             The minSamplePoint value
-        
+
         Note:
             Delegates to min_sample_point property (CODING_RULE_V2_00017)
         """
@@ -835,13 +838,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinSamplePoint(self, value: "Float") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minSamplePoint with method chaining.
-        
+
         Args:
             value: The minSamplePoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_sample_point property setter (gets validation automatically)
         """
@@ -851,10 +854,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinSyncJump(self) -> "Float":
         """
         AUTOSAR-compliant getter for minSyncJump.
-        
+
         Returns:
             The minSyncJump value
-        
+
         Note:
             Delegates to min_sync_jump property (CODING_RULE_V2_00017)
         """
@@ -863,13 +866,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinSyncJump(self, value: "Float") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minSyncJump with method chaining.
-        
+
         Args:
             value: The minSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_sync_jump property setter (gets validation automatically)
         """
@@ -879,10 +882,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getMinTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minTrcvDelay.
-        
+
         Returns:
             The minTrcvDelay value
-        
+
         Note:
             Delegates to min_trcv_delay property (CODING_RULE_V2_00017)
         """
@@ -891,13 +894,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setMinTrcvDelay(self, value: "TimeValue") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for minTrcvDelay with method chaining.
-        
+
         Args:
             value: The minTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_trcv_delay property setter (gets validation automatically)
         """
@@ -907,10 +910,10 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def getTrcvPwmMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for trcvPwmMode.
-        
+
         Returns:
             The trcvPwmMode value
-        
+
         Note:
             Delegates to trcv_pwm_mode property (CODING_RULE_V2_00017)
         """
@@ -919,13 +922,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def setTrcvPwmMode(self, value: "Boolean") -> "CanControllerXlConfigurationRequirements":
         """
         AUTOSAR-compliant setter for trcvPwmMode with method chaining.
-        
+
         Args:
             value: The trcvPwmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trcv_pwm_mode property setter (gets validation automatically)
         """
@@ -937,13 +940,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_error_signaling(self, value: Optional["Boolean"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set errorSignaling and return self for chaining.
-        
+
         Args:
             value: The errorSignaling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_error_signaling("value")
         """
@@ -953,13 +956,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxNumberOfTimeQuantaPerBit and return self for chaining.
-        
+
         Args:
             value: The maxNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of_time_quanta_per_bit("value")
         """
@@ -969,13 +972,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_pwm_l(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxPwmL and return self for chaining.
-        
+
         Args:
             value: The maxPwmL to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_pwm_l("value")
         """
@@ -985,13 +988,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_pwm_o(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxPwmO and return self for chaining.
-        
+
         Args:
             value: The maxPwmO to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_pwm_o("value")
         """
@@ -1001,13 +1004,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_pwm_s(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxPwmS and return self for chaining.
-        
+
         Args:
             value: The maxPwmS to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_pwm_s("value")
         """
@@ -1017,13 +1020,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_sample(self, value: Optional["Float"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxSample and return self for chaining.
-        
+
         Args:
             value: The maxSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_sample("value")
         """
@@ -1033,13 +1036,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_sync_jump(self, value: Optional["Float"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxSyncJump and return self for chaining.
-        
+
         Args:
             value: The maxSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_sync_jump("value")
         """
@@ -1049,13 +1052,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_max_trcv_delay(self, value: Optional["TimeValue"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set maxTrcvDelay and return self for chaining.
-        
+
         Args:
             value: The maxTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_trcv_delay("value")
         """
@@ -1065,13 +1068,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_number_of_time_quanta_per_bit(self, value: Optional["Integer"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minNumberOfTimeQuantaPerBit and return self for chaining.
-        
+
         Args:
             value: The minNumberOfTimeQuantaPerBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_number_of_time_quanta_per_bit("value")
         """
@@ -1081,13 +1084,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_pwm_l(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minPwmL and return self for chaining.
-        
+
         Args:
             value: The minPwmL to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_pwm_l("value")
         """
@@ -1097,13 +1100,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_pwm_o(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minPwmO and return self for chaining.
-        
+
         Args:
             value: The minPwmO to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_pwm_o("value")
         """
@@ -1113,13 +1116,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_pwm_s(self, value: Optional["PositiveInteger"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minPwmS and return self for chaining.
-        
+
         Args:
             value: The minPwmS to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_pwm_s("value")
         """
@@ -1129,13 +1132,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_sample_point(self, value: Optional["Float"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minSamplePoint and return self for chaining.
-        
+
         Args:
             value: The minSamplePoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_sample_point("value")
         """
@@ -1145,13 +1148,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_sync_jump(self, value: Optional["Float"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minSyncJump and return self for chaining.
-        
+
         Args:
             value: The minSyncJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_sync_jump("value")
         """
@@ -1161,13 +1164,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_min_trcv_delay(self, value: Optional["TimeValue"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set minTrcvDelay and return self for chaining.
-        
+
         Args:
             value: The minTrcvDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_trcv_delay("value")
         """
@@ -1177,13 +1180,13 @@ class CanControllerXlConfigurationRequirements(ARObject):
     def with_trcv_pwm_mode(self, value: Optional["Boolean"]) -> "CanControllerXlConfigurationRequirements":
         """
         Set trcvPwmMode and return self for chaining.
-        
+
         Args:
             value: The trcvPwmMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trcv_pwm_mode("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EcucBooleanParamDef(EcucParameterDef):
     """
     Configuration parameter type for Boolean. Allowed values are true and false.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucBooleanParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 58, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 183, Foundation R23-11)
@@ -27,10 +27,10 @@ class EcucBooleanParamDef(EcucParameterDef):
     def default_value(self, value: Optional["Boolean"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class EcucBooleanParamDef(EcucParameterDef):
     def getDefaultValue(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class EcucBooleanParamDef(EcucParameterDef):
     def setDefaultValue(self, value: "Boolean") -> "EcucBooleanParamDef":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class EcucBooleanParamDef(EcucParameterDef):
     def with_default_value(self, value: Optional["Boolean"]) -> "EcucBooleanParamDef":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """

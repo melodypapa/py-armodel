@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class NvBlockDataMapping(ARObject):
     """
@@ -10,9 +15,9 @@ class NvBlockDataMapping(ARObject):
     data types of the referenced VariableDataPrototypes in the ports and the
     referenced sub-element (inside a CompositeDataType) of the
     VariableDataPrototype representing the RAM Block shall be compatible.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent::NvBlockDataMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 688, Classic Platform
       R23-11)
@@ -34,10 +39,10 @@ class NvBlockDataMapping(ARObject):
     def bitfield_text_table(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitfieldTextTable with validation.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +67,10 @@ class NvBlockDataMapping(ARObject):
     def nv_ram_block(self, value: RefType) -> None:
         """
         Set nvRamBlock with validation.
-        
+
         Args:
             value: The nvRamBlock to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +92,10 @@ class NvBlockDataMapping(ARObject):
     def read_nv_data(self, value: RefType) -> None:
         """
         Set readNvData with validation.
-        
+
         Args:
             value: The readNvData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +117,10 @@ class NvBlockDataMapping(ARObject):
     def written_nv_data(self, value: RefType) -> None:
         """
         Set writtenNvData with validation.
-        
+
         Args:
             value: The writtenNvData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +142,10 @@ class NvBlockDataMapping(ARObject):
     def written_read_nv(self, value: RefType) -> None:
         """
         Set writtenReadNv with validation.
-        
+
         Args:
             value: The writtenReadNv to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -155,10 +160,10 @@ class NvBlockDataMapping(ARObject):
     def getBitfieldTextTable(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitfieldTextTable.
-        
+
         Returns:
             The bitfieldTextTable value
-        
+
         Note:
             Delegates to bitfield_text_table property (CODING_RULE_V2_00017)
         """
@@ -167,13 +172,13 @@ class NvBlockDataMapping(ARObject):
     def setBitfieldTextTable(self, value: "PositiveInteger") -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for bitfieldTextTable with method chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bitfield_text_table property setter (gets validation automatically)
         """
@@ -183,10 +188,10 @@ class NvBlockDataMapping(ARObject):
     def getNvRamBlock(self) -> RefType:
         """
         AUTOSAR-compliant getter for nvRamBlock.
-        
+
         Returns:
             The nvRamBlock value
-        
+
         Note:
             Delegates to nv_ram_block property (CODING_RULE_V2_00017)
         """
@@ -195,13 +200,13 @@ class NvBlockDataMapping(ARObject):
     def setNvRamBlock(self, value: RefType) -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for nvRamBlock with method chaining.
-        
+
         Args:
             value: The nvRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nv_ram_block property setter (gets validation automatically)
         """
@@ -211,10 +216,10 @@ class NvBlockDataMapping(ARObject):
     def getReadNvData(self) -> RefType:
         """
         AUTOSAR-compliant getter for readNvData.
-        
+
         Returns:
             The readNvData value
-        
+
         Note:
             Delegates to read_nv_data property (CODING_RULE_V2_00017)
         """
@@ -223,13 +228,13 @@ class NvBlockDataMapping(ARObject):
     def setReadNvData(self, value: RefType) -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for readNvData with method chaining.
-        
+
         Args:
             value: The readNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to read_nv_data property setter (gets validation automatically)
         """
@@ -239,10 +244,10 @@ class NvBlockDataMapping(ARObject):
     def getWrittenNvData(self) -> RefType:
         """
         AUTOSAR-compliant getter for writtenNvData.
-        
+
         Returns:
             The writtenNvData value
-        
+
         Note:
             Delegates to written_nv_data property (CODING_RULE_V2_00017)
         """
@@ -251,13 +256,13 @@ class NvBlockDataMapping(ARObject):
     def setWrittenNvData(self, value: RefType) -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for writtenNvData with method chaining.
-        
+
         Args:
             value: The writtenNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to written_nv_data property setter (gets validation automatically)
         """
@@ -267,10 +272,10 @@ class NvBlockDataMapping(ARObject):
     def getWrittenReadNv(self) -> RefType:
         """
         AUTOSAR-compliant getter for writtenReadNv.
-        
+
         Returns:
             The writtenReadNv value
-        
+
         Note:
             Delegates to written_read_nv property (CODING_RULE_V2_00017)
         """
@@ -279,13 +284,13 @@ class NvBlockDataMapping(ARObject):
     def setWrittenReadNv(self, value: RefType) -> "NvBlockDataMapping":
         """
         AUTOSAR-compliant setter for writtenReadNv with method chaining.
-        
+
         Args:
             value: The writtenReadNv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to written_read_nv property setter (gets validation automatically)
         """
@@ -297,13 +302,13 @@ class NvBlockDataMapping(ARObject):
     def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> "NvBlockDataMapping":
         """
         Set bitfieldTextTable and return self for chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bitfield_text_table("value")
         """
@@ -313,13 +318,13 @@ class NvBlockDataMapping(ARObject):
     def with_nv_ram_block(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set nvRamBlock and return self for chaining.
-        
+
         Args:
             value: The nvRamBlock to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nv_ram_block("value")
         """
@@ -329,13 +334,13 @@ class NvBlockDataMapping(ARObject):
     def with_read_nv_data(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set readNvData and return self for chaining.
-        
+
         Args:
             value: The readNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_read_nv_data("value")
         """
@@ -345,13 +350,13 @@ class NvBlockDataMapping(ARObject):
     def with_written_nv_data(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set writtenNvData and return self for chaining.
-        
+
         Args:
             value: The writtenNvData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_written_nv_data("value")
         """
@@ -361,13 +366,13 @@ class NvBlockDataMapping(ARObject):
     def with_written_read_nv(self, value: Optional[RefType]) -> "NvBlockDataMapping":
         """
         Set writtenReadNv and return self for chaining.
-        
+
         Args:
             value: The writtenReadNv to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_written_read_nv("value")
         """

@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FMFeatureSelection(Identifiable):
     """
@@ -29,9 +31,9 @@ class FMFeatureSelection(Identifiable):
     FMFeatureSe- lection. 5.2.2 Attribute state FMFeatureSelection has an
     attribute state that defines how the feature referred to by feature
     contributes to the selection.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureSelection
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 40, Foundation
       R23-11)
@@ -53,10 +55,10 @@ class FMFeatureSelection(Identifiable):
     def getAttributeValue(self) -> List["FMAttributeValue"]:
         """
         AUTOSAR-compliant getter for attributeValue.
-        
+
         Returns:
             The attributeValue value
-        
+
         Note:
             Delegates to attribute_value property (CODING_RULE_V2_00017)
         """

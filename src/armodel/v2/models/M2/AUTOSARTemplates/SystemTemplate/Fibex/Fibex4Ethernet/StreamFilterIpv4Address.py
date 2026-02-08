@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class StreamFilterIpv4Address(ARObject):
     """
     IPv4 address range definition.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::StreamFilterIpv4Address
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 138, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class StreamFilterIpv4Address(ARObject):
     def ipv4_address(self, value: Optional["Ip4AddressString"]) -> None:
         """
         Set ipv4Address with validation.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class StreamFilterIpv4Address(ARObject):
     def getIpv4Address(self) -> "Ip4AddressString":
         """
         AUTOSAR-compliant getter for ipv4Address.
-        
+
         Returns:
             The ipv4Address value
-        
+
         Note:
             Delegates to ipv4_address property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class StreamFilterIpv4Address(ARObject):
     def setIpv4Address(self, value: "Ip4AddressString") -> "StreamFilterIpv4Address":
         """
         AUTOSAR-compliant setter for ipv4Address with method chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ipv4_address property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class StreamFilterIpv4Address(ARObject):
     def with_ipv4_address(self, value: Optional["Ip4AddressString"]) -> "StreamFilterIpv4Address":
         """
         Set ipv4Address and return self for chaining.
-        
+
         Args:
             value: The ipv4Address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ipv4_address("value")
         """

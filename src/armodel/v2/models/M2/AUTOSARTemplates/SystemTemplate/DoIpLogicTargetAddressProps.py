@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """
     This meta-class acts as a target for references to the
     DoIpLogicTargetAddress and collects DoIpLogic TargetAddress specific
     settings.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpLogicTargetAddressProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 556, Classic Platform R23-11)
     """

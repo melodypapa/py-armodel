@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagnosticRoutineSubfunction(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class to routine subfunctions.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticRoutineSubfunction
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 121, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def access(self, value: Optional["DiagnosticAccess"]) -> None:
         """
         Set access with validation.
-        
+
         Args:
             value: The access to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def getAccess(self) -> "DiagnosticAccess":
         """
         AUTOSAR-compliant getter for access.
-        
+
         Returns:
             The access value
-        
+
         Note:
             Delegates to access property (CODING_RULE_V2_00017)
         """
@@ -66,13 +69,13 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def setAccess(self, value: "DiagnosticAccess") -> "DiagnosticRoutineSubfunction":
         """
         AUTOSAR-compliant setter for access with method chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to access property setter (gets validation automatically)
         """
@@ -84,13 +87,13 @@ class DiagnosticRoutineSubfunction(Identifiable, ABC):
     def with_access(self, value: Optional["DiagnosticAccess"]) -> "DiagnosticRoutineSubfunction":
         """
         Set access and return self for chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_access("value")
         """

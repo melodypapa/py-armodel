@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class BswCalledEntity(BswModuleEntity):
     """
     BSW module entity which is designed to be called from another BSW module or
     cluster.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswCalledEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 74, Classic
       Platform R23-11)

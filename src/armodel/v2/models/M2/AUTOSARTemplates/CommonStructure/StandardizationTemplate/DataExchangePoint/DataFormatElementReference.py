@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DataFormatElementReference(SpecElementReference, ABC):
     """
     Superclass of all references to specification elements that have direct
     impact on the data exchange format (Meta-Classes, Meta-Attributes,
     constraints, SdgDefs)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common::DataFormatElementReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 91, Foundation R23-11)
     """

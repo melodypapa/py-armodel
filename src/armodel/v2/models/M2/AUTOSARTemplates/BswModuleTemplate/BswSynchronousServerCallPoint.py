@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswSynchronousServerCallPoint(BswModuleCallPoint):
     """
     Represents a synchronous procedure call point via the BSW Scheduler.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswSynchronousServerCallPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 79, Classic
       Platform R23-11)
@@ -27,10 +27,10 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> None:
         """
         Set calledEntryEntry with validation.
-        
+
         Args:
             value: The calledEntryEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def called_from(self, value: Optional["ExclusiveAreaNesting"]) -> None:
         """
         Set calledFrom with validation.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def getCalledEntryEntry(self) -> "BswModuleClientServer":
         """
         AUTOSAR-compliant getter for calledEntryEntry.
-        
+
         Returns:
             The calledEntryEntry value
-        
+
         Note:
             Delegates to called_entry_entry property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def setCalledEntryEntry(self, value: "BswModuleClientServer") -> "BswSynchronousServerCallPoint":
         """
         AUTOSAR-compliant setter for calledEntryEntry with method chaining.
-        
+
         Args:
             value: The calledEntryEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to called_entry_entry property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def getCalledFrom(self) -> "ExclusiveAreaNesting":
         """
         AUTOSAR-compliant getter for calledFrom.
-        
+
         Returns:
             The calledFrom value
-        
+
         Note:
             Delegates to called_from property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def setCalledFrom(self, value: "ExclusiveAreaNesting") -> "BswSynchronousServerCallPoint":
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to called_from property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def with_called_entry_entry(self, value: Optional["BswModuleClientServer"]) -> "BswSynchronousServerCallPoint":
         """
         Set calledEntryEntry and return self for chaining.
-        
+
         Args:
             value: The calledEntryEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_called_entry_entry("value")
         """
@@ -152,13 +152,13 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     def with_called_from(self, value: Optional["ExclusiveAreaNesting"]) -> "BswSynchronousServerCallPoint":
         """
         Set calledFrom and return self for chaining.
-        
+
         Args:
             value: The calledFrom to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_called_from("value")
         """

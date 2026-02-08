@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class MemorySection(Identifiable):
     """
@@ -30,9 +32,9 @@ class MemorySection(Identifiable):
     space. This prefix is by default given by the shortName of the BswModule
     Description resp. the SwComponentType. It can be superseded by the prefix
     attribute.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage::MemorySection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 143, Classic
       Platform R23-11)
@@ -56,10 +58,10 @@ class MemorySection(Identifiable):
     def alignment(self, value: Optional["AlignmentType"]) -> None:
         """
         Set alignment with validation.
-        
+
         Args:
             value: The alignment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +112,10 @@ class MemorySection(Identifiable):
     def prefix(self, value: Optional["SectionNamePrefix"]) -> None:
         """
         Set prefix with validation.
-        
+
         Args:
             value: The prefix to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +142,10 @@ class MemorySection(Identifiable):
     def size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set size with validation.
-        
+
         Args:
             value: The size to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +178,10 @@ class MemorySection(Identifiable):
     def sw_addrmethod(self, value: Optional["SwAddrMethod"]) -> None:
         """
         Set swAddrmethod with validation.
-        
+
         Args:
             value: The swAddrmethod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +210,10 @@ class MemorySection(Identifiable):
     def symbol(self, value: Optional["Identifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +232,10 @@ class MemorySection(Identifiable):
     def getAlignment(self) -> "AlignmentType":
         """
         AUTOSAR-compliant getter for alignment.
-        
+
         Returns:
             The alignment value
-        
+
         Note:
             Delegates to alignment property (CODING_RULE_V2_00017)
         """
@@ -242,13 +244,13 @@ class MemorySection(Identifiable):
     def setAlignment(self, value: "AlignmentType") -> "MemorySection":
         """
         AUTOSAR-compliant setter for alignment with method chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alignment property setter (gets validation automatically)
         """
@@ -258,10 +260,10 @@ class MemorySection(Identifiable):
     def getExecutableEntity(self) -> List["ExecutableEntity"]:
         """
         AUTOSAR-compliant getter for executableEntity.
-        
+
         Returns:
             The executableEntity value
-        
+
         Note:
             Delegates to executable_entity property (CODING_RULE_V2_00017)
         """
@@ -270,10 +272,10 @@ class MemorySection(Identifiable):
     def getOption(self) -> List["Identifier"]:
         """
         AUTOSAR-compliant getter for option.
-        
+
         Returns:
             The option value
-        
+
         Note:
             Delegates to option property (CODING_RULE_V2_00017)
         """
@@ -282,10 +284,10 @@ class MemorySection(Identifiable):
     def getPrefix(self) -> "SectionNamePrefix":
         """
         AUTOSAR-compliant getter for prefix.
-        
+
         Returns:
             The prefix value
-        
+
         Note:
             Delegates to prefix property (CODING_RULE_V2_00017)
         """
@@ -294,13 +296,13 @@ class MemorySection(Identifiable):
     def setPrefix(self, value: "SectionNamePrefix") -> "MemorySection":
         """
         AUTOSAR-compliant setter for prefix with method chaining.
-        
+
         Args:
             value: The prefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to prefix property setter (gets validation automatically)
         """
@@ -310,10 +312,10 @@ class MemorySection(Identifiable):
     def getSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for size.
-        
+
         Returns:
             The size value
-        
+
         Note:
             Delegates to size property (CODING_RULE_V2_00017)
         """
@@ -322,13 +324,13 @@ class MemorySection(Identifiable):
     def setSize(self, value: "PositiveInteger") -> "MemorySection":
         """
         AUTOSAR-compliant setter for size with method chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size property setter (gets validation automatically)
         """
@@ -338,10 +340,10 @@ class MemorySection(Identifiable):
     def getSwAddrmethod(self) -> "SwAddrMethod":
         """
         AUTOSAR-compliant getter for swAddrmethod.
-        
+
         Returns:
             The swAddrmethod value
-        
+
         Note:
             Delegates to sw_addrmethod property (CODING_RULE_V2_00017)
         """
@@ -350,13 +352,13 @@ class MemorySection(Identifiable):
     def setSwAddrmethod(self, value: "SwAddrMethod") -> "MemorySection":
         """
         AUTOSAR-compliant setter for swAddrmethod with method chaining.
-        
+
         Args:
             value: The swAddrmethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_addrmethod property setter (gets validation automatically)
         """
@@ -366,10 +368,10 @@ class MemorySection(Identifiable):
     def getSymbol(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -378,13 +380,13 @@ class MemorySection(Identifiable):
     def setSymbol(self, value: "Identifier") -> "MemorySection":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -396,13 +398,13 @@ class MemorySection(Identifiable):
     def with_alignment(self, value: Optional["AlignmentType"]) -> "MemorySection":
         """
         Set alignment and return self for chaining.
-        
+
         Args:
             value: The alignment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alignment("value")
         """
@@ -412,13 +414,13 @@ class MemorySection(Identifiable):
     def with_prefix(self, value: Optional["SectionNamePrefix"]) -> "MemorySection":
         """
         Set prefix and return self for chaining.
-        
+
         Args:
             value: The prefix to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_prefix("value")
         """
@@ -428,13 +430,13 @@ class MemorySection(Identifiable):
     def with_size(self, value: Optional["PositiveInteger"]) -> "MemorySection":
         """
         Set size and return self for chaining.
-        
+
         Args:
             value: The size to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size("value")
         """
@@ -444,13 +446,13 @@ class MemorySection(Identifiable):
     def with_sw_addrmethod(self, value: Optional["SwAddrMethod"]) -> "MemorySection":
         """
         Set swAddrmethod and return self for chaining.
-        
+
         Args:
             value: The swAddrmethod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_addrmethod("value")
         """
@@ -460,13 +462,13 @@ class MemorySection(Identifiable):
     def with_symbol(self, value: Optional["Identifier"]) -> "MemorySection":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

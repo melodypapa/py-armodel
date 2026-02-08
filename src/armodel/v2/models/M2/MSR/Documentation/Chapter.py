@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Chapter(Paginateable):
     """
     This meta-class represents a chapter of a document. Chapters are the primary
     structuring element in documentation.
-    
+
     Package: M2::MSR::Documentation::Chapters::Chapter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 698, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class Chapter(Paginateable):
     def chapter_model(self, value: "ChapterModel") -> None:
         """
         Set chapterModel with validation.
-        
+
         Args:
             value: The chapterModel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class Chapter(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class Chapter(Paginateable):
     def getChapterModel(self) -> "ChapterModel":
         """
         AUTOSAR-compliant getter for chapterModel.
-        
+
         Returns:
             The chapterModel value
-        
+
         Note:
             Delegates to chapter_model property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class Chapter(Paginateable):
     def setChapterModel(self, value: "ChapterModel") -> "Chapter":
         """
         AUTOSAR-compliant setter for chapterModel with method chaining.
-        
+
         Args:
             value: The chapterModel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to chapter_model property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class Chapter(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class Chapter(Paginateable):
     def setHelpEntry(self, value: "String") -> "Chapter":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class Chapter(Paginateable):
     def with_chapter_model(self, value: "ChapterModel") -> "Chapter":
         """
         Set chapterModel and return self for chaining.
-        
+
         Args:
             value: The chapterModel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_chapter_model("value")
         """
@@ -155,13 +155,13 @@ class Chapter(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "Chapter":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """

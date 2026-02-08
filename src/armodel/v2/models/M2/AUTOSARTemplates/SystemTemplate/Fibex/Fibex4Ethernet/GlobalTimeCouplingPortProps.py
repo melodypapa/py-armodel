@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class GlobalTimeCouplingPortProps(ARObject):
     """
     Defines properties for the usage of the CouplingPort in the scope of Global
     Time Sync.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::GlobalTimeCouplingPortProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 875, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class GlobalTimeCouplingPortProps(ARObject):
     def propagation(self, value: Optional["TimeValue"]) -> None:
         """
         Set propagation with validation.
-        
+
         Args:
             value: The propagation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +56,10 @@ class GlobalTimeCouplingPortProps(ARObject):
     def getPropagation(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for propagation.
-        
+
         Returns:
             The propagation value
-        
+
         Note:
             Delegates to propagation property (CODING_RULE_V2_00017)
         """
@@ -65,13 +68,13 @@ class GlobalTimeCouplingPortProps(ARObject):
     def setPropagation(self, value: "TimeValue") -> "GlobalTimeCouplingPortProps":
         """
         AUTOSAR-compliant setter for propagation with method chaining.
-        
+
         Args:
             value: The propagation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to propagation property setter (gets validation automatically)
         """
@@ -83,13 +86,13 @@ class GlobalTimeCouplingPortProps(ARObject):
     def with_propagation(self, value: Optional["TimeValue"]) -> "GlobalTimeCouplingPortProps":
         """
         Set propagation and return self for chaining.
-        
+
         Args:
             value: The propagation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_propagation("value")
         """

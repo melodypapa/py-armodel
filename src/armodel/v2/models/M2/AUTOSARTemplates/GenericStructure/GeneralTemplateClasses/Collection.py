@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import ARElement
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
+    ARElement,
+)
+
 
 class Collection(ARElement):
     """
@@ -11,9 +14,9 @@ class Collection(ARElement):
     "RELATION" (see also [TPS_GST_00347]). In this case the collection
     represents an association from "sourceElement" to "targetElement" in the
     role "role".
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection::Collection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2009, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 398, Foundation
@@ -36,10 +39,10 @@ class Collection(ARElement):
     def auto_collect(self, value: Optional["AutoCollectEnum"]) -> None:
         """
         Set autoCollect with validation.
-        
+
         Args:
             value: The autoCollect to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +77,10 @@ class Collection(ARElement):
     def collection(self, value: Optional["NameToken"]) -> None:
         """
         Set collection with validation.
-        
+
         Args:
             value: The collection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class Collection(ARElement):
     def element_role(self, value: Optional["Identifier"]) -> None:
         """
         Set elementRole with validation.
-        
+
         Args:
             value: The elementRole to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +155,10 @@ class Collection(ARElement):
     def getAutoCollect(self) -> "AutoCollectEnum":
         """
         AUTOSAR-compliant getter for autoCollect.
-        
+
         Returns:
             The autoCollect value
-        
+
         Note:
             Delegates to auto_collect property (CODING_RULE_V2_00017)
         """
@@ -164,13 +167,13 @@ class Collection(ARElement):
     def setAutoCollect(self, value: "AutoCollectEnum") -> "Collection":
         """
         AUTOSAR-compliant setter for autoCollect with method chaining.
-        
+
         Args:
             value: The autoCollect to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auto_collect property setter (gets validation automatically)
         """
@@ -180,10 +183,10 @@ class Collection(ARElement):
     def getCollected(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for collected.
-        
+
         Returns:
             The collected value
-        
+
         Note:
             Delegates to collected property (CODING_RULE_V2_00017)
         """
@@ -192,10 +195,10 @@ class Collection(ARElement):
     def getCollection(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for collection.
-        
+
         Returns:
             The collection value
-        
+
         Note:
             Delegates to collection property (CODING_RULE_V2_00017)
         """
@@ -204,13 +207,13 @@ class Collection(ARElement):
     def setCollection(self, value: "NameToken") -> "Collection":
         """
         AUTOSAR-compliant setter for collection with method chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection property setter (gets validation automatically)
         """
@@ -220,10 +223,10 @@ class Collection(ARElement):
     def getElement(self) -> List["Identifiable"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -232,10 +235,10 @@ class Collection(ARElement):
     def getElementRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for elementRole.
-        
+
         Returns:
             The elementRole value
-        
+
         Note:
             Delegates to element_role property (CODING_RULE_V2_00017)
         """
@@ -244,13 +247,13 @@ class Collection(ARElement):
     def setElementRole(self, value: "Identifier") -> "Collection":
         """
         AUTOSAR-compliant setter for elementRole with method chaining.
-        
+
         Args:
             value: The elementRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element_role property setter (gets validation automatically)
         """
@@ -260,10 +263,10 @@ class Collection(ARElement):
     def getSourceElement(self) -> List["Identifiable"]:
         """
         AUTOSAR-compliant getter for sourceElement.
-        
+
         Returns:
             The sourceElement value
-        
+
         Note:
             Delegates to source_element property (CODING_RULE_V2_00017)
         """
@@ -272,10 +275,10 @@ class Collection(ARElement):
     def getSourceInstance(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for sourceInstance.
-        
+
         Returns:
             The sourceInstance value
-        
+
         Note:
             Delegates to source_instance property (CODING_RULE_V2_00017)
         """
@@ -286,13 +289,13 @@ class Collection(ARElement):
     def with_auto_collect(self, value: Optional["AutoCollectEnum"]) -> "Collection":
         """
         Set autoCollect and return self for chaining.
-        
+
         Args:
             value: The autoCollect to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auto_collect("value")
         """
@@ -302,13 +305,13 @@ class Collection(ARElement):
     def with_collection(self, value: Optional["NameToken"]) -> "Collection":
         """
         Set collection and return self for chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection("value")
         """
@@ -318,13 +321,13 @@ class Collection(ARElement):
     def with_element_role(self, value: Optional["Identifier"]) -> "Collection":
         """
         Set elementRole and return self for chaining.
-        
+
         Args:
             value: The elementRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element_role("value")
         """

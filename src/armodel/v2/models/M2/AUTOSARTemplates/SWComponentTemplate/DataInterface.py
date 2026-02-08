@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class DataInterface(PortInterface, ABC):
     """
     The purpose of this meta-class is to act as an abstract base class for
     subclasses that share the semantics of being concerned about data (as
     opposed to e.g. operations).
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::DataInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 310, Classic Platform
       R23-11)

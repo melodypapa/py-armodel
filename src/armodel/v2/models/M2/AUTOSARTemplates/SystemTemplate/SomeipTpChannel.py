@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SomeipTpChannel(Identifiable):
     """
     This element is used to assign properties to SomeipTpConnections that are
     referencing this SomeipTp Channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::SomeipTpChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 620, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class SomeipTpChannel(Identifiable):
     def burst_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set burstSize with validation.
-        
+
         Args:
             value: The burstSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +64,10 @@ class SomeipTpChannel(Identifiable):
     def rx_timeout_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set rxTimeoutTime with validation.
-        
+
         Args:
             value: The rxTimeoutTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class SomeipTpChannel(Identifiable):
     def separation_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set separationTime with validation.
-        
+
         Args:
             value: The separationTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +115,10 @@ class SomeipTpChannel(Identifiable):
     def getBurstSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for burstSize.
-        
+
         Returns:
             The burstSize value
-        
+
         Note:
             Delegates to burst_size property (CODING_RULE_V2_00017)
         """
@@ -125,13 +127,13 @@ class SomeipTpChannel(Identifiable):
     def setBurstSize(self, value: "PositiveInteger") -> "SomeipTpChannel":
         """
         AUTOSAR-compliant setter for burstSize with method chaining.
-        
+
         Args:
             value: The burstSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to burst_size property setter (gets validation automatically)
         """
@@ -141,10 +143,10 @@ class SomeipTpChannel(Identifiable):
     def getRxTimeoutTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for rxTimeoutTime.
-        
+
         Returns:
             The rxTimeoutTime value
-        
+
         Note:
             Delegates to rx_timeout_time property (CODING_RULE_V2_00017)
         """
@@ -153,13 +155,13 @@ class SomeipTpChannel(Identifiable):
     def setRxTimeoutTime(self, value: "TimeValue") -> "SomeipTpChannel":
         """
         AUTOSAR-compliant setter for rxTimeoutTime with method chaining.
-        
+
         Args:
             value: The rxTimeoutTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rx_timeout_time property setter (gets validation automatically)
         """
@@ -169,10 +171,10 @@ class SomeipTpChannel(Identifiable):
     def getSeparationTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for separationTime.
-        
+
         Returns:
             The separationTime value
-        
+
         Note:
             Delegates to separation_time property (CODING_RULE_V2_00017)
         """
@@ -181,13 +183,13 @@ class SomeipTpChannel(Identifiable):
     def setSeparationTime(self, value: "TimeValue") -> "SomeipTpChannel":
         """
         AUTOSAR-compliant setter for separationTime with method chaining.
-        
+
         Args:
             value: The separationTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to separation_time property setter (gets validation automatically)
         """
@@ -199,13 +201,13 @@ class SomeipTpChannel(Identifiable):
     def with_burst_size(self, value: Optional["PositiveInteger"]) -> "SomeipTpChannel":
         """
         Set burstSize and return self for chaining.
-        
+
         Args:
             value: The burstSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_burst_size("value")
         """
@@ -215,13 +217,13 @@ class SomeipTpChannel(Identifiable):
     def with_rx_timeout_time(self, value: Optional["TimeValue"]) -> "SomeipTpChannel":
         """
         Set rxTimeoutTime and return self for chaining.
-        
+
         Args:
             value: The rxTimeoutTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rx_timeout_time("value")
         """
@@ -231,13 +233,13 @@ class SomeipTpChannel(Identifiable):
     def with_separation_time(self, value: Optional["TimeValue"]) -> "SomeipTpChannel":
         """
         Set separationTime and return self for chaining.
-        
+
         Args:
             value: The separationTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_separation_time("value")
         """

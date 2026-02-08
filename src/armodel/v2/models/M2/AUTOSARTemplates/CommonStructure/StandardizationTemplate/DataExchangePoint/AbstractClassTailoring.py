@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class AbstractClassTailoring(DataFormatElementReference, ABC):
     """
     Tailoring of abstract classes in the AUTOSAR meta-model
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::AbstractClassTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 101, Foundation R23-11)
     """

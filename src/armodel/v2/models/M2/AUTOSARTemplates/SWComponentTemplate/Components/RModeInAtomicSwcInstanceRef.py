@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RModeInAtomicSwcInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::RModeInAtomicSwcInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 943, Classic Platform
       R23-11)
@@ -29,10 +34,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +63,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def context_mode_group_prototype(self, value: RefType) -> None:
         """
         Set contextModeGroupPrototype with validation.
-        
+
         Args:
             value: The contextModeGroupPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +88,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def context_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set contextPortPrototype with validation.
-        
+
         Args:
             value: The contextPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +117,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def target_mode_declaration(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set targetModeDeclaration with validation.
-        
+
         Args:
             value: The targetModeDeclaration to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +139,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -146,13 +151,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def setBase(self, value: "AtomicSwComponent") -> "RModeInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -162,10 +167,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def getContextModeGroupPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextModeGroupPrototype.
-        
+
         Returns:
             The contextModeGroupPrototype value
-        
+
         Note:
             Delegates to context_mode_group_prototype property (CODING_RULE_V2_00017)
         """
@@ -174,13 +179,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def setContextModeGroupPrototype(self, value: RefType) -> "RModeInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextModeGroupPrototype with method chaining.
-        
+
         Args:
             value: The contextModeGroupPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_mode_group_prototype property setter (gets validation automatically)
         """
@@ -190,10 +195,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def getContextPortPrototype(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for contextPortPrototype.
-        
+
         Returns:
             The contextPortPrototype value
-        
+
         Note:
             Delegates to context_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -202,13 +207,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def setContextPortPrototype(self, value: "AbstractRequiredPort") -> "RModeInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextPortPrototype with method chaining.
-        
+
         Args:
             value: The contextPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port_prototype property setter (gets validation automatically)
         """
@@ -218,10 +223,10 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def getTargetModeDeclaration(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for targetModeDeclaration.
-        
+
         Returns:
             The targetModeDeclaration value
-        
+
         Note:
             Delegates to target_mode_declaration property (CODING_RULE_V2_00017)
         """
@@ -230,13 +235,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def setTargetModeDeclaration(self, value: "ModeDeclaration") -> "RModeInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for targetModeDeclaration with method chaining.
-        
+
         Args:
             value: The targetModeDeclaration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_mode_declaration property setter (gets validation automatically)
         """
@@ -248,13 +253,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def with_base(self, value: Optional["AtomicSwComponent"]) -> "RModeInAtomicSwcInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -264,13 +269,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def with_context_mode_group_prototype(self, value: Optional[RefType]) -> "RModeInAtomicSwcInstanceRef":
         """
         Set contextModeGroupPrototype and return self for chaining.
-        
+
         Args:
             value: The contextModeGroupPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_mode_group_prototype("value")
         """
@@ -280,13 +285,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def with_context_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "RModeInAtomicSwcInstanceRef":
         """
         Set contextPortPrototype and return self for chaining.
-        
+
         Args:
             value: The contextPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port_prototype("value")
         """
@@ -296,13 +301,13 @@ class RModeInAtomicSwcInstanceRef(ARObject):
     def with_target_mode_declaration(self, value: Optional["ModeDeclaration"]) -> "RModeInAtomicSwcInstanceRef":
         """
         Set targetModeDeclaration and return self for chaining.
-        
+
         Args:
             value: The targetModeDeclaration to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_mode_declaration("value")
         """

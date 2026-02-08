@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticRequestFileTransferNeeds(DiagnosticCapabilityElement):
     """
     This meta-class indicates the existence of a service use case that involves
     UDS service 0x38, Request File Transfer.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticRequestFileTransferNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 795, Classic Platform
       R23-11)

@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EcucStringParamDef(ARObject):
     """
     Configuration parameter type for String.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucStringParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 64, Classic Platform R23-11)
     """

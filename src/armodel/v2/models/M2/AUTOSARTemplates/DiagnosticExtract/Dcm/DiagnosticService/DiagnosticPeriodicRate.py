@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticPeriodicRate(ARObject):
     """
     This represents the ability to define a periodic rate for the specification
     of the "read data by periodic ID" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDataByPeriodicID::DiagnosticPeriodicRate
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 131, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class DiagnosticPeriodicRate(ARObject):
     def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class DiagnosticPeriodicRate(ARObject):
     def periodic_rate(self, value: Optional["DiagnosticPeriodicRate"]) -> None:
         """
         Set periodicRate with validation.
-        
+
         Args:
             value: The periodicRate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class DiagnosticPeriodicRate(ARObject):
     def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class DiagnosticPeriodicRate(ARObject):
     def setPeriod(self, value: "TimeValue") -> "DiagnosticPeriodicRate":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class DiagnosticPeriodicRate(ARObject):
     def getPeriodicRate(self) -> "DiagnosticPeriodicRate":
         """
         AUTOSAR-compliant getter for periodicRate.
-        
+
         Returns:
             The periodicRate value
-        
+
         Note:
             Delegates to periodic_rate property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class DiagnosticPeriodicRate(ARObject):
     def setPeriodicRate(self, value: "DiagnosticPeriodicRate") -> "DiagnosticPeriodicRate":
         """
         AUTOSAR-compliant setter for periodicRate with method chaining.
-        
+
         Args:
             value: The periodicRate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to periodic_rate property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class DiagnosticPeriodicRate(ARObject):
     def with_period(self, value: Optional["TimeValue"]) -> "DiagnosticPeriodicRate":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """
@@ -153,13 +156,13 @@ class DiagnosticPeriodicRate(ARObject):
     def with_periodic_rate(self, value: Optional["DiagnosticPeriodicRate"]) -> "DiagnosticPeriodicRate":
         """
         Set periodicRate and return self for chaining.
-        
+
         Args:
             value: The periodicRate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_periodic_rate("value")
         """

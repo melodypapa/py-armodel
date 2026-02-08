@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class ConcretePatternEventTriggering(EventTriggeringConstraint):
     """
     Describes the behavior of an event that occurs according to a precisely
     known pattern.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::ConcretePatternEventTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 106, Classic Platform R23-11)
     """
@@ -38,10 +38,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set patternJitter with validation.
-        
+
         Args:
             value: The patternJitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +67,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def pattern_length(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set patternLength with validation.
-        
+
         Args:
             value: The patternLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def pattern_period(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set patternPeriod with validation.
-        
+
         Args:
             value: The patternPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +118,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def getOffset(self) -> List["MultidimensionalTime"]:
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -130,10 +130,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def getPatternJitter(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for patternJitter.
-        
+
         Returns:
             The patternJitter value
-        
+
         Note:
             Delegates to pattern_jitter property (CODING_RULE_V2_00017)
         """
@@ -142,13 +142,13 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def setPatternJitter(self, value: "MultidimensionalTime") -> "ConcretePatternEventTriggering":
         """
         AUTOSAR-compliant setter for patternJitter with method chaining.
-        
+
         Args:
             value: The patternJitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern_jitter property setter (gets validation automatically)
         """
@@ -158,10 +158,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def getPatternLength(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for patternLength.
-        
+
         Returns:
             The patternLength value
-        
+
         Note:
             Delegates to pattern_length property (CODING_RULE_V2_00017)
         """
@@ -170,13 +170,13 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def setPatternLength(self, value: "MultidimensionalTime") -> "ConcretePatternEventTriggering":
         """
         AUTOSAR-compliant setter for patternLength with method chaining.
-        
+
         Args:
             value: The patternLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern_length property setter (gets validation automatically)
         """
@@ -186,10 +186,10 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def getPatternPeriod(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for patternPeriod.
-        
+
         Returns:
             The patternPeriod value
-        
+
         Note:
             Delegates to pattern_period property (CODING_RULE_V2_00017)
         """
@@ -198,13 +198,13 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def setPatternPeriod(self, value: "MultidimensionalTime") -> "ConcretePatternEventTriggering":
         """
         AUTOSAR-compliant setter for patternPeriod with method chaining.
-        
+
         Args:
             value: The patternPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pattern_period property setter (gets validation automatically)
         """
@@ -216,13 +216,13 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def with_pattern_jitter(self, value: Optional["MultidimensionalTime"]) -> "ConcretePatternEventTriggering":
         """
         Set patternJitter and return self for chaining.
-        
+
         Args:
             value: The patternJitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern_jitter("value")
         """
@@ -232,13 +232,13 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def with_pattern_length(self, value: Optional["MultidimensionalTime"]) -> "ConcretePatternEventTriggering":
         """
         Set patternLength and return self for chaining.
-        
+
         Args:
             value: The patternLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern_length("value")
         """
@@ -248,13 +248,13 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     def with_pattern_period(self, value: Optional["MultidimensionalTime"]) -> "ConcretePatternEventTriggering":
         """
         Set patternPeriod and return self for chaining.
-        
+
         Args:
             value: The patternPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pattern_period("value")
         """

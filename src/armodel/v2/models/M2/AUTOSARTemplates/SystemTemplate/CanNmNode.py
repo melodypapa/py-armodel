@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CanNmNode(NmNode):
     """
     CAN specific NM Node attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::CanNmNode
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 684, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class CanNmNode(NmNode):
     def all_nm_messages(self, value: Optional["Boolean"]) -> None:
         """
         Set allNmMessages with validation.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class CanNmNode(NmNode):
     def nm_car_wake_up(self, value: Optional["Boolean"]) -> None:
         """
         Set nmCarWakeUp with validation.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class CanNmNode(NmNode):
     def nm_msg_cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsgCycle with validation.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +118,10 @@ class CanNmNode(NmNode):
     def nm_msg(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmMsg with validation.
-        
+
         Args:
             value: The nmMsg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +140,10 @@ class CanNmNode(NmNode):
     def getAllNmMessages(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for allNmMessages.
-        
+
         Returns:
             The allNmMessages value
-        
+
         Note:
             Delegates to all_nm_messages property (CODING_RULE_V2_00017)
         """
@@ -152,13 +152,13 @@ class CanNmNode(NmNode):
     def setAllNmMessages(self, value: "Boolean") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for allNmMessages with method chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to all_nm_messages property setter (gets validation automatically)
         """
@@ -168,10 +168,10 @@ class CanNmNode(NmNode):
     def getNmCarWakeUp(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmCarWakeUp.
-        
+
         Returns:
             The nmCarWakeUp value
-        
+
         Note:
             Delegates to nm_car_wake_up property (CODING_RULE_V2_00017)
         """
@@ -180,13 +180,13 @@ class CanNmNode(NmNode):
     def setNmCarWakeUp(self, value: "Boolean") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for nmCarWakeUp with method chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_car_wake_up property setter (gets validation automatically)
         """
@@ -196,10 +196,10 @@ class CanNmNode(NmNode):
     def getNmMsgCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsgCycle.
-        
+
         Returns:
             The nmMsgCycle value
-        
+
         Note:
             Delegates to nm_msg_cycle property (CODING_RULE_V2_00017)
         """
@@ -208,13 +208,13 @@ class CanNmNode(NmNode):
     def setNmMsgCycle(self, value: "TimeValue") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for nmMsgCycle with method chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg_cycle property setter (gets validation automatically)
         """
@@ -224,10 +224,10 @@ class CanNmNode(NmNode):
     def getNmMsg(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmMsg.
-        
+
         Returns:
             The nmMsg value
-        
+
         Note:
             Delegates to nm_msg property (CODING_RULE_V2_00017)
         """
@@ -236,13 +236,13 @@ class CanNmNode(NmNode):
     def setNmMsg(self, value: "TimeValue") -> "CanNmNode":
         """
         AUTOSAR-compliant setter for nmMsg with method chaining.
-        
+
         Args:
             value: The nmMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_msg property setter (gets validation automatically)
         """
@@ -254,13 +254,13 @@ class CanNmNode(NmNode):
     def with_all_nm_messages(self, value: Optional["Boolean"]) -> "CanNmNode":
         """
         Set allNmMessages and return self for chaining.
-        
+
         Args:
             value: The allNmMessages to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_all_nm_messages("value")
         """
@@ -270,13 +270,13 @@ class CanNmNode(NmNode):
     def with_nm_car_wake_up(self, value: Optional["Boolean"]) -> "CanNmNode":
         """
         Set nmCarWakeUp and return self for chaining.
-        
+
         Args:
             value: The nmCarWakeUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_car_wake_up("value")
         """
@@ -286,13 +286,13 @@ class CanNmNode(NmNode):
     def with_nm_msg_cycle(self, value: Optional["TimeValue"]) -> "CanNmNode":
         """
         Set nmMsgCycle and return self for chaining.
-        
+
         Args:
             value: The nmMsgCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg_cycle("value")
         """
@@ -302,13 +302,13 @@ class CanNmNode(NmNode):
     def with_nm_msg(self, value: Optional["TimeValue"]) -> "CanNmNode":
         """
         Set nmMsg and return self for chaining.
-        
+
         Args:
             value: The nmMsg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_msg("value")
         """

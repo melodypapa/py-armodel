@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     """
     that the "server" in the name of this meta-class is not meant to restrict
     the usage to ClientServer Interfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::IoHwAbstractionServerAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 156, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def age(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set age with validation.
-        
+
         Args:
             value: The age to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def argument(self, value: RefType) -> None:
         """
         Set argument with validation.
-        
+
         Args:
             value: The argument to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def bsw_resolution(self, value: Optional["Float"]) -> None:
         """
         Set bswResolution with validation.
-        
+
         Args:
             value: The bswResolution to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +114,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +147,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def failure(self, value: RefType) -> None:
         """
         Set failure with validation.
-        
+
         Args:
             value: The failure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -171,10 +174,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def filtering(self, value: Optional["FilterDebouncingEnum"]) -> None:
         """
         Set filtering with validation.
-        
+
         Args:
             value: The filtering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -200,10 +203,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def pulse_test(self, value: Optional["PulseTestEnum"]) -> None:
         """
         Set pulseTest with validation.
-        
+
         Args:
             value: The pulseTest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -228,10 +231,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def trigger(self, value: RefType) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -246,10 +249,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getAge(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for age.
-        
+
         Returns:
             The age value
-        
+
         Note:
             Delegates to age property (CODING_RULE_V2_00017)
         """
@@ -258,13 +261,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setAge(self, value: "MultidimensionalTime") -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for age with method chaining.
-        
+
         Args:
             value: The age to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to age property setter (gets validation automatically)
         """
@@ -274,10 +277,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getArgument(self) -> RefType:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -286,13 +289,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setArgument(self, value: RefType) -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for argument with method chaining.
-        
+
         Args:
             value: The argument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to argument property setter (gets validation automatically)
         """
@@ -302,10 +305,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getBswResolution(self) -> "Float":
         """
         AUTOSAR-compliant getter for bswResolution.
-        
+
         Returns:
             The bswResolution value
-        
+
         Note:
             Delegates to bsw_resolution property (CODING_RULE_V2_00017)
         """
@@ -314,13 +317,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setBswResolution(self, value: "Float") -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for bswResolution with method chaining.
-        
+
         Args:
             value: The bswResolution to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_resolution property setter (gets validation automatically)
         """
@@ -330,10 +333,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -342,13 +345,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setDataElement(self, value: RefType) -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -358,10 +361,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getFailure(self) -> RefType:
         """
         AUTOSAR-compliant getter for failure.
-        
+
         Returns:
             The failure value
-        
+
         Note:
             Delegates to failure property (CODING_RULE_V2_00017)
         """
@@ -370,13 +373,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setFailure(self, value: RefType) -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for failure with method chaining.
-        
+
         Args:
             value: The failure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to failure property setter (gets validation automatically)
         """
@@ -386,10 +389,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getFiltering(self) -> "FilterDebouncingEnum":
         """
         AUTOSAR-compliant getter for filtering.
-        
+
         Returns:
             The filtering value
-        
+
         Note:
             Delegates to filtering property (CODING_RULE_V2_00017)
         """
@@ -398,13 +401,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setFiltering(self, value: "FilterDebouncingEnum") -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for filtering with method chaining.
-        
+
         Args:
             value: The filtering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filtering property setter (gets validation automatically)
         """
@@ -414,10 +417,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getPulseTest(self) -> "PulseTestEnum":
         """
         AUTOSAR-compliant getter for pulseTest.
-        
+
         Returns:
             The pulseTest value
-        
+
         Note:
             Delegates to pulse_test property (CODING_RULE_V2_00017)
         """
@@ -426,13 +429,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setPulseTest(self, value: "PulseTestEnum") -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for pulseTest with method chaining.
-        
+
         Args:
             value: The pulseTest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pulse_test property setter (gets validation automatically)
         """
@@ -442,10 +445,10 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -454,13 +457,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def setTrigger(self, value: RefType) -> "IoHwAbstractionServerAnnotation":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -472,13 +475,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_age(self, value: Optional["MultidimensionalTime"]) -> "IoHwAbstractionServerAnnotation":
         """
         Set age and return self for chaining.
-        
+
         Args:
             value: The age to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_age("value")
         """
@@ -488,13 +491,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_argument(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
         Set argument and return self for chaining.
-        
+
         Args:
             value: The argument to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_argument("value")
         """
@@ -504,13 +507,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_bsw_resolution(self, value: Optional["Float"]) -> "IoHwAbstractionServerAnnotation":
         """
         Set bswResolution and return self for chaining.
-        
+
         Args:
             value: The bswResolution to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_resolution("value")
         """
@@ -520,13 +523,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_data_element(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -536,13 +539,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_failure(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
         Set failure and return self for chaining.
-        
+
         Args:
             value: The failure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_failure("value")
         """
@@ -552,13 +555,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_filtering(self, value: Optional["FilterDebouncingEnum"]) -> "IoHwAbstractionServerAnnotation":
         """
         Set filtering and return self for chaining.
-        
+
         Args:
             value: The filtering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filtering("value")
         """
@@ -568,13 +571,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_pulse_test(self, value: Optional["PulseTestEnum"]) -> "IoHwAbstractionServerAnnotation":
         """
         Set pulseTest and return self for chaining.
-        
+
         Args:
             value: The pulseTest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pulse_test("value")
         """
@@ -584,13 +587,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     def with_trigger(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """

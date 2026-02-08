@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwCalprmAxisSet(ARObject):
     """
     This element specifies the input parameter axes (abscissas) of parameters
     (and variables, if these are used adaptively).
-    
+
     Package: M2::MSR::DataDictionary::CalibrationParameter::SwCalprmAxisSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 351, Classic Platform
       R23-11)
@@ -30,10 +33,10 @@ class SwCalprmAxisSet(ARObject):
     def getSwCalprmAxis(self) -> List["SwCalprmAxis"]:
         """
         AUTOSAR-compliant getter for swCalprmAxis.
-        
+
         Returns:
             The swCalprmAxis value
-        
+
         Note:
             Delegates to sw_calprm_axis property (CODING_RULE_V2_00017)
         """

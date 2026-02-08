@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     """
     Describes the properties of one particular element of an application record
     data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationRecordElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 261, Classic Platform
       R23-11)
@@ -35,10 +35,10 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def is_optional(self, value: Optional["Boolean"]) -> None:
         """
         Set isOptional with validation.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def getIsOptional(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isOptional.
-        
+
         Returns:
             The isOptional value
-        
+
         Note:
             Delegates to is_optional property (CODING_RULE_V2_00017)
         """
@@ -69,13 +69,13 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def setIsOptional(self, value: "Boolean") -> "ApplicationRecordElement":
         """
         AUTOSAR-compliant setter for isOptional with method chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_optional property setter (gets validation automatically)
         """
@@ -87,13 +87,13 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def with_is_optional(self, value: Optional["Boolean"]) -> "ApplicationRecordElement":
         """
         Set isOptional and return self for chaining.
-        
+
         Args:
             value: The isOptional to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_optional("value")
         """

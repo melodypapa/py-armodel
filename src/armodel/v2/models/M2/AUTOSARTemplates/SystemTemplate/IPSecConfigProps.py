@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class IPSecConfigProps(ARElement):
     """
     This element holds all the attributes for configuration of IPsec that are
     independent of specific IPsec rules.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecConfigProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 572, Classic Platform R23-11)
     """
@@ -37,10 +37,10 @@ class IPSecConfigProps(ARElement):
     def dpd_action(self, value: Optional["IPsecDpdActionEnum"]) -> None:
         """
         Set dpdAction with validation.
-        
+
         Args:
             value: The dpdAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +68,10 @@ class IPSecConfigProps(ARElement):
     def dpd_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set dpdDelay with validation.
-        
+
         Args:
             value: The dpdDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +104,10 @@ class IPSecConfigProps(ARElement):
     def ike_cipher_suite(self, value: Optional["String"]) -> None:
         """
         Set ikeCipherSuite with validation.
-        
+
         Args:
             value: The ikeCipherSuite to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -133,10 +133,10 @@ class IPSecConfigProps(ARElement):
     def ike_over_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set ikeOverTime with validation.
-        
+
         Args:
             value: The ikeOverTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +162,10 @@ class IPSecConfigProps(ARElement):
     def ike_rand_time(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ikeRandTime with validation.
-        
+
         Args:
             value: The ikeRandTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -192,10 +192,10 @@ class IPSecConfigProps(ARElement):
     def ike_reauth_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set ikeReauthTime with validation.
-        
+
         Args:
             value: The ikeReauthTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -221,10 +221,10 @@ class IPSecConfigProps(ARElement):
     def ike_rekey_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set ikeRekeyTime with validation.
-        
+
         Args:
             value: The ikeRekeyTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -250,10 +250,10 @@ class IPSecConfigProps(ARElement):
     def sa_over_time(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set saOverTime with validation.
-        
+
         Args:
             value: The saOverTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -278,10 +278,10 @@ class IPSecConfigProps(ARElement):
     def sa_rand_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set saRandTime with validation.
-        
+
         Args:
             value: The saRandTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -307,10 +307,10 @@ class IPSecConfigProps(ARElement):
     def sa_rekey_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set saRekeyTime with validation.
-        
+
         Args:
             value: The saRekeyTime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -329,10 +329,10 @@ class IPSecConfigProps(ARElement):
     def getAhCipherSuite(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for ahCipherSuite.
-        
+
         Returns:
             The ahCipherSuite value
-        
+
         Note:
             Delegates to ah_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -341,10 +341,10 @@ class IPSecConfigProps(ARElement):
     def getDpdAction(self) -> "IPsecDpdActionEnum":
         """
         AUTOSAR-compliant getter for dpdAction.
-        
+
         Returns:
             The dpdAction value
-        
+
         Note:
             Delegates to dpd_action property (CODING_RULE_V2_00017)
         """
@@ -353,13 +353,13 @@ class IPSecConfigProps(ARElement):
     def setDpdAction(self, value: "IPsecDpdActionEnum") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for dpdAction with method chaining.
-        
+
         Args:
             value: The dpdAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dpd_action property setter (gets validation automatically)
         """
@@ -369,10 +369,10 @@ class IPSecConfigProps(ARElement):
     def getDpdDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for dpdDelay.
-        
+
         Returns:
             The dpdDelay value
-        
+
         Note:
             Delegates to dpd_delay property (CODING_RULE_V2_00017)
         """
@@ -381,13 +381,13 @@ class IPSecConfigProps(ARElement):
     def setDpdDelay(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for dpdDelay with method chaining.
-        
+
         Args:
             value: The dpdDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dpd_delay property setter (gets validation automatically)
         """
@@ -397,10 +397,10 @@ class IPSecConfigProps(ARElement):
     def getEspCipherSuite(self) -> List["String"]:
         """
         AUTOSAR-compliant getter for espCipherSuite.
-        
+
         Returns:
             The espCipherSuite value
-        
+
         Note:
             Delegates to esp_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -409,10 +409,10 @@ class IPSecConfigProps(ARElement):
     def getIkeCipherSuite(self) -> "String":
         """
         AUTOSAR-compliant getter for ikeCipherSuite.
-        
+
         Returns:
             The ikeCipherSuite value
-        
+
         Note:
             Delegates to ike_cipher_suite property (CODING_RULE_V2_00017)
         """
@@ -421,13 +421,13 @@ class IPSecConfigProps(ARElement):
     def setIkeCipherSuite(self, value: "String") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeCipherSuite with method chaining.
-        
+
         Args:
             value: The ikeCipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_cipher_suite property setter (gets validation automatically)
         """
@@ -437,10 +437,10 @@ class IPSecConfigProps(ARElement):
     def getIkeOverTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ikeOverTime.
-        
+
         Returns:
             The ikeOverTime value
-        
+
         Note:
             Delegates to ike_over_time property (CODING_RULE_V2_00017)
         """
@@ -449,13 +449,13 @@ class IPSecConfigProps(ARElement):
     def setIkeOverTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeOverTime with method chaining.
-        
+
         Args:
             value: The ikeOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_over_time property setter (gets validation automatically)
         """
@@ -465,10 +465,10 @@ class IPSecConfigProps(ARElement):
     def getIkeRandTime(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ikeRandTime.
-        
+
         Returns:
             The ikeRandTime value
-        
+
         Note:
             Delegates to ike_rand_time property (CODING_RULE_V2_00017)
         """
@@ -477,13 +477,13 @@ class IPSecConfigProps(ARElement):
     def setIkeRandTime(self, value: "PositiveInteger") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeRandTime with method chaining.
-        
+
         Args:
             value: The ikeRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_rand_time property setter (gets validation automatically)
         """
@@ -493,10 +493,10 @@ class IPSecConfigProps(ARElement):
     def getIkeReauthTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ikeReauthTime.
-        
+
         Returns:
             The ikeReauthTime value
-        
+
         Note:
             Delegates to ike_reauth_time property (CODING_RULE_V2_00017)
         """
@@ -505,13 +505,13 @@ class IPSecConfigProps(ARElement):
     def setIkeReauthTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeReauthTime with method chaining.
-        
+
         Args:
             value: The ikeReauthTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_reauth_time property setter (gets validation automatically)
         """
@@ -521,10 +521,10 @@ class IPSecConfigProps(ARElement):
     def getIkeRekeyTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ikeRekeyTime.
-        
+
         Returns:
             The ikeRekeyTime value
-        
+
         Note:
             Delegates to ike_rekey_time property (CODING_RULE_V2_00017)
         """
@@ -533,13 +533,13 @@ class IPSecConfigProps(ARElement):
     def setIkeRekeyTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for ikeRekeyTime with method chaining.
-        
+
         Args:
             value: The ikeRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ike_rekey_time property setter (gets validation automatically)
         """
@@ -549,10 +549,10 @@ class IPSecConfigProps(ARElement):
     def getSaOverTime(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for saOverTime.
-        
+
         Returns:
             The saOverTime value
-        
+
         Note:
             Delegates to sa_over_time property (CODING_RULE_V2_00017)
         """
@@ -561,13 +561,13 @@ class IPSecConfigProps(ARElement):
     def setSaOverTime(self, value: "PositiveInteger") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for saOverTime with method chaining.
-        
+
         Args:
             value: The saOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sa_over_time property setter (gets validation automatically)
         """
@@ -577,10 +577,10 @@ class IPSecConfigProps(ARElement):
     def getSaRandTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for saRandTime.
-        
+
         Returns:
             The saRandTime value
-        
+
         Note:
             Delegates to sa_rand_time property (CODING_RULE_V2_00017)
         """
@@ -589,13 +589,13 @@ class IPSecConfigProps(ARElement):
     def setSaRandTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for saRandTime with method chaining.
-        
+
         Args:
             value: The saRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sa_rand_time property setter (gets validation automatically)
         """
@@ -605,10 +605,10 @@ class IPSecConfigProps(ARElement):
     def getSaRekeyTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for saRekeyTime.
-        
+
         Returns:
             The saRekeyTime value
-        
+
         Note:
             Delegates to sa_rekey_time property (CODING_RULE_V2_00017)
         """
@@ -617,13 +617,13 @@ class IPSecConfigProps(ARElement):
     def setSaRekeyTime(self, value: "TimeValue") -> "IPSecConfigProps":
         """
         AUTOSAR-compliant setter for saRekeyTime with method chaining.
-        
+
         Args:
             value: The saRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sa_rekey_time property setter (gets validation automatically)
         """
@@ -635,13 +635,13 @@ class IPSecConfigProps(ARElement):
     def with_dpd_action(self, value: Optional["IPsecDpdActionEnum"]) -> "IPSecConfigProps":
         """
         Set dpdAction and return self for chaining.
-        
+
         Args:
             value: The dpdAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dpd_action("value")
         """
@@ -651,13 +651,13 @@ class IPSecConfigProps(ARElement):
     def with_dpd_delay(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set dpdDelay and return self for chaining.
-        
+
         Args:
             value: The dpdDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dpd_delay("value")
         """
@@ -667,13 +667,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_cipher_suite(self, value: Optional["String"]) -> "IPSecConfigProps":
         """
         Set ikeCipherSuite and return self for chaining.
-        
+
         Args:
             value: The ikeCipherSuite to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_cipher_suite("value")
         """
@@ -683,13 +683,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_over_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set ikeOverTime and return self for chaining.
-        
+
         Args:
             value: The ikeOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_over_time("value")
         """
@@ -699,13 +699,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_rand_time(self, value: Optional["PositiveInteger"]) -> "IPSecConfigProps":
         """
         Set ikeRandTime and return self for chaining.
-        
+
         Args:
             value: The ikeRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_rand_time("value")
         """
@@ -715,13 +715,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_reauth_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set ikeReauthTime and return self for chaining.
-        
+
         Args:
             value: The ikeReauthTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_reauth_time("value")
         """
@@ -731,13 +731,13 @@ class IPSecConfigProps(ARElement):
     def with_ike_rekey_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set ikeRekeyTime and return self for chaining.
-        
+
         Args:
             value: The ikeRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ike_rekey_time("value")
         """
@@ -747,13 +747,13 @@ class IPSecConfigProps(ARElement):
     def with_sa_over_time(self, value: Optional["PositiveInteger"]) -> "IPSecConfigProps":
         """
         Set saOverTime and return self for chaining.
-        
+
         Args:
             value: The saOverTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sa_over_time("value")
         """
@@ -763,13 +763,13 @@ class IPSecConfigProps(ARElement):
     def with_sa_rand_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set saRandTime and return self for chaining.
-        
+
         Args:
             value: The saRandTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sa_rand_time("value")
         """
@@ -779,13 +779,13 @@ class IPSecConfigProps(ARElement):
     def with_sa_rekey_time(self, value: Optional["TimeValue"]) -> "IPSecConfigProps":
         """
         Set saRekeyTime and return self for chaining.
-        
+
         Args:
             value: The saRekeyTime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sa_rekey_time("value")
         """

@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FMFeatureMapAssertion(Identifiable):
     """
     Defines a boolean expression which shall evaluate to true for this mapping
     to become active. The expression is a formula that is based on features and
     system constants, and is defined by fmSyscond.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureMapAssertion
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 55, Foundation
       R23-11)
@@ -31,10 +33,10 @@ class FMFeatureMapAssertion(Identifiable):
     def fm_syscond_and_sw_systemconsts(self, value: Optional["FMConditionByFeatures"]) -> None:
         """
         Set fmSyscondAndSwSystemconsts with validation.
-        
+
         Args:
             value: The fmSyscondAndSwSystemconsts to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +55,10 @@ class FMFeatureMapAssertion(Identifiable):
     def getFmSyscondAndSwSystemconsts(self) -> "FMConditionByFeatures":
         """
         AUTOSAR-compliant getter for fmSyscondAndSwSystemconsts.
-        
+
         Returns:
             The fmSyscondAndSwSystemconsts value
-        
+
         Note:
             Delegates to fm_syscond_and_sw_systemconsts property (CODING_RULE_V2_00017)
         """
@@ -65,13 +67,13 @@ class FMFeatureMapAssertion(Identifiable):
     def setFmSyscondAndSwSystemconsts(self, value: "FMConditionByFeatures") -> "FMFeatureMapAssertion":
         """
         AUTOSAR-compliant setter for fmSyscondAndSwSystemconsts with method chaining.
-        
+
         Args:
             value: The fmSyscondAndSwSystemconsts to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fm_syscond_and_sw_systemconsts property setter (gets validation automatically)
         """
@@ -83,13 +85,13 @@ class FMFeatureMapAssertion(Identifiable):
     def with_fm_syscond_and_sw_systemconsts(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureMapAssertion":
         """
         Set fmSyscondAndSwSystemconsts and return self for chaining.
-        
+
         Args:
             value: The fmSyscondAndSwSystemconsts to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fm_syscond_and_sw_systemconsts("value")
         """

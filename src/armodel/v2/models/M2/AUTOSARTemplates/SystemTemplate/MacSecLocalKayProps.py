@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MacSecLocalKayProps(ARObject):
     """
     Configuration of the MAC Security Key Agreement Entity (KaY).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecLocalKayProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 173, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class MacSecLocalKayProps(ARObject):
     def destination_mac(self, value: Optional["MacAddressString"]) -> None:
         """
         Set destinationMac with validation.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class MacSecLocalKayProps(ARObject):
     def global_kay_props(self, value: Optional["MacSecGlobalKay"]) -> None:
         """
         Set globalKayProps with validation.
-        
+
         Args:
             value: The globalKayProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class MacSecLocalKayProps(ARObject):
     def key_server(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set keyServer with validation.
-        
+
         Args:
             value: The keyServer to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +125,10 @@ class MacSecLocalKayProps(ARObject):
     def role(self, value: Optional["MacSecRoleEnum"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +154,10 @@ class MacSecLocalKayProps(ARObject):
     def source_mac(self, value: Optional["MacAddressString"]) -> None:
         """
         Set sourceMac with validation.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +176,10 @@ class MacSecLocalKayProps(ARObject):
     def getDestinationMac(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for destinationMac.
-        
+
         Returns:
             The destinationMac value
-        
+
         Note:
             Delegates to destination_mac property (CODING_RULE_V2_00017)
         """
@@ -185,13 +188,13 @@ class MacSecLocalKayProps(ARObject):
     def setDestinationMac(self, value: "MacAddressString") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to destination_mac property setter (gets validation automatically)
         """
@@ -201,10 +204,10 @@ class MacSecLocalKayProps(ARObject):
     def getGlobalKayProps(self) -> "MacSecGlobalKay":
         """
         AUTOSAR-compliant getter for globalKayProps.
-        
+
         Returns:
             The globalKayProps value
-        
+
         Note:
             Delegates to global_kay_props property (CODING_RULE_V2_00017)
         """
@@ -213,13 +216,13 @@ class MacSecLocalKayProps(ARObject):
     def setGlobalKayProps(self, value: "MacSecGlobalKay") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for globalKayProps with method chaining.
-        
+
         Args:
             value: The globalKayProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_kay_props property setter (gets validation automatically)
         """
@@ -229,10 +232,10 @@ class MacSecLocalKayProps(ARObject):
     def getKeyServer(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for keyServer.
-        
+
         Returns:
             The keyServer value
-        
+
         Note:
             Delegates to key_server property (CODING_RULE_V2_00017)
         """
@@ -241,13 +244,13 @@ class MacSecLocalKayProps(ARObject):
     def setKeyServer(self, value: "PositiveInteger") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for keyServer with method chaining.
-        
+
         Args:
             value: The keyServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to key_server property setter (gets validation automatically)
         """
@@ -257,10 +260,10 @@ class MacSecLocalKayProps(ARObject):
     def getMkaParticipant(self) -> List["MacSecKayParticipant"]:
         """
         AUTOSAR-compliant getter for mkaParticipant.
-        
+
         Returns:
             The mkaParticipant value
-        
+
         Note:
             Delegates to mka_participant property (CODING_RULE_V2_00017)
         """
@@ -269,10 +272,10 @@ class MacSecLocalKayProps(ARObject):
     def getRole(self) -> "MacSecRoleEnum":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -281,13 +284,13 @@ class MacSecLocalKayProps(ARObject):
     def setRole(self, value: "MacSecRoleEnum") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -297,10 +300,10 @@ class MacSecLocalKayProps(ARObject):
     def getSourceMac(self) -> "MacAddressString":
         """
         AUTOSAR-compliant getter for sourceMac.
-        
+
         Returns:
             The sourceMac value
-        
+
         Note:
             Delegates to source_mac property (CODING_RULE_V2_00017)
         """
@@ -309,13 +312,13 @@ class MacSecLocalKayProps(ARObject):
     def setSourceMac(self, value: "MacAddressString") -> "MacSecLocalKayProps":
         """
         AUTOSAR-compliant setter for sourceMac with method chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_mac property setter (gets validation automatically)
         """
@@ -327,13 +330,13 @@ class MacSecLocalKayProps(ARObject):
     def with_destination_mac(self, value: Optional["MacAddressString"]) -> "MacSecLocalKayProps":
         """
         Set destinationMac and return self for chaining.
-        
+
         Args:
             value: The destinationMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_destination_mac("value")
         """
@@ -343,13 +346,13 @@ class MacSecLocalKayProps(ARObject):
     def with_global_kay_props(self, value: Optional["MacSecGlobalKay"]) -> "MacSecLocalKayProps":
         """
         Set globalKayProps and return self for chaining.
-        
+
         Args:
             value: The globalKayProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_kay_props("value")
         """
@@ -359,13 +362,13 @@ class MacSecLocalKayProps(ARObject):
     def with_key_server(self, value: Optional["PositiveInteger"]) -> "MacSecLocalKayProps":
         """
         Set keyServer and return self for chaining.
-        
+
         Args:
             value: The keyServer to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_key_server("value")
         """
@@ -375,13 +378,13 @@ class MacSecLocalKayProps(ARObject):
     def with_role(self, value: Optional["MacSecRoleEnum"]) -> "MacSecLocalKayProps":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """
@@ -391,13 +394,13 @@ class MacSecLocalKayProps(ARObject):
     def with_source_mac(self, value: Optional["MacAddressString"]) -> "MacSecLocalKayProps":
         """
         Set sourceMac and return self for chaining.
-        
+
         Args:
             value: The sourceMac to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_mac("value")
         """

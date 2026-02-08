@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CompuScale(ARObject):
     """
     This meta-class represents the ability to specify one segment of a segmented
     computation method.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuScale
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 387, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class CompuScale(ARObject):
     def a2l_display_text(self, value: Optional["String"]) -> None:
         """
         Set a2lDisplayText with validation.
-        
+
         Args:
             value: The a2lDisplayText to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class CompuScale(ARObject):
     def compu_inverse(self, value: Optional["CompuConst"]) -> None:
         """
         Set compuInverse with validation.
-        
+
         Args:
             value: The compuInverse to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +92,10 @@ class CompuScale(ARObject):
     def compu_scale(self, value: Optional["CompuScaleContents"]) -> None:
         """
         Set compuScale with validation.
-        
+
         Args:
             value: The compuScale to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class CompuScale(ARObject):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +148,10 @@ class CompuScale(ARObject):
     def lower_limit(self, value: Optional["Limit"]) -> None:
         """
         Set lowerLimit with validation.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -179,10 +182,10 @@ class CompuScale(ARObject):
     def mask(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set mask with validation.
-        
+
         Args:
             value: The mask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +211,10 @@ class CompuScale(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -241,10 +244,10 @@ class CompuScale(ARObject):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -269,10 +272,10 @@ class CompuScale(ARObject):
     def upper_limit(self, value: Optional["Limit"]) -> None:
         """
         Set upperLimit with validation.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -291,10 +294,10 @@ class CompuScale(ARObject):
     def getA2lDisplayText(self) -> "String":
         """
         AUTOSAR-compliant getter for a2lDisplayText.
-        
+
         Returns:
             The a2lDisplayText value
-        
+
         Note:
             Delegates to a2l_display_text property (CODING_RULE_V2_00017)
         """
@@ -303,13 +306,13 @@ class CompuScale(ARObject):
     def setA2lDisplayText(self, value: "String") -> "CompuScale":
         """
         AUTOSAR-compliant setter for a2lDisplayText with method chaining.
-        
+
         Args:
             value: The a2lDisplayText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to a2l_display_text property setter (gets validation automatically)
         """
@@ -319,10 +322,10 @@ class CompuScale(ARObject):
     def getCompuInverse(self) -> "CompuConst":
         """
         AUTOSAR-compliant getter for compuInverse.
-        
+
         Returns:
             The compuInverse value
-        
+
         Note:
             Delegates to compu_inverse property (CODING_RULE_V2_00017)
         """
@@ -331,13 +334,13 @@ class CompuScale(ARObject):
     def setCompuInverse(self, value: "CompuConst") -> "CompuScale":
         """
         AUTOSAR-compliant setter for compuInverse with method chaining.
-        
+
         Args:
             value: The compuInverse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_inverse property setter (gets validation automatically)
         """
@@ -347,10 +350,10 @@ class CompuScale(ARObject):
     def getCompuScale(self) -> "CompuScaleContents":
         """
         AUTOSAR-compliant getter for compuScale.
-        
+
         Returns:
             The compuScale value
-        
+
         Note:
             Delegates to compu_scale property (CODING_RULE_V2_00017)
         """
@@ -359,13 +362,13 @@ class CompuScale(ARObject):
     def setCompuScale(self, value: "CompuScaleContents") -> "CompuScale":
         """
         AUTOSAR-compliant setter for compuScale with method chaining.
-        
+
         Args:
             value: The compuScale to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_scale property setter (gets validation automatically)
         """
@@ -375,10 +378,10 @@ class CompuScale(ARObject):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -387,13 +390,13 @@ class CompuScale(ARObject):
     def setDesc(self, value: "MultiLanguageOverview") -> "CompuScale":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -403,10 +406,10 @@ class CompuScale(ARObject):
     def getLowerLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for lowerLimit.
-        
+
         Returns:
             The lowerLimit value
-        
+
         Note:
             Delegates to lower_limit property (CODING_RULE_V2_00017)
         """
@@ -415,13 +418,13 @@ class CompuScale(ARObject):
     def setLowerLimit(self, value: "Limit") -> "CompuScale":
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_limit property setter (gets validation automatically)
         """
@@ -431,10 +434,10 @@ class CompuScale(ARObject):
     def getMask(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for mask.
-        
+
         Returns:
             The mask value
-        
+
         Note:
             Delegates to mask property (CODING_RULE_V2_00017)
         """
@@ -443,13 +446,13 @@ class CompuScale(ARObject):
     def setMask(self, value: "PositiveUnlimitedInteger") -> "CompuScale":
         """
         AUTOSAR-compliant setter for mask with method chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mask property setter (gets validation automatically)
         """
@@ -459,10 +462,10 @@ class CompuScale(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -471,13 +474,13 @@ class CompuScale(ARObject):
     def setShortLabel(self, value: "Identifier") -> "CompuScale":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -487,10 +490,10 @@ class CompuScale(ARObject):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -499,13 +502,13 @@ class CompuScale(ARObject):
     def setSymbol(self, value: "CIdentifier") -> "CompuScale":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -515,10 +518,10 @@ class CompuScale(ARObject):
     def getUpperLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for upperLimit.
-        
+
         Returns:
             The upperLimit value
-        
+
         Note:
             Delegates to upper_limit property (CODING_RULE_V2_00017)
         """
@@ -527,13 +530,13 @@ class CompuScale(ARObject):
     def setUpperLimit(self, value: "Limit") -> "CompuScale":
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_limit property setter (gets validation automatically)
         """
@@ -545,13 +548,13 @@ class CompuScale(ARObject):
     def with_a2l_display_text(self, value: Optional["String"]) -> "CompuScale":
         """
         Set a2lDisplayText and return self for chaining.
-        
+
         Args:
             value: The a2lDisplayText to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_a2l_display_text("value")
         """
@@ -561,13 +564,13 @@ class CompuScale(ARObject):
     def with_compu_inverse(self, value: Optional["CompuConst"]) -> "CompuScale":
         """
         Set compuInverse and return self for chaining.
-        
+
         Args:
             value: The compuInverse to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_inverse("value")
         """
@@ -577,13 +580,13 @@ class CompuScale(ARObject):
     def with_compu_scale(self, value: Optional["CompuScaleContents"]) -> "CompuScale":
         """
         Set compuScale and return self for chaining.
-        
+
         Args:
             value: The compuScale to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_scale("value")
         """
@@ -593,13 +596,13 @@ class CompuScale(ARObject):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "CompuScale":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -609,13 +612,13 @@ class CompuScale(ARObject):
     def with_lower_limit(self, value: Optional["Limit"]) -> "CompuScale":
         """
         Set lowerLimit and return self for chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_limit("value")
         """
@@ -625,13 +628,13 @@ class CompuScale(ARObject):
     def with_mask(self, value: Optional["PositiveUnlimitedInteger"]) -> "CompuScale":
         """
         Set mask and return self for chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mask("value")
         """
@@ -641,13 +644,13 @@ class CompuScale(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "CompuScale":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -657,13 +660,13 @@ class CompuScale(ARObject):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "CompuScale":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """
@@ -673,13 +676,13 @@ class CompuScale(ARObject):
     def with_upper_limit(self, value: Optional["Limit"]) -> "CompuScale":
         """
         Set upperLimit and return self for chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_limit("value")
         """

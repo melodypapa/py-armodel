@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventVariableDataPrototype(TDEventVfbPort):
     """
     This is used to describe timing events related to sender-receiver
     communication at VFB level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVariableDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 53, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def td_event_variable_type(self, value: Optional["TDEventVariableData"]) -> None:
         """
         Set tdEventVariableType with validation.
-        
+
         Args:
             value: The tdEventVariableType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +77,10 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -86,13 +89,13 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def setDataElement(self, value: RefType) -> "TDEventVariableDataPrototype":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -102,10 +105,10 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def getTdEventVariableType(self) -> "TDEventVariableData":
         """
         AUTOSAR-compliant getter for tdEventVariableType.
-        
+
         Returns:
             The tdEventVariableType value
-        
+
         Note:
             Delegates to td_event_variable_type property (CODING_RULE_V2_00017)
         """
@@ -114,13 +117,13 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def setTdEventVariableType(self, value: "TDEventVariableData") -> "TDEventVariableDataPrototype":
         """
         AUTOSAR-compliant setter for tdEventVariableType with method chaining.
-        
+
         Args:
             value: The tdEventVariableType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_variable_type property setter (gets validation automatically)
         """
@@ -132,13 +135,13 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def with_data_element(self, value: Optional[RefType]) -> "TDEventVariableDataPrototype":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -148,13 +151,13 @@ class TDEventVariableDataPrototype(TDEventVfbPort):
     def with_td_event_variable_type(self, value: Optional["TDEventVariableData"]) -> "TDEventVariableDataPrototype":
         """
         Set tdEventVariableType and return self for chaining.
-        
+
         Args:
             value: The tdEventVariableType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_variable_type("value")
         """

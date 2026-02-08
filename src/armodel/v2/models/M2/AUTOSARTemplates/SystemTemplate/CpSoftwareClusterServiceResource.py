@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
     """
     Represents a single resource required or provided by a CP Software Cluster
     which relates to the BSW.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterServiceResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 904, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class CpSoftwareClusterServiceResource(CpSoftwareClusterResource):
     def getResourceNeeds(self) -> List["EcucContainerValue"]:
         """
         AUTOSAR-compliant getter for resourceNeeds.
-        
+
         Returns:
             The resourceNeeds value
-        
+
         Note:
             Delegates to resource_needs property (CODING_RULE_V2_00017)
         """

@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class LinUnconditionalFrame(LinFrame):
     """
     Unconditional frames carry signals. The master sends a frame header in a
     scheduled frame slot and the designated slave node fills the frame with
     data.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinUnconditionalFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 429, Classic Platform R23-11)
     """

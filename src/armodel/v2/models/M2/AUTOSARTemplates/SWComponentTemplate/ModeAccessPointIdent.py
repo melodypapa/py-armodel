@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ModeAccessPointIdent(IdentCaption):
     """
     This meta-class has been created to introduce the ability to become
     referenced into the meta-class Mode AccessPoint without breaking backwards
     compatibility.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::ModeAccessPointIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 852, Classic Platform
       R23-11)

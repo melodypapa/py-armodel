@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class TDEventOperation(TDEventVfbPort):
     """
     This is used to describe timing events related to client-server
     communication at VFB level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventOperation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 55, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class TDEventOperation(TDEventVfbPort):
     def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class TDEventOperation(TDEventVfbPort):
     def td_event(self, value: Optional["TDEventOperationType"]) -> None:
         """
         Set tdEvent with validation.
-        
+
         Args:
             value: The tdEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class TDEventOperation(TDEventVfbPort):
     def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class TDEventOperation(TDEventVfbPort):
     def setOperation(self, value: "ClientServerOperation") -> "TDEventOperation":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class TDEventOperation(TDEventVfbPort):
     def getTdEvent(self) -> "TDEventOperationType":
         """
         AUTOSAR-compliant getter for tdEvent.
-        
+
         Returns:
             The tdEvent value
-        
+
         Note:
             Delegates to td_event property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class TDEventOperation(TDEventVfbPort):
     def setTdEvent(self, value: "TDEventOperationType") -> "TDEventOperation":
         """
         AUTOSAR-compliant setter for tdEvent with method chaining.
-        
+
         Args:
             value: The tdEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class TDEventOperation(TDEventVfbPort):
     def with_operation(self, value: Optional["ClientServerOperation"]) -> "TDEventOperation":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """
@@ -151,13 +151,13 @@ class TDEventOperation(TDEventVfbPort):
     def with_td_event(self, value: Optional["TDEventOperationType"]) -> "TDEventOperation":
         """
         Set tdEvent and return self for chaining.
-        
+
         Args:
             value: The tdEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event("value")
         """

@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PackageableElement import PackageableElement
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PackageableElement import (
+    PackageableElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EnumerationMappingTable(PackageableElement):
     """
     that this class might be used in the extended meta-model only.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::EnumerationMappingTable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 444, Foundation
       R23-11)
@@ -30,10 +35,10 @@ class EnumerationMappingTable(PackageableElement):
     def getEntry(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for entry.
-        
+
         Returns:
             The entry value
-        
+
         Note:
             Delegates to entry property (CODING_RULE_V2_00017)
         """

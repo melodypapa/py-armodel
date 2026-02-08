@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     """
@@ -7,9 +8,9 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     idea of a comparison at runtime of some variable data with something
     constant. The type of the comparison (==, !=, <, <=, ...) is specified in
     DiagnosticCompareCondition.compareType.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvCompareCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 82, Classic Platform
       R23-11)
@@ -32,10 +33,10 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def compare_type(self, value: Optional["DiagnosticCompare"]) -> None:
         """
         Set compareType with validation.
-        
+
         Args:
             value: The compareType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +55,10 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def getCompareType(self) -> "DiagnosticCompare":
         """
         AUTOSAR-compliant getter for compareType.
-        
+
         Returns:
             The compareType value
-        
+
         Note:
             Delegates to compare_type property (CODING_RULE_V2_00017)
         """
@@ -66,13 +67,13 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def setCompareType(self, value: "DiagnosticCompare") -> "DiagnosticEnvCompareCondition":
         """
         AUTOSAR-compliant setter for compareType with method chaining.
-        
+
         Args:
             value: The compareType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compare_type property setter (gets validation automatically)
         """
@@ -84,13 +85,13 @@ class DiagnosticEnvCompareCondition(DiagnosticEnvConditionFormulaPart, ABC):
     def with_compare_type(self, value: Optional["DiagnosticCompare"]) -> "DiagnosticEnvCompareCondition":
         """
         Set compareType and return self for chaining.
-        
+
         Args:
             value: The compareType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compare_type("value")
         """

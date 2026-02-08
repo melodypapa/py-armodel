@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
     """
     This element defines the bus mirroring between a CAN, LIN or FlexRay
     sourceChannel and an Ethernet IP targetChannel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::BusMirror::BusMirrorChannelMappingIp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 705, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
     def transmission(self, value: Optional["TimeValue"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
     def getTransmission(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
     def setTransmission(self, value: "TimeValue") -> "BusMirrorChannelMappingIp":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
     def with_transmission(self, value: Optional["TimeValue"]) -> "BusMirrorChannelMappingIp":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """

@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EcucQuery(Identifiable):
     """
     Defines a query to the ECUC Description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQuery
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 89, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class EcucQuery(Identifiable):
     def ecuc_query(self, value: Optional["EcucQueryExpression"]) -> None:
         """
         Set ecucQuery with validation.
-        
+
         Args:
             value: The ecucQuery to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +52,10 @@ class EcucQuery(Identifiable):
     def getEcucQuery(self) -> "EcucQueryExpression":
         """
         AUTOSAR-compliant getter for ecucQuery.
-        
+
         Returns:
             The ecucQuery value
-        
+
         Note:
             Delegates to ecuc_query property (CODING_RULE_V2_00017)
         """
@@ -62,13 +64,13 @@ class EcucQuery(Identifiable):
     def setEcucQuery(self, value: "EcucQueryExpression") -> "EcucQuery":
         """
         AUTOSAR-compliant setter for ecucQuery with method chaining.
-        
+
         Args:
             value: The ecucQuery to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_query property setter (gets validation automatically)
         """
@@ -80,13 +82,13 @@ class EcucQuery(Identifiable):
     def with_ecuc_query(self, value: Optional["EcucQueryExpression"]) -> "EcucQuery":
         """
         Set ecucQuery and return self for chaining.
-        
+
         Args:
             value: The ecucQuery to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_query("value")
         """

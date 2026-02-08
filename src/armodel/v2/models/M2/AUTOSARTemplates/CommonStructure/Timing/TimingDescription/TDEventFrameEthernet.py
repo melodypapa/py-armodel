@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventFrameEthernet(TDEventCom):
     """
     This is used to describe timing description events related to the exchange
     of Ethernet frames between an Ethernet communication controller and the BSW
     Ethernet interface and driver module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventFrameEthernet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 69, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class TDEventFrameEthernet(TDEventCom):
     def static_socket(self, value: Optional["StaticSocketConnection"]) -> None:
         """
         Set staticSocket with validation.
-        
+
         Args:
             value: The staticSocket to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class TDEventFrameEthernet(TDEventCom):
     def td_event_type(self, value: Optional["TDEventFrameEthernet"]) -> None:
         """
         Set tdEventType with validation.
-        
+
         Args:
             value: The tdEventType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +99,10 @@ class TDEventFrameEthernet(TDEventCom):
     def getStaticSocket(self) -> "StaticSocketConnection":
         """
         AUTOSAR-compliant getter for staticSocket.
-        
+
         Returns:
             The staticSocket value
-        
+
         Note:
             Delegates to static_socket property (CODING_RULE_V2_00017)
         """
@@ -108,13 +111,13 @@ class TDEventFrameEthernet(TDEventCom):
     def setStaticSocket(self, value: "StaticSocketConnection") -> "TDEventFrameEthernet":
         """
         AUTOSAR-compliant setter for staticSocket with method chaining.
-        
+
         Args:
             value: The staticSocket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to static_socket property setter (gets validation automatically)
         """
@@ -124,10 +127,10 @@ class TDEventFrameEthernet(TDEventCom):
     def getTdEventType(self) -> "TDEventFrameEthernet":
         """
         AUTOSAR-compliant getter for tdEventType.
-        
+
         Returns:
             The tdEventType value
-        
+
         Note:
             Delegates to td_event_type property (CODING_RULE_V2_00017)
         """
@@ -136,13 +139,13 @@ class TDEventFrameEthernet(TDEventCom):
     def setTdEventType(self, value: "TDEventFrameEthernet") -> "TDEventFrameEthernet":
         """
         AUTOSAR-compliant setter for tdEventType with method chaining.
-        
+
         Args:
             value: The tdEventType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_type property setter (gets validation automatically)
         """
@@ -152,10 +155,10 @@ class TDEventFrameEthernet(TDEventCom):
     def getTdHeaderIdFilter(self) -> List["TDHeaderIdRange"]:
         """
         AUTOSAR-compliant getter for tdHeaderIdFilter.
-        
+
         Returns:
             The tdHeaderIdFilter value
-        
+
         Note:
             Delegates to td_header_id_filter property (CODING_RULE_V2_00017)
         """
@@ -164,10 +167,10 @@ class TDEventFrameEthernet(TDEventCom):
     def getTdPduTriggering(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for tdPduTriggering.
-        
+
         Returns:
             The tdPduTriggering value
-        
+
         Note:
             Delegates to td_pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -178,13 +181,13 @@ class TDEventFrameEthernet(TDEventCom):
     def with_static_socket(self, value: Optional["StaticSocketConnection"]) -> "TDEventFrameEthernet":
         """
         Set staticSocket and return self for chaining.
-        
+
         Args:
             value: The staticSocket to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_static_socket("value")
         """
@@ -194,13 +197,13 @@ class TDEventFrameEthernet(TDEventCom):
     def with_td_event_type(self, value: Optional["TDEventFrameEthernet"]) -> "TDEventFrameEthernet":
         """
         Set tdEventType and return self for chaining.
-        
+
         Args:
             value: The tdEventType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_type("value")
         """

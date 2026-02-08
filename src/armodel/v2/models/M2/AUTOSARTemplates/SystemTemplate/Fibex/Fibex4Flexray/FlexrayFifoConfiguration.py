@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FlexrayFifoConfiguration(ARObject):
     """
     One First In First Out (FIFO) queued receive structure, defining the
     admittance criteria to the FIFO, and mandating the ability to admit messages
     into the FIFO based on Message Id filtering criteria.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology::FlexrayFifoConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 87, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class FlexrayFifoConfiguration(ARObject):
     def admit_without(self, value: Optional["Boolean"]) -> None:
         """
         Set admitWithout with validation.
-        
+
         Args:
             value: The admitWithout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class FlexrayFifoConfiguration(ARObject):
     def base_cycle(self, value: Optional["Integer"]) -> None:
         """
         Set baseCycle with validation.
-        
+
         Args:
             value: The baseCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class FlexrayFifoConfiguration(ARObject):
     def channel(self, value: Optional["FlexrayPhysicalChannel"]) -> None:
         """
         Set channel with validation.
-        
+
         Args:
             value: The channel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class FlexrayFifoConfiguration(ARObject):
     def cycle_repetition(self, value: Optional["Integer"]) -> None:
         """
         Set cycleRepetition with validation.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +145,10 @@ class FlexrayFifoConfiguration(ARObject):
     def fifo_depth(self, value: Optional["Integer"]) -> None:
         """
         Set fifoDepth with validation.
-        
+
         Args:
             value: The fifoDepth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -177,10 +180,10 @@ class FlexrayFifoConfiguration(ARObject):
     def msg_id_mask(self, value: Optional["Integer"]) -> None:
         """
         Set msgIdMask with validation.
-        
+
         Args:
             value: The msgIdMask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +208,10 @@ class FlexrayFifoConfiguration(ARObject):
     def msg_id_match(self, value: Optional["Integer"]) -> None:
         """
         Set msgIdMatch with validation.
-        
+
         Args:
             value: The msgIdMatch to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -227,10 +230,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getAdmitWithout(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for admitWithout.
-        
+
         Returns:
             The admitWithout value
-        
+
         Note:
             Delegates to admit_without property (CODING_RULE_V2_00017)
         """
@@ -239,13 +242,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setAdmitWithout(self, value: "Boolean") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for admitWithout with method chaining.
-        
+
         Args:
             value: The admitWithout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to admit_without property setter (gets validation automatically)
         """
@@ -255,10 +258,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getBaseCycle(self) -> "Integer":
         """
         AUTOSAR-compliant getter for baseCycle.
-        
+
         Returns:
             The baseCycle value
-        
+
         Note:
             Delegates to base_cycle property (CODING_RULE_V2_00017)
         """
@@ -267,13 +270,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setBaseCycle(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for baseCycle with method chaining.
-        
+
         Args:
             value: The baseCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_cycle property setter (gets validation automatically)
         """
@@ -283,10 +286,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getChannel(self) -> "FlexrayPhysicalChannel":
         """
         AUTOSAR-compliant getter for channel.
-        
+
         Returns:
             The channel value
-        
+
         Note:
             Delegates to channel property (CODING_RULE_V2_00017)
         """
@@ -295,13 +298,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setChannel(self, value: "FlexrayPhysicalChannel") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for channel with method chaining.
-        
+
         Args:
             value: The channel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to channel property setter (gets validation automatically)
         """
@@ -311,10 +314,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getCycleRepetition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for cycleRepetition.
-        
+
         Returns:
             The cycleRepetition value
-        
+
         Note:
             Delegates to cycle_repetition property (CODING_RULE_V2_00017)
         """
@@ -323,13 +326,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setCycleRepetition(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for cycleRepetition with method chaining.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_repetition property setter (gets validation automatically)
         """
@@ -339,10 +342,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getFifoDepth(self) -> "Integer":
         """
         AUTOSAR-compliant getter for fifoDepth.
-        
+
         Returns:
             The fifoDepth value
-        
+
         Note:
             Delegates to fifo_depth property (CODING_RULE_V2_00017)
         """
@@ -351,13 +354,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setFifoDepth(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for fifoDepth with method chaining.
-        
+
         Args:
             value: The fifoDepth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fifo_depth property setter (gets validation automatically)
         """
@@ -367,10 +370,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getFifoRange(self) -> List["FlexrayFifoRange"]:
         """
         AUTOSAR-compliant getter for fifoRange.
-        
+
         Returns:
             The fifoRange value
-        
+
         Note:
             Delegates to fifo_range property (CODING_RULE_V2_00017)
         """
@@ -379,10 +382,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getMsgIdMask(self) -> "Integer":
         """
         AUTOSAR-compliant getter for msgIdMask.
-        
+
         Returns:
             The msgIdMask value
-        
+
         Note:
             Delegates to msg_id_mask property (CODING_RULE_V2_00017)
         """
@@ -391,13 +394,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setMsgIdMask(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for msgIdMask with method chaining.
-        
+
         Args:
             value: The msgIdMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msg_id_mask property setter (gets validation automatically)
         """
@@ -407,10 +410,10 @@ class FlexrayFifoConfiguration(ARObject):
     def getMsgIdMatch(self) -> "Integer":
         """
         AUTOSAR-compliant getter for msgIdMatch.
-        
+
         Returns:
             The msgIdMatch value
-        
+
         Note:
             Delegates to msg_id_match property (CODING_RULE_V2_00017)
         """
@@ -419,13 +422,13 @@ class FlexrayFifoConfiguration(ARObject):
     def setMsgIdMatch(self, value: "Integer") -> "FlexrayFifoConfiguration":
         """
         AUTOSAR-compliant setter for msgIdMatch with method chaining.
-        
+
         Args:
             value: The msgIdMatch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msg_id_match property setter (gets validation automatically)
         """
@@ -437,13 +440,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_admit_without(self, value: Optional["Boolean"]) -> "FlexrayFifoConfiguration":
         """
         Set admitWithout and return self for chaining.
-        
+
         Args:
             value: The admitWithout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_admit_without("value")
         """
@@ -453,13 +456,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_base_cycle(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set baseCycle and return self for chaining.
-        
+
         Args:
             value: The baseCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_cycle("value")
         """
@@ -469,13 +472,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_channel(self, value: Optional["FlexrayPhysicalChannel"]) -> "FlexrayFifoConfiguration":
         """
         Set channel and return self for chaining.
-        
+
         Args:
             value: The channel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_channel("value")
         """
@@ -485,13 +488,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_cycle_repetition(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set cycleRepetition and return self for chaining.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_repetition("value")
         """
@@ -501,13 +504,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_fifo_depth(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set fifoDepth and return self for chaining.
-        
+
         Args:
             value: The fifoDepth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fifo_depth("value")
         """
@@ -517,13 +520,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_msg_id_mask(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set msgIdMask and return self for chaining.
-        
+
         Args:
             value: The msgIdMask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msg_id_mask("value")
         """
@@ -533,13 +536,13 @@ class FlexrayFifoConfiguration(ARObject):
     def with_msg_id_match(self, value: Optional["Integer"]) -> "FlexrayFifoConfiguration":
         """
         Set msgIdMatch and return self for chaining.
-        
+
         Args:
             value: The msgIdMatch to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msg_id_match("value")
         """

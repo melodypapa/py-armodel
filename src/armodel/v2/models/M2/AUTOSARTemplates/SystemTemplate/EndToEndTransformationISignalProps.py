@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EndToEndTransformationISignalProps(ARObject):
     """
     Holds all the ISignal specific attributes for the EndToEndTransformer.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::EndToEndTransformationISignalProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 808, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def max_data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDataLength with validation.
-        
+
         Args:
             value: The maxDataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def min_data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minDataLength with validation.
-        
+
         Args:
             value: The minDataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +121,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def source_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sourceId with validation.
-        
+
         Args:
             value: The sourceId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +143,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def setDataLength(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def getMaxDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDataLength.
-        
+
         Returns:
             The maxDataLength value
-        
+
         Note:
             Delegates to max_data_length property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def setMaxDataLength(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
         """
         AUTOSAR-compliant setter for maxDataLength with method chaining.
-        
+
         Args:
             value: The maxDataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_data_length property setter (gets validation automatically)
         """
@@ -196,10 +199,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def getMinDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minDataLength.
-        
+
         Returns:
             The minDataLength value
-        
+
         Note:
             Delegates to min_data_length property (CODING_RULE_V2_00017)
         """
@@ -208,13 +211,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def setMinDataLength(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
         """
         AUTOSAR-compliant setter for minDataLength with method chaining.
-        
+
         Args:
             value: The minDataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_data_length property setter (gets validation automatically)
         """
@@ -224,10 +227,10 @@ class EndToEndTransformationISignalProps(ARObject):
     def getSourceId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sourceId.
-        
+
         Returns:
             The sourceId value
-        
+
         Note:
             Delegates to source_id property (CODING_RULE_V2_00017)
         """
@@ -236,13 +239,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def setSourceId(self, value: "PositiveInteger") -> "EndToEndTransformationISignalProps":
         """
         AUTOSAR-compliant setter for sourceId with method chaining.
-        
+
         Args:
             value: The sourceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to source_id property setter (gets validation automatically)
         """
@@ -254,13 +257,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -270,13 +273,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def with_max_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
         """
         Set maxDataLength and return self for chaining.
-        
+
         Args:
             value: The maxDataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_data_length("value")
         """
@@ -286,13 +289,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def with_min_data_length(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
         """
         Set minDataLength and return self for chaining.
-        
+
         Args:
             value: The minDataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_data_length("value")
         """
@@ -302,13 +305,13 @@ class EndToEndTransformationISignalProps(ARObject):
     def with_source_id(self, value: Optional["PositiveInteger"]) -> "EndToEndTransformationISignalProps":
         """
         Set sourceId and return self for chaining.
-        
+
         Args:
             value: The sourceId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_source_id("value")
         """

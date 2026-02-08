@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TransmissionComSpecProps(ARObject):
     """
     This meta-class defines a set of transmission attributes which the
     application software is assumed to implement.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::TransmissionComSpecProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -33,10 +36,10 @@ class TransmissionComSpecProps(ARObject):
     def data_update(self, value: Optional["TimeValue"]) -> None:
         """
         Set dataUpdate with validation.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class TransmissionComSpecProps(ARObject):
     def minimum_send(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumSend with validation.
-        
+
         Args:
             value: The minimumSend to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +94,10 @@ class TransmissionComSpecProps(ARObject):
     def transmission(self, value: Optional["TransmissionMode"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class TransmissionComSpecProps(ARObject):
     def getDataUpdate(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for dataUpdate.
-        
+
         Returns:
             The dataUpdate value
-        
+
         Note:
             Delegates to data_update property (CODING_RULE_V2_00017)
         """
@@ -125,13 +128,13 @@ class TransmissionComSpecProps(ARObject):
     def setDataUpdate(self, value: "TimeValue") -> "TransmissionComSpecProps":
         """
         AUTOSAR-compliant setter for dataUpdate with method chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_update property setter (gets validation automatically)
         """
@@ -141,10 +144,10 @@ class TransmissionComSpecProps(ARObject):
     def getMinimumSend(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumSend.
-        
+
         Returns:
             The minimumSend value
-        
+
         Note:
             Delegates to minimum_send property (CODING_RULE_V2_00017)
         """
@@ -153,13 +156,13 @@ class TransmissionComSpecProps(ARObject):
     def setMinimumSend(self, value: "TimeValue") -> "TransmissionComSpecProps":
         """
         AUTOSAR-compliant setter for minimumSend with method chaining.
-        
+
         Args:
             value: The minimumSend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_send property setter (gets validation automatically)
         """
@@ -169,10 +172,10 @@ class TransmissionComSpecProps(ARObject):
     def getTransmission(self) -> "TransmissionMode":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -181,13 +184,13 @@ class TransmissionComSpecProps(ARObject):
     def setTransmission(self, value: "TransmissionMode") -> "TransmissionComSpecProps":
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -199,13 +202,13 @@ class TransmissionComSpecProps(ARObject):
     def with_data_update(self, value: Optional["TimeValue"]) -> "TransmissionComSpecProps":
         """
         Set dataUpdate and return self for chaining.
-        
+
         Args:
             value: The dataUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_update("value")
         """
@@ -215,13 +218,13 @@ class TransmissionComSpecProps(ARObject):
     def with_minimum_send(self, value: Optional["TimeValue"]) -> "TransmissionComSpecProps":
         """
         Set minimumSend and return self for chaining.
-        
+
         Args:
             value: The minimumSend to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_send("value")
         """
@@ -231,13 +234,13 @@ class TransmissionComSpecProps(ARObject):
     def with_transmission(self, value: Optional["TransmissionMode"]) -> "TransmissionComSpecProps":
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """

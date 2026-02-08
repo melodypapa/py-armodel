@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class DiagnosticEnvModeElement(Referrable, ABC):
     """
@@ -11,9 +14,9 @@ class DiagnosticEnvModeElement(Referrable, ABC):
     InstanceRef definitions. Furthermore, it allows that an InstanceRef only
     needs to be defined once and can be used multiple times in the different
     DiagnosticEnvModeConditions.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvModeElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 89, Classic Platform
       R23-11)

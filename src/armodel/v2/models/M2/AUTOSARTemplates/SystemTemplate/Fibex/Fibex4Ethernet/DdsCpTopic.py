@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DdsCpTopic(Identifiable):
     """
     Definition of a DDS Partition.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpTopic
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 526, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class DdsCpTopic(Identifiable):
     def dds_partition(self, value: Optional["DdsCpPartition"]) -> None:
         """
         Set ddsPartition with validation.
-        
+
         Args:
             value: The ddsPartition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class DdsCpTopic(Identifiable):
     def topic_name(self, value: Optional["String"]) -> None:
         """
         Set topicName with validation.
-        
+
         Args:
             value: The topicName to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +80,10 @@ class DdsCpTopic(Identifiable):
     def getDdsPartition(self) -> "DdsCpPartition":
         """
         AUTOSAR-compliant getter for ddsPartition.
-        
+
         Returns:
             The ddsPartition value
-        
+
         Note:
             Delegates to dds_partition property (CODING_RULE_V2_00017)
         """
@@ -90,13 +92,13 @@ class DdsCpTopic(Identifiable):
     def setDdsPartition(self, value: "DdsCpPartition") -> "DdsCpTopic":
         """
         AUTOSAR-compliant setter for ddsPartition with method chaining.
-        
+
         Args:
             value: The ddsPartition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_partition property setter (gets validation automatically)
         """
@@ -106,10 +108,10 @@ class DdsCpTopic(Identifiable):
     def getTopicName(self) -> "String":
         """
         AUTOSAR-compliant getter for topicName.
-        
+
         Returns:
             The topicName value
-        
+
         Note:
             Delegates to topic_name property (CODING_RULE_V2_00017)
         """
@@ -118,13 +120,13 @@ class DdsCpTopic(Identifiable):
     def setTopicName(self, value: "String") -> "DdsCpTopic":
         """
         AUTOSAR-compliant setter for topicName with method chaining.
-        
+
         Args:
             value: The topicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic_name property setter (gets validation automatically)
         """
@@ -136,13 +138,13 @@ class DdsCpTopic(Identifiable):
     def with_dds_partition(self, value: Optional["DdsCpPartition"]) -> "DdsCpTopic":
         """
         Set ddsPartition and return self for chaining.
-        
+
         Args:
             value: The ddsPartition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_partition("value")
         """
@@ -152,13 +154,13 @@ class DdsCpTopic(Identifiable):
     def with_topic_name(self, value: Optional["String"]) -> "DdsCpTopic":
         """
         Set topicName and return self for chaining.
-        
+
         Args:
             value: The topicName to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic_name("value")
         """

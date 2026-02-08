@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     """
@@ -9,9 +12,9 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     such an event is to cause a context switch, e.g. from an ISR context into a
     task context. Activation and switching are handled within the same module or
     cluster only.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInternalTriggerOccurredEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 91, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def event_source_point(self, value: RefType) -> None:
         """
         Set eventSourcePoint with validation.
-        
+
         Args:
             value: The eventSourcePoint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +53,10 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def getEventSourcePoint(self) -> RefType:
         """
         AUTOSAR-compliant getter for eventSourcePoint.
-        
+
         Returns:
             The eventSourcePoint value
-        
+
         Note:
             Delegates to event_source_point property (CODING_RULE_V2_00017)
         """
@@ -62,13 +65,13 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def setEventSourcePoint(self, value: RefType) -> "BswInternalTriggerOccurredEvent":
         """
         AUTOSAR-compliant setter for eventSourcePoint with method chaining.
-        
+
         Args:
             value: The eventSourcePoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source_point property setter (gets validation automatically)
         """
@@ -80,13 +83,13 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def with_event_source_point(self, value: Optional[RefType]) -> "BswInternalTriggerOccurredEvent":
         """
         Set eventSourcePoint and return self for chaining.
-        
+
         Args:
             value: The eventSourcePoint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source_point("value")
         """

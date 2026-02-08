@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class BswInterruptEvent(BswEvent):
     """
     This meta-class represents an event triggered by an interrupt.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInterruptEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 88, Classic
       Platform R23-11)

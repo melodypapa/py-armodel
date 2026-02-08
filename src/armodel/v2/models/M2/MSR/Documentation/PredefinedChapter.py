@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PredefinedChapter(ARObject):
     """
     This represents a predefined chapter.
-    
+
     Package: M2::MSR::Documentation::Chapters::PredefinedChapter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 330, Foundation
       R23-11)
@@ -28,10 +29,10 @@ class PredefinedChapter(ARObject):
     def chapter_model(self, value: "ChapterModel") -> None:
         """
         Set chapterModel with validation.
-        
+
         Args:
             value: The chapterModel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -46,10 +47,10 @@ class PredefinedChapter(ARObject):
     def getChapterModel(self) -> "ChapterModel":
         """
         AUTOSAR-compliant getter for chapterModel.
-        
+
         Returns:
             The chapterModel value
-        
+
         Note:
             Delegates to chapter_model property (CODING_RULE_V2_00017)
         """
@@ -58,13 +59,13 @@ class PredefinedChapter(ARObject):
     def setChapterModel(self, value: "ChapterModel") -> "PredefinedChapter":
         """
         AUTOSAR-compliant setter for chapterModel with method chaining.
-        
+
         Args:
             value: The chapterModel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to chapter_model property setter (gets validation automatically)
         """
@@ -76,13 +77,13 @@ class PredefinedChapter(ARObject):
     def with_chapter_model(self, value: "ChapterModel") -> "PredefinedChapter":
         """
         Set chapterModel and return self for chaining.
-        
+
         Args:
             value: The chapterModel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_chapter_model("value")
         """

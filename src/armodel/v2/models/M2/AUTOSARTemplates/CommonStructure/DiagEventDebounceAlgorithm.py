@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagEventDebounceAlgorithm(Identifiable, ABC):
     """
@@ -10,9 +12,9 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
     inherits from Identifiable in order to allow further documentation of the
     expected or implemented debouncing and to use the category for the
     identification of the expected / implemented debouncing.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceAlgorithm
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 259, Classic
       Platform R23-11)

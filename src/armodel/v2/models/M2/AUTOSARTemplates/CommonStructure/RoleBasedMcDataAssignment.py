@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RoleBasedMcDataAssignment(ARObject):
     """
@@ -12,9 +15,9 @@ class RoleBasedMcDataAssignment(ARObject):
     original and the bypass buffers. The different buffers and the switch can be
     represented by McDataInstances (in order to be accessed by MC tools) which
     have relationships to each other.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RoleBasedMcDataAssignment
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 329, Classic
       Platform R23-11)
@@ -51,10 +54,10 @@ class RoleBasedMcDataAssignment(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +76,10 @@ class RoleBasedMcDataAssignment(ARObject):
     def getExecution(self) -> List["RptExecutionContext"]:
         """
         AUTOSAR-compliant getter for execution.
-        
+
         Returns:
             The execution value
-        
+
         Note:
             Delegates to execution property (CODING_RULE_V2_00017)
         """
@@ -85,10 +88,10 @@ class RoleBasedMcDataAssignment(ARObject):
     def getMcDataInstance(self) -> List["McDataInstance"]:
         """
         AUTOSAR-compliant getter for mcDataInstance.
-        
+
         Returns:
             The mcDataInstance value
-        
+
         Note:
             Delegates to mc_data_instance property (CODING_RULE_V2_00017)
         """
@@ -97,10 +100,10 @@ class RoleBasedMcDataAssignment(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -109,13 +112,13 @@ class RoleBasedMcDataAssignment(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedMcDataAssignment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -127,13 +130,13 @@ class RoleBasedMcDataAssignment(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedMcDataAssignment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """

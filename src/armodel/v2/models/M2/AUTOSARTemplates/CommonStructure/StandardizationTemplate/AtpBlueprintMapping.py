@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AtpBlueprintMapping(ARObject, ABC):
     """
     This meta-class represents the ability to express a particular mapping
     between a blueprint and an element derived from this blueprint. Particular
     mappings are defined by specializations of this meta-class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprintMapping
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 161, Foundation R23-11)
     """
@@ -32,10 +35,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def atp_blueprint(self, value: "AtpBlueprint") -> None:
         """
         Set atpBlueprint with validation.
-        
+
         Args:
             value: The atpBlueprint to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def atp_blueprinted(self, value: "AtpBlueprintable") -> None:
         """
         Set atpBlueprinted with validation.
-        
+
         Args:
             value: The atpBlueprinted to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +77,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def getAtpBlueprint(self) -> "AtpBlueprint":
         """
         AUTOSAR-compliant getter for atpBlueprint.
-        
+
         Returns:
             The atpBlueprint value
-        
+
         Note:
             Delegates to atp_blueprint property (CODING_RULE_V2_00017)
         """
@@ -86,13 +89,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def setAtpBlueprint(self, value: "AtpBlueprint") -> "AtpBlueprintMapping":
         """
         AUTOSAR-compliant setter for atpBlueprint with method chaining.
-        
+
         Args:
             value: The atpBlueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_blueprint property setter (gets validation automatically)
         """
@@ -102,10 +105,10 @@ class AtpBlueprintMapping(ARObject, ABC):
     def getAtpBlueprinted(self) -> "AtpBlueprintable":
         """
         AUTOSAR-compliant getter for atpBlueprinted.
-        
+
         Returns:
             The atpBlueprinted value
-        
+
         Note:
             Delegates to atp_blueprinted property (CODING_RULE_V2_00017)
         """
@@ -114,13 +117,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def setAtpBlueprinted(self, value: "AtpBlueprintable") -> "AtpBlueprintMapping":
         """
         AUTOSAR-compliant setter for atpBlueprinted with method chaining.
-        
+
         Args:
             value: The atpBlueprinted to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_blueprinted property setter (gets validation automatically)
         """
@@ -132,13 +135,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def with_atp_blueprint(self, value: "AtpBlueprint") -> "AtpBlueprintMapping":
         """
         Set atpBlueprint and return self for chaining.
-        
+
         Args:
             value: The atpBlueprint to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_blueprint("value")
         """
@@ -148,13 +151,13 @@ class AtpBlueprintMapping(ARObject, ABC):
     def with_atp_blueprinted(self, value: "AtpBlueprintable") -> "AtpBlueprintMapping":
         """
         Set atpBlueprinted and return self for chaining.
-        
+
         Args:
             value: The atpBlueprinted to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_blueprinted("value")
         """

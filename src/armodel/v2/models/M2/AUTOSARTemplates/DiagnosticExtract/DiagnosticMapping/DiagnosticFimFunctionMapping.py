@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     """
     This meta-class represents the ability to define a mapping between a
     function identifier (FID) and the corresponding SwcServiceDependency in the
     application software resp. basic software.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticFimFunctionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 264, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def mapped_bsw(self, value: Optional["BswService"]) -> None:
         """
         Set mappedBsw with validation.
-        
+
         Args:
             value: The mappedBsw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def mapped_flat_swc(self, value: Optional["SwcService"]) -> None:
         """
         Set mappedFlatSwc with validation.
-        
+
         Args:
             value: The mappedFlatSwc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +91,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def mapped(self, value: Optional["DiagnosticFunction"]) -> None:
         """
         Set mapped with validation.
-        
+
         Args:
             value: The mapped to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def mapped_swc(self, value: Optional["SwcService"]) -> None:
         """
         Set mappedSwc with validation.
-        
+
         Args:
             value: The mappedSwc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -141,10 +141,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def getMappedBsw(self) -> "BswService":
         """
         AUTOSAR-compliant getter for mappedBsw.
-        
+
         Returns:
             The mappedBsw value
-        
+
         Note:
             Delegates to mapped_bsw property (CODING_RULE_V2_00017)
         """
@@ -153,13 +153,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def setMappedBsw(self, value: "BswService") -> "DiagnosticFimFunctionMapping":
         """
         AUTOSAR-compliant setter for mappedBsw with method chaining.
-        
+
         Args:
             value: The mappedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped_bsw property setter (gets validation automatically)
         """
@@ -169,10 +169,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def getMappedFlatSwc(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for mappedFlatSwc.
-        
+
         Returns:
             The mappedFlatSwc value
-        
+
         Note:
             Delegates to mapped_flat_swc property (CODING_RULE_V2_00017)
         """
@@ -181,13 +181,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def setMappedFlatSwc(self, value: "SwcService") -> "DiagnosticFimFunctionMapping":
         """
         AUTOSAR-compliant setter for mappedFlatSwc with method chaining.
-        
+
         Args:
             value: The mappedFlatSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped_flat_swc property setter (gets validation automatically)
         """
@@ -197,10 +197,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def getMapped(self) -> "DiagnosticFunction":
         """
         AUTOSAR-compliant getter for mapped.
-        
+
         Returns:
             The mapped value
-        
+
         Note:
             Delegates to mapped property (CODING_RULE_V2_00017)
         """
@@ -209,13 +209,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def setMapped(self, value: "DiagnosticFunction") -> "DiagnosticFimFunctionMapping":
         """
         AUTOSAR-compliant setter for mapped with method chaining.
-        
+
         Args:
             value: The mapped to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped property setter (gets validation automatically)
         """
@@ -225,10 +225,10 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def getMappedSwc(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for mappedSwc.
-        
+
         Returns:
             The mappedSwc value
-        
+
         Note:
             Delegates to mapped_swc property (CODING_RULE_V2_00017)
         """
@@ -237,13 +237,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def setMappedSwc(self, value: "SwcService") -> "DiagnosticFimFunctionMapping":
         """
         AUTOSAR-compliant setter for mappedSwc with method chaining.
-        
+
         Args:
             value: The mappedSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped_swc property setter (gets validation automatically)
         """
@@ -255,13 +255,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def with_mapped_bsw(self, value: Optional["BswService"]) -> "DiagnosticFimFunctionMapping":
         """
         Set mappedBsw and return self for chaining.
-        
+
         Args:
             value: The mappedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped_bsw("value")
         """
@@ -271,13 +271,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def with_mapped_flat_swc(self, value: Optional["SwcService"]) -> "DiagnosticFimFunctionMapping":
         """
         Set mappedFlatSwc and return self for chaining.
-        
+
         Args:
             value: The mappedFlatSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped_flat_swc("value")
         """
@@ -287,13 +287,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def with_mapped(self, value: Optional["DiagnosticFunction"]) -> "DiagnosticFimFunctionMapping":
         """
         Set mapped and return self for chaining.
-        
+
         Args:
             value: The mapped to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped("value")
         """
@@ -303,13 +303,13 @@ class DiagnosticFimFunctionMapping(DiagnosticSwMapping):
     def with_mapped_swc(self, value: Optional["SwcService"]) -> "DiagnosticFimFunctionMapping":
         """
         Set mappedSwc and return self for chaining.
-        
+
         Args:
             value: The mappedSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped_swc("value")
         """

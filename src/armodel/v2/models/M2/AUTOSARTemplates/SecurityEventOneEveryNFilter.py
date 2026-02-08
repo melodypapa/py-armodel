@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     """
     This meta-class represents the configuration of a sampling (i.e. every n-th
     event is sampled) filter for security events.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventOneEveryNFilter
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 24, Foundation R23-11)
     """
@@ -29,10 +29,10 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def n(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set n with validation.
-        
+
         Args:
             value: The n to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def getN(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for n.
-        
+
         Returns:
             The n value
-        
+
         Note:
             Delegates to n property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def setN(self, value: "PositiveInteger") -> "SecurityEventOneEveryNFilter":
         """
         AUTOSAR-compliant setter for n with method chaining.
-        
+
         Args:
             value: The n to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to n property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class SecurityEventOneEveryNFilter(AbstractSecurityEventFilter):
     def with_n(self, value: Optional["PositiveInteger"]) -> "SecurityEventOneEveryNFilter":
         """
         Set n and return self for chaining.
-        
+
         Args:
             value: The n to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_n("value")
         """

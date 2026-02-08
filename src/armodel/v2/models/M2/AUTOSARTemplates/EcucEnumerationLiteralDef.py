@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EcucEnumerationLiteralDef(Identifiable):
     """
     Configuration parameter type for enumeration literals definition.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucEnumerationLiteralDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 67, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class EcucEnumerationLiteralDef(Identifiable):
     def ecuc_cond(self, value: Optional["EcucCondition"]) -> None:
         """
         Set ecucCond with validation.
-        
+
         Args:
             value: The ecucCond to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class EcucEnumerationLiteralDef(Identifiable):
     def origin(self, value: Optional["String"]) -> None:
         """
         Set origin with validation.
-        
+
         Args:
             value: The origin to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +82,10 @@ class EcucEnumerationLiteralDef(Identifiable):
     def getEcucCond(self) -> "EcucCondition":
         """
         AUTOSAR-compliant getter for ecucCond.
-        
+
         Returns:
             The ecucCond value
-        
+
         Note:
             Delegates to ecuc_cond property (CODING_RULE_V2_00017)
         """
@@ -92,13 +94,13 @@ class EcucEnumerationLiteralDef(Identifiable):
     def setEcucCond(self, value: "EcucCondition") -> "EcucEnumerationLiteralDef":
         """
         AUTOSAR-compliant setter for ecucCond with method chaining.
-        
+
         Args:
             value: The ecucCond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecuc_cond property setter (gets validation automatically)
         """
@@ -108,10 +110,10 @@ class EcucEnumerationLiteralDef(Identifiable):
     def getOrigin(self) -> "String":
         """
         AUTOSAR-compliant getter for origin.
-        
+
         Returns:
             The origin value
-        
+
         Note:
             Delegates to origin property (CODING_RULE_V2_00017)
         """
@@ -120,13 +122,13 @@ class EcucEnumerationLiteralDef(Identifiable):
     def setOrigin(self, value: "String") -> "EcucEnumerationLiteralDef":
         """
         AUTOSAR-compliant setter for origin with method chaining.
-        
+
         Args:
             value: The origin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to origin property setter (gets validation automatically)
         """
@@ -138,13 +140,13 @@ class EcucEnumerationLiteralDef(Identifiable):
     def with_ecuc_cond(self, value: Optional["EcucCondition"]) -> "EcucEnumerationLiteralDef":
         """
         Set ecucCond and return self for chaining.
-        
+
         Args:
             value: The ecucCond to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecuc_cond("value")
         """
@@ -154,13 +156,13 @@ class EcucEnumerationLiteralDef(Identifiable):
     def with_origin(self, value: Optional["String"]) -> "EcucEnumerationLiteralDef":
         """
         Set origin and return self for chaining.
-        
+
         Args:
             value: The origin to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_origin("value")
         """

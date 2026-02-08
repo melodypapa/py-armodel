@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     """
@@ -7,9 +7,9 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     Communication Manager (Dcm) which are not related to a particular item (e.g.
     a PID). The main use case is the mapping of service ports to the Dcm which
     are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticRoutineNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 247, Classic
       Platform R23-11)
@@ -35,10 +35,10 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> None:
         """
         Set diagRoutine with validation.
-        
+
         Args:
             value: The diagRoutine to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def getDiagRoutine(self) -> "DiagnosticRoutineType":
         """
         AUTOSAR-compliant getter for diagRoutine.
-        
+
         Returns:
             The diagRoutine value
-        
+
         Note:
             Delegates to diag_routine property (CODING_RULE_V2_00017)
         """
@@ -69,13 +69,13 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def setDiagRoutine(self, value: "DiagnosticRoutineType") -> "DiagnosticRoutineNeeds":
         """
         AUTOSAR-compliant setter for diagRoutine with method chaining.
-        
+
         Args:
             value: The diagRoutine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_routine property setter (gets validation automatically)
         """
@@ -87,13 +87,13 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def with_diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> "DiagnosticRoutineNeeds":
         """
         Set diagRoutine and return self for chaining.
-        
+
         Args:
             value: The diagRoutine to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_routine("value")
         """

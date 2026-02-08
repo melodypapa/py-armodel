@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LPlainText(ARObject):
     """
     This represents plain string in one particular language. The language is
     denoted in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LPlainText
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 349, Foundation
       R23-11)

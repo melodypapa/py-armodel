@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Topic1(Paginateable):
     """
@@ -7,9 +7,9 @@ class Topic1(Paginateable):
     chapters but they cannot be nested. They also do not appear in the table of
     content. Topics can be used to produce intermediate headlines thus
     structuring a chapter internally.
-    
+
     Package: M2::MSR::Documentation::Chapters::Topic1
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 338, Foundation
       R23-11)
@@ -32,10 +32,10 @@ class Topic1(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class Topic1(Paginateable):
     def topic_content(self, value: Optional["TopicContentOrMsr"]) -> None:
         """
         Set topicContent with validation.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class Topic1(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -94,13 +94,13 @@ class Topic1(Paginateable):
     def setHelpEntry(self, value: "String") -> "Topic1":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -110,10 +110,10 @@ class Topic1(Paginateable):
     def getTopicContent(self) -> "TopicContentOrMsr":
         """
         AUTOSAR-compliant getter for topicContent.
-        
+
         Returns:
             The topicContent value
-        
+
         Note:
             Delegates to topic_content property (CODING_RULE_V2_00017)
         """
@@ -122,13 +122,13 @@ class Topic1(Paginateable):
     def setTopicContent(self, value: "TopicContentOrMsr") -> "Topic1":
         """
         AUTOSAR-compliant setter for topicContent with method chaining.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic_content property setter (gets validation automatically)
         """
@@ -140,13 +140,13 @@ class Topic1(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "Topic1":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """
@@ -156,13 +156,13 @@ class Topic1(Paginateable):
     def with_topic_content(self, value: Optional["TopicContentOrMsr"]) -> "Topic1":
         """
         Set topicContent and return self for chaining.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic_content("value")
         """

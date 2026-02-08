@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LinOrderedConfigurableFrame(ARObject):
     """
     With the assignment of the index to a frame a mapping of Pids to Frames is
     possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range
     command.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinOrderedConfigurableFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 99, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class LinOrderedConfigurableFrame(ARObject):
     def frame(self, value: Optional["LinFrame"]) -> None:
         """
         Set frame with validation.
-        
+
         Args:
             value: The frame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class LinOrderedConfigurableFrame(ARObject):
     def index(self, value: Optional["Integer"]) -> None:
         """
         Set index with validation.
-        
+
         Args:
             value: The index to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class LinOrderedConfigurableFrame(ARObject):
     def getFrame(self) -> "LinFrame":
         """
         AUTOSAR-compliant getter for frame.
-        
+
         Returns:
             The frame value
-        
+
         Note:
             Delegates to frame property (CODING_RULE_V2_00017)
         """
@@ -92,13 +95,13 @@ class LinOrderedConfigurableFrame(ARObject):
     def setFrame(self, value: "LinFrame") -> "LinOrderedConfigurableFrame":
         """
         AUTOSAR-compliant setter for frame with method chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame property setter (gets validation automatically)
         """
@@ -108,10 +111,10 @@ class LinOrderedConfigurableFrame(ARObject):
     def getIndex(self) -> "Integer":
         """
         AUTOSAR-compliant getter for index.
-        
+
         Returns:
             The index value
-        
+
         Note:
             Delegates to index property (CODING_RULE_V2_00017)
         """
@@ -120,13 +123,13 @@ class LinOrderedConfigurableFrame(ARObject):
     def setIndex(self, value: "Integer") -> "LinOrderedConfigurableFrame":
         """
         AUTOSAR-compliant setter for index with method chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index property setter (gets validation automatically)
         """
@@ -138,13 +141,13 @@ class LinOrderedConfigurableFrame(ARObject):
     def with_frame(self, value: Optional["LinFrame"]) -> "LinOrderedConfigurableFrame":
         """
         Set frame and return self for chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame("value")
         """
@@ -154,13 +157,13 @@ class LinOrderedConfigurableFrame(ARObject):
     def with_index(self, value: Optional["Integer"]) -> "LinOrderedConfigurableFrame":
         """
         Set index and return self for chaining.
-        
+
         Args:
             value: The index to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index("value")
         """

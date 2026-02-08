@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class NonqueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to non-queued receiving.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication::NonqueuedReceiverComSpec
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 172, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def alive_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set aliveTimeout with validation.
-        
+
         Args:
             value: The aliveTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def enable_update(self, value: Optional["Boolean"]) -> None:
         """
         Set enableUpdate with validation.
-        
+
         Args:
             value: The enableUpdate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def filter(self, value: Optional["DataFilter"]) -> None:
         """
         Set filter with validation.
-        
+
         Args:
             value: The filter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def handle_data(self, value: Optional["Boolean"]) -> None:
         """
         Set handleData with validation.
-        
+
         Args:
             value: The handleData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +151,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def handle_never(self, value: Optional["Boolean"]) -> None:
         """
         Set handleNever with validation.
-        
+
         Args:
             value: The handleNever to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -179,10 +179,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def handle_timeout(self, value: Optional["HandleTimeoutEnum"]) -> None:
         """
         Set handleTimeout with validation.
-        
+
         Args:
             value: The handleTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -208,10 +208,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -237,10 +237,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def timeout(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -259,10 +259,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getAliveTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for aliveTimeout.
-        
+
         Returns:
             The aliveTimeout value
-        
+
         Note:
             Delegates to alive_timeout property (CODING_RULE_V2_00017)
         """
@@ -271,13 +271,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setAliveTimeout(self, value: "TimeValue") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for aliveTimeout with method chaining.
-        
+
         Args:
             value: The aliveTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to alive_timeout property setter (gets validation automatically)
         """
@@ -287,10 +287,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getEnableUpdate(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for enableUpdate.
-        
+
         Returns:
             The enableUpdate value
-        
+
         Note:
             Delegates to enable_update property (CODING_RULE_V2_00017)
         """
@@ -299,13 +299,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setEnableUpdate(self, value: "Boolean") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for enableUpdate with method chaining.
-        
+
         Args:
             value: The enableUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to enable_update property setter (gets validation automatically)
         """
@@ -315,10 +315,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getFilter(self) -> "DataFilter":
         """
         AUTOSAR-compliant getter for filter.
-        
+
         Returns:
             The filter value
-        
+
         Note:
             Delegates to filter property (CODING_RULE_V2_00017)
         """
@@ -327,13 +327,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setFilter(self, value: "DataFilter") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for filter with method chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter property setter (gets validation automatically)
         """
@@ -343,10 +343,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getHandleData(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for handleData.
-        
+
         Returns:
             The handleData value
-        
+
         Note:
             Delegates to handle_data property (CODING_RULE_V2_00017)
         """
@@ -355,13 +355,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setHandleData(self, value: "Boolean") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleData with method chaining.
-        
+
         Args:
             value: The handleData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_data property setter (gets validation automatically)
         """
@@ -371,10 +371,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getHandleNever(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for handleNever.
-        
+
         Returns:
             The handleNever value
-        
+
         Note:
             Delegates to handle_never property (CODING_RULE_V2_00017)
         """
@@ -383,13 +383,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setHandleNever(self, value: "Boolean") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleNever with method chaining.
-        
+
         Args:
             value: The handleNever to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_never property setter (gets validation automatically)
         """
@@ -399,10 +399,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getHandleTimeout(self) -> "HandleTimeoutEnum":
         """
         AUTOSAR-compliant getter for handleTimeout.
-        
+
         Returns:
             The handleTimeout value
-        
+
         Note:
             Delegates to handle_timeout property (CODING_RULE_V2_00017)
         """
@@ -411,13 +411,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setHandleTimeout(self, value: "HandleTimeoutEnum") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for handleTimeout with method chaining.
-        
+
         Args:
             value: The handleTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_timeout property setter (gets validation automatically)
         """
@@ -427,10 +427,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getInitValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -439,13 +439,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setInitValue(self, value: "ValueSpecification") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -455,10 +455,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def getTimeout(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -467,13 +467,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def setTimeout(self, value: "ValueSpecification") -> "NonqueuedReceiverComSpec":
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -485,13 +485,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_alive_timeout(self, value: Optional["TimeValue"]) -> "NonqueuedReceiverComSpec":
         """
         Set aliveTimeout and return self for chaining.
-        
+
         Args:
             value: The aliveTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_alive_timeout("value")
         """
@@ -501,13 +501,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_enable_update(self, value: Optional["Boolean"]) -> "NonqueuedReceiverComSpec":
         """
         Set enableUpdate and return self for chaining.
-        
+
         Args:
             value: The enableUpdate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_enable_update("value")
         """
@@ -517,13 +517,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_filter(self, value: Optional["DataFilter"]) -> "NonqueuedReceiverComSpec":
         """
         Set filter and return self for chaining.
-        
+
         Args:
             value: The filter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter("value")
         """
@@ -533,13 +533,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_handle_data(self, value: Optional["Boolean"]) -> "NonqueuedReceiverComSpec":
         """
         Set handleData and return self for chaining.
-        
+
         Args:
             value: The handleData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_data("value")
         """
@@ -549,13 +549,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_handle_never(self, value: Optional["Boolean"]) -> "NonqueuedReceiverComSpec":
         """
         Set handleNever and return self for chaining.
-        
+
         Args:
             value: The handleNever to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_never("value")
         """
@@ -565,13 +565,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_handle_timeout(self, value: Optional["HandleTimeoutEnum"]) -> "NonqueuedReceiverComSpec":
         """
         Set handleTimeout and return self for chaining.
-        
+
         Args:
             value: The handleTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_timeout("value")
         """
@@ -581,13 +581,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> "NonqueuedReceiverComSpec":
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -597,13 +597,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def with_timeout(self, value: Optional["ValueSpecification"]) -> "NonqueuedReceiverComSpec":
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """

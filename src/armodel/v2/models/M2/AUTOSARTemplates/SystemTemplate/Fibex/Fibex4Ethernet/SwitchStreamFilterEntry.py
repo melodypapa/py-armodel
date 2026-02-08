@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwitchStreamFilterEntry(Identifiable):
     """
     Defines a Stream Filter Entry.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterEntry
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 141, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def asynchronous(self, value: Optional["CouplingPort"]) -> None:
         """
         Set asynchronous with validation.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def filter_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set filterPriority with validation.
-        
+
         Args:
             value: The filterPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +90,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def flow_metering(self, value: Optional["SwitchFlowMetering"]) -> None:
         """
         Set flowMetering with validation.
-        
+
         Args:
             value: The flowMetering to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +119,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def max_sdu_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSduSize with validation.
-        
+
         Args:
             value: The maxSduSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +147,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def stream_gate(self, value: Optional["SwitchStreamGateEntry"]) -> None:
         """
         Set streamGate with validation.
-        
+
         Args:
             value: The streamGate to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +178,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def stream(self, value: Optional["Boolean"]) -> None:
         """
         Set stream with validation.
-        
+
         Args:
             value: The stream to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -198,10 +200,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getAsynchronous(self) -> "CouplingPort":
         """
         AUTOSAR-compliant getter for asynchronous.
-        
+
         Returns:
             The asynchronous value
-        
+
         Note:
             Delegates to asynchronous property (CODING_RULE_V2_00017)
         """
@@ -210,13 +212,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setAsynchronous(self, value: "CouplingPort") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to asynchronous property setter (gets validation automatically)
         """
@@ -226,10 +228,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getFilterPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for filterPriority.
-        
+
         Returns:
             The filterPriority value
-        
+
         Note:
             Delegates to filter_priority property (CODING_RULE_V2_00017)
         """
@@ -238,13 +240,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setFilterPriority(self, value: "PositiveInteger") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for filterPriority with method chaining.
-        
+
         Args:
             value: The filterPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to filter_priority property setter (gets validation automatically)
         """
@@ -254,10 +256,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getFlowMetering(self) -> "SwitchFlowMetering":
         """
         AUTOSAR-compliant getter for flowMetering.
-        
+
         Returns:
             The flowMetering value
-        
+
         Note:
             Delegates to flow_metering property (CODING_RULE_V2_00017)
         """
@@ -266,13 +268,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setFlowMetering(self, value: "SwitchFlowMetering") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for flowMetering with method chaining.
-        
+
         Args:
             value: The flowMetering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to flow_metering property setter (gets validation automatically)
         """
@@ -282,10 +284,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getMaxSduSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSduSize.
-        
+
         Returns:
             The maxSduSize value
-        
+
         Note:
             Delegates to max_sdu_size property (CODING_RULE_V2_00017)
         """
@@ -294,13 +296,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setMaxSduSize(self, value: "PositiveInteger") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for maxSduSize with method chaining.
-        
+
         Args:
             value: The maxSduSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_sdu_size property setter (gets validation automatically)
         """
@@ -310,10 +312,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getStreamGate(self) -> "SwitchStreamGateEntry":
         """
         AUTOSAR-compliant getter for streamGate.
-        
+
         Returns:
             The streamGate value
-        
+
         Note:
             Delegates to stream_gate property (CODING_RULE_V2_00017)
         """
@@ -322,13 +324,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setStreamGate(self, value: "SwitchStreamGateEntry") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for streamGate with method chaining.
-        
+
         Args:
             value: The streamGate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream_gate property setter (gets validation automatically)
         """
@@ -338,10 +340,10 @@ class SwitchStreamFilterEntry(Identifiable):
     def getStream(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for stream.
-        
+
         Returns:
             The stream value
-        
+
         Note:
             Delegates to stream property (CODING_RULE_V2_00017)
         """
@@ -350,13 +352,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def setStream(self, value: "Boolean") -> "SwitchStreamFilterEntry":
         """
         AUTOSAR-compliant setter for stream with method chaining.
-        
+
         Args:
             value: The stream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to stream property setter (gets validation automatically)
         """
@@ -368,13 +370,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_asynchronous(self, value: Optional["CouplingPort"]) -> "SwitchStreamFilterEntry":
         """
         Set asynchronous and return self for chaining.
-        
+
         Args:
             value: The asynchronous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_asynchronous("value")
         """
@@ -384,13 +386,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_filter_priority(self, value: Optional["PositiveInteger"]) -> "SwitchStreamFilterEntry":
         """
         Set filterPriority and return self for chaining.
-        
+
         Args:
             value: The filterPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_filter_priority("value")
         """
@@ -400,13 +402,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_flow_metering(self, value: Optional["SwitchFlowMetering"]) -> "SwitchStreamFilterEntry":
         """
         Set flowMetering and return self for chaining.
-        
+
         Args:
             value: The flowMetering to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_flow_metering("value")
         """
@@ -416,13 +418,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_max_sdu_size(self, value: Optional["PositiveInteger"]) -> "SwitchStreamFilterEntry":
         """
         Set maxSduSize and return self for chaining.
-        
+
         Args:
             value: The maxSduSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_sdu_size("value")
         """
@@ -432,13 +434,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_stream_gate(self, value: Optional["SwitchStreamGateEntry"]) -> "SwitchStreamFilterEntry":
         """
         Set streamGate and return self for chaining.
-        
+
         Args:
             value: The streamGate to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream_gate("value")
         """
@@ -448,13 +450,13 @@ class SwitchStreamFilterEntry(Identifiable):
     def with_stream(self, value: Optional["Boolean"]) -> "SwitchStreamFilterEntry":
         """
         Set stream and return self for chaining.
-        
+
         Args:
             value: The stream to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_stream("value")
         """

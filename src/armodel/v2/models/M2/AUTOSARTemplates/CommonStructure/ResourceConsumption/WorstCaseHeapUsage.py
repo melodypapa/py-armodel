@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class WorstCaseHeapUsage(HeapUsage):
     """
     Provides a formal worst case heap usage.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage::WorstCaseHeapUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 152, Classic
       Platform R23-11)
@@ -28,10 +28,10 @@ class WorstCaseHeapUsage(HeapUsage):
     def memory_consumption(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set memoryConsumption with validation.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class WorstCaseHeapUsage(HeapUsage):
     def getMemoryConsumption(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for memoryConsumption.
-        
+
         Returns:
             The memoryConsumption value
-        
+
         Note:
             Delegates to memory_consumption property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class WorstCaseHeapUsage(HeapUsage):
     def setMemoryConsumption(self, value: "PositiveInteger") -> "WorstCaseHeapUsage":
         """
         AUTOSAR-compliant setter for memoryConsumption with method chaining.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_consumption property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class WorstCaseHeapUsage(HeapUsage):
     def with_memory_consumption(self, value: Optional["PositiveInteger"]) -> "WorstCaseHeapUsage":
         """
         Set memoryConsumption and return self for chaining.
-        
+
         Args:
             value: The memoryConsumption to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_consumption("value")
         """

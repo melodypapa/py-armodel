@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ScaleConstr(ARObject):
     """
     This meta-class represents the ability to specify constraints as a list of
     intervals (called scales).
-    
+
     Package: M2::MSR::AsamHdo::Constraints::GlobalConstraints::ScaleConstr
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1003, Classic
       Platform R23-11)
@@ -29,10 +32,10 @@ class ScaleConstr(ARObject):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class ScaleConstr(ARObject):
     def lower_limit(self, value: Optional["Limit"]) -> None:
         """
         Set lowerLimit with validation.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class ScaleConstr(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +121,10 @@ class ScaleConstr(ARObject):
     def upper_limit(self, value: Optional["Limit"]) -> None:
         """
         Set upperLimit with validation.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class ScaleConstr(ARObject):
     def validity(self, value: Optional["ScaleConstrValidity"]) -> None:
         """
         Set validity with validation.
-        
+
         Args:
             value: The validity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -169,10 +172,10 @@ class ScaleConstr(ARObject):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -181,13 +184,13 @@ class ScaleConstr(ARObject):
     def setDesc(self, value: "MultiLanguageOverview") -> "ScaleConstr":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -197,10 +200,10 @@ class ScaleConstr(ARObject):
     def getLowerLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for lowerLimit.
-        
+
         Returns:
             The lowerLimit value
-        
+
         Note:
             Delegates to lower_limit property (CODING_RULE_V2_00017)
         """
@@ -209,13 +212,13 @@ class ScaleConstr(ARObject):
     def setLowerLimit(self, value: "Limit") -> "ScaleConstr":
         """
         AUTOSAR-compliant setter for lowerLimit with method chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_limit property setter (gets validation automatically)
         """
@@ -225,10 +228,10 @@ class ScaleConstr(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -237,13 +240,13 @@ class ScaleConstr(ARObject):
     def setShortLabel(self, value: "Identifier") -> "ScaleConstr":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -253,10 +256,10 @@ class ScaleConstr(ARObject):
     def getUpperLimit(self) -> "Limit":
         """
         AUTOSAR-compliant getter for upperLimit.
-        
+
         Returns:
             The upperLimit value
-        
+
         Note:
             Delegates to upper_limit property (CODING_RULE_V2_00017)
         """
@@ -265,13 +268,13 @@ class ScaleConstr(ARObject):
     def setUpperLimit(self, value: "Limit") -> "ScaleConstr":
         """
         AUTOSAR-compliant setter for upperLimit with method chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_limit property setter (gets validation automatically)
         """
@@ -281,10 +284,10 @@ class ScaleConstr(ARObject):
     def getValidity(self) -> "ScaleConstrValidity":
         """
         AUTOSAR-compliant getter for validity.
-        
+
         Returns:
             The validity value
-        
+
         Note:
             Delegates to validity property (CODING_RULE_V2_00017)
         """
@@ -293,13 +296,13 @@ class ScaleConstr(ARObject):
     def setValidity(self, value: "ScaleConstrValidity") -> "ScaleConstr":
         """
         AUTOSAR-compliant setter for validity with method chaining.
-        
+
         Args:
             value: The validity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to validity property setter (gets validation automatically)
         """
@@ -311,13 +314,13 @@ class ScaleConstr(ARObject):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "ScaleConstr":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -327,13 +330,13 @@ class ScaleConstr(ARObject):
     def with_lower_limit(self, value: Optional["Limit"]) -> "ScaleConstr":
         """
         Set lowerLimit and return self for chaining.
-        
+
         Args:
             value: The lowerLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_limit("value")
         """
@@ -343,13 +346,13 @@ class ScaleConstr(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "ScaleConstr":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """
@@ -359,13 +362,13 @@ class ScaleConstr(ARObject):
     def with_upper_limit(self, value: Optional["Limit"]) -> "ScaleConstr":
         """
         Set upperLimit and return self for chaining.
-        
+
         Args:
             value: The upperLimit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_limit("value")
         """
@@ -375,13 +378,13 @@ class ScaleConstr(ARObject):
     def with_validity(self, value: Optional["ScaleConstrValidity"]) -> "ScaleConstr":
         """
         Set validity and return self for chaining.
-        
+
         Args:
             value: The validity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_validity("value")
         """

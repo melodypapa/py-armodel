@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EndToEndProtectionSet(ARElement):
     """
     This represents a container for collection EndToEndProtectionInformation.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection::EndToEndProtectionSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 214, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class EndToEndProtectionSet(ARElement):
     def getEndToEnd(self) -> List["EndToEndProtection"]:
         """
         AUTOSAR-compliant getter for endToEnd.
-        
+
         Returns:
             The endToEnd value
-        
+
         Note:
             Delegates to end_to_end property (CODING_RULE_V2_00017)
         """

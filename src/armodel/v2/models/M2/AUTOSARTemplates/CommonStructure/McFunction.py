@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class McFunction(ARElement):
     """
@@ -8,9 +11,9 @@ class McFunction(ARElement):
     and calibration. It is used to • assign calibration parameters to a logical
     function • assign measurement variables to a logical function • structure
     functions hierarchically
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McFunction
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 186, Classic
       Platform R23-11)
@@ -31,10 +34,10 @@ class McFunction(ARElement):
     def def_calprm_set(self, value: RefType) -> None:
         """
         Set defCalprmSet with validation.
-        
+
         Args:
             value: The defCalprmSet to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class McFunction(ARElement):
     def in_measurement(self, value: RefType) -> None:
         """
         Set inMeasurement with validation.
-        
+
         Args:
             value: The inMeasurement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class McFunction(ARElement):
     def loc(self, value: RefType) -> None:
         """
         Set loc with validation.
-        
+
         Args:
             value: The loc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +107,10 @@ class McFunction(ARElement):
     def out(self, value: RefType) -> None:
         """
         Set out with validation.
-        
+
         Args:
             value: The out to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -128,10 +131,10 @@ class McFunction(ARElement):
     def ref_calprm_set(self, value: RefType) -> None:
         """
         Set refCalprmSet with validation.
-        
+
         Args:
             value: The refCalprmSet to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +156,10 @@ class McFunction(ARElement):
     def getDefCalprmSet(self) -> RefType:
         """
         AUTOSAR-compliant getter for defCalprmSet.
-        
+
         Returns:
             The defCalprmSet value
-        
+
         Note:
             Delegates to def_calprm_set property (CODING_RULE_V2_00017)
         """
@@ -165,13 +168,13 @@ class McFunction(ARElement):
     def setDefCalprmSet(self, value: RefType) -> "McFunction":
         """
         AUTOSAR-compliant setter for defCalprmSet with method chaining.
-        
+
         Args:
             value: The defCalprmSet to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to def_calprm_set property setter (gets validation automatically)
         """
@@ -181,10 +184,10 @@ class McFunction(ARElement):
     def getInMeasurement(self) -> RefType:
         """
         AUTOSAR-compliant getter for inMeasurement.
-        
+
         Returns:
             The inMeasurement value
-        
+
         Note:
             Delegates to in_measurement property (CODING_RULE_V2_00017)
         """
@@ -193,13 +196,13 @@ class McFunction(ARElement):
     def setInMeasurement(self, value: RefType) -> "McFunction":
         """
         AUTOSAR-compliant setter for inMeasurement with method chaining.
-        
+
         Args:
             value: The inMeasurement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to in_measurement property setter (gets validation automatically)
         """
@@ -209,10 +212,10 @@ class McFunction(ARElement):
     def getLoc(self) -> RefType:
         """
         AUTOSAR-compliant getter for loc.
-        
+
         Returns:
             The loc value
-        
+
         Note:
             Delegates to loc property (CODING_RULE_V2_00017)
         """
@@ -221,13 +224,13 @@ class McFunction(ARElement):
     def setLoc(self, value: RefType) -> "McFunction":
         """
         AUTOSAR-compliant setter for loc with method chaining.
-        
+
         Args:
             value: The loc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to loc property setter (gets validation automatically)
         """
@@ -237,10 +240,10 @@ class McFunction(ARElement):
     def getOut(self) -> RefType:
         """
         AUTOSAR-compliant getter for out.
-        
+
         Returns:
             The out value
-        
+
         Note:
             Delegates to out property (CODING_RULE_V2_00017)
         """
@@ -249,13 +252,13 @@ class McFunction(ARElement):
     def setOut(self, value: RefType) -> "McFunction":
         """
         AUTOSAR-compliant setter for out with method chaining.
-        
+
         Args:
             value: The out to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to out property setter (gets validation automatically)
         """
@@ -265,10 +268,10 @@ class McFunction(ARElement):
     def getRefCalprmSet(self) -> RefType:
         """
         AUTOSAR-compliant getter for refCalprmSet.
-        
+
         Returns:
             The refCalprmSet value
-        
+
         Note:
             Delegates to ref_calprm_set property (CODING_RULE_V2_00017)
         """
@@ -277,13 +280,13 @@ class McFunction(ARElement):
     def setRefCalprmSet(self, value: RefType) -> "McFunction":
         """
         AUTOSAR-compliant setter for refCalprmSet with method chaining.
-        
+
         Args:
             value: The refCalprmSet to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ref_calprm_set property setter (gets validation automatically)
         """
@@ -293,10 +296,10 @@ class McFunction(ARElement):
     def getSubFunction(self) -> List["McFunction"]:
         """
         AUTOSAR-compliant getter for subFunction.
-        
+
         Returns:
             The subFunction value
-        
+
         Note:
             Delegates to sub_function property (CODING_RULE_V2_00017)
         """
@@ -307,13 +310,13 @@ class McFunction(ARElement):
     def with_def_calprm_set(self, value: Optional[RefType]) -> "McFunction":
         """
         Set defCalprmSet and return self for chaining.
-        
+
         Args:
             value: The defCalprmSet to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_def_calprm_set("value")
         """
@@ -323,13 +326,13 @@ class McFunction(ARElement):
     def with_in_measurement(self, value: Optional[RefType]) -> "McFunction":
         """
         Set inMeasurement and return self for chaining.
-        
+
         Args:
             value: The inMeasurement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_in_measurement("value")
         """
@@ -339,13 +342,13 @@ class McFunction(ARElement):
     def with_loc(self, value: Optional[RefType]) -> "McFunction":
         """
         Set loc and return self for chaining.
-        
+
         Args:
             value: The loc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_loc("value")
         """
@@ -355,13 +358,13 @@ class McFunction(ARElement):
     def with_out(self, value: Optional[RefType]) -> "McFunction":
         """
         Set out and return self for chaining.
-        
+
         Args:
             value: The out to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_out("value")
         """
@@ -371,13 +374,13 @@ class McFunction(ARElement):
     def with_ref_calprm_set(self, value: Optional[RefType]) -> "McFunction":
         """
         Set refCalprmSet and return self for chaining.
-        
+
         Args:
             value: The refCalprmSet to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ref_calprm_set("value")
         """

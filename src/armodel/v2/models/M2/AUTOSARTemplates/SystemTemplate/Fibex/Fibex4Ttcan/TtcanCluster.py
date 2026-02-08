@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TtcanCluster(ARObject):
     """
     TTCAN bus specific cluster attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ttcan::TtcanTopology::TtcanCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 76, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class TtcanCluster(ARObject):
     def basic_cycle_length(self, value: Optional["Integer"]) -> None:
         """
         Set basicCycleLength with validation.
-        
+
         Args:
             value: The basicCycleLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class TtcanCluster(ARObject):
     def ntu(self, value: Optional["TimeValue"]) -> None:
         """
         Set ntu with validation.
-        
+
         Args:
             value: The ntu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class TtcanCluster(ARObject):
     def operation_mode(self, value: Optional["Boolean"]) -> None:
         """
         Set operationMode with validation.
-        
+
         Args:
             value: The operationMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +110,10 @@ class TtcanCluster(ARObject):
     def getBasicCycleLength(self) -> "Integer":
         """
         AUTOSAR-compliant getter for basicCycleLength.
-        
+
         Returns:
             The basicCycleLength value
-        
+
         Note:
             Delegates to basic_cycle_length property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class TtcanCluster(ARObject):
     def setBasicCycleLength(self, value: "Integer") -> "TtcanCluster":
         """
         AUTOSAR-compliant setter for basicCycleLength with method chaining.
-        
+
         Args:
             value: The basicCycleLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to basic_cycle_length property setter (gets validation automatically)
         """
@@ -135,10 +138,10 @@ class TtcanCluster(ARObject):
     def getNtu(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ntu.
-        
+
         Returns:
             The ntu value
-        
+
         Note:
             Delegates to ntu property (CODING_RULE_V2_00017)
         """
@@ -147,13 +150,13 @@ class TtcanCluster(ARObject):
     def setNtu(self, value: "TimeValue") -> "TtcanCluster":
         """
         AUTOSAR-compliant setter for ntu with method chaining.
-        
+
         Args:
             value: The ntu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ntu property setter (gets validation automatically)
         """
@@ -163,10 +166,10 @@ class TtcanCluster(ARObject):
     def getOperationMode(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for operationMode.
-        
+
         Returns:
             The operationMode value
-        
+
         Note:
             Delegates to operation_mode property (CODING_RULE_V2_00017)
         """
@@ -175,13 +178,13 @@ class TtcanCluster(ARObject):
     def setOperationMode(self, value: "Boolean") -> "TtcanCluster":
         """
         AUTOSAR-compliant setter for operationMode with method chaining.
-        
+
         Args:
             value: The operationMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_mode property setter (gets validation automatically)
         """
@@ -193,13 +196,13 @@ class TtcanCluster(ARObject):
     def with_basic_cycle_length(self, value: Optional["Integer"]) -> "TtcanCluster":
         """
         Set basicCycleLength and return self for chaining.
-        
+
         Args:
             value: The basicCycleLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_basic_cycle_length("value")
         """
@@ -209,13 +212,13 @@ class TtcanCluster(ARObject):
     def with_ntu(self, value: Optional["TimeValue"]) -> "TtcanCluster":
         """
         Set ntu and return self for chaining.
-        
+
         Args:
             value: The ntu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ntu("value")
         """
@@ -225,13 +228,13 @@ class TtcanCluster(ARObject):
     def with_operation_mode(self, value: Optional["Boolean"]) -> "TtcanCluster":
         """
         Set operationMode and return self for chaining.
-        
+
         Args:
             value: The operationMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_mode("value")
         """

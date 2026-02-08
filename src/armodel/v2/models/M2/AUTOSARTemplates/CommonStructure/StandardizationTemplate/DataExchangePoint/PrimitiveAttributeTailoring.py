@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class PrimitiveAttributeTailoring(AttributeTailoring):
     """
     Tailoring of primitive attributes. Primitive attributes are attributes that
     have a type which is marked by the stereotype <<primitive>> or
     <<enumeration>>
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::PrimitiveAttributeTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 111, Foundation R23-11)
     """
@@ -28,10 +28,10 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def default_value(self, value: Optional["DefaultValueApplication"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def value_restriction_severity(self, value: Optional["ValueRestrictionWith"]) -> None:
         """
         Set valueRestrictionSeverity with validation.
-        
+
         Args:
             value: The valueRestrictionSeverity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def getDefaultValue(self) -> "DefaultValueApplication":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -97,13 +97,13 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def setDefaultValue(self, value: "DefaultValueApplication") -> "PrimitiveAttributeTailoring":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -113,10 +113,10 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def getSubAttribute(self) -> List["PrimitiveAttribute"]:
         """
         AUTOSAR-compliant getter for subAttribute.
-        
+
         Returns:
             The subAttribute value
-        
+
         Note:
             Delegates to sub_attribute property (CODING_RULE_V2_00017)
         """
@@ -125,10 +125,10 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def getValueRestrictionSeverity(self) -> "ValueRestrictionWith":
         """
         AUTOSAR-compliant getter for valueRestrictionSeverity.
-        
+
         Returns:
             The valueRestrictionSeverity value
-        
+
         Note:
             Delegates to value_restriction_severity property (CODING_RULE_V2_00017)
         """
@@ -137,13 +137,13 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def setValueRestrictionSeverity(self, value: "ValueRestrictionWith") -> "PrimitiveAttributeTailoring":
         """
         AUTOSAR-compliant setter for valueRestrictionSeverity with method chaining.
-        
+
         Args:
             value: The valueRestrictionSeverity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value_restriction_severity property setter (gets validation automatically)
         """
@@ -155,13 +155,13 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def with_default_value(self, value: Optional["DefaultValueApplication"]) -> "PrimitiveAttributeTailoring":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """
@@ -171,13 +171,13 @@ class PrimitiveAttributeTailoring(AttributeTailoring):
     def with_value_restriction_severity(self, value: Optional["ValueRestrictionWith"]) -> "PrimitiveAttributeTailoring":
         """
         Set valueRestrictionSeverity and return self for chaining.
-        
+
         Args:
             value: The valueRestrictionSeverity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value_restriction_severity("value")
         """

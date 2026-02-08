@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class EcuStateMgrUserNeeds(ServiceNeeds):
     """
@@ -7,9 +5,9 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
     for one "user". This class currently contains no attributes. Its name can be
     regarded as a symbol identifying the user from the viewpoint of the
     component or module which owns this class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::EcuStateMgrUserNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 235, Classic
       Platform R23-11)

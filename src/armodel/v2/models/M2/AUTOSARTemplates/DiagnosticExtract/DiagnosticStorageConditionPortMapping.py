@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports with DiagnosticStorageConditionNeeds the
     DiagnosticStorage Condition is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticStorageConditionPortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 253, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def diagnostic(self, value: Optional["DiagnosticStorage"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -109,10 +109,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def getDiagnostic(self) -> "DiagnosticStorage":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def setDiagnostic(self, value: "DiagnosticStorage") -> "DiagnosticStorageConditionPortMapping":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -137,10 +137,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -149,13 +149,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticStorageConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -165,10 +165,10 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticStorageConditionPortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -195,13 +195,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def with_diagnostic(self, value: Optional["DiagnosticStorage"]) -> "DiagnosticStorageConditionPortMapping":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -211,13 +211,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticStorageConditionPortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -227,13 +227,13 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticStorageConditionPortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """

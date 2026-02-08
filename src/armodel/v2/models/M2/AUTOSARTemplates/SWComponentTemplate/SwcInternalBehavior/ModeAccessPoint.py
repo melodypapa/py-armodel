@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeAccessPoint(ARObject):
     """
@@ -9,9 +14,9 @@ class ModeAccessPoint(ARObject):
     Mode User. Its semantics implies the ability to access the current mode
     (provided by the RTE) of a ModeDeclaration GroupPrototype’s
     ModeDeclarationGroup.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup::ModeAccessPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 323, Classic
       Platform R23-11)
@@ -38,10 +43,10 @@ class ModeAccessPoint(ARObject):
     def ident(self, value: Optional["ModeAccessPointIdent"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +71,10 @@ class ModeAccessPoint(ARObject):
     def mode_group_instance_ref(self, value: RefType) -> None:
         """
         Set modeGroupInstanceRef with validation.
-        
+
         Args:
             value: The modeGroupInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class ModeAccessPoint(ARObject):
     def getIdent(self) -> "ModeAccessPointIdent":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -96,13 +101,13 @@ class ModeAccessPoint(ARObject):
     def setIdent(self, value: "ModeAccessPointIdent") -> "ModeAccessPoint":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -112,10 +117,10 @@ class ModeAccessPoint(ARObject):
     def getModeGroupInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for modeGroupInstanceRef.
-        
+
         Returns:
             The modeGroupInstanceRef value
-        
+
         Note:
             Delegates to mode_group_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -124,13 +129,13 @@ class ModeAccessPoint(ARObject):
     def setModeGroupInstanceRef(self, value: RefType) -> "ModeAccessPoint":
         """
         AUTOSAR-compliant setter for modeGroupInstanceRef with method chaining.
-        
+
         Args:
             value: The modeGroupInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_group_instance_ref property setter (gets validation automatically)
         """
@@ -142,13 +147,13 @@ class ModeAccessPoint(ARObject):
     def with_ident(self, value: Optional["ModeAccessPointIdent"]) -> "ModeAccessPoint":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -158,13 +163,13 @@ class ModeAccessPoint(ARObject):
     def with_mode_group_instance_ref(self, value: Optional[RefType]) -> "ModeAccessPoint":
         """
         Set modeGroupInstanceRef and return self for chaining.
-        
+
         Args:
             value: The modeGroupInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_group_instance_ref("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ConditionalChangeNad(LinConfigurationEntry):
     """
     Generates an conditional change NAD request. See ISO 17987 protocol
     specification for more information.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::ConditionalChangeNad
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 438, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def byte(self, value: Optional["Integer"]) -> None:
         """
         Set byte with validation.
-        
+
         Args:
             value: The byte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def invert(self, value: Optional["Integer"]) -> None:
         """
         Set invert with validation.
-        
+
         Args:
             value: The invert to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def mask(self, value: Optional["Integer"]) -> None:
         """
         Set mask with validation.
-        
+
         Args:
             value: The mask to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +140,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def new_nad(self, value: Optional["Integer"]) -> None:
         """
         Set newNad with validation.
-        
+
         Args:
             value: The newNad to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +162,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def getByte(self) -> "Integer":
         """
         AUTOSAR-compliant getter for byte.
-        
+
         Returns:
             The byte value
-        
+
         Note:
             Delegates to byte property (CODING_RULE_V2_00017)
         """
@@ -174,13 +174,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def setByte(self, value: "Integer") -> "ConditionalChangeNad":
         """
         AUTOSAR-compliant setter for byte with method chaining.
-        
+
         Args:
             value: The byte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to byte property setter (gets validation automatically)
         """
@@ -190,10 +190,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -202,13 +202,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def setId(self, value: "PositiveInteger") -> "ConditionalChangeNad":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -218,10 +218,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def getInvert(self) -> "Integer":
         """
         AUTOSAR-compliant getter for invert.
-        
+
         Returns:
             The invert value
-        
+
         Note:
             Delegates to invert property (CODING_RULE_V2_00017)
         """
@@ -230,13 +230,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def setInvert(self, value: "Integer") -> "ConditionalChangeNad":
         """
         AUTOSAR-compliant setter for invert with method chaining.
-        
+
         Args:
             value: The invert to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to invert property setter (gets validation automatically)
         """
@@ -246,10 +246,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def getMask(self) -> "Integer":
         """
         AUTOSAR-compliant getter for mask.
-        
+
         Returns:
             The mask value
-        
+
         Note:
             Delegates to mask property (CODING_RULE_V2_00017)
         """
@@ -258,13 +258,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def setMask(self, value: "Integer") -> "ConditionalChangeNad":
         """
         AUTOSAR-compliant setter for mask with method chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mask property setter (gets validation automatically)
         """
@@ -274,10 +274,10 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def getNewNad(self) -> "Integer":
         """
         AUTOSAR-compliant getter for newNad.
-        
+
         Returns:
             The newNad value
-        
+
         Note:
             Delegates to new_nad property (CODING_RULE_V2_00017)
         """
@@ -286,13 +286,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def setNewNad(self, value: "Integer") -> "ConditionalChangeNad":
         """
         AUTOSAR-compliant setter for newNad with method chaining.
-        
+
         Args:
             value: The newNad to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to new_nad property setter (gets validation automatically)
         """
@@ -304,13 +304,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def with_byte(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
         """
         Set byte and return self for chaining.
-        
+
         Args:
             value: The byte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_byte("value")
         """
@@ -320,13 +320,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def with_id(self, value: Optional["PositiveInteger"]) -> "ConditionalChangeNad":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -336,13 +336,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def with_invert(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
         """
         Set invert and return self for chaining.
-        
+
         Args:
             value: The invert to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_invert("value")
         """
@@ -352,13 +352,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def with_mask(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
         """
         Set mask and return self for chaining.
-        
+
         Args:
             value: The mask to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mask("value")
         """
@@ -368,13 +368,13 @@ class ConditionalChangeNad(LinConfigurationEntry):
     def with_new_nad(self, value: Optional["Integer"]) -> "ConditionalChangeNad":
         """
         Set newNad and return self for chaining.
-        
+
         Args:
             value: The newNad to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_new_nad("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class SwcImplementation(Implementation):
     """
     This meta-class represents a specialization of the general Implementation
     meta-class with respect to the usage in application software.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation::SwcImplementation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 344, Classic
       Platform R23-11)
@@ -33,10 +33,10 @@ class SwcImplementation(Implementation):
     def behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set behavior with validation.
-        
+
         Args:
             value: The behavior to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class SwcImplementation(Implementation):
     def required(self, value: Optional["String"]) -> None:
         """
         Set required with validation.
-        
+
         Args:
             value: The required to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +100,10 @@ class SwcImplementation(Implementation):
     def getBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
-        
+
         Returns:
             The behavior value
-        
+
         Note:
             Delegates to behavior property (CODING_RULE_V2_00017)
         """
@@ -112,13 +112,13 @@ class SwcImplementation(Implementation):
     def setBehavior(self, value: "SwcInternalBehavior") -> "SwcImplementation":
         """
         AUTOSAR-compliant setter for behavior with method chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to behavior property setter (gets validation automatically)
         """
@@ -128,10 +128,10 @@ class SwcImplementation(Implementation):
     def getPerInstance(self) -> List["PerInstanceMemory"]:
         """
         AUTOSAR-compliant getter for perInstance.
-        
+
         Returns:
             The perInstance value
-        
+
         Note:
             Delegates to per_instance property (CODING_RULE_V2_00017)
         """
@@ -140,10 +140,10 @@ class SwcImplementation(Implementation):
     def getRequired(self) -> "String":
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -152,13 +152,13 @@ class SwcImplementation(Implementation):
     def setRequired(self, value: "String") -> "SwcImplementation":
         """
         AUTOSAR-compliant setter for required with method chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to required property setter (gets validation automatically)
         """
@@ -170,13 +170,13 @@ class SwcImplementation(Implementation):
     def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcImplementation":
         """
         Set behavior and return self for chaining.
-        
+
         Args:
             value: The behavior to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_behavior("value")
         """
@@ -186,13 +186,13 @@ class SwcImplementation(Implementation):
     def with_required(self, value: Optional["String"]) -> "SwcImplementation":
         """
         Set required and return self for chaining.
-        
+
         Args:
             value: The required to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_required("value")
         """

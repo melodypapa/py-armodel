@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SporadicEventTriggering(EventTriggeringConstraint):
     """
     Describes the behavior of an event which occurs occasionally or singularly.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::SporadicEventTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 105, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def jitter(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set jitter with validation.
-        
+
         Args:
             value: The jitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def maximum_inter(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set maximumInter with validation.
-        
+
         Args:
             value: The maximumInter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def minimum_inter(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimumInter with validation.
-        
+
         Args:
             value: The minimumInter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +113,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def period(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set period with validation.
-        
+
         Args:
             value: The period to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -135,10 +135,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def getJitter(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for jitter.
-        
+
         Returns:
             The jitter value
-        
+
         Note:
             Delegates to jitter property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def setJitter(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
         """
         AUTOSAR-compliant setter for jitter with method chaining.
-        
+
         Args:
             value: The jitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to jitter property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def getMaximumInter(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for maximumInter.
-        
+
         Returns:
             The maximumInter value
-        
+
         Note:
             Delegates to maximum_inter property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def setMaximumInter(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
         """
         AUTOSAR-compliant setter for maximumInter with method chaining.
-        
+
         Args:
             value: The maximumInter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum_inter property setter (gets validation automatically)
         """
@@ -191,10 +191,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def getMinimumInter(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimumInter.
-        
+
         Returns:
             The minimumInter value
-        
+
         Note:
             Delegates to minimum_inter property (CODING_RULE_V2_00017)
         """
@@ -203,13 +203,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def setMinimumInter(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
         """
         AUTOSAR-compliant setter for minimumInter with method chaining.
-        
+
         Args:
             value: The minimumInter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_inter property setter (gets validation automatically)
         """
@@ -219,10 +219,10 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def getPeriod(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for period.
-        
+
         Returns:
             The period value
-        
+
         Note:
             Delegates to period property (CODING_RULE_V2_00017)
         """
@@ -231,13 +231,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def setPeriod(self, value: "MultidimensionalTime") -> "SporadicEventTriggering":
         """
         AUTOSAR-compliant setter for period with method chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to period property setter (gets validation automatically)
         """
@@ -249,13 +249,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def with_jitter(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
         """
         Set jitter and return self for chaining.
-        
+
         Args:
             value: The jitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_jitter("value")
         """
@@ -265,13 +265,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def with_maximum_inter(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
         """
         Set maximumInter and return self for chaining.
-        
+
         Args:
             value: The maximumInter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum_inter("value")
         """
@@ -281,13 +281,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def with_minimum_inter(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
         """
         Set minimumInter and return self for chaining.
-        
+
         Args:
             value: The minimumInter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_inter("value")
         """
@@ -297,13 +297,13 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def with_period(self, value: Optional["MultidimensionalTime"]) -> "SporadicEventTriggering":
         """
         Set period and return self for chaining.
-        
+
         Args:
             value: The period to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_period("value")
         """

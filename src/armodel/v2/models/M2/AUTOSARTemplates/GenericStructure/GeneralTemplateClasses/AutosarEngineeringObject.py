@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class AutosarEngineeringObject(EngineeringObject):
     """
     This denotes an engineering object being part of the process. It is a
     specialization of the abstract class EngineeringObject for usage within
     AUTOSAR.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject::AutosarEngineeringObject
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 132, Classic
       Platform R23-11)

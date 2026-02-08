@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PduActivationRoutingGroup(Identifiable):
     """
     Group of Pdus that can be activated or deactivated for transmission over a
     socket connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::PduActivationRoutingGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 488, Classic Platform R23-11)
     """
@@ -36,10 +40,10 @@ class PduActivationRoutingGroup(Identifiable):
     def event_group(self, value: RefType) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +66,10 @@ class PduActivationRoutingGroup(Identifiable):
     def getEventGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -74,13 +78,13 @@ class PduActivationRoutingGroup(Identifiable):
     def setEventGroup(self, value: RefType) -> "PduActivationRoutingGroup":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -90,10 +94,10 @@ class PduActivationRoutingGroup(Identifiable):
     def getIPduIdentifier(self) -> List["SoConIPduIdentifier"]:
         """
         AUTOSAR-compliant getter for iPduIdentifier.
-        
+
         Returns:
             The iPduIdentifier value
-        
+
         Note:
             Delegates to i_pdu_identifier property (CODING_RULE_V2_00017)
         """
@@ -104,13 +108,13 @@ class PduActivationRoutingGroup(Identifiable):
     def with_event_group(self, value: Optional[RefType]) -> "PduActivationRoutingGroup":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """

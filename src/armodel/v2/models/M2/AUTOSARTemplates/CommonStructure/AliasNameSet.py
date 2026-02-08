@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class AliasNameSet(ARElement):
     """
     This meta-class represents a set of AliasNames. The AliasNameSet can for
     example be an input to the A2L-Generator.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::AliasNameSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 174, Classic
       Platform R23-11)
@@ -32,10 +32,10 @@ class AliasNameSet(ARElement):
     def getAliasName(self) -> List["AliasNameAssignment"]:
         """
         AUTOSAR-compliant getter for aliasName.
-        
+
         Returns:
             The aliasName value
-        
+
         Note:
             Delegates to alias_name property (CODING_RULE_V2_00017)
         """

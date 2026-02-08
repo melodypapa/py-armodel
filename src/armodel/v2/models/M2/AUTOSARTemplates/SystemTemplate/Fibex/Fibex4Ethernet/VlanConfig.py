@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class VlanConfig(Identifiable):
     """
     VLAN Configuration attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::VlanConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 106, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class VlanConfig(Identifiable):
     def vlan_identifier(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vlanIdentifier with validation.
-        
+
         Args:
             value: The vlanIdentifier to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +54,10 @@ class VlanConfig(Identifiable):
     def getVlanIdentifier(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vlanIdentifier.
-        
+
         Returns:
             The vlanIdentifier value
-        
+
         Note:
             Delegates to vlan_identifier property (CODING_RULE_V2_00017)
         """
@@ -64,13 +66,13 @@ class VlanConfig(Identifiable):
     def setVlanIdentifier(self, value: "PositiveInteger") -> "VlanConfig":
         """
         AUTOSAR-compliant setter for vlanIdentifier with method chaining.
-        
+
         Args:
             value: The vlanIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vlan_identifier property setter (gets validation automatically)
         """
@@ -82,13 +84,13 @@ class VlanConfig(Identifiable):
     def with_vlan_identifier(self, value: Optional["PositiveInteger"]) -> "VlanConfig":
         """
         Set vlanIdentifier and return self for chaining.
-        
+
         Args:
             value: The vlanIdentifier to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vlan_identifier("value")
         """

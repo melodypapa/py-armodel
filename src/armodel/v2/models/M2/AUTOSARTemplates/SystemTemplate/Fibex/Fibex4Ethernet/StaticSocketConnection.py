@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class StaticSocketConnection(Identifiable):
     """
     Definition of static SocketConnection between the Socket that is defined by
     the aggregating Socket Address and the remoteAddress.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::StaticSocketConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 543, Classic Platform R23-11)
     """
@@ -38,10 +40,10 @@ class StaticSocketConnection(Identifiable):
     def remote_address(self, value: Optional["SocketAddress"]) -> None:
         """
         Set remoteAddress with validation.
-        
+
         Args:
             value: The remoteAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -69,10 +71,10 @@ class StaticSocketConnection(Identifiable):
     def tcp_connect(self, value: Optional["TimeValue"]) -> None:
         """
         Set tcpConnect with validation.
-        
+
         Args:
             value: The tcpConnect to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -98,10 +100,10 @@ class StaticSocketConnection(Identifiable):
     def tcp_role(self, value: Optional["TcpRoleEnum"]) -> None:
         """
         Set tcpRole with validation.
-        
+
         Args:
             value: The tcpRole to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +122,10 @@ class StaticSocketConnection(Identifiable):
     def getIPduIdentifier(self) -> List["SoConIPduIdentifier"]:
         """
         AUTOSAR-compliant getter for iPduIdentifier.
-        
+
         Returns:
             The iPduIdentifier value
-        
+
         Note:
             Delegates to i_pdu_identifier property (CODING_RULE_V2_00017)
         """
@@ -132,10 +134,10 @@ class StaticSocketConnection(Identifiable):
     def getRemoteAddress(self) -> "SocketAddress":
         """
         AUTOSAR-compliant getter for remoteAddress.
-        
+
         Returns:
             The remoteAddress value
-        
+
         Note:
             Delegates to remote_address property (CODING_RULE_V2_00017)
         """
@@ -144,13 +146,13 @@ class StaticSocketConnection(Identifiable):
     def setRemoteAddress(self, value: "SocketAddress") -> "StaticSocketConnection":
         """
         AUTOSAR-compliant setter for remoteAddress with method chaining.
-        
+
         Args:
             value: The remoteAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_address property setter (gets validation automatically)
         """
@@ -160,10 +162,10 @@ class StaticSocketConnection(Identifiable):
     def getTcpConnect(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for tcpConnect.
-        
+
         Returns:
             The tcpConnect value
-        
+
         Note:
             Delegates to tcp_connect property (CODING_RULE_V2_00017)
         """
@@ -172,13 +174,13 @@ class StaticSocketConnection(Identifiable):
     def setTcpConnect(self, value: "TimeValue") -> "StaticSocketConnection":
         """
         AUTOSAR-compliant setter for tcpConnect with method chaining.
-        
+
         Args:
             value: The tcpConnect to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_connect property setter (gets validation automatically)
         """
@@ -188,10 +190,10 @@ class StaticSocketConnection(Identifiable):
     def getTcpRole(self) -> "TcpRoleEnum":
         """
         AUTOSAR-compliant getter for tcpRole.
-        
+
         Returns:
             The tcpRole value
-        
+
         Note:
             Delegates to tcp_role property (CODING_RULE_V2_00017)
         """
@@ -200,13 +202,13 @@ class StaticSocketConnection(Identifiable):
     def setTcpRole(self, value: "TcpRoleEnum") -> "StaticSocketConnection":
         """
         AUTOSAR-compliant setter for tcpRole with method chaining.
-        
+
         Args:
             value: The tcpRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tcp_role property setter (gets validation automatically)
         """
@@ -218,13 +220,13 @@ class StaticSocketConnection(Identifiable):
     def with_remote_address(self, value: Optional["SocketAddress"]) -> "StaticSocketConnection":
         """
         Set remoteAddress and return self for chaining.
-        
+
         Args:
             value: The remoteAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_address("value")
         """
@@ -234,13 +236,13 @@ class StaticSocketConnection(Identifiable):
     def with_tcp_connect(self, value: Optional["TimeValue"]) -> "StaticSocketConnection":
         """
         Set tcpConnect and return self for chaining.
-        
+
         Args:
             value: The tcpConnect to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_connect("value")
         """
@@ -250,13 +252,13 @@ class StaticSocketConnection(Identifiable):
     def with_tcp_role(self, value: Optional["TcpRoleEnum"]) -> "StaticSocketConnection":
         """
         Set tcpRole and return self for chaining.
-        
+
         Args:
             value: The tcpRole to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tcp_role("value")
         """

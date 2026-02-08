@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class FMFeatureSelectionSet(ARElement):
     """
     A FMFeatureSelectionSet is a set of FMFeatures that describes a specific
     product.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureSelectionSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 44, Foundation
       R23-11)
@@ -46,10 +49,10 @@ class FMFeatureSelectionSet(ARElement):
     def getFeatureModel(self) -> List["FMFeatureModel"]:
         """
         AUTOSAR-compliant getter for featureModel.
-        
+
         Returns:
             The featureModel value
-        
+
         Note:
             Delegates to feature_model property (CODING_RULE_V2_00017)
         """
@@ -58,10 +61,10 @@ class FMFeatureSelectionSet(ARElement):
     def getInclude(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for include.
-        
+
         Returns:
             The include value
-        
+
         Note:
             Delegates to include property (CODING_RULE_V2_00017)
         """
@@ -70,10 +73,10 @@ class FMFeatureSelectionSet(ARElement):
     def getSelection(self) -> List["FMFeatureSelection"]:
         """
         AUTOSAR-compliant getter for selection.
-        
+
         Returns:
             The selection value
-        
+
         Note:
             Delegates to selection property (CODING_RULE_V2_00017)
         """

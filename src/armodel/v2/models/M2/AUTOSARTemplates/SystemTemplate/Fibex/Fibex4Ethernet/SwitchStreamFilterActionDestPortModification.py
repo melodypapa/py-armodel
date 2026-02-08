@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwitchStreamFilterActionDestPortModification(Identifiable):
     """
     Defines the action to modify the destination port(s) determined by the frame
     forwarding process for an particular Ethernet frame. Either the egress
     destination of an Ethernet frame is extended or overwritten.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::SwitchStreamFilterActionDestPortModification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 140, Classic Platform R23-11)
     """
@@ -41,10 +43,10 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def modification(self, value: Optional["SwitchStreamFilter"]) -> None:
         """
         Set modification with validation.
-        
+
         Args:
             value: The modification to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def getEgressPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for egressPort.
-        
+
         Returns:
             The egressPort value
-        
+
         Note:
             Delegates to egress_port property (CODING_RULE_V2_00017)
         """
@@ -75,10 +77,10 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def getModification(self) -> "SwitchStreamFilter":
         """
         AUTOSAR-compliant getter for modification.
-        
+
         Returns:
             The modification value
-        
+
         Note:
             Delegates to modification property (CODING_RULE_V2_00017)
         """
@@ -87,13 +89,13 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def setModification(self, value: "SwitchStreamFilter") -> "SwitchStreamFilterActionDestPortModification":
         """
         AUTOSAR-compliant setter for modification with method chaining.
-        
+
         Args:
             value: The modification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to modification property setter (gets validation automatically)
         """
@@ -105,13 +107,13 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
     def with_modification(self, value: Optional["SwitchStreamFilter"]) -> "SwitchStreamFilterActionDestPortModification":
         """
         Set modification and return self for chaining.
-        
+
         Args:
             value: The modification to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_modification("value")
         """

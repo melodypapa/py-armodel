@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class LOverviewParagraph(ARObject):
     """
     MixedContentForOverviewParagraph in one particular language. The language is
     denoted in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LOverviewParagraph
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 348, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class LOverviewParagraph(ARObject):
     def blueprint_value(self, value: Optional["String"]) -> None:
         """
         Set blueprintValue with validation.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class LOverviewParagraph(ARObject):
     def getBlueprintValue(self) -> "String":
         """
         AUTOSAR-compliant getter for blueprintValue.
-        
+
         Returns:
             The blueprintValue value
-        
+
         Note:
             Delegates to blueprint_value property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class LOverviewParagraph(ARObject):
     def setBlueprintValue(self, value: "String") -> "LOverviewParagraph":
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint_value property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class LOverviewParagraph(ARObject):
     def with_blueprint_value(self, value: Optional["String"]) -> "LOverviewParagraph":
         """
         Set blueprintValue and return self for chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint_value("value")
         """

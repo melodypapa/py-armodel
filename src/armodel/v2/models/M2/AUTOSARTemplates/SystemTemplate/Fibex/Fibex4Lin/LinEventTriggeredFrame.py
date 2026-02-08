@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class LinEventTriggeredFrame(LinFrame):
     """
@@ -11,9 +11,9 @@ class LinEventTriggeredFrame(LinFrame):
     unconditional frame is updated. The LIN Master discovers and purges
     collisions with the collisionResolvingScheduleTable. The event controlled
     frame shall not contain any Pdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::LinEventTriggeredFrame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 430, Classic Platform R23-11)
     """
@@ -33,10 +33,10 @@ class LinEventTriggeredFrame(LinFrame):
     def collision_schedule(self, value: Optional["LinScheduleTable"]) -> None:
         """
         Set collisionSchedule with validation.
-        
+
         Args:
             value: The collisionSchedule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class LinEventTriggeredFrame(LinFrame):
     def getCollisionSchedule(self) -> "LinScheduleTable":
         """
         AUTOSAR-compliant getter for collisionSchedule.
-        
+
         Returns:
             The collisionSchedule value
-        
+
         Note:
             Delegates to collision_schedule property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class LinEventTriggeredFrame(LinFrame):
     def setCollisionSchedule(self, value: "LinScheduleTable") -> "LinEventTriggeredFrame":
         """
         AUTOSAR-compliant setter for collisionSchedule with method chaining.
-        
+
         Args:
             value: The collisionSchedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collision_schedule property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class LinEventTriggeredFrame(LinFrame):
     def getLinUnconditional(self) -> List["LinUnconditionalFrame"]:
         """
         AUTOSAR-compliant getter for linUnconditional.
-        
+
         Returns:
             The linUnconditional value
-        
+
         Note:
             Delegates to lin_unconditional property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class LinEventTriggeredFrame(LinFrame):
     def with_collision_schedule(self, value: Optional["LinScheduleTable"]) -> "LinEventTriggeredFrame":
         """
         Set collisionSchedule and return self for chaining.
-        
+
         Args:
             value: The collisionSchedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collision_schedule("value")
         """

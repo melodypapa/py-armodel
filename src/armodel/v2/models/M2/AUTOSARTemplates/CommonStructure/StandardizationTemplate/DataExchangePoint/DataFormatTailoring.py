@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DataFormatTailoring(ARObject):
     """
     This class collects all rules that tailor the AUTOSAR templates for a
     specific data exchange point.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::DataFormatTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 180, Foundation R23-11)
     """
@@ -37,10 +40,10 @@ class DataFormatTailoring(ARObject):
     def getClassTailoring(self) -> List["ClassTailoring"]:
         """
         AUTOSAR-compliant getter for classTailoring.
-        
+
         Returns:
             The classTailoring value
-        
+
         Note:
             Delegates to class_tailoring property (CODING_RULE_V2_00017)
         """
@@ -49,10 +52,10 @@ class DataFormatTailoring(ARObject):
     def getConstraint(self) -> List["ConstraintTailoring"]:
         """
         AUTOSAR-compliant getter for constraint.
-        
+
         Returns:
             The constraint value
-        
+
         Note:
             Delegates to constraint property (CODING_RULE_V2_00017)
         """

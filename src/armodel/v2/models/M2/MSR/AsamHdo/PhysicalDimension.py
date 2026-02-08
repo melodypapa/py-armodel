@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class PhysicalDimension(ARElement):
     """
@@ -10,9 +10,9 @@ class PhysicalDimension(ARElement):
     number, e.g. to compute the square root of a given physical quantity. In
     this case the exponent value would be a rational number where the numerator
     value is 1 and the denominator value is 2.
-    
+
     Package: M2::MSR::AsamHdo::Units::PhysicalDimension
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 398, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class PhysicalDimension(ARElement):
     def current_exp(self, value: Optional["Numerical"]) -> None:
         """
         Set currentExp with validation.
-        
+
         Args:
             value: The currentExp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class PhysicalDimension(ARElement):
     def length_exp(self, value: Optional["Numerical"]) -> None:
         """
         Set lengthExp with validation.
-        
+
         Args:
             value: The lengthExp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class PhysicalDimension(ARElement):
     def luminous(self, value: Optional["Numerical"]) -> None:
         """
         Set luminous with validation.
-        
+
         Args:
             value: The luminous to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class PhysicalDimension(ARElement):
     def mass_exp(self, value: Optional["Numerical"]) -> None:
         """
         Set massExp with validation.
-        
+
         Args:
             value: The massExp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +145,10 @@ class PhysicalDimension(ARElement):
     def molar_amount(self, value: Optional["Numerical"]) -> None:
         """
         Set molarAmount with validation.
-        
+
         Args:
             value: The molarAmount to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +173,10 @@ class PhysicalDimension(ARElement):
     def temperature_exp(self, value: Optional["Numerical"]) -> None:
         """
         Set temperatureExp with validation.
-        
+
         Args:
             value: The temperatureExp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -201,10 +201,10 @@ class PhysicalDimension(ARElement):
     def time_exp(self, value: Optional["Numerical"]) -> None:
         """
         Set timeExp with validation.
-        
+
         Args:
             value: The timeExp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -223,10 +223,10 @@ class PhysicalDimension(ARElement):
     def getCurrentExp(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for currentExp.
-        
+
         Returns:
             The currentExp value
-        
+
         Note:
             Delegates to current_exp property (CODING_RULE_V2_00017)
         """
@@ -235,13 +235,13 @@ class PhysicalDimension(ARElement):
     def setCurrentExp(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for currentExp with method chaining.
-        
+
         Args:
             value: The currentExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to current_exp property setter (gets validation automatically)
         """
@@ -251,10 +251,10 @@ class PhysicalDimension(ARElement):
     def getLengthExp(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for lengthExp.
-        
+
         Returns:
             The lengthExp value
-        
+
         Note:
             Delegates to length_exp property (CODING_RULE_V2_00017)
         """
@@ -263,13 +263,13 @@ class PhysicalDimension(ARElement):
     def setLengthExp(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for lengthExp with method chaining.
-        
+
         Args:
             value: The lengthExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length_exp property setter (gets validation automatically)
         """
@@ -279,10 +279,10 @@ class PhysicalDimension(ARElement):
     def getLuminous(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for luminous.
-        
+
         Returns:
             The luminous value
-        
+
         Note:
             Delegates to luminous property (CODING_RULE_V2_00017)
         """
@@ -291,13 +291,13 @@ class PhysicalDimension(ARElement):
     def setLuminous(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for luminous with method chaining.
-        
+
         Args:
             value: The luminous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to luminous property setter (gets validation automatically)
         """
@@ -307,10 +307,10 @@ class PhysicalDimension(ARElement):
     def getMassExp(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for massExp.
-        
+
         Returns:
             The massExp value
-        
+
         Note:
             Delegates to mass_exp property (CODING_RULE_V2_00017)
         """
@@ -319,13 +319,13 @@ class PhysicalDimension(ARElement):
     def setMassExp(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for massExp with method chaining.
-        
+
         Args:
             value: The massExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mass_exp property setter (gets validation automatically)
         """
@@ -335,10 +335,10 @@ class PhysicalDimension(ARElement):
     def getMolarAmount(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for molarAmount.
-        
+
         Returns:
             The molarAmount value
-        
+
         Note:
             Delegates to molar_amount property (CODING_RULE_V2_00017)
         """
@@ -347,13 +347,13 @@ class PhysicalDimension(ARElement):
     def setMolarAmount(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for molarAmount with method chaining.
-        
+
         Args:
             value: The molarAmount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to molar_amount property setter (gets validation automatically)
         """
@@ -363,10 +363,10 @@ class PhysicalDimension(ARElement):
     def getTemperatureExp(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for temperatureExp.
-        
+
         Returns:
             The temperatureExp value
-        
+
         Note:
             Delegates to temperature_exp property (CODING_RULE_V2_00017)
         """
@@ -375,13 +375,13 @@ class PhysicalDimension(ARElement):
     def setTemperatureExp(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for temperatureExp with method chaining.
-        
+
         Args:
             value: The temperatureExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to temperature_exp property setter (gets validation automatically)
         """
@@ -391,10 +391,10 @@ class PhysicalDimension(ARElement):
     def getTimeExp(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for timeExp.
-        
+
         Returns:
             The timeExp value
-        
+
         Note:
             Delegates to time_exp property (CODING_RULE_V2_00017)
         """
@@ -403,13 +403,13 @@ class PhysicalDimension(ARElement):
     def setTimeExp(self, value: "Numerical") -> "PhysicalDimension":
         """
         AUTOSAR-compliant setter for timeExp with method chaining.
-        
+
         Args:
             value: The timeExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_exp property setter (gets validation automatically)
         """
@@ -421,13 +421,13 @@ class PhysicalDimension(ARElement):
     def with_current_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set currentExp and return self for chaining.
-        
+
         Args:
             value: The currentExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_current_exp("value")
         """
@@ -437,13 +437,13 @@ class PhysicalDimension(ARElement):
     def with_length_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set lengthExp and return self for chaining.
-        
+
         Args:
             value: The lengthExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length_exp("value")
         """
@@ -453,13 +453,13 @@ class PhysicalDimension(ARElement):
     def with_luminous(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set luminous and return self for chaining.
-        
+
         Args:
             value: The luminous to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_luminous("value")
         """
@@ -469,13 +469,13 @@ class PhysicalDimension(ARElement):
     def with_mass_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set massExp and return self for chaining.
-        
+
         Args:
             value: The massExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mass_exp("value")
         """
@@ -485,13 +485,13 @@ class PhysicalDimension(ARElement):
     def with_molar_amount(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set molarAmount and return self for chaining.
-        
+
         Args:
             value: The molarAmount to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_molar_amount("value")
         """
@@ -501,13 +501,13 @@ class PhysicalDimension(ARElement):
     def with_temperature_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set temperatureExp and return self for chaining.
-        
+
         Args:
             value: The temperatureExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_temperature_exp("value")
         """
@@ -517,13 +517,13 @@ class PhysicalDimension(ARElement):
     def with_time_exp(self, value: Optional["Numerical"]) -> "PhysicalDimension":
         """
         Set timeExp and return self for chaining.
-        
+
         Args:
             value: The timeExp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_exp("value")
         """

@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class LatencyTimingConstraint(TimingConstraint):
     """
@@ -7,9 +7,9 @@ class LatencyTimingConstraint(TimingConstraint):
     occurrence of the corresponding response of that scope. In contrast to
     scope, a causal dependency between the stimulus and the corresponding
     response of the scope is required.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint::LatencyTimingConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 95, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def latency(self, value: Optional["LatencyConstraintType"]) -> None:
         """
         Set latency with validation.
-        
+
         Args:
             value: The latency to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def maximum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set maximum with validation.
-        
+
         Args:
             value: The maximum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +87,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def minimum(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set minimum with validation.
-        
+
         Args:
             value: The minimum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +116,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def nominal(self, value: Optional["MultidimensionalTime"]) -> None:
         """
         Set nominal with validation.
-        
+
         Args:
             value: The nominal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def scope(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set scope with validation.
-        
+
         Args:
             value: The scope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def getLatency(self) -> "LatencyConstraintType":
         """
         AUTOSAR-compliant getter for latency.
-        
+
         Returns:
             The latency value
-        
+
         Note:
             Delegates to latency property (CODING_RULE_V2_00017)
         """
@@ -178,13 +178,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def setLatency(self, value: "LatencyConstraintType") -> "LatencyTimingConstraint":
         """
         AUTOSAR-compliant setter for latency with method chaining.
-        
+
         Args:
             value: The latency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to latency property setter (gets validation automatically)
         """
@@ -194,10 +194,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def getMaximum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for maximum.
-        
+
         Returns:
             The maximum value
-        
+
         Note:
             Delegates to maximum property (CODING_RULE_V2_00017)
         """
@@ -206,13 +206,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def setMaximum(self, value: "MultidimensionalTime") -> "LatencyTimingConstraint":
         """
         AUTOSAR-compliant setter for maximum with method chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to maximum property setter (gets validation automatically)
         """
@@ -222,10 +222,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def getMinimum(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for minimum.
-        
+
         Returns:
             The minimum value
-        
+
         Note:
             Delegates to minimum property (CODING_RULE_V2_00017)
         """
@@ -234,13 +234,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def setMinimum(self, value: "MultidimensionalTime") -> "LatencyTimingConstraint":
         """
         AUTOSAR-compliant setter for minimum with method chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum property setter (gets validation automatically)
         """
@@ -250,10 +250,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def getNominal(self) -> "MultidimensionalTime":
         """
         AUTOSAR-compliant getter for nominal.
-        
+
         Returns:
             The nominal value
-        
+
         Note:
             Delegates to nominal property (CODING_RULE_V2_00017)
         """
@@ -262,13 +262,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def setNominal(self, value: "MultidimensionalTime") -> "LatencyTimingConstraint":
         """
         AUTOSAR-compliant setter for nominal with method chaining.
-        
+
         Args:
             value: The nominal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nominal property setter (gets validation automatically)
         """
@@ -278,10 +278,10 @@ class LatencyTimingConstraint(TimingConstraint):
     def getScope(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for scope.
-        
+
         Returns:
             The scope value
-        
+
         Note:
             Delegates to scope property (CODING_RULE_V2_00017)
         """
@@ -290,13 +290,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def setScope(self, value: "TimingDescriptionEvent") -> "LatencyTimingConstraint":
         """
         AUTOSAR-compliant setter for scope with method chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scope property setter (gets validation automatically)
         """
@@ -308,13 +308,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def with_latency(self, value: Optional["LatencyConstraintType"]) -> "LatencyTimingConstraint":
         """
         Set latency and return self for chaining.
-        
+
         Args:
             value: The latency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_latency("value")
         """
@@ -324,13 +324,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def with_maximum(self, value: Optional["MultidimensionalTime"]) -> "LatencyTimingConstraint":
         """
         Set maximum and return self for chaining.
-        
+
         Args:
             value: The maximum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_maximum("value")
         """
@@ -340,13 +340,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def with_minimum(self, value: Optional["MultidimensionalTime"]) -> "LatencyTimingConstraint":
         """
         Set minimum and return self for chaining.
-        
+
         Args:
             value: The minimum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum("value")
         """
@@ -356,13 +356,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def with_nominal(self, value: Optional["MultidimensionalTime"]) -> "LatencyTimingConstraint":
         """
         Set nominal and return self for chaining.
-        
+
         Args:
             value: The nominal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nominal("value")
         """
@@ -372,13 +372,13 @@ class LatencyTimingConstraint(TimingConstraint):
     def with_scope(self, value: Optional["TimingDescriptionEvent"]) -> "LatencyTimingConstraint":
         """
         Set scope and return self for chaining.
-        
+
         Args:
             value: The scope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scope("value")
         """

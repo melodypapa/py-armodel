@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class TDEventCycleStart(TDEventCom, ABC):
     """
     This is the abstract parent class to describe timing events related to a
     point in time where a communication cycle starts. Via the attribute
     "cycleRepetition", a filtered view to the cycle start can be defined.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventCycleStart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 71, Classic Platform R23-11)
     """
@@ -30,10 +31,10 @@ class TDEventCycleStart(TDEventCom, ABC):
     def cycle_repetition(self, value: Optional["Integer"]) -> None:
         """
         Set cycleRepetition with validation.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class TDEventCycleStart(TDEventCom, ABC):
     def getCycleRepetition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for cycleRepetition.
-        
+
         Returns:
             The cycleRepetition value
-        
+
         Note:
             Delegates to cycle_repetition property (CODING_RULE_V2_00017)
         """
@@ -64,13 +65,13 @@ class TDEventCycleStart(TDEventCom, ABC):
     def setCycleRepetition(self, value: "Integer") -> "TDEventCycleStart":
         """
         AUTOSAR-compliant setter for cycleRepetition with method chaining.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_repetition property setter (gets validation automatically)
         """
@@ -82,13 +83,13 @@ class TDEventCycleStart(TDEventCom, ABC):
     def with_cycle_repetition(self, value: Optional["Integer"]) -> "TDEventCycleStart":
         """
         Set cycleRepetition and return self for chaining.
-        
+
         Args:
             value: The cycleRepetition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_repetition("value")
         """

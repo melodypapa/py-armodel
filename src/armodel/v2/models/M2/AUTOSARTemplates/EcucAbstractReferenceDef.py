@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     """
     Common class to gather the attributes for the definition of references.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractReferenceDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 71, Classic Platform R23-11)
     """
@@ -37,10 +38,10 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     def with_auto(self, value: Optional["Boolean"]) -> None:
         """
         Set withAuto with validation.
-        
+
         Args:
             value: The withAuto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +60,10 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     def getWithAuto(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for withAuto.
-        
+
         Returns:
             The withAuto value
-        
+
         Note:
             Delegates to with_auto property (CODING_RULE_V2_00017)
         """
@@ -71,13 +72,13 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     def setWithAuto(self, value: "Boolean") -> "EcucAbstractReferenceDef":
         """
         AUTOSAR-compliant setter for withAuto with method chaining.
-        
+
         Args:
             value: The withAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to with_auto property setter (gets validation automatically)
         """
@@ -89,13 +90,13 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     def with_with_auto(self, value: Optional["Boolean"]) -> "EcucAbstractReferenceDef":
         """
         Set withAuto and return self for chaining.
-        
+
         Args:
             value: The withAuto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_with_auto("value")
         """

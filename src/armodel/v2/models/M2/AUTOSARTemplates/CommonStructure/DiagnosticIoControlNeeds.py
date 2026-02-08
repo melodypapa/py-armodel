@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     """
@@ -7,9 +7,9 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     Communication Manager (DCM) which are not related to a particular item (e.g.
     a PID). The main use case is the mapping of service ports to the Dcm which
     are not related to a particular item.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticIoControlNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 248, Classic
       Platform R23-11)
@@ -35,10 +35,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def current_value(self, value: Optional["DiagnosticValueNeeds"]) -> None:
         """
         Set currentValue with validation.
-        
+
         Args:
             value: The currentValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def freeze_current(self, value: Optional["Boolean"]) -> None:
         """
         Set freezeCurrent with validation.
-        
+
         Args:
             value: The freezeCurrent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def reset_to_default(self, value: Optional["Boolean"]) -> None:
         """
         Set resetToDefault with validation.
-        
+
         Args:
             value: The resetToDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def short_term(self, value: Optional["Boolean"]) -> None:
         """
         Set shortTerm with validation.
-        
+
         Args:
             value: The shortTerm to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -146,10 +146,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getCurrentValue(self) -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant getter for currentValue.
-        
+
         Returns:
             The currentValue value
-        
+
         Note:
             Delegates to current_value property (CODING_RULE_V2_00017)
         """
@@ -158,13 +158,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setCurrentValue(self, value: "DiagnosticValueNeeds") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for currentValue with method chaining.
-        
+
         Args:
             value: The currentValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to current_value property setter (gets validation automatically)
         """
@@ -174,10 +174,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getFreezeCurrent(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for freezeCurrent.
-        
+
         Returns:
             The freezeCurrent value
-        
+
         Note:
             Delegates to freeze_current property (CODING_RULE_V2_00017)
         """
@@ -186,13 +186,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setFreezeCurrent(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for freezeCurrent with method chaining.
-        
+
         Args:
             value: The freezeCurrent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freeze_current property setter (gets validation automatically)
         """
@@ -202,10 +202,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getResetToDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for resetToDefault.
-        
+
         Returns:
             The resetToDefault value
-        
+
         Note:
             Delegates to reset_to_default property (CODING_RULE_V2_00017)
         """
@@ -214,13 +214,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setResetToDefault(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for resetToDefault with method chaining.
-        
+
         Args:
             value: The resetToDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reset_to_default property setter (gets validation automatically)
         """
@@ -230,10 +230,10 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def getShortTerm(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for shortTerm.
-        
+
         Returns:
             The shortTerm value
-        
+
         Note:
             Delegates to short_term property (CODING_RULE_V2_00017)
         """
@@ -242,13 +242,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def setShortTerm(self, value: "Boolean") -> "DiagnosticIoControlNeeds":
         """
         AUTOSAR-compliant setter for shortTerm with method chaining.
-        
+
         Args:
             value: The shortTerm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_term property setter (gets validation automatically)
         """
@@ -260,13 +260,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_current_value(self, value: Optional["DiagnosticValueNeeds"]) -> "DiagnosticIoControlNeeds":
         """
         Set currentValue and return self for chaining.
-        
+
         Args:
             value: The currentValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_current_value("value")
         """
@@ -276,13 +276,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_freeze_current(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
         """
         Set freezeCurrent and return self for chaining.
-        
+
         Args:
             value: The freezeCurrent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freeze_current("value")
         """
@@ -292,13 +292,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_reset_to_default(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
         """
         Set resetToDefault and return self for chaining.
-        
+
         Args:
             value: The resetToDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reset_to_default("value")
         """
@@ -308,13 +308,13 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     def with_short_term(self, value: Optional["Boolean"]) -> "DiagnosticIoControlNeeds":
         """
         Set shortTerm and return self for chaining.
-        
+
         Args:
             value: The shortTerm to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_term("value")
         """

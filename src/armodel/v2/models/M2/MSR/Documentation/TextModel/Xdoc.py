@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Xdoc(SingleLanguageReferrable):
     """
     This meta-class represents the ability to refer to an external document
     which can be rendered as printed matter.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Xdoc
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 319, Foundation
       R23-11)
@@ -28,10 +28,10 @@ class Xdoc(SingleLanguageReferrable):
     def date(self, value: Optional["DateTime"]) -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class Xdoc(SingleLanguageReferrable):
     def number(self, value: Optional["String"]) -> None:
         """
         Set number with validation.
-        
+
         Args:
             value: The number to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class Xdoc(SingleLanguageReferrable):
     def position(self, value: Optional["String"]) -> None:
         """
         Set position with validation.
-        
+
         Args:
             value: The position to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +114,10 @@ class Xdoc(SingleLanguageReferrable):
     def publisher(self, value: Optional["String"]) -> None:
         """
         Set publisher with validation.
-        
+
         Args:
             value: The publisher to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class Xdoc(SingleLanguageReferrable):
     def state(self, value: Optional["String"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -170,10 +170,10 @@ class Xdoc(SingleLanguageReferrable):
     def url(self, value: Optional["Url"]) -> None:
         """
         Set url with validation.
-        
+
         Args:
             value: The url to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -192,10 +192,10 @@ class Xdoc(SingleLanguageReferrable):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class Xdoc(SingleLanguageReferrable):
     def setDate(self, value: "DateTime") -> "Xdoc":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -220,10 +220,10 @@ class Xdoc(SingleLanguageReferrable):
     def getNumber(self) -> "String":
         """
         AUTOSAR-compliant getter for number.
-        
+
         Returns:
             The number value
-        
+
         Note:
             Delegates to number property (CODING_RULE_V2_00017)
         """
@@ -232,13 +232,13 @@ class Xdoc(SingleLanguageReferrable):
     def setNumber(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for number with method chaining.
-        
+
         Args:
             value: The number to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number property setter (gets validation automatically)
         """
@@ -248,10 +248,10 @@ class Xdoc(SingleLanguageReferrable):
     def getPosition(self) -> "String":
         """
         AUTOSAR-compliant getter for position.
-        
+
         Returns:
             The position value
-        
+
         Note:
             Delegates to position property (CODING_RULE_V2_00017)
         """
@@ -260,13 +260,13 @@ class Xdoc(SingleLanguageReferrable):
     def setPosition(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for position with method chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position property setter (gets validation automatically)
         """
@@ -276,10 +276,10 @@ class Xdoc(SingleLanguageReferrable):
     def getPublisher(self) -> "String":
         """
         AUTOSAR-compliant getter for publisher.
-        
+
         Returns:
             The publisher value
-        
+
         Note:
             Delegates to publisher property (CODING_RULE_V2_00017)
         """
@@ -288,13 +288,13 @@ class Xdoc(SingleLanguageReferrable):
     def setPublisher(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for publisher with method chaining.
-        
+
         Args:
             value: The publisher to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to publisher property setter (gets validation automatically)
         """
@@ -304,10 +304,10 @@ class Xdoc(SingleLanguageReferrable):
     def getState(self) -> "String":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -316,13 +316,13 @@ class Xdoc(SingleLanguageReferrable):
     def setState(self, value: "String") -> "Xdoc":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -332,10 +332,10 @@ class Xdoc(SingleLanguageReferrable):
     def getUrl(self) -> "Url":
         """
         AUTOSAR-compliant getter for url.
-        
+
         Returns:
             The url value
-        
+
         Note:
             Delegates to url property (CODING_RULE_V2_00017)
         """
@@ -344,13 +344,13 @@ class Xdoc(SingleLanguageReferrable):
     def setUrl(self, value: "Url") -> "Xdoc":
         """
         AUTOSAR-compliant setter for url with method chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to url property setter (gets validation automatically)
         """
@@ -362,13 +362,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_date(self, value: Optional["DateTime"]) -> "Xdoc":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -378,13 +378,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_number(self, value: Optional["String"]) -> "Xdoc":
         """
         Set number and return self for chaining.
-        
+
         Args:
             value: The number to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number("value")
         """
@@ -394,13 +394,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_position(self, value: Optional["String"]) -> "Xdoc":
         """
         Set position and return self for chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position("value")
         """
@@ -410,13 +410,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_publisher(self, value: Optional["String"]) -> "Xdoc":
         """
         Set publisher and return self for chaining.
-        
+
         Args:
             value: The publisher to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_publisher("value")
         """
@@ -426,13 +426,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_state(self, value: Optional["String"]) -> "Xdoc":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """
@@ -442,13 +442,13 @@ class Xdoc(SingleLanguageReferrable):
     def with_url(self, value: Optional["Url"]) -> "Xdoc":
         """
         Set url and return self for chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_url("value")
         """

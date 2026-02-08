@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     """
@@ -15,9 +15,9 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     specifications (SWS). (cid:53) 245 of 381 Document ID 89:
     AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Basic Software Module
     Description Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticValueNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 245, Classic
       Platform R23-11)
@@ -44,10 +44,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +75,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> None:
         """
         Set diagnosticValue with validation.
-        
+
         Args:
             value: The diagnosticValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +105,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def fixed_length(self, value: Optional["Boolean"]) -> None:
         """
         Set fixedLength with validation.
-        
+
         Args:
             value: The fixedLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -135,10 +135,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def processing_style(self, value: Optional["DiagnosticProcessing"]) -> None:
         """
         Set processingStyle with validation.
-        
+
         Args:
             value: The processingStyle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -157,10 +157,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -169,13 +169,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setDataLength(self, value: "PositiveInteger") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -185,10 +185,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDiagnosticValue(self) -> "DiagnosticValueAccess":
         """
         AUTOSAR-compliant getter for diagnosticValue.
-        
+
         Returns:
             The diagnosticValue value
-        
+
         Note:
             Delegates to diagnostic_value property (CODING_RULE_V2_00017)
         """
@@ -197,13 +197,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setDiagnosticValue(self, value: "DiagnosticValueAccess") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for diagnosticValue with method chaining.
-        
+
         Args:
             value: The diagnosticValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_value property setter (gets validation automatically)
         """
@@ -213,10 +213,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getFixedLength(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for fixedLength.
-        
+
         Returns:
             The fixedLength value
-        
+
         Note:
             Delegates to fixed_length property (CODING_RULE_V2_00017)
         """
@@ -225,13 +225,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setFixedLength(self, value: "Boolean") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for fixedLength with method chaining.
-        
+
         Args:
             value: The fixedLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fixed_length property setter (gets validation automatically)
         """
@@ -241,10 +241,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getProcessingStyle(self) -> "DiagnosticProcessing":
         """
         AUTOSAR-compliant getter for processingStyle.
-        
+
         Returns:
             The processingStyle value
-        
+
         Note:
             Delegates to processing_style property (CODING_RULE_V2_00017)
         """
@@ -253,13 +253,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setProcessingStyle(self, value: "DiagnosticProcessing") -> "DiagnosticValueNeeds":
         """
         AUTOSAR-compliant setter for processingStyle with method chaining.
-        
+
         Args:
             value: The processingStyle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to processing_style property setter (gets validation automatically)
         """
@@ -271,13 +271,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "DiagnosticValueNeeds":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -287,13 +287,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> "DiagnosticValueNeeds":
         """
         Set diagnosticValue and return self for chaining.
-        
+
         Args:
             value: The diagnosticValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_value("value")
         """
@@ -303,13 +303,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_fixed_length(self, value: Optional["Boolean"]) -> "DiagnosticValueNeeds":
         """
         Set fixedLength and return self for chaining.
-        
+
         Args:
             value: The fixedLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fixed_length("value")
         """
@@ -319,13 +319,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def with_processing_style(self, value: Optional["DiagnosticProcessing"]) -> "DiagnosticValueNeeds":
         """
         Set processingStyle and return self for chaining.
-        
+
         Args:
             value: The processingStyle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_processing_style("value")
         """

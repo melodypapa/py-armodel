@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     """
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs::ROperationInAtomicSwcInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 947, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set contextRPortPrototype with validation.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def target_required_operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set targetRequiredOperation with validation.
-        
+
         Args:
             value: The targetRequiredOperation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def getContextRPortPrototype(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for contextRPortPrototype.
-        
+
         Returns:
             The contextRPortPrototype value
-        
+
         Note:
             Delegates to context_r_port_prototype property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def setContextRPortPrototype(self, value: "AbstractRequiredPort") -> "ROperationInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for contextRPortPrototype with method chaining.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_r_port_prototype property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def getTargetRequiredOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for targetRequiredOperation.
-        
+
         Returns:
             The targetRequiredOperation value
-        
+
         Note:
             Delegates to target_required_operation property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def setTargetRequiredOperation(self, value: "ClientServerOperation") -> "ROperationInAtomicSwcInstanceRef":
         """
         AUTOSAR-compliant setter for targetRequiredOperation with method chaining.
-        
+
         Args:
             value: The targetRequiredOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_required_operation property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def with_context_r_port_prototype(self, value: Optional["AbstractRequiredPort"]) -> "ROperationInAtomicSwcInstanceRef":
         """
         Set contextRPortPrototype and return self for chaining.
-        
+
         Args:
             value: The contextRPortPrototype to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_r_port_prototype("value")
         """
@@ -152,13 +152,13 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def with_target_required_operation(self, value: Optional["ClientServerOperation"]) -> "ROperationInAtomicSwcInstanceRef":
         """
         Set targetRequiredOperation and return self for chaining.
-        
+
         Args:
             value: The targetRequiredOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_required_operation("value")
         """

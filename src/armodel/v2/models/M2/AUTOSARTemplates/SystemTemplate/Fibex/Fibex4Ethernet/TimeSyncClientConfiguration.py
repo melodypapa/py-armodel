@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TimeSyncClientConfiguration(ARObject):
     """
     Defines the configuration of the time synchronisation client.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::TimeSyncClientConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 469, Classic Platform R23-11)
     """
@@ -36,10 +39,10 @@ class TimeSyncClientConfiguration(ARObject):
     def time_sync(self, value: Optional["TimeSyncTechnology"]) -> None:
         """
         Set timeSync with validation.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class TimeSyncClientConfiguration(ARObject):
     def getOrderedMaster(self) -> List["OrderedMaster"]:
         """
         AUTOSAR-compliant getter for orderedMaster.
-        
+
         Returns:
             The orderedMaster value
-        
+
         Note:
             Delegates to ordered_master property (CODING_RULE_V2_00017)
         """
@@ -70,10 +73,10 @@ class TimeSyncClientConfiguration(ARObject):
     def getTimeSync(self) -> "TimeSyncTechnology":
         """
         AUTOSAR-compliant getter for timeSync.
-        
+
         Returns:
             The timeSync value
-        
+
         Note:
             Delegates to time_sync property (CODING_RULE_V2_00017)
         """
@@ -82,13 +85,13 @@ class TimeSyncClientConfiguration(ARObject):
     def setTimeSync(self, value: "TimeSyncTechnology") -> "TimeSyncClientConfiguration":
         """
         AUTOSAR-compliant setter for timeSync with method chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_sync property setter (gets validation automatically)
         """
@@ -100,13 +103,13 @@ class TimeSyncClientConfiguration(ARObject):
     def with_time_sync(self, value: Optional["TimeSyncTechnology"]) -> "TimeSyncClientConfiguration":
         """
         Set timeSync and return self for chaining.
-        
+
         Args:
             value: The timeSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_sync("value")
         """

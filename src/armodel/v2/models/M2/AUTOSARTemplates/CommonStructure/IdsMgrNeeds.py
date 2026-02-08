@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IdsMgrNeeds(ServiceNeeds):
     """
     This meta-class is used to indicate that the enclosing SwcServiceDependency
     represents a service use case for the Intrusion Detection System Manager.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::IdsMgrNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 842, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class IdsMgrNeeds(ServiceNeeds):
     def use_smart(self, value: Optional["Boolean"]) -> None:
         """
         Set useSmart with validation.
-        
+
         Args:
             value: The useSmart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class IdsMgrNeeds(ServiceNeeds):
     def getUseSmart(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useSmart.
-        
+
         Returns:
             The useSmart value
-        
+
         Note:
             Delegates to use_smart property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class IdsMgrNeeds(ServiceNeeds):
     def setUseSmart(self, value: "Boolean") -> "IdsMgrNeeds":
         """
         AUTOSAR-compliant setter for useSmart with method chaining.
-        
+
         Args:
             value: The useSmart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_smart property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class IdsMgrNeeds(ServiceNeeds):
     def with_use_smart(self, value: Optional["Boolean"]) -> "IdsMgrNeeds":
         """
         Set useSmart and return self for chaining.
-        
+
         Args:
             value: The useSmart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_smart("value")
         """

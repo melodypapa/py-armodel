@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class RecordValueSpecification(CompositeValueSpecification):
     """
     Specifies the values for a record.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::RecordValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 328, Classic
       Platform R23-11)

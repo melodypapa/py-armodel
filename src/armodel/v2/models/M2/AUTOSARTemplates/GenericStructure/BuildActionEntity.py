@@ -1,16 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BuildActionEntity(Identifiable, ABC):
     """
     This meta-class represents the ability to describe a build action entity
     which might be specialized to environments as well as to individual build
     actions.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::BuildActionEntity
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 370, Foundation
       R23-11)
@@ -40,10 +43,10 @@ class BuildActionEntity(Identifiable, ABC):
     def invocation(self, value: Optional["BuildActionInvocator"]) -> None:
         """
         Set invocation with validation.
-        
+
         Args:
             value: The invocation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class BuildActionEntity(Identifiable, ABC):
     def getDeliveryArtifact(self) -> List["AutosarEngineering"]:
         """
         AUTOSAR-compliant getter for deliveryArtifact.
-        
+
         Returns:
             The deliveryArtifact value
-        
+
         Note:
             Delegates to delivery_artifact property (CODING_RULE_V2_00017)
         """
@@ -74,10 +77,10 @@ class BuildActionEntity(Identifiable, ABC):
     def getInvocation(self) -> "BuildActionInvocator":
         """
         AUTOSAR-compliant getter for invocation.
-        
+
         Returns:
             The invocation value
-        
+
         Note:
             Delegates to invocation property (CODING_RULE_V2_00017)
         """
@@ -86,13 +89,13 @@ class BuildActionEntity(Identifiable, ABC):
     def setInvocation(self, value: "BuildActionInvocator") -> "BuildActionEntity":
         """
         AUTOSAR-compliant setter for invocation with method chaining.
-        
+
         Args:
             value: The invocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to invocation property setter (gets validation automatically)
         """
@@ -104,13 +107,13 @@ class BuildActionEntity(Identifiable, ABC):
     def with_invocation(self, value: Optional["BuildActionInvocator"]) -> "BuildActionEntity":
         """
         Set invocation and return self for chaining.
-        
+
         Args:
             value: The invocation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_invocation("value")
         """

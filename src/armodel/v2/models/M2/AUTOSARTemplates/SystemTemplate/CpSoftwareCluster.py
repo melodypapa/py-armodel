@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CpSoftwareCluster(ARElement):
     """
@@ -8,9 +8,9 @@ class CpSoftwareCluster(ARElement):
     sub-set of hierarchical tree(s) of Software Components belonging to this CP
     Software Cluster. Resources required or provided by this CP Software Cluster
     are given in the according mappings.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 309, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class CpSoftwareCluster(ARElement):
     def software_cluster(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set softwareCluster with validation.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +74,10 @@ class CpSoftwareCluster(ARElement):
     def getSoftwareCluster(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -86,13 +86,13 @@ class CpSoftwareCluster(ARElement):
     def setSoftwareCluster(self, value: "PositiveInteger") -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -102,10 +102,10 @@ class CpSoftwareCluster(ARElement):
     def getSwComponent(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for swComponent.
-        
+
         Returns:
             The swComponent value
-        
+
         Note:
             Delegates to sw_component property (CODING_RULE_V2_00017)
         """
@@ -114,10 +114,10 @@ class CpSoftwareCluster(ARElement):
     def getSwComposition(self) -> List["CompositionSw"]:
         """
         AUTOSAR-compliant getter for swComposition.
-        
+
         Returns:
             The swComposition value
-        
+
         Note:
             Delegates to sw_composition property (CODING_RULE_V2_00017)
         """
@@ -128,13 +128,13 @@ class CpSoftwareCluster(ARElement):
     def with_software_cluster(self, value: Optional["PositiveInteger"]) -> "CpSoftwareCluster":
         """
         Set softwareCluster and return self for chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_cluster("value")
         """

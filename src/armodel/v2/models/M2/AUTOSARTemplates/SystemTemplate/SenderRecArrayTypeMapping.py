@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     """
     If the ApplicationCompositeDataType is an Array, the "ArrayTypeMapping" will
     be used.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecArrayTypeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 235, Classic Platform R23-11)
     """
@@ -37,10 +40,10 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def sender_to_signal(self, value: RefType) -> None:
         """
         Set senderToSignal with validation.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def signal_to(self, value: RefType) -> None:
         """
         Set signalTo with validation.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +83,10 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def getArrayElement(self) -> List["SenderRecArray"]:
         """
         AUTOSAR-compliant getter for arrayElement.
-        
+
         Returns:
             The arrayElement value
-        
+
         Note:
             Delegates to array_element property (CODING_RULE_V2_00017)
         """
@@ -92,10 +95,10 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def getSenderToSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for senderToSignal.
-        
+
         Returns:
             The senderToSignal value
-        
+
         Note:
             Delegates to sender_to_signal property (CODING_RULE_V2_00017)
         """
@@ -104,13 +107,13 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def setSenderToSignal(self, value: RefType) -> "SenderRecArrayTypeMapping":
         """
         AUTOSAR-compliant setter for senderToSignal with method chaining.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sender_to_signal property setter (gets validation automatically)
         """
@@ -120,10 +123,10 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def getSignalTo(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalTo.
-        
+
         Returns:
             The signalTo value
-        
+
         Note:
             Delegates to signal_to property (CODING_RULE_V2_00017)
         """
@@ -132,13 +135,13 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def setSignalTo(self, value: RefType) -> "SenderRecArrayTypeMapping":
         """
         AUTOSAR-compliant setter for signalTo with method chaining.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signal_to property setter (gets validation automatically)
         """
@@ -150,13 +153,13 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def with_sender_to_signal(self, value: Optional[RefType]) -> "SenderRecArrayTypeMapping":
         """
         Set senderToSignal and return self for chaining.
-        
+
         Args:
             value: The senderToSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sender_to_signal("value")
         """
@@ -166,13 +169,13 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def with_signal_to(self, value: Optional[RefType]) -> "SenderRecArrayTypeMapping":
         """
         Set signalTo and return self for chaining.
-        
+
         Args:
             value: The signalTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signal_to("value")
         """

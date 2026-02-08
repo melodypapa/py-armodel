@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class Std(SingleLanguageReferrable):
     """
     This represents a reference to external standards.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::Std
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 318, Foundation
       R23-11)
@@ -27,10 +27,10 @@ class Std(SingleLanguageReferrable):
     def date(self, value: Optional["DateTime"]) -> None:
         """
         Set date with validation.
-        
+
         Args:
             value: The date to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class Std(SingleLanguageReferrable):
     def position(self, value: Optional["String"]) -> None:
         """
         Set position with validation.
-        
+
         Args:
             value: The position to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class Std(SingleLanguageReferrable):
     def state(self, value: Optional["String"]) -> None:
         """
         Set state with validation.
-        
+
         Args:
             value: The state to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class Std(SingleLanguageReferrable):
     def subtitle(self, value: Optional["String"]) -> None:
         """
         Set subtitle with validation.
-        
+
         Args:
             value: The subtitle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +140,10 @@ class Std(SingleLanguageReferrable):
     def url(self, value: Optional["Url"]) -> None:
         """
         Set url with validation.
-        
+
         Args:
             value: The url to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +162,10 @@ class Std(SingleLanguageReferrable):
     def getDate(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for date.
-        
+
         Returns:
             The date value
-        
+
         Note:
             Delegates to date property (CODING_RULE_V2_00017)
         """
@@ -174,13 +174,13 @@ class Std(SingleLanguageReferrable):
     def setDate(self, value: "DateTime") -> "Std":
         """
         AUTOSAR-compliant setter for date with method chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to date property setter (gets validation automatically)
         """
@@ -190,10 +190,10 @@ class Std(SingleLanguageReferrable):
     def getPosition(self) -> "String":
         """
         AUTOSAR-compliant getter for position.
-        
+
         Returns:
             The position value
-        
+
         Note:
             Delegates to position property (CODING_RULE_V2_00017)
         """
@@ -202,13 +202,13 @@ class Std(SingleLanguageReferrable):
     def setPosition(self, value: "String") -> "Std":
         """
         AUTOSAR-compliant setter for position with method chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to position property setter (gets validation automatically)
         """
@@ -218,10 +218,10 @@ class Std(SingleLanguageReferrable):
     def getState(self) -> "String":
         """
         AUTOSAR-compliant getter for state.
-        
+
         Returns:
             The state value
-        
+
         Note:
             Delegates to state property (CODING_RULE_V2_00017)
         """
@@ -230,13 +230,13 @@ class Std(SingleLanguageReferrable):
     def setState(self, value: "String") -> "Std":
         """
         AUTOSAR-compliant setter for state with method chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to state property setter (gets validation automatically)
         """
@@ -246,10 +246,10 @@ class Std(SingleLanguageReferrable):
     def getSubtitle(self) -> "String":
         """
         AUTOSAR-compliant getter for subtitle.
-        
+
         Returns:
             The subtitle value
-        
+
         Note:
             Delegates to subtitle property (CODING_RULE_V2_00017)
         """
@@ -258,13 +258,13 @@ class Std(SingleLanguageReferrable):
     def setSubtitle(self, value: "String") -> "Std":
         """
         AUTOSAR-compliant setter for subtitle with method chaining.
-        
+
         Args:
             value: The subtitle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to subtitle property setter (gets validation automatically)
         """
@@ -274,10 +274,10 @@ class Std(SingleLanguageReferrable):
     def getUrl(self) -> "Url":
         """
         AUTOSAR-compliant getter for url.
-        
+
         Returns:
             The url value
-        
+
         Note:
             Delegates to url property (CODING_RULE_V2_00017)
         """
@@ -286,13 +286,13 @@ class Std(SingleLanguageReferrable):
     def setUrl(self, value: "Url") -> "Std":
         """
         AUTOSAR-compliant setter for url with method chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to url property setter (gets validation automatically)
         """
@@ -304,13 +304,13 @@ class Std(SingleLanguageReferrable):
     def with_date(self, value: Optional["DateTime"]) -> "Std":
         """
         Set date and return self for chaining.
-        
+
         Args:
             value: The date to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_date("value")
         """
@@ -320,13 +320,13 @@ class Std(SingleLanguageReferrable):
     def with_position(self, value: Optional["String"]) -> "Std":
         """
         Set position and return self for chaining.
-        
+
         Args:
             value: The position to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_position("value")
         """
@@ -336,13 +336,13 @@ class Std(SingleLanguageReferrable):
     def with_state(self, value: Optional["String"]) -> "Std":
         """
         Set state and return self for chaining.
-        
+
         Args:
             value: The state to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_state("value")
         """
@@ -352,13 +352,13 @@ class Std(SingleLanguageReferrable):
     def with_subtitle(self, value: Optional["String"]) -> "Std":
         """
         Set subtitle and return self for chaining.
-        
+
         Args:
             value: The subtitle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_subtitle("value")
         """
@@ -368,13 +368,13 @@ class Std(SingleLanguageReferrable):
     def with_url(self, value: Optional["Url"]) -> "Std":
         """
         Set url and return self for chaining.
-        
+
         Args:
             value: The url to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_url("value")
         """

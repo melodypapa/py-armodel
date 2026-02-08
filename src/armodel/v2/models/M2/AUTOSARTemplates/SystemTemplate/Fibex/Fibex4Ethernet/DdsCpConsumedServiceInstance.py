@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     """
     This meta-class represents the ability to describe the existence and
     configuration of a consumed (required) service instance in a concrete
     implementation on top of DDS.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpConsumedServiceInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 474, Classic Platform R23-11)
     """
@@ -37,10 +37,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set localUnicast with validation.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def minor_version(self, value: Optional["AnyVersionString"]) -> None:
         """
         Set minorVersion with validation.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +97,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def static_remote(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set staticRemote with validation.
-        
+
         Args:
             value: The staticRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +119,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def getConsumedDds(self) -> List["DdsCpServiceInstance"]:
         """
         AUTOSAR-compliant getter for consumedDds.
-        
+
         Returns:
             The consumedDds value
-        
+
         Note:
             Delegates to consumed_dds property (CODING_RULE_V2_00017)
         """
@@ -131,10 +131,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
-        
+
         Returns:
             The localUnicast value
-        
+
         Note:
             Delegates to local_unicast property (CODING_RULE_V2_00017)
         """
@@ -143,13 +143,13 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def setLocalUnicast(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_unicast property setter (gets validation automatically)
         """
@@ -159,10 +159,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def getMinorVersion(self) -> "AnyVersionString":
         """
         AUTOSAR-compliant getter for minorVersion.
-        
+
         Returns:
             The minorVersion value
-        
+
         Note:
             Delegates to minor_version property (CODING_RULE_V2_00017)
         """
@@ -171,13 +171,13 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def setMinorVersion(self, value: "AnyVersionString") -> "DdsCpConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minor_version property setter (gets validation automatically)
         """
@@ -187,10 +187,10 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def getStaticRemote(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for staticRemote.
-        
+
         Returns:
             The staticRemote value
-        
+
         Note:
             Delegates to static_remote property (CODING_RULE_V2_00017)
         """
@@ -199,13 +199,13 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def setStaticRemote(self, value: "ApplicationEndpoint") -> "DdsCpConsumedServiceInstance":
         """
         AUTOSAR-compliant setter for staticRemote with method chaining.
-        
+
         Args:
             value: The staticRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to static_remote property setter (gets validation automatically)
         """
@@ -217,13 +217,13 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
         """
         Set localUnicast and return self for chaining.
-        
+
         Args:
             value: The localUnicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_unicast("value")
         """
@@ -233,13 +233,13 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def with_minor_version(self, value: Optional["AnyVersionString"]) -> "DdsCpConsumedServiceInstance":
         """
         Set minorVersion and return self for chaining.
-        
+
         Args:
             value: The minorVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minor_version("value")
         """
@@ -249,13 +249,13 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
     def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> "DdsCpConsumedServiceInstance":
         """
         Set staticRemote and return self for chaining.
-        
+
         Args:
             value: The staticRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_static_remote("value")
         """

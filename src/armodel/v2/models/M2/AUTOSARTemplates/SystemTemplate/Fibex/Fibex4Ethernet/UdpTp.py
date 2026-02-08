@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class UdpTp(TcpUdpConfig):
     """
     Content Model for UDP configuration.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::UdpTp
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 459, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class UdpTp(TcpUdpConfig):
     def udp_tp_port(self, value: Optional["TpPort"]) -> None:
         """
         Set udpTpPort with validation.
-        
+
         Args:
             value: The udpTpPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +48,10 @@ class UdpTp(TcpUdpConfig):
     def getUdpTpPort(self) -> "TpPort":
         """
         AUTOSAR-compliant getter for udpTpPort.
-        
+
         Returns:
             The udpTpPort value
-        
+
         Note:
             Delegates to udp_tp_port property (CODING_RULE_V2_00017)
         """
@@ -60,13 +60,13 @@ class UdpTp(TcpUdpConfig):
     def setUdpTpPort(self, value: "TpPort") -> "UdpTp":
         """
         AUTOSAR-compliant setter for udpTpPort with method chaining.
-        
+
         Args:
             value: The udpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_tp_port property setter (gets validation automatically)
         """
@@ -78,13 +78,13 @@ class UdpTp(TcpUdpConfig):
     def with_udp_tp_port(self, value: Optional["TpPort"]) -> "UdpTp":
         """
         Set udpTpPort and return self for chaining.
-        
+
         Args:
             value: The udpTpPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_tp_port("value")
         """

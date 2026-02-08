@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticWriteDataByIdentifierClass(DiagnosticServiceClass):
     """
     This meta-class contains attributes shared by all instances of the "Write
     Data by Identifier" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticWriteDataByIdentifierClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)

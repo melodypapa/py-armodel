@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class VariableDataPrototypeInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::InstanceRefs::VariableDataPrototypeInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1003, Classic Platform R23-11)
     """
@@ -27,10 +32,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +59,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def context(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set context with validation.
-        
+
         Args:
             value: The context to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +86,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -100,10 +105,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def target_data(self, value: RefType) -> None:
         """
         Set targetData with validation.
-        
+
         Args:
             value: The targetData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +123,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -130,13 +135,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def setBase(self, value: "System") -> "VariableDataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -146,10 +151,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def getContext(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -158,13 +163,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def setContext(self, value: "RootSwComposition") -> "VariableDataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for context with method chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context property setter (gets validation automatically)
         """
@@ -174,10 +179,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -186,13 +191,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def setContextPort(self, value: RefType) -> "VariableDataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -202,10 +207,10 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
-        
+
         Returns:
             The targetData value
-        
+
         Note:
             Delegates to target_data property (CODING_RULE_V2_00017)
         """
@@ -214,13 +219,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def setTargetData(self, value: RefType) -> "VariableDataPrototypeInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetData with method chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_data property setter (gets validation automatically)
         """
@@ -232,13 +237,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def with_base(self, value: Optional["System"]) -> "VariableDataPrototypeInSystemInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -248,13 +253,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def with_context(self, value: Optional["RootSwComposition"]) -> "VariableDataPrototypeInSystemInstanceRef":
         """
         Set context and return self for chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context("value")
         """
@@ -264,13 +269,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def with_context_port(self, value: RefType) -> "VariableDataPrototypeInSystemInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -280,13 +285,13 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
     def with_target_data(self, value: Optional[RefType]) -> "VariableDataPrototypeInSystemInstanceRef":
         """
         Set targetData and return self for chaining.
-        
+
         Args:
             value: The targetData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_data("value")
         """

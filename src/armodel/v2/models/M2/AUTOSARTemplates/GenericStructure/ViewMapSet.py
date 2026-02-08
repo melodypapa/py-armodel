@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ViewMapSet(ARElement):
     """
     Collection of ViewMaps that are used to establish relationships between
     different AUTOSAR artifacts.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::ViewMapSet::ViewMapSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2079, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 401, Foundation
@@ -30,10 +30,10 @@ class ViewMapSet(ARElement):
     def getViewMap(self) -> List["ViewMap"]:
         """
         AUTOSAR-compliant getter for viewMap.
-        
+
         Returns:
             The viewMap value
-        
+
         Note:
             Delegates to view_map property (CODING_RULE_V2_00017)
         """

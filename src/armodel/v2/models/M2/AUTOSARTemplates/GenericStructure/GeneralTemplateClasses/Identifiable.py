@@ -1,7 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import MultilanguageReferrable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import (
+    MultilanguageReferrable,
+)
+
 
 class Identifiable(MultilanguageReferrable, ABC):
     """
@@ -9,9 +12,9 @@ class Identifiable(MultilanguageReferrable, ABC):
     namespace borders). In addition to this, Identifiables are objects which
     contribute significantly to the overall structure of an AUTOSAR description.
     In particular, Identifiables might contain Identifiables.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::Identifiable
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 318, Classic
       Platform R23-11)
@@ -53,10 +56,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def admin_data(self, value: Optional["AdminData"]) -> None:
         """
         Set adminData with validation.
-        
+
         Args:
             value: The adminData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +95,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def category(self, value: Optional["CategoryString"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +128,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -154,10 +157,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -196,10 +199,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def uuid(self, value: Optional["String"]) -> None:
         """
         Set uuid with validation.
-        
+
         Args:
             value: The uuid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -218,10 +221,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getAdminData(self) -> "AdminData":
         """
         AUTOSAR-compliant getter for adminData.
-        
+
         Returns:
             The adminData value
-        
+
         Note:
             Delegates to admin_data property (CODING_RULE_V2_00017)
         """
@@ -230,13 +233,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setAdminData(self, value: "AdminData") -> "Identifiable":
         """
         AUTOSAR-compliant setter for adminData with method chaining.
-        
+
         Args:
             value: The adminData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to admin_data property setter (gets validation automatically)
         """
@@ -246,10 +249,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -258,10 +261,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getCategory(self) -> "CategoryString":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -270,13 +273,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setCategory(self, value: "CategoryString") -> "Identifiable":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -286,10 +289,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -298,13 +301,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setDesc(self, value: "MultiLanguageOverview") -> "Identifiable":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -314,10 +317,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -326,13 +329,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setIntroduction(self, value: "DocumentationBlock") -> "Identifiable":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -342,10 +345,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getUuid(self) -> "String":
         """
         AUTOSAR-compliant getter for uuid.
-        
+
         Returns:
             The uuid value
-        
+
         Note:
             Delegates to uuid property (CODING_RULE_V2_00017)
         """
@@ -354,13 +357,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setUuid(self, value: "String") -> "Identifiable":
         """
         AUTOSAR-compliant setter for uuid with method chaining.
-        
+
         Args:
             value: The uuid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to uuid property setter (gets validation automatically)
         """
@@ -372,13 +375,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def with_admin_data(self, value: Optional["AdminData"]) -> "Identifiable":
         """
         Set adminData and return self for chaining.
-        
+
         Args:
             value: The adminData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_admin_data("value")
         """
@@ -388,13 +391,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def with_category(self, value: Optional["CategoryString"]) -> "Identifiable":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -404,13 +407,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "Identifiable":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -420,13 +423,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "Identifiable":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """
@@ -436,13 +439,13 @@ class Identifiable(MultilanguageReferrable, ABC):
     def with_uuid(self, value: Optional["String"]) -> "Identifiable":
         """
         Set uuid and return self for chaining.
-        
+
         Args:
             value: The uuid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_uuid("value")
         """

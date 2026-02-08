@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DependencyOnArtifact(Identifiable):
     """
     Dependency on the existence of another artifact, e.g. a library.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Implementation::DependencyOnArtifact
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 131, Classic
       Platform R23-11)
@@ -32,10 +36,10 @@ class DependencyOnArtifact(Identifiable):
     def artifact(self, value: Optional["AutosarEngineering"]) -> None:
         """
         Set artifact with validation.
-        
+
         Args:
             value: The artifact to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +65,10 @@ class DependencyOnArtifact(Identifiable):
     def getArtifact(self) -> "AutosarEngineering":
         """
         AUTOSAR-compliant getter for artifact.
-        
+
         Returns:
             The artifact value
-        
+
         Note:
             Delegates to artifact property (CODING_RULE_V2_00017)
         """
@@ -73,13 +77,13 @@ class DependencyOnArtifact(Identifiable):
     def setArtifact(self, value: "AutosarEngineering") -> "DependencyOnArtifact":
         """
         AUTOSAR-compliant setter for artifact with method chaining.
-        
+
         Args:
             value: The artifact to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to artifact property setter (gets validation automatically)
         """
@@ -89,10 +93,10 @@ class DependencyOnArtifact(Identifiable):
     def getUsage(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for usage.
-        
+
         Returns:
             The usage value
-        
+
         Note:
             Delegates to usage property (CODING_RULE_V2_00017)
         """
@@ -103,13 +107,13 @@ class DependencyOnArtifact(Identifiable):
     def with_artifact(self, value: Optional["AutosarEngineering"]) -> "DependencyOnArtifact":
         """
         Set artifact and return self for chaining.
-        
+
         Args:
             value: The artifact to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_artifact("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SenderRecArrayElementMapping(ARObject):
     """
@@ -16,9 +19,9 @@ class SenderRecArrayElementMapping(ARObject):
     element. In that way also the composite datatypes can be mapped to
     SystemSignals. Regardless whether composite or primitive array element is
     mapped the indexed element always needs to be specified.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecArrayElementMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 237, Classic Platform R23-11)
     """
@@ -38,10 +41,10 @@ class SenderRecArrayElementMapping(ARObject):
     def complex_type(self, value: Optional["SenderRecComposite"]) -> None:
         """
         Set complexType with validation.
-        
+
         Args:
             value: The complexType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -67,10 +70,10 @@ class SenderRecArrayElementMapping(ARObject):
     def indexed_array(self, value: Optional["IndexedArrayElement"]) -> None:
         """
         Set indexedArray with validation.
-        
+
         Args:
             value: The indexedArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +98,10 @@ class SenderRecArrayElementMapping(ARObject):
     def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class SenderRecArrayElementMapping(ARObject):
     def getComplexType(self) -> "SenderRecComposite":
         """
         AUTOSAR-compliant getter for complexType.
-        
+
         Returns:
             The complexType value
-        
+
         Note:
             Delegates to complex_type property (CODING_RULE_V2_00017)
         """
@@ -129,13 +132,13 @@ class SenderRecArrayElementMapping(ARObject):
     def setComplexType(self, value: "SenderRecComposite") -> "SenderRecArrayElementMapping":
         """
         AUTOSAR-compliant setter for complexType with method chaining.
-        
+
         Args:
             value: The complexType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to complex_type property setter (gets validation automatically)
         """
@@ -145,10 +148,10 @@ class SenderRecArrayElementMapping(ARObject):
     def getIndexedArray(self) -> "IndexedArrayElement":
         """
         AUTOSAR-compliant getter for indexedArray.
-        
+
         Returns:
             The indexedArray value
-        
+
         Note:
             Delegates to indexed_array property (CODING_RULE_V2_00017)
         """
@@ -157,13 +160,13 @@ class SenderRecArrayElementMapping(ARObject):
     def setIndexedArray(self, value: "IndexedArrayElement") -> "SenderRecArrayElementMapping":
         """
         AUTOSAR-compliant setter for indexedArray with method chaining.
-        
+
         Args:
             value: The indexedArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to indexed_array property setter (gets validation automatically)
         """
@@ -173,10 +176,10 @@ class SenderRecArrayElementMapping(ARObject):
     def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -185,13 +188,13 @@ class SenderRecArrayElementMapping(ARObject):
     def setSystemSignal(self, value: "SystemSignal") -> "SenderRecArrayElementMapping":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -203,13 +206,13 @@ class SenderRecArrayElementMapping(ARObject):
     def with_complex_type(self, value: Optional["SenderRecComposite"]) -> "SenderRecArrayElementMapping":
         """
         Set complexType and return self for chaining.
-        
+
         Args:
             value: The complexType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_complex_type("value")
         """
@@ -219,13 +222,13 @@ class SenderRecArrayElementMapping(ARObject):
     def with_indexed_array(self, value: Optional["IndexedArrayElement"]) -> "SenderRecArrayElementMapping":
         """
         Set indexedArray and return self for chaining.
-        
+
         Args:
             value: The indexedArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_indexed_array("value")
         """
@@ -235,13 +238,13 @@ class SenderRecArrayElementMapping(ARObject):
     def with_system_signal(self, value: Optional["SystemSignal"]) -> "SenderRecArrayElementMapping":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """

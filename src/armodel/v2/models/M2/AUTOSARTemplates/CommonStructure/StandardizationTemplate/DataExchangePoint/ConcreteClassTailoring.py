@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ConcreteClassTailoring(DataFormatElementScope):
     """
     Tailoring of concrete meta classes.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::ConcreteClassTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 103, Foundation R23-11)
     """
@@ -29,10 +29,10 @@ class ConcreteClassTailoring(DataFormatElementScope):
     def validation_root(self, value: Optional["Boolean"]) -> None:
         """
         Set validationRoot with validation.
-        
+
         Args:
             value: The validationRoot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class ConcreteClassTailoring(DataFormatElementScope):
     def getValidationRoot(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for validationRoot.
-        
+
         Returns:
             The validationRoot value
-        
+
         Note:
             Delegates to validation_root property (CODING_RULE_V2_00017)
         """
@@ -63,13 +63,13 @@ class ConcreteClassTailoring(DataFormatElementScope):
     def setValidationRoot(self, value: "Boolean") -> "ConcreteClassTailoring":
         """
         AUTOSAR-compliant setter for validationRoot with method chaining.
-        
+
         Args:
             value: The validationRoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to validation_root property setter (gets validation automatically)
         """
@@ -81,13 +81,13 @@ class ConcreteClassTailoring(DataFormatElementScope):
     def with_validation_root(self, value: Optional["Boolean"]) -> "ConcreteClassTailoring":
         """
         Set validationRoot and return self for chaining.
-        
+
         Args:
             value: The validationRoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_validation_root("value")
         """

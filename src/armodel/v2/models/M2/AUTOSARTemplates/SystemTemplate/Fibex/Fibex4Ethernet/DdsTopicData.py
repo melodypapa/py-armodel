@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsTopicData(ARObject):
     """
     Describes the DDS TOPIC_DATA QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsTopicData
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 529, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class DdsTopicData(ARObject):
     def topic_data(self, value: Optional["String"]) -> None:
         """
         Set topicData with validation.
-        
+
         Args:
             value: The topicData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class DdsTopicData(ARObject):
     def getTopicData(self) -> "String":
         """
         AUTOSAR-compliant getter for topicData.
-        
+
         Returns:
             The topicData value
-        
+
         Note:
             Delegates to topic_data property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class DdsTopicData(ARObject):
     def setTopicData(self, value: "String") -> "DdsTopicData":
         """
         AUTOSAR-compliant setter for topicData with method chaining.
-        
+
         Args:
             value: The topicData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic_data property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class DdsTopicData(ARObject):
     def with_topic_data(self, value: Optional["String"]) -> "DdsTopicData":
         """
         Set topicData and return self for chaining.
-        
+
         Args:
             value: The topicData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic_data("value")
         """

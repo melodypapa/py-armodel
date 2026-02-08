@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BswModuleDependency(Identifiable):
     """
     This class collects the dependencies of a BSW module or cluster on a certain
     other BSW module.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces::BswModuleDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 47, Classic
       Platform R23-11)
@@ -33,10 +35,10 @@ class BswModuleDependency(Identifiable):
     def target_module_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set targetModuleId with validation.
-        
+
         Args:
             value: The targetModuleId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class BswModuleDependency(Identifiable):
     def target_module(self, value: Optional["BswModuleDescription"]) -> None:
         """
         Set targetModule with validation.
-        
+
         Args:
             value: The targetModule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +87,10 @@ class BswModuleDependency(Identifiable):
     def getTargetModuleId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for targetModuleId.
-        
+
         Returns:
             The targetModuleId value
-        
+
         Note:
             Delegates to target_module_id property (CODING_RULE_V2_00017)
         """
@@ -97,13 +99,13 @@ class BswModuleDependency(Identifiable):
     def setTargetModuleId(self, value: "PositiveInteger") -> "BswModuleDependency":
         """
         AUTOSAR-compliant setter for targetModuleId with method chaining.
-        
+
         Args:
             value: The targetModuleId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_module_id property setter (gets validation automatically)
         """
@@ -113,10 +115,10 @@ class BswModuleDependency(Identifiable):
     def getTargetModule(self) -> "BswModuleDescription":
         """
         AUTOSAR-compliant getter for targetModule.
-        
+
         Returns:
             The targetModule value
-        
+
         Note:
             Delegates to target_module property (CODING_RULE_V2_00017)
         """
@@ -125,13 +127,13 @@ class BswModuleDependency(Identifiable):
     def setTargetModule(self, value: "BswModuleDescription") -> "BswModuleDependency":
         """
         AUTOSAR-compliant setter for targetModule with method chaining.
-        
+
         Args:
             value: The targetModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_module property setter (gets validation automatically)
         """
@@ -143,13 +145,13 @@ class BswModuleDependency(Identifiable):
     def with_target_module_id(self, value: Optional["PositiveInteger"]) -> "BswModuleDependency":
         """
         Set targetModuleId and return self for chaining.
-        
+
         Args:
             value: The targetModuleId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_module_id("value")
         """
@@ -159,13 +161,13 @@ class BswModuleDependency(Identifiable):
     def with_target_module(self, value: Optional["BswModuleDescription"]) -> "BswModuleDependency":
         """
         Set targetModule and return self for chaining.
-        
+
         Args:
             value: The targetModule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_module("value")
         """

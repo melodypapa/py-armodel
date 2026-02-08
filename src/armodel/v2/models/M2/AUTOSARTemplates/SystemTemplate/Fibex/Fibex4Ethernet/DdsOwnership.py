@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsOwnership(ARObject):
     """
     Describes the DDS OWNERSHIP QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsOwnership
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 532, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class DdsOwnership(ARObject):
     def ownership_kind(self, value: Optional["DdsOwnershipKind"]) -> None:
         """
         Set ownershipKind with validation.
-        
+
         Args:
             value: The ownershipKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class DdsOwnership(ARObject):
     def getOwnershipKind(self) -> "DdsOwnershipKind":
         """
         AUTOSAR-compliant getter for ownershipKind.
-        
+
         Returns:
             The ownershipKind value
-        
+
         Note:
             Delegates to ownership_kind property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class DdsOwnership(ARObject):
     def setOwnershipKind(self, value: "DdsOwnershipKind") -> "DdsOwnership":
         """
         AUTOSAR-compliant setter for ownershipKind with method chaining.
-        
+
         Args:
             value: The ownershipKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ownership_kind property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class DdsOwnership(ARObject):
     def with_ownership_kind(self, value: Optional["DdsOwnershipKind"]) -> "DdsOwnership":
         """
         Set ownershipKind and return self for chaining.
-        
+
         Args:
             value: The ownershipKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ownership_kind("value")
         """

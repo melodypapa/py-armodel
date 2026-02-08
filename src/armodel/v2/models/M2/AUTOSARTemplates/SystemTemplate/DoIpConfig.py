@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DoIpConfig(ARObject):
     """
     This element defines the DoIp configuration for a specific Ecu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DoIP::DoIpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 551, Classic Platform R23-11)
     """
@@ -38,10 +41,10 @@ class DoIpConfig(ARObject):
     def logic_address(self, value: Optional["DoIpLogicAddress"]) -> None:
         """
         Set logicAddress with validation.
-        
+
         Args:
             value: The logicAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class DoIpConfig(ARObject):
     def getDoipInterface(self) -> List["DoIpInterface"]:
         """
         AUTOSAR-compliant getter for doipInterface.
-        
+
         Returns:
             The doipInterface value
-        
+
         Note:
             Delegates to doip_interface property (CODING_RULE_V2_00017)
         """
@@ -72,10 +75,10 @@ class DoIpConfig(ARObject):
     def getLogicAddress(self) -> "DoIpLogicAddress":
         """
         AUTOSAR-compliant getter for logicAddress.
-        
+
         Returns:
             The logicAddress value
-        
+
         Note:
             Delegates to logic_address property (CODING_RULE_V2_00017)
         """
@@ -84,13 +87,13 @@ class DoIpConfig(ARObject):
     def setLogicAddress(self, value: "DoIpLogicAddress") -> "DoIpConfig":
         """
         AUTOSAR-compliant setter for logicAddress with method chaining.
-        
+
         Args:
             value: The logicAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to logic_address property setter (gets validation automatically)
         """
@@ -102,13 +105,13 @@ class DoIpConfig(ARObject):
     def with_logic_address(self, value: Optional["DoIpLogicAddress"]) -> "DoIpConfig":
         """
         Set logicAddress and return self for chaining.
-        
+
         Args:
             value: The logicAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_logic_address("value")
         """

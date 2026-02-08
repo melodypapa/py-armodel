@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class IEEE1722TpConfig(TpConfig):
     """
     Definition of the IEEE1722Tp protocol.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 636, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class IEEE1722TpConfig(TpConfig):
     def getTpConnection(self) -> List["IEEE1722TpConnection"]:
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """

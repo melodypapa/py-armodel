@@ -1,16 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class RteEventInSystemSeparation(Identifiable):
     """
     This meta-class is used to define a separation constraint in the context of
     the System. The referenced RteEvents are not allowed to be mapped into the
     same OsTask.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::RteEventToOsTaskMapping::RteEventInSystemSeparation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 214, Classic Platform R23-11)
     """
@@ -32,10 +34,10 @@ class RteEventInSystemSeparation(Identifiable):
     def getRteEventInstanceRef(self) -> List["RTEEvent"]:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
-        
+
         Returns:
             The rteEventInstanceRef value
-        
+
         Note:
             Delegates to rte_event_instance_ref property (CODING_RULE_V2_00017)
         """

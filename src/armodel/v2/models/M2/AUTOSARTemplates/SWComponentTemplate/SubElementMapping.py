@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SubElementMapping(ARObject):
     """
     This meta-class allows for the definition of mappings of elements of a
     composite data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::SubElementMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 137, Classic Platform
       R23-11)
@@ -31,10 +36,10 @@ class SubElementMapping(ARObject):
     def first_element(self, value: RefType) -> None:
         """
         Set firstElement with validation.
-        
+
         Args:
             value: The firstElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class SubElementMapping(ARObject):
     def second_element(self, value: RefType) -> None:
         """
         Set secondElement with validation.
-        
+
         Args:
             value: The secondElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +85,10 @@ class SubElementMapping(ARObject):
     def text_table(self, value: RefType) -> None:
         """
         Set textTable with validation.
-        
+
         Args:
             value: The textTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +99,10 @@ class SubElementMapping(ARObject):
     def getFirstElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for firstElement.
-        
+
         Returns:
             The firstElement value
-        
+
         Note:
             Delegates to first_element property (CODING_RULE_V2_00017)
         """
@@ -106,13 +111,13 @@ class SubElementMapping(ARObject):
     def setFirstElement(self, value: RefType) -> "SubElementMapping":
         """
         AUTOSAR-compliant setter for firstElement with method chaining.
-        
+
         Args:
             value: The firstElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_element property setter (gets validation automatically)
         """
@@ -122,10 +127,10 @@ class SubElementMapping(ARObject):
     def getSecondElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for secondElement.
-        
+
         Returns:
             The secondElement value
-        
+
         Note:
             Delegates to second_element property (CODING_RULE_V2_00017)
         """
@@ -134,13 +139,13 @@ class SubElementMapping(ARObject):
     def setSecondElement(self, value: RefType) -> "SubElementMapping":
         """
         AUTOSAR-compliant setter for secondElement with method chaining.
-        
+
         Args:
             value: The secondElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to second_element property setter (gets validation automatically)
         """
@@ -150,10 +155,10 @@ class SubElementMapping(ARObject):
     def getTextTable(self) -> RefType:
         """
         AUTOSAR-compliant getter for textTable.
-        
+
         Returns:
             The textTable value
-        
+
         Note:
             Delegates to text_table property (CODING_RULE_V2_00017)
         """
@@ -162,13 +167,13 @@ class SubElementMapping(ARObject):
     def setTextTable(self, value: RefType) -> "SubElementMapping":
         """
         AUTOSAR-compliant setter for textTable with method chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to text_table property setter (gets validation automatically)
         """
@@ -180,13 +185,13 @@ class SubElementMapping(ARObject):
     def with_first_element(self, value: Optional[RefType]) -> "SubElementMapping":
         """
         Set firstElement and return self for chaining.
-        
+
         Args:
             value: The firstElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_element("value")
         """
@@ -196,13 +201,13 @@ class SubElementMapping(ARObject):
     def with_second_element(self, value: Optional[RefType]) -> "SubElementMapping":
         """
         Set secondElement and return self for chaining.
-        
+
         Args:
             value: The secondElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_second_element("value")
         """
@@ -212,13 +217,13 @@ class SubElementMapping(ARObject):
     def with_text_table(self, value: RefType) -> "SubElementMapping":
         """
         Set textTable and return self for chaining.
-        
+
         Args:
             value: The textTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_text_table("value")
         """

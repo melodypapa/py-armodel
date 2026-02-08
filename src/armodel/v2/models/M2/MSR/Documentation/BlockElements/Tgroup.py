@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Tgroup(ARObject):
     """
     This meta-class represents the ability to denote a table section.
-    
+
     Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::Tgroup
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 334, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class Tgroup(ARObject):
     def align(self, value: Optional["AlignEnum"]) -> None:
         """
         Set align with validation.
-        
+
         Args:
             value: The align to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class Tgroup(ARObject):
     def cols(self, value: "Integer") -> None:
         """
         Set cols with validation.
-        
+
         Args:
             value: The cols to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class Tgroup(ARObject):
     def colsep(self, value: Optional["TableSeparatorString"]) -> None:
         """
         Set colsep with validation.
-        
+
         Args:
             value: The colsep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +122,10 @@ class Tgroup(ARObject):
     def rowsep(self, value: Optional["TableSeparatorString"]) -> None:
         """
         Set rowsep with validation.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -148,10 +151,10 @@ class Tgroup(ARObject):
     def tbody(self, value: "Tbody") -> None:
         """
         Set tbody with validation.
-        
+
         Args:
             value: The tbody to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -173,10 +176,10 @@ class Tgroup(ARObject):
     def tfoot(self, value: Optional["Tbody"]) -> None:
         """
         Set tfoot with validation.
-        
+
         Args:
             value: The tfoot to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -202,10 +205,10 @@ class Tgroup(ARObject):
     def thead(self, value: Optional["Tbody"]) -> None:
         """
         Set thead with validation.
-        
+
         Args:
             value: The thead to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +227,10 @@ class Tgroup(ARObject):
     def getAlign(self) -> "AlignEnum":
         """
         AUTOSAR-compliant getter for align.
-        
+
         Returns:
             The align value
-        
+
         Note:
             Delegates to align property (CODING_RULE_V2_00017)
         """
@@ -236,13 +239,13 @@ class Tgroup(ARObject):
     def setAlign(self, value: "AlignEnum") -> "Tgroup":
         """
         AUTOSAR-compliant setter for align with method chaining.
-        
+
         Args:
             value: The align to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to align property setter (gets validation automatically)
         """
@@ -252,10 +255,10 @@ class Tgroup(ARObject):
     def getCols(self) -> "Integer":
         """
         AUTOSAR-compliant getter for cols.
-        
+
         Returns:
             The cols value
-        
+
         Note:
             Delegates to cols property (CODING_RULE_V2_00017)
         """
@@ -264,13 +267,13 @@ class Tgroup(ARObject):
     def setCols(self, value: "Integer") -> "Tgroup":
         """
         AUTOSAR-compliant setter for cols with method chaining.
-        
+
         Args:
             value: The cols to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cols property setter (gets validation automatically)
         """
@@ -280,10 +283,10 @@ class Tgroup(ARObject):
     def getColsep(self) -> "TableSeparatorString":
         """
         AUTOSAR-compliant getter for colsep.
-        
+
         Returns:
             The colsep value
-        
+
         Note:
             Delegates to colsep property (CODING_RULE_V2_00017)
         """
@@ -292,13 +295,13 @@ class Tgroup(ARObject):
     def setColsep(self, value: "TableSeparatorString") -> "Tgroup":
         """
         AUTOSAR-compliant setter for colsep with method chaining.
-        
+
         Args:
             value: The colsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to colsep property setter (gets validation automatically)
         """
@@ -308,10 +311,10 @@ class Tgroup(ARObject):
     def getColspec(self) -> List["Colspec"]:
         """
         AUTOSAR-compliant getter for colspec.
-        
+
         Returns:
             The colspec value
-        
+
         Note:
             Delegates to colspec property (CODING_RULE_V2_00017)
         """
@@ -320,10 +323,10 @@ class Tgroup(ARObject):
     def getRowsep(self) -> "TableSeparatorString":
         """
         AUTOSAR-compliant getter for rowsep.
-        
+
         Returns:
             The rowsep value
-        
+
         Note:
             Delegates to rowsep property (CODING_RULE_V2_00017)
         """
@@ -332,13 +335,13 @@ class Tgroup(ARObject):
     def setRowsep(self, value: "TableSeparatorString") -> "Tgroup":
         """
         AUTOSAR-compliant setter for rowsep with method chaining.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rowsep property setter (gets validation automatically)
         """
@@ -348,10 +351,10 @@ class Tgroup(ARObject):
     def getTbody(self) -> "Tbody":
         """
         AUTOSAR-compliant getter for tbody.
-        
+
         Returns:
             The tbody value
-        
+
         Note:
             Delegates to tbody property (CODING_RULE_V2_00017)
         """
@@ -360,13 +363,13 @@ class Tgroup(ARObject):
     def setTbody(self, value: "Tbody") -> "Tgroup":
         """
         AUTOSAR-compliant setter for tbody with method chaining.
-        
+
         Args:
             value: The tbody to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tbody property setter (gets validation automatically)
         """
@@ -376,10 +379,10 @@ class Tgroup(ARObject):
     def getTfoot(self) -> "Tbody":
         """
         AUTOSAR-compliant getter for tfoot.
-        
+
         Returns:
             The tfoot value
-        
+
         Note:
             Delegates to tfoot property (CODING_RULE_V2_00017)
         """
@@ -388,13 +391,13 @@ class Tgroup(ARObject):
     def setTfoot(self, value: "Tbody") -> "Tgroup":
         """
         AUTOSAR-compliant setter for tfoot with method chaining.
-        
+
         Args:
             value: The tfoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tfoot property setter (gets validation automatically)
         """
@@ -404,10 +407,10 @@ class Tgroup(ARObject):
     def getThead(self) -> "Tbody":
         """
         AUTOSAR-compliant getter for thead.
-        
+
         Returns:
             The thead value
-        
+
         Note:
             Delegates to thead property (CODING_RULE_V2_00017)
         """
@@ -416,13 +419,13 @@ class Tgroup(ARObject):
     def setThead(self, value: "Tbody") -> "Tgroup":
         """
         AUTOSAR-compliant setter for thead with method chaining.
-        
+
         Args:
             value: The thead to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to thead property setter (gets validation automatically)
         """
@@ -434,13 +437,13 @@ class Tgroup(ARObject):
     def with_align(self, value: Optional["AlignEnum"]) -> "Tgroup":
         """
         Set align and return self for chaining.
-        
+
         Args:
             value: The align to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_align("value")
         """
@@ -450,13 +453,13 @@ class Tgroup(ARObject):
     def with_cols(self, value: "Integer") -> "Tgroup":
         """
         Set cols and return self for chaining.
-        
+
         Args:
             value: The cols to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cols("value")
         """
@@ -466,13 +469,13 @@ class Tgroup(ARObject):
     def with_colsep(self, value: Optional["TableSeparatorString"]) -> "Tgroup":
         """
         Set colsep and return self for chaining.
-        
+
         Args:
             value: The colsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_colsep("value")
         """
@@ -482,13 +485,13 @@ class Tgroup(ARObject):
     def with_rowsep(self, value: Optional["TableSeparatorString"]) -> "Tgroup":
         """
         Set rowsep and return self for chaining.
-        
+
         Args:
             value: The rowsep to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rowsep("value")
         """
@@ -498,13 +501,13 @@ class Tgroup(ARObject):
     def with_tbody(self, value: "Tbody") -> "Tgroup":
         """
         Set tbody and return self for chaining.
-        
+
         Args:
             value: The tbody to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tbody("value")
         """
@@ -514,13 +517,13 @@ class Tgroup(ARObject):
     def with_tfoot(self, value: Optional["Tbody"]) -> "Tgroup":
         """
         Set tfoot and return self for chaining.
-        
+
         Args:
             value: The tfoot to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tfoot("value")
         """
@@ -530,13 +533,13 @@ class Tgroup(ARObject):
     def with_thead(self, value: Optional["Tbody"]) -> "Tgroup":
         """
         Set thead and return self for chaining.
-        
+
         Args:
             value: The thead to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_thead("value")
         """

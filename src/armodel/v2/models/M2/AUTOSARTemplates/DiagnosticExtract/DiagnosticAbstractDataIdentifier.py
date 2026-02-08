@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     """
     This meta-class represents an abstract base class for the modeling of a
     diagnostic data identifier (DID).
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticAbstractDataIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 34, Classic Platform
       R23-11)
@@ -30,10 +31,10 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +53,10 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -64,13 +65,13 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def setId(self, value: "PositiveInteger") -> "DiagnosticAbstractDataIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -82,13 +83,13 @@ class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticAbstractDataIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """

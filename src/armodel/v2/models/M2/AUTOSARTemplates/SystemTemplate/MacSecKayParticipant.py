@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class MacSecKayParticipant(Identifiable):
     """
     This meta-class configures a MKA participant.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::MacSecKayParticipant
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 175, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class MacSecKayParticipant(Identifiable):
     def ckn(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set ckn with validation.
-        
+
         Args:
             value: The ckn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class MacSecKayParticipant(Identifiable):
     def crypto_algo(self, value: Optional["MacSecCryptoAlgo"]) -> None:
         """
         Set cryptoAlgo with validation.
-        
+
         Args:
             value: The cryptoAlgo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +88,10 @@ class MacSecKayParticipant(Identifiable):
     def sak(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set sak with validation.
-        
+
         Args:
             value: The sak to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -108,10 +110,10 @@ class MacSecKayParticipant(Identifiable):
     def getCkn(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for ckn.
-        
+
         Returns:
             The ckn value
-        
+
         Note:
             Delegates to ckn property (CODING_RULE_V2_00017)
         """
@@ -120,13 +122,13 @@ class MacSecKayParticipant(Identifiable):
     def setCkn(self, value: "CryptoServiceKey") -> "MacSecKayParticipant":
         """
         AUTOSAR-compliant setter for ckn with method chaining.
-        
+
         Args:
             value: The ckn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ckn property setter (gets validation automatically)
         """
@@ -136,10 +138,10 @@ class MacSecKayParticipant(Identifiable):
     def getCryptoAlgo(self) -> "MacSecCryptoAlgo":
         """
         AUTOSAR-compliant getter for cryptoAlgo.
-        
+
         Returns:
             The cryptoAlgo value
-        
+
         Note:
             Delegates to crypto_algo property (CODING_RULE_V2_00017)
         """
@@ -148,13 +150,13 @@ class MacSecKayParticipant(Identifiable):
     def setCryptoAlgo(self, value: "MacSecCryptoAlgo") -> "MacSecKayParticipant":
         """
         AUTOSAR-compliant setter for cryptoAlgo with method chaining.
-        
+
         Args:
             value: The cryptoAlgo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crypto_algo property setter (gets validation automatically)
         """
@@ -164,10 +166,10 @@ class MacSecKayParticipant(Identifiable):
     def getSak(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for sak.
-        
+
         Returns:
             The sak value
-        
+
         Note:
             Delegates to sak property (CODING_RULE_V2_00017)
         """
@@ -176,13 +178,13 @@ class MacSecKayParticipant(Identifiable):
     def setSak(self, value: "CryptoServiceKey") -> "MacSecKayParticipant":
         """
         AUTOSAR-compliant setter for sak with method chaining.
-        
+
         Args:
             value: The sak to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sak property setter (gets validation automatically)
         """
@@ -194,13 +196,13 @@ class MacSecKayParticipant(Identifiable):
     def with_ckn(self, value: Optional["CryptoServiceKey"]) -> "MacSecKayParticipant":
         """
         Set ckn and return self for chaining.
-        
+
         Args:
             value: The ckn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ckn("value")
         """
@@ -210,13 +212,13 @@ class MacSecKayParticipant(Identifiable):
     def with_crypto_algo(self, value: Optional["MacSecCryptoAlgo"]) -> "MacSecKayParticipant":
         """
         Set cryptoAlgo and return self for chaining.
-        
+
         Args:
             value: The cryptoAlgo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crypto_algo("value")
         """
@@ -226,13 +228,13 @@ class MacSecKayParticipant(Identifiable):
     def with_sak(self, value: Optional["CryptoServiceKey"]) -> "MacSecKayParticipant":
         """
         Set sak and return self for chaining.
-        
+
         Args:
             value: The sak to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sak("value")
         """

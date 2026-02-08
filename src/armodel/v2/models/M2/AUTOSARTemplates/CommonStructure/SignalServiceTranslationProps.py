@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SignalServiceTranslationProps(Identifiable):
     """
     This element allows to define the properties which are applicable for the
     signal/service translation service.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation::SignalServiceTranslationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 336, Classic
       Platform R23-11)
@@ -57,10 +61,10 @@ class SignalServiceTranslationProps(Identifiable):
     def service_control(self, value: Optional["SignalService"]) -> None:
         """
         Set serviceControl with validation.
-        
+
         Args:
             value: The serviceControl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +90,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getControl(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for control.
-        
+
         Returns:
             The control value
-        
+
         Note:
             Delegates to control property (CODING_RULE_V2_00017)
         """
@@ -98,10 +102,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getControlPnc(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for controlPnc.
-        
+
         Returns:
             The controlPnc value
-        
+
         Note:
             Delegates to control_pnc property (CODING_RULE_V2_00017)
         """
@@ -110,10 +114,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getControlProvided(self) -> List["EventHandler"]:
         """
         AUTOSAR-compliant getter for controlProvided.
-        
+
         Returns:
             The controlProvided value
-        
+
         Note:
             Delegates to control_provided property (CODING_RULE_V2_00017)
         """
@@ -122,10 +126,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getServiceControl(self) -> "SignalService":
         """
         AUTOSAR-compliant getter for serviceControl.
-        
+
         Returns:
             The serviceControl value
-        
+
         Note:
             Delegates to service_control property (CODING_RULE_V2_00017)
         """
@@ -134,13 +138,13 @@ class SignalServiceTranslationProps(Identifiable):
     def setServiceControl(self, value: "SignalService") -> "SignalServiceTranslationProps":
         """
         AUTOSAR-compliant setter for serviceControl with method chaining.
-        
+
         Args:
             value: The serviceControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_control property setter (gets validation automatically)
         """
@@ -150,10 +154,10 @@ class SignalServiceTranslationProps(Identifiable):
     def getSignalServiceEventProps(self) -> List["SignalService"]:
         """
         AUTOSAR-compliant getter for signalServiceEventProps.
-        
+
         Returns:
             The signalServiceEventProps value
-        
+
         Note:
             Delegates to signal_service_event_props property (CODING_RULE_V2_00017)
         """
@@ -164,13 +168,13 @@ class SignalServiceTranslationProps(Identifiable):
     def with_service_control(self, value: Optional["SignalService"]) -> "SignalServiceTranslationProps":
         """
         Set serviceControl and return self for chaining.
-        
+
         Args:
             value: The serviceControl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_control("value")
         """

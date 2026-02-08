@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticParameter(DiagnosticAbstractParameter):
     """
     This meta-class represents the ability to describe information relevant for
     the execution of a specific diagnostic service, i.e. it can be taken to
     parameterize the service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticParameter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 36, Classic Platform
       R23-11)
@@ -33,10 +33,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def ident(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def support_info(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set supportInfo with validation.
-        
+
         Args:
             value: The supportInfo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def getIdent(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -96,13 +96,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def setIdent(self, value: "DiagnosticParameter") -> "DiagnosticParameter":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -112,10 +112,10 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def getSupportInfo(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for supportInfo.
-        
+
         Returns:
             The supportInfo value
-        
+
         Note:
             Delegates to support_info property (CODING_RULE_V2_00017)
         """
@@ -124,13 +124,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def setSupportInfo(self, value: "DiagnosticParameter") -> "DiagnosticParameter":
         """
         AUTOSAR-compliant setter for supportInfo with method chaining.
-        
+
         Args:
             value: The supportInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to support_info property setter (gets validation automatically)
         """
@@ -142,13 +142,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def with_ident(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticParameter":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """
@@ -158,13 +158,13 @@ class DiagnosticParameter(DiagnosticAbstractParameter):
     def with_support_info(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticParameter":
         """
         Set supportInfo and return self for chaining.
-        
+
         Args:
             value: The supportInfo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_support_info("value")
         """

@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     """
     This meta class defines ApplicationPartitions that are applicable for the
     CpSoftwareCluster.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::CpSoftwareClusterToApplicationPartitionMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 287, Classic Platform R23-11)
     """
@@ -36,10 +38,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def software_cluster(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set softwareCluster with validation.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def getApplication(self) -> List["ApplicationPartition"]:
         """
         AUTOSAR-compliant getter for application.
-        
+
         Returns:
             The application value
-        
+
         Note:
             Delegates to application property (CODING_RULE_V2_00017)
         """
@@ -70,10 +72,10 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def getSoftwareCluster(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for softwareCluster.
-        
+
         Returns:
             The softwareCluster value
-        
+
         Note:
             Delegates to software_cluster property (CODING_RULE_V2_00017)
         """
@@ -82,13 +84,13 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def setSoftwareCluster(self, value: "CpSoftwareCluster") -> "CpSoftwareClusterToApplicationPartitionMapping":
         """
         AUTOSAR-compliant setter for softwareCluster with method chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_cluster property setter (gets validation automatically)
         """
@@ -100,13 +102,13 @@ class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
     def with_software_cluster(self, value: Optional["CpSoftwareCluster"]) -> "CpSoftwareClusterToApplicationPartitionMapping":
         """
         Set softwareCluster and return self for chaining.
-        
+
         Args:
             value: The softwareCluster to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_cluster("value")
         """

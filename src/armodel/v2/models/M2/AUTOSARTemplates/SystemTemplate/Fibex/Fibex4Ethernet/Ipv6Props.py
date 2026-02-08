@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Ipv6Props(ARObject):
     """
     This meta-class specifies the configuration options for IPv6.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::Ipv6Props
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 147, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class Ipv6Props(ARObject):
     def dhcp_props(self, value: Optional["Dhcpv6Props"]) -> None:
         """
         Set dhcpProps with validation.
-        
+
         Args:
             value: The dhcpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class Ipv6Props(ARObject):
     def fragmentation(self, value: Optional["Ipv6Fragmentation"]) -> None:
         """
         Set fragmentation with validation.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class Ipv6Props(ARObject):
     def ndp_props(self, value: Optional["Ipv6NdpProps"]) -> None:
         """
         Set ndpProps with validation.
-        
+
         Args:
             value: The ndpProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class Ipv6Props(ARObject):
     def getDhcpProps(self) -> "Dhcpv6Props":
         """
         AUTOSAR-compliant getter for dhcpProps.
-        
+
         Returns:
             The dhcpProps value
-        
+
         Note:
             Delegates to dhcp_props property (CODING_RULE_V2_00017)
         """
@@ -117,13 +120,13 @@ class Ipv6Props(ARObject):
     def setDhcpProps(self, value: "Dhcpv6Props") -> "Ipv6Props":
         """
         AUTOSAR-compliant setter for dhcpProps with method chaining.
-        
+
         Args:
             value: The dhcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dhcp_props property setter (gets validation automatically)
         """
@@ -133,10 +136,10 @@ class Ipv6Props(ARObject):
     def getFragmentation(self) -> "Ipv6Fragmentation":
         """
         AUTOSAR-compliant getter for fragmentation.
-        
+
         Returns:
             The fragmentation value
-        
+
         Note:
             Delegates to fragmentation property (CODING_RULE_V2_00017)
         """
@@ -145,13 +148,13 @@ class Ipv6Props(ARObject):
     def setFragmentation(self, value: "Ipv6Fragmentation") -> "Ipv6Props":
         """
         AUTOSAR-compliant setter for fragmentation with method chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fragmentation property setter (gets validation automatically)
         """
@@ -161,10 +164,10 @@ class Ipv6Props(ARObject):
     def getNdpProps(self) -> "Ipv6NdpProps":
         """
         AUTOSAR-compliant getter for ndpProps.
-        
+
         Returns:
             The ndpProps value
-        
+
         Note:
             Delegates to ndp_props property (CODING_RULE_V2_00017)
         """
@@ -173,13 +176,13 @@ class Ipv6Props(ARObject):
     def setNdpProps(self, value: "Ipv6NdpProps") -> "Ipv6Props":
         """
         AUTOSAR-compliant setter for ndpProps with method chaining.
-        
+
         Args:
             value: The ndpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ndp_props property setter (gets validation automatically)
         """
@@ -191,13 +194,13 @@ class Ipv6Props(ARObject):
     def with_dhcp_props(self, value: Optional["Dhcpv6Props"]) -> "Ipv6Props":
         """
         Set dhcpProps and return self for chaining.
-        
+
         Args:
             value: The dhcpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dhcp_props("value")
         """
@@ -207,13 +210,13 @@ class Ipv6Props(ARObject):
     def with_fragmentation(self, value: Optional["Ipv6Fragmentation"]) -> "Ipv6Props":
         """
         Set fragmentation and return self for chaining.
-        
+
         Args:
             value: The fragmentation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fragmentation("value")
         """
@@ -223,13 +226,13 @@ class Ipv6Props(ARObject):
     def with_ndp_props(self, value: Optional["Ipv6NdpProps"]) -> "Ipv6Props":
         """
         Set ndpProps and return self for chaining.
-        
+
         Args:
             value: The ndpProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ndp_props("value")
         """

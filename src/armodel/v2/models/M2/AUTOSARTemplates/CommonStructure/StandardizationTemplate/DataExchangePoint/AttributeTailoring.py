@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class AttributeTailoring(DataFormatElementScope, ABC):
     """
     Tailoring of Attributes
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Data::AttributeTailoring
-    
+
     Sources:
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 109, Foundation R23-11)
     """
@@ -29,10 +30,10 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def multiplicity(self, value: Optional["MultiplicityRestriction"]) -> None:
         """
         Set multiplicity with validation.
-        
+
         Args:
             value: The multiplicity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +60,10 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def variation(self, value: Optional["VariationRestrictionWith"]) -> None:
         """
         Set variation with validation.
-        
+
         Args:
             value: The variation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +82,10 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def getMultiplicity(self) -> "MultiplicityRestriction":
         """
         AUTOSAR-compliant getter for multiplicity.
-        
+
         Returns:
             The multiplicity value
-        
+
         Note:
             Delegates to multiplicity property (CODING_RULE_V2_00017)
         """
@@ -93,13 +94,13 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def setMultiplicity(self, value: "MultiplicityRestriction") -> "AttributeTailoring":
         """
         AUTOSAR-compliant setter for multiplicity with method chaining.
-        
+
         Args:
             value: The multiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multiplicity property setter (gets validation automatically)
         """
@@ -109,10 +110,10 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def getVariation(self) -> "VariationRestrictionWith":
         """
         AUTOSAR-compliant getter for variation.
-        
+
         Returns:
             The variation value
-        
+
         Note:
             Delegates to variation property (CODING_RULE_V2_00017)
         """
@@ -121,13 +122,13 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def setVariation(self, value: "VariationRestrictionWith") -> "AttributeTailoring":
         """
         AUTOSAR-compliant setter for variation with method chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variation property setter (gets validation automatically)
         """
@@ -139,13 +140,13 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def with_multiplicity(self, value: Optional["MultiplicityRestriction"]) -> "AttributeTailoring":
         """
         Set multiplicity and return self for chaining.
-        
+
         Args:
             value: The multiplicity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multiplicity("value")
         """
@@ -155,13 +156,13 @@ class AttributeTailoring(DataFormatElementScope, ABC):
     def with_variation(self, value: Optional["VariationRestrictionWith"]) -> "AttributeTailoring":
         """
         Set variation and return self for chaining.
-        
+
         Args:
             value: The variation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variation("value")
         """

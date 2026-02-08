@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EcucDerivationSpecification(ARObject):
     """
     Allows to define configuration items that are calculated based on the value
     of • other parameter values • elements (attributes/classes) defined in other
     AUTOSAR templates such as System template and SW component template
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDerivationSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 87, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class EcucDerivationSpecification(ARObject):
     def calculation(self, value: Optional["EcucParameter"]) -> None:
         """
         Set calculation with validation.
-        
+
         Args:
             value: The calculation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +69,10 @@ class EcucDerivationSpecification(ARObject):
     def informal_formula(self, value: Optional["MlFormula"]) -> None:
         """
         Set informalFormula with validation.
-        
+
         Args:
             value: The informalFormula to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class EcucDerivationSpecification(ARObject):
     def getCalculation(self) -> "EcucParameter":
         """
         AUTOSAR-compliant getter for calculation.
-        
+
         Returns:
             The calculation value
-        
+
         Note:
             Delegates to calculation property (CODING_RULE_V2_00017)
         """
@@ -100,13 +103,13 @@ class EcucDerivationSpecification(ARObject):
     def setCalculation(self, value: "EcucParameter") -> "EcucDerivationSpecification":
         """
         AUTOSAR-compliant setter for calculation with method chaining.
-        
+
         Args:
             value: The calculation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to calculation property setter (gets validation automatically)
         """
@@ -116,10 +119,10 @@ class EcucDerivationSpecification(ARObject):
     def getEcucQuery(self) -> List["EcucQuery"]:
         """
         AUTOSAR-compliant getter for ecucQuery.
-        
+
         Returns:
             The ecucQuery value
-        
+
         Note:
             Delegates to ecuc_query property (CODING_RULE_V2_00017)
         """
@@ -128,10 +131,10 @@ class EcucDerivationSpecification(ARObject):
     def getInformalFormula(self) -> "MlFormula":
         """
         AUTOSAR-compliant getter for informalFormula.
-        
+
         Returns:
             The informalFormula value
-        
+
         Note:
             Delegates to informal_formula property (CODING_RULE_V2_00017)
         """
@@ -140,13 +143,13 @@ class EcucDerivationSpecification(ARObject):
     def setInformalFormula(self, value: "MlFormula") -> "EcucDerivationSpecification":
         """
         AUTOSAR-compliant setter for informalFormula with method chaining.
-        
+
         Args:
             value: The informalFormula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to informal_formula property setter (gets validation automatically)
         """
@@ -158,13 +161,13 @@ class EcucDerivationSpecification(ARObject):
     def with_calculation(self, value: Optional["EcucParameter"]) -> "EcucDerivationSpecification":
         """
         Set calculation and return self for chaining.
-        
+
         Args:
             value: The calculation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_calculation("value")
         """
@@ -174,13 +177,13 @@ class EcucDerivationSpecification(ARObject):
     def with_informal_formula(self, value: Optional["MlFormula"]) -> "EcucDerivationSpecification":
         """
         Set informalFormula and return self for chaining.
-        
+
         Args:
             value: The informalFormula to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_informal_formula("value")
         """

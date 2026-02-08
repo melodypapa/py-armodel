@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class HwCategory(ARElement):
     """
     This metaclass represents the ability to declare hardware categories and its
     particular attributes.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwCategory
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 24, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class HwCategory(ARElement):
     def getHwAttributeDef(self) -> List["HwAttributeDef"]:
         """
         AUTOSAR-compliant getter for hwAttributeDef.
-        
+
         Returns:
             The hwAttributeDef value
-        
+
         Note:
             Delegates to hw_attribute_def property (CODING_RULE_V2_00017)
         """

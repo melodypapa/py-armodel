@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TopicContentOrMsrQuery(ARObject):
     """
     This meta-class represents a topic or a topic content which is generated
     using queries.
-    
+
     Package: M2::MSR::Documentation::Chapters::TopicContentOrMsrQuery
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation
       R23-11)
@@ -29,10 +30,10 @@ class TopicContentOrMsrQuery(ARObject):
     def msr_query_p1(self, value: "MsrQueryP1") -> None:
         """
         Set msrQueryP1 with validation.
-        
+
         Args:
             value: The msrQueryP1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +54,10 @@ class TopicContentOrMsrQuery(ARObject):
     def topic_content(self, value: "TopicContent") -> None:
         """
         Set topicContent with validation.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +72,10 @@ class TopicContentOrMsrQuery(ARObject):
     def getMsrQueryP1(self) -> "MsrQueryP1":
         """
         AUTOSAR-compliant getter for msrQueryP1.
-        
+
         Returns:
             The msrQueryP1 value
-        
+
         Note:
             Delegates to msr_query_p1 property (CODING_RULE_V2_00017)
         """
@@ -83,13 +84,13 @@ class TopicContentOrMsrQuery(ARObject):
     def setMsrQueryP1(self, value: "MsrQueryP1") -> "TopicContentOrMsrQuery":
         """
         AUTOSAR-compliant setter for msrQueryP1 with method chaining.
-        
+
         Args:
             value: The msrQueryP1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query_p1 property setter (gets validation automatically)
         """
@@ -99,10 +100,10 @@ class TopicContentOrMsrQuery(ARObject):
     def getTopicContent(self) -> "TopicContent":
         """
         AUTOSAR-compliant getter for topicContent.
-        
+
         Returns:
             The topicContent value
-        
+
         Note:
             Delegates to topic_content property (CODING_RULE_V2_00017)
         """
@@ -111,13 +112,13 @@ class TopicContentOrMsrQuery(ARObject):
     def setTopicContent(self, value: "TopicContent") -> "TopicContentOrMsrQuery":
         """
         AUTOSAR-compliant setter for topicContent with method chaining.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic_content property setter (gets validation automatically)
         """
@@ -129,13 +130,13 @@ class TopicContentOrMsrQuery(ARObject):
     def with_msr_query_p1(self, value: "MsrQueryP1") -> "TopicContentOrMsrQuery":
         """
         Set msrQueryP1 and return self for chaining.
-        
+
         Args:
             value: The msrQueryP1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query_p1("value")
         """
@@ -145,13 +146,13 @@ class TopicContentOrMsrQuery(ARObject):
     def with_topic_content(self, value: "TopicContent") -> "TopicContentOrMsrQuery":
         """
         Set topicContent and return self for chaining.
-        
+
         Args:
             value: The topicContent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic_content("value")
         """

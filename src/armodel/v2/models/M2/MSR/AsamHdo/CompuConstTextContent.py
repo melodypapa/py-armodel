@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CompuConstTextContent(CompuConstContent):
     """
     This meta-class represents the textual content of a scale.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstTextContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 388, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class CompuConstTextContent(CompuConstContent):
     def vt(self, value: Optional["VerbatimString"]) -> None:
         """
         Set vt with validation.
-        
+
         Args:
             value: The vt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class CompuConstTextContent(CompuConstContent):
     def getVt(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for vt.
-        
+
         Returns:
             The vt value
-        
+
         Note:
             Delegates to vt property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class CompuConstTextContent(CompuConstContent):
     def setVt(self, value: "VerbatimString") -> "CompuConstTextContent":
         """
         AUTOSAR-compliant setter for vt with method chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vt property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class CompuConstTextContent(CompuConstContent):
     def with_vt(self, value: Optional["VerbatimString"]) -> "CompuConstTextContent":
         """
         Set vt and return self for chaining.
-        
+
         Args:
             value: The vt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vt("value")
         """

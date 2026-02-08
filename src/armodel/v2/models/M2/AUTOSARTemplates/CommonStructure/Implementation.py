@@ -1,14 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import ARElement
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARElement import (
+    ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class Implementation(ARElement, ABC):
     """
     Description of an implementation a single software component or module.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Implementation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 126, Classic
       Platform R23-11)
@@ -38,10 +44,10 @@ class Implementation(ARElement, ABC):
     def build_action(self, value: Optional["BuildActionManifest"]) -> None:
         """
         Set buildAction with validation.
-        
+
         Args:
             value: The buildAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +117,10 @@ class Implementation(ARElement, ABC):
     def mc_support(self, value: Optional["McSupportData"]) -> None:
         """
         Set mcSupport with validation.
-        
+
         Args:
             value: The mcSupport to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -139,10 +145,10 @@ class Implementation(ARElement, ABC):
     def programming(self, value: Optional["Programminglanguage"]) -> None:
         """
         Set programming with validation.
-        
+
         Args:
             value: The programming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -191,10 +197,10 @@ class Implementation(ARElement, ABC):
     def resource(self, value: Optional["ResourceConsumption"]) -> None:
         """
         Set resource with validation.
-        
+
         Args:
             value: The resource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -222,10 +228,10 @@ class Implementation(ARElement, ABC):
     def swc_bsw(self, value: RefType) -> None:
         """
         Set swcBsw with validation.
-        
+
         Args:
             value: The swcBsw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -247,10 +253,10 @@ class Implementation(ARElement, ABC):
     def sw_version(self, value: Optional["RevisionLabelString"]) -> None:
         """
         Set swVersion with validation.
-        
+
         Args:
             value: The swVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -277,10 +283,10 @@ class Implementation(ARElement, ABC):
     def used_code_generator(self, value: Optional["String"]) -> None:
         """
         Set usedCodeGenerator with validation.
-        
+
         Args:
             value: The usedCodeGenerator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -305,10 +311,10 @@ class Implementation(ARElement, ABC):
     def vendor_id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set vendorId with validation.
-        
+
         Args:
             value: The vendorId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -327,10 +333,10 @@ class Implementation(ARElement, ABC):
     def getBuildAction(self) -> "BuildActionManifest":
         """
         AUTOSAR-compliant getter for buildAction.
-        
+
         Returns:
             The buildAction value
-        
+
         Note:
             Delegates to build_action property (CODING_RULE_V2_00017)
         """
@@ -339,13 +345,13 @@ class Implementation(ARElement, ABC):
     def setBuildAction(self, value: "BuildActionManifest") -> "Implementation":
         """
         AUTOSAR-compliant setter for buildAction with method chaining.
-        
+
         Args:
             value: The buildAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to build_action property setter (gets validation automatically)
         """
@@ -355,10 +361,10 @@ class Implementation(ARElement, ABC):
     def getCodeDescriptor(self) -> List["Code"]:
         """
         AUTOSAR-compliant getter for codeDescriptor.
-        
+
         Returns:
             The codeDescriptor value
-        
+
         Note:
             Delegates to code_descriptor property (CODING_RULE_V2_00017)
         """
@@ -367,10 +373,10 @@ class Implementation(ARElement, ABC):
     def getCompiler(self) -> List["Compiler"]:
         """
         AUTOSAR-compliant getter for compiler.
-        
+
         Returns:
             The compiler value
-        
+
         Note:
             Delegates to compiler property (CODING_RULE_V2_00017)
         """
@@ -379,10 +385,10 @@ class Implementation(ARElement, ABC):
     def getGenerated(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for generated.
-        
+
         Returns:
             The generated value
-        
+
         Note:
             Delegates to generated property (CODING_RULE_V2_00017)
         """
@@ -391,10 +397,10 @@ class Implementation(ARElement, ABC):
     def getHwElement(self) -> List["HwElement"]:
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -403,10 +409,10 @@ class Implementation(ARElement, ABC):
     def getLinker(self) -> List["Linker"]:
         """
         AUTOSAR-compliant getter for linker.
-        
+
         Returns:
             The linker value
-        
+
         Note:
             Delegates to linker property (CODING_RULE_V2_00017)
         """
@@ -415,10 +421,10 @@ class Implementation(ARElement, ABC):
     def getMcSupport(self) -> "McSupportData":
         """
         AUTOSAR-compliant getter for mcSupport.
-        
+
         Returns:
             The mcSupport value
-        
+
         Note:
             Delegates to mc_support property (CODING_RULE_V2_00017)
         """
@@ -427,13 +433,13 @@ class Implementation(ARElement, ABC):
     def setMcSupport(self, value: "McSupportData") -> "Implementation":
         """
         AUTOSAR-compliant setter for mcSupport with method chaining.
-        
+
         Args:
             value: The mcSupport to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mc_support property setter (gets validation automatically)
         """
@@ -443,10 +449,10 @@ class Implementation(ARElement, ABC):
     def getProgramming(self) -> "Programminglanguage":
         """
         AUTOSAR-compliant getter for programming.
-        
+
         Returns:
             The programming value
-        
+
         Note:
             Delegates to programming property (CODING_RULE_V2_00017)
         """
@@ -455,13 +461,13 @@ class Implementation(ARElement, ABC):
     def setProgramming(self, value: "Programminglanguage") -> "Implementation":
         """
         AUTOSAR-compliant setter for programming with method chaining.
-        
+
         Args:
             value: The programming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to programming property setter (gets validation automatically)
         """
@@ -471,10 +477,10 @@ class Implementation(ARElement, ABC):
     def getRequiredArtifact(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for requiredArtifact.
-        
+
         Returns:
             The requiredArtifact value
-        
+
         Note:
             Delegates to required_artifact property (CODING_RULE_V2_00017)
         """
@@ -483,10 +489,10 @@ class Implementation(ARElement, ABC):
     def getRequired(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for required.
-        
+
         Returns:
             The required value
-        
+
         Note:
             Delegates to required property (CODING_RULE_V2_00017)
         """
@@ -495,10 +501,10 @@ class Implementation(ARElement, ABC):
     def getResource(self) -> "ResourceConsumption":
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -507,13 +513,13 @@ class Implementation(ARElement, ABC):
     def setResource(self, value: "ResourceConsumption") -> "Implementation":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -523,10 +529,10 @@ class Implementation(ARElement, ABC):
     def getSwcBsw(self) -> RefType:
         """
         AUTOSAR-compliant getter for swcBsw.
-        
+
         Returns:
             The swcBsw value
-        
+
         Note:
             Delegates to swc_bsw property (CODING_RULE_V2_00017)
         """
@@ -535,13 +541,13 @@ class Implementation(ARElement, ABC):
     def setSwcBsw(self, value: RefType) -> "Implementation":
         """
         AUTOSAR-compliant setter for swcBsw with method chaining.
-        
+
         Args:
             value: The swcBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_bsw property setter (gets validation automatically)
         """
@@ -551,10 +557,10 @@ class Implementation(ARElement, ABC):
     def getSwVersion(self) -> "RevisionLabelString":
         """
         AUTOSAR-compliant getter for swVersion.
-        
+
         Returns:
             The swVersion value
-        
+
         Note:
             Delegates to sw_version property (CODING_RULE_V2_00017)
         """
@@ -563,13 +569,13 @@ class Implementation(ARElement, ABC):
     def setSwVersion(self, value: "RevisionLabelString") -> "Implementation":
         """
         AUTOSAR-compliant setter for swVersion with method chaining.
-        
+
         Args:
             value: The swVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_version property setter (gets validation automatically)
         """
@@ -579,10 +585,10 @@ class Implementation(ARElement, ABC):
     def getUsedCodeGenerator(self) -> "String":
         """
         AUTOSAR-compliant getter for usedCodeGenerator.
-        
+
         Returns:
             The usedCodeGenerator value
-        
+
         Note:
             Delegates to used_code_generator property (CODING_RULE_V2_00017)
         """
@@ -591,13 +597,13 @@ class Implementation(ARElement, ABC):
     def setUsedCodeGenerator(self, value: "String") -> "Implementation":
         """
         AUTOSAR-compliant setter for usedCodeGenerator with method chaining.
-        
+
         Args:
             value: The usedCodeGenerator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_code_generator property setter (gets validation automatically)
         """
@@ -607,10 +613,10 @@ class Implementation(ARElement, ABC):
     def getVendorId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for vendorId.
-        
+
         Returns:
             The vendorId value
-        
+
         Note:
             Delegates to vendor_id property (CODING_RULE_V2_00017)
         """
@@ -619,13 +625,13 @@ class Implementation(ARElement, ABC):
     def setVendorId(self, value: "PositiveInteger") -> "Implementation":
         """
         AUTOSAR-compliant setter for vendorId with method chaining.
-        
+
         Args:
             value: The vendorId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vendor_id property setter (gets validation automatically)
         """
@@ -637,13 +643,13 @@ class Implementation(ARElement, ABC):
     def with_build_action(self, value: Optional["BuildActionManifest"]) -> "Implementation":
         """
         Set buildAction and return self for chaining.
-        
+
         Args:
             value: The buildAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_build_action("value")
         """
@@ -653,13 +659,13 @@ class Implementation(ARElement, ABC):
     def with_mc_support(self, value: Optional["McSupportData"]) -> "Implementation":
         """
         Set mcSupport and return self for chaining.
-        
+
         Args:
             value: The mcSupport to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mc_support("value")
         """
@@ -669,13 +675,13 @@ class Implementation(ARElement, ABC):
     def with_programming(self, value: Optional["Programminglanguage"]) -> "Implementation":
         """
         Set programming and return self for chaining.
-        
+
         Args:
             value: The programming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_programming("value")
         """
@@ -685,13 +691,13 @@ class Implementation(ARElement, ABC):
     def with_resource(self, value: Optional["ResourceConsumption"]) -> "Implementation":
         """
         Set resource and return self for chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource("value")
         """
@@ -701,13 +707,13 @@ class Implementation(ARElement, ABC):
     def with_swc_bsw(self, value: Optional[RefType]) -> "Implementation":
         """
         Set swcBsw and return self for chaining.
-        
+
         Args:
             value: The swcBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_bsw("value")
         """
@@ -717,13 +723,13 @@ class Implementation(ARElement, ABC):
     def with_sw_version(self, value: Optional["RevisionLabelString"]) -> "Implementation":
         """
         Set swVersion and return self for chaining.
-        
+
         Args:
             value: The swVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_version("value")
         """
@@ -733,13 +739,13 @@ class Implementation(ARElement, ABC):
     def with_used_code_generator(self, value: Optional["String"]) -> "Implementation":
         """
         Set usedCodeGenerator and return self for chaining.
-        
+
         Args:
             value: The usedCodeGenerator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_code_generator("value")
         """
@@ -749,13 +755,13 @@ class Implementation(ARElement, ABC):
     def with_vendor_id(self, value: Optional["PositiveInteger"]) -> "Implementation":
         """
         Set vendorId and return self for chaining.
-        
+
         Args:
             value: The vendorId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vendor_id("value")
         """

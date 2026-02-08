@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SecurityEventDefinition(IdsCommonElement):
     """
     This meta-class defines a security-related event as part of the intrusion
     detection system.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::SecurityEventDefinition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 259, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def event_symbol(self, value: Optional["SymbolProps"]) -> None:
         """
         Set eventSymbol with validation.
-        
+
         Args:
             value: The eventSymbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +81,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def getEventSymbol(self) -> "SymbolProps":
         """
         AUTOSAR-compliant getter for eventSymbol.
-        
+
         Returns:
             The eventSymbol value
-        
+
         Note:
             Delegates to event_symbol property (CODING_RULE_V2_00017)
         """
@@ -93,13 +93,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def setEventSymbol(self, value: "SymbolProps") -> "SecurityEventDefinition":
         """
         AUTOSAR-compliant setter for eventSymbol with method chaining.
-        
+
         Args:
             value: The eventSymbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_symbol property setter (gets validation automatically)
         """
@@ -109,10 +109,10 @@ class SecurityEventDefinition(IdsCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -121,13 +121,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def setId(self, value: "PositiveInteger") -> "SecurityEventDefinition":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -139,13 +139,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def with_event_symbol(self, value: Optional["SymbolProps"]) -> "SecurityEventDefinition":
         """
         Set eventSymbol and return self for chaining.
-        
+
         Args:
             value: The eventSymbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_symbol("value")
         """
@@ -155,13 +155,13 @@ class SecurityEventDefinition(IdsCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "SecurityEventDefinition":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """

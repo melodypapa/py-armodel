@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv::IEEE1722TpCrfConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 640, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def base_frequency(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set baseFrequency with validation.
-        
+
         Args:
             value: The baseFrequency to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def crf_pull_enum(self, value: Optional["IEEE1722TpCrfPull"]) -> None:
         """
         Set crfPullEnum with validation.
-        
+
         Args:
             value: The crfPullEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +82,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def crf_type_enum(self, value: Optional["IEEE1722TpCrfType"]) -> None:
         """
         Set crfTypeEnum with validation.
-        
+
         Args:
             value: The crfTypeEnum to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +112,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def frame_sync(self, value: Optional["Boolean"]) -> None:
         """
         Set frameSync with validation.
-        
+
         Args:
             value: The frameSync to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +142,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def timestamp(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set timestamp with validation.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +164,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def getBaseFrequency(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for baseFrequency.
-        
+
         Returns:
             The baseFrequency value
-        
+
         Note:
             Delegates to base_frequency property (CODING_RULE_V2_00017)
         """
@@ -176,13 +176,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def setBaseFrequency(self, value: "PositiveInteger") -> "IEEE1722TpCrfConnection":
         """
         AUTOSAR-compliant setter for baseFrequency with method chaining.
-        
+
         Args:
             value: The baseFrequency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_frequency property setter (gets validation automatically)
         """
@@ -192,10 +192,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def getCrfPullEnum(self) -> "IEEE1722TpCrfPull":
         """
         AUTOSAR-compliant getter for crfPullEnum.
-        
+
         Returns:
             The crfPullEnum value
-        
+
         Note:
             Delegates to crf_pull_enum property (CODING_RULE_V2_00017)
         """
@@ -204,13 +204,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def setCrfPullEnum(self, value: "IEEE1722TpCrfPull") -> "IEEE1722TpCrfConnection":
         """
         AUTOSAR-compliant setter for crfPullEnum with method chaining.
-        
+
         Args:
             value: The crfPullEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crf_pull_enum property setter (gets validation automatically)
         """
@@ -220,10 +220,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def getCrfTypeEnum(self) -> "IEEE1722TpCrfType":
         """
         AUTOSAR-compliant getter for crfTypeEnum.
-        
+
         Returns:
             The crfTypeEnum value
-        
+
         Note:
             Delegates to crf_type_enum property (CODING_RULE_V2_00017)
         """
@@ -232,13 +232,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def setCrfTypeEnum(self, value: "IEEE1722TpCrfType") -> "IEEE1722TpCrfConnection":
         """
         AUTOSAR-compliant setter for crfTypeEnum with method chaining.
-        
+
         Args:
             value: The crfTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to crf_type_enum property setter (gets validation automatically)
         """
@@ -248,10 +248,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def getFrameSync(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for frameSync.
-        
+
         Returns:
             The frameSync value
-        
+
         Note:
             Delegates to frame_sync property (CODING_RULE_V2_00017)
         """
@@ -260,13 +260,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def setFrameSync(self, value: "Boolean") -> "IEEE1722TpCrfConnection":
         """
         AUTOSAR-compliant setter for frameSync with method chaining.
-        
+
         Args:
             value: The frameSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame_sync property setter (gets validation automatically)
         """
@@ -276,10 +276,10 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def getTimestamp(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for timestamp.
-        
+
         Returns:
             The timestamp value
-        
+
         Note:
             Delegates to timestamp property (CODING_RULE_V2_00017)
         """
@@ -288,13 +288,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def setTimestamp(self, value: "PositiveInteger") -> "IEEE1722TpCrfConnection":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp property setter (gets validation automatically)
         """
@@ -306,13 +306,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def with_base_frequency(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpCrfConnection":
         """
         Set baseFrequency and return self for chaining.
-        
+
         Args:
             value: The baseFrequency to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_frequency("value")
         """
@@ -322,13 +322,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def with_crf_pull_enum(self, value: Optional["IEEE1722TpCrfPull"]) -> "IEEE1722TpCrfConnection":
         """
         Set crfPullEnum and return self for chaining.
-        
+
         Args:
             value: The crfPullEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crf_pull_enum("value")
         """
@@ -338,13 +338,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def with_crf_type_enum(self, value: Optional["IEEE1722TpCrfType"]) -> "IEEE1722TpCrfConnection":
         """
         Set crfTypeEnum and return self for chaining.
-        
+
         Args:
             value: The crfTypeEnum to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_crf_type_enum("value")
         """
@@ -354,13 +354,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def with_frame_sync(self, value: Optional["Boolean"]) -> "IEEE1722TpCrfConnection":
         """
         Set frameSync and return self for chaining.
-        
+
         Args:
             value: The frameSync to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame_sync("value")
         """
@@ -370,13 +370,13 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     def with_timestamp(self, value: Optional["PositiveInteger"]) -> "IEEE1722TpCrfConnection":
         """
         Set timestamp and return self for chaining.
-        
+
         Args:
             value: The timestamp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp("value")
         """

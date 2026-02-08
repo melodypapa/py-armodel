@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SdgContents(ARObject):
     """
     This meta-class represents the possible contents of a special data group. It
     can be an arbitrary mix of references, of primitive special data and nested
     special data groups.
-    
+
     Package: M2::MSR::AsamHdo::SpecialData::SdgContents
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 90, Foundation R23-11)
     """
@@ -30,10 +35,10 @@ class SdgContents(ARObject):
     def sd(self, value: Optional["Sd"]) -> None:
         """
         Set sd with validation.
-        
+
         Args:
             value: The sd to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +63,10 @@ class SdgContents(ARObject):
     def sdf(self, value: Optional["Sdf"]) -> None:
         """
         Set sdf with validation.
-        
+
         Args:
             value: The sdf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +92,10 @@ class SdgContents(ARObject):
     def sdg(self, value: Optional["Sdg"]) -> None:
         """
         Set sdg with validation.
-        
+
         Args:
             value: The sdg to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +122,10 @@ class SdgContents(ARObject):
     def sdx(self, value: RefType) -> None:
         """
         Set sdx with validation.
-        
+
         Args:
             value: The sdx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -142,10 +147,10 @@ class SdgContents(ARObject):
     def sdxf(self, value: RefType) -> None:
         """
         Set sdxf with validation.
-        
+
         Args:
             value: The sdxf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -160,10 +165,10 @@ class SdgContents(ARObject):
     def getSd(self) -> "Sd":
         """
         AUTOSAR-compliant getter for sd.
-        
+
         Returns:
             The sd value
-        
+
         Note:
             Delegates to sd property (CODING_RULE_V2_00017)
         """
@@ -172,13 +177,13 @@ class SdgContents(ARObject):
     def setSd(self, value: "Sd") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sd with method chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sd property setter (gets validation automatically)
         """
@@ -188,10 +193,10 @@ class SdgContents(ARObject):
     def getSdf(self) -> "Sdf":
         """
         AUTOSAR-compliant getter for sdf.
-        
+
         Returns:
             The sdf value
-        
+
         Note:
             Delegates to sdf property (CODING_RULE_V2_00017)
         """
@@ -200,13 +205,13 @@ class SdgContents(ARObject):
     def setSdf(self, value: "Sdf") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdf with method chaining.
-        
+
         Args:
             value: The sdf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdf property setter (gets validation automatically)
         """
@@ -216,10 +221,10 @@ class SdgContents(ARObject):
     def getSdg(self) -> "Sdg":
         """
         AUTOSAR-compliant getter for sdg.
-        
+
         Returns:
             The sdg value
-        
+
         Note:
             Delegates to sdg property (CODING_RULE_V2_00017)
         """
@@ -228,13 +233,13 @@ class SdgContents(ARObject):
     def setSdg(self, value: "Sdg") -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdg with method chaining.
-        
+
         Args:
             value: The sdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdg property setter (gets validation automatically)
         """
@@ -244,10 +249,10 @@ class SdgContents(ARObject):
     def getSdx(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdx.
-        
+
         Returns:
             The sdx value
-        
+
         Note:
             Delegates to sdx property (CODING_RULE_V2_00017)
         """
@@ -256,13 +261,13 @@ class SdgContents(ARObject):
     def setSdx(self, value: RefType) -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdx with method chaining.
-        
+
         Args:
             value: The sdx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdx property setter (gets validation automatically)
         """
@@ -272,10 +277,10 @@ class SdgContents(ARObject):
     def getSdxf(self) -> RefType:
         """
         AUTOSAR-compliant getter for sdxf.
-        
+
         Returns:
             The sdxf value
-        
+
         Note:
             Delegates to sdxf property (CODING_RULE_V2_00017)
         """
@@ -284,13 +289,13 @@ class SdgContents(ARObject):
     def setSdxf(self, value: RefType) -> "SdgContents":
         """
         AUTOSAR-compliant setter for sdxf with method chaining.
-        
+
         Args:
             value: The sdxf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sdxf property setter (gets validation automatically)
         """
@@ -302,13 +307,13 @@ class SdgContents(ARObject):
     def with_sd(self, value: Optional["Sd"]) -> "SdgContents":
         """
         Set sd and return self for chaining.
-        
+
         Args:
             value: The sd to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sd("value")
         """
@@ -318,13 +323,13 @@ class SdgContents(ARObject):
     def with_sdf(self, value: Optional["Sdf"]) -> "SdgContents":
         """
         Set sdf and return self for chaining.
-        
+
         Args:
             value: The sdf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdf("value")
         """
@@ -334,13 +339,13 @@ class SdgContents(ARObject):
     def with_sdg(self, value: Optional["Sdg"]) -> "SdgContents":
         """
         Set sdg and return self for chaining.
-        
+
         Args:
             value: The sdg to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdg("value")
         """
@@ -350,13 +355,13 @@ class SdgContents(ARObject):
     def with_sdx(self, value: Optional[RefType]) -> "SdgContents":
         """
         Set sdx and return self for chaining.
-        
+
         Args:
             value: The sdx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdx("value")
         """
@@ -366,13 +371,13 @@ class SdgContents(ARObject):
     def with_sdxf(self, value: Optional[RefType]) -> "SdgContents":
         """
         Set sdxf and return self for chaining.
-        
+
         Args:
             value: The sdxf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sdxf("value")
         """

@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class IPv6ExtHeaderFilterList(Identifiable):
     """
     Permitted list for the filtering of IPv6 extension headers.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList::IPv6ExtHeaderFilterList
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 455, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class IPv6ExtHeaderFilterList(Identifiable):
     def getAllowedIPv6Ext(self) -> List["PositiveInteger"]:
         """
         AUTOSAR-compliant getter for allowedIPv6Ext.
-        
+
         Returns:
             The allowedIPv6Ext value
-        
+
         Note:
             Delegates to allowed_i_pv6_ext property (CODING_RULE_V2_00017)
         """

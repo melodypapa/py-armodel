@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SoAdRoutingGroup(FibexElement):
     """
     Routing of Pdus in the SoAd can be activated or deactivated. The ShortName
     of this element shall contain the RoutingGroupId.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel::SoAdRoutingGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2057, Classic Platform R23-11)
     """
@@ -34,10 +37,10 @@ class SoAdRoutingGroup(FibexElement):
     def event_group(self, value: RefType) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +55,10 @@ class SoAdRoutingGroup(FibexElement):
     def getEventGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -64,13 +67,13 @@ class SoAdRoutingGroup(FibexElement):
     def setEventGroup(self, value: RefType) -> "SoAdRoutingGroup":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -82,13 +85,13 @@ class SoAdRoutingGroup(FibexElement):
     def with_event_group(self, value: Optional[RefType]) -> "SoAdRoutingGroup":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """

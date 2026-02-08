@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class FMFeatureRestriction(Identifiable):
     """
     Defines restrictions for FMFeatures. A FMFeature can only be part of a
     FMFeatureSelectionSet if at least one of its restrictions evaluate to true.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFeatureRestriction
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 32, Foundation
       R23-11)
@@ -30,10 +32,10 @@ class FMFeatureRestriction(Identifiable):
     def restriction_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> None:
         """
         Set restrictionAndAttributes with validation.
-        
+
         Args:
             value: The restrictionAndAttributes to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +54,10 @@ class FMFeatureRestriction(Identifiable):
     def getRestrictionAndAttributes(self) -> "FMConditionByFeatures":
         """
         AUTOSAR-compliant getter for restrictionAndAttributes.
-        
+
         Returns:
             The restrictionAndAttributes value
-        
+
         Note:
             Delegates to restriction_and_attributes property (CODING_RULE_V2_00017)
         """
@@ -64,13 +66,13 @@ class FMFeatureRestriction(Identifiable):
     def setRestrictionAndAttributes(self, value: "FMConditionByFeatures") -> "FMFeatureRestriction":
         """
         AUTOSAR-compliant setter for restrictionAndAttributes with method chaining.
-        
+
         Args:
             value: The restrictionAndAttributes to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to restriction_and_attributes property setter (gets validation automatically)
         """
@@ -82,13 +84,13 @@ class FMFeatureRestriction(Identifiable):
     def with_restriction_and_attributes(self, value: Optional["FMConditionByFeatures"]) -> "FMFeatureRestriction":
         """
         Set restrictionAndAttributes and return self for chaining.
-        
+
         Args:
             value: The restrictionAndAttributes to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_restriction_and_attributes("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class EthTcpIpIcmpProps(ARElement):
     """
     This meta-class is used to configure the EcuInstance specific ICMP (Internet
     Control Message Protocol) attributes
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthTcpIpIcmpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 156, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class EthTcpIpIcmpProps(ARElement):
     def icmp_v4_props(self, value: Optional["TcpIpIcmpv4Props"]) -> None:
         """
         Set icmpV4Props with validation.
-        
+
         Args:
             value: The icmpV4Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class EthTcpIpIcmpProps(ARElement):
     def icmp_v6_props(self, value: Optional["TcpIpIcmpv6Props"]) -> None:
         """
         Set icmpV6Props with validation.
-        
+
         Args:
             value: The icmpV6Props to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class EthTcpIpIcmpProps(ARElement):
     def getIcmpV4Props(self) -> "TcpIpIcmpv4Props":
         """
         AUTOSAR-compliant getter for icmpV4Props.
-        
+
         Returns:
             The icmpV4Props value
-        
+
         Note:
             Delegates to icmp_v4_props property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class EthTcpIpIcmpProps(ARElement):
     def setIcmpV4Props(self, value: "TcpIpIcmpv4Props") -> "EthTcpIpIcmpProps":
         """
         AUTOSAR-compliant setter for icmpV4Props with method chaining.
-        
+
         Args:
             value: The icmpV4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to icmp_v4_props property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class EthTcpIpIcmpProps(ARElement):
     def getIcmpV6Props(self) -> "TcpIpIcmpv6Props":
         """
         AUTOSAR-compliant getter for icmpV6Props.
-        
+
         Returns:
             The icmpV6Props value
-        
+
         Note:
             Delegates to icmp_v6_props property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class EthTcpIpIcmpProps(ARElement):
     def setIcmpV6Props(self, value: "TcpIpIcmpv6Props") -> "EthTcpIpIcmpProps":
         """
         AUTOSAR-compliant setter for icmpV6Props with method chaining.
-        
+
         Args:
             value: The icmpV6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to icmp_v6_props property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class EthTcpIpIcmpProps(ARElement):
     def with_icmp_v4_props(self, value: Optional["TcpIpIcmpv4Props"]) -> "EthTcpIpIcmpProps":
         """
         Set icmpV4Props and return self for chaining.
-        
+
         Args:
             value: The icmpV4Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_icmp_v4_props("value")
         """
@@ -151,13 +151,13 @@ class EthTcpIpIcmpProps(ARElement):
     def with_icmp_v6_props(self, value: Optional["TcpIpIcmpv6Props"]) -> "EthTcpIpIcmpProps":
         """
         Set icmpV6Props and return self for chaining.
-        
+
         Args:
             value: The icmpV6Props to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_icmp_v6_props("value")
         """

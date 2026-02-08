@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TpConnection(ARObject, ABC):
     """
     TpConnection Base Class.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::TpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 633, Classic Platform R23-11)
     """
@@ -29,10 +33,10 @@ class TpConnection(ARObject, ABC):
     def ident(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set ident with validation.
-        
+
         Args:
             value: The ident to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +55,10 @@ class TpConnection(ARObject, ABC):
     def getIdent(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for ident.
-        
+
         Returns:
             The ident value
-        
+
         Note:
             Delegates to ident property (CODING_RULE_V2_00017)
         """
@@ -63,13 +67,13 @@ class TpConnection(ARObject, ABC):
     def setIdent(self, value: "TpConnectionIdent") -> "TpConnection":
         """
         AUTOSAR-compliant setter for ident with method chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ident property setter (gets validation automatically)
         """
@@ -81,13 +85,13 @@ class TpConnection(ARObject, ABC):
     def with_ident(self, value: Optional["TpConnectionIdent"]) -> "TpConnection":
         """
         Set ident and return self for chaining.
-        
+
         Args:
             value: The ident to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ident("value")
         """

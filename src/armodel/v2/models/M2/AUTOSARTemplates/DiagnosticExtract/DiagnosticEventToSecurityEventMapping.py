@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     """
     This meta-class represents the ability to map a security event that is
     defined in the context of the Security Extract to a diagnostic event defined
     on the context of the DiagnosticExtract.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToSecurityEventMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 257, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def security_event(self, value: Optional["SecurityEventContext"]) -> None:
         """
         Set securityEvent with validation.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToSecurityEventMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def getSecurityEvent(self) -> "SecurityEventContext":
         """
         AUTOSAR-compliant getter for securityEvent.
-        
+
         Returns:
             The securityEvent value
-        
+
         Note:
             Delegates to security_event property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def setSecurityEvent(self, value: "SecurityEventContext") -> "DiagnosticEventToSecurityEventMapping":
         """
         AUTOSAR-compliant setter for securityEvent with method chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to security_event property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToSecurityEventMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticEventToSecurityEventMapping(DiagnosticMapping):
     def with_security_event(self, value: Optional["SecurityEventContext"]) -> "DiagnosticEventToSecurityEventMapping":
         """
         Set securityEvent and return self for chaining.
-        
+
         Args:
             value: The securityEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_security_event("value")
         """

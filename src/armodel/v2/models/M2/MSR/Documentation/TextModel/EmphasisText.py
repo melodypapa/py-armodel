@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EmphasisText(ARObject):
     """
     This is an emphasized text. As a compromise it contains some rendering
     oriented attributes such as color and font.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextElements::EmphasisText
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 316, Foundation
       R23-11)
@@ -30,10 +33,10 @@ class EmphasisText(ARObject):
     def color(self, value: Optional["String"]) -> None:
         """
         Set color with validation.
-        
+
         Args:
             value: The color to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class EmphasisText(ARObject):
     def font(self, value: Optional["EEnumFont"]) -> None:
         """
         Set font with validation.
-        
+
         Args:
             value: The font to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class EmphasisText(ARObject):
     def sub(self, value: "Superscript") -> None:
         """
         Set sub with validation.
-        
+
         Args:
             value: The sub to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -110,10 +113,10 @@ class EmphasisText(ARObject):
     def sup(self, value: "Superscript") -> None:
         """
         Set sup with validation.
-        
+
         Args:
             value: The sup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +137,10 @@ class EmphasisText(ARObject):
     def tt(self, value: Optional["Tt"]) -> None:
         """
         Set tt with validation.
-        
+
         Args:
             value: The tt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,10 +167,10 @@ class EmphasisText(ARObject):
     def type(self, value: Optional["EEnum"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -186,10 +189,10 @@ class EmphasisText(ARObject):
     def getColor(self) -> "String":
         """
         AUTOSAR-compliant getter for color.
-        
+
         Returns:
             The color value
-        
+
         Note:
             Delegates to color property (CODING_RULE_V2_00017)
         """
@@ -198,13 +201,13 @@ class EmphasisText(ARObject):
     def setColor(self, value: "String") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for color with method chaining.
-        
+
         Args:
             value: The color to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to color property setter (gets validation automatically)
         """
@@ -214,10 +217,10 @@ class EmphasisText(ARObject):
     def getFont(self) -> "EEnumFont":
         """
         AUTOSAR-compliant getter for font.
-        
+
         Returns:
             The font value
-        
+
         Note:
             Delegates to font property (CODING_RULE_V2_00017)
         """
@@ -226,13 +229,13 @@ class EmphasisText(ARObject):
     def setFont(self, value: "EEnumFont") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for font with method chaining.
-        
+
         Args:
             value: The font to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to font property setter (gets validation automatically)
         """
@@ -242,10 +245,10 @@ class EmphasisText(ARObject):
     def getSub(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sub.
-        
+
         Returns:
             The sub value
-        
+
         Note:
             Delegates to sub property (CODING_RULE_V2_00017)
         """
@@ -254,13 +257,13 @@ class EmphasisText(ARObject):
     def setSub(self, value: "Superscript") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for sub with method chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sub property setter (gets validation automatically)
         """
@@ -270,10 +273,10 @@ class EmphasisText(ARObject):
     def getSup(self) -> "Superscript":
         """
         AUTOSAR-compliant getter for sup.
-        
+
         Returns:
             The sup value
-        
+
         Note:
             Delegates to sup property (CODING_RULE_V2_00017)
         """
@@ -282,13 +285,13 @@ class EmphasisText(ARObject):
     def setSup(self, value: "Superscript") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for sup with method chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sup property setter (gets validation automatically)
         """
@@ -298,10 +301,10 @@ class EmphasisText(ARObject):
     def getTt(self) -> "Tt":
         """
         AUTOSAR-compliant getter for tt.
-        
+
         Returns:
             The tt value
-        
+
         Note:
             Delegates to tt property (CODING_RULE_V2_00017)
         """
@@ -310,13 +313,13 @@ class EmphasisText(ARObject):
     def setTt(self, value: "Tt") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for tt with method chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tt property setter (gets validation automatically)
         """
@@ -326,10 +329,10 @@ class EmphasisText(ARObject):
     def getType(self) -> "EEnum":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -338,13 +341,13 @@ class EmphasisText(ARObject):
     def setType(self, value: "EEnum") -> "EmphasisText":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -356,13 +359,13 @@ class EmphasisText(ARObject):
     def with_color(self, value: Optional["String"]) -> "EmphasisText":
         """
         Set color and return self for chaining.
-        
+
         Args:
             value: The color to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_color("value")
         """
@@ -372,13 +375,13 @@ class EmphasisText(ARObject):
     def with_font(self, value: Optional["EEnumFont"]) -> "EmphasisText":
         """
         Set font and return self for chaining.
-        
+
         Args:
             value: The font to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_font("value")
         """
@@ -388,13 +391,13 @@ class EmphasisText(ARObject):
     def with_sub(self, value: "Superscript") -> "EmphasisText":
         """
         Set sub and return self for chaining.
-        
+
         Args:
             value: The sub to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sub("value")
         """
@@ -404,13 +407,13 @@ class EmphasisText(ARObject):
     def with_sup(self, value: "Superscript") -> "EmphasisText":
         """
         Set sup and return self for chaining.
-        
+
         Args:
             value: The sup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sup("value")
         """
@@ -420,13 +423,13 @@ class EmphasisText(ARObject):
     def with_tt(self, value: Optional["Tt"]) -> "EmphasisText":
         """
         Set tt and return self for chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tt("value")
         """
@@ -436,13 +439,13 @@ class EmphasisText(ARObject):
     def with_type(self, value: Optional["EEnum"]) -> "EmphasisText":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

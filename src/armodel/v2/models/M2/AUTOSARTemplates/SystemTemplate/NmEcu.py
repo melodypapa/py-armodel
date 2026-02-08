@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class NmEcu(Identifiable):
     """
     ECU on which NM is running.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement::NmEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 674, Classic Platform R23-11)
     """
@@ -35,10 +37,10 @@ class NmEcu(Identifiable):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +65,10 @@ class NmEcu(Identifiable):
     def nm_bus_synchronization_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmBusSynchronizationEnabled with validation.
-        
+
         Args:
             value: The nmBusSynchronizationEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class NmEcu(Identifiable):
     def nm_com_control_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmComControlEnabled with validation.
-        
+
         Args:
             value: The nmComControlEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -119,10 +121,10 @@ class NmEcu(Identifiable):
     def nm_coordinator(self, value: Optional["NmCoordinator"]) -> None:
         """
         Set nmCoordinator with validation.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -148,10 +150,10 @@ class NmEcu(Identifiable):
     def nm_cycletime(self, value: Optional["TimeValue"]) -> None:
         """
         Set nmCycletime with validation.
-        
+
         Args:
             value: The nmCycletime to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +178,10 @@ class NmEcu(Identifiable):
     def nm_pdu_rx_indication_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmPduRxIndicationEnabled with validation.
-        
+
         Args:
             value: The nmPduRxIndicationEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -204,10 +206,10 @@ class NmEcu(Identifiable):
     def nm_remote(self, value: Optional["Boolean"]) -> None:
         """
         Set nmRemote with validation.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -232,10 +234,10 @@ class NmEcu(Identifiable):
     def nm_state_change(self, value: Optional["Boolean"]) -> None:
         """
         Set nmStateChange with validation.
-        
+
         Args:
             value: The nmStateChange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -260,10 +262,10 @@ class NmEcu(Identifiable):
     def nm_user_data_enabled(self, value: Optional["Boolean"]) -> None:
         """
         Set nmUserDataEnabled with validation.
-        
+
         Args:
             value: The nmUserDataEnabled to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -282,10 +284,10 @@ class NmEcu(Identifiable):
     def getBusDependentNmEcu(self) -> List["BusspecificNmEcu"]:
         """
         AUTOSAR-compliant getter for busDependentNmEcu.
-        
+
         Returns:
             The busDependentNmEcu value
-        
+
         Note:
             Delegates to bus_dependent_nm_ecu property (CODING_RULE_V2_00017)
         """
@@ -294,10 +296,10 @@ class NmEcu(Identifiable):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -306,13 +308,13 @@ class NmEcu(Identifiable):
     def setEcuInstance(self, value: "EcuInstance") -> "NmEcu":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -322,10 +324,10 @@ class NmEcu(Identifiable):
     def getNmBusSynchronizationEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmBusSynchronizationEnabled.
-        
+
         Returns:
             The nmBusSynchronizationEnabled value
-        
+
         Note:
             Delegates to nm_bus_synchronization_enabled property (CODING_RULE_V2_00017)
         """
@@ -334,13 +336,13 @@ class NmEcu(Identifiable):
     def setNmBusSynchronizationEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmBusSynchronizationEnabled with method chaining.
-        
+
         Args:
             value: The nmBusSynchronizationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_bus_synchronization_enabled property setter (gets validation automatically)
         """
@@ -350,10 +352,10 @@ class NmEcu(Identifiable):
     def getNmComControlEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmComControlEnabled.
-        
+
         Returns:
             The nmComControlEnabled value
-        
+
         Note:
             Delegates to nm_com_control_enabled property (CODING_RULE_V2_00017)
         """
@@ -362,13 +364,13 @@ class NmEcu(Identifiable):
     def setNmComControlEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmComControlEnabled with method chaining.
-        
+
         Args:
             value: The nmComControlEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_com_control_enabled property setter (gets validation automatically)
         """
@@ -378,10 +380,10 @@ class NmEcu(Identifiable):
     def getNmCoordinator(self) -> "NmCoordinator":
         """
         AUTOSAR-compliant getter for nmCoordinator.
-        
+
         Returns:
             The nmCoordinator value
-        
+
         Note:
             Delegates to nm_coordinator property (CODING_RULE_V2_00017)
         """
@@ -390,13 +392,13 @@ class NmEcu(Identifiable):
     def setNmCoordinator(self, value: "NmCoordinator") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_coordinator property setter (gets validation automatically)
         """
@@ -406,10 +408,10 @@ class NmEcu(Identifiable):
     def getNmCycletime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nmCycletime.
-        
+
         Returns:
             The nmCycletime value
-        
+
         Note:
             Delegates to nm_cycletime property (CODING_RULE_V2_00017)
         """
@@ -418,13 +420,13 @@ class NmEcu(Identifiable):
     def setNmCycletime(self, value: "TimeValue") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmCycletime with method chaining.
-        
+
         Args:
             value: The nmCycletime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_cycletime property setter (gets validation automatically)
         """
@@ -434,10 +436,10 @@ class NmEcu(Identifiable):
     def getNmPduRxIndicationEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmPduRxIndicationEnabled.
-        
+
         Returns:
             The nmPduRxIndicationEnabled value
-        
+
         Note:
             Delegates to nm_pdu_rx_indication_enabled property (CODING_RULE_V2_00017)
         """
@@ -446,13 +448,13 @@ class NmEcu(Identifiable):
     def setNmPduRxIndicationEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmPduRxIndicationEnabled with method chaining.
-        
+
         Args:
             value: The nmPduRxIndicationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_pdu_rx_indication_enabled property setter (gets validation automatically)
         """
@@ -462,10 +464,10 @@ class NmEcu(Identifiable):
     def getNmRemote(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmRemote.
-        
+
         Returns:
             The nmRemote value
-        
+
         Note:
             Delegates to nm_remote property (CODING_RULE_V2_00017)
         """
@@ -474,13 +476,13 @@ class NmEcu(Identifiable):
     def setNmRemote(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmRemote with method chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_remote property setter (gets validation automatically)
         """
@@ -490,10 +492,10 @@ class NmEcu(Identifiable):
     def getNmStateChange(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmStateChange.
-        
+
         Returns:
             The nmStateChange value
-        
+
         Note:
             Delegates to nm_state_change property (CODING_RULE_V2_00017)
         """
@@ -502,13 +504,13 @@ class NmEcu(Identifiable):
     def setNmStateChange(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmStateChange with method chaining.
-        
+
         Args:
             value: The nmStateChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_state_change property setter (gets validation automatically)
         """
@@ -518,10 +520,10 @@ class NmEcu(Identifiable):
     def getNmUserDataEnabled(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for nmUserDataEnabled.
-        
+
         Returns:
             The nmUserDataEnabled value
-        
+
         Note:
             Delegates to nm_user_data_enabled property (CODING_RULE_V2_00017)
         """
@@ -530,13 +532,13 @@ class NmEcu(Identifiable):
     def setNmUserDataEnabled(self, value: "Boolean") -> "NmEcu":
         """
         AUTOSAR-compliant setter for nmUserDataEnabled with method chaining.
-        
+
         Args:
             value: The nmUserDataEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_user_data_enabled property setter (gets validation automatically)
         """
@@ -548,13 +550,13 @@ class NmEcu(Identifiable):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "NmEcu":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -564,13 +566,13 @@ class NmEcu(Identifiable):
     def with_nm_bus_synchronization_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmBusSynchronizationEnabled and return self for chaining.
-        
+
         Args:
             value: The nmBusSynchronizationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_bus_synchronization_enabled("value")
         """
@@ -580,13 +582,13 @@ class NmEcu(Identifiable):
     def with_nm_com_control_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmComControlEnabled and return self for chaining.
-        
+
         Args:
             value: The nmComControlEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_com_control_enabled("value")
         """
@@ -596,13 +598,13 @@ class NmEcu(Identifiable):
     def with_nm_coordinator(self, value: Optional["NmCoordinator"]) -> "NmEcu":
         """
         Set nmCoordinator and return self for chaining.
-        
+
         Args:
             value: The nmCoordinator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_coordinator("value")
         """
@@ -612,13 +614,13 @@ class NmEcu(Identifiable):
     def with_nm_cycletime(self, value: Optional["TimeValue"]) -> "NmEcu":
         """
         Set nmCycletime and return self for chaining.
-        
+
         Args:
             value: The nmCycletime to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_cycletime("value")
         """
@@ -628,13 +630,13 @@ class NmEcu(Identifiable):
     def with_nm_pdu_rx_indication_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmPduRxIndicationEnabled and return self for chaining.
-        
+
         Args:
             value: The nmPduRxIndicationEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_pdu_rx_indication_enabled("value")
         """
@@ -644,13 +646,13 @@ class NmEcu(Identifiable):
     def with_nm_remote(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmRemote and return self for chaining.
-        
+
         Args:
             value: The nmRemote to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_remote("value")
         """
@@ -660,13 +662,13 @@ class NmEcu(Identifiable):
     def with_nm_state_change(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmStateChange and return self for chaining.
-        
+
         Args:
             value: The nmStateChange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_state_change("value")
         """
@@ -676,13 +678,13 @@ class NmEcu(Identifiable):
     def with_nm_user_data_enabled(self, value: Optional["Boolean"]) -> "NmEcu":
         """
         Set nmUserDataEnabled and return self for chaining.
-        
+
         Args:
             value: The nmUserDataEnabled to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_user_data_enabled("value")
         """

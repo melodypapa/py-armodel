@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     """
     This meta-class represents the ability to define memory properties from the
     diagnostics point of view.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::MemoryByAddress::DiagnosticMemoryIdentifier
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 140, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def access(self, value: Optional["DiagnosticAccess"]) -> None:
         """
         Set access with validation.
-        
+
         Args:
             value: The access to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def id(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set id with validation.
-        
+
         Args:
             value: The id to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +86,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def memory_high(self, value: Optional["String"]) -> None:
         """
         Set memoryHigh with validation.
-        
+
         Args:
             value: The memoryHigh to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def memory_low(self, value: Optional["String"]) -> None:
         """
         Set memoryLow with validation.
-        
+
         Args:
             value: The memoryLow to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +137,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def getAccess(self) -> "DiagnosticAccess":
         """
         AUTOSAR-compliant getter for access.
-        
+
         Returns:
             The access value
-        
+
         Note:
             Delegates to access property (CODING_RULE_V2_00017)
         """
@@ -149,13 +149,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def setAccess(self, value: "DiagnosticAccess") -> "DiagnosticMemoryIdentifier":
         """
         AUTOSAR-compliant setter for access with method chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to access property setter (gets validation automatically)
         """
@@ -165,10 +165,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def getId(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for id.
-        
+
         Returns:
             The id value
-        
+
         Note:
             Delegates to id property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def setId(self, value: "PositiveInteger") -> "DiagnosticMemoryIdentifier":
         """
         AUTOSAR-compliant setter for id with method chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to id property setter (gets validation automatically)
         """
@@ -193,10 +193,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def getMemoryHigh(self) -> "String":
         """
         AUTOSAR-compliant getter for memoryHigh.
-        
+
         Returns:
             The memoryHigh value
-        
+
         Note:
             Delegates to memory_high property (CODING_RULE_V2_00017)
         """
@@ -205,13 +205,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def setMemoryHigh(self, value: "String") -> "DiagnosticMemoryIdentifier":
         """
         AUTOSAR-compliant setter for memoryHigh with method chaining.
-        
+
         Args:
             value: The memoryHigh to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_high property setter (gets validation automatically)
         """
@@ -221,10 +221,10 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def getMemoryLow(self) -> "String":
         """
         AUTOSAR-compliant getter for memoryLow.
-        
+
         Returns:
             The memoryLow value
-        
+
         Note:
             Delegates to memory_low property (CODING_RULE_V2_00017)
         """
@@ -233,13 +233,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def setMemoryLow(self, value: "String") -> "DiagnosticMemoryIdentifier":
         """
         AUTOSAR-compliant setter for memoryLow with method chaining.
-        
+
         Args:
             value: The memoryLow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to memory_low property setter (gets validation automatically)
         """
@@ -251,13 +251,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def with_access(self, value: Optional["DiagnosticAccess"]) -> "DiagnosticMemoryIdentifier":
         """
         Set access and return self for chaining.
-        
+
         Args:
             value: The access to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_access("value")
         """
@@ -267,13 +267,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def with_id(self, value: Optional["PositiveInteger"]) -> "DiagnosticMemoryIdentifier":
         """
         Set id and return self for chaining.
-        
+
         Args:
             value: The id to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_id("value")
         """
@@ -283,13 +283,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def with_memory_high(self, value: Optional["String"]) -> "DiagnosticMemoryIdentifier":
         """
         Set memoryHigh and return self for chaining.
-        
+
         Args:
             value: The memoryHigh to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_high("value")
         """
@@ -299,13 +299,13 @@ class DiagnosticMemoryIdentifier(DiagnosticCommonElement):
     def with_memory_low(self, value: Optional["String"]) -> "DiagnosticMemoryIdentifier":
         """
         Set memoryLow and return self for chaining.
-        
+
         Args:
             value: The memoryLow to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_memory_low("value")
         """

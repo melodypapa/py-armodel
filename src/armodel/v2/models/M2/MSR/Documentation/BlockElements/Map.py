@@ -9,9 +9,9 @@ class Map(ARObject):
     program, etc.) When the region is activated by the user, the action is
     executed. The class follows the html approach and is intended to support
     interactive documents.
-    
+
     Package: M2::MSR::Documentation::BlockElements::Figure::Map
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 305, Foundation
       R23-11)
@@ -36,10 +36,10 @@ class Map(ARObject):
     def area(self, value: "Area") -> None:
         """
         Set area with validation.
-        
+
         Args:
             value: The area to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class Map(ARObject):
     def class(self, value: Optional["String"]) -> None:
         """
         Set class with validation.
-        
+
         Args:
             value: The class to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +94,10 @@ class Map(ARObject):
     def name(self, value: Optional["NameToken"]) -> None:
         """
         Set name with validation.
-        
+
         Args:
             value: The name to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +123,10 @@ class Map(ARObject):
     def onclick(self, value: Optional["String"]) -> None:
         """
         Set onclick with validation.
-        
+
         Args:
             value: The onclick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +153,10 @@ class Map(ARObject):
     def ondblclick(self, value: Optional["String"]) -> None:
         """
         Set ondblclick with validation.
-        
+
         Args:
             value: The ondblclick to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -182,10 +182,10 @@ class Map(ARObject):
     def onkeydown(self, value: Optional["String"]) -> None:
         """
         Set onkeydown with validation.
-        
+
         Args:
             value: The onkeydown to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -211,10 +211,10 @@ class Map(ARObject):
     def onkeypress(self, value: Optional["String"]) -> None:
         """
         Set onkeypress with validation.
-        
+
         Args:
             value: The onkeypress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -240,10 +240,10 @@ class Map(ARObject):
     def onkeyup(self, value: Optional["String"]) -> None:
         """
         Set onkeyup with validation.
-        
+
         Args:
             value: The onkeyup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -270,10 +270,10 @@ class Map(ARObject):
     def onmousedown(self, value: Optional["String"]) -> None:
         """
         Set onmousedown with validation.
-        
+
         Args:
             value: The onmousedown to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -300,10 +300,10 @@ class Map(ARObject):
     def onmousemove(self, value: Optional["String"]) -> None:
         """
         Set onmousemove with validation.
-        
+
         Args:
             value: The onmousemove to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -329,10 +329,10 @@ class Map(ARObject):
     def onmouseout(self, value: Optional["String"]) -> None:
         """
         Set onmouseout with validation.
-        
+
         Args:
             value: The onmouseout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -358,10 +358,10 @@ class Map(ARObject):
     def onmouseover(self, value: Optional["String"]) -> None:
         """
         Set onmouseover with validation.
-        
+
         Args:
             value: The onmouseover to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -388,10 +388,10 @@ class Map(ARObject):
     def onmouseup(self, value: Optional["String"]) -> None:
         """
         Set onmouseup with validation.
-        
+
         Args:
             value: The onmouseup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -419,10 +419,10 @@ class Map(ARObject):
     def title(self, value: Optional["String"]) -> None:
         """
         Set title with validation.
-        
+
         Args:
             value: The title to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -441,10 +441,10 @@ class Map(ARObject):
     def getArea(self) -> "Area":
         """
         AUTOSAR-compliant getter for area.
-        
+
         Returns:
             The area value
-        
+
         Note:
             Delegates to area property (CODING_RULE_V2_00017)
         """
@@ -453,13 +453,13 @@ class Map(ARObject):
     def setArea(self, value: "Area") -> "Map":
         """
         AUTOSAR-compliant setter for area with method chaining.
-        
+
         Args:
             value: The area to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to area property setter (gets validation automatically)
         """
@@ -469,10 +469,10 @@ class Map(ARObject):
     def getClass(self) -> "String":
         """
         AUTOSAR-compliant getter for class.
-        
+
         Returns:
             The class value
-        
+
         Note:
             Delegates to class property (CODING_RULE_V2_00017)
         """
@@ -481,13 +481,13 @@ class Map(ARObject):
     def setClass(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for class with method chaining.
-        
+
         Args:
             value: The class to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to class property setter (gets validation automatically)
         """
@@ -497,10 +497,10 @@ class Map(ARObject):
     def getName(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for name.
-        
+
         Returns:
             The name value
-        
+
         Note:
             Delegates to name property (CODING_RULE_V2_00017)
         """
@@ -509,13 +509,13 @@ class Map(ARObject):
     def setName(self, value: "NameToken") -> "Map":
         """
         AUTOSAR-compliant setter for name with method chaining.
-        
+
         Args:
             value: The name to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to name property setter (gets validation automatically)
         """
@@ -525,10 +525,10 @@ class Map(ARObject):
     def getOnclick(self) -> "String":
         """
         AUTOSAR-compliant getter for onclick.
-        
+
         Returns:
             The onclick value
-        
+
         Note:
             Delegates to onclick property (CODING_RULE_V2_00017)
         """
@@ -537,13 +537,13 @@ class Map(ARObject):
     def setOnclick(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onclick with method chaining.
-        
+
         Args:
             value: The onclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onclick property setter (gets validation automatically)
         """
@@ -553,10 +553,10 @@ class Map(ARObject):
     def getOndblclick(self) -> "String":
         """
         AUTOSAR-compliant getter for ondblclick.
-        
+
         Returns:
             The ondblclick value
-        
+
         Note:
             Delegates to ondblclick property (CODING_RULE_V2_00017)
         """
@@ -565,13 +565,13 @@ class Map(ARObject):
     def setOndblclick(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for ondblclick with method chaining.
-        
+
         Args:
             value: The ondblclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ondblclick property setter (gets validation automatically)
         """
@@ -581,10 +581,10 @@ class Map(ARObject):
     def getOnkeydown(self) -> "String":
         """
         AUTOSAR-compliant getter for onkeydown.
-        
+
         Returns:
             The onkeydown value
-        
+
         Note:
             Delegates to onkeydown property (CODING_RULE_V2_00017)
         """
@@ -593,13 +593,13 @@ class Map(ARObject):
     def setOnkeydown(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onkeydown with method chaining.
-        
+
         Args:
             value: The onkeydown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onkeydown property setter (gets validation automatically)
         """
@@ -609,10 +609,10 @@ class Map(ARObject):
     def getOnkeypress(self) -> "String":
         """
         AUTOSAR-compliant getter for onkeypress.
-        
+
         Returns:
             The onkeypress value
-        
+
         Note:
             Delegates to onkeypress property (CODING_RULE_V2_00017)
         """
@@ -621,13 +621,13 @@ class Map(ARObject):
     def setOnkeypress(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onkeypress with method chaining.
-        
+
         Args:
             value: The onkeypress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onkeypress property setter (gets validation automatically)
         """
@@ -637,10 +637,10 @@ class Map(ARObject):
     def getOnkeyup(self) -> "String":
         """
         AUTOSAR-compliant getter for onkeyup.
-        
+
         Returns:
             The onkeyup value
-        
+
         Note:
             Delegates to onkeyup property (CODING_RULE_V2_00017)
         """
@@ -649,13 +649,13 @@ class Map(ARObject):
     def setOnkeyup(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onkeyup with method chaining.
-        
+
         Args:
             value: The onkeyup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onkeyup property setter (gets validation automatically)
         """
@@ -665,10 +665,10 @@ class Map(ARObject):
     def getOnmousedown(self) -> "String":
         """
         AUTOSAR-compliant getter for onmousedown.
-        
+
         Returns:
             The onmousedown value
-        
+
         Note:
             Delegates to onmousedown property (CODING_RULE_V2_00017)
         """
@@ -677,13 +677,13 @@ class Map(ARObject):
     def setOnmousedown(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onmousedown with method chaining.
-        
+
         Args:
             value: The onmousedown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmousedown property setter (gets validation automatically)
         """
@@ -693,10 +693,10 @@ class Map(ARObject):
     def getOnmousemove(self) -> "String":
         """
         AUTOSAR-compliant getter for onmousemove.
-        
+
         Returns:
             The onmousemove value
-        
+
         Note:
             Delegates to onmousemove property (CODING_RULE_V2_00017)
         """
@@ -705,13 +705,13 @@ class Map(ARObject):
     def setOnmousemove(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onmousemove with method chaining.
-        
+
         Args:
             value: The onmousemove to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmousemove property setter (gets validation automatically)
         """
@@ -721,10 +721,10 @@ class Map(ARObject):
     def getOnmouseout(self) -> "String":
         """
         AUTOSAR-compliant getter for onmouseout.
-        
+
         Returns:
             The onmouseout value
-        
+
         Note:
             Delegates to onmouseout property (CODING_RULE_V2_00017)
         """
@@ -733,13 +733,13 @@ class Map(ARObject):
     def setOnmouseout(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onmouseout with method chaining.
-        
+
         Args:
             value: The onmouseout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmouseout property setter (gets validation automatically)
         """
@@ -749,10 +749,10 @@ class Map(ARObject):
     def getOnmouseover(self) -> "String":
         """
         AUTOSAR-compliant getter for onmouseover.
-        
+
         Returns:
             The onmouseover value
-        
+
         Note:
             Delegates to onmouseover property (CODING_RULE_V2_00017)
         """
@@ -761,13 +761,13 @@ class Map(ARObject):
     def setOnmouseover(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onmouseover with method chaining.
-        
+
         Args:
             value: The onmouseover to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmouseover property setter (gets validation automatically)
         """
@@ -777,10 +777,10 @@ class Map(ARObject):
     def getOnmouseup(self) -> "String":
         """
         AUTOSAR-compliant getter for onmouseup.
-        
+
         Returns:
             The onmouseup value
-        
+
         Note:
             Delegates to onmouseup property (CODING_RULE_V2_00017)
         """
@@ -789,13 +789,13 @@ class Map(ARObject):
     def setOnmouseup(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for onmouseup with method chaining.
-        
+
         Args:
             value: The onmouseup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to onmouseup property setter (gets validation automatically)
         """
@@ -805,10 +805,10 @@ class Map(ARObject):
     def getTitle(self) -> "String":
         """
         AUTOSAR-compliant getter for title.
-        
+
         Returns:
             The title value
-        
+
         Note:
             Delegates to title property (CODING_RULE_V2_00017)
         """
@@ -817,13 +817,13 @@ class Map(ARObject):
     def setTitle(self, value: "String") -> "Map":
         """
         AUTOSAR-compliant setter for title with method chaining.
-        
+
         Args:
             value: The title to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to title property setter (gets validation automatically)
         """
@@ -835,13 +835,13 @@ class Map(ARObject):
     def with_area(self, value: "Area") -> "Map":
         """
         Set area and return self for chaining.
-        
+
         Args:
             value: The area to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_area("value")
         """
@@ -851,13 +851,13 @@ class Map(ARObject):
     def with_class(self, value: Optional["String"]) -> "Map":
         """
         Set class and return self for chaining.
-        
+
         Args:
             value: The class to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_class("value")
         """
@@ -867,13 +867,13 @@ class Map(ARObject):
     def with_name(self, value: Optional["NameToken"]) -> "Map":
         """
         Set name and return self for chaining.
-        
+
         Args:
             value: The name to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_name("value")
         """
@@ -883,13 +883,13 @@ class Map(ARObject):
     def with_onclick(self, value: Optional["String"]) -> "Map":
         """
         Set onclick and return self for chaining.
-        
+
         Args:
             value: The onclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onclick("value")
         """
@@ -899,13 +899,13 @@ class Map(ARObject):
     def with_ondblclick(self, value: Optional["String"]) -> "Map":
         """
         Set ondblclick and return self for chaining.
-        
+
         Args:
             value: The ondblclick to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ondblclick("value")
         """
@@ -915,13 +915,13 @@ class Map(ARObject):
     def with_onkeydown(self, value: Optional["String"]) -> "Map":
         """
         Set onkeydown and return self for chaining.
-        
+
         Args:
             value: The onkeydown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onkeydown("value")
         """
@@ -931,13 +931,13 @@ class Map(ARObject):
     def with_onkeypress(self, value: Optional["String"]) -> "Map":
         """
         Set onkeypress and return self for chaining.
-        
+
         Args:
             value: The onkeypress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onkeypress("value")
         """
@@ -947,13 +947,13 @@ class Map(ARObject):
     def with_onkeyup(self, value: Optional["String"]) -> "Map":
         """
         Set onkeyup and return self for chaining.
-        
+
         Args:
             value: The onkeyup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onkeyup("value")
         """
@@ -963,13 +963,13 @@ class Map(ARObject):
     def with_onmousedown(self, value: Optional["String"]) -> "Map":
         """
         Set onmousedown and return self for chaining.
-        
+
         Args:
             value: The onmousedown to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmousedown("value")
         """
@@ -979,13 +979,13 @@ class Map(ARObject):
     def with_onmousemove(self, value: Optional["String"]) -> "Map":
         """
         Set onmousemove and return self for chaining.
-        
+
         Args:
             value: The onmousemove to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmousemove("value")
         """
@@ -995,13 +995,13 @@ class Map(ARObject):
     def with_onmouseout(self, value: Optional["String"]) -> "Map":
         """
         Set onmouseout and return self for chaining.
-        
+
         Args:
             value: The onmouseout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmouseout("value")
         """
@@ -1011,13 +1011,13 @@ class Map(ARObject):
     def with_onmouseover(self, value: Optional["String"]) -> "Map":
         """
         Set onmouseover and return self for chaining.
-        
+
         Args:
             value: The onmouseover to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmouseover("value")
         """
@@ -1027,13 +1027,13 @@ class Map(ARObject):
     def with_onmouseup(self, value: Optional["String"]) -> "Map":
         """
         Set onmouseup and return self for chaining.
-        
+
         Args:
             value: The onmouseup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_onmouseup("value")
         """
@@ -1043,13 +1043,13 @@ class Map(ARObject):
     def with_title(self, value: Optional["String"]) -> "Map":
         """
         Set title and return self for chaining.
-        
+
         Args:
             value: The title to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_title("value")
         """

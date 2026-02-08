@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class ObdPidServiceNeeds(DiagnosticCapabilityElement):
     """
@@ -10,9 +8,9 @@ class ObdPidServiceNeeds(DiagnosticCapabilityElement):
     referenced by assignedPort. The details of this communication (e.g.
     appropriate naming conventions) are specified in the related software
     specifications (SWS).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::ObdPidServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 325, Classic
       Platform R23-11)

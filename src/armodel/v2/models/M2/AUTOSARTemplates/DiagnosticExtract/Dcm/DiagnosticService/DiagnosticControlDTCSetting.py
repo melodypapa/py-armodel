@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
     """
     This represents an instance of the "Control DTC Setting" diagnostic service.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ControlDTCSetting::DiagnosticControlDTCSetting
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 110, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
     def dtc_setting_class(self, value: Optional["DiagnosticControlDTC"]) -> None:
         """
         Set dtcSettingClass with validation.
-        
+
         Args:
             value: The dtcSettingClass to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
     def getDtcSettingClass(self) -> "DiagnosticControlDTC":
         """
         AUTOSAR-compliant getter for dtcSettingClass.
-        
+
         Returns:
             The dtcSettingClass value
-        
+
         Note:
             Delegates to dtc_setting_class property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
     def setDtcSettingClass(self, value: "DiagnosticControlDTC") -> "DiagnosticControlDTCSetting":
         """
         AUTOSAR-compliant setter for dtcSettingClass with method chaining.
-        
+
         Args:
             value: The dtcSettingClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dtc_setting_class property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class DiagnosticControlDTCSetting(DiagnosticServiceInstance):
     def with_dtc_setting_class(self, value: Optional["DiagnosticControlDTC"]) -> "DiagnosticControlDTCSetting":
         """
         Set dtcSettingClass and return self for chaining.
-        
+
         Args:
             value: The dtcSettingClass to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dtc_setting_class("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CycleCounter(CommunicationCycle):
     """
     The communication cycle where the frame is send is described by the
     attribute "cycleCounter".
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology::CycleCounter
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 424, Classic Platform R23-11)
     """
@@ -31,10 +31,10 @@ class CycleCounter(CommunicationCycle):
     def cycle_counter(self, value: Optional["Integer"]) -> None:
         """
         Set CycleCounter with validation.
-        
+
         Args:
             value: The CycleCounter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class CycleCounter(CommunicationCycle):
     def getCycleCounter(self) -> "Integer":
         """
         AUTOSAR-compliant getter for CycleCounter.
-        
+
         Returns:
             The CycleCounter value
-        
+
         Note:
             Delegates to cycle_counter property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class CycleCounter(CommunicationCycle):
     def setCycleCounter(self, value: "Integer") -> "CycleCounter":
         """
         AUTOSAR-compliant setter for CycleCounter with method chaining.
-        
+
         Args:
             value: The CycleCounter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_counter property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class CycleCounter(CommunicationCycle):
     def with_cycle_counter(self, value: Optional["Integer"]) -> "CycleCounter":
         """
         Set CycleCounter and return self for chaining.
-        
+
         Args:
             value: The CycleCounter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_counter("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class IPduPort(CommConnectorPort):
     """
     Connectors reception or send port on the referenced channel referenced by a
     PduTriggering.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPduPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 304, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class IPduPort(CommConnectorPort):
     def i_pdu_signal(self, value: Optional["IPduSignalProcessing"]) -> None:
         """
         Set iPduSignal with validation.
-        
+
         Args:
             value: The iPduSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class IPduPort(CommConnectorPort):
     def rx_security(self, value: Optional["Boolean"]) -> None:
         """
         Set rxSecurity with validation.
-        
+
         Args:
             value: The rxSecurity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +92,10 @@ class IPduPort(CommConnectorPort):
     def timestamp_rx(self, value: Optional["TimeValue"]) -> None:
         """
         Set timestampRx with validation.
-        
+
         Args:
             value: The timestampRx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +122,10 @@ class IPduPort(CommConnectorPort):
     def use_auth_data(self, value: Optional["Boolean"]) -> None:
         """
         Set useAuthData with validation.
-        
+
         Args:
             value: The useAuthData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +144,10 @@ class IPduPort(CommConnectorPort):
     def getIPduSignal(self) -> "IPduSignalProcessing":
         """
         AUTOSAR-compliant getter for iPduSignal.
-        
+
         Returns:
             The iPduSignal value
-        
+
         Note:
             Delegates to i_pdu_signal property (CODING_RULE_V2_00017)
         """
@@ -156,13 +156,13 @@ class IPduPort(CommConnectorPort):
     def setIPduSignal(self, value: "IPduSignalProcessing") -> "IPduPort":
         """
         AUTOSAR-compliant setter for iPduSignal with method chaining.
-        
+
         Args:
             value: The iPduSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu_signal property setter (gets validation automatically)
         """
@@ -172,10 +172,10 @@ class IPduPort(CommConnectorPort):
     def getRxSecurity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for rxSecurity.
-        
+
         Returns:
             The rxSecurity value
-        
+
         Note:
             Delegates to rx_security property (CODING_RULE_V2_00017)
         """
@@ -184,13 +184,13 @@ class IPduPort(CommConnectorPort):
     def setRxSecurity(self, value: "Boolean") -> "IPduPort":
         """
         AUTOSAR-compliant setter for rxSecurity with method chaining.
-        
+
         Args:
             value: The rxSecurity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rx_security property setter (gets validation automatically)
         """
@@ -200,10 +200,10 @@ class IPduPort(CommConnectorPort):
     def getTimestampRx(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timestampRx.
-        
+
         Returns:
             The timestampRx value
-        
+
         Note:
             Delegates to timestamp_rx property (CODING_RULE_V2_00017)
         """
@@ -212,13 +212,13 @@ class IPduPort(CommConnectorPort):
     def setTimestampRx(self, value: "TimeValue") -> "IPduPort":
         """
         AUTOSAR-compliant setter for timestampRx with method chaining.
-        
+
         Args:
             value: The timestampRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp_rx property setter (gets validation automatically)
         """
@@ -228,10 +228,10 @@ class IPduPort(CommConnectorPort):
     def getUseAuthData(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for useAuthData.
-        
+
         Returns:
             The useAuthData value
-        
+
         Note:
             Delegates to use_auth_data property (CODING_RULE_V2_00017)
         """
@@ -240,13 +240,13 @@ class IPduPort(CommConnectorPort):
     def setUseAuthData(self, value: "Boolean") -> "IPduPort":
         """
         AUTOSAR-compliant setter for useAuthData with method chaining.
-        
+
         Args:
             value: The useAuthData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_auth_data property setter (gets validation automatically)
         """
@@ -258,13 +258,13 @@ class IPduPort(CommConnectorPort):
     def with_i_pdu_signal(self, value: Optional["IPduSignalProcessing"]) -> "IPduPort":
         """
         Set iPduSignal and return self for chaining.
-        
+
         Args:
             value: The iPduSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu_signal("value")
         """
@@ -274,13 +274,13 @@ class IPduPort(CommConnectorPort):
     def with_rx_security(self, value: Optional["Boolean"]) -> "IPduPort":
         """
         Set rxSecurity and return self for chaining.
-        
+
         Args:
             value: The rxSecurity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rx_security("value")
         """
@@ -290,13 +290,13 @@ class IPduPort(CommConnectorPort):
     def with_timestamp_rx(self, value: Optional["TimeValue"]) -> "IPduPort":
         """
         Set timestampRx and return self for chaining.
-        
+
         Args:
             value: The timestampRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp_rx("value")
         """
@@ -306,13 +306,13 @@ class IPduPort(CommConnectorPort):
     def with_use_auth_data(self, value: Optional["Boolean"]) -> "IPduPort":
         """
         Set useAuthData and return self for chaining.
-        
+
         Args:
             value: The useAuthData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_auth_data("value")
         """

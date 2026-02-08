@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DiagnosticConnection(ARElement):
     """
     DiagnosticConncection that is used to describe the relationship between
     several TP connections.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection::DiagnosticConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 60, Classic Platform
       R23-11)
@@ -46,10 +49,10 @@ class DiagnosticConnection(ARElement):
     def physical_request(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set physicalRequest with validation.
-        
+
         Args:
             value: The physicalRequest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +78,10 @@ class DiagnosticConnection(ARElement):
     def response(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set response with validation.
-        
+
         Args:
             value: The response to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -105,10 +108,10 @@ class DiagnosticConnection(ARElement):
     def response_on(self, value: Optional["TpConnectionIdent"]) -> None:
         """
         Set responseOn with validation.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -127,10 +130,10 @@ class DiagnosticConnection(ARElement):
     def getFunctionalRequest(self) -> List["TpConnectionIdent"]:
         """
         AUTOSAR-compliant getter for functionalRequest.
-        
+
         Returns:
             The functionalRequest value
-        
+
         Note:
             Delegates to functional_request property (CODING_RULE_V2_00017)
         """
@@ -139,10 +142,10 @@ class DiagnosticConnection(ARElement):
     def getPeriodicResponseUudt(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for periodicResponseUudt.
-        
+
         Returns:
             The periodicResponseUudt value
-        
+
         Note:
             Delegates to periodic_response_uudt property (CODING_RULE_V2_00017)
         """
@@ -151,10 +154,10 @@ class DiagnosticConnection(ARElement):
     def getPhysicalRequest(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for physicalRequest.
-        
+
         Returns:
             The physicalRequest value
-        
+
         Note:
             Delegates to physical_request property (CODING_RULE_V2_00017)
         """
@@ -163,13 +166,13 @@ class DiagnosticConnection(ARElement):
     def setPhysicalRequest(self, value: "TpConnectionIdent") -> "DiagnosticConnection":
         """
         AUTOSAR-compliant setter for physicalRequest with method chaining.
-        
+
         Args:
             value: The physicalRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical_request property setter (gets validation automatically)
         """
@@ -179,10 +182,10 @@ class DiagnosticConnection(ARElement):
     def getResponse(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for response.
-        
+
         Returns:
             The response value
-        
+
         Note:
             Delegates to response property (CODING_RULE_V2_00017)
         """
@@ -191,13 +194,13 @@ class DiagnosticConnection(ARElement):
     def setResponse(self, value: "TpConnectionIdent") -> "DiagnosticConnection":
         """
         AUTOSAR-compliant setter for response with method chaining.
-        
+
         Args:
             value: The response to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response property setter (gets validation automatically)
         """
@@ -207,10 +210,10 @@ class DiagnosticConnection(ARElement):
     def getResponseOn(self) -> "TpConnectionIdent":
         """
         AUTOSAR-compliant getter for responseOn.
-        
+
         Returns:
             The responseOn value
-        
+
         Note:
             Delegates to response_on property (CODING_RULE_V2_00017)
         """
@@ -219,13 +222,13 @@ class DiagnosticConnection(ARElement):
     def setResponseOn(self, value: "TpConnectionIdent") -> "DiagnosticConnection":
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to response_on property setter (gets validation automatically)
         """
@@ -237,13 +240,13 @@ class DiagnosticConnection(ARElement):
     def with_physical_request(self, value: Optional["TpConnectionIdent"]) -> "DiagnosticConnection":
         """
         Set physicalRequest and return self for chaining.
-        
+
         Args:
             value: The physicalRequest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical_request("value")
         """
@@ -253,13 +256,13 @@ class DiagnosticConnection(ARElement):
     def with_response(self, value: Optional["TpConnectionIdent"]) -> "DiagnosticConnection":
         """
         Set response and return self for chaining.
-        
+
         Args:
             value: The response to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response("value")
         """
@@ -269,13 +272,13 @@ class DiagnosticConnection(ARElement):
     def with_response_on(self, value: Optional["TpConnectionIdent"]) -> "DiagnosticConnection":
         """
         Set responseOn and return self for chaining.
-        
+
         Args:
             value: The responseOn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_response_on("value")
         """

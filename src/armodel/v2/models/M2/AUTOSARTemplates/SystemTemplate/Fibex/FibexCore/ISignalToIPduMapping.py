@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ISignalToIPduMapping(Identifiable):
     """
@@ -36,9 +40,9 @@ class ISignalToIPduMapping(Identifiable):
     shall reference the identical ISignal in the role iSignal in the scope of
     one System.(cid:99)() 326 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalToIPduMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 325, Classic Platform R23-11)
     """
@@ -60,10 +64,10 @@ class ISignalToIPduMapping(Identifiable):
     def i_signal(self, value: Optional["ISignal"]) -> None:
         """
         Set iSignal with validation.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -94,10 +98,10 @@ class ISignalToIPduMapping(Identifiable):
     def i_signal_group(self, value: RefType) -> None:
         """
         Set iSignalGroup with validation.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +129,10 @@ class ISignalToIPduMapping(Identifiable):
     def packing_byte(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set packingByte with validation.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -163,10 +167,10 @@ class ISignalToIPduMapping(Identifiable):
     def start_position(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set startPosition with validation.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -192,10 +196,10 @@ class ISignalToIPduMapping(Identifiable):
     def transfer_property(self, value: Optional["TransferPropertyEnum"]) -> None:
         """
         Set transferProperty with validation.
-        
+
         Args:
             value: The transferProperty to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -224,10 +228,10 @@ class ISignalToIPduMapping(Identifiable):
     def update(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set update with validation.
-        
+
         Args:
             value: The update to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -246,10 +250,10 @@ class ISignalToIPduMapping(Identifiable):
     def getISignal(self) -> "ISignal":
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -258,13 +262,13 @@ class ISignalToIPduMapping(Identifiable):
     def setISignal(self, value: "ISignal") -> "ISignalToIPduMapping":
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -274,10 +278,10 @@ class ISignalToIPduMapping(Identifiable):
     def getISignalGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for iSignalGroup.
-        
+
         Returns:
             The iSignalGroup value
-        
+
         Note:
             Delegates to i_signal_group property (CODING_RULE_V2_00017)
         """
@@ -286,13 +290,13 @@ class ISignalToIPduMapping(Identifiable):
     def setISignalGroup(self, value: RefType) -> "ISignalToIPduMapping":
         """
         AUTOSAR-compliant setter for iSignalGroup with method chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_group property setter (gets validation automatically)
         """
@@ -302,10 +306,10 @@ class ISignalToIPduMapping(Identifiable):
     def getPackingByte(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for packingByte.
-        
+
         Returns:
             The packingByte value
-        
+
         Note:
             Delegates to packing_byte property (CODING_RULE_V2_00017)
         """
@@ -314,13 +318,13 @@ class ISignalToIPduMapping(Identifiable):
     def setPackingByte(self, value: "ByteOrderEnum") -> "ISignalToIPduMapping":
         """
         AUTOSAR-compliant setter for packingByte with method chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to packing_byte property setter (gets validation automatically)
         """
@@ -330,10 +334,10 @@ class ISignalToIPduMapping(Identifiable):
     def getStartPosition(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for startPosition.
-        
+
         Returns:
             The startPosition value
-        
+
         Note:
             Delegates to start_position property (CODING_RULE_V2_00017)
         """
@@ -342,13 +346,13 @@ class ISignalToIPduMapping(Identifiable):
     def setStartPosition(self, value: "UnlimitedInteger") -> "ISignalToIPduMapping":
         """
         AUTOSAR-compliant setter for startPosition with method chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_position property setter (gets validation automatically)
         """
@@ -358,10 +362,10 @@ class ISignalToIPduMapping(Identifiable):
     def getTransferProperty(self) -> "TransferPropertyEnum":
         """
         AUTOSAR-compliant getter for transferProperty.
-        
+
         Returns:
             The transferProperty value
-        
+
         Note:
             Delegates to transfer_property property (CODING_RULE_V2_00017)
         """
@@ -370,13 +374,13 @@ class ISignalToIPduMapping(Identifiable):
     def setTransferProperty(self, value: "TransferPropertyEnum") -> "ISignalToIPduMapping":
         """
         AUTOSAR-compliant setter for transferProperty with method chaining.
-        
+
         Args:
             value: The transferProperty to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transfer_property property setter (gets validation automatically)
         """
@@ -386,10 +390,10 @@ class ISignalToIPduMapping(Identifiable):
     def getUpdate(self) -> "UnlimitedInteger":
         """
         AUTOSAR-compliant getter for update.
-        
+
         Returns:
             The update value
-        
+
         Note:
             Delegates to update property (CODING_RULE_V2_00017)
         """
@@ -398,13 +402,13 @@ class ISignalToIPduMapping(Identifiable):
     def setUpdate(self, value: "UnlimitedInteger") -> "ISignalToIPduMapping":
         """
         AUTOSAR-compliant setter for update with method chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update property setter (gets validation automatically)
         """
@@ -416,13 +420,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_i_signal(self, value: Optional["ISignal"]) -> "ISignalToIPduMapping":
         """
         Set iSignal and return self for chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal("value")
         """
@@ -432,13 +436,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_i_signal_group(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
         """
         Set iSignalGroup and return self for chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_group("value")
         """
@@ -448,13 +452,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_packing_byte(self, value: Optional["ByteOrderEnum"]) -> "ISignalToIPduMapping":
         """
         Set packingByte and return self for chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_packing_byte("value")
         """
@@ -464,13 +468,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_start_position(self, value: Optional["UnlimitedInteger"]) -> "ISignalToIPduMapping":
         """
         Set startPosition and return self for chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_position("value")
         """
@@ -480,13 +484,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_transfer_property(self, value: Optional["TransferPropertyEnum"]) -> "ISignalToIPduMapping":
         """
         Set transferProperty and return self for chaining.
-        
+
         Args:
             value: The transferProperty to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transfer_property("value")
         """
@@ -496,13 +500,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_update(self, value: Optional["UnlimitedInteger"]) -> "ISignalToIPduMapping":
         """
         Set update and return self for chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SignalPathConstraint(ARObject, ABC):
     """
     Additional guidelines for the System Generator, which specific way a signal
     between two Software Components should take in the network without defining
     in which frame and with which timing it is transmitted.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SignalPaths::SignalPathConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2057, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class SignalPathConstraint(ARObject, ABC):
     def introduction(self, value: "DocumentationBlock") -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class SignalPathConstraint(ARObject, ABC):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class SignalPathConstraint(ARObject, ABC):
     def setIntroduction(self, value: "DocumentationBlock") -> "SignalPathConstraint":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class SignalPathConstraint(ARObject, ABC):
     def with_introduction(self, value: "DocumentationBlock") -> "SignalPathConstraint":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """

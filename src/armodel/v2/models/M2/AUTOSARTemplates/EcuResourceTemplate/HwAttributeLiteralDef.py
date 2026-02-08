@@ -1,15 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class HwAttributeLiteralDef(Identifiable):
     """
     One available EnumerationLiteral of the Enumeration definition. Only
     applicable if the category of the Hw AttributeDef equals Enumeration.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory::HwAttributeLiteralDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 26, Classic Platform
       R23-11)

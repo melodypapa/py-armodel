@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BinaryManifestRequireResource(BinaryManifestResource):
     """
     This meta-class represents a required resource in the binary manifest.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestRequireResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 916, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class BinaryManifestRequireResource(BinaryManifestResource):
     def connection_is(self, value: Optional["Boolean"]) -> None:
         """
         Set connectionIs with validation.
-        
+
         Args:
             value: The connectionIs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +49,10 @@ class BinaryManifestRequireResource(BinaryManifestResource):
     def getConnectionIs(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for connectionIs.
-        
+
         Returns:
             The connectionIs value
-        
+
         Note:
             Delegates to connection_is property (CODING_RULE_V2_00017)
         """
@@ -61,13 +61,13 @@ class BinaryManifestRequireResource(BinaryManifestResource):
     def setConnectionIs(self, value: "Boolean") -> "BinaryManifestRequireResource":
         """
         AUTOSAR-compliant setter for connectionIs with method chaining.
-        
+
         Args:
             value: The connectionIs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to connection_is property setter (gets validation automatically)
         """
@@ -79,13 +79,13 @@ class BinaryManifestRequireResource(BinaryManifestResource):
     def with_connection_is(self, value: Optional["Boolean"]) -> "BinaryManifestRequireResource":
         """
         Set connectionIs and return self for chaining.
-        
+
         Args:
             value: The connectionIs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_connection_is("value")
         """

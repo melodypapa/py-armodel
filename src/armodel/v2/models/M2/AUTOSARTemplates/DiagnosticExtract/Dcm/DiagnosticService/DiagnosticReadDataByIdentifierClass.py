@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     """
@@ -7,9 +7,9 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     Data by Identifier" diagnostic service. (cid:53) 113 of 719 Document ID 673:
     AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract Template AUTOSAR
     CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::DataByIdentifier::DiagnosticReadDataByIdentifierClass
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 113, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def max_did_to_read(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxDidToRead with validation.
-        
+
         Args:
             value: The maxDidToRead to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def getMaxDidToRead(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxDidToRead.
-        
+
         Returns:
             The maxDidToRead value
-        
+
         Note:
             Delegates to max_did_to_read property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def setMaxDidToRead(self, value: "PositiveInteger") -> "DiagnosticReadDataByIdentifierClass":
         """
         AUTOSAR-compliant setter for maxDidToRead with method chaining.
-        
+
         Args:
             value: The maxDidToRead to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_did_to_read property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class DiagnosticReadDataByIdentifierClass(DiagnosticServiceClass):
     def with_max_did_to_read(self, value: Optional["PositiveInteger"]) -> "DiagnosticReadDataByIdentifierClass":
         """
         Set maxDidToRead and return self for chaining.
-        
+
         Args:
             value: The maxDidToRead to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_did_to_read("value")
         """

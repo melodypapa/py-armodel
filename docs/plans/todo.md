@@ -1,0 +1,2 @@
+- Let us check the violation of current v2 codebase `src/armodel/v2` with `docs/development/coding_rules_v2.md` 
+- fix all the violations.

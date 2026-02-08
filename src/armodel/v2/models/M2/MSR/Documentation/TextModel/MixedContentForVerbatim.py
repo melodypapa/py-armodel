@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MixedContentForVerbatim(ARObject, ABC):
     """
@@ -12,9 +15,9 @@ class MixedContentForVerbatim(ARObject, ABC):
     obeyed. Blanks are rendered as well as newline characters. Even if there are
     inline elements, the length of the data shall not be influenced by
     formatting.
-    
+
     Package: M2::MSR::Documentation::TextModel::InlineTextModel::MixedContentForVerbatim
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 292, Foundation
       R23-11)
@@ -38,10 +41,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def br(self, value: "Br") -> None:
         """
         Set br with validation.
-        
+
         Args:
             value: The br to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +67,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def e(self, value: "EmphasisText") -> None:
         """
         Set e with validation.
-        
+
         Args:
             value: The e to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def tt(self, value: "Tt") -> None:
         """
         Set tt with validation.
-        
+
         Args:
             value: The tt to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +119,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def xref(self, value: "Xref") -> None:
         """
         Set xref with validation.
-        
+
         Args:
             value: The xref to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +137,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def getBr(self) -> "Br":
         """
         AUTOSAR-compliant getter for br.
-        
+
         Returns:
             The br value
-        
+
         Note:
             Delegates to br property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def setBr(self, value: "Br") -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for br with method chaining.
-        
+
         Args:
             value: The br to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to br property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def getE(self) -> "EmphasisText":
         """
         AUTOSAR-compliant getter for e.
-        
+
         Returns:
             The e value
-        
+
         Note:
             Delegates to e property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def setE(self, value: "EmphasisText") -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for e with method chaining.
-        
+
         Args:
             value: The e to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to e property setter (gets validation automatically)
         """
@@ -190,10 +193,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def getTt(self) -> "Tt":
         """
         AUTOSAR-compliant getter for tt.
-        
+
         Returns:
             The tt value
-        
+
         Note:
             Delegates to tt property (CODING_RULE_V2_00017)
         """
@@ -202,13 +205,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def setTt(self, value: "Tt") -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for tt with method chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tt property setter (gets validation automatically)
         """
@@ -218,10 +221,10 @@ class MixedContentForVerbatim(ARObject, ABC):
     def getXref(self) -> "Xref":
         """
         AUTOSAR-compliant getter for xref.
-        
+
         Returns:
             The xref value
-        
+
         Note:
             Delegates to xref property (CODING_RULE_V2_00017)
         """
@@ -230,13 +233,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def setXref(self, value: "Xref") -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for xref with method chaining.
-        
+
         Args:
             value: The xref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to xref property setter (gets validation automatically)
         """
@@ -248,13 +251,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def with_br(self, value: "Br") -> "MixedContentForVerbatim":
         """
         Set br and return self for chaining.
-        
+
         Args:
             value: The br to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_br("value")
         """
@@ -264,13 +267,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def with_e(self, value: "EmphasisText") -> "MixedContentForVerbatim":
         """
         Set e and return self for chaining.
-        
+
         Args:
             value: The e to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_e("value")
         """
@@ -280,13 +283,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def with_tt(self, value: "Tt") -> "MixedContentForVerbatim":
         """
         Set tt and return self for chaining.
-        
+
         Args:
             value: The tt to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tt("value")
         """
@@ -296,13 +299,13 @@ class MixedContentForVerbatim(ARObject, ABC):
     def with_xref(self, value: "Xref") -> "MixedContentForVerbatim":
         """
         Set xref and return self for chaining.
-        
+
         Args:
             value: The xref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_xref("value")
         """

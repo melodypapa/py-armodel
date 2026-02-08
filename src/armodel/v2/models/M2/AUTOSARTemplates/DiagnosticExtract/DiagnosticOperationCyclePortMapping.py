@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     """
     Defines to which SWC service ports the DiagnosticOperationCycle is mapped.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticOperationCyclePortMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 250, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def operation_cycle(self, value: Optional["DiagnosticOperation"]) -> None:
         """
         Set operationCycle with validation.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def swc_flat_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcFlatService with validation.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +85,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def swc_service(self, value: Optional["SwcService"]) -> None:
         """
         Set swcService with validation.
-        
+
         Args:
             value: The swcService to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -107,10 +107,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def getOperationCycle(self) -> "DiagnosticOperation":
         """
         AUTOSAR-compliant getter for operationCycle.
-        
+
         Returns:
             The operationCycle value
-        
+
         Note:
             Delegates to operation_cycle property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def setOperationCycle(self, value: "DiagnosticOperation") -> "DiagnosticOperationCyclePortMapping":
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation_cycle property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def getSwcFlatService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcFlatService.
-        
+
         Returns:
             The swcFlatService value
-        
+
         Note:
             Delegates to swc_flat_service property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def setSwcFlatService(self, value: "SwcService") -> "DiagnosticOperationCyclePortMapping":
         """
         AUTOSAR-compliant setter for swcFlatService with method chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_flat_service property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def getSwcService(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for swcService.
-        
+
         Returns:
             The swcService value
-        
+
         Note:
             Delegates to swc_service property (CODING_RULE_V2_00017)
         """
@@ -175,13 +175,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def setSwcService(self, value: "SwcService") -> "DiagnosticOperationCyclePortMapping":
         """
         AUTOSAR-compliant setter for swcService with method chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_service property setter (gets validation automatically)
         """
@@ -193,13 +193,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def with_operation_cycle(self, value: Optional["DiagnosticOperation"]) -> "DiagnosticOperationCyclePortMapping":
         """
         Set operationCycle and return self for chaining.
-        
+
         Args:
             value: The operationCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation_cycle("value")
         """
@@ -209,13 +209,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def with_swc_flat_service(self, value: Optional["SwcService"]) -> "DiagnosticOperationCyclePortMapping":
         """
         Set swcFlatService and return self for chaining.
-        
+
         Args:
             value: The swcFlatService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_flat_service("value")
         """
@@ -225,13 +225,13 @@ class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
     def with_swc_service(self, value: Optional["SwcService"]) -> "DiagnosticOperationCyclePortMapping":
         """
         Set swcService and return self for chaining.
-        
+
         Args:
             value: The swcService to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_service("value")
         """

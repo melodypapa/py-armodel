@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SOMEIPTransformationISignalProps(ARObject):
     """
     The class SOMEIPTransformationISignalProps specifies ISignal specific
     configuration properties for SOME/IP transformer attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::SOMEIPTransformationISignalProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 778, Classic Platform R23-11)
     """
@@ -35,10 +40,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def implements(self, value: Optional["Boolean"]) -> None:
         """
         Set implements with validation.
-        
+
         Args:
             value: The implements to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +68,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def interface_version(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set interfaceVersion with validation.
-        
+
         Args:
             value: The interfaceVersion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +97,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def is_dynamic(self, value: Optional["Boolean"]) -> None:
         """
         Set isDynamic with validation.
-        
+
         Args:
             value: The isDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -120,10 +125,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def message_type(self, value: Optional["SOMEIPMessageType"]) -> None:
         """
         Set messageType with validation.
-        
+
         Args:
             value: The messageType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -151,10 +156,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def size_of_array(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfArray with validation.
-        
+
         Args:
             value: The sizeOfArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -181,10 +186,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def size_of_string(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfString with validation.
-        
+
         Args:
             value: The sizeOfString to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -212,10 +217,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def size_of_struct(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfStruct with validation.
-        
+
         Args:
             value: The sizeOfStruct to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -243,10 +248,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def size_of_union(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set sizeOfUnion with validation.
-        
+
         Args:
             value: The sizeOfUnion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -273,10 +278,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getImplements(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for implements.
-        
+
         Returns:
             The implements value
-        
+
         Note:
             Delegates to implements property (CODING_RULE_V2_00017)
         """
@@ -285,13 +290,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setImplements(self, value: "Boolean") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for implements with method chaining.
-        
+
         Args:
             value: The implements to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to implements property setter (gets validation automatically)
         """
@@ -301,10 +306,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getInterfaceVersion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for interfaceVersion.
-        
+
         Returns:
             The interfaceVersion value
-        
+
         Note:
             Delegates to interface_version property (CODING_RULE_V2_00017)
         """
@@ -313,13 +318,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setInterfaceVersion(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for interfaceVersion with method chaining.
-        
+
         Args:
             value: The interfaceVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interface_version property setter (gets validation automatically)
         """
@@ -329,10 +334,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getIsDynamic(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isDynamic.
-        
+
         Returns:
             The isDynamic value
-        
+
         Note:
             Delegates to is_dynamic property (CODING_RULE_V2_00017)
         """
@@ -341,13 +346,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setIsDynamic(self, value: "Boolean") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for isDynamic with method chaining.
-        
+
         Args:
             value: The isDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_dynamic property setter (gets validation automatically)
         """
@@ -357,10 +362,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getMessageType(self) -> "SOMEIPMessageType":
         """
         AUTOSAR-compliant getter for messageType.
-        
+
         Returns:
             The messageType value
-        
+
         Note:
             Delegates to message_type property (CODING_RULE_V2_00017)
         """
@@ -369,13 +374,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setMessageType(self, value: "SOMEIPMessageType") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for messageType with method chaining.
-        
+
         Args:
             value: The messageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_type property setter (gets validation automatically)
         """
@@ -385,10 +390,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getSizeOfArray(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfArray.
-        
+
         Returns:
             The sizeOfArray value
-        
+
         Note:
             Delegates to size_of_array property (CODING_RULE_V2_00017)
         """
@@ -397,13 +402,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setSizeOfArray(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for sizeOfArray with method chaining.
-        
+
         Args:
             value: The sizeOfArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_array property setter (gets validation automatically)
         """
@@ -413,10 +418,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getSizeOfString(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfString.
-        
+
         Returns:
             The sizeOfString value
-        
+
         Note:
             Delegates to size_of_string property (CODING_RULE_V2_00017)
         """
@@ -425,13 +430,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setSizeOfString(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for sizeOfString with method chaining.
-        
+
         Args:
             value: The sizeOfString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_string property setter (gets validation automatically)
         """
@@ -441,10 +446,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getSizeOfStruct(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfStruct.
-        
+
         Returns:
             The sizeOfStruct value
-        
+
         Note:
             Delegates to size_of_struct property (CODING_RULE_V2_00017)
         """
@@ -453,13 +458,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setSizeOfStruct(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for sizeOfStruct with method chaining.
-        
+
         Args:
             value: The sizeOfStruct to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_struct property setter (gets validation automatically)
         """
@@ -469,10 +474,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getSizeOfUnion(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for sizeOfUnion.
-        
+
         Returns:
             The sizeOfUnion value
-        
+
         Note:
             Delegates to size_of_union property (CODING_RULE_V2_00017)
         """
@@ -481,13 +486,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def setSizeOfUnion(self, value: "PositiveInteger") -> "SOMEIPTransformationISignalProps":
         """
         AUTOSAR-compliant setter for sizeOfUnion with method chaining.
-        
+
         Args:
             value: The sizeOfUnion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to size_of_union property setter (gets validation automatically)
         """
@@ -497,10 +502,10 @@ class SOMEIPTransformationISignalProps(ARObject):
     def getTlvDataId(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for tlvDataId.
-        
+
         Returns:
             The tlvDataId value
-        
+
         Note:
             Delegates to tlv_data_id property (CODING_RULE_V2_00017)
         """
@@ -511,13 +516,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_implements(self, value: Optional["Boolean"]) -> "SOMEIPTransformationISignalProps":
         """
         Set implements and return self for chaining.
-        
+
         Args:
             value: The implements to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_implements("value")
         """
@@ -527,13 +532,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_interface_version(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
         """
         Set interfaceVersion and return self for chaining.
-        
+
         Args:
             value: The interfaceVersion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interface_version("value")
         """
@@ -543,13 +548,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_is_dynamic(self, value: Optional["Boolean"]) -> "SOMEIPTransformationISignalProps":
         """
         Set isDynamic and return self for chaining.
-        
+
         Args:
             value: The isDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_dynamic("value")
         """
@@ -559,13 +564,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_message_type(self, value: Optional["SOMEIPMessageType"]) -> "SOMEIPTransformationISignalProps":
         """
         Set messageType and return self for chaining.
-        
+
         Args:
             value: The messageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_type("value")
         """
@@ -575,13 +580,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_size_of_array(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
         """
         Set sizeOfArray and return self for chaining.
-        
+
         Args:
             value: The sizeOfArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_array("value")
         """
@@ -591,13 +596,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_size_of_string(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
         """
         Set sizeOfString and return self for chaining.
-        
+
         Args:
             value: The sizeOfString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_string("value")
         """
@@ -607,13 +612,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
         """
         Set sizeOfStruct and return self for chaining.
-        
+
         Args:
             value: The sizeOfStruct to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_struct("value")
         """
@@ -623,13 +628,13 @@ class SOMEIPTransformationISignalProps(ARObject):
     def with_size_of_union(self, value: Optional["PositiveInteger"]) -> "SOMEIPTransformationISignalProps":
         """
         Set sizeOfUnion and return self for chaining.
-        
+
         Args:
             value: The sizeOfUnion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_size_of_union("value")
         """

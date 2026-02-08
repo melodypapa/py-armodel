@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
     This meta-class is used to support a rule-based initialization approach for
     data types with an array-nature (ImplementationDataType of category ARRAY).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::NumericalRuleBasedValueSpecification
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 467, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def rule_based(self, value: Optional["RuleBasedValue"]) -> None:
         """
         Set ruleBased with validation.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def getRuleBased(self) -> "RuleBasedValue":
         """
         AUTOSAR-compliant getter for ruleBased.
-        
+
         Returns:
             The ruleBased value
-        
+
         Note:
             Delegates to rule_based property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def setRuleBased(self, value: "RuleBasedValue") -> "NumericalRuleBasedValueSpecification":
         """
         AUTOSAR-compliant setter for ruleBased with method chaining.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rule_based property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     def with_rule_based(self, value: Optional["RuleBasedValue"]) -> "NumericalRuleBasedValueSpecification":
         """
         Set ruleBased and return self for chaining.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rule_based("value")
         """

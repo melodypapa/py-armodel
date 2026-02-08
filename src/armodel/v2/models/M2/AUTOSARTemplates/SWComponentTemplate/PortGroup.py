@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortGroup(Identifiable):
     """
@@ -15,9 +19,9 @@ class PortGroup(Identifiable):
     belonging to the group as well as to the "inner" groups which propagate this
     group into the components which are part of a composition. A PortGroup
     within an atomic SWC cannot be linked to inner groups.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PortGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 203, Classic Platform
       R23-11)
@@ -49,10 +53,10 @@ class PortGroup(Identifiable):
     def getInnerGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for innerGroup.
-        
+
         Returns:
             The innerGroup value
-        
+
         Note:
             Delegates to inner_group property (CODING_RULE_V2_00017)
         """
@@ -61,10 +65,10 @@ class PortGroup(Identifiable):
     def getOuterPort(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for outerPort.
-        
+
         Returns:
             The outerPort value
-        
+
         Note:
             Delegates to outer_port property (CODING_RULE_V2_00017)
         """

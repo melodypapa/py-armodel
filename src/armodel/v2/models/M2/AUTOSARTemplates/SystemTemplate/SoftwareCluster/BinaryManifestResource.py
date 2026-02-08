@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BinaryManifestResource(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class for specializations.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 915, Classic Platform R23-11)
     """
@@ -34,10 +37,10 @@ class BinaryManifestResource(Identifiable, ABC):
     def global_resource(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set globalResource with validation.
-        
+
         Args:
             value: The globalResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +67,10 @@ class BinaryManifestResource(Identifiable, ABC):
     def resource(self, value: Optional["BinaryManifest"]) -> None:
         """
         Set resource with validation.
-        
+
         Args:
             value: The resource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +95,10 @@ class BinaryManifestResource(Identifiable, ABC):
     def resource_guard(self, value: Optional["String"]) -> None:
         """
         Set resourceGuard with validation.
-        
+
         Args:
             value: The resourceGuard to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +117,10 @@ class BinaryManifestResource(Identifiable, ABC):
     def getGlobalResource(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for globalResource.
-        
+
         Returns:
             The globalResource value
-        
+
         Note:
             Delegates to global_resource property (CODING_RULE_V2_00017)
         """
@@ -126,13 +129,13 @@ class BinaryManifestResource(Identifiable, ABC):
     def setGlobalResource(self, value: "PositiveInteger") -> "BinaryManifestResource":
         """
         AUTOSAR-compliant setter for globalResource with method chaining.
-        
+
         Args:
             value: The globalResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to global_resource property setter (gets validation automatically)
         """
@@ -142,10 +145,10 @@ class BinaryManifestResource(Identifiable, ABC):
     def getResource(self) -> "BinaryManifest":
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -154,13 +157,13 @@ class BinaryManifestResource(Identifiable, ABC):
     def setResource(self, value: "BinaryManifest") -> "BinaryManifestResource":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -170,10 +173,10 @@ class BinaryManifestResource(Identifiable, ABC):
     def getResourceGuard(self) -> "String":
         """
         AUTOSAR-compliant getter for resourceGuard.
-        
+
         Returns:
             The resourceGuard value
-        
+
         Note:
             Delegates to resource_guard property (CODING_RULE_V2_00017)
         """
@@ -182,13 +185,13 @@ class BinaryManifestResource(Identifiable, ABC):
     def setResourceGuard(self, value: "String") -> "BinaryManifestResource":
         """
         AUTOSAR-compliant setter for resourceGuard with method chaining.
-        
+
         Args:
             value: The resourceGuard to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource_guard property setter (gets validation automatically)
         """
@@ -200,13 +203,13 @@ class BinaryManifestResource(Identifiable, ABC):
     def with_global_resource(self, value: Optional["PositiveInteger"]) -> "BinaryManifestResource":
         """
         Set globalResource and return self for chaining.
-        
+
         Args:
             value: The globalResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_global_resource("value")
         """
@@ -216,13 +219,13 @@ class BinaryManifestResource(Identifiable, ABC):
     def with_resource(self, value: Optional["BinaryManifest"]) -> "BinaryManifestResource":
         """
         Set resource and return self for chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource("value")
         """
@@ -232,13 +235,13 @@ class BinaryManifestResource(Identifiable, ABC):
     def with_resource_guard(self, value: Optional["String"]) -> "BinaryManifestResource":
         """
         Set resourceGuard and return self for chaining.
-        
+
         Args:
             value: The resourceGuard to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource_guard("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ServiceInstanceCollectionSet(FibexElement):
     """
     Collection of ServiceInstances
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances::ServiceInstanceCollectionSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 476, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class ServiceInstanceCollectionSet(FibexElement):
     def getServiceInstance(self) -> List["AbstractService"]:
         """
         AUTOSAR-compliant getter for serviceInstance.
-        
+
         Returns:
             The serviceInstance value
-        
+
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """

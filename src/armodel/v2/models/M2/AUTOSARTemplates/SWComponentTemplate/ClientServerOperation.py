@@ -1,15 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ClientServerOperation(Identifiable):
     """
     An operation declared within the scope of a client/server interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ClientServerOperation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 309, Classic
       Platform R23-11)
@@ -55,10 +59,10 @@ class ClientServerOperation(Identifiable):
     def diag_arg_integrity(self, value: Optional["Boolean"]) -> None:
         """
         Set diagArgIntegrity with validation.
-        
+
         Args:
             value: The diagArgIntegrity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +88,10 @@ class ClientServerOperation(Identifiable):
     def getArgument(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for argument.
-        
+
         Returns:
             The argument value
-        
+
         Note:
             Delegates to argument property (CODING_RULE_V2_00017)
         """
@@ -96,10 +100,10 @@ class ClientServerOperation(Identifiable):
     def getDiagArgIntegrity(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for diagArgIntegrity.
-        
+
         Returns:
             The diagArgIntegrity value
-        
+
         Note:
             Delegates to diag_arg_integrity property (CODING_RULE_V2_00017)
         """
@@ -108,13 +112,13 @@ class ClientServerOperation(Identifiable):
     def setDiagArgIntegrity(self, value: "Boolean") -> "ClientServerOperation":
         """
         AUTOSAR-compliant setter for diagArgIntegrity with method chaining.
-        
+
         Args:
             value: The diagArgIntegrity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_arg_integrity property setter (gets validation automatically)
         """
@@ -124,10 +128,10 @@ class ClientServerOperation(Identifiable):
     def getPossibleError(self) -> List["ApplicationError"]:
         """
         AUTOSAR-compliant getter for possibleError.
-        
+
         Returns:
             The possibleError value
-        
+
         Note:
             Delegates to possible_error property (CODING_RULE_V2_00017)
         """
@@ -138,13 +142,13 @@ class ClientServerOperation(Identifiable):
     def with_diag_arg_integrity(self, value: Optional["Boolean"]) -> "ClientServerOperation":
         """
         Set diagArgIntegrity and return self for chaining.
-        
+
         Args:
             value: The diagArgIntegrity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_arg_integrity("value")
         """

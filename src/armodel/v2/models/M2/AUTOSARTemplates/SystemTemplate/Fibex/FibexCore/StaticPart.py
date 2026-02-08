@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class StaticPart(MultiplexedPart):
     """
     Some parts/signals of the I-PDU may be the same regardless of the selector
     field. Such a part is called static part. The static part is optional.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::StaticPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 410, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class StaticPart(MultiplexedPart):
     def i_pdu(self, value: Optional["ISignalIPdu"]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class StaticPart(MultiplexedPart):
     def getIPdu(self) -> "ISignalIPdu":
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class StaticPart(MultiplexedPart):
     def setIPdu(self, value: "ISignalIPdu") -> "StaticPart":
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class StaticPart(MultiplexedPart):
     def with_i_pdu(self, value: Optional["ISignalIPdu"]) -> "StaticPart":
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """

@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
     """
     An expression that has the syntax of the AUTOSAR formula language and may
     use references to features or system constants as operands.
-    
+
     Package: M2::AUTOSARTemplates::FeatureModelTemplate::FMFormulaByFeaturesAndSwSystemconsts
-    
+
     Sources:
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 63, Foundation
       R23-11)
@@ -31,10 +35,10 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
     def feature(self, value: Optional["FMFeature"]) -> None:
         """
         Set feature with validation.
-        
+
         Args:
             value: The feature to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +57,10 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
     def getFeature(self) -> "FMFeature":
         """
         AUTOSAR-compliant getter for feature.
-        
+
         Returns:
             The feature value
-        
+
         Note:
             Delegates to feature property (CODING_RULE_V2_00017)
         """
@@ -65,13 +69,13 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
     def setFeature(self, value: "FMFeature") -> "FMFormulaByFeaturesAndSwSystemconsts":
         """
         AUTOSAR-compliant setter for feature with method chaining.
-        
+
         Args:
             value: The feature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to feature property setter (gets validation automatically)
         """
@@ -83,13 +87,13 @@ class FMFormulaByFeaturesAndSwSystemconsts(ARObject, ABC):
     def with_feature(self, value: Optional["FMFeature"]) -> "FMFormulaByFeaturesAndSwSystemconsts":
         """
         Set feature and return self for chaining.
-        
+
         Args:
             value: The feature to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_feature("value")
         """

@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     """
     This meta-class represents the ability to define an InstanceRef to a
     VariableDataPrototype in the context of a CompositionSwComponentType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef::VariableDataPrototypeInCompositionInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 959, Classic Platform
       R23-11)
@@ -31,10 +36,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +66,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +101,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def target_variable(self, value: RefType) -> None:
         """
         Set targetVariable with validation.
-        
+
         Args:
             value: The targetVariable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -114,10 +119,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def getBase(self) -> "CompositionSw":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -126,13 +131,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def setBase(self, value: "CompositionSw") -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -142,10 +147,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -154,13 +159,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def setContextPort(self, value: RefType) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -170,10 +175,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-        
+
         Returns:
             The contextSw value
-        
+
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
@@ -182,10 +187,10 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def getTargetVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetVariable.
-        
+
         Returns:
             The targetVariable value
-        
+
         Note:
             Delegates to target_variable property (CODING_RULE_V2_00017)
         """
@@ -194,13 +199,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def setTargetVariable(self, value: RefType) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         AUTOSAR-compliant setter for targetVariable with method chaining.
-        
+
         Args:
             value: The targetVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_variable property setter (gets validation automatically)
         """
@@ -212,13 +217,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def with_base(self, value: Optional["CompositionSw"]) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -228,13 +233,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def with_context_port(self, value: Optional[RefType]) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -244,13 +249,13 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
     def with_target_variable(self, value: Optional[RefType]) -> "VariableDataPrototypeInCompositionInstanceRef":
         """
         Set targetVariable and return self for chaining.
-        
+
         Args:
             value: The targetVariable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_variable("value")
         """

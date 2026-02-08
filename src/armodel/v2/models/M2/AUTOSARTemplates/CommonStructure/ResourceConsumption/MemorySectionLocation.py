@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MemorySectionLocation(ARObject):
     """
     Specifies in which hardware ProvidedMemorySegment the softwareMemorySection
     is located.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime::MemorySectionLocation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 162, Classic
       Platform R23-11)
@@ -29,10 +32,10 @@ class MemorySectionLocation(ARObject):
     def provided_memory(self, value: Optional["HwElement"]) -> None:
         """
         Set providedMemory with validation.
-        
+
         Args:
             value: The providedMemory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class MemorySectionLocation(ARObject):
     def software(self, value: Optional["MemorySection"]) -> None:
         """
         Set software with validation.
-        
+
         Args:
             value: The software to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class MemorySectionLocation(ARObject):
     def getProvidedMemory(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for providedMemory.
-        
+
         Returns:
             The providedMemory value
-        
+
         Note:
             Delegates to provided_memory property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class MemorySectionLocation(ARObject):
     def setProvidedMemory(self, value: "HwElement") -> "MemorySectionLocation":
         """
         AUTOSAR-compliant setter for providedMemory with method chaining.
-        
+
         Args:
             value: The providedMemory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided_memory property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class MemorySectionLocation(ARObject):
     def getSoftware(self) -> "MemorySection":
         """
         AUTOSAR-compliant getter for software.
-        
+
         Returns:
             The software value
-        
+
         Note:
             Delegates to software property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class MemorySectionLocation(ARObject):
     def setSoftware(self, value: "MemorySection") -> "MemorySectionLocation":
         """
         AUTOSAR-compliant setter for software with method chaining.
-        
+
         Args:
             value: The software to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class MemorySectionLocation(ARObject):
     def with_provided_memory(self, value: Optional["HwElement"]) -> "MemorySectionLocation":
         """
         Set providedMemory and return self for chaining.
-        
+
         Args:
             value: The providedMemory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided_memory("value")
         """
@@ -153,13 +156,13 @@ class MemorySectionLocation(ARObject):
     def with_software(self, value: Optional["MemorySection"]) -> "MemorySectionLocation":
         """
         Set software and return self for chaining.
-        
+
         Args:
             value: The software to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software("value")
         """

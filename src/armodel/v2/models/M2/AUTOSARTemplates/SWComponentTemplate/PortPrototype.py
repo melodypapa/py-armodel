@@ -1,17 +1,22 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class PortPrototype(Identifiable, ABC):
     """
     Base class for the ports of an AUTOSAR software component. The aggregation
     of PortPrototypes is subject to variability with the purpose to support the
     conditional existence of ports.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 326, Classic
       Platform R23-11)
@@ -60,10 +65,10 @@ class PortPrototype(Identifiable, ABC):
     def delegated_port(self, value: Optional["DelegatedPort"]) -> None:
         """
         Set delegatedPort with validation.
-        
+
         Args:
             value: The delegatedPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +129,10 @@ class PortPrototype(Identifiable, ABC):
     def getClientServer(self) -> List["ClientServerAnnotation"]:
         """
         AUTOSAR-compliant getter for clientServer.
-        
+
         Returns:
             The clientServer value
-        
+
         Note:
             Delegates to client_server property (CODING_RULE_V2_00017)
         """
@@ -136,10 +141,10 @@ class PortPrototype(Identifiable, ABC):
     def getDelegatedPort(self) -> "DelegatedPort":
         """
         AUTOSAR-compliant getter for delegatedPort.
-        
+
         Returns:
             The delegatedPort value
-        
+
         Note:
             Delegates to delegated_port property (CODING_RULE_V2_00017)
         """
@@ -148,13 +153,13 @@ class PortPrototype(Identifiable, ABC):
     def setDelegatedPort(self, value: "DelegatedPort") -> "PortPrototype":
         """
         AUTOSAR-compliant setter for delegatedPort with method chaining.
-        
+
         Args:
             value: The delegatedPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to delegated_port property setter (gets validation automatically)
         """
@@ -164,10 +169,10 @@ class PortPrototype(Identifiable, ABC):
     def getIoHwAbstractionAnnotation(self) -> List["IoHwAbstractionServer"]:
         """
         AUTOSAR-compliant getter for ioHwAbstractionAnnotation.
-        
+
         Returns:
             The ioHwAbstractionAnnotation value
-        
+
         Note:
             Delegates to io_hw_abstraction_annotation property (CODING_RULE_V2_00017)
         """
@@ -176,10 +181,10 @@ class PortPrototype(Identifiable, ABC):
     def getModePortAnnotation(self) -> List["ModePortAnnotation"]:
         """
         AUTOSAR-compliant getter for modePortAnnotation.
-        
+
         Returns:
             The modePortAnnotation value
-        
+
         Note:
             Delegates to mode_port_annotation property (CODING_RULE_V2_00017)
         """
@@ -188,10 +193,10 @@ class PortPrototype(Identifiable, ABC):
     def getNvDataPortAnnotation(self) -> List["NvDataPortAnnotation"]:
         """
         AUTOSAR-compliant getter for nvDataPortAnnotation.
-        
+
         Returns:
             The nvDataPortAnnotation value
-        
+
         Note:
             Delegates to nv_data_port_annotation property (CODING_RULE_V2_00017)
         """
@@ -200,10 +205,10 @@ class PortPrototype(Identifiable, ABC):
     def getParameterPort(self) -> List["ParameterPort"]:
         """
         AUTOSAR-compliant getter for parameterPort.
-        
+
         Returns:
             The parameterPort value
-        
+
         Note:
             Delegates to parameter_port property (CODING_RULE_V2_00017)
         """
@@ -212,10 +217,10 @@ class PortPrototype(Identifiable, ABC):
     def getSenderReceiver(self) -> List["SenderReceiver"]:
         """
         AUTOSAR-compliant getter for senderReceiver.
-        
+
         Returns:
             The senderReceiver value
-        
+
         Note:
             Delegates to sender_receiver property (CODING_RULE_V2_00017)
         """
@@ -224,10 +229,10 @@ class PortPrototype(Identifiable, ABC):
     def getTriggerPortAnnotation(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for triggerPortAnnotation.
-        
+
         Returns:
             The triggerPortAnnotation value
-        
+
         Note:
             Delegates to trigger_port_annotation property (CODING_RULE_V2_00017)
         """
@@ -238,13 +243,13 @@ class PortPrototype(Identifiable, ABC):
     def with_delegated_port(self, value: Optional["DelegatedPort"]) -> "PortPrototype":
         """
         Set delegatedPort and return self for chaining.
-        
+
         Args:
             value: The delegatedPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_delegated_port("value")
         """

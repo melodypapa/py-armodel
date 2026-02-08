@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CouplingPortRatePolicy(ARObject):
     """
     Defines a rate policy on a CouplingPort.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortRatePolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 124, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class CouplingPortRatePolicy(ARObject):
     def data_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set dataLength with validation.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class CouplingPortRatePolicy(ARObject):
     def policy_action(self, value: Optional["CouplingPortRatePolicy"]) -> None:
         """
         Set policyAction with validation.
-        
+
         Args:
             value: The policyAction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class CouplingPortRatePolicy(ARObject):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -113,10 +116,10 @@ class CouplingPortRatePolicy(ARObject):
     def time_interval(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeInterval with validation.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +146,10 @@ class CouplingPortRatePolicy(ARObject):
     def getDataLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for dataLength.
-        
+
         Returns:
             The dataLength value
-        
+
         Note:
             Delegates to data_length property (CODING_RULE_V2_00017)
         """
@@ -155,13 +158,13 @@ class CouplingPortRatePolicy(ARObject):
     def setDataLength(self, value: "PositiveInteger") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_length property setter (gets validation automatically)
         """
@@ -171,10 +174,10 @@ class CouplingPortRatePolicy(ARObject):
     def getPolicyAction(self) -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant getter for policyAction.
-        
+
         Returns:
             The policyAction value
-        
+
         Note:
             Delegates to policy_action property (CODING_RULE_V2_00017)
         """
@@ -183,13 +186,13 @@ class CouplingPortRatePolicy(ARObject):
     def setPolicyAction(self, value: "CouplingPortRatePolicy") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for policyAction with method chaining.
-        
+
         Args:
             value: The policyAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to policy_action property setter (gets validation automatically)
         """
@@ -199,10 +202,10 @@ class CouplingPortRatePolicy(ARObject):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -211,13 +214,13 @@ class CouplingPortRatePolicy(ARObject):
     def setPriority(self, value: "PositiveInteger") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -227,10 +230,10 @@ class CouplingPortRatePolicy(ARObject):
     def getTimeInterval(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeInterval.
-        
+
         Returns:
             The timeInterval value
-        
+
         Note:
             Delegates to time_interval property (CODING_RULE_V2_00017)
         """
@@ -239,13 +242,13 @@ class CouplingPortRatePolicy(ARObject):
     def setTimeInterval(self, value: "TimeValue") -> "CouplingPortRatePolicy":
         """
         AUTOSAR-compliant setter for timeInterval with method chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_interval property setter (gets validation automatically)
         """
@@ -255,10 +258,10 @@ class CouplingPortRatePolicy(ARObject):
     def getVLan(self) -> List["EthernetPhysical"]:
         """
         AUTOSAR-compliant getter for vLan.
-        
+
         Returns:
             The vLan value
-        
+
         Note:
             Delegates to v_lan property (CODING_RULE_V2_00017)
         """
@@ -269,13 +272,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_data_length(self, value: Optional["PositiveInteger"]) -> "CouplingPortRatePolicy":
         """
         Set dataLength and return self for chaining.
-        
+
         Args:
             value: The dataLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_length("value")
         """
@@ -285,13 +288,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_policy_action(self, value: Optional["CouplingPortRatePolicy"]) -> "CouplingPortRatePolicy":
         """
         Set policyAction and return self for chaining.
-        
+
         Args:
             value: The policyAction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_policy_action("value")
         """
@@ -301,13 +304,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "CouplingPortRatePolicy":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -317,13 +320,13 @@ class CouplingPortRatePolicy(ARObject):
     def with_time_interval(self, value: Optional["TimeValue"]) -> "CouplingPortRatePolicy":
         """
         Set timeInterval and return self for chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_interval("value")
         """

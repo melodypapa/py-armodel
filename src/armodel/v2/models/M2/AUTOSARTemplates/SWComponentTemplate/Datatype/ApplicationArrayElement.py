@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     """
     Describes the properties of the elements of an application array data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::ApplicationArrayElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 252, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +61,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def index_data_type(self, value: Optional["ApplicationPrimitive"]) -> None:
         """
         Set indexDataType with validation.
-        
+
         Args:
             value: The indexDataType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +89,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +111,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -123,13 +123,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def setArraySize(self, value: "ArraySizeSemantics") -> "ApplicationArrayElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -139,10 +139,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getIndexDataType(self) -> "ApplicationPrimitive":
         """
         AUTOSAR-compliant getter for indexDataType.
-        
+
         Returns:
             The indexDataType value
-        
+
         Note:
             Delegates to index_data_type property (CODING_RULE_V2_00017)
         """
@@ -151,13 +151,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def setIndexDataType(self, value: "ApplicationPrimitive") -> "ApplicationArrayElement":
         """
         AUTOSAR-compliant setter for indexDataType with method chaining.
-        
+
         Args:
             value: The indexDataType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to index_data_type property setter (gets validation automatically)
         """
@@ -167,10 +167,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -179,13 +179,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "ApplicationArrayElement":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -197,13 +197,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "ApplicationArrayElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -213,13 +213,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def with_index_data_type(self, value: Optional["ApplicationPrimitive"]) -> "ApplicationArrayElement":
         """
         Set indexDataType and return self for chaining.
-        
+
         Args:
             value: The indexDataType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_index_data_type("value")
         """
@@ -229,13 +229,13 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "ApplicationArrayElement":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """

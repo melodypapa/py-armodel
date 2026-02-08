@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwRecordLayoutGroupContent(ARObject):
     """
     This is the contents of a RecordLayout which is inserted for every
     iteration. Note that since this is atp Mixed, multiple properties can be
     inserted for each iteration.
-    
+
     Package: M2::MSR::DataDictionary::RecordLayout::SwRecordLayoutGroupContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 424, Classic Platform
       R23-11)
@@ -32,10 +35,10 @@ class SwRecordLayoutGroupContent(ARObject):
     def sw_record(self, value: Optional["SwRecordLayoutV"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class SwRecordLayoutGroupContent(ARObject):
     def getSwRecord(self) -> "SwRecordLayoutV":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -66,13 +69,13 @@ class SwRecordLayoutGroupContent(ARObject):
     def setSwRecord(self, value: "SwRecordLayoutV") -> "SwRecordLayoutGroupContent":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -84,13 +87,13 @@ class SwRecordLayoutGroupContent(ARObject):
     def with_sw_record(self, value: Optional["SwRecordLayoutV"]) -> "SwRecordLayoutGroupContent":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """

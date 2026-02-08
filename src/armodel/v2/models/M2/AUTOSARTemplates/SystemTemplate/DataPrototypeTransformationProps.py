@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataPrototypeTransformationProps(ARObject):
     """
     DataPrototypeTransformationProps allows to set the attributes for the
     different Transformation Technologies that are DataPrototype specific.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeTransformationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 787, Classic Platform R23-11)
     """
@@ -29,10 +34,10 @@ class DataPrototypeTransformationProps(ARObject):
     def data_prototype_in(self, value: RefType) -> None:
         """
         Set dataPrototypeIn with validation.
-        
+
         Args:
             value: The dataPrototypeIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class DataPrototypeTransformationProps(ARObject):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class DataPrototypeTransformationProps(ARObject):
     def transformation(self, value: Optional["TransformationProps"]) -> None:
         """
         Set transformation with validation.
-        
+
         Args:
             value: The transformation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +111,10 @@ class DataPrototypeTransformationProps(ARObject):
     def getDataPrototypeIn(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataPrototypeIn.
-        
+
         Returns:
             The dataPrototypeIn value
-        
+
         Note:
             Delegates to data_prototype_in property (CODING_RULE_V2_00017)
         """
@@ -118,13 +123,13 @@ class DataPrototypeTransformationProps(ARObject):
     def setDataPrototypeIn(self, value: RefType) -> "DataPrototypeTransformationProps":
         """
         AUTOSAR-compliant setter for dataPrototypeIn with method chaining.
-        
+
         Args:
             value: The dataPrototypeIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_prototype_in property setter (gets validation automatically)
         """
@@ -134,10 +139,10 @@ class DataPrototypeTransformationProps(ARObject):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -146,13 +151,13 @@ class DataPrototypeTransformationProps(ARObject):
     def setNetwork(self, value: "SwDataDefProps") -> "DataPrototypeTransformationProps":
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -162,10 +167,10 @@ class DataPrototypeTransformationProps(ARObject):
     def getTransformation(self) -> "TransformationProps":
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -174,13 +179,13 @@ class DataPrototypeTransformationProps(ARObject):
     def setTransformation(self, value: "TransformationProps") -> "DataPrototypeTransformationProps":
         """
         AUTOSAR-compliant setter for transformation with method chaining.
-        
+
         Args:
             value: The transformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transformation property setter (gets validation automatically)
         """
@@ -192,13 +197,13 @@ class DataPrototypeTransformationProps(ARObject):
     def with_data_prototype_in(self, value: Optional[RefType]) -> "DataPrototypeTransformationProps":
         """
         Set dataPrototypeIn and return self for chaining.
-        
+
         Args:
             value: The dataPrototypeIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_prototype_in("value")
         """
@@ -208,13 +213,13 @@ class DataPrototypeTransformationProps(ARObject):
     def with_network(self, value: Optional["SwDataDefProps"]) -> "DataPrototypeTransformationProps":
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -224,13 +229,13 @@ class DataPrototypeTransformationProps(ARObject):
     def with_transformation(self, value: Optional["TransformationProps"]) -> "DataPrototypeTransformationProps":
         """
         Set transformation and return self for chaining.
-        
+
         Args:
             value: The transformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transformation("value")
         """

@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class RptContainer(Identifiable):
     """
@@ -12,9 +14,9 @@ class RptContainer(Identifiable):
     RunnableEntity. The RptContainer structure on M1 shall follow the M1
     structure of the Software Component Descriptions. The category attribute
     denotes which level of the Software Component Description is annotated.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario::RptContainer
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 847, Classic Platform
       R23-11)
@@ -63,10 +65,10 @@ class RptContainer(Identifiable):
     def rpt_executable(self, value: Optional["RptExecutableEntity"]) -> None:
         """
         Set rptExecutable with validation.
-        
+
         Args:
             value: The rptExecutable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -93,10 +95,10 @@ class RptContainer(Identifiable):
     def rpt_hook(self, value: Optional["RptHook"]) -> None:
         """
         Set rptHook with validation.
-        
+
         Args:
             value: The rptHook to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +123,10 @@ class RptContainer(Identifiable):
     def rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> None:
         """
         Set rptImplPolicy with validation.
-        
+
         Args:
             value: The rptImplPolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -150,10 +152,10 @@ class RptContainer(Identifiable):
     def rpt_sw(self, value: Optional["RptSwPrototyping"]) -> None:
         """
         Set rptSw with validation.
-        
+
         Args:
             value: The rptSw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -172,10 +174,10 @@ class RptContainer(Identifiable):
     def getByPassPoint(self) -> List["AtpFeature"]:
         """
         AUTOSAR-compliant getter for byPassPoint.
-        
+
         Returns:
             The byPassPoint value
-        
+
         Note:
             Delegates to by_pass_point property (CODING_RULE_V2_00017)
         """
@@ -184,10 +186,10 @@ class RptContainer(Identifiable):
     def getExplicitRpt(self) -> List["RptProfile"]:
         """
         AUTOSAR-compliant getter for explicitRpt.
-        
+
         Returns:
             The explicitRpt value
-        
+
         Note:
             Delegates to explicit_rpt property (CODING_RULE_V2_00017)
         """
@@ -196,10 +198,10 @@ class RptContainer(Identifiable):
     def getRptContainer(self) -> List["RptContainer"]:
         """
         AUTOSAR-compliant getter for rptContainer.
-        
+
         Returns:
             The rptContainer value
-        
+
         Note:
             Delegates to rpt_container property (CODING_RULE_V2_00017)
         """
@@ -208,10 +210,10 @@ class RptContainer(Identifiable):
     def getRptExecutable(self) -> "RptExecutableEntity":
         """
         AUTOSAR-compliant getter for rptExecutable.
-        
+
         Returns:
             The rptExecutable value
-        
+
         Note:
             Delegates to rpt_executable property (CODING_RULE_V2_00017)
         """
@@ -220,13 +222,13 @@ class RptContainer(Identifiable):
     def setRptExecutable(self, value: "RptExecutableEntity") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptExecutable with method chaining.
-        
+
         Args:
             value: The rptExecutable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_executable property setter (gets validation automatically)
         """
@@ -236,10 +238,10 @@ class RptContainer(Identifiable):
     def getRptHook(self) -> "RptHook":
         """
         AUTOSAR-compliant getter for rptHook.
-        
+
         Returns:
             The rptHook value
-        
+
         Note:
             Delegates to rpt_hook property (CODING_RULE_V2_00017)
         """
@@ -248,13 +250,13 @@ class RptContainer(Identifiable):
     def setRptHook(self, value: "RptHook") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptHook with method chaining.
-        
+
         Args:
             value: The rptHook to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_hook property setter (gets validation automatically)
         """
@@ -264,10 +266,10 @@ class RptContainer(Identifiable):
     def getRptImplPolicy(self) -> "RptImplPolicy":
         """
         AUTOSAR-compliant getter for rptImplPolicy.
-        
+
         Returns:
             The rptImplPolicy value
-        
+
         Note:
             Delegates to rpt_impl_policy property (CODING_RULE_V2_00017)
         """
@@ -276,13 +278,13 @@ class RptContainer(Identifiable):
     def setRptImplPolicy(self, value: "RptImplPolicy") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptImplPolicy with method chaining.
-        
+
         Args:
             value: The rptImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_impl_policy property setter (gets validation automatically)
         """
@@ -292,10 +294,10 @@ class RptContainer(Identifiable):
     def getRptSw(self) -> "RptSwPrototyping":
         """
         AUTOSAR-compliant getter for rptSw.
-        
+
         Returns:
             The rptSw value
-        
+
         Note:
             Delegates to rpt_sw property (CODING_RULE_V2_00017)
         """
@@ -304,13 +306,13 @@ class RptContainer(Identifiable):
     def setRptSw(self, value: "RptSwPrototyping") -> "RptContainer":
         """
         AUTOSAR-compliant setter for rptSw with method chaining.
-        
+
         Args:
             value: The rptSw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_sw property setter (gets validation automatically)
         """
@@ -322,13 +324,13 @@ class RptContainer(Identifiable):
     def with_rpt_executable(self, value: Optional["RptExecutableEntity"]) -> "RptContainer":
         """
         Set rptExecutable and return self for chaining.
-        
+
         Args:
             value: The rptExecutable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_executable("value")
         """
@@ -338,13 +340,13 @@ class RptContainer(Identifiable):
     def with_rpt_hook(self, value: Optional["RptHook"]) -> "RptContainer":
         """
         Set rptHook and return self for chaining.
-        
+
         Args:
             value: The rptHook to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_hook("value")
         """
@@ -354,13 +356,13 @@ class RptContainer(Identifiable):
     def with_rpt_impl_policy(self, value: Optional["RptImplPolicy"]) -> "RptContainer":
         """
         Set rptImplPolicy and return self for chaining.
-        
+
         Args:
             value: The rptImplPolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_impl_policy("value")
         """
@@ -370,13 +372,13 @@ class RptContainer(Identifiable):
     def with_rpt_sw(self, value: Optional["RptSwPrototyping"]) -> "RptContainer":
         """
         Set rptSw and return self for chaining.
-        
+
         Args:
             value: The rptSw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_sw("value")
         """

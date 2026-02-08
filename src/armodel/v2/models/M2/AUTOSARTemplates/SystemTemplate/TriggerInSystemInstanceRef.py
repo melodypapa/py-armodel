@@ -1,13 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TriggerInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::InstanceRefs::TriggerInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1005, Classic Platform R23-11)
     """
@@ -27,10 +32,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def context(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set context with validation.
-        
+
         Args:
             value: The context to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def context_port(self, value: RefType) -> None:
         """
         Set contextPort with validation.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -104,10 +109,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def target_trigger(self, value: RefType) -> None:
         """
         Set targetTrigger with validation.
-        
+
         Args:
             value: The targetTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +127,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -134,13 +139,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def setBase(self, value: "System") -> "TriggerInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -150,10 +155,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def getContext(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for context.
-        
+
         Returns:
             The context value
-        
+
         Note:
             Delegates to context property (CODING_RULE_V2_00017)
         """
@@ -162,13 +167,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def setContext(self, value: "RootSwComposition") -> "TriggerInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for context with method chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context property setter (gets validation automatically)
         """
@@ -178,10 +183,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
-        
+
         Returns:
             The contextPort value
-        
+
         Note:
             Delegates to context_port property (CODING_RULE_V2_00017)
         """
@@ -190,13 +195,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def setContextPort(self, value: RefType) -> "TriggerInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_port property setter (gets validation automatically)
         """
@@ -206,10 +211,10 @@ class TriggerInSystemInstanceRef(ARObject):
     def getTargetTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetTrigger.
-        
+
         Returns:
             The targetTrigger value
-        
+
         Note:
             Delegates to target_trigger property (CODING_RULE_V2_00017)
         """
@@ -218,13 +223,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def setTargetTrigger(self, value: RefType) -> "TriggerInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetTrigger with method chaining.
-        
+
         Args:
             value: The targetTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_trigger property setter (gets validation automatically)
         """
@@ -236,13 +241,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def with_base(self, value: Optional["System"]) -> "TriggerInSystemInstanceRef":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -252,13 +257,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def with_context(self, value: Optional["RootSwComposition"]) -> "TriggerInSystemInstanceRef":
         """
         Set context and return self for chaining.
-        
+
         Args:
             value: The context to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context("value")
         """
@@ -268,13 +273,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def with_context_port(self, value: RefType) -> "TriggerInSystemInstanceRef":
         """
         Set contextPort and return self for chaining.
-        
+
         Args:
             value: The contextPort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_port("value")
         """
@@ -284,13 +289,13 @@ class TriggerInSystemInstanceRef(ARObject):
     def with_target_trigger(self, value: Optional[RefType]) -> "TriggerInSystemInstanceRef":
         """
         Set targetTrigger and return self for chaining.
-        
+
         Args:
             value: The targetTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_trigger("value")
         """

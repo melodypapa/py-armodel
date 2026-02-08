@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagnosticFunctionInhibitSource(Identifiable):
     """
     This meta-class represents the ability to define an inhibition source in the
     context of the Fim configuration.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Fim::DiagnosticFunctionInhibitSource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 216, Classic Platform
       R23-11)
@@ -30,10 +32,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def event(self, value: Optional["DiagnosticFimAlias"]) -> None:
         """
         Set event with validation.
-        
+
         Args:
             value: The event to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def event_group(self, value: Optional["DiagnosticFimAlias"]) -> None:
         """
         Set eventGroup with validation.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +82,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def getEvent(self) -> "DiagnosticFimAlias":
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -92,13 +94,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def setEvent(self, value: "DiagnosticFimAlias") -> "DiagnosticFunctionInhibitSource":
         """
         AUTOSAR-compliant setter for event with method chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -108,10 +110,10 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def getEventGroup(self) -> "DiagnosticFimAlias":
         """
         AUTOSAR-compliant getter for eventGroup.
-        
+
         Returns:
             The eventGroup value
-        
+
         Note:
             Delegates to event_group property (CODING_RULE_V2_00017)
         """
@@ -120,13 +122,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def setEventGroup(self, value: "DiagnosticFimAlias") -> "DiagnosticFunctionInhibitSource":
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_group property setter (gets validation automatically)
         """
@@ -138,13 +140,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def with_event(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFunctionInhibitSource":
         """
         Set event and return self for chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event("value")
         """
@@ -154,13 +156,13 @@ class DiagnosticFunctionInhibitSource(Identifiable):
     def with_event_group(self, value: Optional["DiagnosticFimAlias"]) -> "DiagnosticFunctionInhibitSource":
         """
         Set eventGroup and return self for chaining.
-        
+
         Args:
             value: The eventGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_group("value")
         """

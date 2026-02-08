@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwcBswRunnableMapping(ARObject):
     """
@@ -9,9 +12,9 @@ class SwcBswRunnableMapping(ARObject):
     Abstraction). The mapping can be used by a tool to find relevant information
     on the behavior, e.g. whether the bswEntity shall be running in interrupt
     context.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswRunnableMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 110, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class SwcBswRunnableMapping(ARObject):
     def bsw_entity(self, value: Optional["BswModuleEntity"]) -> None:
         """
         Set bswEntity with validation.
-        
+
         Args:
             value: The bswEntity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class SwcBswRunnableMapping(ARObject):
     def swc_runnable(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set swcRunnable with validation.
-        
+
         Args:
             value: The swcRunnable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class SwcBswRunnableMapping(ARObject):
     def getBswEntity(self) -> "BswModuleEntity":
         """
         AUTOSAR-compliant getter for bswEntity.
-        
+
         Returns:
             The bswEntity value
-        
+
         Note:
             Delegates to bsw_entity property (CODING_RULE_V2_00017)
         """
@@ -94,13 +97,13 @@ class SwcBswRunnableMapping(ARObject):
     def setBswEntity(self, value: "BswModuleEntity") -> "SwcBswRunnableMapping":
         """
         AUTOSAR-compliant setter for bswEntity with method chaining.
-        
+
         Args:
             value: The bswEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_entity property setter (gets validation automatically)
         """
@@ -110,10 +113,10 @@ class SwcBswRunnableMapping(ARObject):
     def getSwcRunnable(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for swcRunnable.
-        
+
         Returns:
             The swcRunnable value
-        
+
         Note:
             Delegates to swc_runnable property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class SwcBswRunnableMapping(ARObject):
     def setSwcRunnable(self, value: "RunnableEntity") -> "SwcBswRunnableMapping":
         """
         AUTOSAR-compliant setter for swcRunnable with method chaining.
-        
+
         Args:
             value: The swcRunnable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_runnable property setter (gets validation automatically)
         """
@@ -140,13 +143,13 @@ class SwcBswRunnableMapping(ARObject):
     def with_bsw_entity(self, value: Optional["BswModuleEntity"]) -> "SwcBswRunnableMapping":
         """
         Set bswEntity and return self for chaining.
-        
+
         Args:
             value: The bswEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_entity("value")
         """
@@ -156,13 +159,13 @@ class SwcBswRunnableMapping(ARObject):
     def with_swc_runnable(self, value: Optional["RunnableEntity"]) -> "SwcBswRunnableMapping":
         """
         Set swcRunnable and return self for chaining.
-        
+
         Args:
             value: The swcRunnable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_runnable("value")
         """

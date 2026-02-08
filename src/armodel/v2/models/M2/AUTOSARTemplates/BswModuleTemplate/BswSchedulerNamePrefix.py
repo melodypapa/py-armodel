@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class BswSchedulerNamePrefix(ImplementationProps):
     """
     A prefix to be used in names of generated code artifacts which make up the
     interface of a BSW module to the BswScheduler.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswSchedulerNamePrefix
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 86, Classic
       Platform R23-11)

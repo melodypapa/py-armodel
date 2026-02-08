@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class DiagnosticMapping(DiagnosticCommonElement, ABC):
     """
     Abstract element for different kinds of diagnostic mappings.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 223, Classic Platform
       R23-11)
@@ -30,10 +31,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def provider(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set provider with validation.
-        
+
         Args:
             value: The provider to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +60,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def requester(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set requester with validation.
-        
+
         Args:
             value: The requester to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +82,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def getProvider(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for provider.
-        
+
         Returns:
             The provider value
-        
+
         Note:
             Delegates to provider property (CODING_RULE_V2_00017)
         """
@@ -93,13 +94,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def setProvider(self, value: "CpSoftwareCluster") -> "DiagnosticMapping":
         """
         AUTOSAR-compliant setter for provider with method chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provider property setter (gets validation automatically)
         """
@@ -109,10 +110,10 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def getRequester(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for requester.
-        
+
         Returns:
             The requester value
-        
+
         Note:
             Delegates to requester property (CODING_RULE_V2_00017)
         """
@@ -121,13 +122,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def setRequester(self, value: "CpSoftwareCluster") -> "DiagnosticMapping":
         """
         AUTOSAR-compliant setter for requester with method chaining.
-        
+
         Args:
             value: The requester to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to requester property setter (gets validation automatically)
         """
@@ -139,13 +140,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def with_provider(self, value: Optional["CpSoftwareCluster"]) -> "DiagnosticMapping":
         """
         Set provider and return self for chaining.
-        
+
         Args:
             value: The provider to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provider("value")
         """
@@ -155,13 +156,13 @@ class DiagnosticMapping(DiagnosticCommonElement, ABC):
     def with_requester(self, value: Optional["CpSoftwareCluster"]) -> "DiagnosticMapping":
         """
         Set requester and return self for chaining.
-        
+
         Args:
             value: The requester to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_requester("value")
         """

@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BinaryManifestProvideResource(BinaryManifestResource):
     """
     This meta-class represents a provided resource in the binary manifest.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestProvideResource
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 914, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set numberOf with validation.
-        
+
         Args:
             value: The numberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def supports(self, value: Optional["Boolean"]) -> None:
         """
         Set supports with validation.
-        
+
         Args:
             value: The supports to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def getNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for numberOf.
-        
+
         Returns:
             The numberOf value
-        
+
         Note:
             Delegates to number_of property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def setNumberOf(self, value: "PositiveInteger") -> "BinaryManifestProvideResource":
         """
         AUTOSAR-compliant setter for numberOf with method chaining.
-        
+
         Args:
             value: The numberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to number_of property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def getSupports(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for supports.
-        
+
         Returns:
             The supports value
-        
+
         Note:
             Delegates to supports property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def setSupports(self, value: "Boolean") -> "BinaryManifestProvideResource":
         """
         AUTOSAR-compliant setter for supports with method chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to supports property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def with_number_of(self, value: Optional["PositiveInteger"]) -> "BinaryManifestProvideResource":
         """
         Set numberOf and return self for chaining.
-        
+
         Args:
             value: The numberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_number_of("value")
         """
@@ -151,13 +151,13 @@ class BinaryManifestProvideResource(BinaryManifestResource):
     def with_supports(self, value: Optional["Boolean"]) -> "BinaryManifestProvideResource":
         """
         Set supports and return self for chaining.
-        
+
         Args:
             value: The supports to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_supports("value")
         """

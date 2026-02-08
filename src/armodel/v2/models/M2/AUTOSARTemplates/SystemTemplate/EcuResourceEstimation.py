@@ -1,14 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class EcuResourceEstimation(ARObject):
     """
     Resource estimations for RTE and BSW of a single ECU instance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::EcuResourceEstimation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 260, Classic Platform R23-11)
     """
@@ -28,10 +33,10 @@ class EcuResourceEstimation(ARObject):
     def bsw_resource(self, value: Optional["ResourceConsumption"]) -> None:
         """
         Set bswResource with validation.
-        
+
         Args:
             value: The bswResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +61,10 @@ class EcuResourceEstimation(ARObject):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +89,10 @@ class EcuResourceEstimation(ARObject):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +117,10 @@ class EcuResourceEstimation(ARObject):
     def rte_resource(self, value: Optional["ResourceConsumption"]) -> None:
         """
         Set rteResource with validation.
-        
+
         Args:
             value: The rteResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +150,10 @@ class EcuResourceEstimation(ARObject):
     def getBswResource(self) -> "ResourceConsumption":
         """
         AUTOSAR-compliant getter for bswResource.
-        
+
         Returns:
             The bswResource value
-        
+
         Note:
             Delegates to bsw_resource property (CODING_RULE_V2_00017)
         """
@@ -157,13 +162,13 @@ class EcuResourceEstimation(ARObject):
     def setBswResource(self, value: "ResourceConsumption") -> "EcuResourceEstimation":
         """
         AUTOSAR-compliant setter for bswResource with method chaining.
-        
+
         Args:
             value: The bswResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_resource property setter (gets validation automatically)
         """
@@ -173,10 +178,10 @@ class EcuResourceEstimation(ARObject):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -185,13 +190,13 @@ class EcuResourceEstimation(ARObject):
     def setEcuInstance(self, value: "EcuInstance") -> "EcuResourceEstimation":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -201,10 +206,10 @@ class EcuResourceEstimation(ARObject):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -213,13 +218,13 @@ class EcuResourceEstimation(ARObject):
     def setIntroduction(self, value: "DocumentationBlock") -> "EcuResourceEstimation":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -229,10 +234,10 @@ class EcuResourceEstimation(ARObject):
     def getRteResource(self) -> "ResourceConsumption":
         """
         AUTOSAR-compliant getter for rteResource.
-        
+
         Returns:
             The rteResource value
-        
+
         Note:
             Delegates to rte_resource property (CODING_RULE_V2_00017)
         """
@@ -241,13 +246,13 @@ class EcuResourceEstimation(ARObject):
     def setRteResource(self, value: "ResourceConsumption") -> "EcuResourceEstimation":
         """
         AUTOSAR-compliant setter for rteResource with method chaining.
-        
+
         Args:
             value: The rteResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rte_resource property setter (gets validation automatically)
         """
@@ -257,10 +262,10 @@ class EcuResourceEstimation(ARObject):
     def getSwCompToEcu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for swCompToEcu.
-        
+
         Returns:
             The swCompToEcu value
-        
+
         Note:
             Delegates to sw_comp_to_ecu property (CODING_RULE_V2_00017)
         """
@@ -271,13 +276,13 @@ class EcuResourceEstimation(ARObject):
     def with_bsw_resource(self, value: Optional["ResourceConsumption"]) -> "EcuResourceEstimation":
         """
         Set bswResource and return self for chaining.
-        
+
         Args:
             value: The bswResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_resource("value")
         """
@@ -287,13 +292,13 @@ class EcuResourceEstimation(ARObject):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "EcuResourceEstimation":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -303,13 +308,13 @@ class EcuResourceEstimation(ARObject):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "EcuResourceEstimation":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """
@@ -319,13 +324,13 @@ class EcuResourceEstimation(ARObject):
     def with_rte_resource(self, value: Optional["ResourceConsumption"]) -> "EcuResourceEstimation":
         """
         Set rteResource and return self for chaining.
-        
+
         Args:
             value: The rteResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rte_resource("value")
         """

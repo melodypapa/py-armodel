@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     """
     Annotation of the data elements in a port that realizes a sender/receiver
     interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::SenderReceiverAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 152, Classic Platform
       R23-11)
@@ -32,10 +36,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def computed(self, value: Optional["Boolean"]) -> None:
         """
         Set computed with validation.
-        
+
         Args:
             value: The computed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +64,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +96,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def limit_kind(self, value: Optional["DataLimitKindEnum"]) -> None:
         """
         Set limitKind with validation.
-        
+
         Args:
             value: The limitKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +125,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def processing_kind(self, value: Optional["ProcessingKindEnum"]) -> None:
         """
         Set processingKind with validation.
-        
+
         Args:
             value: The processingKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -143,10 +147,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def getComputed(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for computed.
-        
+
         Returns:
             The computed value
-        
+
         Note:
             Delegates to computed property (CODING_RULE_V2_00017)
         """
@@ -155,13 +159,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def setComputed(self, value: "Boolean") -> "SenderReceiverAnnotation":
         """
         AUTOSAR-compliant setter for computed with method chaining.
-        
+
         Args:
             value: The computed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to computed property setter (gets validation automatically)
         """
@@ -171,10 +175,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -183,13 +187,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def setDataElement(self, value: RefType) -> "SenderReceiverAnnotation":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -199,10 +203,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def getLimitKind(self) -> "DataLimitKindEnum":
         """
         AUTOSAR-compliant getter for limitKind.
-        
+
         Returns:
             The limitKind value
-        
+
         Note:
             Delegates to limit_kind property (CODING_RULE_V2_00017)
         """
@@ -211,13 +215,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def setLimitKind(self, value: "DataLimitKindEnum") -> "SenderReceiverAnnotation":
         """
         AUTOSAR-compliant setter for limitKind with method chaining.
-        
+
         Args:
             value: The limitKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to limit_kind property setter (gets validation automatically)
         """
@@ -227,10 +231,10 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def getProcessingKind(self) -> "ProcessingKindEnum":
         """
         AUTOSAR-compliant getter for processingKind.
-        
+
         Returns:
             The processingKind value
-        
+
         Note:
             Delegates to processing_kind property (CODING_RULE_V2_00017)
         """
@@ -239,13 +243,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def setProcessingKind(self, value: "ProcessingKindEnum") -> "SenderReceiverAnnotation":
         """
         AUTOSAR-compliant setter for processingKind with method chaining.
-        
+
         Args:
             value: The processingKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to processing_kind property setter (gets validation automatically)
         """
@@ -257,13 +261,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def with_computed(self, value: Optional["Boolean"]) -> "SenderReceiverAnnotation":
         """
         Set computed and return self for chaining.
-        
+
         Args:
             value: The computed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_computed("value")
         """
@@ -273,13 +277,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def with_data_element(self, value: Optional[RefType]) -> "SenderReceiverAnnotation":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -289,13 +293,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def with_limit_kind(self, value: Optional["DataLimitKindEnum"]) -> "SenderReceiverAnnotation":
         """
         Set limitKind and return self for chaining.
-        
+
         Args:
             value: The limitKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_limit_kind("value")
         """
@@ -305,13 +309,13 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     def with_processing_kind(self, value: Optional["ProcessingKindEnum"]) -> "SenderReceiverAnnotation":
         """
         Set processingKind and return self for chaining.
-        
+
         Args:
             value: The processingKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_processing_kind("value")
         """

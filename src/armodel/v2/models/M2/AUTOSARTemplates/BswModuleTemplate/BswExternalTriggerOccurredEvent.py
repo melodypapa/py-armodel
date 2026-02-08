@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     """
     A BswEvent resulting from a trigger released by another module or cluster.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswExternalTriggerOccurredEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 91, Classic
       Platform R23-11)
@@ -29,10 +32,10 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     def trigger(self, value: RefType) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +50,10 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -59,13 +62,13 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     def setTrigger(self, value: RefType) -> "BswExternalTriggerOccurredEvent":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -77,13 +80,13 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     def with_trigger(self, value: Optional[RefType]) -> "BswExternalTriggerOccurredEvent":
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """

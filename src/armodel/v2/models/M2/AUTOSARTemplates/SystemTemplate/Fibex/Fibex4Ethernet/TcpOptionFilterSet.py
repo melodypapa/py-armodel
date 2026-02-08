@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TcpOptionFilterSet(ARElement):
     """
     Set of TcpOptionFilterLists.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet::TcpOptionFilterSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 457, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class TcpOptionFilterSet(ARElement):
     def getTcpOptionFilter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for tcpOptionFilter.
-        
+
         Returns:
             The tcpOptionFilter value
-        
+
         Note:
             Delegates to tcp_option_filter property (CODING_RULE_V2_00017)
         """

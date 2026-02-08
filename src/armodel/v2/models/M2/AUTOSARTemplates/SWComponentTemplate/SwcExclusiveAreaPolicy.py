@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwcExclusiveAreaPolicy(ARObject):
     """
     Options how to generate the ExclusiveArea related APIs. If no
     SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values
     apply.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::SwcExclusiveAreaPolicy
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 556, Classic Platform
       R23-11)
@@ -33,10 +36,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def api_principle(self, value: Optional["ApiPrincipleEnum"]) -> None:
         """
         Set apiPrinciple with validation.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def exclusive_area(self, value: Optional["ExclusiveArea"]) -> None:
         """
         Set exclusiveArea with validation.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def getApiPrinciple(self) -> "ApiPrincipleEnum":
         """
         AUTOSAR-compliant getter for apiPrinciple.
-        
+
         Returns:
             The apiPrinciple value
-        
+
         Note:
             Delegates to api_principle property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def setApiPrinciple(self, value: "ApiPrincipleEnum") -> "SwcExclusiveAreaPolicy":
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to api_principle property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class SwcExclusiveAreaPolicy(ARObject):
     def getExclusiveArea(self) -> "ExclusiveArea":
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -123,13 +126,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def setExclusiveArea(self, value: "ExclusiveArea") -> "SwcExclusiveAreaPolicy":
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exclusive_area property setter (gets validation automatically)
         """
@@ -141,13 +144,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> "SwcExclusiveAreaPolicy":
         """
         Set apiPrinciple and return self for chaining.
-        
+
         Args:
             value: The apiPrinciple to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_api_principle("value")
         """
@@ -157,13 +160,13 @@ class SwcExclusiveAreaPolicy(ARObject):
     def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> "SwcExclusiveAreaPolicy":
         """
         Set exclusiveArea and return self for chaining.
-        
+
         Args:
             value: The exclusiveArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exclusive_area("value")
         """

@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     """
     This class represents a RootDataPrototype that is typed by an
     ApplicationDataType or Implementation DataType or a DataTypeElement that is
     aggregated within a composite application data type (record or array).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::DataPrototypeInPortInterfaceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 787, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     def data_prototype_in(self, value: RefType) -> None:
         """
         Set dataPrototypeIn with validation.
-        
+
         Args:
             value: The dataPrototypeIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -48,10 +51,10 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     def getDataPrototypeIn(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataPrototypeIn.
-        
+
         Returns:
             The dataPrototypeIn value
-        
+
         Note:
             Delegates to data_prototype_in property (CODING_RULE_V2_00017)
         """
@@ -60,13 +63,13 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     def setDataPrototypeIn(self, value: RefType) -> "DataPrototypeInPortInterfaceRef":
         """
         AUTOSAR-compliant setter for dataPrototypeIn with method chaining.
-        
+
         Args:
             value: The dataPrototypeIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_prototype_in property setter (gets validation automatically)
         """
@@ -78,13 +81,13 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     def with_data_prototype_in(self, value: Optional[RefType]) -> "DataPrototypeInPortInterfaceRef":
         """
         Set dataPrototypeIn and return self for chaining.
-        
+
         Args:
             value: The dataPrototypeIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_prototype_in("value")
         """

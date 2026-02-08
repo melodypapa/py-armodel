@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
     """
     If the ApplicationCompositeDataType is a Record, the "RecordTypeMapping"
     will be used.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderRecRecordTypeMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 235, Classic Platform R23-11)
     """
@@ -28,10 +28,10 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
     def getRecordElement(self) -> List["SenderRecRecord"]:
         """
         AUTOSAR-compliant getter for recordElement.
-        
+
         Returns:
             The recordElement value
-        
+
         Note:
             Delegates to record_element property (CODING_RULE_V2_00017)
         """

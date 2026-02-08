@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class DiagnosticDataElement(Identifiable):
     """
     This meta-class represents the ability to describe a concrete piece of data
     to be taken into account for diagnostic purposes.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics::DiagnosticDataElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 41, Classic Platform
       R23-11)
@@ -32,10 +34,10 @@ class DiagnosticDataElement(Identifiable):
     def array_size(self, value: Optional["ArraySizeSemantics"]) -> None:
         """
         Set arraySize with validation.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +64,10 @@ class DiagnosticDataElement(Identifiable):
     def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxNumberOf with validation.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +93,10 @@ class DiagnosticDataElement(Identifiable):
     def scaling_info_size(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set scalingInfoSize with validation.
-        
+
         Args:
             value: The scalingInfoSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -122,10 +124,10 @@ class DiagnosticDataElement(Identifiable):
     def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -144,10 +146,10 @@ class DiagnosticDataElement(Identifiable):
     def getArraySize(self) -> "ArraySizeSemantics":
         """
         AUTOSAR-compliant getter for arraySize.
-        
+
         Returns:
             The arraySize value
-        
+
         Note:
             Delegates to array_size property (CODING_RULE_V2_00017)
         """
@@ -156,13 +158,13 @@ class DiagnosticDataElement(Identifiable):
     def setArraySize(self, value: "ArraySizeSemantics") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to array_size property setter (gets validation automatically)
         """
@@ -172,10 +174,10 @@ class DiagnosticDataElement(Identifiable):
     def getMaxNumberOf(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxNumberOf.
-        
+
         Returns:
             The maxNumberOf value
-        
+
         Note:
             Delegates to max_number_of property (CODING_RULE_V2_00017)
         """
@@ -184,13 +186,13 @@ class DiagnosticDataElement(Identifiable):
     def setMaxNumberOf(self, value: "PositiveInteger") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_number_of property setter (gets validation automatically)
         """
@@ -200,10 +202,10 @@ class DiagnosticDataElement(Identifiable):
     def getScalingInfoSize(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for scalingInfoSize.
-        
+
         Returns:
             The scalingInfoSize value
-        
+
         Note:
             Delegates to scaling_info_size property (CODING_RULE_V2_00017)
         """
@@ -212,13 +214,13 @@ class DiagnosticDataElement(Identifiable):
     def setScalingInfoSize(self, value: "PositiveInteger") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for scalingInfoSize with method chaining.
-        
+
         Args:
             value: The scalingInfoSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to scaling_info_size property setter (gets validation automatically)
         """
@@ -228,10 +230,10 @@ class DiagnosticDataElement(Identifiable):
     def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
-        
+
         Returns:
             The swDataDef value
-        
+
         Note:
             Delegates to sw_data_def property (CODING_RULE_V2_00017)
         """
@@ -240,13 +242,13 @@ class DiagnosticDataElement(Identifiable):
     def setSwDataDef(self, value: "SwDataDefProps") -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_data_def property setter (gets validation automatically)
         """
@@ -258,13 +260,13 @@ class DiagnosticDataElement(Identifiable):
     def with_array_size(self, value: Optional["ArraySizeSemantics"]) -> "DiagnosticDataElement":
         """
         Set arraySize and return self for chaining.
-        
+
         Args:
             value: The arraySize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_array_size("value")
         """
@@ -274,13 +276,13 @@ class DiagnosticDataElement(Identifiable):
     def with_max_number_of(self, value: Optional["PositiveInteger"]) -> "DiagnosticDataElement":
         """
         Set maxNumberOf and return self for chaining.
-        
+
         Args:
             value: The maxNumberOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_number_of("value")
         """
@@ -290,13 +292,13 @@ class DiagnosticDataElement(Identifiable):
     def with_scaling_info_size(self, value: Optional["PositiveInteger"]) -> "DiagnosticDataElement":
         """
         Set scalingInfoSize and return self for chaining.
-        
+
         Args:
             value: The scalingInfoSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_scaling_info_size("value")
         """
@@ -306,13 +308,13 @@ class DiagnosticDataElement(Identifiable):
     def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> "DiagnosticDataElement":
         """
         Set swDataDef and return self for chaining.
-        
+
         Args:
             value: The swDataDef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_data_def("value")
         """

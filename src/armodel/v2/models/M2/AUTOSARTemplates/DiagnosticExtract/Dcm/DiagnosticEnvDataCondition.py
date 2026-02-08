@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     """
     A DiagnosticEnvDataCondition is an atomic condition that compares the
     current value of the referenced DiagnosticDataElement with a constant value
     defined by the ValueSpecification. All compareTypes are supported.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::EnvironmentalCondition::DiagnosticEnvDataCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 84, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def compare_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set compareValue with validation.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def data_element(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def getCompareValue(self) -> "ValueSpecification":
         """
         AUTOSAR-compliant getter for compareValue.
-        
+
         Returns:
             The compareValue value
-        
+
         Note:
             Delegates to compare_value property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def setCompareValue(self, value: "ValueSpecification") -> "DiagnosticEnvDataCondition":
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compare_value property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def getDataElement(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def setDataElement(self, value: "DiagnosticDataElement") -> "DiagnosticEnvDataCondition":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def with_compare_value(self, value: Optional["ValueSpecification"]) -> "DiagnosticEnvDataCondition":
         """
         Set compareValue and return self for chaining.
-        
+
         Args:
             value: The compareValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compare_value("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
     def with_data_element(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticEnvDataCondition":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticParameterElementAccess(ARObject):
     """
     This meta-class acts as a single point for defining structured references to
     a specific Diagnostic ParameterElement.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticParameterElementAccess
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 229, Classic Platform
       R23-11)
@@ -38,10 +41,10 @@ class DiagnosticParameterElementAccess(ARObject):
     def target_element(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set targetElement with validation.
-        
+
         Args:
             value: The targetElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class DiagnosticParameterElementAccess(ARObject):
     def getContextElement(self) -> List["DiagnosticParameter"]:
         """
         AUTOSAR-compliant getter for contextElement.
-        
+
         Returns:
             The contextElement value
-        
+
         Note:
             Delegates to context_element property (CODING_RULE_V2_00017)
         """
@@ -72,10 +75,10 @@ class DiagnosticParameterElementAccess(ARObject):
     def getTargetElement(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for targetElement.
-        
+
         Returns:
             The targetElement value
-        
+
         Note:
             Delegates to target_element property (CODING_RULE_V2_00017)
         """
@@ -84,13 +87,13 @@ class DiagnosticParameterElementAccess(ARObject):
     def setTargetElement(self, value: "DiagnosticParameter") -> "DiagnosticParameterElementAccess":
         """
         AUTOSAR-compliant setter for targetElement with method chaining.
-        
+
         Args:
             value: The targetElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_element property setter (gets validation automatically)
         """
@@ -102,13 +105,13 @@ class DiagnosticParameterElementAccess(ARObject):
     def with_target_element(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticParameterElementAccess":
         """
         Set targetElement and return self for chaining.
-        
+
         Args:
             value: The targetElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_element("value")
         """

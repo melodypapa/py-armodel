@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class DiagnosticServiceTable(DiagnosticCommonElement):
     """
     This meta-class represents a model of a diagnostic service table, i.e. the
     UDS services applicable for a given ECU.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution::DiagnosticServiceTable
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 59, Classic Platform
       R23-11)
@@ -37,10 +37,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +65,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def protocol_kind(self, value: Optional["NameToken"]) -> None:
         """
         Set protocolKind with validation.
-        
+
         Args:
             value: The protocolKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def getDiagnostic(self) -> List["DiagnosticConnection"]:
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -107,10 +107,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def setEcuInstance(self, value: "EcuInstance") -> "DiagnosticServiceTable":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -135,10 +135,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def getProtocolKind(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for protocolKind.
-        
+
         Returns:
             The protocolKind value
-        
+
         Note:
             Delegates to protocol_kind property (CODING_RULE_V2_00017)
         """
@@ -147,13 +147,13 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def setProtocolKind(self, value: "NameToken") -> "DiagnosticServiceTable":
         """
         AUTOSAR-compliant setter for protocolKind with method chaining.
-        
+
         Args:
             value: The protocolKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to protocol_kind property setter (gets validation automatically)
         """
@@ -163,10 +163,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def getServiceInstance(self) -> List["DiagnosticService"]:
         """
         AUTOSAR-compliant getter for serviceInstance.
-        
+
         Returns:
             The serviceInstance value
-        
+
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "DiagnosticServiceTable":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -193,13 +193,13 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     def with_protocol_kind(self, value: Optional["NameToken"]) -> "DiagnosticServiceTable":
         """
         Set protocolKind and return self for chaining.
-        
+
         Args:
             value: The protocolKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_protocol_kind("value")
         """

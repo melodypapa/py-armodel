@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class McSwEmulationMethodSupport(ARObject):
     """
@@ -17,9 +22,9 @@ class McSwEmulationMethodSupport(ARObject):
     respective pointers. Therefore, the description of elementGroups is not
     needed in these cases. Likewise, for double pointered method the reference
     table description can be accessed via the M1 model under baseReference.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McSwEmulationMethodSupport
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 180, Classic
       Platform R23-11)
@@ -40,10 +45,10 @@ class McSwEmulationMethodSupport(ARObject):
     def base_reference(self, value: RefType) -> None:
         """
         Set baseReference with validation.
-        
+
         Args:
             value: The baseReference to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +71,10 @@ class McSwEmulationMethodSupport(ARObject):
     def category(self, value: Optional["Identifier"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -102,10 +107,10 @@ class McSwEmulationMethodSupport(ARObject):
     def reference_table(self, value: RefType) -> None:
         """
         Set referenceTable with validation.
-        
+
         Args:
             value: The referenceTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -126,10 +131,10 @@ class McSwEmulationMethodSupport(ARObject):
     def short_label(self, value: Optional["Identifier"]) -> None:
         """
         Set shortLabel with validation.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -148,10 +153,10 @@ class McSwEmulationMethodSupport(ARObject):
     def getBaseReference(self) -> RefType:
         """
         AUTOSAR-compliant getter for baseReference.
-        
+
         Returns:
             The baseReference value
-        
+
         Note:
             Delegates to base_reference property (CODING_RULE_V2_00017)
         """
@@ -160,13 +165,13 @@ class McSwEmulationMethodSupport(ARObject):
     def setBaseReference(self, value: RefType) -> "McSwEmulationMethodSupport":
         """
         AUTOSAR-compliant setter for baseReference with method chaining.
-        
+
         Args:
             value: The baseReference to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base_reference property setter (gets validation automatically)
         """
@@ -176,10 +181,10 @@ class McSwEmulationMethodSupport(ARObject):
     def getCategory(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -188,13 +193,13 @@ class McSwEmulationMethodSupport(ARObject):
     def setCategory(self, value: "Identifier") -> "McSwEmulationMethodSupport":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -204,10 +209,10 @@ class McSwEmulationMethodSupport(ARObject):
     def getElementGroup(self) -> List["McParameterElement"]:
         """
         AUTOSAR-compliant getter for elementGroup.
-        
+
         Returns:
             The elementGroup value
-        
+
         Note:
             Delegates to element_group property (CODING_RULE_V2_00017)
         """
@@ -216,10 +221,10 @@ class McSwEmulationMethodSupport(ARObject):
     def getReferenceTable(self) -> RefType:
         """
         AUTOSAR-compliant getter for referenceTable.
-        
+
         Returns:
             The referenceTable value
-        
+
         Note:
             Delegates to reference_table property (CODING_RULE_V2_00017)
         """
@@ -228,13 +233,13 @@ class McSwEmulationMethodSupport(ARObject):
     def setReferenceTable(self, value: RefType) -> "McSwEmulationMethodSupport":
         """
         AUTOSAR-compliant setter for referenceTable with method chaining.
-        
+
         Args:
             value: The referenceTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reference_table property setter (gets validation automatically)
         """
@@ -244,10 +249,10 @@ class McSwEmulationMethodSupport(ARObject):
     def getShortLabel(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for shortLabel.
-        
+
         Returns:
             The shortLabel value
-        
+
         Note:
             Delegates to short_label property (CODING_RULE_V2_00017)
         """
@@ -256,13 +261,13 @@ class McSwEmulationMethodSupport(ARObject):
     def setShortLabel(self, value: "Identifier") -> "McSwEmulationMethodSupport":
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to short_label property setter (gets validation automatically)
         """
@@ -274,13 +279,13 @@ class McSwEmulationMethodSupport(ARObject):
     def with_base_reference(self, value: Optional[RefType]) -> "McSwEmulationMethodSupport":
         """
         Set baseReference and return self for chaining.
-        
+
         Args:
             value: The baseReference to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base_reference("value")
         """
@@ -290,13 +295,13 @@ class McSwEmulationMethodSupport(ARObject):
     def with_category(self, value: Optional["Identifier"]) -> "McSwEmulationMethodSupport":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -306,13 +311,13 @@ class McSwEmulationMethodSupport(ARObject):
     def with_reference_table(self, value: Optional[RefType]) -> "McSwEmulationMethodSupport":
         """
         Set referenceTable and return self for chaining.
-        
+
         Args:
             value: The referenceTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reference_table("value")
         """
@@ -322,13 +327,13 @@ class McSwEmulationMethodSupport(ARObject):
     def with_short_label(self, value: Optional["Identifier"]) -> "McSwEmulationMethodSupport":
         """
         Set shortLabel and return self for chaining.
-        
+
         Args:
             value: The shortLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_short_label("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class EthernetPriorityRegeneration(Referrable):
     """
@@ -9,9 +12,9 @@ class EthernetPriorityRegeneration(Referrable):
     priority regeneration shall be performed. In case a
     ethernetPriorityRegeneration is defined it shall have 8 mappings, one for
     each priority.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::EthernetPriorityRegeneration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 128, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class EthernetPriorityRegeneration(Referrable):
     def ingress_priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set ingressPriority with validation.
-        
+
         Args:
             value: The ingressPriority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class EthernetPriorityRegeneration(Referrable):
     def regenerated(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set regenerated with validation.
-        
+
         Args:
             value: The regenerated to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class EthernetPriorityRegeneration(Referrable):
     def getIngressPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for ingressPriority.
-        
+
         Returns:
             The ingressPriority value
-        
+
         Note:
             Delegates to ingress_priority property (CODING_RULE_V2_00017)
         """
@@ -94,13 +97,13 @@ class EthernetPriorityRegeneration(Referrable):
     def setIngressPriority(self, value: "PositiveInteger") -> "EthernetPriorityRegeneration":
         """
         AUTOSAR-compliant setter for ingressPriority with method chaining.
-        
+
         Args:
             value: The ingressPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ingress_priority property setter (gets validation automatically)
         """
@@ -110,10 +113,10 @@ class EthernetPriorityRegeneration(Referrable):
     def getRegenerated(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for regenerated.
-        
+
         Returns:
             The regenerated value
-        
+
         Note:
             Delegates to regenerated property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class EthernetPriorityRegeneration(Referrable):
     def setRegenerated(self, value: "PositiveInteger") -> "EthernetPriorityRegeneration":
         """
         AUTOSAR-compliant setter for regenerated with method chaining.
-        
+
         Args:
             value: The regenerated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to regenerated property setter (gets validation automatically)
         """
@@ -140,13 +143,13 @@ class EthernetPriorityRegeneration(Referrable):
     def with_ingress_priority(self, value: Optional["PositiveInteger"]) -> "EthernetPriorityRegeneration":
         """
         Set ingressPriority and return self for chaining.
-        
+
         Args:
             value: The ingressPriority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ingress_priority("value")
         """
@@ -156,13 +159,13 @@ class EthernetPriorityRegeneration(Referrable):
     def with_regenerated(self, value: Optional["PositiveInteger"]) -> "EthernetPriorityRegeneration":
         """
         Set regenerated and return self for chaining.
-        
+
         Args:
             value: The regenerated to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_regenerated("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     """
     Defines which UDS Diagnostic Trouble Code is applicable for a
     DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToTroubleCodeUdsMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 245, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> None:
         """
         Set troubleCodeUds with validation.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def getTroubleCodeUds(self) -> "DiagnosticTroubleCode":
         """
         AUTOSAR-compliant getter for troubleCodeUds.
-        
+
         Returns:
             The troubleCodeUds value
-        
+
         Note:
             Delegates to trouble_code_uds property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def setTroubleCodeUds(self, value: "DiagnosticTroubleCode") -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         AUTOSAR-compliant setter for troubleCodeUds with method chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trouble_code_uds property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """
@@ -152,13 +152,13 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
     def with_trouble_code_uds(self, value: Optional["DiagnosticTroubleCode"]) -> "DiagnosticEventToTroubleCodeUdsMapping":
         """
         Set troubleCodeUds and return self for chaining.
-        
+
         Args:
             value: The troubleCodeUds to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trouble_code_uds("value")
         """

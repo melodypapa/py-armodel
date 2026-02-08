@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class DataTypeMappingSet(ARElement):
     """
     This class represents a list of mappings between ApplicationDataTypes and
     ImplementationDataTypes. In addition, it can contain mappings between
     ImplementationDataTypes and ModeDeclarationGroups.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::DataTypeMappingSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 311, Classic
       Platform R23-11)
@@ -43,10 +43,10 @@ class DataTypeMappingSet(ARElement):
     def getDataTypeMap(self) -> List["DataTypeMap"]:
         """
         AUTOSAR-compliant getter for dataTypeMap.
-        
+
         Returns:
             The dataTypeMap value
-        
+
         Note:
             Delegates to data_type_map property (CODING_RULE_V2_00017)
         """
@@ -55,10 +55,10 @@ class DataTypeMappingSet(ARElement):
     def getModeRequest(self) -> List["ModeRequestTypeMap"]:
         """
         AUTOSAR-compliant getter for modeRequest.
-        
+
         Returns:
             The modeRequest value
-        
+
         Note:
             Delegates to mode_request property (CODING_RULE_V2_00017)
         """

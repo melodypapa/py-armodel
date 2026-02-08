@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class AutosarDataPrototype(DataPrototype, ABC):
     """
     Base class for prototypical roles of an AutosarDataType.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes::AutosarDataPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 305, Classic
       Platform R23-11)
@@ -33,10 +34,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def type(self, value: Optional["AutosarDataType"]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +56,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def getType(self) -> "AutosarDataType":
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -67,13 +68,13 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def setType(self, value: "AutosarDataType") -> "AutosarDataPrototype":
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -85,13 +86,13 @@ class AutosarDataPrototype(DataPrototype, ABC):
     def with_type(self, value: Optional["AutosarDataType"]) -> "AutosarDataPrototype":
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """

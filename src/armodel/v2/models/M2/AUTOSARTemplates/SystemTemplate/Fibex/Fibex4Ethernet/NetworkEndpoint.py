@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class NetworkEndpoint(Identifiable):
     """
     The network endpoint defines the network addressing (e.g. IP-Address or MAC
     multicast address).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::NetworkEndpoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 463, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class NetworkEndpoint(Identifiable):
     def fully_qualified(self, value: Optional["String"]) -> None:
         """
         Set fullyQualified with validation.
-        
+
         Args:
             value: The fullyQualified to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class NetworkEndpoint(Identifiable):
     def infrastructure(self, value: Optional["InfrastructureServices"]) -> None:
         """
         Set infrastructure with validation.
-        
+
         Args:
             value: The infrastructure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +88,10 @@ class NetworkEndpoint(Identifiable):
     def ip_sec_config(self, value: Optional["IPSecConfig"]) -> None:
         """
         Set ipSecConfig with validation.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +125,10 @@ class NetworkEndpoint(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +147,10 @@ class NetworkEndpoint(Identifiable):
     def getFullyQualified(self) -> "String":
         """
         AUTOSAR-compliant getter for fullyQualified.
-        
+
         Returns:
             The fullyQualified value
-        
+
         Note:
             Delegates to fully_qualified property (CODING_RULE_V2_00017)
         """
@@ -157,13 +159,13 @@ class NetworkEndpoint(Identifiable):
     def setFullyQualified(self, value: "String") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for fullyQualified with method chaining.
-        
+
         Args:
             value: The fullyQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fully_qualified property setter (gets validation automatically)
         """
@@ -173,10 +175,10 @@ class NetworkEndpoint(Identifiable):
     def getInfrastructure(self) -> "InfrastructureServices":
         """
         AUTOSAR-compliant getter for infrastructure.
-        
+
         Returns:
             The infrastructure value
-        
+
         Note:
             Delegates to infrastructure property (CODING_RULE_V2_00017)
         """
@@ -185,13 +187,13 @@ class NetworkEndpoint(Identifiable):
     def setInfrastructure(self, value: "InfrastructureServices") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for infrastructure with method chaining.
-        
+
         Args:
             value: The infrastructure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to infrastructure property setter (gets validation automatically)
         """
@@ -201,10 +203,10 @@ class NetworkEndpoint(Identifiable):
     def getIpSecConfig(self) -> "IPSecConfig":
         """
         AUTOSAR-compliant getter for ipSecConfig.
-        
+
         Returns:
             The ipSecConfig value
-        
+
         Note:
             Delegates to ip_sec_config property (CODING_RULE_V2_00017)
         """
@@ -213,13 +215,13 @@ class NetworkEndpoint(Identifiable):
     def setIpSecConfig(self, value: "IPSecConfig") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for ipSecConfig with method chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_sec_config property setter (gets validation automatically)
         """
@@ -229,10 +231,10 @@ class NetworkEndpoint(Identifiable):
     def getNetwork(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -241,10 +243,10 @@ class NetworkEndpoint(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -253,13 +255,13 @@ class NetworkEndpoint(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "NetworkEndpoint":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -271,13 +273,13 @@ class NetworkEndpoint(Identifiable):
     def with_fully_qualified(self, value: Optional["String"]) -> "NetworkEndpoint":
         """
         Set fullyQualified and return self for chaining.
-        
+
         Args:
             value: The fullyQualified to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fully_qualified("value")
         """
@@ -287,13 +289,13 @@ class NetworkEndpoint(Identifiable):
     def with_infrastructure(self, value: Optional["InfrastructureServices"]) -> "NetworkEndpoint":
         """
         Set infrastructure and return self for chaining.
-        
+
         Args:
             value: The infrastructure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_infrastructure("value")
         """
@@ -303,13 +305,13 @@ class NetworkEndpoint(Identifiable):
     def with_ip_sec_config(self, value: Optional["IPSecConfig"]) -> "NetworkEndpoint":
         """
         Set ipSecConfig and return self for chaining.
-        
+
         Args:
             value: The ipSecConfig to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_sec_config("value")
         """
@@ -319,13 +321,13 @@ class NetworkEndpoint(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "NetworkEndpoint":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """

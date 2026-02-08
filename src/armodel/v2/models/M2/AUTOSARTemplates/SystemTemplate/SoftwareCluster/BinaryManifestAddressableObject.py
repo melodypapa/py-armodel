@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class BinaryManifestAddressableObject(Identifiable, ABC):
     """
     This meta-class acts as an abstract base class for addressable objects in
     the context of the binary manifest of a CP software cluster.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::BinaryManifest::BinaryManifestAddressableObject
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 920, Classic Platform R23-11)
     """
@@ -31,10 +34,10 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def address(self, value: Optional["Address"]) -> None:
         """
         Set address with validation.
-        
+
         Args:
             value: The address to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +62,10 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def symbol(self, value: Optional["SymbolString"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -81,10 +84,10 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def getAddress(self) -> "Address":
         """
         AUTOSAR-compliant getter for address.
-        
+
         Returns:
             The address value
-        
+
         Note:
             Delegates to address property (CODING_RULE_V2_00017)
         """
@@ -93,13 +96,13 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def setAddress(self, value: "Address") -> "BinaryManifestAddressableObject":
         """
         AUTOSAR-compliant setter for address with method chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to address property setter (gets validation automatically)
         """
@@ -109,10 +112,10 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def getSymbol(self) -> "SymbolString":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -121,13 +124,13 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def setSymbol(self, value: "SymbolString") -> "BinaryManifestAddressableObject":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -139,13 +142,13 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def with_address(self, value: Optional["Address"]) -> "BinaryManifestAddressableObject":
         """
         Set address and return self for chaining.
-        
+
         Args:
             value: The address to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_address("value")
         """
@@ -155,13 +158,13 @@ class BinaryManifestAddressableObject(Identifiable, ABC):
     def with_symbol(self, value: Optional["SymbolString"]) -> "BinaryManifestAddressableObject":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

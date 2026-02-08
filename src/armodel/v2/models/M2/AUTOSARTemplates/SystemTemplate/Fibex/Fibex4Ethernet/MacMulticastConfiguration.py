@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class MacMulticastConfiguration(NetworkEndpointAddress):
     """
     References a per cluster globally defined MAC-Multicast-Group.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::MacMulticastConfiguration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 467, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def mac_multicast_group(self, value: RefType) -> None:
         """
         Set macMulticastGroup with validation.
-        
+
         Args:
             value: The macMulticastGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -45,10 +48,10 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def getMacMulticastGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for macMulticastGroup.
-        
+
         Returns:
             The macMulticastGroup value
-        
+
         Note:
             Delegates to mac_multicast_group property (CODING_RULE_V2_00017)
         """
@@ -57,13 +60,13 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def setMacMulticastGroup(self, value: RefType) -> "MacMulticastConfiguration":
         """
         AUTOSAR-compliant setter for macMulticastGroup with method chaining.
-        
+
         Args:
             value: The macMulticastGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mac_multicast_group property setter (gets validation automatically)
         """
@@ -75,13 +78,13 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
     def with_mac_multicast_group(self, value: Optional[RefType]) -> "MacMulticastConfiguration":
         """
         Set macMulticastGroup and return self for chaining.
-        
+
         Args:
             value: The macMulticastGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mac_multicast_group("value")
         """

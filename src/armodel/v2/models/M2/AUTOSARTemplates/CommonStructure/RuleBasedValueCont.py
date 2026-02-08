@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class RuleBasedValueCont(ARObject):
     """
     This represents the values of a compound primitive (CURVE, MAP, CUBOID,
     CUBE_4, CUBE_5, VAL_ BLK) or an array.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Constants::RuleBasedValueCont
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 330, Classic
       Platform R23-11)
@@ -33,10 +38,10 @@ class RuleBasedValueCont(ARObject):
     def rule_based(self, value: Optional["RuleBasedValue"]) -> None:
         """
         Set ruleBased with validation.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +70,10 @@ class RuleBasedValueCont(ARObject):
     def sw_arraysize(self, value: RefType) -> None:
         """
         Set swArraysize with validation.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +94,10 @@ class RuleBasedValueCont(ARObject):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -111,10 +116,10 @@ class RuleBasedValueCont(ARObject):
     def getRuleBased(self) -> "RuleBasedValue":
         """
         AUTOSAR-compliant getter for ruleBased.
-        
+
         Returns:
             The ruleBased value
-        
+
         Note:
             Delegates to rule_based property (CODING_RULE_V2_00017)
         """
@@ -123,13 +128,13 @@ class RuleBasedValueCont(ARObject):
     def setRuleBased(self, value: "RuleBasedValue") -> "RuleBasedValueCont":
         """
         AUTOSAR-compliant setter for ruleBased with method chaining.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rule_based property setter (gets validation automatically)
         """
@@ -139,10 +144,10 @@ class RuleBasedValueCont(ARObject):
     def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
-        
+
         Returns:
             The swArraysize value
-        
+
         Note:
             Delegates to sw_arraysize property (CODING_RULE_V2_00017)
         """
@@ -151,13 +156,13 @@ class RuleBasedValueCont(ARObject):
     def setSwArraysize(self, value: RefType) -> "RuleBasedValueCont":
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_arraysize property setter (gets validation automatically)
         """
@@ -167,10 +172,10 @@ class RuleBasedValueCont(ARObject):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -179,13 +184,13 @@ class RuleBasedValueCont(ARObject):
     def setUnit(self, value: "Unit") -> "RuleBasedValueCont":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -197,13 +202,13 @@ class RuleBasedValueCont(ARObject):
     def with_rule_based(self, value: Optional["RuleBasedValue"]) -> "RuleBasedValueCont":
         """
         Set ruleBased and return self for chaining.
-        
+
         Args:
             value: The ruleBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rule_based("value")
         """
@@ -213,13 +218,13 @@ class RuleBasedValueCont(ARObject):
     def with_sw_arraysize(self, value: Optional[RefType]) -> "RuleBasedValueCont":
         """
         Set swArraysize and return self for chaining.
-        
+
         Args:
             value: The swArraysize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_arraysize("value")
         """
@@ -229,13 +234,13 @@ class RuleBasedValueCont(ARObject):
     def with_unit(self, value: Optional["Unit"]) -> "RuleBasedValueCont":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """

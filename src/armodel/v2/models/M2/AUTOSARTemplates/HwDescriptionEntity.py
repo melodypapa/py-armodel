@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class HwDescriptionEntity(Referrable, ABC):
     """
     This meta-class represents the ability to describe a hardware entity.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwDescriptionEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 15, Classic Platform
       R23-11)
@@ -49,10 +53,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def hw_type(self, value: Optional["HwType"]) -> None:
         """
         Set hwType with validation.
-        
+
         Args:
             value: The hwType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +75,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwAttribute(self) -> List["HwAttributeValue"]:
         """
         AUTOSAR-compliant getter for hwAttribute.
-        
+
         Returns:
             The hwAttribute value
-        
+
         Note:
             Delegates to hw_attribute property (CODING_RULE_V2_00017)
         """
@@ -83,10 +87,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwCategory(self) -> List["HwCategory"]:
         """
         AUTOSAR-compliant getter for hwCategory.
-        
+
         Returns:
             The hwCategory value
-        
+
         Note:
             Delegates to hw_category property (CODING_RULE_V2_00017)
         """
@@ -95,10 +99,10 @@ class HwDescriptionEntity(Referrable, ABC):
     def getHwType(self) -> "HwType":
         """
         AUTOSAR-compliant getter for hwType.
-        
+
         Returns:
             The hwType value
-        
+
         Note:
             Delegates to hw_type property (CODING_RULE_V2_00017)
         """
@@ -107,13 +111,13 @@ class HwDescriptionEntity(Referrable, ABC):
     def setHwType(self, value: "HwType") -> "HwDescriptionEntity":
         """
         AUTOSAR-compliant setter for hwType with method chaining.
-        
+
         Args:
             value: The hwType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_type property setter (gets validation automatically)
         """
@@ -125,13 +129,13 @@ class HwDescriptionEntity(Referrable, ABC):
     def with_hw_type(self, value: Optional["HwType"]) -> "HwDescriptionEntity":
         """
         Set hwType and return self for chaining.
-        
+
         Args:
             value: The hwType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_type("value")
         """

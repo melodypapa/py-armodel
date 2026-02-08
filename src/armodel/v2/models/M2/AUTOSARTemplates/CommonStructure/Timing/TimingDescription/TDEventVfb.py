@@ -1,13 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class TDEventVfb(TimingDescriptionEvent, ABC):
     """
     This is the abstract parent class to describe timing events at Virtual
     Functional Bus (VFB) level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventVfb
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 51, Classic Platform R23-11)
     """
@@ -29,10 +30,10 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
     def component_composition_instance_ref(self, value: Optional["SwComponent"]) -> None:
         """
         Set componentCompositionInstanceRef with validation.
-        
+
         Args:
             value: The componentCompositionInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +52,10 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
     def getComponentCompositionInstanceRef(self) -> "SwComponent":
         """
         AUTOSAR-compliant getter for componentCompositionInstanceRef.
-        
+
         Returns:
             The componentCompositionInstanceRef value
-        
+
         Note:
             Delegates to component_composition_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -63,13 +64,13 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
     def setComponentCompositionInstanceRef(self, value: "SwComponent") -> "TDEventVfb":
         """
         AUTOSAR-compliant setter for componentCompositionInstanceRef with method chaining.
-        
+
         Args:
             value: The componentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to component_composition_instance_ref property setter (gets validation automatically)
         """
@@ -81,13 +82,13 @@ class TDEventVfb(TimingDescriptionEvent, ABC):
     def with_component_composition_instance_ref(self, value: Optional["SwComponent"]) -> "TDEventVfb":
         """
         Set componentCompositionInstanceRef and return self for chaining.
-        
+
         Args:
             value: The componentCompositionInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_component_composition_instance_ref("value")
         """

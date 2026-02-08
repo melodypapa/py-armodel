@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticAuthRole(DiagnosticCommonElement):
     """
     This meta-class represents the ability to specify an authentication role
     that can be used to deliver fine-grained access rights.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticAuthRole
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 77, Classic Platform
       R23-11)
@@ -29,10 +29,10 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def bit_position(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitPosition with validation.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +57,10 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def is_default(self, value: Optional["Boolean"]) -> None:
         """
         Set isDefault with validation.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def getBitPosition(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitPosition.
-        
+
         Returns:
             The bitPosition value
-        
+
         Note:
             Delegates to bit_position property (CODING_RULE_V2_00017)
         """
@@ -91,13 +91,13 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def setBitPosition(self, value: "PositiveInteger") -> "DiagnosticAuthRole":
         """
         AUTOSAR-compliant setter for bitPosition with method chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_position property setter (gets validation automatically)
         """
@@ -107,10 +107,10 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def getIsDefault(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for isDefault.
-        
+
         Returns:
             The isDefault value
-        
+
         Note:
             Delegates to is_default property (CODING_RULE_V2_00017)
         """
@@ -119,13 +119,13 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def setIsDefault(self, value: "Boolean") -> "DiagnosticAuthRole":
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to is_default property setter (gets validation automatically)
         """
@@ -137,13 +137,13 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def with_bit_position(self, value: Optional["PositiveInteger"]) -> "DiagnosticAuthRole":
         """
         Set bitPosition and return self for chaining.
-        
+
         Args:
             value: The bitPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_position("value")
         """
@@ -153,13 +153,13 @@ class DiagnosticAuthRole(DiagnosticCommonElement):
     def with_is_default(self, value: Optional["Boolean"]) -> "DiagnosticAuthRole":
         """
         Set isDefault and return self for chaining.
-        
+
         Args:
             value: The isDefault to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_is_default("value")
         """

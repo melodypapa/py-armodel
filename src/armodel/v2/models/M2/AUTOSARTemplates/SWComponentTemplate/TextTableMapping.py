@@ -1,16 +1,21 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TextTableMapping(ARObject):
     """
     Defines the mapping of two DataPrototypes typed by AutosarDataTypes that
     refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or
     BITFIELD_TEXTTABLE.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::TextTableMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 145, Classic Platform
       R23-11)
@@ -34,10 +39,10 @@ class TextTableMapping(ARObject):
     def bitfield_text_table(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitfieldTextTable with validation.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +68,10 @@ class TextTableMapping(ARObject):
     def identical(self, value: Optional["Boolean"]) -> None:
         """
         Set identical with validation.
-        
+
         Args:
             value: The identical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -91,10 +96,10 @@ class TextTableMapping(ARObject):
     def mapping(self, value: RefType) -> None:
         """
         Set mapping with validation.
-        
+
         Args:
             value: The mapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -116,10 +121,10 @@ class TextTableMapping(ARObject):
     def getBitfieldTextTable(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitfieldTextTable.
-        
+
         Returns:
             The bitfieldTextTable value
-        
+
         Note:
             Delegates to bitfield_text_table property (CODING_RULE_V2_00017)
         """
@@ -128,13 +133,13 @@ class TextTableMapping(ARObject):
     def setBitfieldTextTable(self, value: "PositiveInteger") -> "TextTableMapping":
         """
         AUTOSAR-compliant setter for bitfieldTextTable with method chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bitfield_text_table property setter (gets validation automatically)
         """
@@ -144,10 +149,10 @@ class TextTableMapping(ARObject):
     def getIdentical(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for identical.
-        
+
         Returns:
             The identical value
-        
+
         Note:
             Delegates to identical property (CODING_RULE_V2_00017)
         """
@@ -156,13 +161,13 @@ class TextTableMapping(ARObject):
     def setIdentical(self, value: "Boolean") -> "TextTableMapping":
         """
         AUTOSAR-compliant setter for identical with method chaining.
-        
+
         Args:
             value: The identical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to identical property setter (gets validation automatically)
         """
@@ -172,10 +177,10 @@ class TextTableMapping(ARObject):
     def getMapping(self) -> RefType:
         """
         AUTOSAR-compliant getter for mapping.
-        
+
         Returns:
             The mapping value
-        
+
         Note:
             Delegates to mapping property (CODING_RULE_V2_00017)
         """
@@ -184,13 +189,13 @@ class TextTableMapping(ARObject):
     def setMapping(self, value: RefType) -> "TextTableMapping":
         """
         AUTOSAR-compliant setter for mapping with method chaining.
-        
+
         Args:
             value: The mapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapping property setter (gets validation automatically)
         """
@@ -200,10 +205,10 @@ class TextTableMapping(ARObject):
     def getValuePair(self) -> List["TextTableValuePair"]:
         """
         AUTOSAR-compliant getter for valuePair.
-        
+
         Returns:
             The valuePair value
-        
+
         Note:
             Delegates to value_pair property (CODING_RULE_V2_00017)
         """
@@ -214,13 +219,13 @@ class TextTableMapping(ARObject):
     def with_bitfield_text_table(self, value: Optional["PositiveInteger"]) -> "TextTableMapping":
         """
         Set bitfieldTextTable and return self for chaining.
-        
+
         Args:
             value: The bitfieldTextTable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bitfield_text_table("value")
         """
@@ -230,13 +235,13 @@ class TextTableMapping(ARObject):
     def with_identical(self, value: Optional["Boolean"]) -> "TextTableMapping":
         """
         Set identical and return self for chaining.
-        
+
         Args:
             value: The identical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_identical("value")
         """
@@ -246,13 +251,13 @@ class TextTableMapping(ARObject):
     def with_mapping(self, value: Optional[RefType]) -> "TextTableMapping":
         """
         Set mapping and return self for chaining.
-        
+
         Args:
             value: The mapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapping("value")
         """

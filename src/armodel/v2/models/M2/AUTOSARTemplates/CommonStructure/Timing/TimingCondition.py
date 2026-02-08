@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TimingCondition(Identifiable):
     """
     A TimingCondition describes a dependency on a specific condition. The
     element owns an expression which describes the timing condition dependency.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingCondition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 35, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class TimingCondition(Identifiable):
     def timing_condition(self, value: Optional["TimingCondition"]) -> None:
         """
         Set timingCondition with validation.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +53,10 @@ class TimingCondition(Identifiable):
     def getTimingCondition(self) -> "TimingCondition":
         """
         AUTOSAR-compliant getter for timingCondition.
-        
+
         Returns:
             The timingCondition value
-        
+
         Note:
             Delegates to timing_condition property (CODING_RULE_V2_00017)
         """
@@ -63,13 +65,13 @@ class TimingCondition(Identifiable):
     def setTimingCondition(self, value: "TimingCondition") -> "TimingCondition":
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_condition property setter (gets validation automatically)
         """
@@ -81,13 +83,13 @@ class TimingCondition(Identifiable):
     def with_timing_condition(self, value: Optional["TimingCondition"]) -> "TimingCondition":
         """
         Set timingCondition and return self for chaining.
-        
+
         Args:
             value: The timingCondition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_condition("value")
         """

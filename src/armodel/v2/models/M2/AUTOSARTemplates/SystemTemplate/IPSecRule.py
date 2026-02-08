@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class IPSecRule(Identifiable):
     """
     This element defines an IPsec rule that describes communication traffic that
     is monitored, protected and filtered.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SecureCommunication::IPSecRule
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 571, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class IPSecRule(Identifiable):
     def direction(self, value: Optional["Communication"]) -> None:
         """
         Set direction with validation.
-        
+
         Args:
             value: The direction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +60,10 @@ class IPSecRule(Identifiable):
     def header_type(self, value: Optional["IPsecHeaderTypeEnum"]) -> None:
         """
         Set headerType with validation.
-        
+
         Args:
             value: The headerType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -87,10 +89,10 @@ class IPSecRule(Identifiable):
     def ip_protocol(self, value: Optional["IPsecIpProtocolEnum"]) -> None:
         """
         Set ipProtocol with validation.
-        
+
         Args:
             value: The ipProtocol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +125,10 @@ class IPSecRule(Identifiable):
     def local_id(self, value: Optional["String"]) -> None:
         """
         Set localId with validation.
-        
+
         Args:
             value: The localId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -156,10 +158,10 @@ class IPSecRule(Identifiable):
     def local_port_range(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set localPortRange with validation.
-        
+
         Args:
             value: The localPortRange to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -184,10 +186,10 @@ class IPSecRule(Identifiable):
     def mode(self, value: Optional["IPsecModeEnum"]) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -213,10 +215,10 @@ class IPSecRule(Identifiable):
     def policy(self, value: Optional["IPsecPolicyEnum"]) -> None:
         """
         Set policy with validation.
-        
+
         Args:
             value: The policy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -241,10 +243,10 @@ class IPSecRule(Identifiable):
     def pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> None:
         """
         Set preSharedKey with validation.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -270,10 +272,10 @@ class IPSecRule(Identifiable):
     def priority(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -306,10 +308,10 @@ class IPSecRule(Identifiable):
     def remote_id(self, value: Optional["String"]) -> None:
         """
         Set remoteId with validation.
-        
+
         Args:
             value: The remoteId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -348,10 +350,10 @@ class IPSecRule(Identifiable):
     def remote_port(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set remotePort with validation.
-        
+
         Args:
             value: The remotePort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -370,10 +372,10 @@ class IPSecRule(Identifiable):
     def getDirection(self) -> "Communication":
         """
         AUTOSAR-compliant getter for direction.
-        
+
         Returns:
             The direction value
-        
+
         Note:
             Delegates to direction property (CODING_RULE_V2_00017)
         """
@@ -382,13 +384,13 @@ class IPSecRule(Identifiable):
     def setDirection(self, value: "Communication") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for direction with method chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direction property setter (gets validation automatically)
         """
@@ -398,10 +400,10 @@ class IPSecRule(Identifiable):
     def getHeaderType(self) -> "IPsecHeaderTypeEnum":
         """
         AUTOSAR-compliant getter for headerType.
-        
+
         Returns:
             The headerType value
-        
+
         Note:
             Delegates to header_type property (CODING_RULE_V2_00017)
         """
@@ -410,13 +412,13 @@ class IPSecRule(Identifiable):
     def setHeaderType(self, value: "IPsecHeaderTypeEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for headerType with method chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_type property setter (gets validation automatically)
         """
@@ -426,10 +428,10 @@ class IPSecRule(Identifiable):
     def getIpProtocol(self) -> "IPsecIpProtocolEnum":
         """
         AUTOSAR-compliant getter for ipProtocol.
-        
+
         Returns:
             The ipProtocol value
-        
+
         Note:
             Delegates to ip_protocol property (CODING_RULE_V2_00017)
         """
@@ -438,13 +440,13 @@ class IPSecRule(Identifiable):
     def setIpProtocol(self, value: "IPsecIpProtocolEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for ipProtocol with method chaining.
-        
+
         Args:
             value: The ipProtocol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ip_protocol property setter (gets validation automatically)
         """
@@ -454,10 +456,10 @@ class IPSecRule(Identifiable):
     def getLocalCertificate(self) -> List["CryptoService"]:
         """
         AUTOSAR-compliant getter for localCertificate.
-        
+
         Returns:
             The localCertificate value
-        
+
         Note:
             Delegates to local_certificate property (CODING_RULE_V2_00017)
         """
@@ -466,10 +468,10 @@ class IPSecRule(Identifiable):
     def getLocalId(self) -> "String":
         """
         AUTOSAR-compliant getter for localId.
-        
+
         Returns:
             The localId value
-        
+
         Note:
             Delegates to local_id property (CODING_RULE_V2_00017)
         """
@@ -478,13 +480,13 @@ class IPSecRule(Identifiable):
     def setLocalId(self, value: "String") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for localId with method chaining.
-        
+
         Args:
             value: The localId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_id property setter (gets validation automatically)
         """
@@ -494,10 +496,10 @@ class IPSecRule(Identifiable):
     def getLocalPortRange(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for localPortRange.
-        
+
         Returns:
             The localPortRange value
-        
+
         Note:
             Delegates to local_port_range property (CODING_RULE_V2_00017)
         """
@@ -506,13 +508,13 @@ class IPSecRule(Identifiable):
     def setLocalPortRange(self, value: "PositiveInteger") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for localPortRange with method chaining.
-        
+
         Args:
             value: The localPortRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to local_port_range property setter (gets validation automatically)
         """
@@ -522,10 +524,10 @@ class IPSecRule(Identifiable):
     def getMode(self) -> "IPsecModeEnum":
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -534,13 +536,13 @@ class IPSecRule(Identifiable):
     def setMode(self, value: "IPsecModeEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -550,10 +552,10 @@ class IPSecRule(Identifiable):
     def getPolicy(self) -> "IPsecPolicyEnum":
         """
         AUTOSAR-compliant getter for policy.
-        
+
         Returns:
             The policy value
-        
+
         Note:
             Delegates to policy property (CODING_RULE_V2_00017)
         """
@@ -562,13 +564,13 @@ class IPSecRule(Identifiable):
     def setPolicy(self, value: "IPsecPolicyEnum") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for policy with method chaining.
-        
+
         Args:
             value: The policy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to policy property setter (gets validation automatically)
         """
@@ -578,10 +580,10 @@ class IPSecRule(Identifiable):
     def getPreSharedKey(self) -> "CryptoServiceKey":
         """
         AUTOSAR-compliant getter for preSharedKey.
-        
+
         Returns:
             The preSharedKey value
-        
+
         Note:
             Delegates to pre_shared_key property (CODING_RULE_V2_00017)
         """
@@ -590,13 +592,13 @@ class IPSecRule(Identifiable):
     def setPreSharedKey(self, value: "CryptoServiceKey") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for preSharedKey with method chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pre_shared_key property setter (gets validation automatically)
         """
@@ -606,10 +608,10 @@ class IPSecRule(Identifiable):
     def getPriority(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -618,13 +620,13 @@ class IPSecRule(Identifiable):
     def setPriority(self, value: "PositiveInteger") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -634,10 +636,10 @@ class IPSecRule(Identifiable):
     def getRemote(self) -> List["CryptoService"]:
         """
         AUTOSAR-compliant getter for remote.
-        
+
         Returns:
             The remote value
-        
+
         Note:
             Delegates to remote property (CODING_RULE_V2_00017)
         """
@@ -646,10 +648,10 @@ class IPSecRule(Identifiable):
     def getRemoteId(self) -> "String":
         """
         AUTOSAR-compliant getter for remoteId.
-        
+
         Returns:
             The remoteId value
-        
+
         Note:
             Delegates to remote_id property (CODING_RULE_V2_00017)
         """
@@ -658,13 +660,13 @@ class IPSecRule(Identifiable):
     def setRemoteId(self, value: "String") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for remoteId with method chaining.
-        
+
         Args:
             value: The remoteId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_id property setter (gets validation automatically)
         """
@@ -674,10 +676,10 @@ class IPSecRule(Identifiable):
     def getRemoteIp(self) -> List["NetworkEndpoint"]:
         """
         AUTOSAR-compliant getter for remoteIp.
-        
+
         Returns:
             The remoteIp value
-        
+
         Note:
             Delegates to remote_ip property (CODING_RULE_V2_00017)
         """
@@ -686,10 +688,10 @@ class IPSecRule(Identifiable):
     def getRemotePort(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for remotePort.
-        
+
         Returns:
             The remotePort value
-        
+
         Note:
             Delegates to remote_port property (CODING_RULE_V2_00017)
         """
@@ -698,13 +700,13 @@ class IPSecRule(Identifiable):
     def setRemotePort(self, value: "PositiveInteger") -> "IPSecRule":
         """
         AUTOSAR-compliant setter for remotePort with method chaining.
-        
+
         Args:
             value: The remotePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to remote_port property setter (gets validation automatically)
         """
@@ -716,13 +718,13 @@ class IPSecRule(Identifiable):
     def with_direction(self, value: Optional["Communication"]) -> "IPSecRule":
         """
         Set direction and return self for chaining.
-        
+
         Args:
             value: The direction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direction("value")
         """
@@ -732,13 +734,13 @@ class IPSecRule(Identifiable):
     def with_header_type(self, value: Optional["IPsecHeaderTypeEnum"]) -> "IPSecRule":
         """
         Set headerType and return self for chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_type("value")
         """
@@ -748,13 +750,13 @@ class IPSecRule(Identifiable):
     def with_ip_protocol(self, value: Optional["IPsecIpProtocolEnum"]) -> "IPSecRule":
         """
         Set ipProtocol and return self for chaining.
-        
+
         Args:
             value: The ipProtocol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ip_protocol("value")
         """
@@ -764,13 +766,13 @@ class IPSecRule(Identifiable):
     def with_local_id(self, value: Optional["String"]) -> "IPSecRule":
         """
         Set localId and return self for chaining.
-        
+
         Args:
             value: The localId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_id("value")
         """
@@ -780,13 +782,13 @@ class IPSecRule(Identifiable):
     def with_local_port_range(self, value: Optional["PositiveInteger"]) -> "IPSecRule":
         """
         Set localPortRange and return self for chaining.
-        
+
         Args:
             value: The localPortRange to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_local_port_range("value")
         """
@@ -796,13 +798,13 @@ class IPSecRule(Identifiable):
     def with_mode(self, value: Optional["IPsecModeEnum"]) -> "IPSecRule":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -812,13 +814,13 @@ class IPSecRule(Identifiable):
     def with_policy(self, value: Optional["IPsecPolicyEnum"]) -> "IPSecRule":
         """
         Set policy and return self for chaining.
-        
+
         Args:
             value: The policy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_policy("value")
         """
@@ -828,13 +830,13 @@ class IPSecRule(Identifiable):
     def with_pre_shared_key(self, value: Optional["CryptoServiceKey"]) -> "IPSecRule":
         """
         Set preSharedKey and return self for chaining.
-        
+
         Args:
             value: The preSharedKey to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pre_shared_key("value")
         """
@@ -844,13 +846,13 @@ class IPSecRule(Identifiable):
     def with_priority(self, value: Optional["PositiveInteger"]) -> "IPSecRule":
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -860,13 +862,13 @@ class IPSecRule(Identifiable):
     def with_remote_id(self, value: Optional["String"]) -> "IPSecRule":
         """
         Set remoteId and return self for chaining.
-        
+
         Args:
             value: The remoteId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_id("value")
         """
@@ -876,13 +878,13 @@ class IPSecRule(Identifiable):
     def with_remote_port(self, value: Optional["PositiveInteger"]) -> "IPSecRule":
         """
         Set remotePort and return self for chaining.
-        
+
         Args:
             value: The remotePort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_remote_port("value")
         """

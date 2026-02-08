@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class HeapUsage(Identifiable, ABC):
     """
     Describes the heap memory usage of a SW-Component.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage::HeapUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 152, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class HeapUsage(Identifiable, ABC):
     def hardware(self, value: Optional["HardwareConfiguration"]) -> None:
         """
         Set hardware with validation.
-        
+
         Args:
             value: The hardware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +65,10 @@ class HeapUsage(Identifiable, ABC):
     def hw_element(self, value: Optional["HwElement"]) -> None:
         """
         Set hwElement with validation.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class HeapUsage(Identifiable, ABC):
     def software_context(self, value: Optional["SoftwareContext"]) -> None:
         """
         Set softwareContext with validation.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class HeapUsage(Identifiable, ABC):
     def getHardware(self) -> "HardwareConfiguration":
         """
         AUTOSAR-compliant getter for hardware.
-        
+
         Returns:
             The hardware value
-        
+
         Note:
             Delegates to hardware property (CODING_RULE_V2_00017)
         """
@@ -124,13 +127,13 @@ class HeapUsage(Identifiable, ABC):
     def setHardware(self, value: "HardwareConfiguration") -> "HeapUsage":
         """
         AUTOSAR-compliant setter for hardware with method chaining.
-        
+
         Args:
             value: The hardware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hardware property setter (gets validation automatically)
         """
@@ -140,10 +143,10 @@ class HeapUsage(Identifiable, ABC):
     def getHwElement(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class HeapUsage(Identifiable, ABC):
     def setHwElement(self, value: "HwElement") -> "HeapUsage":
         """
         AUTOSAR-compliant setter for hwElement with method chaining.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_element property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class HeapUsage(Identifiable, ABC):
     def getSoftwareContext(self) -> "SoftwareContext":
         """
         AUTOSAR-compliant getter for softwareContext.
-        
+
         Returns:
             The softwareContext value
-        
+
         Note:
             Delegates to software_context property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class HeapUsage(Identifiable, ABC):
     def setSoftwareContext(self, value: "SoftwareContext") -> "HeapUsage":
         """
         AUTOSAR-compliant setter for softwareContext with method chaining.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_context property setter (gets validation automatically)
         """
@@ -198,13 +201,13 @@ class HeapUsage(Identifiable, ABC):
     def with_hardware(self, value: Optional["HardwareConfiguration"]) -> "HeapUsage":
         """
         Set hardware and return self for chaining.
-        
+
         Args:
             value: The hardware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hardware("value")
         """
@@ -214,13 +217,13 @@ class HeapUsage(Identifiable, ABC):
     def with_hw_element(self, value: Optional["HwElement"]) -> "HeapUsage":
         """
         Set hwElement and return self for chaining.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_element("value")
         """
@@ -230,13 +233,13 @@ class HeapUsage(Identifiable, ABC):
     def with_software_context(self, value: Optional["SoftwareContext"]) -> "HeapUsage":
         """
         Set softwareContext and return self for chaining.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_context("value")
         """

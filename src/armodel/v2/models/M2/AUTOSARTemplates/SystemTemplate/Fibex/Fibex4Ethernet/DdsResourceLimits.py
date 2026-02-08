@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsResourceLimits(ARObject):
     """
     Describes the DDS RESOURCE_LIMITS QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsResourceLimits
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 537, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DdsResourceLimits(ARObject):
     def max_instances(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxInstances with validation.
-        
+
         Args:
             value: The maxInstances to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class DdsResourceLimits(ARObject):
     def max_samples(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSamples with validation.
-        
+
         Args:
             value: The maxSamples to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +87,10 @@ class DdsResourceLimits(ARObject):
     def max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxSamplesPerInstance with validation.
-        
+
         Args:
             value: The maxSamplesPerInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +109,10 @@ class DdsResourceLimits(ARObject):
     def getMaxInstances(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxInstances.
-        
+
         Returns:
             The maxInstances value
-        
+
         Note:
             Delegates to max_instances property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class DdsResourceLimits(ARObject):
     def setMaxInstances(self, value: "PositiveInteger") -> "DdsResourceLimits":
         """
         AUTOSAR-compliant setter for maxInstances with method chaining.
-        
+
         Args:
             value: The maxInstances to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_instances property setter (gets validation automatically)
         """
@@ -134,10 +137,10 @@ class DdsResourceLimits(ARObject):
     def getMaxSamples(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSamples.
-        
+
         Returns:
             The maxSamples value
-        
+
         Note:
             Delegates to max_samples property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class DdsResourceLimits(ARObject):
     def setMaxSamples(self, value: "PositiveInteger") -> "DdsResourceLimits":
         """
         AUTOSAR-compliant setter for maxSamples with method chaining.
-        
+
         Args:
             value: The maxSamples to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_samples property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class DdsResourceLimits(ARObject):
     def getMaxSamplesPerInstance(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxSamplesPerInstance.
-        
+
         Returns:
             The maxSamplesPerInstance value
-        
+
         Note:
             Delegates to max_samples_per_instance property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class DdsResourceLimits(ARObject):
     def setMaxSamplesPerInstance(self, value: "PositiveInteger") -> "DdsResourceLimits":
         """
         AUTOSAR-compliant setter for maxSamplesPerInstance with method chaining.
-        
+
         Args:
             value: The maxSamplesPerInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_samples_per_instance property setter (gets validation automatically)
         """
@@ -192,13 +195,13 @@ class DdsResourceLimits(ARObject):
     def with_max_instances(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
         """
         Set maxInstances and return self for chaining.
-        
+
         Args:
             value: The maxInstances to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_instances("value")
         """
@@ -208,13 +211,13 @@ class DdsResourceLimits(ARObject):
     def with_max_samples(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
         """
         Set maxSamples and return self for chaining.
-        
+
         Args:
             value: The maxSamples to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_samples("value")
         """
@@ -224,13 +227,13 @@ class DdsResourceLimits(ARObject):
     def with_max_samples_per_instance(self, value: Optional["PositiveInteger"]) -> "DdsResourceLimits":
         """
         Set maxSamplesPerInstance and return self for chaining.
-        
+
         Args:
             value: The maxSamplesPerInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_samples_per_instance("value")
         """

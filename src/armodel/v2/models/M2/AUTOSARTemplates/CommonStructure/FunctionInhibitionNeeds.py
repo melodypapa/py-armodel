@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class FunctionInhibitionNeeds(ServiceNeeds):
     """
@@ -7,9 +5,9 @@ class FunctionInhibitionNeeds(ServiceNeeds):
     Manager for one Function Identifier (FID). This class currently contains no
     attributes. Its name can be regarded as a symbol identifying the FID from
     the viewpoint of the component or module which owns this class.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FunctionInhibitionNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 237, Classic
       Platform R23-11)

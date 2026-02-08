@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SenderReceiverToSignalGroupMapping(DataMapping):
     """
     Mapping of a sender receiver communication data element with a composite
     datatype to a signal group.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::SenderReceiverToSignalGroupMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 234, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def data_element(self, value: RefType) -> None:
         """
         Set dataElement with validation.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +57,10 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def signal_group(self, value: RefType) -> None:
         """
         Set signalGroup with validation.
-        
+
         Args:
             value: The signalGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def type_mapping(self, value: Optional["SenderRecComposite"]) -> None:
         """
         Set typeMapping with validation.
-        
+
         Args:
             value: The typeMapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +104,10 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -113,13 +116,13 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def setDataElement(self, value: RefType) -> "SenderReceiverToSignalGroupMapping":
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_element property setter (gets validation automatically)
         """
@@ -129,10 +132,10 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def getSignalGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalGroup.
-        
+
         Returns:
             The signalGroup value
-        
+
         Note:
             Delegates to signal_group property (CODING_RULE_V2_00017)
         """
@@ -141,13 +144,13 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def setSignalGroup(self, value: RefType) -> "SenderReceiverToSignalGroupMapping":
         """
         AUTOSAR-compliant setter for signalGroup with method chaining.
-        
+
         Args:
             value: The signalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to signal_group property setter (gets validation automatically)
         """
@@ -157,10 +160,10 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def getTypeMapping(self) -> "SenderRecComposite":
         """
         AUTOSAR-compliant getter for typeMapping.
-        
+
         Returns:
             The typeMapping value
-        
+
         Note:
             Delegates to type_mapping property (CODING_RULE_V2_00017)
         """
@@ -169,13 +172,13 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def setTypeMapping(self, value: "SenderRecComposite") -> "SenderReceiverToSignalGroupMapping":
         """
         AUTOSAR-compliant setter for typeMapping with method chaining.
-        
+
         Args:
             value: The typeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type_mapping property setter (gets validation automatically)
         """
@@ -187,13 +190,13 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def with_data_element(self, value: Optional[RefType]) -> "SenderReceiverToSignalGroupMapping":
         """
         Set dataElement and return self for chaining.
-        
+
         Args:
             value: The dataElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_element("value")
         """
@@ -203,13 +206,13 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def with_signal_group(self, value: Optional[RefType]) -> "SenderReceiverToSignalGroupMapping":
         """
         Set signalGroup and return self for chaining.
-        
+
         Args:
             value: The signalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_signal_group("value")
         """
@@ -219,13 +222,13 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def with_type_mapping(self, value: Optional["SenderRecComposite"]) -> "SenderReceiverToSignalGroupMapping":
         """
         Set typeMapping and return self for chaining.
-        
+
         Args:
             value: The typeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type_mapping("value")
         """

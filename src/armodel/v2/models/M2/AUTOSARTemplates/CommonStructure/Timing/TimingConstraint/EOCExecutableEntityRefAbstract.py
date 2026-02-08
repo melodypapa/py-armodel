@@ -1,16 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EOCExecutableEntityRefAbstract(Identifiable, ABC):
     """
     This is the abstractions for Execution Order Constraint Executable Entity
     References (leaves) and Execution Order Constraint Executable Entity
     Reference Groups (composites).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::EOCExecutableEntityRefAbstract
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 119, Classic Platform R23-11)
     """
@@ -33,10 +36,10 @@ class EOCExecutableEntityRefAbstract(Identifiable, ABC):
     def getDirectSuccessor(self) -> List["EOCExecutableEntity"]:
         """
         AUTOSAR-compliant getter for directSuccessor.
-        
+
         Returns:
             The directSuccessor value
-        
+
         Note:
             Delegates to direct_successor property (CODING_RULE_V2_00017)
         """

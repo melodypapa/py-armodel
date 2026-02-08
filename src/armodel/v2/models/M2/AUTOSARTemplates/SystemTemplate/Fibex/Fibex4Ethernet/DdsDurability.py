@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsDurability(ARObject):
     """
     Describes the DDS DURABILITY QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsDurability
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 530, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class DdsDurability(ARObject):
     def durability_kind(self, value: Optional["DdsDurabilityKindEnum"]) -> None:
         """
         Set durabilityKind with validation.
-        
+
         Args:
             value: The durabilityKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class DdsDurability(ARObject):
     def getDurabilityKind(self) -> "DdsDurabilityKindEnum":
         """
         AUTOSAR-compliant getter for durabilityKind.
-        
+
         Returns:
             The durabilityKind value
-        
+
         Note:
             Delegates to durability_kind property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class DdsDurability(ARObject):
     def setDurabilityKind(self, value: "DdsDurabilityKindEnum") -> "DdsDurability":
         """
         AUTOSAR-compliant setter for durabilityKind with method chaining.
-        
+
         Args:
             value: The durabilityKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to durability_kind property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class DdsDurability(ARObject):
     def with_durability_kind(self, value: Optional["DdsDurabilityKindEnum"]) -> "DdsDurability":
         """
         Set durabilityKind and return self for chaining.
-        
+
         Args:
             value: The durabilityKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_durability_kind("value")
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DiagnosticControlEnableMaskBit(ARObject):
     """
     This meta-class has the ability to represent one bit in the control enable
     mask record.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::IOControl::DiagnosticControlEnableMaskBit
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 119, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def bit_number(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set bitNumber with validation.
-        
+
         Args:
             value: The bitNumber to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def getBitNumber(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for bitNumber.
-        
+
         Returns:
             The bitNumber value
-        
+
         Note:
             Delegates to bit_number property (CODING_RULE_V2_00017)
         """
@@ -73,13 +76,13 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def setBitNumber(self, value: "PositiveInteger") -> "DiagnosticControlEnableMaskBit":
         """
         AUTOSAR-compliant setter for bitNumber with method chaining.
-        
+
         Args:
             value: The bitNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bit_number property setter (gets validation automatically)
         """
@@ -89,10 +92,10 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def getControlledData(self) -> List["DiagnosticDataElement"]:
         """
         AUTOSAR-compliant getter for controlledData.
-        
+
         Returns:
             The controlledData value
-        
+
         Note:
             Delegates to controlled_data property (CODING_RULE_V2_00017)
         """
@@ -103,13 +106,13 @@ class DiagnosticControlEnableMaskBit(ARObject):
     def with_bit_number(self, value: Optional["PositiveInteger"]) -> "DiagnosticControlEnableMaskBit":
         """
         Set bitNumber and return self for chaining.
-        
+
         Args:
             value: The bitNumber to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bit_number("value")
         """

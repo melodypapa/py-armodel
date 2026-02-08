@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class McSupportData(ARObject):
     """
@@ -8,9 +11,9 @@ class McSupportData(ARObject):
     Implementation artifact on an ECU. There shall be one such element related
     to the RTE implementation (if it owns MC data) and a separate one for each
     module or component, which owns private MC data.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::McSupportData
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 172, Classic
       Platform R23-11)
@@ -68,10 +71,10 @@ class McSupportData(ARObject):
     def rpt_support_data(self, value: Optional["RptSupportData"]) -> None:
         """
         Set rptSupportData with validation.
-        
+
         Args:
             value: The rptSupportData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class McSupportData(ARObject):
     def getEmulation(self) -> List["McSwEmulationMethod"]:
         """
         AUTOSAR-compliant getter for emulation.
-        
+
         Returns:
             The emulation value
-        
+
         Note:
             Delegates to emulation property (CODING_RULE_V2_00017)
         """
@@ -102,10 +105,10 @@ class McSupportData(ARObject):
     def getMcParameter(self) -> List["McDataInstance"]:
         """
         AUTOSAR-compliant getter for mcParameter.
-        
+
         Returns:
             The mcParameter value
-        
+
         Note:
             Delegates to mc_parameter property (CODING_RULE_V2_00017)
         """
@@ -114,10 +117,10 @@ class McSupportData(ARObject):
     def getMcVariable(self) -> List["McDataInstance"]:
         """
         AUTOSAR-compliant getter for mcVariable.
-        
+
         Returns:
             The mcVariable value
-        
+
         Note:
             Delegates to mc_variable property (CODING_RULE_V2_00017)
         """
@@ -126,10 +129,10 @@ class McSupportData(ARObject):
     def getMeasurable(self) -> List["SwSystemconstant"]:
         """
         AUTOSAR-compliant getter for measurable.
-        
+
         Returns:
             The measurable value
-        
+
         Note:
             Delegates to measurable property (CODING_RULE_V2_00017)
         """
@@ -138,10 +141,10 @@ class McSupportData(ARObject):
     def getRptSupportData(self) -> "RptSupportData":
         """
         AUTOSAR-compliant getter for rptSupportData.
-        
+
         Returns:
             The rptSupportData value
-        
+
         Note:
             Delegates to rpt_support_data property (CODING_RULE_V2_00017)
         """
@@ -150,13 +153,13 @@ class McSupportData(ARObject):
     def setRptSupportData(self, value: "RptSupportData") -> "McSupportData":
         """
         AUTOSAR-compliant setter for rptSupportData with method chaining.
-        
+
         Args:
             value: The rptSupportData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rpt_support_data property setter (gets validation automatically)
         """
@@ -168,13 +171,13 @@ class McSupportData(ARObject):
     def with_rpt_support_data(self, value: Optional["RptSupportData"]) -> "McSupportData":
         """
         Set rptSupportData and return self for chaining.
-        
+
         Args:
             value: The rptSupportData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rpt_support_data("value")
         """

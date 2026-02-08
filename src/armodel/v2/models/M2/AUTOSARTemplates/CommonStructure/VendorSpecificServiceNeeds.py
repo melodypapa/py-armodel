@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class VendorSpecificServiceNeeds(ServiceNeeds):
     """
     This represents the ability to define vendor-specific service needs.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::VendorSpecificServiceNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 603, Classic Platform
       R23-11)

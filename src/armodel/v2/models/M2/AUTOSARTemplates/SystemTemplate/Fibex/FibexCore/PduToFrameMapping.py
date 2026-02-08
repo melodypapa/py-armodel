@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PduToFrameMapping(ARObject):
     """
@@ -14,9 +17,9 @@ class PduToFrameMapping(ARObject):
     bit for "Little Endian" and the most significant bit for "Big Endian"
     (cid:53) (cid:53) 346 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate
     System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PduToFrameMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 346, Classic Platform R23-11)
     """
@@ -38,10 +41,10 @@ class PduToFrameMapping(ARObject):
     def packing_byte(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set packingByte with validation.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +69,10 @@ class PduToFrameMapping(ARObject):
     def pdu(self, value: Optional["Pdu"]) -> None:
         """
         Set pdu with validation.
-        
+
         Args:
             value: The pdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +106,10 @@ class PduToFrameMapping(ARObject):
     def start_position(self, value: Optional["Integer"]) -> None:
         """
         Set startPosition with validation.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +140,10 @@ class PduToFrameMapping(ARObject):
     def update(self, value: Optional["Integer"]) -> None:
         """
         Set update with validation.
-        
+
         Args:
             value: The update to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -159,10 +162,10 @@ class PduToFrameMapping(ARObject):
     def getPackingByte(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for packingByte.
-        
+
         Returns:
             The packingByte value
-        
+
         Note:
             Delegates to packing_byte property (CODING_RULE_V2_00017)
         """
@@ -171,13 +174,13 @@ class PduToFrameMapping(ARObject):
     def setPackingByte(self, value: "ByteOrderEnum") -> "PduToFrameMapping":
         """
         AUTOSAR-compliant setter for packingByte with method chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to packing_byte property setter (gets validation automatically)
         """
@@ -187,10 +190,10 @@ class PduToFrameMapping(ARObject):
     def getPdu(self) -> "Pdu":
         """
         AUTOSAR-compliant getter for pdu.
-        
+
         Returns:
             The pdu value
-        
+
         Note:
             Delegates to pdu property (CODING_RULE_V2_00017)
         """
@@ -199,13 +202,13 @@ class PduToFrameMapping(ARObject):
     def setPdu(self, value: "Pdu") -> "PduToFrameMapping":
         """
         AUTOSAR-compliant setter for pdu with method chaining.
-        
+
         Args:
             value: The pdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu property setter (gets validation automatically)
         """
@@ -215,10 +218,10 @@ class PduToFrameMapping(ARObject):
     def getStartPosition(self) -> "Integer":
         """
         AUTOSAR-compliant getter for startPosition.
-        
+
         Returns:
             The startPosition value
-        
+
         Note:
             Delegates to start_position property (CODING_RULE_V2_00017)
         """
@@ -227,13 +230,13 @@ class PduToFrameMapping(ARObject):
     def setStartPosition(self, value: "Integer") -> "PduToFrameMapping":
         """
         AUTOSAR-compliant setter for startPosition with method chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_position property setter (gets validation automatically)
         """
@@ -243,10 +246,10 @@ class PduToFrameMapping(ARObject):
     def getUpdate(self) -> "Integer":
         """
         AUTOSAR-compliant getter for update.
-        
+
         Returns:
             The update value
-        
+
         Note:
             Delegates to update property (CODING_RULE_V2_00017)
         """
@@ -255,13 +258,13 @@ class PduToFrameMapping(ARObject):
     def setUpdate(self, value: "Integer") -> "PduToFrameMapping":
         """
         AUTOSAR-compliant setter for update with method chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update property setter (gets validation automatically)
         """
@@ -273,13 +276,13 @@ class PduToFrameMapping(ARObject):
     def with_packing_byte(self, value: Optional["ByteOrderEnum"]) -> "PduToFrameMapping":
         """
         Set packingByte and return self for chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_packing_byte("value")
         """
@@ -289,13 +292,13 @@ class PduToFrameMapping(ARObject):
     def with_pdu(self, value: Optional["Pdu"]) -> "PduToFrameMapping":
         """
         Set pdu and return self for chaining.
-        
+
         Args:
             value: The pdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu("value")
         """
@@ -305,13 +308,13 @@ class PduToFrameMapping(ARObject):
     def with_start_position(self, value: Optional["Integer"]) -> "PduToFrameMapping":
         """
         Set startPosition and return self for chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_position("value")
         """
@@ -321,13 +324,13 @@ class PduToFrameMapping(ARObject):
     def with_update(self, value: Optional["Integer"]) -> "PduToFrameMapping":
         """
         Set update and return self for chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update("value")
         """

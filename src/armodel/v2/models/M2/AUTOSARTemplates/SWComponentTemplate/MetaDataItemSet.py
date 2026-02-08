@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class MetaDataItemSet(ARObject):
     """
     This meta-class represents the ability to define a set of meta-data items to
     be used in SenderReceiver Interfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::MetaDataItemSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 99, Classic Platform
       R23-11)
@@ -40,10 +45,10 @@ class MetaDataItemSet(ARObject):
     def getDataElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataElement.
-        
+
         Returns:
             The dataElement value
-        
+
         Note:
             Delegates to data_element property (CODING_RULE_V2_00017)
         """
@@ -52,10 +57,10 @@ class MetaDataItemSet(ARObject):
     def getMetaDataItem(self) -> List["MetaDataItem"]:
         """
         AUTOSAR-compliant getter for metaDataItem.
-        
+
         Returns:
             The metaDataItem value
-        
+
         Note:
             Delegates to meta_data_item property (CODING_RULE_V2_00017)
         """

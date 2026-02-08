@@ -1,14 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class CouplingPortCreditBasedShaper(Identifiable):
     """
     Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingPortCreditBasedShaper
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2013, Classic Platform R23-11)
     """
@@ -28,10 +30,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def idle_slope(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set idleSlope with validation.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def lower_boundary(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set lowerBoundary with validation.
-        
+
         Args:
             value: The lowerBoundary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +86,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def upper_boundary(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set upperBoundary with validation.
-        
+
         Args:
             value: The upperBoundary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -106,10 +108,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def getIdleSlope(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for idleSlope.
-        
+
         Returns:
             The idleSlope value
-        
+
         Note:
             Delegates to idle_slope property (CODING_RULE_V2_00017)
         """
@@ -118,13 +120,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def setIdleSlope(self, value: "PositiveInteger") -> "CouplingPortCreditBasedShaper":
         """
         AUTOSAR-compliant setter for idleSlope with method chaining.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to idle_slope property setter (gets validation automatically)
         """
@@ -134,10 +136,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def getLowerBoundary(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for lowerBoundary.
-        
+
         Returns:
             The lowerBoundary value
-        
+
         Note:
             Delegates to lower_boundary property (CODING_RULE_V2_00017)
         """
@@ -146,13 +148,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def setLowerBoundary(self, value: "PositiveInteger") -> "CouplingPortCreditBasedShaper":
         """
         AUTOSAR-compliant setter for lowerBoundary with method chaining.
-        
+
         Args:
             value: The lowerBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to lower_boundary property setter (gets validation automatically)
         """
@@ -162,10 +164,10 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def getUpperBoundary(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for upperBoundary.
-        
+
         Returns:
             The upperBoundary value
-        
+
         Note:
             Delegates to upper_boundary property (CODING_RULE_V2_00017)
         """
@@ -174,13 +176,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def setUpperBoundary(self, value: "PositiveInteger") -> "CouplingPortCreditBasedShaper":
         """
         AUTOSAR-compliant setter for upperBoundary with method chaining.
-        
+
         Args:
             value: The upperBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to upper_boundary property setter (gets validation automatically)
         """
@@ -192,13 +194,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def with_idle_slope(self, value: Optional["PositiveInteger"]) -> "CouplingPortCreditBasedShaper":
         """
         Set idleSlope and return self for chaining.
-        
+
         Args:
             value: The idleSlope to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_idle_slope("value")
         """
@@ -208,13 +210,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def with_lower_boundary(self, value: Optional["PositiveInteger"]) -> "CouplingPortCreditBasedShaper":
         """
         Set lowerBoundary and return self for chaining.
-        
+
         Args:
             value: The lowerBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_lower_boundary("value")
         """
@@ -224,13 +226,13 @@ class CouplingPortCreditBasedShaper(Identifiable):
     def with_upper_boundary(self, value: Optional["PositiveInteger"]) -> "CouplingPortCreditBasedShaper":
         """
         Set upperBoundary and return self for chaining.
-        
+
         Args:
             value: The upperBoundary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_upper_boundary("value")
         """

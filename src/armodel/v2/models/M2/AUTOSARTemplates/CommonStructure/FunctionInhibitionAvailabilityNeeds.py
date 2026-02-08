@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     """
     Specifies the abstract needs on the configuration of the Function Inhibition
     Manager to provide the control function for one Function Identifier (FID).
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::FunctionInhibitionAvailabilityNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 318, Classic
       Platform R23-11)
@@ -30,10 +30,10 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def controlled_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> None:
         """
         Set controlledFid with validation.
-        
+
         Args:
             value: The controlledFid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +52,10 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def getControlledFid(self) -> "FunctionInhibitionNeeds":
         """
         AUTOSAR-compliant getter for controlledFid.
-        
+
         Returns:
             The controlledFid value
-        
+
         Note:
             Delegates to controlled_fid property (CODING_RULE_V2_00017)
         """
@@ -64,13 +64,13 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def setControlledFid(self, value: "FunctionInhibitionNeeds") -> "FunctionInhibitionAvailabilityNeeds":
         """
         AUTOSAR-compliant setter for controlledFid with method chaining.
-        
+
         Args:
             value: The controlledFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to controlled_fid property setter (gets validation automatically)
         """
@@ -82,13 +82,13 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def with_controlled_fid(self, value: Optional["FunctionInhibitionNeeds"]) -> "FunctionInhibitionAvailabilityNeeds":
         """
         Set controlledFid and return self for chaining.
-        
+
         Args:
             value: The controlledFid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_controlled_fid("value")
         """

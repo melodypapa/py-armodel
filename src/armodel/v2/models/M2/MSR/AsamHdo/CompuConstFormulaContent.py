@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class CompuConstFormulaContent(CompuConstContent):
     """
     This meta-class represents the fact that the constant value of the
     computation method is represented by a variation point. This difference is
     due to compatibility with ASAM HDO.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConstFormulaContent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 900, Classic Platform
       R23-11)
@@ -32,10 +30,10 @@ class CompuConstFormulaContent(CompuConstContent):
     def vf(self, value: "Numerical") -> None:
         """
         Set vf with validation.
-        
+
         Args:
             value: The vf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +48,10 @@ class CompuConstFormulaContent(CompuConstContent):
     def getVf(self) -> "Numerical":
         """
         AUTOSAR-compliant getter for vf.
-        
+
         Returns:
             The vf value
-        
+
         Note:
             Delegates to vf property (CODING_RULE_V2_00017)
         """
@@ -62,13 +60,13 @@ class CompuConstFormulaContent(CompuConstContent):
     def setVf(self, value: "Numerical") -> "CompuConstFormulaContent":
         """
         AUTOSAR-compliant setter for vf with method chaining.
-        
+
         Args:
             value: The vf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to vf property setter (gets validation automatically)
         """
@@ -80,13 +78,13 @@ class CompuConstFormulaContent(CompuConstContent):
     def with_vf(self, value: "Numerical") -> "CompuConstFormulaContent":
         """
         Set vf and return self for chaining.
-        
+
         Args:
             value: The vf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_vf("value")
         """

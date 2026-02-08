@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class EcuPartition(Identifiable):
     """
@@ -9,9 +11,9 @@ class EcuPartition(Identifiable):
     of SWCs and resources and allow to describe recovery policies individually
     for each partition. Partitions can be terminated or restarted during
     run-time as a result of a detected error.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::EcuPartition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 201, Classic Platform R23-11)
     """
@@ -34,10 +36,10 @@ class EcuPartition(Identifiable):
     def exec_in_user(self, value: Optional["Boolean"]) -> None:
         """
         Set execInUser with validation.
-        
+
         Args:
             value: The execInUser to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +58,10 @@ class EcuPartition(Identifiable):
     def getExecInUser(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for execInUser.
-        
+
         Returns:
             The execInUser value
-        
+
         Note:
             Delegates to exec_in_user property (CODING_RULE_V2_00017)
         """
@@ -68,13 +70,13 @@ class EcuPartition(Identifiable):
     def setExecInUser(self, value: "Boolean") -> "EcuPartition":
         """
         AUTOSAR-compliant setter for execInUser with method chaining.
-        
+
         Args:
             value: The execInUser to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exec_in_user property setter (gets validation automatically)
         """
@@ -86,13 +88,13 @@ class EcuPartition(Identifiable):
     def with_exec_in_user(self, value: Optional["Boolean"]) -> "EcuPartition":
         """
         Set execInUser and return self for chaining.
-        
+
         Args:
             value: The execInUser to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exec_in_user("value")
         """

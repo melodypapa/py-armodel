@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TriggerPortAnnotation(GeneralAnnotation):
     """
     Annotation to a port used for calibration regarding a certain Trigger.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes::TriggerPortAnnotation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 160, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class TriggerPortAnnotation(GeneralAnnotation):
     def trigger(self, value: RefType) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -46,10 +49,10 @@ class TriggerPortAnnotation(GeneralAnnotation):
     def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -58,13 +61,13 @@ class TriggerPortAnnotation(GeneralAnnotation):
     def setTrigger(self, value: RefType) -> "TriggerPortAnnotation":
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -76,13 +79,13 @@ class TriggerPortAnnotation(GeneralAnnotation):
     def with_trigger(self, value: Optional[RefType]) -> "TriggerPortAnnotation":
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """

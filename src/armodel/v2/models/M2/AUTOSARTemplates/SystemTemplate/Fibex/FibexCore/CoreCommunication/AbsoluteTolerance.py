@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbsoluteTolerance(ARObject):
     """
     Maximum allowable deviation
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing::AbsoluteTolerance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 398, Classic Platform R23-11)
     """
@@ -27,10 +30,10 @@ class AbsoluteTolerance(ARObject):
     def absolute(self, value: Optional["TimeValue"]) -> None:
         """
         Set absolute with validation.
-        
+
         Args:
             value: The absolute to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class AbsoluteTolerance(ARObject):
     def getAbsolute(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for absolute.
-        
+
         Returns:
             The absolute value
-        
+
         Note:
             Delegates to absolute property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class AbsoluteTolerance(ARObject):
     def setAbsolute(self, value: "TimeValue") -> "AbsoluteTolerance":
         """
         AUTOSAR-compliant setter for absolute with method chaining.
-        
+
         Args:
             value: The absolute to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to absolute property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class AbsoluteTolerance(ARObject):
     def with_absolute(self, value: Optional["TimeValue"]) -> "AbsoluteTolerance":
         """
         Set absolute and return self for chaining.
-        
+
         Args:
             value: The absolute to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_absolute("value")
         """

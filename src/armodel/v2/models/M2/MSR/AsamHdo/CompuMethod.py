@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class CompuMethod(ARElement):
     """
     that this is still independent of the technical implementation in data
     types. It only specifies the formula how the internal value corresponds to
     its physical pendant.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuMethod
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 310, Classic
       Platform R23-11)
@@ -38,10 +38,10 @@ class CompuMethod(ARElement):
     def compu_internal(self, value: Optional["Compu"]) -> None:
         """
         Set compuInternal with validation.
-        
+
         Args:
             value: The compuInternal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -66,10 +66,10 @@ class CompuMethod(ARElement):
     def compu_phys_to(self, value: Optional["Compu"]) -> None:
         """
         Set compuPhysTo with validation.
-        
+
         Args:
             value: The compuPhysTo to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class CompuMethod(ARElement):
     def display_format(self, value: Optional["DisplayFormatString"]) -> None:
         """
         Set displayFormat with validation.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +123,10 @@ class CompuMethod(ARElement):
     def unit(self, value: Optional["Unit"]) -> None:
         """
         Set unit with validation.
-        
+
         Args:
             value: The unit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -145,10 +145,10 @@ class CompuMethod(ARElement):
     def getCompuInternal(self) -> "Compu":
         """
         AUTOSAR-compliant getter for compuInternal.
-        
+
         Returns:
             The compuInternal value
-        
+
         Note:
             Delegates to compu_internal property (CODING_RULE_V2_00017)
         """
@@ -157,13 +157,13 @@ class CompuMethod(ARElement):
     def setCompuInternal(self, value: "Compu") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for compuInternal with method chaining.
-        
+
         Args:
             value: The compuInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_internal property setter (gets validation automatically)
         """
@@ -173,10 +173,10 @@ class CompuMethod(ARElement):
     def getCompuPhysTo(self) -> "Compu":
         """
         AUTOSAR-compliant getter for compuPhysTo.
-        
+
         Returns:
             The compuPhysTo value
-        
+
         Note:
             Delegates to compu_phys_to property (CODING_RULE_V2_00017)
         """
@@ -185,13 +185,13 @@ class CompuMethod(ARElement):
     def setCompuPhysTo(self, value: "Compu") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for compuPhysTo with method chaining.
-        
+
         Args:
             value: The compuPhysTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_phys_to property setter (gets validation automatically)
         """
@@ -201,10 +201,10 @@ class CompuMethod(ARElement):
     def getDisplayFormat(self) -> "DisplayFormatString":
         """
         AUTOSAR-compliant getter for displayFormat.
-        
+
         Returns:
             The displayFormat value
-        
+
         Note:
             Delegates to display_format property (CODING_RULE_V2_00017)
         """
@@ -213,13 +213,13 @@ class CompuMethod(ARElement):
     def setDisplayFormat(self, value: "DisplayFormatString") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to display_format property setter (gets validation automatically)
         """
@@ -229,10 +229,10 @@ class CompuMethod(ARElement):
     def getUnit(self) -> "Unit":
         """
         AUTOSAR-compliant getter for unit.
-        
+
         Returns:
             The unit value
-        
+
         Note:
             Delegates to unit property (CODING_RULE_V2_00017)
         """
@@ -241,13 +241,13 @@ class CompuMethod(ARElement):
     def setUnit(self, value: "Unit") -> "CompuMethod":
         """
         AUTOSAR-compliant setter for unit with method chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unit property setter (gets validation automatically)
         """
@@ -259,13 +259,13 @@ class CompuMethod(ARElement):
     def with_compu_internal(self, value: Optional["Compu"]) -> "CompuMethod":
         """
         Set compuInternal and return self for chaining.
-        
+
         Args:
             value: The compuInternal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_internal("value")
         """
@@ -275,13 +275,13 @@ class CompuMethod(ARElement):
     def with_compu_phys_to(self, value: Optional["Compu"]) -> "CompuMethod":
         """
         Set compuPhysTo and return self for chaining.
-        
+
         Args:
             value: The compuPhysTo to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_phys_to("value")
         """
@@ -291,13 +291,13 @@ class CompuMethod(ARElement):
     def with_display_format(self, value: Optional["DisplayFormatString"]) -> "CompuMethod":
         """
         Set displayFormat and return self for chaining.
-        
+
         Args:
             value: The displayFormat to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_display_format("value")
         """
@@ -307,13 +307,13 @@ class CompuMethod(ARElement):
     def with_unit(self, value: Optional["Unit"]) -> "CompuMethod":
         """
         Set unit and return self for chaining.
-        
+
         Args:
             value: The unit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unit("value")
         """

@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class CompuConst(ARObject):
     """
     This meta-class represents the fact that the value of a computation method
     scale is constant.
-    
+
     Package: M2::MSR::AsamHdo::ComputationMethod::CompuConst
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 390, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class CompuConst(ARObject):
     def compu_const(self, value: Optional["CompuConstContent"]) -> None:
         """
         Set compuConst with validation.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +54,10 @@ class CompuConst(ARObject):
     def getCompuConst(self) -> "CompuConstContent":
         """
         AUTOSAR-compliant getter for compuConst.
-        
+
         Returns:
             The compuConst value
-        
+
         Note:
             Delegates to compu_const property (CODING_RULE_V2_00017)
         """
@@ -63,13 +66,13 @@ class CompuConst(ARObject):
     def setCompuConst(self, value: "CompuConstContent") -> "CompuConst":
         """
         AUTOSAR-compliant setter for compuConst with method chaining.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to compu_const property setter (gets validation automatically)
         """
@@ -81,13 +84,13 @@ class CompuConst(ARObject):
     def with_compu_const(self, value: Optional["CompuConstContent"]) -> "CompuConst":
         """
         Set compuConst and return self for chaining.
-        
+
         Args:
             value: The compuConst to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_compu_const("value")
         """

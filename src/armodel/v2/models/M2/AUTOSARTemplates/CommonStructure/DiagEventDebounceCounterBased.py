@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     """
@@ -7,9 +7,9 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     debounce algorithm shall be used by the DEM for this diagnostic monitor.
     This is related to set the ECUC choice container DemDebounceAlgorithmClass
     to DemDebounce CounterBased.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagEventDebounceCounterBased
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 259, Classic
       Platform R23-11)
@@ -34,10 +34,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_based(self, value: Optional["Integer"]) -> None:
         """
         Set counterBased with validation.
-        
+
         Args:
             value: The counterBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter(self, value: Optional["Integer"]) -> None:
         """
         Set counter with validation.
-        
+
         Args:
             value: The counter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -92,10 +92,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_failed(self, value: Optional["Integer"]) -> None:
         """
         Set counterFailed with validation.
-        
+
         Args:
             value: The counterFailed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -123,10 +123,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_jump(self, value: Optional["Integer"]) -> None:
         """
         Set counterJump with validation.
-        
+
         Args:
             value: The counterJump to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +152,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_jump_up(self, value: Optional["Integer"]) -> None:
         """
         Set counterJumpUp with validation.
-        
+
         Args:
             value: The counterJumpUp to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -181,10 +181,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def counter_passed(self, value: Optional["Integer"]) -> None:
         """
         Set counterPassed with validation.
-        
+
         Args:
             value: The counterPassed to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -203,10 +203,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterBased(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterBased.
-        
+
         Returns:
             The counterBased value
-        
+
         Note:
             Delegates to counter_based property (CODING_RULE_V2_00017)
         """
@@ -215,13 +215,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterBased(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterBased with method chaining.
-        
+
         Args:
             value: The counterBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_based property setter (gets validation automatically)
         """
@@ -231,10 +231,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounter(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counter.
-        
+
         Returns:
             The counter value
-        
+
         Note:
             Delegates to counter property (CODING_RULE_V2_00017)
         """
@@ -243,13 +243,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounter(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counter with method chaining.
-        
+
         Args:
             value: The counter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter property setter (gets validation automatically)
         """
@@ -259,10 +259,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterFailed(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterFailed.
-        
+
         Returns:
             The counterFailed value
-        
+
         Note:
             Delegates to counter_failed property (CODING_RULE_V2_00017)
         """
@@ -271,13 +271,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterFailed(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterFailed with method chaining.
-        
+
         Args:
             value: The counterFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_failed property setter (gets validation automatically)
         """
@@ -287,10 +287,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterJump(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterJump.
-        
+
         Returns:
             The counterJump value
-        
+
         Note:
             Delegates to counter_jump property (CODING_RULE_V2_00017)
         """
@@ -299,13 +299,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterJump(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterJump with method chaining.
-        
+
         Args:
             value: The counterJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_jump property setter (gets validation automatically)
         """
@@ -315,10 +315,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterJumpUp(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterJumpUp.
-        
+
         Returns:
             The counterJumpUp value
-        
+
         Note:
             Delegates to counter_jump_up property (CODING_RULE_V2_00017)
         """
@@ -327,13 +327,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterJumpUp(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterJumpUp with method chaining.
-        
+
         Args:
             value: The counterJumpUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_jump_up property setter (gets validation automatically)
         """
@@ -343,10 +343,10 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def getCounterPassed(self) -> "Integer":
         """
         AUTOSAR-compliant getter for counterPassed.
-        
+
         Returns:
             The counterPassed value
-        
+
         Note:
             Delegates to counter_passed property (CODING_RULE_V2_00017)
         """
@@ -355,13 +355,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def setCounterPassed(self, value: "Integer") -> "DiagEventDebounceCounterBased":
         """
         AUTOSAR-compliant setter for counterPassed with method chaining.
-        
+
         Args:
             value: The counterPassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to counter_passed property setter (gets validation automatically)
         """
@@ -373,13 +373,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_based(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterBased and return self for chaining.
-        
+
         Args:
             value: The counterBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_based("value")
         """
@@ -389,13 +389,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counter and return self for chaining.
-        
+
         Args:
             value: The counter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter("value")
         """
@@ -405,13 +405,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_failed(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterFailed and return self for chaining.
-        
+
         Args:
             value: The counterFailed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_failed("value")
         """
@@ -421,13 +421,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_jump(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterJump and return self for chaining.
-        
+
         Args:
             value: The counterJump to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_jump("value")
         """
@@ -437,13 +437,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_jump_up(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterJumpUp and return self for chaining.
-        
+
         Args:
             value: The counterJumpUp to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_jump_up("value")
         """
@@ -453,13 +453,13 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def with_counter_passed(self, value: Optional["Integer"]) -> "DiagEventDebounceCounterBased":
         """
         Set counterPassed and return self for chaining.
-        
+
         Args:
             value: The counterPassed to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_counter_passed("value")
         """

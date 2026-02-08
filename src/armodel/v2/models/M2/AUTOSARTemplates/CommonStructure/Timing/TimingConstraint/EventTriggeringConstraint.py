@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class EventTriggeringConstraint(TimingConstraint, ABC):
     """
@@ -8,9 +9,9 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     events to the implementation can be obtained. However, such an occurrence
     behavior can also be described by the modeler as an assumption or as a
     requirement about the occurrence of the event.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::EventTriggeringConstraint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 100, Classic Platform R23-11)
     """
@@ -32,10 +33,10 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     def event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set event with validation.
-        
+
         Args:
             value: The event to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +55,10 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     def getEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -66,13 +67,13 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     def setEvent(self, value: "TimingDescriptionEvent") -> "EventTriggeringConstraint":
         """
         AUTOSAR-compliant setter for event with method chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event property setter (gets validation automatically)
         """
@@ -84,13 +85,13 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     def with_event(self, value: Optional["TimingDescriptionEvent"]) -> "EventTriggeringConstraint":
         """
         Set event and return self for chaining.
-        
+
         Args:
             value: The event to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event("value")
         """

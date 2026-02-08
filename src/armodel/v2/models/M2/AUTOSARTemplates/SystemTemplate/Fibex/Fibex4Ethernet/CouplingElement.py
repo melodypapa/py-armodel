@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class CouplingElement(FibexElement):
     """
@@ -8,9 +8,9 @@ class CouplingElement(FibexElement):
     managed switch or even devices with functionalities in higher layers. A
     CouplingElement that is not related to an EcuInstance occurs as a dedicated
     single device.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::CouplingElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 107, Classic Platform R23-11)
     """
@@ -30,10 +30,10 @@ class CouplingElement(FibexElement):
     def communication(self, value: Optional["EthernetCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class CouplingElement(FibexElement):
     def coupling(self, value: Optional["CouplingElement"]) -> None:
         """
         Set coupling with validation.
-        
+
         Args:
             value: The coupling to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +96,10 @@ class CouplingElement(FibexElement):
     def coupling_type(self, value: Optional["CouplingElementEnum"]) -> None:
         """
         Set couplingType with validation.
-        
+
         Args:
             value: The couplingType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class CouplingElement(FibexElement):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -153,10 +153,10 @@ class CouplingElement(FibexElement):
     def getCommunication(self) -> "EthernetCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -165,13 +165,13 @@ class CouplingElement(FibexElement):
     def setCommunication(self, value: "EthernetCluster") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -181,10 +181,10 @@ class CouplingElement(FibexElement):
     def getCoupling(self) -> "CouplingElement":
         """
         AUTOSAR-compliant getter for coupling.
-        
+
         Returns:
             The coupling value
-        
+
         Note:
             Delegates to coupling property (CODING_RULE_V2_00017)
         """
@@ -193,13 +193,13 @@ class CouplingElement(FibexElement):
     def setCoupling(self, value: "CouplingElement") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for coupling with method chaining.
-        
+
         Args:
             value: The coupling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling property setter (gets validation automatically)
         """
@@ -209,10 +209,10 @@ class CouplingElement(FibexElement):
     def getCouplingPort(self) -> List["CouplingPort"]:
         """
         AUTOSAR-compliant getter for couplingPort.
-        
+
         Returns:
             The couplingPort value
-        
+
         Note:
             Delegates to coupling_port property (CODING_RULE_V2_00017)
         """
@@ -221,10 +221,10 @@ class CouplingElement(FibexElement):
     def getCouplingType(self) -> "CouplingElementEnum":
         """
         AUTOSAR-compliant getter for couplingType.
-        
+
         Returns:
             The couplingType value
-        
+
         Note:
             Delegates to coupling_type property (CODING_RULE_V2_00017)
         """
@@ -233,13 +233,13 @@ class CouplingElement(FibexElement):
     def setCouplingType(self, value: "CouplingElementEnum") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for couplingType with method chaining.
-        
+
         Args:
             value: The couplingType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to coupling_type property setter (gets validation automatically)
         """
@@ -249,10 +249,10 @@ class CouplingElement(FibexElement):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -261,13 +261,13 @@ class CouplingElement(FibexElement):
     def setEcuInstance(self, value: "EcuInstance") -> "CouplingElement":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -277,10 +277,10 @@ class CouplingElement(FibexElement):
     def getFirewallRule(self) -> List["StateDependentFirewall"]:
         """
         AUTOSAR-compliant getter for firewallRule.
-        
+
         Returns:
             The firewallRule value
-        
+
         Note:
             Delegates to firewall_rule property (CODING_RULE_V2_00017)
         """
@@ -291,13 +291,13 @@ class CouplingElement(FibexElement):
     def with_communication(self, value: Optional["EthernetCluster"]) -> "CouplingElement":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -307,13 +307,13 @@ class CouplingElement(FibexElement):
     def with_coupling(self, value: Optional["CouplingElement"]) -> "CouplingElement":
         """
         Set coupling and return self for chaining.
-        
+
         Args:
             value: The coupling to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling("value")
         """
@@ -323,13 +323,13 @@ class CouplingElement(FibexElement):
     def with_coupling_type(self, value: Optional["CouplingElementEnum"]) -> "CouplingElement":
         """
         Set couplingType and return self for chaining.
-        
+
         Args:
             value: The couplingType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_coupling_type("value")
         """
@@ -339,13 +339,13 @@ class CouplingElement(FibexElement):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "CouplingElement":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """

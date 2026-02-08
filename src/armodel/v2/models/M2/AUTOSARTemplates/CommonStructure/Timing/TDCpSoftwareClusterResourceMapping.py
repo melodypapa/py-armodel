@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TDCpSoftwareClusterResourceMapping(Identifiable):
     """
     This is used to assign an unequivocal global resource identification to a
     temporal and dynamic resource.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster::TDCpSoftwareClusterResourceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 158, Classic Platform R23-11)
     """
@@ -29,10 +31,10 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def resource(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set resource with validation.
-        
+
         Args:
             value: The resource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +59,10 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def timing(self, value: Optional["TimingDescription"]) -> None:
         """
         Set timing with validation.
-        
+
         Args:
             value: The timing to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +81,10 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def getResource(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -91,13 +93,13 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def setResource(self, value: "CpSoftwareCluster") -> "TDCpSoftwareClusterResourceMapping":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -107,10 +109,10 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def getTiming(self) -> "TimingDescription":
         """
         AUTOSAR-compliant getter for timing.
-        
+
         Returns:
             The timing value
-        
+
         Note:
             Delegates to timing property (CODING_RULE_V2_00017)
         """
@@ -119,13 +121,13 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def setTiming(self, value: "TimingDescription") -> "TDCpSoftwareClusterResourceMapping":
         """
         AUTOSAR-compliant setter for timing with method chaining.
-        
+
         Args:
             value: The timing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing property setter (gets validation automatically)
         """
@@ -137,13 +139,13 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def with_resource(self, value: Optional["CpSoftwareCluster"]) -> "TDCpSoftwareClusterResourceMapping":
         """
         Set resource and return self for chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource("value")
         """
@@ -153,13 +155,13 @@ class TDCpSoftwareClusterResourceMapping(Identifiable):
     def with_timing(self, value: Optional["TimingDescription"]) -> "TDCpSoftwareClusterResourceMapping":
         """
         Set timing and return self for chaining.
-        
+
         Args:
             value: The timing to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing("value")
         """

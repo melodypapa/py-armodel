@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MultiplexedPart(ARObject, ABC):
     """
     The StaticPart and the DynamicPart have common properties. Both can be
     separated in multiple segments within the multiplexed PDU.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::MultiplexedPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 411, Classic Platform R23-11)
     """
@@ -33,10 +37,10 @@ class MultiplexedPart(ARObject, ABC):
     def getSegment(self) -> List["SegmentPosition"]:
         """
         AUTOSAR-compliant getter for segment.
-        
+
         Returns:
             The segment value
-        
+
         Note:
             Delegates to segment property (CODING_RULE_V2_00017)
         """

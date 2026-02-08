@@ -1,6 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class EcucAbstractStringParamDef(ARObject, ABC):
     """
@@ -8,9 +12,9 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     StringParamDefs, LinkerSymbolDef, FunctionNameDef and
     MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags:
     vh.latestBindingTime=codeGenerationTime
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAbstractStringParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 63, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 183, Foundation R23-11)
@@ -33,10 +37,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def default_value(self, value: Optional["VerbatimString"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +65,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def max_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxLength with validation.
-        
+
         Args:
             value: The maxLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -89,10 +93,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def min_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set minLength with validation.
-        
+
         Args:
             value: The minLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +122,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def regular(self, value: Optional["RegularExpression"]) -> None:
         """
         Set regular with validation.
-        
+
         Args:
             value: The regular to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +144,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def getDefaultValue(self) -> "VerbatimString":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -152,13 +156,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def setDefaultValue(self, value: "VerbatimString") -> "EcucAbstractStringParamDef":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -168,10 +172,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def getMaxLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxLength.
-        
+
         Returns:
             The maxLength value
-        
+
         Note:
             Delegates to max_length property (CODING_RULE_V2_00017)
         """
@@ -180,13 +184,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def setMaxLength(self, value: "PositiveInteger") -> "EcucAbstractStringParamDef":
         """
         AUTOSAR-compliant setter for maxLength with method chaining.
-        
+
         Args:
             value: The maxLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_length property setter (gets validation automatically)
         """
@@ -196,10 +200,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def getMinLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for minLength.
-        
+
         Returns:
             The minLength value
-        
+
         Note:
             Delegates to min_length property (CODING_RULE_V2_00017)
         """
@@ -208,13 +212,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def setMinLength(self, value: "PositiveInteger") -> "EcucAbstractStringParamDef":
         """
         AUTOSAR-compliant setter for minLength with method chaining.
-        
+
         Args:
             value: The minLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to min_length property setter (gets validation automatically)
         """
@@ -224,10 +228,10 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def getRegular(self) -> "RegularExpression":
         """
         AUTOSAR-compliant getter for regular.
-        
+
         Returns:
             The regular value
-        
+
         Note:
             Delegates to regular property (CODING_RULE_V2_00017)
         """
@@ -236,13 +240,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def setRegular(self, value: "RegularExpression") -> "EcucAbstractStringParamDef":
         """
         AUTOSAR-compliant setter for regular with method chaining.
-        
+
         Args:
             value: The regular to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to regular property setter (gets validation automatically)
         """
@@ -254,13 +258,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def with_default_value(self, value: Optional["VerbatimString"]) -> "EcucAbstractStringParamDef":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """
@@ -270,13 +274,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def with_max_length(self, value: Optional["PositiveInteger"]) -> "EcucAbstractStringParamDef":
         """
         Set maxLength and return self for chaining.
-        
+
         Args:
             value: The maxLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_length("value")
         """
@@ -286,13 +290,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def with_min_length(self, value: Optional["PositiveInteger"]) -> "EcucAbstractStringParamDef":
         """
         Set minLength and return self for chaining.
-        
+
         Args:
             value: The minLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_min_length("value")
         """
@@ -302,13 +306,13 @@ class EcucAbstractStringParamDef(ARObject, ABC):
     def with_regular(self, value: Optional["RegularExpression"]) -> "EcucAbstractStringParamDef":
         """
         Set regular and return self for chaining.
-        
+
         Args:
             value: The regular to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_regular("value")
         """

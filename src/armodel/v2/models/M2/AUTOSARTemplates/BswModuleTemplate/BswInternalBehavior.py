@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswInternalBehavior(InternalBehavior):
     """
     Specifies the behavior of a BSW module or a BSW cluster w.r.t. the code
     entities visible by the BSW Scheduler. It is possible to have several
     different BswInternalBehaviors referring to the same BswModule Description.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInternalBehavior
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 65, Classic
       Platform R23-11)
@@ -214,10 +217,10 @@ class BswInternalBehavior(InternalBehavior):
     def getArTypedPer(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for arTypedPer.
-        
+
         Returns:
             The arTypedPer value
-        
+
         Note:
             Delegates to ar_typed_per property (CODING_RULE_V2_00017)
         """
@@ -226,10 +229,10 @@ class BswInternalBehavior(InternalBehavior):
     def getBswPerInstance(self) -> List["BswPerInstance"]:
         """
         AUTOSAR-compliant getter for bswPerInstance.
-        
+
         Returns:
             The bswPerInstance value
-        
+
         Note:
             Delegates to bsw_per_instance property (CODING_RULE_V2_00017)
         """
@@ -238,10 +241,10 @@ class BswInternalBehavior(InternalBehavior):
     def getClientPolicy(self) -> List["BswClientPolicy"]:
         """
         AUTOSAR-compliant getter for clientPolicy.
-        
+
         Returns:
             The clientPolicy value
-        
+
         Note:
             Delegates to client_policy property (CODING_RULE_V2_00017)
         """
@@ -250,10 +253,10 @@ class BswInternalBehavior(InternalBehavior):
     def getDistinguished(self) -> List["BswDistinguished"]:
         """
         AUTOSAR-compliant getter for distinguished.
-        
+
         Returns:
             The distinguished value
-        
+
         Note:
             Delegates to distinguished property (CODING_RULE_V2_00017)
         """
@@ -262,10 +265,10 @@ class BswInternalBehavior(InternalBehavior):
     def getEntity(self) -> List["BswModuleEntity"]:
         """
         AUTOSAR-compliant getter for entity.
-        
+
         Returns:
             The entity value
-        
+
         Note:
             Delegates to entity property (CODING_RULE_V2_00017)
         """
@@ -274,10 +277,10 @@ class BswInternalBehavior(InternalBehavior):
     def getEvent(self) -> List["BswEvent"]:
         """
         AUTOSAR-compliant getter for event.
-        
+
         Returns:
             The event value
-        
+
         Note:
             Delegates to event property (CODING_RULE_V2_00017)
         """
@@ -286,10 +289,10 @@ class BswInternalBehavior(InternalBehavior):
     def getExclusiveArea(self) -> List["BswExclusiveArea"]:
         """
         AUTOSAR-compliant getter for exclusiveArea.
-        
+
         Returns:
             The exclusiveArea value
-        
+
         Note:
             Delegates to exclusive_area property (CODING_RULE_V2_00017)
         """
@@ -298,10 +301,10 @@ class BswInternalBehavior(InternalBehavior):
     def getIncludedData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for includedData.
-        
+
         Returns:
             The includedData value
-        
+
         Note:
             Delegates to included_data property (CODING_RULE_V2_00017)
         """
@@ -310,10 +313,10 @@ class BswInternalBehavior(InternalBehavior):
     def getIncludedMode(self) -> List["IncludedMode"]:
         """
         AUTOSAR-compliant getter for includedMode.
-        
+
         Returns:
             The includedMode value
-        
+
         Note:
             Delegates to included_mode property (CODING_RULE_V2_00017)
         """
@@ -322,10 +325,10 @@ class BswInternalBehavior(InternalBehavior):
     def getInternal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for internal.
-        
+
         Returns:
             The internal value
-        
+
         Note:
             Delegates to internal property (CODING_RULE_V2_00017)
         """
@@ -334,10 +337,10 @@ class BswInternalBehavior(InternalBehavior):
     def getModeReceiver(self) -> List["BswModeReceiver"]:
         """
         AUTOSAR-compliant getter for modeReceiver.
-        
+
         Returns:
             The modeReceiver value
-        
+
         Note:
             Delegates to mode_receiver property (CODING_RULE_V2_00017)
         """
@@ -346,10 +349,10 @@ class BswInternalBehavior(InternalBehavior):
     def getModeSender(self) -> List["BswModeSenderPolicy"]:
         """
         AUTOSAR-compliant getter for modeSender.
-        
+
         Returns:
             The modeSender value
-        
+
         Note:
             Delegates to mode_sender property (CODING_RULE_V2_00017)
         """
@@ -358,10 +361,10 @@ class BswInternalBehavior(InternalBehavior):
     def getParameterPolicy(self) -> List["BswParameterPolicy"]:
         """
         AUTOSAR-compliant getter for parameterPolicy.
-        
+
         Returns:
             The parameterPolicy value
-        
+
         Note:
             Delegates to parameter_policy property (CODING_RULE_V2_00017)
         """
@@ -370,10 +373,10 @@ class BswInternalBehavior(InternalBehavior):
     def getPerInstance(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for perInstance.
-        
+
         Returns:
             The perInstance value
-        
+
         Note:
             Delegates to per_instance property (CODING_RULE_V2_00017)
         """
@@ -382,10 +385,10 @@ class BswInternalBehavior(InternalBehavior):
     def getReceptionPolicy(self) -> List["BswDataReception"]:
         """
         AUTOSAR-compliant getter for receptionPolicy.
-        
+
         Returns:
             The receptionPolicy value
-        
+
         Note:
             Delegates to reception_policy property (CODING_RULE_V2_00017)
         """
@@ -394,10 +397,10 @@ class BswInternalBehavior(InternalBehavior):
     def getReleasedTrigger(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for releasedTrigger.
-        
+
         Returns:
             The releasedTrigger value
-        
+
         Note:
             Delegates to released_trigger property (CODING_RULE_V2_00017)
         """
@@ -406,10 +409,10 @@ class BswInternalBehavior(InternalBehavior):
     def getSchedulerName(self) -> List["BswSchedulerName"]:
         """
         AUTOSAR-compliant getter for schedulerName.
-        
+
         Returns:
             The schedulerName value
-        
+
         Note:
             Delegates to scheduler_name property (CODING_RULE_V2_00017)
         """
@@ -418,10 +421,10 @@ class BswInternalBehavior(InternalBehavior):
     def getSendPolicy(self) -> List["BswDataSendPolicy"]:
         """
         AUTOSAR-compliant getter for sendPolicy.
-        
+
         Returns:
             The sendPolicy value
-        
+
         Note:
             Delegates to send_policy property (CODING_RULE_V2_00017)
         """
@@ -430,10 +433,10 @@ class BswInternalBehavior(InternalBehavior):
     def getService(self) -> List["BswService"]:
         """
         AUTOSAR-compliant getter for service.
-        
+
         Returns:
             The service value
-        
+
         Note:
             Delegates to service property (CODING_RULE_V2_00017)
         """
@@ -442,10 +445,10 @@ class BswInternalBehavior(InternalBehavior):
     def getTriggerDirect(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for triggerDirect.
-        
+
         Returns:
             The triggerDirect value
-        
+
         Note:
             Delegates to trigger_direct property (CODING_RULE_V2_00017)
         """
@@ -454,10 +457,10 @@ class BswInternalBehavior(InternalBehavior):
     def getVariationPoint(self) -> List["VariationPointProxy"]:
         """
         AUTOSAR-compliant getter for variationPoint.
-        
+
         Returns:
             The variationPoint value
-        
+
         Note:
             Delegates to variation_point property (CODING_RULE_V2_00017)
         """

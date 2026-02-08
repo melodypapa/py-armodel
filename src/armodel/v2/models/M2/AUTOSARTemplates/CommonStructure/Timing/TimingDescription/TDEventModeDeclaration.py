@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class TDEventModeDeclaration(TDEventVfbPort):
     """
     This is used to describe timing events related to mode switch communication
     at VFB level.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::TDEventModeDeclaration
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 57, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def entry_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set entryMode with validation.
-        
+
         Args:
             value: The entryMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def exit_mode(self, value: Optional["ModeDeclaration"]) -> None:
         """
         Set exitMode with validation.
-        
+
         Args:
             value: The exitMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +91,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def mode(self, value: RefType) -> None:
         """
         Set mode with validation.
-        
+
         Args:
             value: The mode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -112,10 +115,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def td_event_mode(self, value: Optional["TDEventMode"]) -> None:
         """
         Set tdEventMode with validation.
-        
+
         Args:
             value: The tdEventMode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -134,10 +137,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def getEntryMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for entryMode.
-        
+
         Returns:
             The entryMode value
-        
+
         Note:
             Delegates to entry_mode property (CODING_RULE_V2_00017)
         """
@@ -146,13 +149,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def setEntryMode(self, value: "ModeDeclaration") -> "TDEventModeDeclaration":
         """
         AUTOSAR-compliant setter for entryMode with method chaining.
-        
+
         Args:
             value: The entryMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to entry_mode property setter (gets validation automatically)
         """
@@ -162,10 +165,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def getExitMode(self) -> "ModeDeclaration":
         """
         AUTOSAR-compliant getter for exitMode.
-        
+
         Returns:
             The exitMode value
-        
+
         Note:
             Delegates to exit_mode property (CODING_RULE_V2_00017)
         """
@@ -174,13 +177,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def setExitMode(self, value: "ModeDeclaration") -> "TDEventModeDeclaration":
         """
         AUTOSAR-compliant setter for exitMode with method chaining.
-        
+
         Args:
             value: The exitMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to exit_mode property setter (gets validation automatically)
         """
@@ -190,10 +193,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def getMode(self) -> RefType:
         """
         AUTOSAR-compliant getter for mode.
-        
+
         Returns:
             The mode value
-        
+
         Note:
             Delegates to mode property (CODING_RULE_V2_00017)
         """
@@ -202,13 +205,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def setMode(self, value: RefType) -> "TDEventModeDeclaration":
         """
         AUTOSAR-compliant setter for mode with method chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode property setter (gets validation automatically)
         """
@@ -218,10 +221,10 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def getTdEventMode(self) -> "TDEventMode":
         """
         AUTOSAR-compliant getter for tdEventMode.
-        
+
         Returns:
             The tdEventMode value
-        
+
         Note:
             Delegates to td_event_mode property (CODING_RULE_V2_00017)
         """
@@ -230,13 +233,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def setTdEventMode(self, value: "TDEventMode") -> "TDEventModeDeclaration":
         """
         AUTOSAR-compliant setter for tdEventMode with method chaining.
-        
+
         Args:
             value: The tdEventMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to td_event_mode property setter (gets validation automatically)
         """
@@ -248,13 +251,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def with_entry_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventModeDeclaration":
         """
         Set entryMode and return self for chaining.
-        
+
         Args:
             value: The entryMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_entry_mode("value")
         """
@@ -264,13 +267,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def with_exit_mode(self, value: Optional["ModeDeclaration"]) -> "TDEventModeDeclaration":
         """
         Set exitMode and return self for chaining.
-        
+
         Args:
             value: The exitMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_exit_mode("value")
         """
@@ -280,13 +283,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def with_mode(self, value: Optional[RefType]) -> "TDEventModeDeclaration":
         """
         Set mode and return self for chaining.
-        
+
         Args:
             value: The mode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode("value")
         """
@@ -296,13 +299,13 @@ class TDEventModeDeclaration(TDEventVfbPort):
     def with_td_event_mode(self, value: Optional["TDEventMode"]) -> "TDEventModeDeclaration":
         """
         Set tdEventMode and return self for chaining.
-        
+
         Args:
             value: The tdEventMode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_td_event_mode("value")
         """

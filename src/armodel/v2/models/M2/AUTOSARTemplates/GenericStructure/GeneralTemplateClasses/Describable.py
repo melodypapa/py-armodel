@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class Describable(ARObject, ABC):
     """
     This meta-class represents the ability to add a descriptive documentation to
     non identifiable elements.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::Describable
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 312, Classic
       Platform R23-11)
@@ -39,10 +43,10 @@ class Describable(ARObject, ABC):
     def admin_data(self, value: Optional["AdminData"]) -> None:
         """
         Set adminData with validation.
-        
+
         Args:
             value: The adminData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -68,10 +72,10 @@ class Describable(ARObject, ABC):
     def category(self, value: Optional["CategoryString"]) -> None:
         """
         Set category with validation.
-        
+
         Args:
             value: The category to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +105,10 @@ class Describable(ARObject, ABC):
     def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
         """
         Set desc with validation.
-        
+
         Args:
             value: The desc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -130,10 +134,10 @@ class Describable(ARObject, ABC):
     def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
-        
+
         Args:
             value: The introduction to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -152,10 +156,10 @@ class Describable(ARObject, ABC):
     def getAdminData(self) -> "AdminData":
         """
         AUTOSAR-compliant getter for adminData.
-        
+
         Returns:
             The adminData value
-        
+
         Note:
             Delegates to admin_data property (CODING_RULE_V2_00017)
         """
@@ -164,13 +168,13 @@ class Describable(ARObject, ABC):
     def setAdminData(self, value: "AdminData") -> "Describable":
         """
         AUTOSAR-compliant setter for adminData with method chaining.
-        
+
         Args:
             value: The adminData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to admin_data property setter (gets validation automatically)
         """
@@ -180,10 +184,10 @@ class Describable(ARObject, ABC):
     def getCategory(self) -> "CategoryString":
         """
         AUTOSAR-compliant getter for category.
-        
+
         Returns:
             The category value
-        
+
         Note:
             Delegates to category property (CODING_RULE_V2_00017)
         """
@@ -192,13 +196,13 @@ class Describable(ARObject, ABC):
     def setCategory(self, value: "CategoryString") -> "Describable":
         """
         AUTOSAR-compliant setter for category with method chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to category property setter (gets validation automatically)
         """
@@ -208,10 +212,10 @@ class Describable(ARObject, ABC):
     def getDesc(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for desc.
-        
+
         Returns:
             The desc value
-        
+
         Note:
             Delegates to desc property (CODING_RULE_V2_00017)
         """
@@ -220,13 +224,13 @@ class Describable(ARObject, ABC):
     def setDesc(self, value: "MultiLanguageOverview") -> "Describable":
         """
         AUTOSAR-compliant setter for desc with method chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to desc property setter (gets validation automatically)
         """
@@ -236,10 +240,10 @@ class Describable(ARObject, ABC):
     def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
-        
+
         Returns:
             The introduction value
-        
+
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
@@ -248,13 +252,13 @@ class Describable(ARObject, ABC):
     def setIntroduction(self, value: "DocumentationBlock") -> "Describable":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
@@ -266,13 +270,13 @@ class Describable(ARObject, ABC):
     def with_admin_data(self, value: Optional["AdminData"]) -> "Describable":
         """
         Set adminData and return self for chaining.
-        
+
         Args:
             value: The adminData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_admin_data("value")
         """
@@ -282,13 +286,13 @@ class Describable(ARObject, ABC):
     def with_category(self, value: Optional["CategoryString"]) -> "Describable":
         """
         Set category and return self for chaining.
-        
+
         Args:
             value: The category to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_category("value")
         """
@@ -298,13 +302,13 @@ class Describable(ARObject, ABC):
     def with_desc(self, value: Optional["MultiLanguageOverview"]) -> "Describable":
         """
         Set desc and return self for chaining.
-        
+
         Args:
             value: The desc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_desc("value")
         """
@@ -314,13 +318,13 @@ class Describable(ARObject, ABC):
     def with_introduction(self, value: Optional["DocumentationBlock"]) -> "Describable":
         """
         Set introduction and return self for chaining.
-        
+
         Args:
             value: The introduction to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_introduction("value")
         """

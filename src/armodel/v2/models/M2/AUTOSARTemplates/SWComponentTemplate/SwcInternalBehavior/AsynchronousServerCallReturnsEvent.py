@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class AsynchronousServerCallReturnsEvent(RTEEvent):
     """
     This event is raised when an asynchronous server call is finished.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::AsynchronousServerCallReturnsEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 541, Classic Platform
       R23-11)
@@ -28,10 +28,10 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def event_source(self, value: Optional["AsynchronousServer"]) -> None:
         """
         Set eventSource with validation.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +50,10 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def getEventSource(self) -> "AsynchronousServer":
         """
         AUTOSAR-compliant getter for eventSource.
-        
+
         Returns:
             The eventSource value
-        
+
         Note:
             Delegates to event_source property (CODING_RULE_V2_00017)
         """
@@ -62,13 +62,13 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def setEventSource(self, value: "AsynchronousServer") -> "AsynchronousServerCallReturnsEvent":
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to event_source property setter (gets validation automatically)
         """
@@ -80,13 +80,13 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def with_event_source(self, value: Optional["AsynchronousServer"]) -> "AsynchronousServerCallReturnsEvent":
         """
         Set eventSource and return self for chaining.
-        
+
         Args:
             value: The eventSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_event_source("value")
         """

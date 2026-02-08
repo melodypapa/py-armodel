@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class J1939TpPg(ARObject):
     """
     A J1939TpPg represents one J1939 message (parameter group, PG) identified by
     the PGN (parameter group number) that can be received or transmitted via
     J1939Tp.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::J1939TpPg
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 625, Classic Platform R23-11)
     """
@@ -30,10 +33,10 @@ class J1939TpPg(ARObject):
     def direct_pdu(self, value: Optional["NPdu"]) -> None:
         """
         Set directPdu with validation.
-        
+
         Args:
             value: The directPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class J1939TpPg(ARObject):
     def pgn(self, value: Optional["Integer"]) -> None:
         """
         Set pgn with validation.
-        
+
         Args:
             value: The pgn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class J1939TpPg(ARObject):
     def requestable(self, value: Optional["Boolean"]) -> None:
         """
         Set requestable with validation.
-        
+
         Args:
             value: The requestable to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -121,10 +124,10 @@ class J1939TpPg(ARObject):
     def getDirectPdu(self) -> "NPdu":
         """
         AUTOSAR-compliant getter for directPdu.
-        
+
         Returns:
             The directPdu value
-        
+
         Note:
             Delegates to direct_pdu property (CODING_RULE_V2_00017)
         """
@@ -133,13 +136,13 @@ class J1939TpPg(ARObject):
     def setDirectPdu(self, value: "NPdu") -> "J1939TpPg":
         """
         AUTOSAR-compliant setter for directPdu with method chaining.
-        
+
         Args:
             value: The directPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direct_pdu property setter (gets validation automatically)
         """
@@ -149,10 +152,10 @@ class J1939TpPg(ARObject):
     def getPgn(self) -> "Integer":
         """
         AUTOSAR-compliant getter for pgn.
-        
+
         Returns:
             The pgn value
-        
+
         Note:
             Delegates to pgn property (CODING_RULE_V2_00017)
         """
@@ -161,13 +164,13 @@ class J1939TpPg(ARObject):
     def setPgn(self, value: "Integer") -> "J1939TpPg":
         """
         AUTOSAR-compliant setter for pgn with method chaining.
-        
+
         Args:
             value: The pgn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pgn property setter (gets validation automatically)
         """
@@ -177,10 +180,10 @@ class J1939TpPg(ARObject):
     def getRequestable(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for requestable.
-        
+
         Returns:
             The requestable value
-        
+
         Note:
             Delegates to requestable property (CODING_RULE_V2_00017)
         """
@@ -189,13 +192,13 @@ class J1939TpPg(ARObject):
     def setRequestable(self, value: "Boolean") -> "J1939TpPg":
         """
         AUTOSAR-compliant setter for requestable with method chaining.
-        
+
         Args:
             value: The requestable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to requestable property setter (gets validation automatically)
         """
@@ -205,10 +208,10 @@ class J1939TpPg(ARObject):
     def getSdu(self) -> List["IPdu"]:
         """
         AUTOSAR-compliant getter for sdu.
-        
+
         Returns:
             The sdu value
-        
+
         Note:
             Delegates to sdu property (CODING_RULE_V2_00017)
         """
@@ -219,13 +222,13 @@ class J1939TpPg(ARObject):
     def with_direct_pdu(self, value: Optional["NPdu"]) -> "J1939TpPg":
         """
         Set directPdu and return self for chaining.
-        
+
         Args:
             value: The directPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direct_pdu("value")
         """
@@ -235,13 +238,13 @@ class J1939TpPg(ARObject):
     def with_pgn(self, value: Optional["Integer"]) -> "J1939TpPg":
         """
         Set pgn and return self for chaining.
-        
+
         Args:
             value: The pgn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pgn("value")
         """
@@ -251,13 +254,13 @@ class J1939TpPg(ARObject):
     def with_requestable(self, value: Optional["Boolean"]) -> "J1939TpPg":
         """
         Set requestable and return self for chaining.
-        
+
         Args:
             value: The requestable to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_requestable("value")
         """

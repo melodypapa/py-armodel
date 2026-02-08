@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class BswServiceDependencyIdent(IdentCaption):
     """
@@ -7,9 +5,9 @@ class BswServiceDependencyIdent(IdentCaption):
     reference to the non-Referrable BswServiceDependency. (cid:53) 239 of 719
     Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Diagnostic Extract
     Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::BswServiceDependencyIdent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 239, Classic Platform
       R23-11)

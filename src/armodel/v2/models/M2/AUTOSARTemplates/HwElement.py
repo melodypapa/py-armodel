@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class HwElement(HwDescriptionEntity):
     """
@@ -8,9 +11,9 @@ class HwElement(HwDescriptionEntity):
     level. The particular types of hardware are distinguished by the category.
     This category determines the applicable attributes. The possible categories
     and attributes are defined in HwCategory.
-    
+
     Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElement
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 296, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 18, Classic Platform
@@ -58,10 +61,10 @@ class HwElement(HwDescriptionEntity):
     def getHwElement(self) -> List["HwElementConnector"]:
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -70,10 +73,10 @@ class HwElement(HwDescriptionEntity):
     def getHwPinGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for hwPinGroup.
-        
+
         Returns:
             The hwPinGroup value
-        
+
         Note:
             Delegates to hw_pin_group property (CODING_RULE_V2_00017)
         """
@@ -82,10 +85,10 @@ class HwElement(HwDescriptionEntity):
     def getNestedElement(self) -> List["HwElement"]:
         """
         AUTOSAR-compliant getter for nestedElement.
-        
+
         Returns:
             The nestedElement value
-        
+
         Note:
             Delegates to nested_element property (CODING_RULE_V2_00017)
         """

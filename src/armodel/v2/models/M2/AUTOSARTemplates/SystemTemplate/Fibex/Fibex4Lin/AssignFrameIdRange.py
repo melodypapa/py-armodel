@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class AssignFrameIdRange(LinConfigurationEntry):
     """
     AssignFrameIdRange generates an assign frame PID range request.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication::AssignFrameIdRange
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 437, Classic Platform R23-11)
     """
@@ -27,10 +27,10 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def frame_pid(self, value: "FramePid") -> None:
         """
         Set framePid with validation.
-        
+
         Args:
             value: The framePid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -51,10 +51,10 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def start_index(self, value: Optional["Integer"]) -> None:
         """
         Set startIndex with validation.
-        
+
         Args:
             value: The startIndex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +73,10 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def getFramePid(self) -> "FramePid":
         """
         AUTOSAR-compliant getter for framePid.
-        
+
         Returns:
             The framePid value
-        
+
         Note:
             Delegates to frame_pid property (CODING_RULE_V2_00017)
         """
@@ -85,13 +85,13 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def setFramePid(self, value: "FramePid") -> "AssignFrameIdRange":
         """
         AUTOSAR-compliant setter for framePid with method chaining.
-        
+
         Args:
             value: The framePid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame_pid property setter (gets validation automatically)
         """
@@ -101,10 +101,10 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def getStartIndex(self) -> "Integer":
         """
         AUTOSAR-compliant getter for startIndex.
-        
+
         Returns:
             The startIndex value
-        
+
         Note:
             Delegates to start_index property (CODING_RULE_V2_00017)
         """
@@ -113,13 +113,13 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def setStartIndex(self, value: "Integer") -> "AssignFrameIdRange":
         """
         AUTOSAR-compliant setter for startIndex with method chaining.
-        
+
         Args:
             value: The startIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_index property setter (gets validation automatically)
         """
@@ -131,13 +131,13 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def with_frame_pid(self, value: "FramePid") -> "AssignFrameIdRange":
         """
         Set framePid and return self for chaining.
-        
+
         Args:
             value: The framePid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame_pid("value")
         """
@@ -147,13 +147,13 @@ class AssignFrameIdRange(LinConfigurationEntry):
     def with_start_index(self, value: Optional["Integer"]) -> "AssignFrameIdRange":
         """
         Set startIndex and return self for chaining.
-        
+
         Args:
             value: The startIndex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_index("value")
         """

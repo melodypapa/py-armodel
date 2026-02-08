@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class FlexrayTpConnection(TpConnection):
     """
@@ -10,9 +10,9 @@ class FlexrayTpConnection(TpConnection):
     references are always mandatory. On multicast the txPduPool is mandatory on
     the sender side. The rxPduPool is mandatory on the receiver side. On Gateway
     ECUs both references are mandatory.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpConnection
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 594, Classic Platform R23-11)
     """
@@ -32,10 +32,10 @@ class FlexrayTpConnection(TpConnection):
     def bandwidth(self, value: Optional["Boolean"]) -> None:
         """
         Set bandwidth with validation.
-        
+
         Args:
             value: The bandwidth to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +60,10 @@ class FlexrayTpConnection(TpConnection):
     def direct_tp_sdu(self, value: Optional["IPdu"]) -> None:
         """
         Set directTpSdu with validation.
-        
+
         Args:
             value: The directTpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class FlexrayTpConnection(TpConnection):
     def multicast(self, value: Optional["TpAddress"]) -> None:
         """
         Set multicast with validation.
-        
+
         Args:
             value: The multicast to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +124,10 @@ class FlexrayTpConnection(TpConnection):
     def reversed_tp_sdu(self, value: Optional["IPdu"]) -> None:
         """
         Set reversedTpSdu with validation.
-        
+
         Args:
             value: The reversedTpSdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -155,10 +155,10 @@ class FlexrayTpConnection(TpConnection):
     def rx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> None:
         """
         Set rxPduPool with validation.
-        
+
         Args:
             value: The rxPduPool to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -183,10 +183,10 @@ class FlexrayTpConnection(TpConnection):
     def tp_connection(self, value: Optional["FlexrayTpConnection"]) -> None:
         """
         Set tpConnection with validation.
-        
+
         Args:
             value: The tpConnection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -211,10 +211,10 @@ class FlexrayTpConnection(TpConnection):
     def transmitter(self, value: Optional["FlexrayTpNode"]) -> None:
         """
         Set transmitter with validation.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -242,10 +242,10 @@ class FlexrayTpConnection(TpConnection):
     def tx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> None:
         """
         Set txPduPool with validation.
-        
+
         Args:
             value: The txPduPool to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -264,10 +264,10 @@ class FlexrayTpConnection(TpConnection):
     def getBandwidth(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for bandwidth.
-        
+
         Returns:
             The bandwidth value
-        
+
         Note:
             Delegates to bandwidth property (CODING_RULE_V2_00017)
         """
@@ -276,13 +276,13 @@ class FlexrayTpConnection(TpConnection):
     def setBandwidth(self, value: "Boolean") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for bandwidth with method chaining.
-        
+
         Args:
             value: The bandwidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bandwidth property setter (gets validation automatically)
         """
@@ -292,10 +292,10 @@ class FlexrayTpConnection(TpConnection):
     def getDirectTpSdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for directTpSdu.
-        
+
         Returns:
             The directTpSdu value
-        
+
         Note:
             Delegates to direct_tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -304,13 +304,13 @@ class FlexrayTpConnection(TpConnection):
     def setDirectTpSdu(self, value: "IPdu") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for directTpSdu with method chaining.
-        
+
         Args:
             value: The directTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to direct_tp_sdu property setter (gets validation automatically)
         """
@@ -320,10 +320,10 @@ class FlexrayTpConnection(TpConnection):
     def getMulticast(self) -> "TpAddress":
         """
         AUTOSAR-compliant getter for multicast.
-        
+
         Returns:
             The multicast value
-        
+
         Note:
             Delegates to multicast property (CODING_RULE_V2_00017)
         """
@@ -332,13 +332,13 @@ class FlexrayTpConnection(TpConnection):
     def setMulticast(self, value: "TpAddress") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for multicast with method chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to multicast property setter (gets validation automatically)
         """
@@ -348,10 +348,10 @@ class FlexrayTpConnection(TpConnection):
     def getReceiver(self) -> List["FlexrayTpNode"]:
         """
         AUTOSAR-compliant getter for receiver.
-        
+
         Returns:
             The receiver value
-        
+
         Note:
             Delegates to receiver property (CODING_RULE_V2_00017)
         """
@@ -360,10 +360,10 @@ class FlexrayTpConnection(TpConnection):
     def getReversedTpSdu(self) -> "IPdu":
         """
         AUTOSAR-compliant getter for reversedTpSdu.
-        
+
         Returns:
             The reversedTpSdu value
-        
+
         Note:
             Delegates to reversed_tp_sdu property (CODING_RULE_V2_00017)
         """
@@ -372,13 +372,13 @@ class FlexrayTpConnection(TpConnection):
     def setReversedTpSdu(self, value: "IPdu") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for reversedTpSdu with method chaining.
-        
+
         Args:
             value: The reversedTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to reversed_tp_sdu property setter (gets validation automatically)
         """
@@ -388,10 +388,10 @@ class FlexrayTpConnection(TpConnection):
     def getRxPduPool(self) -> "FlexrayTpPduPool":
         """
         AUTOSAR-compliant getter for rxPduPool.
-        
+
         Returns:
             The rxPduPool value
-        
+
         Note:
             Delegates to rx_pdu_pool property (CODING_RULE_V2_00017)
         """
@@ -400,13 +400,13 @@ class FlexrayTpConnection(TpConnection):
     def setRxPduPool(self, value: "FlexrayTpPduPool") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for rxPduPool with method chaining.
-        
+
         Args:
             value: The rxPduPool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rx_pdu_pool property setter (gets validation automatically)
         """
@@ -416,10 +416,10 @@ class FlexrayTpConnection(TpConnection):
     def getTpConnection(self) -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant getter for tpConnection.
-        
+
         Returns:
             The tpConnection value
-        
+
         Note:
             Delegates to tp_connection property (CODING_RULE_V2_00017)
         """
@@ -428,13 +428,13 @@ class FlexrayTpConnection(TpConnection):
     def setTpConnection(self, value: "FlexrayTpConnection") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for tpConnection with method chaining.
-        
+
         Args:
             value: The tpConnection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_connection property setter (gets validation automatically)
         """
@@ -444,10 +444,10 @@ class FlexrayTpConnection(TpConnection):
     def getTransmitter(self) -> "FlexrayTpNode":
         """
         AUTOSAR-compliant getter for transmitter.
-        
+
         Returns:
             The transmitter value
-        
+
         Note:
             Delegates to transmitter property (CODING_RULE_V2_00017)
         """
@@ -456,13 +456,13 @@ class FlexrayTpConnection(TpConnection):
     def setTransmitter(self, value: "FlexrayTpNode") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for transmitter with method chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmitter property setter (gets validation automatically)
         """
@@ -472,10 +472,10 @@ class FlexrayTpConnection(TpConnection):
     def getTxPduPool(self) -> "FlexrayTpPduPool":
         """
         AUTOSAR-compliant getter for txPduPool.
-        
+
         Returns:
             The txPduPool value
-        
+
         Note:
             Delegates to tx_pdu_pool property (CODING_RULE_V2_00017)
         """
@@ -484,13 +484,13 @@ class FlexrayTpConnection(TpConnection):
     def setTxPduPool(self, value: "FlexrayTpPduPool") -> "FlexrayTpConnection":
         """
         AUTOSAR-compliant setter for txPduPool with method chaining.
-        
+
         Args:
             value: The txPduPool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tx_pdu_pool property setter (gets validation automatically)
         """
@@ -502,13 +502,13 @@ class FlexrayTpConnection(TpConnection):
     def with_bandwidth(self, value: Optional["Boolean"]) -> "FlexrayTpConnection":
         """
         Set bandwidth and return self for chaining.
-        
+
         Args:
             value: The bandwidth to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bandwidth("value")
         """
@@ -518,13 +518,13 @@ class FlexrayTpConnection(TpConnection):
     def with_direct_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayTpConnection":
         """
         Set directTpSdu and return self for chaining.
-        
+
         Args:
             value: The directTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_direct_tp_sdu("value")
         """
@@ -534,13 +534,13 @@ class FlexrayTpConnection(TpConnection):
     def with_multicast(self, value: Optional["TpAddress"]) -> "FlexrayTpConnection":
         """
         Set multicast and return self for chaining.
-        
+
         Args:
             value: The multicast to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_multicast("value")
         """
@@ -550,13 +550,13 @@ class FlexrayTpConnection(TpConnection):
     def with_reversed_tp_sdu(self, value: Optional["IPdu"]) -> "FlexrayTpConnection":
         """
         Set reversedTpSdu and return self for chaining.
-        
+
         Args:
             value: The reversedTpSdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_reversed_tp_sdu("value")
         """
@@ -566,13 +566,13 @@ class FlexrayTpConnection(TpConnection):
     def with_rx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> "FlexrayTpConnection":
         """
         Set rxPduPool and return self for chaining.
-        
+
         Args:
             value: The rxPduPool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rx_pdu_pool("value")
         """
@@ -582,13 +582,13 @@ class FlexrayTpConnection(TpConnection):
     def with_tp_connection(self, value: Optional["FlexrayTpConnection"]) -> "FlexrayTpConnection":
         """
         Set tpConnection and return self for chaining.
-        
+
         Args:
             value: The tpConnection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_connection("value")
         """
@@ -598,13 +598,13 @@ class FlexrayTpConnection(TpConnection):
     def with_transmitter(self, value: Optional["FlexrayTpNode"]) -> "FlexrayTpConnection":
         """
         Set transmitter and return self for chaining.
-        
+
         Args:
             value: The transmitter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmitter("value")
         """
@@ -614,13 +614,13 @@ class FlexrayTpConnection(TpConnection):
     def with_tx_pdu_pool(self, value: Optional["FlexrayTpPduPool"]) -> "FlexrayTpConnection":
         """
         Set txPduPool and return self for chaining.
-        
+
         Args:
             value: The txPduPool to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tx_pdu_pool("value")
         """

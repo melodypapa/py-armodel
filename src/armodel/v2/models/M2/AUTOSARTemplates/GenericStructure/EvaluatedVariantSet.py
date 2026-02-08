@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class EvaluatedVariantSet(ARElement):
     """
     that the EvaluatedVariantSet is a CollectableElement. This allows to
     establish a hierarchy of EvaluatedVariantSets.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::EvaluatedVariantSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 257, Foundation
       R23-11)
@@ -32,10 +32,10 @@ class EvaluatedVariantSet(ARElement):
     def approval_status(self, value: "NameToken") -> None:
         """
         Set approvalStatus with validation.
-        
+
         Args:
             value: The approvalStatus to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class EvaluatedVariantSet(ARElement):
     def getApprovalStatus(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for approvalStatus.
-        
+
         Returns:
             The approvalStatus value
-        
+
         Note:
             Delegates to approval_status property (CODING_RULE_V2_00017)
         """
@@ -70,13 +70,13 @@ class EvaluatedVariantSet(ARElement):
     def setApprovalStatus(self, value: "NameToken") -> "EvaluatedVariantSet":
         """
         AUTOSAR-compliant setter for approvalStatus with method chaining.
-        
+
         Args:
             value: The approvalStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to approval_status property setter (gets validation automatically)
         """
@@ -86,10 +86,10 @@ class EvaluatedVariantSet(ARElement):
     def getEvaluated(self) -> List["PredefinedVariant"]:
         """
         AUTOSAR-compliant getter for evaluated.
-        
+
         Returns:
             The evaluated value
-        
+
         Note:
             Delegates to evaluated property (CODING_RULE_V2_00017)
         """
@@ -100,13 +100,13 @@ class EvaluatedVariantSet(ARElement):
     def with_approval_status(self, value: "NameToken") -> "EvaluatedVariantSet":
         """
         Set approvalStatus and return self for chaining.
-        
+
         Args:
             value: The approvalStatus to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_approval_status("value")
         """

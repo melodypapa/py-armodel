@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ISignalGroup(FibexElement):
     """
@@ -10,9 +13,9 @@ class ISignalGroup(FibexElement):
     always be kept together. A ISignalGroup represents a COM Signal Group.
     Therefore it is recommended to put the ISignalGroup in the same Package as
     ISignals (see atp.recommendedPackage)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 993, Classic Platform
       R23-11)
@@ -37,10 +40,10 @@ class ISignalGroup(FibexElement):
     def com_based(self, value: Optional["DataTransformation"]) -> None:
         """
         Set comBased with validation.
-        
+
         Args:
             value: The comBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -73,10 +76,10 @@ class ISignalGroup(FibexElement):
     def system_signal(self, value: RefType) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +104,10 @@ class ISignalGroup(FibexElement):
     def getComBased(self) -> "DataTransformation":
         """
         AUTOSAR-compliant getter for comBased.
-        
+
         Returns:
             The comBased value
-        
+
         Note:
             Delegates to com_based property (CODING_RULE_V2_00017)
         """
@@ -113,13 +116,13 @@ class ISignalGroup(FibexElement):
     def setComBased(self, value: "DataTransformation") -> "ISignalGroup":
         """
         AUTOSAR-compliant setter for comBased with method chaining.
-        
+
         Args:
             value: The comBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to com_based property setter (gets validation automatically)
         """
@@ -129,10 +132,10 @@ class ISignalGroup(FibexElement):
     def getISignal(self) -> List["ISignal"]:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -141,10 +144,10 @@ class ISignalGroup(FibexElement):
     def getSystemSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -153,13 +156,13 @@ class ISignalGroup(FibexElement):
     def setSystemSignal(self, value: RefType) -> "ISignalGroup":
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -169,10 +172,10 @@ class ISignalGroup(FibexElement):
     def getTransformation(self) -> List["TransformationISignal"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -183,13 +186,13 @@ class ISignalGroup(FibexElement):
     def with_com_based(self, value: Optional["DataTransformation"]) -> "ISignalGroup":
         """
         Set comBased and return self for chaining.
-        
+
         Args:
             value: The comBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_com_based("value")
         """
@@ -199,13 +202,13 @@ class ISignalGroup(FibexElement):
     def with_system_signal(self, value: Optional[RefType]) -> "ISignalGroup":
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """

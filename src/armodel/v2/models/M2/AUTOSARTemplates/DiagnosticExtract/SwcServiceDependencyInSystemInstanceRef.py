@@ -1,12 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwcServiceDependencyInSystemInstanceRef(ARObject):
     """
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs::SwcServiceDependencyInSystemInstanceRef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 369, Classic Platform
       R23-11)
@@ -26,10 +29,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def context_root_sw(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set contextRootSw with validation.
-        
+
         Args:
             value: The contextRootSw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -61,10 +64,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def target_swc(self, value: Optional["SwcService"]) -> None:
         """
         Set targetSwc with validation.
-        
+
         Args:
             value: The targetSwc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def getContextRootSw(self) -> "RootSwComposition":
         """
         AUTOSAR-compliant getter for contextRootSw.
-        
+
         Returns:
             The contextRootSw value
-        
+
         Note:
             Delegates to context_root_sw property (CODING_RULE_V2_00017)
         """
@@ -95,13 +98,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def setContextRootSw(self, value: "RootSwComposition") -> "SwcServiceDependencyInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for contextRootSw with method chaining.
-        
+
         Args:
             value: The contextRootSw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to context_root_sw property setter (gets validation automatically)
         """
@@ -111,10 +114,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def getContextSw(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for contextSw.
-        
+
         Returns:
             The contextSw value
-        
+
         Note:
             Delegates to context_sw property (CODING_RULE_V2_00017)
         """
@@ -123,10 +126,10 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def getTargetSwc(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for targetSwc.
-        
+
         Returns:
             The targetSwc value
-        
+
         Note:
             Delegates to target_swc property (CODING_RULE_V2_00017)
         """
@@ -135,13 +138,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def setTargetSwc(self, value: "SwcService") -> "SwcServiceDependencyInSystemInstanceRef":
         """
         AUTOSAR-compliant setter for targetSwc with method chaining.
-        
+
         Args:
             value: The targetSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to target_swc property setter (gets validation automatically)
         """
@@ -153,13 +156,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def with_context_root_sw(self, value: Optional["RootSwComposition"]) -> "SwcServiceDependencyInSystemInstanceRef":
         """
         Set contextRootSw and return self for chaining.
-        
+
         Args:
             value: The contextRootSw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_context_root_sw("value")
         """
@@ -169,13 +172,13 @@ class SwcServiceDependencyInSystemInstanceRef(ARObject):
     def with_target_swc(self, value: Optional["SwcService"]) -> "SwcServiceDependencyInSystemInstanceRef":
         """
         Set targetSwc and return self for chaining.
-        
+
         Args:
             value: The targetSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_target_swc("value")
         """

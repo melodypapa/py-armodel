@@ -1,7 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    CollectableElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ARPackage(CollectableElement):
     """
@@ -9,9 +14,9 @@ class ARPackage(CollectableElement):
     contained ARElements. ARPackages are open sets. This means that in a file
     based description system multiple files can be used to partially describe
     the contents of a package. This is an extended version of MSR’s SW-SYSTEM.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARPackage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 300, Classic
       Platform R23-11)
@@ -63,10 +68,10 @@ class ARPackage(CollectableElement):
     def getArPackage(self) -> List["ARPackage"]:
         """
         AUTOSAR-compliant getter for arPackage.
-        
+
         Returns:
             The arPackage value
-        
+
         Note:
             Delegates to ar_package property (CODING_RULE_V2_00017)
         """
@@ -75,10 +80,10 @@ class ARPackage(CollectableElement):
     def getElement(self) -> List["PackageableElement"]:
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -87,10 +92,10 @@ class ARPackage(CollectableElement):
     def getReferenceBase(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for referenceBase.
-        
+
         Returns:
             The referenceBase value
-        
+
         Note:
             Delegates to reference_base property (CODING_RULE_V2_00017)
         """

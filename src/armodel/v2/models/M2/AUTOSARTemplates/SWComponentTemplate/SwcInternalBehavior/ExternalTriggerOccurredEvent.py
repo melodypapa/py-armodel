@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ExternalTriggerOccurredEvent(RTEEvent):
     """
     This event is raised when the referenced Trigger has occurred.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::ExternalTriggerOccurredEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 545, Classic Platform
       R23-11)
@@ -28,10 +31,10 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def trigger_instance_ref(self, value: RefType) -> None:
         """
         Set triggerInstanceRef with validation.
-        
+
         Args:
             value: The triggerInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -46,10 +49,10 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def getTriggerInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for triggerInstanceRef.
-        
+
         Returns:
             The triggerInstanceRef value
-        
+
         Note:
             Delegates to trigger_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -58,13 +61,13 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def setTriggerInstanceRef(self, value: RefType) -> "ExternalTriggerOccurredEvent":
         """
         AUTOSAR-compliant setter for triggerInstanceRef with method chaining.
-        
+
         Args:
             value: The triggerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger_instance_ref property setter (gets validation automatically)
         """
@@ -76,13 +79,13 @@ class ExternalTriggerOccurredEvent(RTEEvent):
     def with_trigger_instance_ref(self, value: Optional[RefType]) -> "ExternalTriggerOccurredEvent":
         """
         Set triggerInstanceRef and return self for chaining.
-        
+
         Args:
             value: The triggerInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger_instance_ref("value")
         """

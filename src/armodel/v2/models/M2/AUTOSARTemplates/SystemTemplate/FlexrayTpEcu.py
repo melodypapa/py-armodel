@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class FlexrayTpEcu(ARObject):
     """
     ECU specific TP configuration parameters. Each TpEcu element has a reference
     to exactly one ECUInstance in the topology.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::FlexrayTpEcu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 596, Classic Platform R23-11)
     """
@@ -29,10 +32,10 @@ class FlexrayTpEcu(ARObject):
     def cancellation(self, value: Optional["Boolean"]) -> None:
         """
         Set cancellation with validation.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class FlexrayTpEcu(ARObject):
     def cycle_time_main(self, value: Optional["TimeValue"]) -> None:
         """
         Set cycleTimeMain with validation.
-        
+
         Args:
             value: The cycleTimeMain to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +89,10 @@ class FlexrayTpEcu(ARObject):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +118,10 @@ class FlexrayTpEcu(ARObject):
     def full_duplex(self, value: Optional["Boolean"]) -> None:
         """
         Set fullDuplex with validation.
-        
+
         Args:
             value: The fullDuplex to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -137,10 +140,10 @@ class FlexrayTpEcu(ARObject):
     def getCancellation(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for cancellation.
-        
+
         Returns:
             The cancellation value
-        
+
         Note:
             Delegates to cancellation property (CODING_RULE_V2_00017)
         """
@@ -149,13 +152,13 @@ class FlexrayTpEcu(ARObject):
     def setCancellation(self, value: "Boolean") -> "FlexrayTpEcu":
         """
         AUTOSAR-compliant setter for cancellation with method chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cancellation property setter (gets validation automatically)
         """
@@ -165,10 +168,10 @@ class FlexrayTpEcu(ARObject):
     def getCycleTimeMain(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for cycleTimeMain.
-        
+
         Returns:
             The cycleTimeMain value
-        
+
         Note:
             Delegates to cycle_time_main property (CODING_RULE_V2_00017)
         """
@@ -177,13 +180,13 @@ class FlexrayTpEcu(ARObject):
     def setCycleTimeMain(self, value: "TimeValue") -> "FlexrayTpEcu":
         """
         AUTOSAR-compliant setter for cycleTimeMain with method chaining.
-        
+
         Args:
             value: The cycleTimeMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cycle_time_main property setter (gets validation automatically)
         """
@@ -193,10 +196,10 @@ class FlexrayTpEcu(ARObject):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -205,13 +208,13 @@ class FlexrayTpEcu(ARObject):
     def setEcuInstance(self, value: "EcuInstance") -> "FlexrayTpEcu":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -221,10 +224,10 @@ class FlexrayTpEcu(ARObject):
     def getFullDuplex(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for fullDuplex.
-        
+
         Returns:
             The fullDuplex value
-        
+
         Note:
             Delegates to full_duplex property (CODING_RULE_V2_00017)
         """
@@ -233,13 +236,13 @@ class FlexrayTpEcu(ARObject):
     def setFullDuplex(self, value: "Boolean") -> "FlexrayTpEcu":
         """
         AUTOSAR-compliant setter for fullDuplex with method chaining.
-        
+
         Args:
             value: The fullDuplex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to full_duplex property setter (gets validation automatically)
         """
@@ -251,13 +254,13 @@ class FlexrayTpEcu(ARObject):
     def with_cancellation(self, value: Optional["Boolean"]) -> "FlexrayTpEcu":
         """
         Set cancellation and return self for chaining.
-        
+
         Args:
             value: The cancellation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cancellation("value")
         """
@@ -267,13 +270,13 @@ class FlexrayTpEcu(ARObject):
     def with_cycle_time_main(self, value: Optional["TimeValue"]) -> "FlexrayTpEcu":
         """
         Set cycleTimeMain and return self for chaining.
-        
+
         Args:
             value: The cycleTimeMain to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cycle_time_main("value")
         """
@@ -283,13 +286,13 @@ class FlexrayTpEcu(ARObject):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "FlexrayTpEcu":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -299,13 +302,13 @@ class FlexrayTpEcu(ARObject):
     def with_full_duplex(self, value: Optional["Boolean"]) -> "FlexrayTpEcu":
         """
         Set fullDuplex and return self for chaining.
-        
+
         Args:
             value: The fullDuplex to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_full_duplex("value")
         """

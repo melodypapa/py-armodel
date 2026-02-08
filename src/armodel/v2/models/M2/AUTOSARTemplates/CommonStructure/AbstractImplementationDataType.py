@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+
 
 class AbstractImplementationDataType(AutosarDataType, ABC):
     """
     This meta-class represents an abstract base class for different flavors of
     ImplementationDataType.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes::AbstractImplementationDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 267, Classic Platform
       R23-11)

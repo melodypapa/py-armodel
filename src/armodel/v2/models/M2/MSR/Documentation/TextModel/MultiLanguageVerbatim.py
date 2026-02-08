@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class MultiLanguageVerbatim(Paginateable):
     """
     This class represents multilingual Verbatim. Verbatim means, that
     white-space is maintained. When Verbatim is rendered in PDF or Online media,
     white-space is obeyed. Blanks are rendered as well as newline characters.
-    
+
     Package: M2::MSR::Documentation::TextModel::MultilanguageData::MultiLanguageVerbatim
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 291, Foundation
       R23-11)
@@ -29,10 +29,10 @@ class MultiLanguageVerbatim(Paginateable):
     def allow_break(self, value: Optional["NameToken"]) -> None:
         """
         Set allowBreak with validation.
-        
+
         Args:
             value: The allowBreak to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +58,10 @@ class MultiLanguageVerbatim(Paginateable):
     def float(self, value: Optional["FloatEnum"]) -> None:
         """
         Set float with validation.
-        
+
         Args:
             value: The float to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -88,10 +88,10 @@ class MultiLanguageVerbatim(Paginateable):
     def help_entry(self, value: Optional["String"]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -115,10 +115,10 @@ class MultiLanguageVerbatim(Paginateable):
     def l5(self, value: "LVerbatim") -> None:
         """
         Set l5 with validation.
-        
+
         Args:
             value: The l5 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +140,10 @@ class MultiLanguageVerbatim(Paginateable):
     def pgwide(self, value: Optional["PgwideEnum"]) -> None:
         """
         Set pgwide with validation.
-        
+
         Args:
             value: The pgwide to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -162,10 +162,10 @@ class MultiLanguageVerbatim(Paginateable):
     def getAllowBreak(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for allowBreak.
-        
+
         Returns:
             The allowBreak value
-        
+
         Note:
             Delegates to allow_break property (CODING_RULE_V2_00017)
         """
@@ -174,13 +174,13 @@ class MultiLanguageVerbatim(Paginateable):
     def setAllowBreak(self, value: "NameToken") -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant setter for allowBreak with method chaining.
-        
+
         Args:
             value: The allowBreak to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to allow_break property setter (gets validation automatically)
         """
@@ -190,10 +190,10 @@ class MultiLanguageVerbatim(Paginateable):
     def getFloat(self) -> "FloatEnum":
         """
         AUTOSAR-compliant getter for float.
-        
+
         Returns:
             The float value
-        
+
         Note:
             Delegates to float property (CODING_RULE_V2_00017)
         """
@@ -202,13 +202,13 @@ class MultiLanguageVerbatim(Paginateable):
     def setFloat(self, value: "FloatEnum") -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant setter for float with method chaining.
-        
+
         Args:
             value: The float to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to float property setter (gets validation automatically)
         """
@@ -218,10 +218,10 @@ class MultiLanguageVerbatim(Paginateable):
     def getHelpEntry(self) -> "String":
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -230,13 +230,13 @@ class MultiLanguageVerbatim(Paginateable):
     def setHelpEntry(self, value: "String") -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -246,10 +246,10 @@ class MultiLanguageVerbatim(Paginateable):
     def getL5(self) -> "LVerbatim":
         """
         AUTOSAR-compliant getter for l5.
-        
+
         Returns:
             The l5 value
-        
+
         Note:
             Delegates to l5 property (CODING_RULE_V2_00017)
         """
@@ -258,13 +258,13 @@ class MultiLanguageVerbatim(Paginateable):
     def setL5(self, value: "LVerbatim") -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant setter for l5 with method chaining.
-        
+
         Args:
             value: The l5 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l5 property setter (gets validation automatically)
         """
@@ -274,10 +274,10 @@ class MultiLanguageVerbatim(Paginateable):
     def getPgwide(self) -> "PgwideEnum":
         """
         AUTOSAR-compliant getter for pgwide.
-        
+
         Returns:
             The pgwide value
-        
+
         Note:
             Delegates to pgwide property (CODING_RULE_V2_00017)
         """
@@ -286,13 +286,13 @@ class MultiLanguageVerbatim(Paginateable):
     def setPgwide(self, value: "PgwideEnum") -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
-        
+
         Args:
             value: The pgwide to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pgwide property setter (gets validation automatically)
         """
@@ -304,13 +304,13 @@ class MultiLanguageVerbatim(Paginateable):
     def with_allow_break(self, value: Optional["NameToken"]) -> "MultiLanguageVerbatim":
         """
         Set allowBreak and return self for chaining.
-        
+
         Args:
             value: The allowBreak to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_allow_break("value")
         """
@@ -320,13 +320,13 @@ class MultiLanguageVerbatim(Paginateable):
     def with_float(self, value: Optional["FloatEnum"]) -> "MultiLanguageVerbatim":
         """
         Set float and return self for chaining.
-        
+
         Args:
             value: The float to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_float("value")
         """
@@ -336,13 +336,13 @@ class MultiLanguageVerbatim(Paginateable):
     def with_help_entry(self, value: Optional["String"]) -> "MultiLanguageVerbatim":
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """
@@ -352,13 +352,13 @@ class MultiLanguageVerbatim(Paginateable):
     def with_l5(self, value: "LVerbatim") -> "MultiLanguageVerbatim":
         """
         Set l5 and return self for chaining.
-        
+
         Args:
             value: The l5 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l5("value")
         """
@@ -368,13 +368,13 @@ class MultiLanguageVerbatim(Paginateable):
     def with_pgwide(self, value: Optional["PgwideEnum"]) -> "MultiLanguageVerbatim":
         """
         Set pgwide and return self for chaining.
-        
+
         Args:
             value: The pgwide to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pgwide("value")
         """

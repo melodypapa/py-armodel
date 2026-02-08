@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class TopicOrMsrQuery(ARObject):
     """
     This class provides the alternative of a Topic with an MsrQuery which
     delivers a topic.
-    
+
     Package: M2::MSR::Documentation::Chapters::TopicOrMsrQuery
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 342, Foundation
       R23-11)
@@ -29,10 +30,10 @@ class TopicOrMsrQuery(ARObject):
     def msr_query(self, value: "MsrQueryTopic1") -> None:
         """
         Set msrQuery with validation.
-        
+
         Args:
             value: The msrQuery to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +57,10 @@ class TopicOrMsrQuery(ARObject):
     def topic1(self, value: "Topic1") -> None:
         """
         Set topic1 with validation.
-        
+
         Args:
             value: The topic1 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +75,10 @@ class TopicOrMsrQuery(ARObject):
     def getMsrQuery(self) -> "MsrQueryTopic1":
         """
         AUTOSAR-compliant getter for msrQuery.
-        
+
         Returns:
             The msrQuery value
-        
+
         Note:
             Delegates to msr_query property (CODING_RULE_V2_00017)
         """
@@ -86,13 +87,13 @@ class TopicOrMsrQuery(ARObject):
     def setMsrQuery(self, value: "MsrQueryTopic1") -> "TopicOrMsrQuery":
         """
         AUTOSAR-compliant setter for msrQuery with method chaining.
-        
+
         Args:
             value: The msrQuery to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to msr_query property setter (gets validation automatically)
         """
@@ -102,10 +103,10 @@ class TopicOrMsrQuery(ARObject):
     def getTopic1(self) -> "Topic1":
         """
         AUTOSAR-compliant getter for topic1.
-        
+
         Returns:
             The topic1 value
-        
+
         Note:
             Delegates to topic1 property (CODING_RULE_V2_00017)
         """
@@ -114,13 +115,13 @@ class TopicOrMsrQuery(ARObject):
     def setTopic1(self, value: "Topic1") -> "TopicOrMsrQuery":
         """
         AUTOSAR-compliant setter for topic1 with method chaining.
-        
+
         Args:
             value: The topic1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to topic1 property setter (gets validation automatically)
         """
@@ -132,13 +133,13 @@ class TopicOrMsrQuery(ARObject):
     def with_msr_query(self, value: "MsrQueryTopic1") -> "TopicOrMsrQuery":
         """
         Set msrQuery and return self for chaining.
-        
+
         Args:
             value: The msrQuery to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_msr_query("value")
         """
@@ -148,13 +149,13 @@ class TopicOrMsrQuery(ARObject):
     def with_topic1(self, value: "Topic1") -> "TopicOrMsrQuery":
         """
         Set topic1 and return self for chaining.
-        
+
         Args:
             value: The topic1 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_topic1("value")
         """

@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class DiagnosticUploadDownloadNeeds(DiagnosticCapabilityElement):
     """
     This meta-class represents the ability to specify needs regarding upload and
     download by means of diagnostic services.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds::DiagnosticUploadDownloadNeeds
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 252, Classic
       Platform R23-11)

@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DdsLiveliness(ARObject):
     """
     Describes the DDS LIVELINESS QoS policy.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsLiveliness
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 534, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class DdsLiveliness(ARObject):
     def liveliness_lease(self, value: Optional["Float"]) -> None:
         """
         Set livelinessLease with validation.
-        
+
         Args:
             value: The livelinessLease to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class DdsLiveliness(ARObject):
     def liveness_kind(self, value: Optional["DdsLivenessKindEnum"]) -> None:
         """
         Set livenessKind with validation.
-        
+
         Args:
             value: The livenessKind to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +81,10 @@ class DdsLiveliness(ARObject):
     def getLivelinessLease(self) -> "Float":
         """
         AUTOSAR-compliant getter for livelinessLease.
-        
+
         Returns:
             The livelinessLease value
-        
+
         Note:
             Delegates to liveliness_lease property (CODING_RULE_V2_00017)
         """
@@ -90,13 +93,13 @@ class DdsLiveliness(ARObject):
     def setLivelinessLease(self, value: "Float") -> "DdsLiveliness":
         """
         AUTOSAR-compliant setter for livelinessLease with method chaining.
-        
+
         Args:
             value: The livelinessLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to liveliness_lease property setter (gets validation automatically)
         """
@@ -106,10 +109,10 @@ class DdsLiveliness(ARObject):
     def getLivenessKind(self) -> "DdsLivenessKindEnum":
         """
         AUTOSAR-compliant getter for livenessKind.
-        
+
         Returns:
             The livenessKind value
-        
+
         Note:
             Delegates to liveness_kind property (CODING_RULE_V2_00017)
         """
@@ -118,13 +121,13 @@ class DdsLiveliness(ARObject):
     def setLivenessKind(self, value: "DdsLivenessKindEnum") -> "DdsLiveliness":
         """
         AUTOSAR-compliant setter for livenessKind with method chaining.
-        
+
         Args:
             value: The livenessKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to liveness_kind property setter (gets validation automatically)
         """
@@ -136,13 +139,13 @@ class DdsLiveliness(ARObject):
     def with_liveliness_lease(self, value: Optional["Float"]) -> "DdsLiveliness":
         """
         Set livelinessLease and return self for chaining.
-        
+
         Args:
             value: The livelinessLease to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_liveliness_lease("value")
         """
@@ -152,13 +155,13 @@ class DdsLiveliness(ARObject):
     def with_liveness_kind(self, value: Optional["DdsLivenessKindEnum"]) -> "DdsLiveliness":
         """
         Set livenessKind and return self for chaining.
-        
+
         Args:
             value: The livenessKind to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_liveness_kind("value")
         """

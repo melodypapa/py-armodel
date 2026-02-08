@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class LinCommunicationConnector(CommunicationConnector):
     """
     LIN bus specific communication connector attributes.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology::LinCommunicationConnector
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 98, Classic Platform R23-11)
     """
@@ -26,10 +26,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def initial_nad(self, value: Optional["Integer"]) -> None:
         """
         Set initialNad with validation.
-        
+
         Args:
             value: The initialNad to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +79,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def schedule(self, value: Optional["Boolean"]) -> None:
         """
         Set schedule with validation.
-        
+
         Args:
             value: The schedule to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -101,10 +101,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def getInitialNad(self) -> "Integer":
         """
         AUTOSAR-compliant getter for initialNad.
-        
+
         Returns:
             The initialNad value
-        
+
         Note:
             Delegates to initial_nad property (CODING_RULE_V2_00017)
         """
@@ -113,13 +113,13 @@ class LinCommunicationConnector(CommunicationConnector):
     def setInitialNad(self, value: "Integer") -> "LinCommunicationConnector":
         """
         AUTOSAR-compliant setter for initialNad with method chaining.
-        
+
         Args:
             value: The initialNad to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_nad property setter (gets validation automatically)
         """
@@ -129,10 +129,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def getLinConfigurable(self) -> List["LinConfigurableFrame"]:
         """
         AUTOSAR-compliant getter for linConfigurable.
-        
+
         Returns:
             The linConfigurable value
-        
+
         Note:
             Delegates to lin_configurable property (CODING_RULE_V2_00017)
         """
@@ -141,10 +141,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def getLinOrdered(self) -> List["LinOrderedConfigurable"]:
         """
         AUTOSAR-compliant getter for linOrdered.
-        
+
         Returns:
             The linOrdered value
-        
+
         Note:
             Delegates to lin_ordered property (CODING_RULE_V2_00017)
         """
@@ -153,10 +153,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def getSchedule(self) -> "Boolean":
         """
         AUTOSAR-compliant getter for schedule.
-        
+
         Returns:
             The schedule value
-        
+
         Note:
             Delegates to schedule property (CODING_RULE_V2_00017)
         """
@@ -165,13 +165,13 @@ class LinCommunicationConnector(CommunicationConnector):
     def setSchedule(self, value: "Boolean") -> "LinCommunicationConnector":
         """
         AUTOSAR-compliant setter for schedule with method chaining.
-        
+
         Args:
             value: The schedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to schedule property setter (gets validation automatically)
         """
@@ -183,13 +183,13 @@ class LinCommunicationConnector(CommunicationConnector):
     def with_initial_nad(self, value: Optional["Integer"]) -> "LinCommunicationConnector":
         """
         Set initialNad and return self for chaining.
-        
+
         Args:
             value: The initialNad to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_nad("value")
         """
@@ -199,13 +199,13 @@ class LinCommunicationConnector(CommunicationConnector):
     def with_schedule(self, value: Optional["Boolean"]) -> "LinCommunicationConnector":
         """
         Set schedule and return self for chaining.
-        
+
         Args:
             value: The schedule to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_schedule("value")
         """

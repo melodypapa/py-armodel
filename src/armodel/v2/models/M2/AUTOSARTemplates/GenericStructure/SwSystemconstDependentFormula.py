@@ -1,13 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwSystemconstDependentFormula(ARObject, ABC):
     """
     This class represents an expression depending on system constants.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstDependentFormula
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1006, Classic
       Platform R23-11)
@@ -35,10 +39,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def sysc(self, value: Optional["SwSystemconst"]) -> None:
         """
         Set sysc with validation.
-        
+
         Args:
             value: The sysc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +68,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def sysc_string(self, value: Optional["SwSystemconst"]) -> None:
         """
         Set syscString with validation.
-        
+
         Args:
             value: The syscString to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -86,10 +90,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def getSysc(self) -> "SwSystemconst":
         """
         AUTOSAR-compliant getter for sysc.
-        
+
         Returns:
             The sysc value
-        
+
         Note:
             Delegates to sysc property (CODING_RULE_V2_00017)
         """
@@ -98,13 +102,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def setSysc(self, value: "SwSystemconst") -> "SwSystemconstDependentFormula":
         """
         AUTOSAR-compliant setter for sysc with method chaining.
-        
+
         Args:
             value: The sysc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sysc property setter (gets validation automatically)
         """
@@ -114,10 +118,10 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def getSyscString(self) -> "SwSystemconst":
         """
         AUTOSAR-compliant getter for syscString.
-        
+
         Returns:
             The syscString value
-        
+
         Note:
             Delegates to sysc_string property (CODING_RULE_V2_00017)
         """
@@ -126,13 +130,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def setSyscString(self, value: "SwSystemconst") -> "SwSystemconstDependentFormula":
         """
         AUTOSAR-compliant setter for syscString with method chaining.
-        
+
         Args:
             value: The syscString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sysc_string property setter (gets validation automatically)
         """
@@ -144,13 +148,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def with_sysc(self, value: Optional["SwSystemconst"]) -> "SwSystemconstDependentFormula":
         """
         Set sysc and return self for chaining.
-        
+
         Args:
             value: The sysc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sysc("value")
         """
@@ -160,13 +164,13 @@ class SwSystemconstDependentFormula(ARObject, ABC):
     def with_sysc_string(self, value: Optional["SwSystemconst"]) -> "SwSystemconstDependentFormula":
         """
         Set syscString and return self for chaining.
-        
+
         Args:
             value: The syscString to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sysc_string("value")
         """

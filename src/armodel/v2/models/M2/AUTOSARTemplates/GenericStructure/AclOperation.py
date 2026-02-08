@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class AclOperation(ARElement):
     """
     This meta class represents the ability to denote a particular operation
     which may be performed on objects in an AUTOSAR model.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AclOperation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 384, Foundation
       R23-11)
@@ -31,10 +31,10 @@ class AclOperation(ARElement):
     def getImplied(self) -> List["AclOperation"]:
         """
         AUTOSAR-compliant getter for implied.
-        
+
         Returns:
             The implied value
-        
+
         Note:
             Delegates to implied property (CODING_RULE_V2_00017)
         """

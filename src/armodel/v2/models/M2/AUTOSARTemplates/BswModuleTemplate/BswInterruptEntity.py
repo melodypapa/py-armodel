@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class BswInterruptEntity(BswModuleEntity):
     """
     BSW module entity, which is designed to be triggered by an interrupt.
-    
+
     Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInterruptEntity
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 75, Classic
       Platform R23-11)
@@ -28,10 +28,10 @@ class BswInterruptEntity(BswModuleEntity):
     def interrupt_category(self, value: Optional["BswInterruptCategory"]) -> None:
         """
         Set interruptCategory with validation.
-        
+
         Args:
             value: The interruptCategory to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +56,10 @@ class BswInterruptEntity(BswModuleEntity):
     def interrupt_source(self, value: Optional["String"]) -> None:
         """
         Set interruptSource with validation.
-        
+
         Args:
             value: The interruptSource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -78,10 +78,10 @@ class BswInterruptEntity(BswModuleEntity):
     def getInterruptCategory(self) -> "BswInterruptCategory":
         """
         AUTOSAR-compliant getter for interruptCategory.
-        
+
         Returns:
             The interruptCategory value
-        
+
         Note:
             Delegates to interrupt_category property (CODING_RULE_V2_00017)
         """
@@ -90,13 +90,13 @@ class BswInterruptEntity(BswModuleEntity):
     def setInterruptCategory(self, value: "BswInterruptCategory") -> "BswInterruptEntity":
         """
         AUTOSAR-compliant setter for interruptCategory with method chaining.
-        
+
         Args:
             value: The interruptCategory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interrupt_category property setter (gets validation automatically)
         """
@@ -106,10 +106,10 @@ class BswInterruptEntity(BswModuleEntity):
     def getInterruptSource(self) -> "String":
         """
         AUTOSAR-compliant getter for interruptSource.
-        
+
         Returns:
             The interruptSource value
-        
+
         Note:
             Delegates to interrupt_source property (CODING_RULE_V2_00017)
         """
@@ -118,13 +118,13 @@ class BswInterruptEntity(BswModuleEntity):
     def setInterruptSource(self, value: "String") -> "BswInterruptEntity":
         """
         AUTOSAR-compliant setter for interruptSource with method chaining.
-        
+
         Args:
             value: The interruptSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to interrupt_source property setter (gets validation automatically)
         """
@@ -136,13 +136,13 @@ class BswInterruptEntity(BswModuleEntity):
     def with_interrupt_category(self, value: Optional["BswInterruptCategory"]) -> "BswInterruptEntity":
         """
         Set interruptCategory and return self for chaining.
-        
+
         Args:
             value: The interruptCategory to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interrupt_category("value")
         """
@@ -152,13 +152,13 @@ class BswInterruptEntity(BswModuleEntity):
     def with_interrupt_source(self, value: Optional["String"]) -> "BswInterruptEntity":
         """
         Set interruptSource and return self for chaining.
-        
+
         Args:
             value: The interruptSource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_interrupt_source("value")
         """

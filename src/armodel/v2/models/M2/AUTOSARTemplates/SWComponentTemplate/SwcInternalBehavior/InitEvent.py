@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class InitEvent(RTEEvent):
     """
@@ -8,9 +6,9 @@ class InitEvent(RTEEvent):
     RunnableEntities referenced by this InitEvent are executed before the
     ’regular’ RunnableEntities are executed for the first time. The execution
     order depends on the task mapping.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents::InitEvent
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 546, Classic Platform
       R23-11)

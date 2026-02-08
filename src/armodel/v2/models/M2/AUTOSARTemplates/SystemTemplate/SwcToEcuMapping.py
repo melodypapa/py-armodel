@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class SwcToEcuMapping(Identifiable):
     """
@@ -11,9 +13,9 @@ class SwcToEcuMapping(Identifiable):
     SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
     For each combination of ECUInstance and the optional ProcessingUnit and the
     optional SensorActuator only one SwcToEcuMapping shall be used.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SWmapping::SwcToEcuMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 197, Classic Platform R23-11)
     """
@@ -46,10 +48,10 @@ class SwcToEcuMapping(Identifiable):
     def controlled_hw(self, value: Optional["HwElement"]) -> None:
         """
         Set controlledHw with validation.
-        
+
         Args:
             value: The controlledHw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -74,10 +76,10 @@ class SwcToEcuMapping(Identifiable):
     def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -103,10 +105,10 @@ class SwcToEcuMapping(Identifiable):
     def processing_unit(self, value: Optional["HwElement"]) -> None:
         """
         Set processingUnit with validation.
-        
+
         Args:
             value: The processingUnit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -125,10 +127,10 @@ class SwcToEcuMapping(Identifiable):
     def getComponent(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -137,10 +139,10 @@ class SwcToEcuMapping(Identifiable):
     def getControlledHw(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for controlledHw.
-        
+
         Returns:
             The controlledHw value
-        
+
         Note:
             Delegates to controlled_hw property (CODING_RULE_V2_00017)
         """
@@ -149,13 +151,13 @@ class SwcToEcuMapping(Identifiable):
     def setControlledHw(self, value: "HwElement") -> "SwcToEcuMapping":
         """
         AUTOSAR-compliant setter for controlledHw with method chaining.
-        
+
         Args:
             value: The controlledHw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to controlled_hw property setter (gets validation automatically)
         """
@@ -165,10 +167,10 @@ class SwcToEcuMapping(Identifiable):
     def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
-        
+
         Returns:
             The ecuInstance value
-        
+
         Note:
             Delegates to ecu_instance property (CODING_RULE_V2_00017)
         """
@@ -177,13 +179,13 @@ class SwcToEcuMapping(Identifiable):
     def setEcuInstance(self, value: "EcuInstance") -> "SwcToEcuMapping":
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ecu_instance property setter (gets validation automatically)
         """
@@ -193,10 +195,10 @@ class SwcToEcuMapping(Identifiable):
     def getProcessingUnit(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for processingUnit.
-        
+
         Returns:
             The processingUnit value
-        
+
         Note:
             Delegates to processing_unit property (CODING_RULE_V2_00017)
         """
@@ -205,13 +207,13 @@ class SwcToEcuMapping(Identifiable):
     def setProcessingUnit(self, value: "HwElement") -> "SwcToEcuMapping":
         """
         AUTOSAR-compliant setter for processingUnit with method chaining.
-        
+
         Args:
             value: The processingUnit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to processing_unit property setter (gets validation automatically)
         """
@@ -223,13 +225,13 @@ class SwcToEcuMapping(Identifiable):
     def with_controlled_hw(self, value: Optional["HwElement"]) -> "SwcToEcuMapping":
         """
         Set controlledHw and return self for chaining.
-        
+
         Args:
             value: The controlledHw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_controlled_hw("value")
         """
@@ -239,13 +241,13 @@ class SwcToEcuMapping(Identifiable):
     def with_ecu_instance(self, value: Optional["EcuInstance"]) -> "SwcToEcuMapping":
         """
         Set ecuInstance and return self for chaining.
-        
+
         Args:
             value: The ecuInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ecu_instance("value")
         """
@@ -255,13 +257,13 @@ class SwcToEcuMapping(Identifiable):
     def with_processing_unit(self, value: Optional["HwElement"]) -> "SwcToEcuMapping":
         """
         Set processingUnit and return self for chaining.
-        
+
         Args:
             value: The processingUnit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_processing_unit("value")
         """

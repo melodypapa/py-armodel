@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import List, Optional
+
 
 class TimingExtension(ARElement, ABC):
     """
@@ -7,9 +8,9 @@ class TimingExtension(ARElement, ABC):
     extensions. Depending on the specific timing extension the timing
     descriptions and timing constraints, that can be used to specify the timing
     behavior, are restricted.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::TimingExtension
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 254, Classic Platform R23-11)
     """
@@ -60,10 +61,10 @@ class TimingExtension(ARElement, ABC):
     def timing_resource(self, value: Optional["TimingExtension"]) -> None:
         """
         Set timingResource with validation.
-        
+
         Args:
             value: The timingResource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +83,10 @@ class TimingExtension(ARElement, ABC):
     def getTimingClock(self) -> List["TimingClockSync"]:
         """
         AUTOSAR-compliant getter for timingClock.
-        
+
         Returns:
             The timingClock value
-        
+
         Note:
             Delegates to timing_clock property (CODING_RULE_V2_00017)
         """
@@ -94,10 +95,10 @@ class TimingExtension(ARElement, ABC):
     def getTimingCondition(self) -> List["TimingCondition"]:
         """
         AUTOSAR-compliant getter for timingCondition.
-        
+
         Returns:
             The timingCondition value
-        
+
         Note:
             Delegates to timing_condition property (CODING_RULE_V2_00017)
         """
@@ -106,10 +107,10 @@ class TimingExtension(ARElement, ABC):
     def getTiming(self) -> List["TimingConstraint"]:
         """
         AUTOSAR-compliant getter for timing.
-        
+
         Returns:
             The timing value
-        
+
         Note:
             Delegates to timing property (CODING_RULE_V2_00017)
         """
@@ -118,10 +119,10 @@ class TimingExtension(ARElement, ABC):
     def getTimingResource(self) -> "TimingExtension":
         """
         AUTOSAR-compliant getter for timingResource.
-        
+
         Returns:
             The timingResource value
-        
+
         Note:
             Delegates to timing_resource property (CODING_RULE_V2_00017)
         """
@@ -130,13 +131,13 @@ class TimingExtension(ARElement, ABC):
     def setTimingResource(self, value: "TimingExtension") -> "TimingExtension":
         """
         AUTOSAR-compliant setter for timingResource with method chaining.
-        
+
         Args:
             value: The timingResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timing_resource property setter (gets validation automatically)
         """
@@ -148,13 +149,13 @@ class TimingExtension(ARElement, ABC):
     def with_timing_resource(self, value: Optional["TimingExtension"]) -> "TimingExtension":
         """
         Set timingResource and return self for chaining.
-        
+
         Args:
             value: The timingResource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timing_resource("value")
         """

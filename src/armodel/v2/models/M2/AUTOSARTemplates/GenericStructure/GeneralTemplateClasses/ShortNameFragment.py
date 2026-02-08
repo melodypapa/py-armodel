@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class ShortNameFragment(ARObject):
     """
     This class describes how the Referrable.shortName is composed of several
     shortNameFragments.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::ShortNameFragment
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 64, Foundation R23-11)
     """
@@ -28,10 +29,10 @@ class ShortNameFragment(ARObject):
     def fragment(self, value: "Identifier") -> None:
         """
         Set fragment with validation.
-        
+
         Args:
             value: The fragment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +55,10 @@ class ShortNameFragment(ARObject):
     def role(self, value: "String") -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +73,10 @@ class ShortNameFragment(ARObject):
     def getFragment(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for fragment.
-        
+
         Returns:
             The fragment value
-        
+
         Note:
             Delegates to fragment property (CODING_RULE_V2_00017)
         """
@@ -84,13 +85,13 @@ class ShortNameFragment(ARObject):
     def setFragment(self, value: "Identifier") -> "ShortNameFragment":
         """
         AUTOSAR-compliant setter for fragment with method chaining.
-        
+
         Args:
             value: The fragment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to fragment property setter (gets validation automatically)
         """
@@ -100,10 +101,10 @@ class ShortNameFragment(ARObject):
     def getRole(self) -> "String":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -112,13 +113,13 @@ class ShortNameFragment(ARObject):
     def setRole(self, value: "String") -> "ShortNameFragment":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -130,13 +131,13 @@ class ShortNameFragment(ARObject):
     def with_fragment(self, value: "Identifier") -> "ShortNameFragment":
         """
         Set fragment and return self for chaining.
-        
+
         Args:
             value: The fragment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_fragment("value")
         """
@@ -146,13 +147,13 @@ class ShortNameFragment(ARObject):
     def with_role(self, value: "String") -> "ShortNameFragment":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """

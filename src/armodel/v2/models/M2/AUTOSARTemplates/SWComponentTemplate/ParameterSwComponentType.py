@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ParameterSwComponentType(SwComponentType):
     """
     The ParameterSwComponentType defines parameters and characteristic values
     accessible via provided Ports. The provided values are the same for all
     connected SwComponentPrototypes
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::ParameterSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 41, Classic Platform
       R23-11)
@@ -51,10 +54,10 @@ class ParameterSwComponentType(SwComponentType):
     def getConstant(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constant.
-        
+
         Returns:
             The constant value
-        
+
         Note:
             Delegates to constant property (CODING_RULE_V2_00017)
         """
@@ -63,10 +66,10 @@ class ParameterSwComponentType(SwComponentType):
     def getDataType(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -75,10 +78,10 @@ class ParameterSwComponentType(SwComponentType):
     def getInstantiation(self) -> List["InstantiationDataDef"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """

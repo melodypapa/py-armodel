@@ -1,15 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class TpAddress(Identifiable):
     """
     An ECUs TP address on the referenced channel. This represents the diagnostic
     Address.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::TpAddress
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 588, Classic Platform R23-11)
     """
@@ -30,10 +32,10 @@ class TpAddress(Identifiable):
     def tp_address(self, value: Optional["Integer"]) -> None:
         """
         Set tpAddress with validation.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +54,10 @@ class TpAddress(Identifiable):
     def getTpAddress(self) -> "Integer":
         """
         AUTOSAR-compliant getter for tpAddress.
-        
+
         Returns:
             The tpAddress value
-        
+
         Note:
             Delegates to tp_address property (CODING_RULE_V2_00017)
         """
@@ -64,13 +66,13 @@ class TpAddress(Identifiable):
     def setTpAddress(self, value: "Integer") -> "TpAddress":
         """
         AUTOSAR-compliant setter for tpAddress with method chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to tp_address property setter (gets validation automatically)
         """
@@ -82,13 +84,13 @@ class TpAddress(Identifiable):
     def with_tp_address(self, value: Optional["Integer"]) -> "TpAddress":
         """
         Set tpAddress and return self for chaining.
-        
+
         Args:
             value: The tpAddress to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_tp_address("value")
         """

@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    Referrable,
+)
+
 
 class ImplementationProps(Referrable, ABC):
     """
     Defines a symbol to be used as (depending on the concrete case) either a
     complete replacement or a prefix when generating code artifacts.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Implementation::ImplementationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 86, Classic
       Platform R23-11)
@@ -35,10 +39,10 @@ class ImplementationProps(Referrable, ABC):
     def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
-        
+
         Args:
             value: The symbol to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +61,10 @@ class ImplementationProps(Referrable, ABC):
     def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
-        
+
         Returns:
             The symbol value
-        
+
         Note:
             Delegates to symbol property (CODING_RULE_V2_00017)
         """
@@ -69,13 +73,13 @@ class ImplementationProps(Referrable, ABC):
     def setSymbol(self, value: "CIdentifier") -> "ImplementationProps":
         """
         AUTOSAR-compliant setter for symbol with method chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to symbol property setter (gets validation automatically)
         """
@@ -87,13 +91,13 @@ class ImplementationProps(Referrable, ABC):
     def with_symbol(self, value: Optional["CIdentifier"]) -> "ImplementationProps":
         """
         Set symbol and return self for chaining.
-        
+
         Args:
             value: The symbol to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_symbol("value")
         """

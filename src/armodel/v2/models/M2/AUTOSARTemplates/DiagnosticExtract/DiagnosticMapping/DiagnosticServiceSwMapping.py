@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     """
@@ -8,9 +11,9 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     software-component or a basic-software module. If the former is used then
     this kind of service mapping is applicable for the usage of
     ClientServerInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping::DiagnosticServiceSwMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 238, Classic Platform
       R23-11)
@@ -31,10 +34,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def accessed_data(self, value: RefType) -> None:
         """
         Set accessedData with validation.
-        
+
         Args:
             value: The accessedData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -56,10 +59,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> None:
         """
         Set diagnosticData with validation.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -85,10 +88,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def diagnostic(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +120,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def mapped_bsw(self, value: Optional["BswService"]) -> None:
         """
         Set mappedBsw with validation.
-        
+
         Args:
             value: The mappedBsw to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -147,10 +150,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def mapped_flat_swc(self, value: Optional["SwcService"]) -> None:
         """
         Set mappedFlatSwc with validation.
-        
+
         Args:
             value: The mappedFlatSwc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -176,10 +179,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def mapped_swc(self, value: Optional["SwcService"]) -> None:
         """
         Set mappedSwc with validation.
-        
+
         Args:
             value: The mappedSwc to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -205,10 +208,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def parameter(self, value: Optional["DiagnosticParameter"]) -> None:
         """
         Set parameter with validation.
-        
+
         Args:
             value: The parameter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -234,10 +237,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def service_instance(self, value: Optional["DiagnosticService"]) -> None:
         """
         Set serviceInstance with validation.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -256,10 +259,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getAccessedData(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedData.
-        
+
         Returns:
             The accessedData value
-        
+
         Note:
             Delegates to accessed_data property (CODING_RULE_V2_00017)
         """
@@ -268,13 +271,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setAccessedData(self, value: RefType) -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for accessedData with method chaining.
-        
+
         Args:
             value: The accessedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to accessed_data property setter (gets validation automatically)
         """
@@ -284,10 +287,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getDiagnosticData(self) -> "DiagnosticDataElement":
         """
         AUTOSAR-compliant getter for diagnosticData.
-        
+
         Returns:
             The diagnosticData value
-        
+
         Note:
             Delegates to diagnostic_data property (CODING_RULE_V2_00017)
         """
@@ -296,13 +299,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setDiagnosticData(self, value: "DiagnosticDataElement") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for diagnosticData with method chaining.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_data property setter (gets validation automatically)
         """
@@ -312,10 +315,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getDiagnostic(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -324,13 +327,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setDiagnostic(self, value: "DiagnosticParameter") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -340,10 +343,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getMappedBsw(self) -> "BswService":
         """
         AUTOSAR-compliant getter for mappedBsw.
-        
+
         Returns:
             The mappedBsw value
-        
+
         Note:
             Delegates to mapped_bsw property (CODING_RULE_V2_00017)
         """
@@ -352,13 +355,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setMappedBsw(self, value: "BswService") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for mappedBsw with method chaining.
-        
+
         Args:
             value: The mappedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped_bsw property setter (gets validation automatically)
         """
@@ -368,10 +371,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getMappedFlatSwc(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for mappedFlatSwc.
-        
+
         Returns:
             The mappedFlatSwc value
-        
+
         Note:
             Delegates to mapped_flat_swc property (CODING_RULE_V2_00017)
         """
@@ -380,13 +383,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setMappedFlatSwc(self, value: "SwcService") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for mappedFlatSwc with method chaining.
-        
+
         Args:
             value: The mappedFlatSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped_flat_swc property setter (gets validation automatically)
         """
@@ -396,10 +399,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getMappedSwc(self) -> "SwcService":
         """
         AUTOSAR-compliant getter for mappedSwc.
-        
+
         Returns:
             The mappedSwc value
-        
+
         Note:
             Delegates to mapped_swc property (CODING_RULE_V2_00017)
         """
@@ -408,13 +411,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setMappedSwc(self, value: "SwcService") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for mappedSwc with method chaining.
-        
+
         Args:
             value: The mappedSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mapped_swc property setter (gets validation automatically)
         """
@@ -424,10 +427,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getParameter(self) -> "DiagnosticParameter":
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """
@@ -436,13 +439,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setParameter(self, value: "DiagnosticParameter") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for parameter with method chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to parameter property setter (gets validation automatically)
         """
@@ -452,10 +455,10 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def getServiceInstance(self) -> "DiagnosticService":
         """
         AUTOSAR-compliant getter for serviceInstance.
-        
+
         Returns:
             The serviceInstance value
-        
+
         Note:
             Delegates to service_instance property (CODING_RULE_V2_00017)
         """
@@ -464,13 +467,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def setServiceInstance(self, value: "DiagnosticService") -> "DiagnosticServiceSwMapping":
         """
         AUTOSAR-compliant setter for serviceInstance with method chaining.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to service_instance property setter (gets validation automatically)
         """
@@ -482,13 +485,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_accessed_data(self, value: Optional[RefType]) -> "DiagnosticServiceSwMapping":
         """
         Set accessedData and return self for chaining.
-        
+
         Args:
             value: The accessedData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_accessed_data("value")
         """
@@ -498,13 +501,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_diagnostic_data(self, value: Optional["DiagnosticDataElement"]) -> "DiagnosticServiceSwMapping":
         """
         Set diagnosticData and return self for chaining.
-        
+
         Args:
             value: The diagnosticData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_data("value")
         """
@@ -514,13 +517,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_diagnostic(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticServiceSwMapping":
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -530,13 +533,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_mapped_bsw(self, value: Optional["BswService"]) -> "DiagnosticServiceSwMapping":
         """
         Set mappedBsw and return self for chaining.
-        
+
         Args:
             value: The mappedBsw to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped_bsw("value")
         """
@@ -546,13 +549,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_mapped_flat_swc(self, value: Optional["SwcService"]) -> "DiagnosticServiceSwMapping":
         """
         Set mappedFlatSwc and return self for chaining.
-        
+
         Args:
             value: The mappedFlatSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped_flat_swc("value")
         """
@@ -562,13 +565,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_mapped_swc(self, value: Optional["SwcService"]) -> "DiagnosticServiceSwMapping":
         """
         Set mappedSwc and return self for chaining.
-        
+
         Args:
             value: The mappedSwc to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mapped_swc("value")
         """
@@ -578,13 +581,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_parameter(self, value: Optional["DiagnosticParameter"]) -> "DiagnosticServiceSwMapping":
         """
         Set parameter and return self for chaining.
-        
+
         Args:
             value: The parameter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_parameter("value")
         """
@@ -594,13 +597,13 @@ class DiagnosticServiceSwMapping(DiagnosticSwMapping):
     def with_service_instance(self, value: Optional["DiagnosticService"]) -> "DiagnosticServiceSwMapping":
         """
         Set serviceInstance and return self for chaining.
-        
+
         Args:
             value: The serviceInstance to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_service_instance("value")
         """

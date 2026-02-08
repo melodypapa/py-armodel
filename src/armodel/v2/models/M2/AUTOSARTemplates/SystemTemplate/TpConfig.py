@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from abc import ABC
+from typing import Optional
+
 
 class TpConfig(FibexElement, ABC):
     """
     Contains all configuration elements for AUTOSAR TP.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::TpConfig
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 587, Classic Platform R23-11)
     """
@@ -28,10 +29,10 @@ class TpConfig(FibexElement, ABC):
     def communication(self, value: Optional["CommunicationCluster"]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +51,10 @@ class TpConfig(FibexElement, ABC):
     def getCommunication(self) -> "CommunicationCluster":
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -62,13 +63,13 @@ class TpConfig(FibexElement, ABC):
     def setCommunication(self, value: "CommunicationCluster") -> "TpConfig":
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -80,13 +81,13 @@ class TpConfig(FibexElement, ABC):
     def with_communication(self, value: Optional["CommunicationCluster"]) -> "TpConfig":
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """

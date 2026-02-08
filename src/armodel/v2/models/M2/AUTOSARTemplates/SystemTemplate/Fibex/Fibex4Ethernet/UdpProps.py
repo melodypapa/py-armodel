@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class UdpProps(ARObject):
     """
     This meta-class specifies the configuration options for UDP (User Datagram
     Protocol).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::UdpProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 154, Classic Platform R23-11)
     """
@@ -28,10 +31,10 @@ class UdpProps(ARObject):
     def udp_ttl(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set udpTtl with validation.
-        
+
         Args:
             value: The udpTtl to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +53,10 @@ class UdpProps(ARObject):
     def getUdpTtl(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for udpTtl.
-        
+
         Returns:
             The udpTtl value
-        
+
         Note:
             Delegates to udp_ttl property (CODING_RULE_V2_00017)
         """
@@ -62,13 +65,13 @@ class UdpProps(ARObject):
     def setUdpTtl(self, value: "PositiveInteger") -> "UdpProps":
         """
         AUTOSAR-compliant setter for udpTtl with method chaining.
-        
+
         Args:
             value: The udpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to udp_ttl property setter (gets validation automatically)
         """
@@ -80,13 +83,13 @@ class UdpProps(ARObject):
     def with_udp_ttl(self, value: Optional["PositiveInteger"]) -> "UdpProps":
         """
         Set udpTtl and return self for chaining.
-        
+
         Args:
             value: The udpTtl to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_udp_ttl("value")
         """

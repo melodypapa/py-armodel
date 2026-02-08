@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class MultidimensionalTime(ARObject):
     """
     Specifies a time value based on [20] see [TPS_GST_00354].
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::MultidimensionalTime::MultidimensionalTime
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 164, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class MultidimensionalTime(ARObject):
     def cse_code(self, value: Optional["CseCodeType"]) -> None:
         """
         Set cseCode with validation.
-        
+
         Args:
             value: The cseCode to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class MultidimensionalTime(ARObject):
     def cse_code_factor(self, value: Optional["Integer"]) -> None:
         """
         Set cseCodeFactor with validation.
-        
+
         Args:
             value: The cseCodeFactor to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class MultidimensionalTime(ARObject):
     def getCseCode(self) -> "CseCodeType":
         """
         AUTOSAR-compliant getter for cseCode.
-        
+
         Returns:
             The cseCode value
-        
+
         Note:
             Delegates to cse_code property (CODING_RULE_V2_00017)
         """
@@ -94,13 +97,13 @@ class MultidimensionalTime(ARObject):
     def setCseCode(self, value: "CseCodeType") -> "MultidimensionalTime":
         """
         AUTOSAR-compliant setter for cseCode with method chaining.
-        
+
         Args:
             value: The cseCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cse_code property setter (gets validation automatically)
         """
@@ -110,10 +113,10 @@ class MultidimensionalTime(ARObject):
     def getCseCodeFactor(self) -> "Integer":
         """
         AUTOSAR-compliant getter for cseCodeFactor.
-        
+
         Returns:
             The cseCodeFactor value
-        
+
         Note:
             Delegates to cse_code_factor property (CODING_RULE_V2_00017)
         """
@@ -122,13 +125,13 @@ class MultidimensionalTime(ARObject):
     def setCseCodeFactor(self, value: "Integer") -> "MultidimensionalTime":
         """
         AUTOSAR-compliant setter for cseCodeFactor with method chaining.
-        
+
         Args:
             value: The cseCodeFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cse_code_factor property setter (gets validation automatically)
         """
@@ -140,13 +143,13 @@ class MultidimensionalTime(ARObject):
     def with_cse_code(self, value: Optional["CseCodeType"]) -> "MultidimensionalTime":
         """
         Set cseCode and return self for chaining.
-        
+
         Args:
             value: The cseCode to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cse_code("value")
         """
@@ -156,13 +159,13 @@ class MultidimensionalTime(ARObject):
     def with_cse_code_factor(self, value: Optional["Integer"]) -> "MultidimensionalTime":
         """
         Set cseCodeFactor and return self for chaining.
-        
+
         Args:
             value: The cseCodeFactor to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cse_code_factor("value")
         """

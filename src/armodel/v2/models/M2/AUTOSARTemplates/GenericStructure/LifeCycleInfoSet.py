@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class LifeCycleInfoSet(ARElement):
     """
@@ -7,9 +7,9 @@ class LifeCycleInfoSet(ARElement):
     a particular set of elements. The information can be defined for a
     particular period. This supports the definition of transition plans. If no
     period is specified, the life cycle state applies forever.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleInfoSet
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 391, Foundation
       R23-11)
@@ -36,10 +36,10 @@ class LifeCycleInfoSet(ARElement):
     def default_lc_state(self, value: "LifeCycleState") -> None:
         """
         Set defaultLcState with validation.
-        
+
         Args:
             value: The defaultLcState to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -63,10 +63,10 @@ class LifeCycleInfoSet(ARElement):
     def default_period(self, value: Optional["LifeCyclePeriod"]) -> None:
         """
         Set defaultPeriod with validation.
-        
+
         Args:
             value: The defaultPeriod to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -99,10 +99,10 @@ class LifeCycleInfoSet(ARElement):
     def used_life_cycle(self, value: "LifeCycleStateDefinition") -> None:
         """
         Set usedLifeCycle with validation.
-        
+
         Args:
             value: The usedLifeCycle to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -117,10 +117,10 @@ class LifeCycleInfoSet(ARElement):
     def getDefaultLcState(self) -> "LifeCycleState":
         """
         AUTOSAR-compliant getter for defaultLcState.
-        
+
         Returns:
             The defaultLcState value
-        
+
         Note:
             Delegates to default_lc_state property (CODING_RULE_V2_00017)
         """
@@ -129,13 +129,13 @@ class LifeCycleInfoSet(ARElement):
     def setDefaultLcState(self, value: "LifeCycleState") -> "LifeCycleInfoSet":
         """
         AUTOSAR-compliant setter for defaultLcState with method chaining.
-        
+
         Args:
             value: The defaultLcState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_lc_state property setter (gets validation automatically)
         """
@@ -145,10 +145,10 @@ class LifeCycleInfoSet(ARElement):
     def getDefaultPeriod(self) -> "LifeCyclePeriod":
         """
         AUTOSAR-compliant getter for defaultPeriod.
-        
+
         Returns:
             The defaultPeriod value
-        
+
         Note:
             Delegates to default_period property (CODING_RULE_V2_00017)
         """
@@ -157,13 +157,13 @@ class LifeCycleInfoSet(ARElement):
     def setDefaultPeriod(self, value: "LifeCyclePeriod") -> "LifeCycleInfoSet":
         """
         AUTOSAR-compliant setter for defaultPeriod with method chaining.
-        
+
         Args:
             value: The defaultPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_period property setter (gets validation automatically)
         """
@@ -173,10 +173,10 @@ class LifeCycleInfoSet(ARElement):
     def getLifeCycleInfo(self) -> List["LifeCycleInfo"]:
         """
         AUTOSAR-compliant getter for lifeCycleInfo.
-        
+
         Returns:
             The lifeCycleInfo value
-        
+
         Note:
             Delegates to life_cycle_info property (CODING_RULE_V2_00017)
         """
@@ -185,10 +185,10 @@ class LifeCycleInfoSet(ARElement):
     def getUsedLifeCycle(self) -> "LifeCycleStateDefinition":
         """
         AUTOSAR-compliant getter for usedLifeCycle.
-        
+
         Returns:
             The usedLifeCycle value
-        
+
         Note:
             Delegates to used_life_cycle property (CODING_RULE_V2_00017)
         """
@@ -197,13 +197,13 @@ class LifeCycleInfoSet(ARElement):
     def setUsedLifeCycle(self, value: "LifeCycleStateDefinition") -> "LifeCycleInfoSet":
         """
         AUTOSAR-compliant setter for usedLifeCycle with method chaining.
-        
+
         Args:
             value: The usedLifeCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to used_life_cycle property setter (gets validation automatically)
         """
@@ -215,13 +215,13 @@ class LifeCycleInfoSet(ARElement):
     def with_default_lc_state(self, value: "LifeCycleState") -> "LifeCycleInfoSet":
         """
         Set defaultLcState and return self for chaining.
-        
+
         Args:
             value: The defaultLcState to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_lc_state("value")
         """
@@ -231,13 +231,13 @@ class LifeCycleInfoSet(ARElement):
     def with_default_period(self, value: Optional["LifeCyclePeriod"]) -> "LifeCycleInfoSet":
         """
         Set defaultPeriod and return self for chaining.
-        
+
         Args:
             value: The defaultPeriod to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_period("value")
         """
@@ -247,13 +247,13 @@ class LifeCycleInfoSet(ARElement):
     def with_used_life_cycle(self, value: "LifeCycleStateDefinition") -> "LifeCycleInfoSet":
         """
         Set usedLifeCycle and return self for chaining.
-        
+
         Args:
             value: The usedLifeCycle to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_used_life_cycle("value")
         """

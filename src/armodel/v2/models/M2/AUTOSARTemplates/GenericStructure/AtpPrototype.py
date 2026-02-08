@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class AtpPrototype(Identifiable, ABC):
     """
@@ -10,9 +12,9 @@ class AtpPrototype(Identifiable, ABC):
     feature is given by the its type. An instance of that type will play the
     role indicated by the feature in the owning classifier. A feature is not an
     instance but an indication of an instance-to-be.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::AbstractStructure::AtpPrototype
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 175, Foundation
       R23-11)
@@ -35,10 +37,10 @@ class AtpPrototype(Identifiable, ABC):
     def atp_type(self, value: "AtpType") -> None:
         """
         Set atpType with validation.
-        
+
         Args:
             value: The atpType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +55,10 @@ class AtpPrototype(Identifiable, ABC):
     def getAtpType(self) -> "AtpType":
         """
         AUTOSAR-compliant getter for atpType.
-        
+
         Returns:
             The atpType value
-        
+
         Note:
             Delegates to atp_type property (CODING_RULE_V2_00017)
         """
@@ -65,13 +67,13 @@ class AtpPrototype(Identifiable, ABC):
     def setAtpType(self, value: "AtpType") -> "AtpPrototype":
         """
         AUTOSAR-compliant setter for atpType with method chaining.
-        
+
         Args:
             value: The atpType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to atp_type property setter (gets validation automatically)
         """
@@ -83,13 +85,13 @@ class AtpPrototype(Identifiable, ABC):
     def with_atp_type(self, value: "AtpType") -> "AtpPrototype":
         """
         Set atpType and return self for chaining.
-        
+
         Args:
             value: The atpType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_atp_type("value")
         """

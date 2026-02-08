@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class RoleBasedResourceDependency(ARObject):
     """
     This class specifies a dependency between CpSoftwareClusterResources.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::RoleBasedResourceDependency
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 272, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class RoleBasedResourceDependency(ARObject):
     def resource(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set resource with validation.
-        
+
         Args:
             value: The resource to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -57,10 +60,10 @@ class RoleBasedResourceDependency(ARObject):
     def role(self, value: Optional["Identifier"]) -> None:
         """
         Set role with validation.
-        
+
         Args:
             value: The role to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -79,10 +82,10 @@ class RoleBasedResourceDependency(ARObject):
     def getResource(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for resource.
-        
+
         Returns:
             The resource value
-        
+
         Note:
             Delegates to resource property (CODING_RULE_V2_00017)
         """
@@ -91,13 +94,13 @@ class RoleBasedResourceDependency(ARObject):
     def setResource(self, value: "CpSoftwareCluster") -> "RoleBasedResourceDependency":
         """
         AUTOSAR-compliant setter for resource with method chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to resource property setter (gets validation automatically)
         """
@@ -107,10 +110,10 @@ class RoleBasedResourceDependency(ARObject):
     def getRole(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for role.
-        
+
         Returns:
             The role value
-        
+
         Note:
             Delegates to role property (CODING_RULE_V2_00017)
         """
@@ -119,13 +122,13 @@ class RoleBasedResourceDependency(ARObject):
     def setRole(self, value: "Identifier") -> "RoleBasedResourceDependency":
         """
         AUTOSAR-compliant setter for role with method chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to role property setter (gets validation automatically)
         """
@@ -137,13 +140,13 @@ class RoleBasedResourceDependency(ARObject):
     def with_resource(self, value: Optional["CpSoftwareCluster"]) -> "RoleBasedResourceDependency":
         """
         Set resource and return self for chaining.
-        
+
         Args:
             value: The resource to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_resource("value")
         """
@@ -153,13 +156,13 @@ class RoleBasedResourceDependency(ARObject):
     def with_role(self, value: Optional["Identifier"]) -> "RoleBasedResourceDependency":
         """
         Set role and return self for chaining.
-        
+
         Args:
             value: The role to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_role("value")
         """

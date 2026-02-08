@@ -1,13 +1,16 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.AbstractProvidedPortPrototype import AbstractProvidedPortPrototype
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.AbstractProvidedPortPrototype import (
+    AbstractProvidedPortPrototype,
+)
+
 
 class PPortPrototype(AbstractProvidedPortPrototype):
     """
     Component port providing a certain port interface.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::PPortPrototype
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 324, Classic Platform
       R23-11)
@@ -33,10 +36,10 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def provided(self, value: Optional["PortInterface"]) -> None:
         """
         Set provided with validation.
-        
+
         Args:
             value: The provided to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +58,10 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def getProvided(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for provided.
-        
+
         Returns:
             The provided value
-        
+
         Note:
             Delegates to provided property (CODING_RULE_V2_00017)
         """
@@ -67,13 +70,13 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def setProvided(self, value: "PortInterface") -> "PPortPrototype":
         """
         AUTOSAR-compliant setter for provided with method chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to provided property setter (gets validation automatically)
         """
@@ -85,13 +88,13 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def with_provided(self, value: Optional["PortInterface"]) -> "PPortPrototype":
         """
         Set provided and return self for chaining.
-        
+
         Args:
             value: The provided to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_provided("value")
         """

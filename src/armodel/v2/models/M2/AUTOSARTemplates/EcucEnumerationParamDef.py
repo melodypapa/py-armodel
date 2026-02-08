@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
+
 
 class EcucEnumerationParamDef(EcucParameterDef):
     """
     Configuration parameter type for Enumeration.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucEnumerationParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 66, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 186, Foundation R23-11)
@@ -28,10 +28,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def default_value(self, value: Optional["Identifier"]) -> None:
         """
         Set defaultValue with validation.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -59,10 +59,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def getDefaultValue(self) -> "Identifier":
         """
         AUTOSAR-compliant getter for defaultValue.
-        
+
         Returns:
             The defaultValue value
-        
+
         Note:
             Delegates to default_value property (CODING_RULE_V2_00017)
         """
@@ -71,13 +71,13 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def setDefaultValue(self, value: "Identifier") -> "EcucEnumerationParamDef":
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to default_value property setter (gets validation automatically)
         """
@@ -87,10 +87,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def getLiteral(self) -> List["EcucEnumerationLiteral"]:
         """
         AUTOSAR-compliant getter for literal.
-        
+
         Returns:
             The literal value
-        
+
         Note:
             Delegates to literal property (CODING_RULE_V2_00017)
         """
@@ -101,13 +101,13 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def with_default_value(self, value: Optional["Identifier"]) -> "EcucEnumerationParamDef":
         """
         Set defaultValue and return self for chaining.
-        
+
         Args:
             value: The defaultValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_default_value("value")
         """

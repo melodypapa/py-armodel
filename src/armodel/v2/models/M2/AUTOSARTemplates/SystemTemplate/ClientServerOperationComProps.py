@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
     """
     Defines additional attributes for the implementation of Client Server
     communication between software clusters
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::SoftwareCluster::ClientServerOperationComProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 903, Classic Platform R23-11)
     """
@@ -31,10 +31,10 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
     def queue_length(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set queueLength with validation.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -53,10 +53,10 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
     def getQueueLength(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for queueLength.
-        
+
         Returns:
             The queueLength value
-        
+
         Note:
             Delegates to queue_length property (CODING_RULE_V2_00017)
         """
@@ -65,13 +65,13 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
     def setQueueLength(self, value: "PositiveInteger") -> "ClientServerOperationComProps":
         """
         AUTOSAR-compliant setter for queueLength with method chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to queue_length property setter (gets validation automatically)
         """
@@ -83,13 +83,13 @@ class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps)
     def with_queue_length(self, value: Optional["PositiveInteger"]) -> "ClientServerOperationComProps":
         """
         Set queueLength and return self for chaining.
-        
+
         Args:
             value: The queueLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_queue_length("value")
         """

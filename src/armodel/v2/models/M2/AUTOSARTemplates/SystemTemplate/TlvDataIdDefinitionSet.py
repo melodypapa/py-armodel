@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class TlvDataIdDefinitionSet(ARElement):
     """
     This meta-class acts as a container of TlvDataIdDefinitions to be used in a
     given context
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Transformer::TlvDataIdDefinitionSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 830, Classic Platform R23-11)
     """
@@ -29,10 +29,10 @@ class TlvDataIdDefinitionSet(ARElement):
     def getTlvDataId(self) -> List["TlvDataIdDefinition"]:
         """
         AUTOSAR-compliant getter for tlvDataId.
-        
+
         Returns:
             The tlvDataId value
-        
+
         Note:
             Delegates to tlv_data_id property (CODING_RULE_V2_00017)
         """

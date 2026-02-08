@@ -1,8 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class AutosarOperationArgumentInstance(Identifiable):
     """
@@ -12,9 +16,9 @@ class AutosarOperationArgumentInstance(Identifiable):
     • a whole argument used in an operation of a PortPrototype with
     ClientServerInterface • an element inside of a composite argument used in an
     operation of a PortPrototype with ClientServer Interface
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription::AutosarOperationArgumentInstance
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 85, Classic Platform R23-11)
     """
@@ -34,10 +38,10 @@ class AutosarOperationArgumentInstance(Identifiable):
     def operation(self, value: RefType) -> None:
         """
         Set operation with validation.
-        
+
         Args:
             value: The operation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -52,10 +56,10 @@ class AutosarOperationArgumentInstance(Identifiable):
     def getOperation(self) -> RefType:
         """
         AUTOSAR-compliant getter for operation.
-        
+
         Returns:
             The operation value
-        
+
         Note:
             Delegates to operation property (CODING_RULE_V2_00017)
         """
@@ -64,13 +68,13 @@ class AutosarOperationArgumentInstance(Identifiable):
     def setOperation(self, value: RefType) -> "AutosarOperationArgumentInstance":
         """
         AUTOSAR-compliant setter for operation with method chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to operation property setter (gets validation automatically)
         """
@@ -82,13 +86,13 @@ class AutosarOperationArgumentInstance(Identifiable):
     def with_operation(self, value: Optional[RefType]) -> "AutosarOperationArgumentInstance":
         """
         Set operation and return self for chaining.
-        
+
         Args:
             value: The operation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_operation("value")
         """

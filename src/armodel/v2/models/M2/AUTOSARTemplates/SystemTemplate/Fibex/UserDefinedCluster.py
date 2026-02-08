@@ -1,14 +1,15 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class UserDefinedCluster(ARObject):
     """
     This element allows the modeling of arbitrary Communication Clusters (e.g.
     bus systems that are not supported by AUTOSAR).
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedCluster
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)
     """

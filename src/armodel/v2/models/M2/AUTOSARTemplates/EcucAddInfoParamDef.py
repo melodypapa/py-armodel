@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class EcucAddInfoParamDef(EcucParameterDef):
     """
     Configuration Parameter Definition for the specification of formatted text
     in the ECU Configuration Parameter Description.
-    
+
     Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAddInfoParamDef
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 68, Classic Platform R23-11)
     """

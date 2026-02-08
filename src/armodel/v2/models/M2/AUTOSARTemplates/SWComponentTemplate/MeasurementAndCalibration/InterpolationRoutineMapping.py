@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class InterpolationRoutineMapping(ARObject):
     """
@@ -11,9 +14,9 @@ class InterpolationRoutineMapping(ARObject):
     which interpolation routine implements methods for a particular record
     layout. Using this information, the implementer of a software-component can
     select the appropriate interpolation routine.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine::InterpolationRoutineMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 430, Classic Platform
       R23-11)
@@ -42,10 +45,10 @@ class InterpolationRoutineMapping(ARObject):
     def sw_record(self, value: Optional["SwRecordLayout"]) -> None:
         """
         Set swRecord with validation.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -64,10 +67,10 @@ class InterpolationRoutineMapping(ARObject):
     def getInterpolation(self) -> List["InterpolationRoutine"]:
         """
         AUTOSAR-compliant getter for interpolation.
-        
+
         Returns:
             The interpolation value
-        
+
         Note:
             Delegates to interpolation property (CODING_RULE_V2_00017)
         """
@@ -76,10 +79,10 @@ class InterpolationRoutineMapping(ARObject):
     def getSwRecord(self) -> "SwRecordLayout":
         """
         AUTOSAR-compliant getter for swRecord.
-        
+
         Returns:
             The swRecord value
-        
+
         Note:
             Delegates to sw_record property (CODING_RULE_V2_00017)
         """
@@ -88,13 +91,13 @@ class InterpolationRoutineMapping(ARObject):
     def setSwRecord(self, value: "SwRecordLayout") -> "InterpolationRoutineMapping":
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sw_record property setter (gets validation automatically)
         """
@@ -106,13 +109,13 @@ class InterpolationRoutineMapping(ARObject):
     def with_sw_record(self, value: Optional["SwRecordLayout"]) -> "InterpolationRoutineMapping":
         """
         Set swRecord and return self for chaining.
-        
+
         Args:
             value: The swRecord to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sw_record("value")
         """

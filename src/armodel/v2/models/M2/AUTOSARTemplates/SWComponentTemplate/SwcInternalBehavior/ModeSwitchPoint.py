@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeSwitchPoint(AbstractAccessPoint):
     """
     A ModeSwitchPoint is required by a RunnableEntity owned a Mode Manager. Its
     semantics implies the ability to initiate a mode switch.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ModeDeclarationGroup::ModeSwitchPoint
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 323, Classic
       Platform R23-11)
@@ -31,10 +34,10 @@ class ModeSwitchPoint(AbstractAccessPoint):
     def mode_group_swc_instance_ref(self, value: RefType) -> None:
         """
         Set modeGroupSwcInstanceRef with validation.
-        
+
         Args:
             value: The modeGroupSwcInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -49,10 +52,10 @@ class ModeSwitchPoint(AbstractAccessPoint):
     def getModeGroupSwcInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for modeGroupSwcInstanceRef.
-        
+
         Returns:
             The modeGroupSwcInstanceRef value
-        
+
         Note:
             Delegates to mode_group_swc_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -61,13 +64,13 @@ class ModeSwitchPoint(AbstractAccessPoint):
     def setModeGroupSwcInstanceRef(self, value: RefType) -> "ModeSwitchPoint":
         """
         AUTOSAR-compliant setter for modeGroupSwcInstanceRef with method chaining.
-        
+
         Args:
             value: The modeGroupSwcInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_group_swc_instance_ref property setter (gets validation automatically)
         """
@@ -79,13 +82,13 @@ class ModeSwitchPoint(AbstractAccessPoint):
     def with_mode_group_swc_instance_ref(self, value: Optional[RefType]) -> "ModeSwitchPoint":
         """
         Set modeGroupSwcInstanceRef and return self for chaining.
-        
+
         Args:
             value: The modeGroupSwcInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_group_swc_instance_ref("value")
         """

@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class ParameterInterface(DataInterface):
     """
     A parameter interface declares a number of parameter and characteristic
     values to be exchanged between parameter components and software components.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ParameterInterface
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 41, Classic Platform
       R23-11)
@@ -30,10 +30,10 @@ class ParameterInterface(DataInterface):
     def getParameter(self) -> List["ParameterData"]:
         """
         AUTOSAR-compliant getter for parameter.
-        
+
         Returns:
             The parameter value
-        
+
         Note:
             Delegates to parameter property (CODING_RULE_V2_00017)
         """

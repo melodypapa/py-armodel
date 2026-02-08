@@ -1,14 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class DocumentViewSelectable(ARObject, ABC):
     """
     This meta-class represents the ability to be dedicated to a particular
     audience or document view.
-    
+
     Package: M2::MSR::Documentation::BlockElements::PaginationAndView::DocumentViewSelectable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 340, Foundation
       R23-11)
@@ -33,10 +37,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def si(self, value: "NameTokens") -> None:
         """
         Set si with validation.
-        
+
         Args:
             value: The si to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +62,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def view(self, value: Optional["ViewTokens"]) -> None:
         """
         Set view with validation.
-        
+
         Args:
             value: The view to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +84,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def getSi(self) -> "NameTokens":
         """
         AUTOSAR-compliant getter for si.
-        
+
         Returns:
             The si value
-        
+
         Note:
             Delegates to si property (CODING_RULE_V2_00017)
         """
@@ -92,13 +96,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def setSi(self, value: "NameTokens") -> "DocumentViewSelectable":
         """
         AUTOSAR-compliant setter for si with method chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to si property setter (gets validation automatically)
         """
@@ -108,10 +112,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def getView(self) -> "ViewTokens":
         """
         AUTOSAR-compliant getter for view.
-        
+
         Returns:
             The view value
-        
+
         Note:
             Delegates to view property (CODING_RULE_V2_00017)
         """
@@ -120,13 +124,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def setView(self, value: "ViewTokens") -> "DocumentViewSelectable":
         """
         AUTOSAR-compliant setter for view with method chaining.
-        
+
         Args:
             value: The view to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to view property setter (gets validation automatically)
         """
@@ -138,13 +142,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def with_si(self, value: "NameTokens") -> "DocumentViewSelectable":
         """
         Set si and return self for chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_si("value")
         """
@@ -154,13 +158,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def with_view(self, value: Optional["ViewTokens"]) -> "DocumentViewSelectable":
         """
         Set view and return self for chaining.
-        
+
         Args:
             value: The view to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_view("value")
         """

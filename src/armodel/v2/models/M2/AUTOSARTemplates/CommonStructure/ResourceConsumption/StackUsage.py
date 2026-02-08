@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class StackUsage(Identifiable, ABC):
     """
     Describes the stack memory usage of a software.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::StackUsage
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 149, Classic
       Platform R23-11)
@@ -32,10 +35,10 @@ class StackUsage(Identifiable, ABC):
     def executable_entity(self, value: Optional["ExecutableEntity"]) -> None:
         """
         Set executableEntity with validation.
-        
+
         Args:
             value: The executableEntity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -60,10 +63,10 @@ class StackUsage(Identifiable, ABC):
     def hardware(self, value: Optional["HardwareConfiguration"]) -> None:
         """
         Set hardware with validation.
-        
+
         Args:
             value: The hardware to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -90,10 +93,10 @@ class StackUsage(Identifiable, ABC):
     def hw_element(self, value: Optional["HwElement"]) -> None:
         """
         Set hwElement with validation.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -118,10 +121,10 @@ class StackUsage(Identifiable, ABC):
     def software_context(self, value: Optional["SoftwareContext"]) -> None:
         """
         Set softwareContext with validation.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -140,10 +143,10 @@ class StackUsage(Identifiable, ABC):
     def getExecutableEntity(self) -> "ExecutableEntity":
         """
         AUTOSAR-compliant getter for executableEntity.
-        
+
         Returns:
             The executableEntity value
-        
+
         Note:
             Delegates to executable_entity property (CODING_RULE_V2_00017)
         """
@@ -152,13 +155,13 @@ class StackUsage(Identifiable, ABC):
     def setExecutableEntity(self, value: "ExecutableEntity") -> "StackUsage":
         """
         AUTOSAR-compliant setter for executableEntity with method chaining.
-        
+
         Args:
             value: The executableEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to executable_entity property setter (gets validation automatically)
         """
@@ -168,10 +171,10 @@ class StackUsage(Identifiable, ABC):
     def getHardware(self) -> "HardwareConfiguration":
         """
         AUTOSAR-compliant getter for hardware.
-        
+
         Returns:
             The hardware value
-        
+
         Note:
             Delegates to hardware property (CODING_RULE_V2_00017)
         """
@@ -180,13 +183,13 @@ class StackUsage(Identifiable, ABC):
     def setHardware(self, value: "HardwareConfiguration") -> "StackUsage":
         """
         AUTOSAR-compliant setter for hardware with method chaining.
-        
+
         Args:
             value: The hardware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hardware property setter (gets validation automatically)
         """
@@ -196,10 +199,10 @@ class StackUsage(Identifiable, ABC):
     def getHwElement(self) -> "HwElement":
         """
         AUTOSAR-compliant getter for hwElement.
-        
+
         Returns:
             The hwElement value
-        
+
         Note:
             Delegates to hw_element property (CODING_RULE_V2_00017)
         """
@@ -208,13 +211,13 @@ class StackUsage(Identifiable, ABC):
     def setHwElement(self, value: "HwElement") -> "StackUsage":
         """
         AUTOSAR-compliant setter for hwElement with method chaining.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to hw_element property setter (gets validation automatically)
         """
@@ -224,10 +227,10 @@ class StackUsage(Identifiable, ABC):
     def getSoftwareContext(self) -> "SoftwareContext":
         """
         AUTOSAR-compliant getter for softwareContext.
-        
+
         Returns:
             The softwareContext value
-        
+
         Note:
             Delegates to software_context property (CODING_RULE_V2_00017)
         """
@@ -236,13 +239,13 @@ class StackUsage(Identifiable, ABC):
     def setSoftwareContext(self, value: "SoftwareContext") -> "StackUsage":
         """
         AUTOSAR-compliant setter for softwareContext with method chaining.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to software_context property setter (gets validation automatically)
         """
@@ -254,13 +257,13 @@ class StackUsage(Identifiable, ABC):
     def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> "StackUsage":
         """
         Set executableEntity and return self for chaining.
-        
+
         Args:
             value: The executableEntity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_executable_entity("value")
         """
@@ -270,13 +273,13 @@ class StackUsage(Identifiable, ABC):
     def with_hardware(self, value: Optional["HardwareConfiguration"]) -> "StackUsage":
         """
         Set hardware and return self for chaining.
-        
+
         Args:
             value: The hardware to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hardware("value")
         """
@@ -286,13 +289,13 @@ class StackUsage(Identifiable, ABC):
     def with_hw_element(self, value: Optional["HwElement"]) -> "StackUsage":
         """
         Set hwElement and return self for chaining.
-        
+
         Args:
             value: The hwElement to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_hw_element("value")
         """
@@ -302,13 +305,13 @@ class StackUsage(Identifiable, ABC):
     def with_software_context(self, value: Optional["SoftwareContext"]) -> "StackUsage":
         """
         Set softwareContext and return self for chaining.
-        
+
         Args:
             value: The softwareContext to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_software_context("value")
         """

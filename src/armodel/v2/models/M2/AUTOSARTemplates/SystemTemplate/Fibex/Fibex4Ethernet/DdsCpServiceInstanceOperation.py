@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class DdsCpServiceInstanceOperation(ARObject):
     """
     This element represents an operation as part of the Provided Service
     Instance.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Dds::DdsCpServiceInstanceOperation
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 475, Classic Platform R23-11)
     """
@@ -32,10 +37,10 @@ class DdsCpServiceInstanceOperation(ARObject):
     def dds_operation(self, value: RefType) -> None:
         """
         Set ddsOperation with validation.
-        
+
         Args:
             value: The ddsOperation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -50,10 +55,10 @@ class DdsCpServiceInstanceOperation(ARObject):
     def getDdsOperation(self) -> RefType:
         """
         AUTOSAR-compliant getter for ddsOperation.
-        
+
         Returns:
             The ddsOperation value
-        
+
         Note:
             Delegates to dds_operation property (CODING_RULE_V2_00017)
         """
@@ -62,13 +67,13 @@ class DdsCpServiceInstanceOperation(ARObject):
     def setDdsOperation(self, value: RefType) -> "DdsCpServiceInstanceOperation":
         """
         AUTOSAR-compliant setter for ddsOperation with method chaining.
-        
+
         Args:
             value: The ddsOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_operation property setter (gets validation automatically)
         """
@@ -80,13 +85,13 @@ class DdsCpServiceInstanceOperation(ARObject):
     def with_dds_operation(self, value: Optional[RefType]) -> "DdsCpServiceInstanceOperation":
         """
         Set ddsOperation and return self for chaining.
-        
+
         Args:
             value: The ddsOperation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_operation("value")
         """

@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class PostBuildVariantCriterionValue(ARObject):
     """
@@ -8,9 +11,9 @@ class PostBuildVariantCriterionValue(ARObject):
     variant criterion in order to bind the variation point. If multiple
     criterion/value pairs are specified, they all shall match to bind the
     variation point.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValue
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 77, Foundation
@@ -41,10 +44,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def value(self, value: "Integer") -> None:
         """
         Set value with validation.
-        
+
         Args:
             value: The value to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -65,10 +68,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def variant_criterion(self, value: "PostBuildVariant") -> None:
         """
         Set variantCriterion with validation.
-        
+
         Args:
             value: The variantCriterion to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -83,10 +86,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def getAnnotation(self) -> List["Annotation"]:
         """
         AUTOSAR-compliant getter for annotation.
-        
+
         Returns:
             The annotation value
-        
+
         Note:
             Delegates to annotation property (CODING_RULE_V2_00017)
         """
@@ -95,10 +98,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def getValue(self) -> "Integer":
         """
         AUTOSAR-compliant getter for value.
-        
+
         Returns:
             The value value
-        
+
         Note:
             Delegates to value property (CODING_RULE_V2_00017)
         """
@@ -107,13 +110,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def setValue(self, value: "Integer") -> "PostBuildVariantCriterionValue":
         """
         AUTOSAR-compliant setter for value with method chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to value property setter (gets validation automatically)
         """
@@ -123,10 +126,10 @@ class PostBuildVariantCriterionValue(ARObject):
     def getVariantCriterion(self) -> "PostBuildVariant":
         """
         AUTOSAR-compliant getter for variantCriterion.
-        
+
         Returns:
             The variantCriterion value
-        
+
         Note:
             Delegates to variant_criterion property (CODING_RULE_V2_00017)
         """
@@ -135,13 +138,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def setVariantCriterion(self, value: "PostBuildVariant") -> "PostBuildVariantCriterionValue":
         """
         AUTOSAR-compliant setter for variantCriterion with method chaining.
-        
+
         Args:
             value: The variantCriterion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to variant_criterion property setter (gets validation automatically)
         """
@@ -153,13 +156,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def with_value(self, value: "Integer") -> "PostBuildVariantCriterionValue":
         """
         Set value and return self for chaining.
-        
+
         Args:
             value: The value to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_value("value")
         """
@@ -169,13 +172,13 @@ class PostBuildVariantCriterionValue(ARObject):
     def with_variant_criterion(self, value: "PostBuildVariant") -> "PostBuildVariantCriterionValue":
         """
         Set variantCriterion and return self for chaining.
-        
+
         Args:
             value: The variantCriterion to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_variant_criterion("value")
         """

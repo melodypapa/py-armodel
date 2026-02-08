@@ -1,15 +1,18 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ApplicationInterface(PortInterface):
     """
     This represents the ability to define a PortInterface that consists of a
     composition of commands (method calls), indications (events) and attributes
     (fields)
-    
+
     Package: M2::AUTOSARTemplates::AbstractPlatform::ApplicationInterface
-    
+
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 28, Foundation
       R23-11)
@@ -50,10 +53,10 @@ class ApplicationInterface(PortInterface):
     def getAttribute(self) -> List["Field"]:
         """
         AUTOSAR-compliant getter for attribute.
-        
+
         Returns:
             The attribute value
-        
+
         Note:
             Delegates to attribute property (CODING_RULE_V2_00017)
         """
@@ -62,10 +65,10 @@ class ApplicationInterface(PortInterface):
     def getCommand(self) -> List["ClientServerOperation"]:
         """
         AUTOSAR-compliant getter for command.
-        
+
         Returns:
             The command value
-        
+
         Note:
             Delegates to command property (CODING_RULE_V2_00017)
         """
@@ -74,10 +77,10 @@ class ApplicationInterface(PortInterface):
     def getIndication(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for indication.
-        
+
         Returns:
             The indication value
-        
+
         Note:
             Delegates to indication property (CODING_RULE_V2_00017)
         """

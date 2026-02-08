@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List
+
 
 class BswCompositionTiming(TimingExtension):
     """
@@ -12,9 +12,9 @@ class BswCompositionTiming(TimingExtension):
     class TDEventBswInternalBehavior and TDEventBsw. (cid:53) 28 of 277 Document
     ID 411: AUTOSAR_CP_TPS_TimingExtensions Specification of Timing Extensions
     for Classic Platform AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions::BswCompositionTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 28, Classic Platform R23-11)
     """
@@ -36,10 +36,10 @@ class BswCompositionTiming(TimingExtension):
     def getImplementation(self) -> List["BswImplementation"]:
         """
         AUTOSAR-compliant getter for implementation.
-        
+
         Returns:
             The implementation value
-        
+
         Note:
             Delegates to implementation property (CODING_RULE_V2_00017)
         """

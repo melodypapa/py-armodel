@@ -1,12 +1,12 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     """
     Defines which Debounce Algorithm is applicable for a DiagnosticEvent.
-    
+
     Package: M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::DiagnosticEventToDebounceAlgorithmMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 246, Classic Platform
       R23-11)
@@ -27,10 +27,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def debounce(self, value: Optional["DiagnosticDebounce"]) -> None:
         """
         Set debounce with validation.
-        
+
         Args:
             value: The debounce to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -55,10 +55,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def getDebounce(self) -> "DiagnosticDebounce":
         """
         AUTOSAR-compliant getter for debounce.
-        
+
         Returns:
             The debounce value
-        
+
         Note:
             Delegates to debounce property (CODING_RULE_V2_00017)
         """
@@ -89,13 +89,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def setDebounce(self, value: "DiagnosticDebounce") -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         AUTOSAR-compliant setter for debounce with method chaining.
-        
+
         Args:
             value: The debounce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to debounce property setter (gets validation automatically)
         """
@@ -105,10 +105,10 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
-        
+
         Returns:
             The diagnosticEvent value
-        
+
         Note:
             Delegates to diagnostic_event property (CODING_RULE_V2_00017)
         """
@@ -117,13 +117,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def setDiagnosticEvent(self, value: "DiagnosticEvent") -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic_event property setter (gets validation automatically)
         """
@@ -135,13 +135,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def with_debounce(self, value: Optional["DiagnosticDebounce"]) -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         Set debounce and return self for chaining.
-        
+
         Args:
             value: The debounce to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_debounce("value")
         """
@@ -151,13 +151,13 @@ class DiagnosticEventToDebounceAlgorithmMapping(DiagnosticMapping):
     def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> "DiagnosticEventToDebounceAlgorithmMapping":
         """
         Set diagnosticEvent and return self for chaining.
-        
+
         Args:
             value: The diagnosticEvent to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic_event("value")
         """

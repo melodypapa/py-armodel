@@ -1,13 +1,13 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
     """
     An application data type which is an array, each element is of the same
     application data type.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes::ApplicationArrayDataType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 252, Classic Platform
       R23-11)
@@ -31,10 +31,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def dynamic_array(self, value: Optional["String"]) -> None:
         """
         Set dynamicArray with validation.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def element(self, value: Optional["ApplicationArray"]) -> None:
         """
         Set element with validation.
-        
+
         Args:
             value: The element to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +84,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def getDynamicArray(self) -> "String":
         """
         AUTOSAR-compliant getter for dynamicArray.
-        
+
         Returns:
             The dynamicArray value
-        
+
         Note:
             Delegates to dynamic_array property (CODING_RULE_V2_00017)
         """
@@ -96,13 +96,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def setDynamicArray(self, value: "String") -> "ApplicationArrayDataType":
         """
         AUTOSAR-compliant setter for dynamicArray with method chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_array property setter (gets validation automatically)
         """
@@ -112,10 +112,10 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def getElement(self) -> "ApplicationArray":
         """
         AUTOSAR-compliant getter for element.
-        
+
         Returns:
             The element value
-        
+
         Note:
             Delegates to element property (CODING_RULE_V2_00017)
         """
@@ -124,13 +124,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def setElement(self, value: "ApplicationArray") -> "ApplicationArrayDataType":
         """
         AUTOSAR-compliant setter for element with method chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to element property setter (gets validation automatically)
         """
@@ -142,13 +142,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def with_dynamic_array(self, value: Optional["String"]) -> "ApplicationArrayDataType":
         """
         Set dynamicArray and return self for chaining.
-        
+
         Args:
             value: The dynamicArray to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_array("value")
         """
@@ -158,13 +158,13 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def with_element(self, value: Optional["ApplicationArray"]) -> "ApplicationArrayDataType":
         """
         Set element and return self for chaining.
-        
+
         Args:
             value: The element to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_element("value")
         """

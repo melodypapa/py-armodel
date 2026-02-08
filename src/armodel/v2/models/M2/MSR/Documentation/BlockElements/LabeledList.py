@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class LabeledList(Paginateable):
     """
     This meta-class represents a labeled list, in which items have a label and a
     content. The policy how to render such items is specified in the labeled
     list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::LabeledList
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 296, Foundation
       R23-11)
@@ -34,10 +34,10 @@ class LabeledList(Paginateable):
     def indent_sample(self, value: Optional["IndentSample"]) -> None:
         """
         Set indentSample with validation.
-        
+
         Args:
             value: The indentSample to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +62,10 @@ class LabeledList(Paginateable):
     def labeled_item_label(self, value: "LabeledItem") -> None:
         """
         Set labeledItemLabel with validation.
-        
+
         Args:
             value: The labeledItemLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -80,10 +80,10 @@ class LabeledList(Paginateable):
     def getIndentSample(self) -> "IndentSample":
         """
         AUTOSAR-compliant getter for indentSample.
-        
+
         Returns:
             The indentSample value
-        
+
         Note:
             Delegates to indent_sample property (CODING_RULE_V2_00017)
         """
@@ -92,13 +92,13 @@ class LabeledList(Paginateable):
     def setIndentSample(self, value: "IndentSample") -> "LabeledList":
         """
         AUTOSAR-compliant setter for indentSample with method chaining.
-        
+
         Args:
             value: The indentSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to indent_sample property setter (gets validation automatically)
         """
@@ -108,10 +108,10 @@ class LabeledList(Paginateable):
     def getLabeledItemLabel(self) -> "LabeledItem":
         """
         AUTOSAR-compliant getter for labeledItemLabel.
-        
+
         Returns:
             The labeledItemLabel value
-        
+
         Note:
             Delegates to labeled_item_label property (CODING_RULE_V2_00017)
         """
@@ -120,13 +120,13 @@ class LabeledList(Paginateable):
     def setLabeledItemLabel(self, value: "LabeledItem") -> "LabeledList":
         """
         AUTOSAR-compliant setter for labeledItemLabel with method chaining.
-        
+
         Args:
             value: The labeledItemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to labeled_item_label property setter (gets validation automatically)
         """
@@ -138,13 +138,13 @@ class LabeledList(Paginateable):
     def with_indent_sample(self, value: Optional["IndentSample"]) -> "LabeledList":
         """
         Set indentSample and return self for chaining.
-        
+
         Args:
             value: The indentSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_indent_sample("value")
         """
@@ -154,13 +154,13 @@ class LabeledList(Paginateable):
     def with_labeled_item_label(self, value: "LabeledItem") -> "LabeledList":
         """
         Set labeledItemLabel and return self for chaining.
-        
+
         Args:
             value: The labeledItemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_labeled_item_label("value")
         """

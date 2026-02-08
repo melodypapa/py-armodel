@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
 
 class UserDefinedPhysicalChannel(PhysicalChannel):
     """
     This element allows the modeling of arbitrary Physical Channels.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport::UserDefinedPhysicalChannel
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 179, Classic Platform R23-11)
     """

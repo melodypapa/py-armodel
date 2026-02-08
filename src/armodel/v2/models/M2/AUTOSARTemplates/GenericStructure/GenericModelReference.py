@@ -1,7 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class GenericModelReference(ARObject):
     """
@@ -9,9 +12,9 @@ class GenericModelReference(ARObject):
     to a model element. The model element can be from every model. Even if it is
     modeled according to the association representation, it is not limited to
     refer to AUTOSAR model elements.
-    
+
     Package: M2::AUTOSARTemplates::GenericStructure::BuildActionManifest::GenericModelReference
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 449, Foundation
       R23-11)
@@ -32,10 +35,10 @@ class GenericModelReference(ARObject):
     def base(self, value: "NameToken") -> None:
         """
         Set base with validation.
-        
+
         Args:
             value: The base to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -58,10 +61,10 @@ class GenericModelReference(ARObject):
     def dest(self, value: "NameToken") -> None:
         """
         Set dest with validation.
-        
+
         Args:
             value: The dest to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -82,10 +85,10 @@ class GenericModelReference(ARObject):
     def ref(self, value: RefType) -> None:
         """
         Set ref with validation.
-        
+
         Args:
             value: The ref to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -96,10 +99,10 @@ class GenericModelReference(ARObject):
     def getBase(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for base.
-        
+
         Returns:
             The base value
-        
+
         Note:
             Delegates to base property (CODING_RULE_V2_00017)
         """
@@ -108,13 +111,13 @@ class GenericModelReference(ARObject):
     def setBase(self, value: "NameToken") -> "GenericModelReference":
         """
         AUTOSAR-compliant setter for base with method chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to base property setter (gets validation automatically)
         """
@@ -124,10 +127,10 @@ class GenericModelReference(ARObject):
     def getDest(self) -> "NameToken":
         """
         AUTOSAR-compliant getter for dest.
-        
+
         Returns:
             The dest value
-        
+
         Note:
             Delegates to dest property (CODING_RULE_V2_00017)
         """
@@ -136,13 +139,13 @@ class GenericModelReference(ARObject):
     def setDest(self, value: "NameToken") -> "GenericModelReference":
         """
         AUTOSAR-compliant setter for dest with method chaining.
-        
+
         Args:
             value: The dest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dest property setter (gets validation automatically)
         """
@@ -152,10 +155,10 @@ class GenericModelReference(ARObject):
     def getRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for ref.
-        
+
         Returns:
             The ref value
-        
+
         Note:
             Delegates to ref property (CODING_RULE_V2_00017)
         """
@@ -164,13 +167,13 @@ class GenericModelReference(ARObject):
     def setRef(self, value: RefType) -> "GenericModelReference":
         """
         AUTOSAR-compliant setter for ref with method chaining.
-        
+
         Args:
             value: The ref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to ref property setter (gets validation automatically)
         """
@@ -182,13 +185,13 @@ class GenericModelReference(ARObject):
     def with_base(self, value: "NameToken") -> "GenericModelReference":
         """
         Set base and return self for chaining.
-        
+
         Args:
             value: The base to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_base("value")
         """
@@ -198,13 +201,13 @@ class GenericModelReference(ARObject):
     def with_dest(self, value: "NameToken") -> "GenericModelReference":
         """
         Set dest and return self for chaining.
-        
+
         Args:
             value: The dest to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dest("value")
         """
@@ -214,13 +217,13 @@ class GenericModelReference(ARObject):
     def with_ref(self, value: RefType) -> "GenericModelReference":
         """
         Set ref and return self for chaining.
-        
+
         Args:
             value: The ref to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_ref("value")
         """

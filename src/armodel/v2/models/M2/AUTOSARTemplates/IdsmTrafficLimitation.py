@@ -1,7 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class IdsmTrafficLimitation(Identifiable):
     """
@@ -9,9 +11,9 @@ class IdsmTrafficLimitation(Identifiable):
     for Security Events. This means that security events are dropped if the size
     (in terms of bandwidth) of security events (of any type) processed within a
     configurable time window is greater than a configurable threshold.
-    
+
     Package: M2::AUTOSARTemplates::SecurityExtractTemplate::IdsmTrafficLimitation
-    
+
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 28, Foundation R23-11)
     """
@@ -32,10 +34,10 @@ class IdsmTrafficLimitation(Identifiable):
     def max_bytes_in(self, value: Optional["PositiveInteger"]) -> None:
         """
         Set maxBytesIn with validation.
-        
+
         Args:
             value: The maxBytesIn to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -62,10 +64,10 @@ class IdsmTrafficLimitation(Identifiable):
     def time_interval(self, value: Optional["Float"]) -> None:
         """
         Set timeInterval with validation.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -84,10 +86,10 @@ class IdsmTrafficLimitation(Identifiable):
     def getMaxBytesIn(self) -> "PositiveInteger":
         """
         AUTOSAR-compliant getter for maxBytesIn.
-        
+
         Returns:
             The maxBytesIn value
-        
+
         Note:
             Delegates to max_bytes_in property (CODING_RULE_V2_00017)
         """
@@ -96,13 +98,13 @@ class IdsmTrafficLimitation(Identifiable):
     def setMaxBytesIn(self, value: "PositiveInteger") -> "IdsmTrafficLimitation":
         """
         AUTOSAR-compliant setter for maxBytesIn with method chaining.
-        
+
         Args:
             value: The maxBytesIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to max_bytes_in property setter (gets validation automatically)
         """
@@ -112,10 +114,10 @@ class IdsmTrafficLimitation(Identifiable):
     def getTimeInterval(self) -> "Float":
         """
         AUTOSAR-compliant getter for timeInterval.
-        
+
         Returns:
             The timeInterval value
-        
+
         Note:
             Delegates to time_interval property (CODING_RULE_V2_00017)
         """
@@ -124,13 +126,13 @@ class IdsmTrafficLimitation(Identifiable):
     def setTimeInterval(self, value: "Float") -> "IdsmTrafficLimitation":
         """
         AUTOSAR-compliant setter for timeInterval with method chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to time_interval property setter (gets validation automatically)
         """
@@ -142,13 +144,13 @@ class IdsmTrafficLimitation(Identifiable):
     def with_max_bytes_in(self, value: Optional["PositiveInteger"]) -> "IdsmTrafficLimitation":
         """
         Set maxBytesIn and return self for chaining.
-        
+
         Args:
             value: The maxBytesIn to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_max_bytes_in("value")
         """
@@ -158,13 +160,13 @@ class IdsmTrafficLimitation(Identifiable):
     def with_time_interval(self, value: Optional["Float"]) -> "IdsmTrafficLimitation":
         """
         Set timeInterval and return self for chaining.
-        
+
         Args:
             value: The timeInterval to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_time_interval("value")
         """

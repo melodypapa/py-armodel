@@ -1,14 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Optional
+
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):
     """
     The SensorActuatorSwComponentType introduces the possibility to link from
     the software representation of a sensor/actuator to its hardware description
     provided by the ECU Resource Template.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::SensorActuatorSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 646, Classic Platform
       R23-11)
@@ -32,10 +32,10 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def sensor_actuator(self, value: Optional["HwDescriptionEntity"]) -> None:
         """
         Set sensorActuator with validation.
-        
+
         Args:
             value: The sensorActuator to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +54,10 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def getSensorActuator(self) -> "HwDescriptionEntity":
         """
         AUTOSAR-compliant getter for sensorActuator.
-        
+
         Returns:
             The sensorActuator value
-        
+
         Note:
             Delegates to sensor_actuator property (CODING_RULE_V2_00017)
         """
@@ -66,13 +66,13 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def setSensorActuator(self, value: "HwDescriptionEntity") -> "SensorActuatorSwComponentType":
         """
         AUTOSAR-compliant setter for sensorActuator with method chaining.
-        
+
         Args:
             value: The sensorActuator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sensor_actuator property setter (gets validation automatically)
         """
@@ -84,13 +84,13 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
     def with_sensor_actuator(self, value: Optional["HwDescriptionEntity"]) -> "SensorActuatorSwComponentType":
         """
         Set sensorActuator and return self for chaining.
-        
+
         Args:
             value: The sensorActuator to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sensor_actuator("value")
         """

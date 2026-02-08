@@ -1,6 +1,9 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import List, Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class CompositionSwComponentType(SwComponentType):
     """
@@ -9,9 +12,9 @@ class CompositionSwComponentType(SwComponentType):
     connecting SwComponentPrototypes among each others and towards the surface
     of the CompositionSwComponentType. By this means, a hierarchical structures
     of software-components can be created.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::Composition::CompositionSwComponentType
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 307, Classic Platform
       R23-11)
@@ -102,10 +105,10 @@ class CompositionSwComponentType(SwComponentType):
     def physical(self, value: Optional["PhysicalDimension"]) -> None:
         """
         Set physical with validation.
-        
+
         Args:
             value: The physical to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -124,10 +127,10 @@ class CompositionSwComponentType(SwComponentType):
     def getComponent(self) -> List["SwComponent"]:
         """
         AUTOSAR-compliant getter for component.
-        
+
         Returns:
             The component value
-        
+
         Note:
             Delegates to component property (CODING_RULE_V2_00017)
         """
@@ -136,10 +139,10 @@ class CompositionSwComponentType(SwComponentType):
     def getConnector(self) -> List["SwConnector"]:
         """
         AUTOSAR-compliant getter for connector.
-        
+
         Returns:
             The connector value
-        
+
         Note:
             Delegates to connector property (CODING_RULE_V2_00017)
         """
@@ -148,10 +151,10 @@ class CompositionSwComponentType(SwComponentType):
     def getConstantValue(self) -> List["ConstantSpecification"]:
         """
         AUTOSAR-compliant getter for constantValue.
-        
+
         Returns:
             The constantValue value
-        
+
         Note:
             Delegates to constant_value property (CODING_RULE_V2_00017)
         """
@@ -160,10 +163,10 @@ class CompositionSwComponentType(SwComponentType):
     def getDataType(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataType.
-        
+
         Returns:
             The dataType value
-        
+
         Note:
             Delegates to data_type property (CODING_RULE_V2_00017)
         """
@@ -172,10 +175,10 @@ class CompositionSwComponentType(SwComponentType):
     def getInstantiation(self) -> List["InstantiationRTEEvent"]:
         """
         AUTOSAR-compliant getter for instantiation.
-        
+
         Returns:
             The instantiation value
-        
+
         Note:
             Delegates to instantiation property (CODING_RULE_V2_00017)
         """
@@ -184,10 +187,10 @@ class CompositionSwComponentType(SwComponentType):
     def getPhysical(self) -> "PhysicalDimension":
         """
         AUTOSAR-compliant getter for physical.
-        
+
         Returns:
             The physical value
-        
+
         Note:
             Delegates to physical property (CODING_RULE_V2_00017)
         """
@@ -196,13 +199,13 @@ class CompositionSwComponentType(SwComponentType):
     def setPhysical(self, value: "PhysicalDimension") -> "CompositionSwComponentType":
         """
         AUTOSAR-compliant setter for physical with method chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical property setter (gets validation automatically)
         """
@@ -214,13 +217,13 @@ class CompositionSwComponentType(SwComponentType):
     def with_physical(self, value: Optional["PhysicalDimension"]) -> "CompositionSwComponentType":
         """
         Set physical and return self for chaining.
-        
+
         Args:
             value: The physical to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical("value")
         """

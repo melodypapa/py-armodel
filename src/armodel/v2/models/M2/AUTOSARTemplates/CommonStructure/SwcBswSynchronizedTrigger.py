@@ -1,15 +1,20 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class SwcBswSynchronizedTrigger(ARObject):
     """
     Synchronizes a Trigger provided by a component via a port with a Trigger
     provided by a BSW module or cluster.
-    
+
     Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswSynchronizedTrigger
-    
+
     Sources:
       - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 111, Classic
       Platform R23-11)
@@ -30,10 +35,10 @@ class SwcBswSynchronizedTrigger(ARObject):
     def bsw_trigger(self, value: RefType) -> None:
         """
         Set bswTrigger with validation.
-        
+
         Args:
             value: The bswTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -54,10 +59,10 @@ class SwcBswSynchronizedTrigger(ARObject):
     def swc_trigger_type_instance_ref(self, value: RefType) -> None:
         """
         Set swcTriggerTypeInstanceRef with validation.
-        
+
         Args:
             value: The swcTriggerTypeInstanceRef to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -72,10 +77,10 @@ class SwcBswSynchronizedTrigger(ARObject):
     def getBswTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for bswTrigger.
-        
+
         Returns:
             The bswTrigger value
-        
+
         Note:
             Delegates to bsw_trigger property (CODING_RULE_V2_00017)
         """
@@ -84,13 +89,13 @@ class SwcBswSynchronizedTrigger(ARObject):
     def setBswTrigger(self, value: RefType) -> "SwcBswSynchronizedTrigger":
         """
         AUTOSAR-compliant setter for bswTrigger with method chaining.
-        
+
         Args:
             value: The bswTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to bsw_trigger property setter (gets validation automatically)
         """
@@ -100,10 +105,10 @@ class SwcBswSynchronizedTrigger(ARObject):
     def getSwcTriggerTypeInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for swcTriggerTypeInstanceRef.
-        
+
         Returns:
             The swcTriggerTypeInstanceRef value
-        
+
         Note:
             Delegates to swc_trigger_type_instance_ref property (CODING_RULE_V2_00017)
         """
@@ -112,13 +117,13 @@ class SwcBswSynchronizedTrigger(ARObject):
     def setSwcTriggerTypeInstanceRef(self, value: RefType) -> "SwcBswSynchronizedTrigger":
         """
         AUTOSAR-compliant setter for swcTriggerTypeInstanceRef with method chaining.
-        
+
         Args:
             value: The swcTriggerTypeInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to swc_trigger_type_instance_ref property setter (gets validation automatically)
         """
@@ -130,13 +135,13 @@ class SwcBswSynchronizedTrigger(ARObject):
     def with_bsw_trigger(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
         """
         Set bswTrigger and return self for chaining.
-        
+
         Args:
             value: The bswTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_bsw_trigger("value")
         """
@@ -146,13 +151,13 @@ class SwcBswSynchronizedTrigger(ARObject):
     def with_swc_trigger_type_instance_ref(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
         """
         Set swcTriggerTypeInstanceRef and return self for chaining.
-        
+
         Args:
             value: The swcTriggerTypeInstanceRef to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_swc_trigger_type_instance_ref("value")
         """

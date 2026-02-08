@@ -1,14 +1,17 @@
-from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeInterfaceMapping(PortInterfaceMapping):
     """
     Defines the mapping of ModeDeclarationGroupPrototypes in context of two
     different ModeInterfaces.
-    
+
     Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::ModeInterfaceMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 130, Classic Platform
       R23-11)
@@ -29,10 +32,10 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def mode_mapping(self, value: RefType) -> None:
         """
         Set modeMapping with validation.
-        
+
         Args:
             value: The modeMapping to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -47,10 +50,10 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def getModeMapping(self) -> RefType:
         """
         AUTOSAR-compliant getter for modeMapping.
-        
+
         Returns:
             The modeMapping value
-        
+
         Note:
             Delegates to mode_mapping property (CODING_RULE_V2_00017)
         """
@@ -59,13 +62,13 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def setModeMapping(self, value: RefType) -> "ModeInterfaceMapping":
         """
         AUTOSAR-compliant setter for modeMapping with method chaining.
-        
+
         Args:
             value: The modeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to mode_mapping property setter (gets validation automatically)
         """
@@ -77,13 +80,13 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def with_mode_mapping(self, value: Optional[RefType]) -> "ModeInterfaceMapping":
         """
         Set modeMapping and return self for chaining.
-        
+
         Args:
             value: The modeMapping to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_mode_mapping("value")
         """
