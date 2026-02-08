@@ -37,10 +37,10 @@ jobs:
     - name: Lint with flake8 (V1 and common code)
       run: |
         # Stop the build if there are Python syntax errors or undefined names
-        # Exclude V2 models (checked by ruff separately)
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=src/armodel/v2
+        # V2 models are excluded (checked by ruff separately per .flake8 config)
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=src/armodel/v2
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
         pytest --ignore=tests/integration_tests/test_class_mapping.py
