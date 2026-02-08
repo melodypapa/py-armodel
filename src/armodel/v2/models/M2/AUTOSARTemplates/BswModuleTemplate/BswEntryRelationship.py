@@ -50,61 +50,61 @@ class BswEntryRelationship(ARObject):
         self._bswEntry = value
         # Type of relationship that refers to the abstract BswModule notice that in
         # this case the bswEntry be set to drivedFrom.
-        self._from: Optional["BswModuleEntry"] = None
+        self._fromRef: Optional["BswModuleEntry"] = None
 
     @property
-    def from(self) -> Optional["BswModuleEntry"]:
-        """Get from (Pythonic accessor)."""
-        return self._from
+    def from_ref(self) -> Optional["BswModuleEntry"]:
+        """Get fromRef (Pythonic accessor)."""
+        return self._fromRef
 
-    @from.setter
-    def from(self, value: Optional["BswModuleEntry"]) -> None:
+    @from_ref.setter
+    def from_ref(self, value: Optional["BswModuleEntry"]) -> None:
         """
-        Set from with validation.
+        Set fromRef with validation.
 
         Args:
-            value: The from to set
+            value: The fromRef to set
 
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._from = None
+            self._fromRef = None
             return
 
         if not isinstance(value, BswModuleEntry):
             raise TypeError(
-                f"from must be BswModuleEntry or None, got {type(value).__name__}"
+                f"fromRef must be BswModuleEntry or None, got {type(value).__name__}"
             )
-        self._from = value
+        self._fromRef = value
         # Type of relationship that refers to the concrete Bsw.
-        self._to: Optional["BswModuleEntry"] = None
+        self._toRef: Optional["BswModuleEntry"] = None
 
     @property
-    def to(self) -> Optional["BswModuleEntry"]:
-        """Get to (Pythonic accessor)."""
-        return self._to
+    def to_ref(self) -> Optional["BswModuleEntry"]:
+        """Get toRef (Pythonic accessor)."""
+        return self._toRef
 
-    @to.setter
-    def to(self, value: Optional["BswModuleEntry"]) -> None:
+    @to_ref.setter
+    def to_ref(self, value: Optional["BswModuleEntry"]) -> None:
         """
-        Set to with validation.
+        Set toRef with validation.
 
         Args:
-            value: The to to set
+            value: The toRef to set
 
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
-            self._to = None
+            self._toRef = None
             return
 
         if not isinstance(value, BswModuleEntry):
             raise TypeError(
-                f"to must be BswModuleEntry or None, got {type(value).__name__}"
+                f"toRef must be BswModuleEntry or None, got {type(value).__name__}"
             )
-        self._to = value
+        self._toRef = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
@@ -144,9 +144,9 @@ class BswEntryRelationship(ARObject):
             The from value
 
         Note:
-            Delegates to from property (CODING_RULE_V2_00017)
+            Delegates to from_ref property (CODING_RULE_V2_00017)
         """
-        return self.from  # Delegates to property
+        return self.from_ref  # Delegates to property
 
     def setFrom(self, value: "BswModuleEntry") -> "BswEntryRelationship":
         """
@@ -159,9 +159,9 @@ class BswEntryRelationship(ARObject):
             self for method chaining
 
         Note:
-            Delegates to from property setter (gets validation automatically)
+            Delegates to from_ref property setter (gets validation automatically)
         """
-        self.from = value  # Delegates to property setter
+        self.from_ref = value  # Delegates to property setter
         return self
 
     def getTo(self) -> "BswModuleEntry":
@@ -172,9 +172,9 @@ class BswEntryRelationship(ARObject):
             The to value
 
         Note:
-            Delegates to to property (CODING_RULE_V2_00017)
+            Delegates to to_ref property (CODING_RULE_V2_00017)
         """
-        return self.to  # Delegates to property
+        return self.to_ref  # Delegates to property
 
     def setTo(self, value: "BswModuleEntry") -> "BswEntryRelationship":
         """
@@ -187,9 +187,9 @@ class BswEntryRelationship(ARObject):
             self for method chaining
 
         Note:
-            Delegates to to property setter (gets validation automatically)
+            Delegates to to_ref property setter (gets validation automatically)
         """
-        self.to = value  # Delegates to property setter
+        self.to_ref = value  # Delegates to property setter
         return self
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
@@ -223,7 +223,7 @@ class BswEntryRelationship(ARObject):
         Example:
             >>> obj.with_from("value")
         """
-        self.from = value  # Use property setter (gets validation)
+        self.from_ref = value  # Use property setter (gets validation)
         return self
 
     def with_to(self, value: Optional["BswModuleEntry"]) -> "BswEntryRelationship":
@@ -239,5 +239,5 @@ class BswEntryRelationship(ARObject):
         Example:
             >>> obj.with_to("value")
         """
-        self.to = value  # Use property setter (gets validation)
+        self.to_ref = value  # Use property setter (gets validation)
         return self
