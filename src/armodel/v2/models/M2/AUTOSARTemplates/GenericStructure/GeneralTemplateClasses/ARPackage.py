@@ -130,6 +130,27 @@ class ARPackage(CollectableElement):
         if hasattr(pkg, 'parent'):
             pkg.parent = self
 
+    def addElement(self, elem: "PackageableElement") -> None:
+        """
+        Add an element to the package (V1-compatible method).
+        
+        Args:
+            elem: The element to add
+        """
+        self.element.append(elem)
+        # Set parent relationship
+        if hasattr(elem, 'parent'):
+            elem.parent = self
+
+    def getElements(self) -> List["PackageableElement"]:
+        """
+        Get all elements in the package (V1-compatible method).
+        
+        Returns:
+            List of elements
+        """
+        return self.element
+
     # ===== Rest of the generated code =====
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====

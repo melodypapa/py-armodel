@@ -27,16 +27,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     AutosarDataPrototype,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.__init__ import (
-    DataInterface,
-    PortInterface,
-    PortInterfaceMapping,
-    SubElementRef,
-)
-
-
-
-
 class ArgumentDataPrototype(AutosarDataPrototype):
     """
     An argument of an operation, much like a data element, but also carries
