@@ -83,11 +83,13 @@ class Area(ARObject):
         self._alt = value
         # Blank separated list of CSS classes for styling and identification.
         # Used to apply styles and for JavaScript DOM manipulation.
+        # Origin: HTML/AUTOSAR specification attribute 'class'
+        # Reason: Renamed to 'areaClass' to avoid Python reserved keyword 'class'
         self._areaClass: Optional["String"] = None
 
     @property
     def area_class(self) -> Optional["String"]:
-        """Get areaClass (Pythonic accessor) - CSS class list for styling."""
+        """Get areaClass (Pythonic accessor) - renamed from HTML 'class' to avoid Python keyword."""
         return self._areaClass
 
     @area_class.setter
@@ -100,6 +102,10 @@ class Area(ARObject):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: HTML/AUTOSAR specification attribute 'class'
+            Reason: Renamed to 'areaClass' to avoid Python reserved keyword 'class'
         """
         if value is None:
             self._areaClass = None

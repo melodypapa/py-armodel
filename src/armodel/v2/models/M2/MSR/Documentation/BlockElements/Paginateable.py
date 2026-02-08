@@ -20,11 +20,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute allows to specify a forced page break at the chapter level.
         # Controls whether a page break should be inserted before or after this element.
+        # Origin: AUTOSAR specification attribute 'break'
+        # Reason: Renamed to 'chapterBreak' to avoid Python reserved keyword 'break'
         self._chapterBreak: Optional["ChapterEnumBreak"] = None
 
     @property
     def chapter_break(self) -> Optional["ChapterEnumBreak"]:
-        """Get chapterBreak (Pythonic accessor) - controls page break behavior."""
+        """Get chapterBreak (Pythonic accessor) - renamed from AUTOSAR 'break' to avoid Python keyword."""
         return self._chapterBreak
 
     @chapter_break.setter
@@ -37,6 +39,10 @@ class Paginateable(DocumentViewSelectable, ABC):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: AUTOSAR specification attribute 'break'
+            Reason: Renamed to 'chapterBreak' to avoid Python reserved keyword 'break'
         """
         if value is None:
             self._chapterBreak = None

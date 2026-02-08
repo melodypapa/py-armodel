@@ -20,6 +20,8 @@ class J1939Cluster(ARObject):
         # This represents the network ID for the J1939 cluster.
         self._networkId: Optional["PositiveInteger"] = None
         # Enables support for the Request2 PGN (RQST2).
+        # Origin: AUTOSAR specification attribute 're-'
+        # Reason: Renamed to 'request2Support' to avoid invalid identifier with hyphen
         self._request2Support: Optional["Boolean"] = None
         # Defines whether the nodes attached to this channel use initial address claim,
         # and whether they react to claims of other nodes.
@@ -53,7 +55,7 @@ class J1939Cluster(ARObject):
 
     @property
     def request2_pgn(self) -> Optional["Boolean"]:
-        """Get request2Support (Pythonic accessor)."""
+        """Get request2Support (Pythonic accessor) - renamed from AUTOSAR 're-' to avoid invalid identifier."""
         return self._request2Support
 
     @request2_pgn.setter
@@ -66,6 +68,10 @@ class J1939Cluster(ARObject):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: AUTOSAR specification attribute 're-'
+            Reason: Renamed to 'request2Support' to avoid invalid identifier with hyphen
         """
         if value is None:
             self._request2Support = None

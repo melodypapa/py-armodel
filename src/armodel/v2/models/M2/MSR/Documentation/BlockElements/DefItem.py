@@ -18,11 +18,13 @@ class DefItem(Paginateable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the definition part of the DefItem.
         # Contains the actual definition or description text for a term in a definition list.
+        # Origin: HTML/AUTOSAR specification attribute 'def'
+        # Reason: Renamed to 'definition' to avoid Python reserved keyword 'def'
         self._definition: "DocumentationBlock" = None
 
     @property
     def definition(self) -> "DocumentationBlock":
-        """Get definition (Pythonic accessor) - the definition text for a definition list item."""
+        """Get definition (Pythonic accessor) - renamed from HTML 'def' to avoid Python keyword."""
         return self._definition
 
     @definition.setter
@@ -35,6 +37,10 @@ class DefItem(Paginateable):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: HTML/AUTOSAR specification attribute 'def'
+            Reason: Renamed to 'definition' to avoid Python reserved keyword 'def'
         """
         if not isinstance(value, DocumentationBlock):
             raise TypeError(

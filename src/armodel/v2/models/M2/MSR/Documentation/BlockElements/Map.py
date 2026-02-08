@@ -52,11 +52,13 @@ class Map(ARObject):
         # Any number of elements may be assigned class name or set of class names.
         # Multiple class names shall be separated by white space and are typically used to apply
         # CSS styles to the image map element.
+        # Origin: HTML/AUTOSAR specification attribute 'class'
+        # Reason: Renamed to 'mapClass' to avoid Python reserved keyword 'class'
         self._mapClass: Optional["String"] = None
 
     @property
     def map_class(self) -> Optional["String"]:
-        """Get mapClass (Pythonic accessor) - CSS class list for image map styling."""
+        """Get mapClass (Pythonic accessor) - renamed from HTML 'class' to avoid Python keyword."""
         return self._mapClass
 
     @map_class.setter
@@ -69,6 +71,10 @@ class Map(ARObject):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: HTML/AUTOSAR specification attribute 'class'
+            Reason: Renamed to 'mapClass' to avoid Python reserved keyword 'class'
         """
         if value is None:
             self._mapClass = None

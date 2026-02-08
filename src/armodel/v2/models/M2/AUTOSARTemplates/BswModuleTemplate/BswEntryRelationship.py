@@ -50,11 +50,13 @@ class BswEntryRelationship(ARObject):
         self._bswEntry = value
         # Type of relationship that refers to the abstract BswModule notice that in
         # this case the bswEntry be set to drivedFrom.
+        # Origin: AUTOSAR specification attribute 'from'
+        # Reason: Renamed to 'fromRef' to avoid Python reserved keyword 'from'
         self._fromRef: Optional["BswModuleEntry"] = None
 
     @property
     def from_ref(self) -> Optional["BswModuleEntry"]:
-        """Get fromRef (Pythonic accessor)."""
+        """Get fromRef (Pythonic accessor) - renamed from AUTOSAR 'from' to avoid Python keyword."""
         return self._fromRef
 
     @from_ref.setter
@@ -67,6 +69,10 @@ class BswEntryRelationship(ARObject):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: AUTOSAR specification attribute 'from'
+            Reason: Renamed to 'fromRef' to avoid Python reserved keyword 'from'
         """
         if value is None:
             self._fromRef = None
@@ -78,11 +84,13 @@ class BswEntryRelationship(ARObject):
             )
         self._fromRef = value
         # Type of relationship that refers to the concrete Bsw.
+        # Origin: AUTOSAR specification attribute 'to'
+        # Reason: Renamed to 'toRef' to avoid potential conflicts and improve clarity
         self._toRef: Optional["BswModuleEntry"] = None
 
     @property
     def to_ref(self) -> Optional["BswModuleEntry"]:
-        """Get toRef (Pythonic accessor)."""
+        """Get toRef (Pythonic accessor) - renamed from AUTOSAR 'to' for consistency with fromRef."""
         return self._toRef
 
     @to_ref.setter
@@ -95,6 +103,10 @@ class BswEntryRelationship(ARObject):
 
         Raises:
             TypeError: If value type is incorrect
+
+        Note:
+            Origin: AUTOSAR specification attribute 'to'
+            Reason: Renamed to 'toRef' to avoid potential conflicts and improve clarity
         """
         if value is None:
             self._toRef = None
