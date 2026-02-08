@@ -1,9 +1,13 @@
 from abc import ABC
-from typing import Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+        DiagnosticCommonElement,
+    )
 
 
-class DiagnosticAbstractDataIdentifier(DiagnosticCommonElement, ABC):
+class DiagnosticAbstractDataIdentifier("DiagnosticCommonElement", ABC):
     """
     This meta-class represents an abstract base class for the modeling of a
     diagnostic data identifier (DID).
