@@ -1,8 +1,12 @@
-from typing import List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+        DiagnosticCommonElement,
+    )
 
 
-class DiagnosticInfoType(DiagnosticCommonElement):
+class DiagnosticInfoType("DiagnosticCommonElement"):
     """
     This meta-class represents the ability to model an OBD info type.
 
